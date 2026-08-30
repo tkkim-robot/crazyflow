@@ -119,6 +119,7 @@ def change_material(
         rgba: The RGBA color to set, should be of shape (n, 4) or (4,) to be auto-broadcasted.
         emission: The emission value of material, should be of shape (n,) or scalar.
     """
+    sim._require_mjx()
     if drone_ids.ndim != 1:
         raise ValueError(f"drone_ids must be 1D array, got shape {drone_ids.shape}")
     if np.any(drone_ids < 0) or np.any(drone_ids >= sim.n_drones):

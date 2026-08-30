@@ -28,6 +28,7 @@ class ReachPosEnv(DroneEnv):
         dynamics: Dynamics = Dynamics.so_rpy,
         freq: int = 500,
         device: str = "cpu",
+        drone: str = "cf2x_L250",
     ):
         pos_min = jnp.array([-1.0, -1.0, 1.0]) if pos_min is None else pos_min
         pos_max = jnp.array([1.0, 1.0, 2.0]) if pos_max is None else pos_max
@@ -38,6 +39,7 @@ class ReachPosEnv(DroneEnv):
             num_envs=num_envs,
             max_episode_time=max_episode_time,
             dynamics=dynamics,
+            drone=drone,
             freq=freq,
             device=device,
             reset_randomization=reset_randomization,

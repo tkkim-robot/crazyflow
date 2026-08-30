@@ -4,7 +4,7 @@ Crazyflow focuses on drone dynamics and controllers. However, we still want to p
 
 ## MuJoCo and MJX objects
 
-Crazyflow maintains two parallel representations at all times:
+With MJX enabled (the default), Crazyflow maintains two parallel representations:
 
 | Object | Type | Purpose |
 |---|---|---|
@@ -14,6 +14,37 @@ Crazyflow maintains two parallel representations at all times:
 | `sim.mjx_data` | `mjx.Data` | JAX pytree of the scene state, batched over `n_worlds` |
 
 `mjx_data` does not hold the dynamics state. It holds the scene geometry state (body transforms, contact distances, camera positions), derived from `sim.data` through an explicit sync step whenever rendering or collision queries are needed.
+
+## Dynamics-only mode
+
+Large free-flight batches do not need scene geometry. Pass `enable_mjx=False` to avoid constructing
+or replicating MuJoCo/MJX data:
+
+<!-- notest: requires a CUDA GPU and intentionally allocates a paper-scale batch -->
+```{ .python notest }
+from crazyflow.sim import Sim
+
+sim = Sim(n_worlds=1024, n_drones=4096, device="gpu", enable_mjx=False)
+sim.step(50)
+```
+
+The dynamics and controller pipeline remain fully functional and differentiable. Rendering,
+contact queries, raycasting, and MuJoCo model modification require `enable_mjx=True` (the default),
+and their public entry points raise `ConfigError` when called in dynamics-only mode. Viewer-marker
+helpers remain harmless no-ops until a viewer exists. Disabling MJX is especially important for
+large swarms: enabling all drone-to-drone contacts creates a quadratic number of collision
+candidates per world.
+
+For rendering or raycasting without collision allocation, keep MJX enabled and disable contacts:
+
+<!-- notest: requires a CUDA GPU and intentionally allocates a large render batch -->
+```{ .python notest }
+sim = Sim(n_worlds=16, n_drones=1024, device="gpu", enable_contacts=False)
+```
+
+Visual geometry remains available, but `sim.contacts()` and collision-geometry configuration raise
+`ConfigError`. This render-only mode avoids MJX's quadratic contact buffers, although its batched
+kinematics data still scales with `n_worlds * n_drones`.
 
 ## MJCF and scene construction
 
@@ -89,9 +120,9 @@ If you mark an attached body as mocap (`attached.mocap = True`), its position ca
 
 ## Synchronization
 
-The JAX dynamics pipeline writes to `sim.data` but never touches `sim.mjx_data`. `mjx_data` is only needed for collision queries and rendering, which require current body transforms. To avoid computing those on every dynamics step, Crazyflow tracks a `mjx_synced` flag in `sim.data.core`.
+The JAX dynamics pipeline writes to `sim.data` but never touches `sim.mjx_data`. `mjx_data` is only needed for collision queries and rendering, which require current body transforms. To avoid computing those on every dynamics step, Crazyflow tracks `mjx_synced` (poses/cameras) and `mjx_collision_synced` flags in `sim.data.core`.
 
-After `sim.step()` or `sim.reset()`, `mjx_synced` is set to `False`. The `sim.render()` and `sim.contacts()` methods check the flag; if stale, they call `sync_sim2mjx()` once and set it back to `True`.
+After `sim.step()` or `sim.reset()`, both flags are set to `False`. Rendering and contact methods synchronize the data they require. Pose-only synchronization keeps `mjx_collision_synced=False`, so a later contact query cannot accidentally consume stale collision results.
 
 `sync_sim2mjx` does three things:
 
@@ -111,7 +142,9 @@ for i in range(10):
 
 ## Advanced: the sync flag and avoiding redundant MJX calls
 
-`sync_sim2mjx` runs kinematics, collision detection, and camera transforms in one shot. The `mjx_synced` flag ensures this happens at most once between dynamics steps: once the flag is set, any further calls to `sim.render()` or `sim.contacts()` within the same tick skip the sync entirely and operate on the already-computed MJX state. The flag is only cleared when `sim.data` actually changes, so if the dynamics state has not advanced, the expensive MJX operations are not repeated.
+By default, `sync_sim2mjx` runs kinematics, collision detection, and camera transforms in one shot.
+The two sync flags avoid redundant work while distinguishing pose-only results from collision-ready
+results. Both flags are cleared when dynamics state changes.
 
 This means the order of calls matters. Grouping all rendering and contact queries together after a step lets them share a single sync:
 

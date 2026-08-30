@@ -235,8 +235,28 @@ def test_numeric_jit(dynamics_name: str, dynamics: Callable, drone: str):
     assert np.allclose(xp_dot, jp_dot), "numpy and jax results differ"
 
 
-# TODO test if external wrench gets applied properly. But how to test it?
-# -> maybe apply and predict based on mass how much higher the acceleration should be
-# same for torque
 @pytest.mark.unit
-def test_external_wrench(): ...
+@pytest.mark.parametrize("dynamics_name, dynamics", available_dynamics.items())
+@pytest.mark.parametrize("drone", available_drones)
+def test_external_wrench(dynamics_name: str, dynamics: Callable, drone: str):
+    """External world-frame force and torque produce the expected accelerations."""
+    dynamics = parametrize(dynamics, drone, xp=xp)
+    inp = make_inputs(dynamics, batch=(2,))
+    # A +90 degree yaw makes this sensitive to the documented world-frame torque convention.
+    sqrt_half = np.sqrt(0.5)
+    inp["quat"] = xp.asarray(np.tile([0.0, 0.0, sqrt_half, sqrt_half], (2, 1)))
+    dist_f = xp.asarray([[0.1, -0.2, 0.3], [-0.3, 0.2, -0.1]])
+    dist_t = xp.asarray([[1e-6, -2e-6, 3e-6], [-3e-6, 2e-6, -1e-6]])
+
+    baseline = dynamics(**inp)
+    disturbed = dynamics(**inp, dist_f=dist_f, dist_t=dist_t)
+
+    expected_vel_delta = dist_f / dynamics.keywords["mass"]
+    body_dist_t = xp.stack((dist_t[..., 1], -dist_t[..., 0], dist_t[..., 2]), axis=-1)
+    expected_ang_vel_delta = (dynamics.keywords["J_inv"] @ body_dist_t[..., None])[..., 0]
+    assert np.allclose(disturbed[0], baseline[0])
+    assert np.allclose(disturbed[1], baseline[1])
+    assert np.allclose(disturbed[2] - baseline[2], expected_vel_delta)
+    assert np.allclose(disturbed[3] - baseline[3], expected_ang_vel_delta)
+    if len(baseline) == 5:
+        assert np.allclose(disturbed[4], baseline[4])

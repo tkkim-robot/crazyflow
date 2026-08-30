@@ -86,7 +86,7 @@ from crazyflow.dynamics.so_rpy import dynamics
 
 ## External disturbances
 
-All four dynamics accept optional `dist_f` (external force, world frame, N) and `dist_t` (external torque, body frame, N·m) arguments. These are useful for modelling wind, contact forces, or other perturbations without modifying the dynamics itself.
+All four dynamics accept optional `dist_f` (external force, world frame, N) and `dist_t` (external torque, world frame, N·m) arguments. These are useful for modelling wind, contact forces, or other perturbations without modifying the dynamics itself.
 
 ```python
 import numpy as np

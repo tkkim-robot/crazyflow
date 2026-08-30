@@ -218,7 +218,9 @@ class SimCore:
     rng_key: Array = field(metadata={CORE_NDIM_KEY: 0})  # ()
     """Random number generator key for the simulation."""
     mjx_synced: Array = field(metadata={CORE_NDIM_KEY: 0})  # ()
-    """Whether the simulation data is synchronized with the MuJoCo mjx_data."""
+    """Whether poses and camera data are synchronized with MuJoCo mjx_data."""
+    mjx_collision_synced: Array = field(metadata={CORE_NDIM_KEY: 0})  # ()
+    """Whether collision results are synchronized with MuJoCo mjx_data."""
 
     @staticmethod
     def create(
@@ -242,6 +244,7 @@ class SimCore:
             drone_mocap_ids=jnp.array(drone_mocap_ids, dtype=jnp.int32, device=device),
             rng_key=rng_key,
             mjx_synced=jnp.array(False, dtype=jnp.bool_, device=device),
+            mjx_collision_synced=jnp.array(False, dtype=jnp.bool_, device=device),
         )
 
 

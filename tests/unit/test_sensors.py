@@ -42,6 +42,17 @@ def test_render_depth(device: str):
 
 
 @pytest.mark.unit
+def test_render_depth_without_contacts():
+    """Disabling collision candidates must leave MJX raycasting available."""
+    sim = Sim(n_worlds=1, device="cpu", enable_contacts=False)
+
+    dist = render_depth(sim, camera=0, resolution=(8, 8))
+
+    assert dist.shape == (1, 8, 8)
+    assert jnp.all(jnp.isfinite(dist))
+
+
+@pytest.mark.unit
 def test_build_render_depth_fn():
     """Test build_render_depth_fn produces a callable that returns correct shapes."""
     sim = Sim(n_worlds=3)

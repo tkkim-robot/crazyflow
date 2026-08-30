@@ -15,9 +15,9 @@ def main():
     # convert to torch, use JaxToTorch.
     envs = JaxToNumpy(envs)
 
-    # Dummy action for going up (in attitude control)
+    # Attitude commands are [roll, pitch, yaw, collective thrust].
     action = np.zeros((20, 4), dtype=np.float32)
-    action[..., 0] = 0.4
+    action[..., 3] = 0.4
 
     # Environments provide reset parameters that can be used to set the initial state of the
     # environment.

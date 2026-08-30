@@ -38,16 +38,22 @@ def plot_fps_data(data_folder: Path):
     """
     # Colors for different devices. Deep blue for CPU, NVIDIA green for GPU
     colors = {"cpu": "#0000AA", "gpu": "#76B900"}
-    device_names = {"cpu": "Intel Core i9-13900KF", "gpu": "NVIDIA RTX 4090"}
+    device_names = {"cpu": "CPU", "gpu": "GPU"}
     dfs = {}
 
     # Read all CSV files in the data folder
     for csv_file in sorted(data_folder.glob("*.csv")):
         df = pd.read_csv(csv_file)
-        device = df["device"].iloc[-1].lower()
-        # Group data by test_type and n_worlds
-        dfs["sim_" + device] = df[df["test_type"] == "simulator"]
-        dfs["gym_" + device] = df[df["test_type"] == "gym_env"]
+        if "n_drones" not in df:
+            # Benchmark CSVs produced before multi-drone support implicitly used one drone.
+            df["n_drones"] = 1
+        for test_type, prefix in (("simulator", "sim"), ("gym_env", "gym")):
+            for (device, n_drones), group in df[df["test_type"] == test_type].groupby(
+                ["device", "n_drones"]
+            ):
+                # Files are sorted, so the latest result replaces an older run with the same
+                # device and drone count while distinct swarm sizes remain separate series.
+                dfs[f"{prefix}_{str(device).lower()}_{int(n_drones)}"] = group
 
     if not dfs:
         print("No valid data found for plotting")
@@ -63,8 +69,8 @@ def plot_fps_data(data_folder: Path):
     # Plot gym FPS
     for key, df in dfs.items():
         if key.startswith("gym_"):
-            device = key.split("_")[1]
-            color = colors[device]
+            device = str(df["device"].iloc[-1]).lower()
+            color = colors.get(device)
 
             # Plot FPS
             ax1.plot(
@@ -73,7 +79,7 @@ def plot_fps_data(data_folder: Path):
                 marker="o",
                 linestyle="-",
                 color=color,
-                label=f"{device_names[device]}",
+                label=device_names.get(device, device.upper()),
             )
 
     ax1.set_title("Steps per second: Gym envs")
@@ -87,18 +93,15 @@ def plot_fps_data(data_folder: Path):
     # Plot sim FPS
     for key, df in dfs.items():
         if key.startswith("sim_"):
-            device = key.split("_")[1]
-            color = colors[device]
+            device = str(df["device"].iloc[-1]).lower()
+            n_drones = int(df["n_drones"].iloc[-1])
+            color = colors.get(device)
+            label = device_names.get(device, device.upper())
+            if n_drones != 1:
+                label += f", {n_drones} drones/world"
 
             # Plot FPS
-            ax2.plot(
-                df["n_worlds"],
-                df["fps"],
-                marker="o",
-                linestyle="-",
-                color=color,
-                label=f"{device_names[device]}",
-            )
+            ax2.plot(df["n_worlds"], df["fps"], marker="o", linestyle="-", color=color, label=label)
 
     ax2.set_title("Steps per second: Crazyflow")
     ax2.set_xlabel("Number of Worlds")
@@ -145,7 +148,7 @@ def plot_splat_data(*paths: Path):
         raise ValueError("No splat benchmark data found in provided CSV files")
 
     colors = {"cpu": "#0000AA", "gpu": "#76B900"}
-    device_names = {"cpu": "Intel Core i9-13900KF", "gpu": "NVIDIA RTX 4090"}
+    device_names = {"cpu": "CPU", "gpu": "NVIDIA RTX 4090"}
     fig, ax = plt.subplots(1, 1, figsize=(7, 5))
     fig.suptitle("Crazyflow Splat Rendering", fontsize=16, fontweight="bold", y=0.98)
 

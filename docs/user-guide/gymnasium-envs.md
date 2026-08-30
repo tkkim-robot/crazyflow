@@ -6,13 +6,15 @@ Crazyflow ships a set of [Gymnasium](https://gymnasium.farama.org/) vectorized e
 
 | Class | Task | Observation | Action |
 |---|---|---|---|
-| `DroneEnv` | Base class (no reward) | pos, quat, vel, ang_vel | attitude or force/torque |
+| `DroneEnv` | Base class (no reward) | pos, quat, vel, ang_vel | attitude |
 | `ReachPosEnv` | Reach a target position | pos, quat, vel, ang_vel, target | attitude |
 | `ReachVelEnv` | Match a target velocity | vel, ang_vel, target_vel | attitude |
 | `LandingEnv` | Land safely | pos, quat, vel, ang_vel | attitude |
 | `FigureEightEnv` | Follow a figure-8 trajectory | pos, quat, vel, ang_vel, phase | attitude |
 
 All environments run `num_envs` parallel instances backed by a single `Sim` with `n_worlds=num_envs`.
+Their action is a four-element attitude command ordered as
+`[roll, pitch, yaw, collective thrust]`.
 
 ## Basic usage
 
@@ -46,7 +48,7 @@ All environments accept these common arguments:
 
 ## Action normalization
 
-`NormalizeActionsWrapper` rescales the action space to `[-1, 1]`, which simplifies policy learning:
+`NormalizeActions` rescales the action space to `[-1, 1]`, which simplifies policy learning:
 
 ```python
 import gymnasium

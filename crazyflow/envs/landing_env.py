@@ -21,11 +21,13 @@ class LandingEnv(DroneEnv):
         dynamics: Dynamics = Dynamics.so_rpy,
         freq: int = 500,
         device: str = "cpu",
+        drone: str = "cf2x_L250",
     ):
         super().__init__(
             num_envs=num_envs,
             max_episode_time=max_episode_time,
             dynamics=dynamics,
+            drone=drone,
             freq=freq,
             device=device,
         )

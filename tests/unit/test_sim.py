@@ -98,6 +98,75 @@ def test_sim_init(dynamics: Dynamics, device: str, control: Control, n_worlds: i
 
 
 @pytest.mark.unit
+def test_sim_without_mjx(device: str):
+    """Dynamics-only mode advances normally and rejects geometry-dependent operations."""
+    sim = Sim(n_worlds=2, n_drones=3, device=device, enable_mjx=False)
+
+    assert sim.spec is None
+    assert sim.mj_model is None
+    assert sim.mj_data is None
+    assert sim.mjx_model is None
+    assert sim.mjx_data is None
+    assert not sim.enable_contacts
+    assert sim.data.core.drone_mocap_ids.shape == (sim.n_drones,)
+
+    sim.step(2)
+    jax.block_until_ready(sim.data)
+
+    message = "MuJoCo/MJX is disabled"
+    with pytest.raises(ConfigError, match=message):
+        sim.contacts()
+    with pytest.raises(ConfigError, match=message):
+        sim.render(mode="rgb_array")
+    with pytest.raises(ConfigError, match=message):
+        sim.build_mjx()
+    with pytest.raises(ConfigError, match=message):
+        use_box_collision(sim)
+    with pytest.raises(ConfigError, match=message):
+        change_material(sim, mat_name="led_top", drone_ids=np.array([0]), rgba=np.ones(4))
+
+
+@pytest.mark.unit
+def test_sim_without_contacts(device: str):
+    """Render-only mode keeps MJX kinematics but allocates no collision candidates."""
+    sim = Sim(n_worlds=2, n_drones=3, device=device, enable_contacts=False)
+
+    assert sim.mjx_data._impl.contact.dist.shape == (sim.n_worlds, 0)
+    sim.step(2)
+    message = "Contacts are disabled"
+    with pytest.raises(ConfigError, match=message):
+        sim.contacts()
+    assert not sim.data.core.mjx_synced, "A rejected contact query should not run kinematics"
+
+    sim.data, sim.mjx_data = sync_sim2mjx(
+        sim.data, sim.mjx_data, sim.mjx_model, detect_contacts=False
+    )
+    jax.block_until_ready(sim.mjx_data)
+    assert sim.data.core.mjx_synced
+    assert not sim.data.core.mjx_collision_synced
+
+    with pytest.raises(ConfigError, match=message):
+        sim.contacts()
+    with pytest.raises(ConfigError, match=message):
+        use_box_collision(sim)
+    with pytest.raises(AttributeError):
+        sim.enable_contacts = True
+
+
+@pytest.mark.unit
+def test_sim_without_contacts_removes_explicit_pairs():
+    """Explicit MuJoCo pairs must not bypass render-only mode's disabled collision masks."""
+    sim = Sim(device="cpu", enable_contacts=False)
+    sim.spec.add_pair(geomname1="floor", geomname2="col_sphere:0")
+
+    sim.build_mjx()
+
+    assert len(sim.spec.pairs) == 1, "Rebuilding should not mutate the editable source spec"
+    assert sim.mj_model.npair == 0
+    assert sim.mjx_data._impl.contact.dist.shape == (sim.n_worlds, 0)
+
+
+@pytest.mark.unit
 @pytest.mark.parametrize("dynamics", Dynamics)
 @pytest.mark.parametrize("n_worlds", [1, 2])
 @pytest.mark.parametrize("n_drones", [1, 3])
@@ -382,7 +451,7 @@ def test_floor_penetration(dynamics: Dynamics):
     sim.reset()
     # Command to fall: zero thrust and attitude that points downward
     attitude_cmd = np.zeros((1, 1, 4))  # [roll, pitch, yaw, thrust]
-    attitude_cmd[..., 0] = 0.0  # Zero thrust to fall
+    attitude_cmd[..., 3] = 0.0  # Zero thrust to fall
     sim.attitude_control(attitude_cmd)
     # Run simulation for short duration to let drone fall
     for _ in range(5):  # 0.1 seconds at 500Hz
@@ -406,6 +475,43 @@ def test_contacts(dynamics: Dynamics):
     # The contact buffer must contain the drone-floor contact
     assert contacts.shape[-1] > 0, "Contact buffer should not be empty"
     assert jnp.all(contacts), "Drone should be in contact with the floor"
+    sim.close()
+
+
+@pytest.mark.unit
+def test_contacts_refresh_after_pose_only_sync():
+    """A pose-only MJX sync must not leave stale collision results marked as current."""
+    sim = Sim(control=Control.attitude, freq=500, device="cpu")
+    sim.reset()
+    sim.step(10)
+    assert jnp.any(sim.contacts()), "Drone should initially touch the floor"
+
+    states = sim.data.states
+    sim.data = sim.data.replace(states=states.replace(pos=states.pos.at[..., 2].set(2.0)))
+    sim.data, sim.mjx_data = sync_sim2mjx(
+        sim.data, sim.mjx_data, sim.mjx_model, detect_contacts=False
+    )
+    assert sim.data.core.mjx_synced
+    assert not sim.data.core.mjx_collision_synced
+
+    assert not jnp.any(sim.contacts()), "Contact queries must refresh the stale collision buffer"
+    assert sim.data.core.mjx_collision_synced
+    sim.close()
+
+
+@pytest.mark.unit
+def test_build_mjx_invalidates_sync_flags():
+    """Rebuilding MJX must force the next geometry query to synchronize the current pose."""
+    sim = Sim(control=Control.attitude, freq=500, device="cpu")
+    sim.reset()
+    sim.step(10)
+    assert jnp.any(sim.contacts()), "Drone should touch the floor before rebuilding MJX"
+
+    sim.build_mjx()
+
+    assert not sim.data.core.mjx_synced
+    assert not sim.data.core.mjx_collision_synced
+    assert jnp.any(sim.contacts()), "The first post-build query must restore the floor contact"
     sim.close()
 
 

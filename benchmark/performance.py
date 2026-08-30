@@ -22,6 +22,8 @@ def profile_step(sim_config: config_dict.ConfigDict, n_steps: int, device: str):
     ndim = 13 if sim.control == "state" else 4
     control_fn = sim.state_control if sim.control == "state" else sim.attitude_control
     cmd = np.zeros((sim.n_worlds, sim.n_drones, ndim))
+    if sim.control == "attitude":
+        cmd[..., 3] = np.asarray(sim.data.params.mass[..., 0]) * 9.81
     # Ensure JIT compiled dynamics and control
     sim.reset()
     control_fn(cmd)
@@ -47,13 +49,14 @@ def profile_gym_env_step(sim_config: config_dict.ConfigDict, n_steps: int, devic
         max_episode_time=10.0,
         num_envs=sim_config.n_worlds,
         dynamics=sim_config.dynamics,
+        drone=sim_config.drone,
         freq=50,
         device=device,
     )
 
-    # Action for going up (in attitude control)
+    # Attitude commands are [roll, pitch, yaw, collective thrust].
     action = np.zeros((sim_config.n_worlds, 4), dtype=np.float32)
-    action[..., 0] = 0.3
+    action[..., 3] = np.asarray(envs.unwrapped.sim.data.params.mass[:, 0, 0]) * 9.81
 
     # Step through env once to ensure JIT compilation.
     envs.reset(seed=42)
@@ -82,6 +85,7 @@ def main():
     sim_config.n_drones = 1
     sim_config.dynamics = "first_principles"
     sim_config.control = "attitude"
+    sim_config.drone = "cf2x_L250"
     sim_config.device = device
 
     profile_step(sim_config, 1000, device)

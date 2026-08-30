@@ -57,6 +57,7 @@ def render_splat_rgb(
     Returns:
         RGB images with values in [0, 1] of shape (n_worlds, n_selected, height, width, 3).
     """
+    sim._require_mjx()
     drone_ids = _resolve_drones(sim, drones)
     camera_ids = tuple(_camera_id(sim.mj_model, camera_prefix, d) for d in drone_ids)
     f, c = camera_intrinsics(sim.mj_model, camera_ids[0], resolution)
@@ -70,6 +71,7 @@ def render_splat_rgb(
         c=c,
         background=background,
         exclude=drone_ids if exclude_self else None,
+        detect_contacts=sim.enable_contacts,
     )
 
 
@@ -105,6 +107,7 @@ def render_splat_rgbd(
         RGB in [0, 1] followed by depth in meters along the camera's optical axis, of shape
         (n_worlds, n_selected, height, width, 4).
     """
+    sim._require_mjx()
     drone_ids = _resolve_drones(sim, drones)
     camera_ids = tuple(_camera_id(sim.mj_model, camera_prefix, d) for d in drone_ids)
     f, c = camera_intrinsics(sim.mj_model, camera_ids[0], resolution)
@@ -118,6 +121,7 @@ def render_splat_rgbd(
         c=c,
         background=background,
         exclude=drone_ids if exclude_self else None,
+        detect_contacts=sim.enable_contacts,
         depth=True,
         alpha_threshold=alpha_threshold,
         max_range=max_range,
@@ -156,6 +160,7 @@ def build_render_splat_fn(
     We bake all arguments into the function to avoid the overhead of flattening static arguments,
     significantly improving performance.
     """
+    sim._require_mjx()
     drone_ids = _resolve_drones(sim, drones)
     cameras_ids = tuple(_camera_id(sim.mj_model, camera_prefix, d) for d in drone_ids)
     f, c = camera_intrinsics(sim.mj_model, cameras_ids[0], resolution)
@@ -170,6 +175,7 @@ def build_render_splat_fn(
             c=c,
             background=background,
             exclude=drone_ids if exclude_self else None,
+            detect_contacts=sim.enable_contacts,
         )
     )
 
@@ -190,6 +196,7 @@ def build_render_splat_rgbd_fn(
 
     Mirrors [build_render_splat_fn][crazyflow.sim.sensors.splat.build_render_splat_fn].
     """
+    sim._require_mjx()
     drone_ids = _resolve_drones(sim, drones)
     camera_ids = tuple(_camera_id(sim.mj_model, camera_prefix, d) for d in drone_ids)
     f, c = camera_intrinsics(sim.mj_model, camera_ids[0], resolution)
@@ -206,6 +213,7 @@ def build_render_splat_rgbd_fn(
             c=c,
             background=background,
             exclude=drone_ids if exclude_self else None,
+            detect_contacts=sim.enable_contacts,
             depth=True,
             alpha_threshold=alpha_threshold,
             max_range=max_range,
@@ -290,6 +298,7 @@ def _camera_transforms(
         "c",
         "background",
         "exclude",
+        "detect_contacts",
         "depth",
         "alpha_threshold",
         "max_range",
@@ -305,6 +314,7 @@ def _render(
     c: tuple[float, float],
     background: tuple[float, float, float],
     exclude: tuple[int, ...] | None,
+    detect_contacts: bool = True,
     depth: bool = False,
     alpha_threshold: float = 0.5,
     max_range: float = 10.0,
@@ -321,6 +331,7 @@ def _render(
         c: Principal point in pixels.
         background: RGB background color.
         exclude: Drone culled from each camera, or None to render every drone everywhere.
+        detect_contacts: Whether to update MJX collision results while synchronizing camera poses.
         depth: If True, append the depth in meters as a fourth channel.
         alpha_threshold: Coverage a pixel needs before its depth counts as a hit. Unused for RGB.
         max_range: Sensor range in meters. Unused for RGB.
@@ -328,7 +339,8 @@ def _render(
     Returns:
         Images of shape (n_worlds, n_cams, height, width, 3), one channel deeper with ``depth``.
     """
-    _, mjx_data = sync_sim2mjx(data, mjx_data, mjx_model)  # We need the current camera poses
+    # Update camera poses; collision detection is optional for render-only simulations.
+    _, mjx_data = sync_sim2mjx(data, mjx_data, mjx_model, detect_contacts=detect_contacts)
     splats = data.plugins[SPLATS_KEY]
     slices = splats.slices
     vm, tfs, cam_axis = _camera_transforms(

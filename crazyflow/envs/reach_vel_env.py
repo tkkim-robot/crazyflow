@@ -18,6 +18,7 @@ class ReachVelEnv(DroneEnv):
         num_envs: int = 1,
         max_episode_time: float = 10.0,
         dynamics: Dynamics = Dynamics.so_rpy,
+        drone: str = "cf2x_L250",
         freq: int = 500,
         device: str = "cpu",
     ):
@@ -25,6 +26,7 @@ class ReachVelEnv(DroneEnv):
             num_envs=num_envs,
             max_episode_time=max_episode_time,
             dynamics=dynamics,
+            drone=drone,
             freq=freq,
             device=device,
         )

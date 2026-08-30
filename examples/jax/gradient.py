@@ -1,3 +1,5 @@
+"""Small autodiff correctness demo, not the paper's batched gradient-throughput benchmark."""
+
 import time
 
 import jax
@@ -11,7 +13,6 @@ from crazyflow.sim.data import SimData
 
 def main():
     sim = Sim(control=Control.attitude, dynamics=Dynamics.first_principles, attitude_freq=50)
-    # Remove clipping floor function which kills gradients
     sim_step = sim.build_step_fn()
     # If the drone starts on the floor, the gradient gets killed by the floor clipping function. We
     # thus start in the air to avoid zero gradients. Alternatively, we could also remove the floor
@@ -44,12 +45,16 @@ def main():
     for _ in range(10):
         grad = step_grad(cmd, sim.data)
         cmd = cmd - 0.1 * grad
+    cmd.block_until_ready()
     t1 = time.perf_counter()
     print(f"Loss: {step(cmd, sim.data)}\nGradient: {grad}")
 
-    print(f"Time taken: {t1 - t0:.2e}s ({(t1 - t0) / 10:.2e}s per step)")
-    # The final command should increase the z position (3rd array element) as well as the z velocity
-    # (6th array element) to minimize the cost function.
+    print(
+        f"Time taken: {t1 - t0:.2e}s "
+        f"({(t1 - t0) / 10:.2e}s per optimization iteration; "
+        "each gradient differentiates through 10 simulator steps)"
+    )
+    # Collective thrust is the fourth command element. Optimizing it should reduce the height cost.
     print(f"Final command: {cmd}")
 
 

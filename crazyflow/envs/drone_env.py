@@ -39,7 +39,7 @@ def action_space(control_type: Control, drone: str) -> spaces.Box:
                 np.array([np.pi / 2, np.pi / 2, np.pi / 2, thrust_max], dtype=np.float32),
             )
         case Control.force_torque:
-            return spaces.Box(-1.0, 1.0, shape=(6,))
+            return spaces.Box(-1.0, 1.0, shape=(4,))
         case _:
             raise ValueError(f"Invalid control type {control_type}")
 
@@ -48,12 +48,9 @@ class DroneEnv(VectorEnv):
     """JAX-based Gymnasium core environment for Crazyflow.
 
     ## Action space
-    We have three types of actions:
-    - `attitude`: 4D vector consisting of [collective thrust, roll, pitch, yaw]
-    - `thrust`: 4D vector consisting of the individual motor thrusts [f1, f2, f3, f4]
-    - `state`: Currently not implemented
-
-    The default action space is `attitude`.
+    The built-in environments expose a 4D `attitude` action in the order
+    ``[roll, pitch, yaw, collective thrust]``. Other control interfaces are not currently exposed
+    through their Gymnasium constructors.
     """
 
     metadata = {"autoreset_mode": AutoresetMode.NEXT_STEP}

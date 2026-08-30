@@ -14,6 +14,12 @@ Select your installation method from the tabs below, then read the notes under e
     pip install "crazyflow[gpu]"
     ```
 
+=== "pip + splats"
+
+    ```bash
+    pip install "crazyflow[gpu,splats]"
+    ```
+
 === "pixi"
 
     ```bash
@@ -28,6 +34,22 @@ Select your installation method from the tabs below, then read the notes under e
     git clone https://github.com/learnsyslab/crazyflow.git
     cd crazyflow
     pixi shell -e tests
+    ```
+
+=== "pixi + GPU"
+
+    ```bash
+    git clone https://github.com/learnsyslab/crazyflow.git
+    cd crazyflow
+    pixi shell -e gpu
+    ```
+
+=== "pixi + splats"
+
+    ```bash
+    git clone https://github.com/learnsyslab/crazyflow.git
+    cd crazyflow
+    pixi shell -e splats
     ```
 
 === "uv"
@@ -47,6 +69,10 @@ JAX defaults to CPU-only execution. The `gpu` extra swaps in `jax[cuda12]`, enab
 
 !!! note
     GPU support is only available on Linux x86-64.
+
+Gaussian-splat rendering is an additional opt-in because its viewer dependency requires CUDA.
+Use the `splats` extra together with `gpu` for pip, or the `splats` Pixi environment. The regular
+Pixi and test environments remain CPU-compatible; `gpu-tests` includes CUDA and splat support.
 
 ## Developer install
 

@@ -111,6 +111,17 @@ All drone configurations are bundled with `crazyflow.dynamics`. Available config
 
 Throughput for one drone across parallel worlds, first-principles dynamics. CPU: AMD Ryzen 9 7950X. GPU: NVIDIA RTX 4090.
 
+These are steady-state fused-rollout measurements. JIT compilation is warmed up separately, then
+50 executions of 50 simulator steps are timed. A comparable GPU run is:
+
+```bash
+pixi run -e benchmark python benchmark/main.py \
+  --device=gpu --worlds=262144 --n_steps=50 --rollout_steps=50 --include_gym=False
+```
+
+Raw execution timings, their standard deviation, and software/hardware provenance are retained in
+the generated CSV.
+
 ```vegalite
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
@@ -159,7 +170,9 @@ Throughput for one drone across parallel worlds, first-principles dynamics. CPU:
 }
 ```
 
-GPU throughput across `n_worlds` and `n_drones` (RTX 4090). Empty cells exceed available GPU memory. Color encodes steps per second on a log scale.
+GPU throughput across `n_worlds` and `n_drones` (RTX 4090). Empty cells exceed available GPU
+memory. Each cell is **world steps/s** on a log scale; multiply by `n_drones` for aggregate drone
+updates/s.
 
 ```vegalite
 {

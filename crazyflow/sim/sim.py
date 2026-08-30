@@ -47,9 +47,29 @@ def requires_mujoco_sync(fn: Callable[Params, Return]) -> Callable[Params, Retur
     """Decorator to ensure that the simulation data is synchronized with the MuJoCo mjx data."""
 
     @wraps(fn)
-    def wrapper(sim: Sim, *args: Any, **kwargs: Any) -> SimData:
-        if not sim.data.core.mjx_synced:
-            sim.data, sim.mjx_data = sync_sim2mjx(sim.data, sim.mjx_data, sim.mjx_model)
+    def wrapper(sim: Sim, *args: Any, **kwargs: Any) -> Return:
+        sim._require_mjx()
+        needs_collision = sim.enable_contacts and not sim.data.core.mjx_collision_synced
+        if not sim.data.core.mjx_synced or needs_collision:
+            sim.data, sim.mjx_data = sync_sim2mjx(
+                sim.data, sim.mjx_data, sim.mjx_model, detect_contacts=sim.enable_contacts
+            )
+        return fn(sim, *args, **kwargs)
+
+    return wrapper
+
+
+def requires_contact_sync(fn: Callable[Params, Return]) -> Callable[Params, Return]:
+    """Ensure contacts are enabled and collision results match the current simulation state."""
+
+    @wraps(fn)
+    def wrapper(sim: Sim, *args: Any, **kwargs: Any) -> Return:
+        # Check the feature before doing any kinematics work so a disabled contact query is cheap.
+        sim._require_contacts()
+        if not sim.data.core.mjx_synced or not sim.data.core.mjx_collision_synced:
+            sim.data, sim.mjx_data = sync_sim2mjx(
+                sim.data, sim.mjx_data, sim.mjx_model, detect_contacts=True
+            )
         return fn(sim, *args, **kwargs)
 
     return wrapper
@@ -84,6 +104,8 @@ class Sim:
         xml_path: Path | None = None,
         rng_key: int = 0,
         fused_mjx_model: bool = False,
+        enable_mjx: bool = True,
+        enable_contacts: bool = True,
     ):
         """Build the scene and the step and reset pipelines, and allocate the batched sim data.
 
@@ -104,6 +126,12 @@ class Sim:
             fused_mjx_model: If True, use the ``drone_fused`` body whose visual geometry is fused
                 into a single mesh. This shrinks the MJX model and reduces its memory footprint at
                 the cost of visual detail.
+            enable_mjx: If False, skip construction of the MuJoCo/MJX scene. This dynamics-only
+                mode avoids geometry and contact allocation for very large batches, but disables
+                rendering, contact queries, raycasting, and scene modification.
+            enable_contacts: If False, keep the MuJoCo/MJX scene for rendering and raycasting but
+                disable collision candidates and contact queries. This reduces memory use for
+                large visualized swarms. Ignored when ``enable_mjx`` is False.
         """
         assert Dynamics(dynamics) in Dynamics, f"Dynamics mode {dynamics} not implemented"
         assert Control(control) in Control, f"Control mode {control} not implemented"
@@ -124,10 +152,21 @@ class Sim:
 
         # Initialize MuJoCo world and data
         self.fused_mjx_model = fused_mjx_model
+        self._enable_mjx = enable_mjx
+        self._enable_contacts = enable_mjx and enable_contacts
         self._xml_path = xml_path or Path(__file__).parents[1] / "scene.xml"
         self.drone_path = Path(__file__).parents[1] / f"drones/{drone}.xml"
-        self.spec = self.build_mjx_spec()
-        self.mj_model, self.mj_data, self.mjx_model, self.mjx_data = self.build_mjx_model(self.spec)
+        if self.enable_mjx:
+            self.spec = self.build_mjx_spec()
+            self.mj_model, self.mj_data, self.mjx_model, self.mjx_data = self.build_mjx_model(
+                self.spec
+            )
+        else:
+            self.spec = None
+            self.mj_model = None
+            self.mj_data = None
+            self.mjx_model = None
+            self.mjx_data = None
         self.viewer: MujocoRenderer | None = None
 
         self.data = self.init_data(state_freq, attitude_freq, force_torque_freq, rng_key)
@@ -260,6 +299,33 @@ class Sim:
             self.viewer.close()
         self.viewer = None
 
+    @property
+    def enable_mjx(self) -> bool:
+        """Whether this instance was constructed with MuJoCo/MJX scene support."""
+        return self._enable_mjx
+
+    @property
+    def enable_contacts(self) -> bool:
+        """Whether this instance was constructed with collision candidates."""
+        return self._enable_contacts
+
+    def _require_mjx(self) -> None:
+        """Raise a useful error when a geometry feature is used in dynamics-only mode."""
+        if not self.enable_mjx:
+            raise ConfigError(
+                "MuJoCo/MJX is disabled for this simulation. Construct Sim with enable_mjx=True "
+                "to use rendering, contacts, raycasting, or scene modification."
+            )
+
+    def _require_contacts(self) -> None:
+        """Raise a useful error when contacts are unavailable for this simulation."""
+        self._require_mjx()
+        if not self.enable_contacts:
+            raise ConfigError(
+                "Contacts are disabled for this simulation. Construct Sim with "
+                "enable_contacts=True to use contact queries or collision configuration."
+            )
+
     def build_mjx_spec(self) -> mujoco.MjSpec:
         """Build the MuJoCo mjx_model specification for the simulation."""
         assert self._xml_path.exists(), f"Model file {self._xml_path} does not exist"
@@ -322,8 +388,22 @@ class Sim:
 
     def build_mjx_model(self, spec: mujoco.MjSpec) -> tuple[Any, Any, Model, Data]:
         """Build the MuJoCo model and data structures for the simulation."""
-        mj_model = spec.compile()
-        self._unweld_drones(mj_model)
+        compile_spec = spec
+        if not self.enable_contacts and spec.pairs:
+            # Explicit <pair> entries bypass geom contype/conaffinity. Delete them from a copy so
+            # render-only MJX models truly allocate no collision candidates while the editable
+            # source spec remains intact for later reconfiguration.
+            compile_spec = spec.copy()
+            for pair in list(compile_spec.pairs):
+                compile_spec.delete(pair)
+        mj_model = compile_spec.compile()
+        if self.enable_contacts:
+            self._unweld_drones(mj_model)
+        else:
+            # Removing both masks before mjx.put_model prevents MJX from allocating static
+            # collision candidates. The visual geometry remains available to renderers/raycasting.
+            mj_model.geom_contype[:] = 0
+            mj_model.geom_conaffinity[:] = 0
         mj_data = mujoco.MjData(mj_model)
         mjx_model = mjx.put_model(mj_model, device=self.device)
         mjx_data = mjx.put_data(mj_model, mj_data, device=self.device)
@@ -381,7 +461,9 @@ class Sim:
         @partial(jax.jit, static_argnames="n_steps")
         def step(data: SimData, n_steps: int = 1) -> SimData:
             data, _ = jax.lax.scan(single_step, data, length=n_steps, unroll=1)
-            data = data.replace(core=data.core.replace(mjx_synced=False))  # Flag mjx data as stale
+            data = data.replace(
+                core=data.core.replace(mjx_synced=False, mjx_collision_synced=False)
+            )
             return data
 
         self._step = step
@@ -407,7 +489,9 @@ class Sim:
         def reset(data: SimData, default_data: SimData, mask: Array | None = None) -> SimData:
             for fn in pipeline:
                 data = fn(data, default_data, mask)
-            data = data.replace(core=data.core.replace(mjx_synced=False))  # Flag mjx data as stale
+            data = data.replace(
+                core=data.core.replace(mjx_synced=False, mjx_collision_synced=False)
+            )
             return data
 
         self._reset = reset
@@ -462,19 +546,29 @@ class Sim:
         return self.default_data
 
     def build_mjx(self):
+        self._require_mjx()
         if self.viewer is not None:
             self.viewer.close()
             self.viewer = None
         self.mj_model, self.mj_data, self.mjx_model, self.mjx_data = self.build_mjx_model(self.spec)
+        # The replacement mjx_data contains only the freshly compiled model's default pose.
+        self.data = self.data.replace(
+            core=self.data.core.replace(mjx_synced=False, mjx_collision_synced=False)
+        )
 
     def init_data(
         self, state_freq: int, attitude_freq: int, force_torque_freq: int, rng_key: Array
     ) -> SimData:
         """Initialize the simulation data."""
-        drone_name = "drone_fused" if self.fused_mjx_model else "drone"
-        drone_mocap_ids = [
-            self.mj_model.body(f"{drone_name}:{i}").mocapid.item() for i in range(self.n_drones)
-        ]
+        if self.enable_mjx:
+            drone_name = "drone_fused" if self.fused_mjx_model else "drone"
+            drone_mocap_ids = [
+                self.mj_model.body(f"{drone_name}:{i}").mocapid.item() for i in range(self.n_drones)
+            ]
+        else:
+            # Keep the usual per-drone shape in SimCore. These placeholder IDs are never consumed
+            # because every MJX entry point is guarded by _require_mjx().
+            drone_mocap_ids = list(range(self.n_drones))
         N, D = self.n_worlds, self.n_drones
         data = SimData(
             states=SimState.create(N, D, self.device),
@@ -523,7 +617,7 @@ class Sim:
         """
         return F.controllable(self.data)
 
-    @requires_mujoco_sync
+    @requires_contact_sync
     def contacts(self, body: str | None = None) -> Array:
         """Get contact information from the simulation.
 
@@ -643,8 +737,10 @@ def contacts(geom_start: int, geom_count: int, data: Data) -> Array:
     return (contact.dist < 0) & (geom1_valid | geom2_valid)
 
 
-@jax.jit
-def sync_sim2mjx(data: SimData, mjx_data: Data, mjx_model: Model) -> tuple[SimData, Data]:
+@partial(jax.jit, static_argnames="detect_contacts")
+def sync_sim2mjx(
+    data: SimData, mjx_data: Data, mjx_model: Model, detect_contacts: bool = True
+) -> tuple[SimData, Data]:
     """Synchronize the simulation data with the MuJoCo mjx_model."""
     pos, quat = data.states.pos, data.states.quat
     quat_mjx = jnp.roll(quat, 1, axis=-1)  # MuJoCo quat is [w, x, y, z], ours is [x, y, z, w]
@@ -655,8 +751,11 @@ def sync_sim2mjx(data: SimData, mjx_data: Data, mjx_model: Model) -> tuple[SimDa
     mjx_data = jax.vmap(mjx.kinematics, in_axes=(None, 0))(mjx_model, mjx_data)
     # Required for rendering w. ray casting
     mjx_data = jax.vmap(mjx.camlight, in_axes=(None, 0))(mjx_model, mjx_data)
-    mjx_data = jax.vmap(mjx.collision, in_axes=(None, 0))(mjx_model, mjx_data)
-    data = data.replace(core=data.core.replace(mjx_synced=True))
+    if detect_contacts:
+        mjx_data = jax.vmap(mjx.collision, in_axes=(None, 0))(mjx_model, mjx_data)
+    data = data.replace(
+        core=data.core.replace(mjx_synced=True, mjx_collision_synced=jnp.asarray(detect_contacts))
+    )
     return data, mjx_data
 
 
@@ -689,6 +788,7 @@ def use_box_collision(sim: Sim, enable: bool = True):
         geometry, especially for larger swarms. It is recommended to only enable box collision
         geometry for small swarms or when high accuracy is required.
     """
+    sim._require_contacts()
     for geom in sim.spec.geoms:
         if geom.name.startswith("col_sphere"):
             geom.contype = 1 * (not enable)

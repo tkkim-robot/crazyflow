@@ -78,6 +78,30 @@ First-principles dynamics, one drone. CPU: AMD Ryzen 9 7950X. GPU: NVIDIA RTX 40
 | 65 536 | 15.6 M | 678 M |
 | 262 144 | 12.6 M | 914 M |
 
+These are steady-state fused-rollout measurements: JIT compilation is warmed up separately, then
+50 executions of 50 simulator steps are timed. A comparable GPU run is:
+
+```bash
+pixi run -e benchmark python benchmark/main.py \
+  --device=gpu --worlds=262144 --n_steps=50 --rollout_steps=50 --include_gym=False
+```
+
+The benchmark CSV records both world steps/s and drone updates/s; they differ for multi-drone
+worlds. It also retains each execution time and software/hardware provenance so variance and
+confidence intervals can be recomputed and runs can be audited.
+
+The BPTT benchmark exposes two clearly labeled protocols:
+
+```bash
+# Current-API adaptation of the closest public author artifact
+pixi run -e benchmark python benchmark/bptt.py --protocol=public --device=cpu --repeats=3
+
+# Paper-informed reconstruction (the exact paper trainer/config is not public)
+pixi run -e benchmark python benchmark/bptt.py --protocol=paper --device=cpu --repeats=3
+```
+
+Both compile and run one complete untimed warm-up before measuring fused training executions.
+
 Full benchmarks including multi-drone scaling are in the [documentation](https://learnsyslab.github.io/crazyflow).
 
 ## Citation

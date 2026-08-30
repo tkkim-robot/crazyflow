@@ -13,7 +13,9 @@ from scipy.spatial.transform import Rotation as R
 
 splax = pytest.importorskip("splax", reason="the splat modules require the optional splats extra")
 
+from crazyflow.exception import ConfigError  # noqa: E402
 from crazyflow.sim import Sim  # noqa: E402
+from crazyflow.sim.sensors import splat as splat_sensor  # noqa: E402
 from crazyflow.sim.sensors.splat import (  # noqa: E402
     build_render_splat_fn,
     build_render_splat_rgbd_fn,
@@ -26,6 +28,10 @@ from crazyflow.sim.splat import SPLATS_KEY, SplatViewer, attach_splats  # noqa: 
 
 if TYPE_CHECKING:
     from pathlib import Path
+
+    from mujoco.mjx import Data, Model
+
+    from crazyflow.sim.data import SimData
 
 requires_gpu = pytest.mark.skipif("gpu" not in available_backends(), reason="splax requires CUDA")
 
@@ -143,6 +149,57 @@ def test_render_splat_requires_gpu(tmp_path: Path):
         render_splat_rgb(sim)
     with pytest.raises(RuntimeError, match="GPU"):
         render_splat_rgbd(sim)
+
+
+@pytest.mark.unit
+@requires_gpu
+def test_render_splat_requires_mjx(tmp_path: Path):
+    """Every Sim-based splat sensor entry point rejects dynamics-only simulations."""
+    _write_splat(tmp_path / "splat.ply")
+    sim = Sim(device="gpu", enable_mjx=False)
+    attach_splats(sim, drone=tmp_path / "splat.ply")
+
+    for render in (
+        render_splat_rgb,
+        render_splat_rgbd,
+        build_render_splat_fn,
+        build_render_splat_rgbd_fn,
+    ):
+        with pytest.raises(ConfigError, match="MuJoCo/MJX is disabled"):
+            render(sim)
+
+
+@pytest.mark.unit
+@requires_gpu
+def test_render_splat_without_contacts(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """Contact-disabled simulations render splats without invoking MJX collision detection."""
+    _write_splat(tmp_path / "splat.ply", extent=1.0)
+    sim = Sim(device="gpu", enable_contacts=False)
+    attach_splats(sim, scene=tmp_path / "splat.ply", drone=tmp_path / "splat.ply")
+    assert sim.mjx_data._impl.contact.dist.shape == (sim.n_worlds, 0)
+
+    sync_calls: list[bool] = []
+    sync_sim2mjx = splat_sensor.sync_sim2mjx
+
+    def record_sync(
+        data: SimData, mjx_data: Data, mjx_model: Model, detect_contacts: bool = True
+    ) -> tuple[SimData, Data]:
+        sync_calls.append(detect_contacts)
+        return sync_sim2mjx(data, mjx_data, mjx_model, detect_contacts=detect_contacts)
+
+    monkeypatch.setattr(splat_sensor, "sync_sim2mjx", record_sync)
+    jax.clear_caches()  # Force _render to trace through the recording wrapper above.
+
+    rgb = render_splat_rgb(sim, resolution=(16, 12))
+    rgbd = render_splat_rgbd(sim, resolution=(16, 12), max_range=7.0)
+    built_rgb = build_render_splat_fn(sim, resolution=(16, 12))(sim.data)
+    built_rgbd = build_render_splat_rgbd_fn(sim, resolution=(16, 12), max_range=7.0)(sim.data)
+
+    assert rgb.shape == built_rgb.shape == (1, 1, 12, 16, 3)
+    assert rgbd.shape == built_rgbd.shape == (1, 1, 12, 16, 4)
+    assert np.all(np.isfinite(rgb))
+    assert np.all(np.isfinite(rgbd))
+    assert sync_calls and not any(sync_calls)
 
 
 @pytest.mark.unit
