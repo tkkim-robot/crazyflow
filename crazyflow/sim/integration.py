@@ -93,7 +93,10 @@ def integrate_symplectic(data: SimData, deriv: SimData, dt: float) -> SimData:
 
     pos, quat, vel, ang_vel = states.pos, states.quat, states.vel, states.ang_vel
     rotor_vel = states.rotor_vel
-    dvel, dang_vel, drotor_vel = states_deriv.vel, states_deriv.ang_vel, states_deriv.rotor_acc
+    # Symplectic Euler updates velocities from their derivatives (accelerations), then positions
+    # from the updated velocities. Feeding ``states_deriv.vel``/``ang_vel`` here would instead
+    # integrate velocity into itself and silently discard all force and torque acceleration.
+    dvel, dang_vel, drotor_vel = states_deriv.acc, states_deriv.ang_acc, states_deriv.rotor_acc
 
     next_pos, next_quat, next_vel, next_ang_vel, next_rotor_vel = _integrate_symplectic(
         pos, quat, vel, ang_vel, rotor_vel, dvel, dang_vel, drotor_vel, dt
@@ -121,7 +124,7 @@ def _integrate(
     dang_vel: Array,
     drotor_vel: Array,
     dt: float,
-) -> tuple[Array, Array, Array, Array]:
+) -> tuple[Array, Array, Array, Array, Array]:
     """Integrate the dynamics forward in time.
 
     Args:
@@ -152,7 +155,7 @@ def _integrate(
     return next_pos, next_quat, next_vel, next_ang_vel, next_rotor_vel
 
 
-@partial(vectorize, signature="(3),(4),(3),(3),(M),(3),(3),(M)->(3),(4),(3),(3),(M)", excluded=[7])
+@partial(vectorize, signature="(3),(4),(3),(3),(M),(3),(3),(M)->(3),(4),(3),(3),(M)", excluded=[8])
 def _integrate_symplectic(
     pos: Array,
     quat: Array,
@@ -163,7 +166,7 @@ def _integrate_symplectic(
     dang_vel: Array,
     drotor_vel: Array,
     dt: float,
-) -> tuple[Array, Array, Array, Array]:
+) -> tuple[Array, Array, Array, Array, Array]:
     """Integrate the dynamics forward in time using symplectic integration.
 
     See e.g. https://adamsturge.github.io/Engine-Blog/mydoc_symplectic_euler.html for an explanation
@@ -175,10 +178,8 @@ def _integrate_symplectic(
         vel: The velocity of the drone.
         ang_vel: The angular velocity of the drone.
         rotor_vel: The rotor velocity of the drone.
-        dpos: The derivative of the position of the drone.
-        drot: The derivative of the quaternion of the drone (3D angular velocity).
-        dvel: The derivative of the velocity of the drone.
-        dang_vel: The derivative of the angular velocity of the drone.
+        dvel: The derivative of the velocity of the drone (linear acceleration).
+        dang_vel: The derivative of the angular velocity of the drone (angular acceleration).
         drotor_vel: The derivative of the rotor velocity of the drone.
         dt: The time step to integrate over.
 

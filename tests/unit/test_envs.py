@@ -1,3 +1,4 @@
+import jax.numpy as jnp
 import numpy as np
 import pytest
 
@@ -54,3 +55,62 @@ def test_existing_positional_environment_arguments_remain_compatible():
     assert landing.sim.drone == reach_pos.sim.drone == "cf2x_L250"
     landing.close()
     reach_pos.close()
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize("env_type", (ReachPosEnv, ReachVelEnv))
+def test_seeded_reset_is_reproducible_for_fresh_and_reused_envs(
+    env_type: type[DroneEnv], device: str
+):
+    fresh_env = env_type(num_envs=3, device=device)
+    reused_env = env_type(num_envs=3, device=device)
+
+    expected, _ = fresh_env.reset(seed=42)
+    reused_env.reset(seed=7)
+    reused_env._reset(mask=jnp.array([True, False, True]))
+    actual, _ = reused_env.reset(seed=42)
+
+    assert expected.keys() == actual.keys()
+    for name in expected:
+        np.testing.assert_array_equal(expected[name], actual[name])
+
+    fresh_env.close()
+    reused_env.close()
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    ("env_type", "target_attr"), ((ReachPosEnv, "_goal"), (ReachVelEnv, "_goal_vel"))
+)
+def test_masked_autoresets_continue_seeded_task_rng_stream(
+    env_type: type[DroneEnv], target_attr: str, device: str
+):
+    first_env = env_type(num_envs=3, device=device)
+    second_env = env_type(num_envs=3, device=device)
+    first_env.reset(seed=42)
+    second_env.reset(seed=42)
+    action = jnp.zeros(first_env.action_space.shape)
+
+    for mask in (jnp.array([True, False, True]), jnp.array([False, True, False])):
+        first_before = np.asarray(getattr(first_env, target_attr))
+        second_before = np.asarray(getattr(second_env, target_attr))
+        first_env._marked_for_reset = mask
+        second_env._marked_for_reset = mask
+
+        first_env.step(action)
+        second_env.step(action)
+
+        first_target = np.asarray(getattr(first_env, target_attr))
+        second_target = np.asarray(getattr(second_env, target_attr))
+        np.testing.assert_array_equal(first_target, second_target)
+        np.testing.assert_array_equal(
+            first_target[~np.asarray(mask)], first_before[~np.asarray(mask)]
+        )
+        np.testing.assert_array_equal(
+            second_target[~np.asarray(mask)], second_before[~np.asarray(mask)]
+        )
+
+    assert not np.array_equal(first_target[0], first_target[2])
+
+    first_env.close()
+    second_env.close()

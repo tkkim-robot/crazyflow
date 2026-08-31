@@ -88,5 +88,22 @@ else:
 * [utils](crazyflow/utils.md)
 """
 
+    # Safety modules are experimental and grow quickly. Generate their literate navigation from
+    # the same source files used above so a newly documented safety module cannot be silently
+    # omitted from a strict documentation build.
+    safety_root = Path("crazyflow/safety")
+    if safety_root.exists():
+        summary += "* [safety](crazyflow/safety/index.md)\n"
+        da_plcbf_root = safety_root / "da_plcbf"
+        if da_plcbf_root.exists():
+            summary += "    * [safety.da_plcbf](crazyflow/safety/da_plcbf/index.md)\n"
+            for module in sorted(da_plcbf_root.glob("*.py")):
+                if module.stem in {"__init__", "__main__"}:
+                    continue
+                summary += (
+                    f"        * [safety.da_plcbf.{module.stem}]"
+                    f"(crazyflow/safety/da_plcbf/{module.stem}.md)\n"
+                )
+
     with mkdocs_gen_files.open("api/SUMMARY.md", "w") as nav_file:
         nav_file.write(summary)

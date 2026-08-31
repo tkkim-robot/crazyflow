@@ -30,6 +30,56 @@ def create_uniform_ang_vel(N: int = 1000, scale: float = 10) -> NDArray:
 
 
 @pytest.mark.unit
+def test_ang_vel2quat_dot_uses_xyzw_body_rate_convention() -> None:
+    quat = xp.asarray([0.0, 0.0, 0.0, 1.0])
+    body_rate = xp.asarray([0.4, -0.2, 0.8])
+
+    derivative = rotation.ang_vel2quat_dot(quat, body_rate)
+
+    assert np.allclose(derivative, np.array([0.2, -0.1, 0.4, 0.0]))
+
+
+@pytest.mark.unit
+def test_ang_vel2quat_dot_matches_right_composed_scipy_finite_difference_and_batches() -> None:
+    generator = np.random.default_rng(20260830)
+    quats = R.random(8, random_state=generator).as_quat()
+    body_rates = generator.normal(size=(8, 3))
+    dt = 1e-7
+    expected = []
+    for quat, body_rate in zip(quats, body_rates, strict=True):
+        following = (R.from_quat(quat) * R.from_rotvec(body_rate * dt)).as_quat()
+        if np.dot(following, quat) < 0:
+            following = -following
+        expected.append((following - quat) / dt)
+    expected = np.asarray(expected)
+
+    batched = rotation.ang_vel2quat_dot(xp.asarray(quats), xp.asarray(body_rates))
+
+    np.testing.assert_allclose(batched, expected, rtol=2e-6, atol=2e-6)
+    np.testing.assert_allclose(np.sum(np.asarray(batched) * quats, axis=-1), 0.0, atol=1e-12)
+    for index in range(quats.shape[0]):
+        single = rotation.ang_vel2quat_dot(xp.asarray(quats[index]), xp.asarray(body_rates[index]))
+        np.testing.assert_allclose(single, np.asarray(batched)[index], rtol=0.0, atol=1e-12)
+
+
+@pytest.mark.unit
+def test_symbolic_ang_vel2quat_dot_matches_numeric_xyzw_implementation() -> None:
+    generator = np.random.default_rng(260830)
+    quats = R.random(8, random_state=generator).as_quat()
+    body_rates = generator.normal(size=(8, 3))
+
+    numeric = rotation.ang_vel2quat_dot(quats, body_rates)
+    symbolic = np.stack(
+        [
+            np.asarray(rotation.cs_ang_vel2quat_dot(quat, body_rate)).reshape(4)
+            for quat, body_rate in zip(quats, body_rates, strict=True)
+        ]
+    )
+
+    np.testing.assert_allclose(symbolic, numeric, rtol=1e-12, atol=1e-12)
+
+
+@pytest.mark.unit
 def test_ang_vel2rpy_rates_two_way():
     quats = xp.asarray(create_uniform_quats())
     ang_vels = xp.asarray(create_uniform_ang_vel())

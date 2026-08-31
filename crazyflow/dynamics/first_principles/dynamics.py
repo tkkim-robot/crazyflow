@@ -276,10 +276,7 @@ def symbolic_dynamics(
     vel_dot = forces_sum / mass
 
     # Rotational equation of motion
-    xi = cs.vertcat(
-        cs.horzcat(0, -symbols.ang_vel.T), cs.horzcat(symbols.ang_vel, -cs.skew(symbols.ang_vel))
-    )
-    quat_dot = 0.5 * (xi @ symbols.quat)
+    quat_dot = rotation.cs_ang_vel2quat_dot(symbols.quat, symbols.ang_vel)
     torques_sum = torques_motor_vec
     if model_dist_t:
         torques_sum = torques_sum + symbols.rot.T @ symbols.dist_t

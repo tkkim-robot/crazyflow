@@ -269,10 +269,7 @@ def symbolic_dynamics(
         vel_dot = vel_dot + symbols.dist_f / mass
 
     # Rotational equation of motion
-    xi = cs.vertcat(
-        cs.horzcat(0, -symbols.ang_vel.T), cs.horzcat(symbols.ang_vel, -cs.skew(symbols.ang_vel))
-    )
-    quat_dot = 0.5 * (xi @ symbols.quat)
+    quat_dot = rotation.cs_ang_vel2quat_dot(symbols.quat, symbols.ang_vel)
     ang_vel_dot = rotation.cs_rpy_rates_deriv2ang_vel_deriv(
         symbols.quat, _drpy_quat, X_dot_euler[9:12]
     )

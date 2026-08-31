@@ -167,6 +167,48 @@ def test_sim_without_contacts_removes_explicit_pairs():
 
 
 @pytest.mark.unit
+def test_geometry_options_do_not_change_forward_dynamics(device: str):
+    """The benchmark-only geometry switches must not change the simulated trajectory."""
+    simulations = [
+        Sim(n_worlds=2, n_drones=2, device=device, enable_mjx=True, enable_contacts=True),
+        Sim(n_worlds=2, n_drones=2, device=device, enable_mjx=True, enable_contacts=False),
+        Sim(n_worlds=2, n_drones=2, device=device, enable_mjx=False),
+    ]
+    command = jnp.zeros((2, 2, 4), device=jax.devices(device)[0])
+    command = command.at[..., 3].set(simulations[0].data.params.mass[..., 0] * 9.81)
+
+    for sim in simulations:
+        sim.data = sim.data.replace(
+            states=sim.data.states.replace(pos=sim.data.states.pos.at[..., 2].set(1.0))
+        )
+        sim.attitude_control(command)
+        sim.step(20)
+        jax.block_until_ready(sim.data)
+
+    expected = simulations[0].data.states
+    assert not np.allclose(expected.pos[..., 2], 1.0), "the comparison trajectory did not advance"
+    for sim in simulations[1:]:
+        for expected_leaf, actual_leaf in zip(
+            jax.tree.leaves(expected), jax.tree.leaves(sim.data.states), strict=True
+        ):
+            np.testing.assert_array_equal(actual_leaf, expected_leaf)
+    for sim in simulations:
+        sim.close()
+
+
+@pytest.mark.unit
+def test_zero_direct_rotor_command_keeps_stopped_motors_stopped(device: str):
+    """A powered-off rotor state must not be raised to the calibrated flying minimum."""
+    sim = Sim(control=Control.rotor_vel, device=device, enable_mjx=False)
+    sim.rotor_vel_control(jnp.zeros_like(sim.data.controls.rotor_vel))
+
+    sim.step(20)
+
+    np.testing.assert_array_equal(sim.data.states.rotor_vel, 0.0)
+    sim.close()
+
+
+@pytest.mark.unit
 @pytest.mark.parametrize("dynamics", Dynamics)
 @pytest.mark.parametrize("n_worlds", [1, 2])
 @pytest.mark.parametrize("n_drones", [1, 3])

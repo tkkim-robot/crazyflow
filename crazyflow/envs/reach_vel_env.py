@@ -30,9 +30,6 @@ class ReachVelEnv(DroneEnv):
             freq=freq,
             device=device,
         )
-        self.jax_key = jax.device_put(
-            jax.random.key(int(self.np_random.random() * 2**32)), self.device
-        )
         assert self.sim.n_drones == 1, "Currently only supported for one drone"
         spec = {k: v for k, v in self.single_observation_space.items()}
         spec["difference_to_target_vel"] = spaces.Box(-np.inf, np.inf, shape=(3,))

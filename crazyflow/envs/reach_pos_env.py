@@ -44,9 +44,6 @@ class ReachPosEnv(DroneEnv):
             device=device,
             reset_randomization=reset_randomization,
         )
-        self.jax_key = jax.device_put(
-            jax.random.key(int(self.np_random.random() * 2**32)), self.device
-        )
         spec = {k: v for k, v in self.single_observation_space.items()}
         spec["difference_to_goal"] = spaces.Box(-np.inf, np.inf, shape=(3,))
         self.single_observation_space = spaces.Dict(spec)

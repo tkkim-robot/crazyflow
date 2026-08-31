@@ -12,3 +12,5 @@ In-depth documentation for every part of the simulator.
 - [Visualization](visualization.md) — rendering modes, cameras, raycasting, and materials
 - [MuJoCo Integration](mujoco.md) — MJCF scene construction, adding objects, and sync internals
 - [Gymnasium Environments](gymnasium-envs.md) — vectorized environments for RL training
+- [DA-PLCBF](da-plcbf.md) — finite-horizon adaptive policy-library safety filtering, validation,
+  and reproducible evidence

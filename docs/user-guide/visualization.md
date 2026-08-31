@@ -26,8 +26,22 @@ Crazyflow supports onscreen interactive rendering and offscreen RGB/depth captur
 sim.render()                                   # interactive window
 rgb = sim.render(mode="rgb_array")             # numpy array (H, W, 3)
 depth = sim.render(mode="depth_array")         # numpy array (H, W)
+sim.close()                                    # close before changing camera or resolution
 rgb, depth = sim.render(mode="rgbd_tuple", camera="fpv_cam:0", width=320, height=240)
 sim.close()                                    # close the viewer
+```
+
+The MuJoCo renderer persists between calls. Its camera, width, height, and `cam_config` are fixed
+when the first frame is rendered; later calls may switch render mode or world but must use the same
+settings. A camera name and integer ID are compatible when they resolve to the same model camera.
+Crazyflow raises an error instead of silently reusing stale settings. Close the renderer before
+reconfiguring it:
+
+<!-- notest: requires rendering -->
+```{ .python notest }
+frame = sim.render(mode="rgb_array", camera="fpv_cam:0", width=320, height=240)
+sim.close()
+frame = sim.render(mode="rgb_array", camera="track_cam:0", width=640, height=480)
 ```
 
 ## Cameras

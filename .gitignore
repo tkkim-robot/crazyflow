@@ -26,6 +26,13 @@ uv.lock
 
 # ProperDocs build output
 site/
+
+# DA-PLCBF run products can be large and are content-addressed by their in-run SHA256SUMS file.
+# Keep only the policy and compact reviewed-run index in git; the validator rejects unindexed or
+# hash-mismatched evidence, so broad *.json/**/*.csv ignores cannot silently substantiate claims.
+/artifacts/da_plcbf/**
+!/artifacts/da_plcbf/README.md
+!/artifacts/da_plcbf/INDEX.md
 # Temporary files
 .DS_Store
 Thumbs.db

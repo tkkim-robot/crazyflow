@@ -16,33 +16,25 @@ if TYPE_CHECKING:
 
 
 def ang_vel2quat_dot(quat: Array, ang_vel: Array) -> Array:
-    """Calculates the quaternion derivative based on an angular velocity."""
-    xp = array_namespace(quat)
-    # Split angular velocity
-    x = ang_vel[..., 0:1]
-    y = ang_vel[..., 1:2]
-    z = ang_vel[..., 2:3]
-    # Skew-symmetric matrix
-    ang_vel_skew = xp.stack(
-        [
-            xp.concat((xp.zeros_like(x), -z, y), axis=-1),
-            xp.concat((z, xp.zeros_like(x), -x), axis=-1),
-            xp.concat((-y, x, xp.zeros_like(x)), axis=-1),
-        ],
-        axis=-2,
-    )
-    # First row of Xi
-    xi1 = xp.concat((xp.zeros_like(x), -ang_vel), axis=-1)
-    # Second to fourth rows of Xi
-    ang_vel_col = xp.expand_dims(ang_vel, axis=-1)  # (..., 3, 1)
-    xi2 = xp.concat((ang_vel_col, -ang_vel_skew), axis=-1)  # (..., 3, 4)
-    # Combine into Xi
-    xi1_exp = xp.expand_dims(xi1, axis=-2)  # (..., 1, 4)
-    xi = xp.concat((xi1_exp, xi2), axis=-2)  # (..., 4, 4)
-    # Quaternion derivative
-    quat_exp = xp.expand_dims(quat, axis=-1)  # (..., 4, 1)
-    result = 0.5 * xp.matmul(xi, quat_exp)  # (..., 4, 1)
-    return xp.squeeze(result, axis=-1)  # (..., 4)
+    r"""Return ``0.5 * quat ⊗ [ang_vel, 0]`` for scalar-last ``xyzw`` quaternions.
+
+    ``ang_vel`` is expressed in the body frame, matching Crazyflow's right-composition update
+    ``R(quat) * R.from_rotvec(ang_vel * dt)``. The prior implementation applied a scalar-first
+    matrix to an ``xyzw`` vector and therefore returned the wrong component order and signs.
+    """
+    xp = array_namespace(quat, ang_vel)
+    vector = quat[..., :3]
+    scalar = quat[..., 3:4]
+    vector_dot = scalar * ang_vel + xp.linalg.cross(vector, ang_vel)
+    scalar_dot = -xp.sum(vector * ang_vel, axis=-1, keepdims=True)
+    return xp.concat((vector_dot, scalar_dot), axis=-1) * 0.5
+
+
+def cs_ang_vel2quat_dot(quat: cs.MX, ang_vel: cs.MX) -> cs.MX:
+    r"""CasADi equivalent of :func:`ang_vel2quat_dot` for ``xyzw`` and body rates."""
+    vector = quat[0:3]
+    scalar = quat[3]
+    return 0.5 * cs.vertcat(scalar * ang_vel + cs.cross(vector, ang_vel), -cs.dot(vector, ang_vel))
 
 
 def ang_vel2rpy_rates(quat: Array, ang_vel: Array) -> Array:

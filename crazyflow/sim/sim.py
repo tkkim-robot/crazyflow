@@ -11,6 +11,7 @@ import jax
 import jax.numpy as jnp
 import mujoco
 import mujoco.mjx as mjx
+import numpy as np
 from gymnasium.envs.mujoco.mujoco_rendering import MujocoRenderer
 from jax import Array, Device
 
@@ -41,6 +42,18 @@ if TYPE_CHECKING:
 
 Params = ParamSpec("Params")  # Represents arbitrary parameters
 Return = TypeVar("Return")  # Represents the return type
+
+
+def _cam_configs_equal(first: dict[str, Any] | None, second: dict[str, Any] | None) -> bool:
+    """Compare camera configurations by numeric value, independent of container type."""
+    if first is None or second is None:
+        return first is second
+    if first.keys() != second.keys():
+        return False
+    return all(
+        np.array_equal(np.asarray(first[key]), np.asarray(second[key]), equal_nan=True)
+        for key in first
+    )
 
 
 def requires_mujoco_sync(fn: Callable[Params, Return]) -> Callable[Params, Return]:
@@ -168,6 +181,8 @@ class Sim:
             self.mjx_model = None
             self.mjx_data = None
         self.viewer: MujocoRenderer | None = None
+        self._render_config: tuple[int, int, int] | None = None
+        self._render_cam_config: dict[str, Any] | None = None
 
         self.data = self.init_data(state_freq, attitude_freq, force_torque_freq, rng_key)
         self.default_data: SimData = self.build_default_data()
@@ -248,33 +263,59 @@ class Sim:
 
         Returns:
             The rendered image(s) for the offscreen modes, None for ``"human"``.
+
+        Raises:
+            ValueError: If an existing renderer was created with a different camera, resolution,
+                or camera configuration. Call [close][crazyflow.sim.Sim.close] before rendering
+                with new settings.
         """
-        if self.viewer is None:
-            if isinstance(camera, str):
-                cam_id = mujoco.mj_name2id(self.mj_model, mujoco.mjtObj.mjOBJ_CAMERA, camera)
-                assert cam_id > -1, f"Camera name '{camera}' not found in the model."
-            elif isinstance(camera, int):
-                cam_id = camera
-                assert cam_id >= -1, f"camera id must be >=-1, was {cam_id}"
-            else:
-                raise TypeError("camera argument must be integer or string")
+        if isinstance(camera, str):
+            cam_id = mujoco.mj_name2id(self.mj_model, mujoco.mjtObj.mjOBJ_CAMERA, camera)
+            assert cam_id > -1, f"Camera name '{camera}' not found in the model."
+        elif isinstance(camera, int):
+            cam_id = camera
+            assert cam_id >= -1, f"camera id must be >=-1, was {cam_id}"
+        else:
+            raise TypeError("camera argument must be integer or string")
+
+        requested_config = (cam_id, width, height)
+        if self.viewer is not None:
+            assert self._render_config is not None
+            compatible = requested_config == self._render_config and _cam_configs_equal(
+                cam_config, self._render_cam_config
+            )
+            if not compatible:
+                old_camera, old_width, old_height = self._render_config
+                raise ValueError(
+                    "The persistent renderer is already configured with "
+                    f"camera={old_camera}, width={old_width}, height={old_height}. "
+                    f"Requested camera={cam_id}, width={width}, height={height}. "
+                    "Call sim.close() before rendering with different camera, resolution, or "
+                    "cam_config settings."
+                )
+        else:
             self.mj_model.vis.global_.offwidth = width
             self.mj_model.vis.global_.offheight = height
+            stored_cam_config = copy.deepcopy(cam_config)
+            renderer_cam_config = copy.deepcopy(cam_config)
+            # MujocoRenderer.camera_id is only consumed by offscreen viewers. WindowViewer does
+            # apply default_cam_config before its first frame, so include the fixed-camera fields
+            # there rather than drawing an initial frame with the wrong free camera.
+            if cam_id > -1:
+                renderer_cam_config = {} if renderer_cam_config is None else renderer_cam_config
+                renderer_cam_config["fixedcamid"] = cam_id
+                renderer_cam_config["type"] = mujoco.mjtCamera.mjCAMERA_FIXED
             self.viewer = MujocoRenderer(
                 self.mj_model,
                 self.mj_data,
                 max_geom=self.max_visual_geom,
-                default_cam_config=cam_config,
+                default_cam_config=renderer_cam_config,
                 height=height,
                 width=width,
                 camera_id=cam_id,
             )
-            # In human mode, cam_id is set to -1, so we force it to the desired value
-            if mode == "human" and cam_id > -1:
-                # Render one frame to force mj to create the viewer
-                self.viewer.render(mode)
-                self.viewer.viewer.cam.fixedcamid = cam_id
-                self.viewer.viewer.cam.type = mujoco.mjtCamera.mjCAMERA_FIXED
+            self._render_config = requested_config
+            self._render_cam_config = stored_cam_config
 
         self.mj_data.qpos[:] = self.mjx_data.qpos[world, :]
         self.mj_data.mocap_pos[:] = self.mjx_data.mocap_pos[world, :]
@@ -295,9 +336,12 @@ class Sim:
         self.data: SimData = seed_sim(self.data, seed, self.device)
 
     def close(self):
+        """Close all MuJoCo render contexts and allow the next render to be reconfigured."""
         if self.viewer is not None:
             self.viewer.close()
         self.viewer = None
+        self._render_config = None
+        self._render_cam_config = None
 
     @property
     def enable_mjx(self) -> bool:
@@ -547,9 +591,7 @@ class Sim:
 
     def build_mjx(self):
         self._require_mjx()
-        if self.viewer is not None:
-            self.viewer.close()
-            self.viewer = None
+        self.close()
         self.mj_model, self.mj_data, self.mjx_model, self.mjx_data = self.build_mjx_model(self.spec)
         # The replacement mjx_data contains only the freshly compiled model's default pose.
         self.data = self.data.replace(

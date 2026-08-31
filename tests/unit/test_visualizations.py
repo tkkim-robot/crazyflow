@@ -3,7 +3,46 @@ import pytest
 from conftest import skip_if_headless
 
 from crazyflow import Sim
-from crazyflow.sim.visualize import draw_capsule, draw_line, draw_points
+from crazyflow.sim.visualize import (
+    _rotation_matrix_from_points,
+    draw_capsule,
+    draw_line,
+    draw_points,
+)
+
+
+@pytest.mark.unit
+def test_marker_rotations_are_deterministic_orthonormal_and_rng_free():
+    p1 = np.zeros((8, 3))
+    p2 = np.array(
+        [
+            [1.0, 0.0, 0.0],
+            [-1.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0],
+            [0.0, -1.0, 0.0],
+            [0.0, 0.0, 1.0],
+            [0.0, 0.0, -1.0],
+            [1.0, 2.0, 3.0],
+            [0.0, 0.0, 0.0],
+        ]
+    )
+
+    rng_state_before = np.random.get_state()
+    first = _rotation_matrix_from_points(p1, p2).as_matrix()
+    rng_state_after = np.random.get_state()
+    second = _rotation_matrix_from_points(p1, p2).as_matrix()
+
+    np.testing.assert_array_equal(first, second)
+    assert rng_state_before[0] == rng_state_after[0]
+    np.testing.assert_array_equal(rng_state_before[1], rng_state_after[1])
+    assert rng_state_before[2:] == rng_state_after[2:]
+    identity = np.broadcast_to(np.eye(3), first.shape)
+    np.testing.assert_allclose(first @ np.swapaxes(first, -1, -2), identity, atol=1e-14)
+    np.testing.assert_allclose(np.linalg.det(first), 1.0, atol=1e-14)
+    expected_z = p2.copy()
+    expected_z[:-1] /= np.linalg.norm(expected_z[:-1], axis=-1, keepdims=True)
+    expected_z[-1] = np.array([0.0, 0.0, 1.0])
+    np.testing.assert_allclose(first[..., 2], expected_z, atol=1e-14)
 
 
 @pytest.mark.unit

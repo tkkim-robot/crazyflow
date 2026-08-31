@@ -101,6 +101,7 @@ class DroneEnv(VectorEnv):
 
         self.n_substeps = self.sim.freq // self.freq
         self._marked_for_reset = jnp.zeros((self.sim.n_worlds), dtype=jnp.bool_, device=self.device)
+        self._seed_task_rng()
 
         # Define action and observation spaces
         self.single_action_space = action_space(self.sim.control, self.sim.drone)
@@ -156,6 +157,7 @@ class DroneEnv(VectorEnv):
         super().reset(seed=seed)
         if seed is not None:
             self.sim.seed(seed)
+            self._seed_task_rng()
         self._reset(options=options)
         self._marked_for_reset = self._marked_for_reset.at[...].set(False)
         return self.obs(), {}
@@ -168,6 +170,11 @@ class DroneEnv(VectorEnv):
 
     def _reset(self, mask: Array | None = None, options: dict | None = None) -> None:
         self.sim.reset(mask=mask)
+
+    def _seed_task_rng(self) -> None:
+        """Seed the RNG stream used by task-specific reset randomization."""
+        seed = int(self.np_random.random() * 2**32)
+        self.jax_key = jax.device_put(jax.random.key(seed), self.device)
 
     def reward(self) -> Array:
         raise NotImplementedError

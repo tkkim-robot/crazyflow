@@ -1,0 +1,171 @@
+"""Fixed-shape direct-wrench rollouts for the shared quadrotor fallback actor."""
+
+from __future__ import annotations
+
+import math
+from typing import TYPE_CHECKING, NamedTuple
+
+import jax
+import jax.numpy as jnp
+from jax import Array
+
+from crazyflow.safety.da_plcbf.direct_wrench import direct_wrench_dynamics
+from crazyflow.safety.da_plcbf.quad_policy import shared_quad_fallback_wrenches
+
+if TYPE_CHECKING:
+    from crazyflow.safety.da_plcbf.actor import (
+        SharedActorConfig,
+        SharedActorParams,
+        SharedActorSpec,
+    )
+    from crazyflow.safety.da_plcbf.quad_policy import QuadPolicyConfig
+    from crazyflow.safety.da_plcbf.types import CircleScenarioBatch
+    from crazyflow.safety.da_plcbf.version_a_barriers import VersionAModel
+    from crazyflow.safety.da_plcbf.version_a_filter import VersionAActuator
+
+
+class QuadRolloutBatch(NamedTuple):
+    """Full state/wrench/actor traces with policy and scenario leading axes."""
+
+    states: Array
+    wrenches: Array
+    desired_accelerations: Array
+    raw_motor_forces: Array
+    bounded_motor_forces: Array
+    policy_valid: Array
+
+
+def _integrate_body_rate_xyzw(quaternion: Array, body_rate: Array, dt: float) -> Array:
+    """Right-compose the exact constant-body-rate quaternion exponential.
+
+    This is equivalent to ``Rotation.from_quat(q) * Rotation.from_rotvec(omega * dt)`` but avoids
+    a JAX 0.11.1 CUDA lowering bug inside batched ``lax.scan``.  ``sinc`` supplies the analytic
+    zero-rate limit without a divide-by-zero branch.
+    """
+    quaternion = quaternion / jnp.linalg.norm(quaternion, axis=-1, keepdims=True)
+    rate_norm = jnp.linalg.norm(body_rate, axis=-1, keepdims=True)
+    angle = rate_norm * dt
+    half_angle = 0.5 * angle
+    # Spell out sin(x)/x instead of ``jnp.sinc``: its custom derivative in JAX 0.11.1 corrupts a
+    # scalar constant shape under reverse-mode differentiation of a batched CUDA ``lax.scan``.
+    # The fourth-order zero-angle branch is the analytic series and keeps both branches finite.
+    angle_squared = angle * angle
+    small_sinc = 1.0 - angle_squared / 24.0 + angle_squared * angle_squared / 1920.0
+    safe_angle = jnp.where(angle > 32.0 * jnp.finfo(body_rate.dtype).eps, angle, 1.0)
+    half_sinc = jnp.where(
+        angle > 32.0 * jnp.finfo(body_rate.dtype).eps,
+        2.0 * jnp.sin(half_angle) / safe_angle,
+        small_sinc,
+    )
+    vector_scale = 0.5 * dt * half_sinc
+    delta_vector = body_rate * vector_scale
+    delta_scalar = jnp.cos(half_angle)
+    vector = quaternion[..., :3]
+    scalar = quaternion[..., 3:4]
+    composed_vector = (
+        scalar * delta_vector + delta_scalar * vector + jnp.linalg.cross(vector, delta_vector)
+    )
+    composed_scalar = scalar * delta_scalar - jnp.sum(vector * delta_vector, axis=-1, keepdims=True)
+    composed = jnp.concatenate((composed_vector, composed_scalar), axis=-1)
+    return composed / jnp.linalg.norm(composed, axis=-1, keepdims=True)
+
+
+def direct_wrench_symplectic_step(
+    state: Array, wrench: Array, model: VersionAModel, dt: float
+) -> Array:
+    """Advance a flattened Version-A state using Crazyflow's symplectic ordering."""
+    if state.shape[-1:] != (13,) or wrench.shape != (*state.shape[:-1], 4):
+        raise ValueError("state/wrench shapes must be (..., 13) and (..., 4)")
+    if not math.isfinite(dt) or dt <= 0:
+        raise ValueError("dt must be finite and positive")
+    derivative = direct_wrench_dynamics(
+        state[..., :3],
+        state[..., 3:7],
+        state[..., 7:10],
+        state[..., 10:13],
+        wrench,
+        mass=model.mass,
+        gravity_vec=model.gravity_vec,
+        J=model.inertia,
+        J_inv=model.inertia_inv,
+        drag_matrix=model.drag_matrix,
+        wind_velocity=model.wind_velocity,
+        external_force=model.external_force,
+        external_torque=model.external_torque,
+    )
+    next_velocity = state[..., 7:10] + derivative.vel_dot * dt
+    next_angular_velocity = state[..., 10:13] + derivative.ang_vel_dot * dt
+    next_position = state[..., :3] + next_velocity * dt
+    safe_angular_velocity = jnp.where(
+        jnp.abs(next_angular_velocity) < jnp.finfo(state.dtype).smallest_normal,
+        0.0,
+        next_angular_velocity,
+    )
+    next_quaternion = _integrate_body_rate_xyzw(state[..., 3:7], safe_angular_velocity, dt)
+    return jnp.concatenate(
+        (next_position, next_quaternion, next_velocity, next_angular_velocity), axis=-1
+    )
+
+
+def rollout_shared_quad_library(
+    params: SharedActorParams,
+    spec: SharedActorSpec,
+    initial_states: Array,
+    scenarios: CircleScenarioBatch,
+    model: VersionAModel,
+    actuator: VersionAActuator,
+    *,
+    dt: float,
+    horizon: int,
+    policy_gain: float,
+    actor_config: SharedActorConfig,
+    quad_config: QuadPolicyConfig,
+) -> QuadRolloutBatch:
+    """Roll out every policy/scenario through the differentiable direct-wrench plant."""
+    if initial_states.ndim != 2 or initial_states.shape[-1] != 13:
+        raise ValueError("initial_states must have shape (B, 13)")
+    if initial_states.shape[0] != scenarios.obstacle_centers.shape[0]:
+        raise ValueError("initial state and scenario batches must match")
+    if not math.isfinite(dt) or dt <= 0:
+        raise ValueError("dt must be finite and positive")
+    if isinstance(horizon, bool) or not isinstance(horizon, int) or horizon <= 0:
+        raise ValueError("horizon must be a positive integer")
+    if not math.isfinite(policy_gain) or policy_gain <= 0:
+        raise ValueError("policy_gain must be finite and positive")
+    policy_count = spec.base_codes.shape[0]
+    current = jnp.broadcast_to(initial_states[None, ...], (policy_count, *initial_states.shape))
+    horizon_duration = horizon * dt
+
+    def advance(state: Array, step_index: Array) -> tuple[Array, tuple[Array, ...]]:
+        command = shared_quad_fallback_wrenches(
+            params,
+            spec,
+            state,
+            scenarios,
+            model,
+            actuator,
+            elapsed=step_index * dt,
+            horizon_duration=horizon_duration,
+            policy_gain=policy_gain,
+            actor_config=actor_config,
+            quad_config=quad_config,
+        )
+        following = direct_wrench_symplectic_step(state, command.wrench, model, dt)
+        return following, (
+            following,
+            command.wrench,
+            command.desired_acceleration,
+            command.raw_motor_forces,
+            command.bounded_motor_forces,
+            command.input_valid,
+        )
+
+    _, outputs = jax.lax.scan(advance, current, jnp.arange(horizon, dtype=current.dtype))
+    future, wrench, acceleration, raw_motor, bounded_motor, valid = (
+        jnp.moveaxis(value, 0, 2) for value in outputs
+    )
+    states = jnp.concatenate((current[:, :, None, :], future), axis=2)
+    return QuadRolloutBatch(states, wrench, acceleration, raw_motor, bounded_motor, valid)
+
+
+__all__ = ["QuadRolloutBatch", "direct_wrench_symplectic_step", "rollout_shared_quad_library"]

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from dataclasses import replace
 from pathlib import Path
@@ -169,3 +170,96 @@ def test_bptt_smoke_updates_policy_with_finite_gradients():
     assert result.device_kind
     assert result.jax_version
     assert result.git_commit
+
+
+@pytest.mark.unit
+def test_bptt_artifact_is_complete_and_write_once(tmp_path: Path):
+    """Saved benchmark evidence must retain its caveat/config and reject changed content."""
+    config = bptt.public_config(device="cpu")
+    source = bptt._source_tree_binding()
+    device = jax.devices("cpu")[0]
+    raw = (2.0, 2.1)
+    quantiles = np.quantile(np.asarray(raw), (0.50, 0.95, 0.99))
+    result = bptt.BPTTResult(
+        protocol="public",
+        device=str(device),
+        requested_timesteps=config.total_timesteps,
+        actual_timesteps=config.actual_timesteps,
+        optimizer_updates=config.n_updates,
+        compile_seconds=1.0,
+        warmup_seconds=1.1,
+        execution_seconds=raw,
+        mean_execution_seconds=2.05,
+        median_execution_seconds=float(quantiles[0]),
+        p95_execution_seconds=float(quantiles[1]),
+        p99_execution_seconds=float(quantiles[2]),
+        best_execution_seconds=2.0,
+        worst_execution_seconds=2.1,
+        steps_per_second=config.actual_timesteps / 2.05,
+        first_loss=1.0,
+        final_loss=0.5,
+        first_gradient_norm=0.2,
+        final_gradient_norm=0.1,
+        parameter_delta_norm=0.3,
+        evaluation_steps=0,
+        evaluation_rmse_mm=None,
+        device_platform=device.platform,
+        device_kind=device.device_kind,
+        jax_version=jax.__version__,
+        jaxlib_version=bptt.jaxlib.__version__,
+        crazyflow_version=bptt.crazyflow_version,
+        git_commit=source["git_commit"],
+        git_dirty=source["git_dirty"],
+        source_digest=source["tree_sha256"],
+        source_file_count=source["file_count"],
+    )
+    document = bptt.bptt_artifact_document(
+        config, result, caveat="current public-artifact adaptation only"
+    )
+    destination = tmp_path / "nested" / "bptt.json"
+
+    bptt.write_bptt_artifact(document, destination)
+    bptt.write_bptt_artifact(document, destination)
+    loaded = json.loads(destination.read_text())
+    assert loaded["schema"] == bptt.BPTT_ARTIFACT_SCHEMA
+    assert loaded["schema_version"] == bptt.BPTT_ARTIFACT_SCHEMA_VERSION
+    assert loaded["caveat"] == document["caveat"]
+    assert loaded["config"]["protocol"] == "public"
+    assert loaded["result"]["execution_seconds"] == [2.0, 2.1]
+
+    changed = json.loads(json.dumps(document))
+    changed["caveat"] = "different substantive protocol caveat"
+    unsigned = {key: value for key, value in changed.items() if key != "integrity"}
+    changed["integrity"]["digest"] = bptt._canonical_digest(unsigned)
+    with pytest.raises(FileExistsError, match="differs"):
+        bptt.write_bptt_artifact(changed, destination)
+
+    report = bptt.verify_bptt_artifact(
+        destination, require_current_source=True, require_current_runtime=True
+    )
+    assert report["valid"]
+    assert not report["integrity_is_authentication"]
+
+
+@pytest.mark.unit
+def test_bptt_verifier_rejects_rehashed_inconsistent_raw_summary(tmp_path: Path):
+    """Recomputing the outer digest must not bless fabricated raw/derived timing disagreement."""
+    config = replace(
+        bptt.public_config(device="cpu"),
+        n_envs=2,
+        rollout_steps=4,
+        total_timesteps=8,
+        n_samples=3,
+        hidden_size=4,
+    )
+    result = bptt.run_bptt(config, repeats=1, evaluation_steps=0)
+    document = bptt.bptt_artifact_document(
+        config, result, caveat="current public-artifact adaptation smoke only"
+    )
+    tampered = json.loads(json.dumps(document))
+    tampered["result"]["execution_seconds"][0] *= 0.5
+    unsigned = {key: value for key, value in tampered.items() if key != "integrity"}
+    tampered["integrity"]["digest"] = bptt._canonical_digest(unsigned)
+
+    with pytest.raises(ValueError, match="inconsistent with raw benchmark data"):
+        bptt.verify_bptt_artifact(tampered)

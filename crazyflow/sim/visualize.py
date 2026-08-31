@@ -148,11 +148,22 @@ def change_material(
 
 
 def _rotation_matrix_from_points(p1: NDArray, p2: NDArray) -> R:
-    """Generate rotation matrices that align their z-axis to p2-p1."""
-    p1, p2 = p1.copy(), p2.copy()  # Make sure we don't modify the original arrays
-    p2[np.linalg.norm(p2 - p1, axis=-1) < 1e-6] += 1e-6
-    z_axis = (v := p2 - p1) / np.linalg.norm(v, axis=-1, keepdims=True)
-    random_vector = np.random.rand(*z_axis.shape)
-    x_axis = (v := np.cross(random_vector, z_axis)) / np.linalg.norm(v, axis=-1, keepdims=True)
+    """Generate deterministic rotation matrices whose z-axis points from ``p1`` to ``p2``.
+
+    Rotation about the segment is immaterial for the axis-symmetric marker geometries, but it must
+    still be well-defined. The Cartesian axis least aligned with the segment provides a stable,
+    deterministic reference. Degenerate segments use the world z-axis and therefore remain finite
+    without perturbing the inputs or consuming NumPy's global random state.
+    """
+    direction = np.asarray(p2, dtype=float) - np.asarray(p1, dtype=float)
+    norm = np.linalg.norm(direction, axis=-1, keepdims=True)
+    degenerate = norm[..., 0] <= 1e-12
+    safe_norm = np.where(degenerate[..., None], 1.0, norm)
+    z_axis = np.where(degenerate[..., None], np.array([0.0, 0.0, 1.0]), direction / safe_norm)
+
+    # Choosing the least-aligned Cartesian axis bounds the cross-product norm away from zero.
+    reference_axis = np.eye(3)[np.argmin(np.abs(z_axis), axis=-1)]
+    x_axis = np.cross(reference_axis, z_axis)
+    x_axis /= np.linalg.norm(x_axis, axis=-1, keepdims=True)
     y_axis = np.cross(z_axis, x_axis)
     return R.from_matrix(np.stack((x_axis, y_axis, z_axis), axis=-1))
