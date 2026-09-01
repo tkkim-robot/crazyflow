@@ -1,9 +1,9 @@
-"""Evidence-faithful offline scientific dashboards and visual-review records.
+"""Evidence-faithful offline ego-centric scientific videos and visual-review records.
 
 This module deliberately renders only fields that are present in an :class:`ImmutableTrace` or
 an exactly bound :class:`ScenarioTape`.  In particular, controls are never integrated into an
 invented trajectory and scenario references are never relabelled as controller-nominal rollouts.
-Panels explicitly say ``UNAVAILABLE`` when the version-1 artifact schema cannot carry the requested
+The scene explicitly says ``UNAVAILABLE`` when the version-1 artifact schema cannot carry requested
 evidence.
 
 Frames are rendered with Matplotlib's non-interactive Agg canvas and encoded by the project's
@@ -29,7 +29,7 @@ import imageio_ffmpeg
 import numpy as np
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Circle, Rectangle
 
 from crazyflow.safety.da_plcbf.artifacts import ArtifactEvent, ImmutableTrace, file_sha256
 from crazyflow.safety.da_plcbf.dashboard import VideoValidation, validate_mp4
@@ -56,6 +56,29 @@ _GREEN = "#3bc17c"
 _RED = "#e8505b"
 _PURPLE = "#ab83ff"
 _YELLOW = "#f4d35e"
+
+# The camera follows the ego vehicle but never zooms.  These projected-metre spans keep the
+# complete quadrotor footprint visible while retaining enough context for encounter geometry.
+_EGO_VIEW_WIDTH = 7.5
+_EGO_VIEW_HEIGHT = 4.2
+_UPDATE_NOTICE_SECONDS = 0.35
+
+_METHOD_LABELS = {
+    "nominal_only": "Nominal controller",
+    "analytic_cbf_hocbf": "Analytic CBF/HOCBF",
+    "fixed_fallback_pcbf": "Fixed-fallback PCBF",
+    "handcrafted_fixed_library_plcbf": "Handcrafted fixed-library PLCBF",
+    "offline_frozen_sdcbf_style": "Offline-frozen SDCBF-style baseline",
+    "da_plcbf_no_online_model_adaptation": "DA-PLCBF without online model adaptation",
+    "da_plcbf_full": "DA-PLCBF main method",
+}
+
+_CONDITION_LABELS = {
+    "static": "static obstacles",
+    "ballistic_ball": "ballistic-object encounter",
+    "interceptor_drone": "interceptor-drone encounter",
+    "dynamics_change": "changing dynamics / wind",
+}
 
 _REQUIRED_REVIEW_CHECKS = (
     "original_resolution_inspected",
@@ -86,6 +109,15 @@ class ChangeAnnotation:
     step: int
     label: str
     kind: str
+
+
+@dataclass(frozen=True, slots=True)
+class _AdaptationNotice:
+    """Short-lived, evidence-derived BPTT activity or completion notice."""
+
+    label: str
+    detail: str
+    color: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -876,25 +908,234 @@ class _RenderContext:
         self.safe_policy_count = _safe_policy_counts(trace)
 
 
+def _display_headings(events: Sequence[ArtifactEvent]) -> tuple[str, str]:
+    """Build a plain-language title from the recorded campaign identity."""
+    method = None
+    condition = None
+    for event in events:
+        if event.name.replace("-", "_") != "trial_started":
+            continue
+        raw_method = event.details.get("method")
+        raw_condition = event.details.get("condition")
+        method = raw_method if isinstance(raw_method, str) else None
+        condition = raw_condition if isinstance(raw_condition, str) else None
+        break
+    if method is None:
+        heading = "DA-PLCBF SAFETY FILTER • ego-centric finite-horizon replay"
+    elif method == "da_plcbf_full":
+        heading = "DA-PLCBF MAIN METHOD • online fallback synthesis + safety filtering"
+    else:
+        heading = f"{_METHOD_LABELS.get(method, method.replace('_', ' ').title())} • comparison"
+    condition_text = _CONDITION_LABELS.get(
+        condition or "", (condition or "unspecified condition").replace("_", " ")
+    )
+    if method is None or method.startswith("da_plcbf"):
+        purpose = (
+            f"Condition: {condition_text} • Inspect closed-loop evasion, all fallback rollouts, "
+            "the selected maneuver, nearby hazards, and online BPTT updates"
+        )
+    else:
+        purpose = (
+            f"Condition: {condition_text} • Inspect closed-loop behavior, available fallback "
+            "selection, nearby hazards, and comparison with the DA-PLCBF main method"
+        )
+    return heading, purpose
+
+
+def _draw_runtime_hud(axis: Any, context: _RenderContext, step: int, control_label: str) -> None:
+    """Overlay the few numeric facts needed to interpret the encounter scene."""
+    trace = context.trace
+    safe_count = context.safe_policy_count[step]
+    safe_text = f"{int(safe_count)}/{len(trace.policy_names)}" if np.isfinite(safe_count) else "N/A"
+    intervention = context.intervention[step]
+    intervention_text = f"{intervention:.3f}" if np.isfinite(intervention) else "N/A"
+    text = (
+        f"t = {trace.time[step]:.3f} s    step {step + 1}/{trace.steps}\n"
+        f"{control_label}    hard margin = {context.minimum_margin[step]:+.3e}\n"
+        f"certified fallbacks = {safe_text}    control intervention = {intervention_text}\n"
+        f"active snapshot v{int(trace.snapshot_version[step])}    "
+        f"dynamics model v{int(trace.model_version[step])}"
+    )
+    axis.text(
+        0.015,
+        0.975,
+        text,
+        transform=axis.transAxes,
+        color=_TEXT,
+        fontsize=9.2,
+        weight="bold",
+        va="top",
+        linespacing=1.35,
+        bbox={
+            "boxstyle": "round,pad=0.55",
+            "facecolor": _BACKGROUND,
+            "edgecolor": _GRID,
+            "alpha": 0.90,
+        },
+        zorder=30,
+    )
+
+
+def _adaptation_notice(
+    trace: ImmutableTrace,
+    sidecar: DashboardEvidence | None,
+    events: Sequence[ArtifactEvent],
+    step: int,
+) -> _AdaptationNotice | None:
+    """Return a temporary BPTT status notice derived only from recorded outcomes."""
+    normalized = lambda event: event.name.replace("-", "_")  # noqa: E731
+    completed = [
+        event
+        for event in events
+        if event.category == "adaptation"
+        and event.step <= step
+        and normalized(event) in {"candidate_admitted", "candidate_rejected", "candidate_failed"}
+    ]
+    current_time = float(trace.time[step])
+    dt = float(np.median(np.diff(trace.time)))
+    if completed:
+        event = completed[-1]
+        if current_time - event.time_seconds <= max(_UPDATE_NOTICE_SECONDS, 3.0 * dt):
+            outcome = normalized(event)
+            backend = event.details.get("bptt_execution_backend")
+            backend_text = f" ON {str(backend).upper()}" if isinstance(backend, str) else ""
+            elapsed = event.details.get("bptt_execution_seconds")
+            elapsed_text = (
+                f" • training {float(elapsed) * 1e3:.1f} ms"
+                if isinstance(elapsed, Real)
+                and not isinstance(elapsed, bool)
+                and math.isfinite(elapsed)
+                else ""
+            )
+            if outcome == "candidate_admitted":
+                published = event.details.get("published_snapshot_version")
+                version_text = (
+                    f"snapshot v{int(published)} is now active"
+                    if isinstance(published, Integral) and not isinstance(published, bool)
+                    else "new fallback library is now active"
+                )
+                return _AdaptationNotice(
+                    f"BPTT UPDATE COMPLETE{backend_text} • ADMITTED",
+                    f"Safety gates passed • {version_text}{elapsed_text}",
+                    _GREEN,
+                )
+            if outcome == "candidate_rejected":
+                return _AdaptationNotice(
+                    f"BPTT UPDATE COMPLETE{backend_text} • REJECTED",
+                    "Safety gates rejected candidate • previous fallback library retained"
+                    f"{elapsed_text}",
+                    _ORANGE,
+                )
+            return _AdaptationNotice(
+                f"BPTT UPDATE{backend_text} • FAILED",
+                "Candidate failed before admission • previous fallback library retained",
+                _RED,
+            )
+
+    # Sidecar-only replays still carry aligned admission outcomes even if the event stream was not
+    # supplied.  Keep the same short-lived visual semantics without inventing timing/backend data.
+    if sidecar is not None and bool(sidecar.admission_recorded):
+        outcomes = np.flatnonzero(
+            (sidecar.candidate_admitted | sidecar.candidate_rejected)[: step + 1]
+        )
+        if outcomes.size:
+            outcome_step = int(outcomes[-1])
+            if current_time - float(trace.time[outcome_step]) <= max(
+                _UPDATE_NOTICE_SECONDS, 3.0 * dt
+            ):
+                if bool(sidecar.candidate_admitted[outcome_step]):
+                    return _AdaptationNotice(
+                        "BPTT UPDATE COMPLETE • ADMITTED",
+                        "Safety gates passed • new fallback library is active",
+                        _GREEN,
+                    )
+                return _AdaptationNotice(
+                    "BPTT UPDATE COMPLETE • REJECTED",
+                    "Safety gates rejected candidate • previous fallback library retained",
+                    _ORANGE,
+                )
+
+    submitted = [
+        event
+        for event in events
+        if event.category == "adaptation"
+        and event.step <= step
+        and normalized(event) == "candidate_submitted"
+    ]
+    completed_jobs = {
+        event.details.get("job_id")
+        for event in completed
+        if event.details.get("job_id") is not None
+    }
+    open_jobs = [event for event in submitted if event.details.get("job_id") not in completed_jobs]
+    if open_jobs:
+        job = open_jobs[-1]
+        job_id = job.details.get("job_id")
+        suffix = f" #{int(job_id)}" if isinstance(job_id, Integral) else ""
+        return _AdaptationNotice(
+            f"BPTT FALLBACK TRAINING ACTIVE{suffix}",
+            "Differentiable rollout optimization is building a candidate library",
+            _PURPLE,
+        )
+    return None
+
+
+def _draw_adaptation_notice(figure: Figure, notice: _AdaptationNotice) -> None:
+    """Draw a high-contrast temporary BPTT banner over the single scene."""
+    figure.add_artist(
+        Rectangle(
+            (0.40, 0.775),
+            0.565,
+            0.076,
+            transform=figure.transFigure,
+            facecolor=notice.color,
+            edgecolor=_TEXT,
+            linewidth=2.2,
+            alpha=0.96,
+            zorder=100,
+        )
+    )
+    figure.text(
+        0.6825,
+        0.824,
+        notice.label,
+        color=_BACKGROUND,
+        fontsize=13,
+        weight="bold",
+        ha="center",
+        va="center",
+        zorder=101,
+    )
+    figure.text(
+        0.6825,
+        0.793,
+        notice.detail,
+        color=_BACKGROUND,
+        fontsize=8.8,
+        weight="bold",
+        ha="center",
+        va="center",
+        zorder=101,
+    )
+
+
+def _ego_camera_limits(center: np.ndarray) -> tuple[tuple[float, float], tuple[float, float]]:
+    """Return the fixed-span camera limits around one projected ego position."""
+    value = np.asarray(center, dtype=np.float64)
+    if value.shape != (2,) or not np.all(np.isfinite(value)):
+        raise ValueError("projected ego camera center must be a finite length-two vector")
+    return (
+        (float(value[0] - 0.5 * _EGO_VIEW_WIDTH), float(value[0] + 0.5 * _EGO_VIEW_WIDTH)),
+        (float(value[1] - 0.5 * _EGO_VIEW_HEIGHT), float(value[1] + 0.5 * _EGO_VIEW_HEIGHT)),
+    )
+
+
 def _render_frame(context: _RenderContext, step: int, width: int, height: int) -> np.ndarray:
     trace = context.trace
     figure = Figure(figsize=(width / 100.0, height / 100.0), dpi=100, facecolor=_BACKGROUND)
     canvas = FigureCanvasAgg(figure)
-    grid = figure.add_gridspec(
-        3, 4, left=0.035, right=0.985, bottom=0.055, top=0.885, wspace=0.31, hspace=0.46
-    )
-    world = figure.add_subplot(grid[0, 0:2])
-    policy = figure.add_subplot(grid[0, 2])
-    margin = figure.add_subplot(grid[0, 3])
-    dynamics = figure.add_subplot(grid[1, 0])
-    learning = figure.add_subplot(grid[1, 1:3])
-    controls = figure.add_subplot(grid[1, 3])
-    latency = figure.add_subplot(grid[2, 0:2])
-    descriptor = figure.add_subplot(grid[2, 2])
-    evidence = figure.add_subplot(grid[2, 3])
-    axes = (world, policy, margin, dynamics, learning, controls, latency, descriptor, evidence)
-    for axis in axes:
-        _style_axis(axis)
+    world = figure.add_axes((0.035, 0.065, 0.93, 0.79))
+    _style_axis(world)
 
     status, status_color = _status(trace, step)
     control_label = (
@@ -902,63 +1143,35 @@ def _render_frame(context: _RenderContext, step: int, width: int, height: int) -
         if bool(trace.executed_control[step])
         else "TERMINAL OBSERVATION • NO CONTROL"
     )
-    figure.text(
-        0.035,
-        0.975,
-        "DA-PLCBF • finite-horizon scientific replay",
-        color=_TEXT,
-        fontsize=15,
-        weight="bold",
-        va="top",
-    )
-    figure.text(
-        0.985,
-        0.975,
-        (
-            f"t={trace.time[step]:.3f} s  |  step {step + 1}/{trace.steps}  |  "
-            f"{control_label}  |  "
-            f"margin={context.minimum_margin[step]:+.3e}  |  "
-            f"snapshot={int(trace.snapshot_version[step])}  model={int(trace.model_version[step])}"
-        ),
-        color=_TEXT,
-        fontsize=9,
-        ha="right",
-        va="top",
-    )
+    heading, purpose = _display_headings(context.events)
+    figure.text(0.035, 0.975, heading, color=_TEXT, fontsize=15.5, weight="bold", va="top")
+    figure.text(0.035, 0.940, purpose, color=_MUTED, fontsize=9.5, va="top")
     figure.add_artist(
         Rectangle(
-            (0.0, 0.921),
+            (0.0, 0.875),
             1.0,
-            0.018,
+            0.023,
             transform=figure.transFigure,
             facecolor=status_color,
             edgecolor="none",
         )
     )
     figure.text(
-        0.5, 0.930, status, color=_BACKGROUND, fontsize=8, weight="bold", ha="center", va="center"
+        0.5, 0.8865, status, color=_BACKGROUND, fontsize=9, weight="bold", ha="center", va="center"
     )
 
     _plot_world(world, context, step, status_color)
-    _plot_policy(policy, context, step)
-    _plot_margin(margin, context, step)
-    _plot_dynamics(dynamics, context, step)
-    _plot_learning(learning, context, step)
-    _plot_controls(controls, context, step)
-    _plot_latency(latency, context, step)
-    _plot_descriptor(descriptor, context, step)
-    _plot_evidence(evidence, context, step)
-    for rendered_axis in figure.axes:
-        for title in (rendered_axis.title, rendered_axis._left_title, rendered_axis._right_title):
-            title.set_color(_TEXT)
-            title.set_fontsize(8.2)
+    _draw_runtime_hud(world, context, step, control_label)
+    notice = _adaptation_notice(trace, context.sidecar, context.events, step)
+    if notice is not None:
+        _draw_adaptation_notice(figure, notice)
     figure.text(
         0.5,
-        0.018,
-        "Numeric trace is authoritative • missing evidence is labelled, never inferred • "
-        "safety claim is finite-horizon only",
+        0.022,
+        "Ego-follow camera: fixed 7.5 m × 4.2 m projected window • recorded data only • "
+        "finite-horizon safety status",
         color=_MUTED,
-        fontsize=7.5,
+        fontsize=8,
         ha="center",
     )
     canvas.draw()
@@ -970,18 +1183,16 @@ def _render_frame(context: _RenderContext, step: int, width: int, height: int) -
 
 def _plot_world(axis: Any, context: _RenderContext, step: int, status_color: str) -> None:
     trace, tape = context.trace, context.tape
-    axis.set_title("Isometric world • recorded geometry", loc="left")
-    axis.set_xlabel("projected horizontal axis")
-    axis.set_ylabel("projected height axis")
+    axis.set_title("Ego-centric encounter scene • camera follows ego without zooming", loc="left")
+    axis.set_xlabel("")
+    axis.set_ylabel("")
     if context.position_indices is None:
         _unavailable(axis, "ACTUAL TRAJECTORY UNAVAILABLE\nno recognized position columns")
         return
     indices = context.position_indices
     actual = trace.true_state[:, indices]
-    estimated = trace.estimated_state[:, indices]
     actual_uv = _isometric(actual)
-    estimated_uv = _isometric(estimated)
-    world_points = [actual_uv, estimated_uv]
+    world_points = [actual_uv]
     if tape is not None:
         reference_uv = _isometric(tape.defender_reference_position)
         world_points.append(reference_uv)
@@ -991,7 +1202,7 @@ def _plot_world(axis: Any, context: _RenderContext, step: int, status_color: str
             color=_MUTED,
             linestyle=":",
             linewidth=1.0,
-            label="scenario reference (not nominal rollout)",
+            label="task reference path",
         )
         sidecar_prediction = context.sidecar is not None and np.any(
             context.sidecar.prediction_available[step]
@@ -1001,25 +1212,18 @@ def _plot_world(axis: Any, context: _RenderContext, step: int, status_color: str
         )
     if context.sidecar is not None:
         _plot_sidecar_world(axis, context.sidecar, step, world_points)
-    points = np.concatenate(world_points, axis=0)
-    span = np.maximum(np.ptp(points, axis=0), 0.5)
-    center = 0.5 * (np.min(points, axis=0) + np.max(points, axis=0))
-    axis.set_xlim(center[0] - 0.62 * span[0], center[0] + 0.62 * span[0])
-    axis.set_ylim(center[1] - 0.62 * span[1], center[1] + 0.62 * span[1])
-    axis.plot(
-        estimated_uv[: step + 1, 0],
-        estimated_uv[: step + 1, 1],
-        color=_ORANGE,
-        linestyle="--",
-        linewidth=1.2,
-        label="estimated state",
-    )
+    center = actual_uv[step]
+    x_limits, y_limits = _ego_camera_limits(center)
+    axis.set_xlim(*x_limits)
+    axis.set_ylim(*y_limits)
+    axis.set_aspect("equal", adjustable="box")
     axis.plot(
         actual_uv[: step + 1, 0],
         actual_uv[: step + 1, 1],
         color=_CYAN,
-        linewidth=2.2,
-        label="actual state",
+        linewidth=3.0,
+        label="closed-loop trajectory history",
+        zorder=8,
     )
     unsafe = np.flatnonzero(trace.failure[: step + 1])
     degraded = np.flatnonzero(trace.degraded[: step + 1] & ~trace.failure[: step + 1])
@@ -1029,14 +1233,27 @@ def _plot_world(axis: Any, context: _RenderContext, step: int, status_color: str
         )
     if unsafe.size:
         axis.scatter(actual_uv[unsafe, 0], actual_uv[unsafe, 1], s=34, c=_RED, marker="x", zorder=9)
+    vehicle_radius = (float(tape.vehicle_radius) if tape is not None else 0.12) * math.sqrt(1.5)
+    axis.add_patch(
+        Circle(
+            (actual_uv[step, 0], actual_uv[step, 1]),
+            vehicle_radius,
+            facecolor=status_color,
+            edgecolor=_TEXT,
+            linewidth=2.0,
+            zorder=12,
+            label="ego vehicle footprint",
+        )
+    )
     axis.scatter(
         actual_uv[step, 0],
         actual_uv[step, 1],
-        s=65,
-        facecolors=status_color,
+        s=115,
+        c=status_color,
         edgecolors=_TEXT,
-        linewidths=1.0,
-        zorder=10,
+        linewidths=1.4,
+        marker="o",
+        zorder=13,
     )
     missing = []
     sidecar = context.sidecar
@@ -1055,18 +1272,21 @@ def _plot_world(axis: Any, context: _RenderContext, step: int, status_color: str
             f"rollouts unavailable now: {', '.join(missing)}",
             transform=axis.transAxes,
             color=_YELLOW,
-            fontsize=6.5,
+            fontsize=7.5,
             va="bottom",
         )
     axis.legend(
-        loc="upper right",
-        fontsize=5.2,
-        frameon=False,
+        loc="lower center",
+        bbox_to_anchor=(0.5, 0.012),
+        fontsize=7.2,
+        frameon=True,
+        facecolor=_BACKGROUND,
+        edgecolor=_GRID,
         labelcolor=_TEXT,
-        ncol=4,
-        columnspacing=0.7,
-        handlelength=1.5,
-        borderaxespad=0.2,
+        ncol=5,
+        columnspacing=1.1,
+        handlelength=2.0,
+        borderaxespad=0.25,
     )
 
 
@@ -1082,28 +1302,48 @@ def _plot_scenario_geometry(
     if len(static):
         projected = _isometric(static)
         world_points.append(projected)
-        axis.scatter(
-            projected[:, 0],
-            projected[:, 1],
-            s=26,
-            facecolors="none",
-            edgecolors=_PURPLE,
-            linewidths=1.0,
-            label="static obstacle centers",
-        )
+        radii = tape.static_radii[tape.static_mask] * math.sqrt(1.5)
+        for index, (center, radius) in enumerate(zip(projected, radii, strict=True)):
+            axis.add_patch(
+                Circle(
+                    (center[0], center[1]),
+                    float(radius),
+                    facecolor=_PURPLE,
+                    edgecolor=_TEXT,
+                    alpha=0.34,
+                    linewidth=1.0,
+                    label="static obstacle footprint" if index == 0 else None,
+                    zorder=3,
+                )
+            )
     dynamic_mask = tape.dynamic_slot_mask & tape.dynamic_time_mask[step]
     dynamic = tape.dynamic_positions[step, dynamic_mask]
     if len(dynamic):
         projected = _isometric(dynamic)
         world_points.append(projected)
+        radii = tape.dynamic_radii[dynamic_mask] * math.sqrt(1.5)
+        for center, radius in zip(projected, radii, strict=True):
+            axis.add_patch(
+                Circle(
+                    (center[0], center[1]),
+                    float(radius),
+                    facecolor=_RED,
+                    edgecolor=_TEXT,
+                    alpha=0.72,
+                    linewidth=1.0,
+                    zorder=9,
+                )
+            )
         axis.scatter(
             projected[:, 0],
             projected[:, 1],
-            s=30,
+            s=70,
             c=_RED,
             marker="D",
-            label="dynamic truth",
-            zorder=7,
+            edgecolors=_TEXT,
+            linewidths=0.7,
+            label="other agent / dynamic obstacle",
+            zorder=10,
         )
     if plot_predictions:
         for slot in np.flatnonzero(dynamic_mask):
@@ -1114,16 +1354,7 @@ def _plot_scenario_geometry(
                     continue
                 projected = _isometric(prediction)
                 world_points.append(projected)
-                axis.plot(projected[:, 0], projected[:, 1], color=_RED, alpha=0.08, linewidth=0.55)
-    axis.text(
-        0.01,
-        0.07,
-        "obstacle markers show centers; hard-margin panel carries clearance",
-        transform=axis.transAxes,
-        color=_MUTED,
-        fontsize=6.0,
-        va="bottom",
-    )
+                axis.plot(projected[:, 0], projected[:, 1], color=_RED, alpha=0.12, linewidth=0.8)
 
 
 def _plot_sidecar_world(
@@ -1136,9 +1367,10 @@ def _plot_sidecar_world(
             projected[:, 0],
             projected[:, 1],
             color=_YELLOW,
-            linestyle=":",
-            linewidth=1.5,
-            label="recorded held nominal preview",
+            linestyle="--",
+            linewidth=2.0,
+            label="nominal preview",
+            zorder=5,
         )
     first_fallback = True
     for policy in np.flatnonzero(sidecar.fallback_rollout_available[step]):
@@ -1148,32 +1380,25 @@ def _plot_sidecar_world(
             projected[:, 0],
             projected[:, 1],
             color=_PURPLE,
-            alpha=0.20,
-            linewidth=0.65,
-            label="recorded fallback library" if first_fallback else None,
+            alpha=0.34,
+            linewidth=1.0,
+            label="all fallback rollouts" if first_fallback else None,
+            zorder=4,
         )
         first_fallback = False
     if sidecar.selected_rollout_available[step]:
         projected = _isometric(sidecar.selected_rollout_positions[step])
         world_points.append(projected)
         axis.plot(
-            projected[:, 0],
-            projected[:, 1],
-            color=_GREEN,
-            linewidth=2.2,
-            label="recorded selected rollout",
+            projected[:, 0], projected[:, 1], color=_TEXT, linewidth=5.2, alpha=0.92, zorder=6
         )
-    ghost_colors = (_MUTED, _ORANGE, _CYAN, _PURPLE)
-    for ghost in np.flatnonzero(sidecar.ghost_rollout_available[step]):
-        projected = _isometric(sidecar.ghost_rollout_positions[step, ghost])
-        world_points.append(projected)
         axis.plot(
             projected[:, 0],
             projected[:, 1],
-            color=ghost_colors[ghost % len(ghost_colors)],
-            linestyle="--",
-            linewidth=1.0,
-            label=f"ghost: {sidecar.ghost_rollout_names[ghost]}",
+            color=_GREEN,
+            linewidth=3.4,
+            label="selected fallback rollout",
+            zorder=7,
         )
     labelled_prediction = False
     prediction = sidecar.prediction_positions[step]
@@ -1191,9 +1416,10 @@ def _plot_sidecar_world(
                 projected[:, 0],
                 projected[:, 1],
                 color=_RED,
-                alpha=0.14,
-                linewidth=0.7,
-                label="recorded prediction tube" if not labelled_prediction else None,
+                alpha=0.20,
+                linewidth=0.85,
+                label="agent prediction ensemble" if not labelled_prediction else None,
+                zorder=2,
             )
             labelled_prediction = True
 
@@ -1707,8 +1933,9 @@ def _style_axis(axis: Any) -> None:
     for spine in axis.spines.values():
         spine.set_color(_GRID)
     axis.grid(True, color=_GRID, alpha=0.35, linewidth=0.5)
-    axis.title.set_color(_TEXT)
-    axis.title.set_fontsize(8.2)
+    for title in (axis.title, axis._left_title, axis._right_title):
+        title.set_color(_TEXT)
+        title.set_fontsize(9.2)
     axis.xaxis.label.set_color(_MUTED)
     axis.yaxis.label.set_color(_MUTED)
     axis.xaxis.label.set_size(6.5)

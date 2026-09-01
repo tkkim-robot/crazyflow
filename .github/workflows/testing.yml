@@ -26,7 +26,8 @@ jobs:
       - name: Verify pixi and run tests
         run: |
           pixi --version
-          pixi run -e tests tests
+          pixi run -e tests pytest --collect-only -q @tests/core-tests.txt
+          pixi run -e tests tests-full
 
   test-docs:
     runs-on: ubuntu-latest

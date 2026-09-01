@@ -3,20 +3,29 @@
 An admission event is only a convenient index.  It is not scientific evidence by itself.  This
 module persists the immutable active/candidate payloads, the held-out numerical evidence, the
 hard-gate thresholds/report, and the active snapshot visible at the publication boundary.  A
-validator then recomputes the report and replays :class:`ActiveSnapshotStore.admit` before an
-online run may be treated as claim eligible.
+validator recomputes the hard report and :class:`ActiveSnapshotStore.admit` transition before an
+online run may be treated as claim eligible.  It deliberately does not rerun BPTT: accelerator
+kernels may differ by harmless floating-point roundoff across machines and driver versions.
 """
 
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, fields
+from numbers import Integral, Real
 from pathlib import Path
-from typing import Any, Literal
+from typing import Any, Literal, Mapping
 
 import jax
 import numpy as np
 
+from crazyflow.safety.da_plcbf.actor import (
+    SharedActorConfig,
+    SharedActorParams,
+    SharedActorSpec,
+    initialize_shared_actor,
+    validate_shared_actor_shapes,
+)
 from crazyflow.safety.da_plcbf.artifacts import (
     ArtifactEvent,
     ImmutableTrace,
@@ -24,8 +33,14 @@ from crazyflow.safety.da_plcbf.artifacts import (
     _canonical_array_digest,
     _deterministic_npz_bytes,
     _load_strict_npz,
+    validate_provenance,
 )
-from crazyflow.safety.da_plcbf.snapshots import ActiveSnapshotStore, PolicySnapshot, _FrozenLeaf
+from crazyflow.safety.da_plcbf.snapshots import (
+    ActiveSnapshotStore,
+    PolicySnapshot,
+    _FrozenLeaf,
+    create_active_snapshot,
+)
 from crazyflow.safety.da_plcbf.validation import (
     GATE_NAMES,
     GateResult,
@@ -35,10 +50,32 @@ from crazyflow.safety.da_plcbf.validation import (
     hard_validate_candidate,
 )
 
-ADAPTATION_EVIDENCE_SCHEMA_VERSION = 1
-_PREFIX = b"crazyflow.da_plcbf.adaptation-evidence.v1\0"
+ADAPTATION_EVIDENCE_SCHEMA_VERSION = 7
+BPTT_EXECUTION_CONTRACT = "gpu-preferred-jit-fixed-budget-lineage-bound-no-replay-v1"
+ADMISSION_RUNTIME_SCOPE = "complete_prepublication_candidate_job_excluding_compile_and_warmup"
+ADMISSION_PUBLICATION_ACCOUNTING = (
+    "startup publication is pre-control; logical-mode publication is included in postprocessing "
+    "and wall_step; realtime-mode boundary publication is included in command_preparation and "
+    "wall_step"
+)
+_PREFIX = b"crazyflow.da_plcbf.adaptation-evidence.v7\0"
 _SNAPSHOT_ROLES = ("proposal_active", "decision_active", "candidate", "publication_active")
 _STATUSES = frozenset({"admitted", "rejected", "expired"})
+_PARAMS_CODEC = "shared_actor_params.v1"
+_CORE_CODEC = "shared_actor_spec.v1"
+_PARAMS_FIELDS = (
+    "code_offsets",
+    "velocity_offsets",
+    "duration_offsets",
+    "input_kernel",
+    "input_bias",
+    "hidden_kernel",
+    "hidden_bias",
+    "output_kernel",
+    "output_bias",
+)
+_CORE_FIELDS = ("base_codes", "base_desired_velocities", "base_durations", "adaptive_mask")
+_INITIAL_SNAPSHOT_METADATA = {"initialization": "deterministic_structured_zero_residual"}
 
 
 @dataclass(frozen=True, slots=True)
@@ -87,15 +124,97 @@ class AdaptationEvidence:
         return _canonical_array_digest(_PREFIX, _evidence_arrays(self))
 
 
+def _scheduled_initial_snapshot(
+    reference: PolicySnapshot, shared_stochastic_seed: int
+) -> PolicySnapshot:
+    """Reconstruct the scheduled version-0 actor from its authoritative paired seed."""
+    if (
+        isinstance(shared_stochastic_seed, bool)
+        or not isinstance(shared_stochastic_seed, Integral)
+        or not 0 <= int(shared_stochastic_seed) <= np.iinfo(np.uint64).max
+    ):
+        raise ValueError("shared stochastic seed must be an unsigned 64-bit integer")
+    params = reference.params
+    spec = reference.structural_core
+    if type(params) is not SharedActorParams or type(spec) is not SharedActorSpec:
+        raise ValueError("adaptation lineage root is not a registered shared actor snapshot")
+    if (
+        params.output_bias.ndim != 1
+        or params.input_bias.ndim != 1
+        or params.input_kernel.ndim != 2
+        or spec.base_codes.ndim != 2
+    ):
+        raise ValueError("adaptation lineage root has invalid shared actor geometry")
+    dimension = int(params.output_bias.shape[0])
+    hidden_width = int(params.input_bias.shape[0])
+    code_width = int(spec.base_codes.shape[1])
+    obstacle_feature_width = dimension + 2
+    obstacle_features = int(params.input_kernel.shape[0]) - code_width - 4 * dimension - 1
+    if (
+        dimension <= 0
+        or hidden_width <= 0
+        or obstacle_features < 0
+        or obstacle_features % obstacle_feature_width != 0
+    ):
+        raise ValueError("adaptation lineage root has invalid shared actor geometry")
+    obstacle_count = obstacle_features // obstacle_feature_width
+    validate_shared_actor_shapes(params, spec, dimension=dimension, n_obstacles=obstacle_count)
+    cpu = jax.devices("cpu")[0]
+    with jax.default_device(cpu):
+        initial_params = initialize_shared_actor(
+            jax.random.key(int(shared_stochastic_seed) & 0xFFFFFFFF),
+            jax.device_put(spec, cpu),
+            dimension=dimension,
+            n_obstacles=obstacle_count,
+            config=SharedActorConfig(hidden_width=hidden_width),
+        )
+    return create_active_snapshot(
+        initial_params,
+        version=0,
+        model_version=0,
+        structural_core=spec,
+        metadata=_INITIAL_SNAPSHOT_METADATA,
+    )
+
+
+def _same_snapshot_identity(actual: PolicySnapshot, expected: PolicySnapshot) -> bool:
+    return actual.version == expected.version and actual.digest == expected.digest
+
+
+def _validate_policy_lineage(
+    decisions: tuple[AdaptationDecisionProof, ...], shared_stochastic_seed: int
+) -> None:
+    """Bind the first proof to the schedule and every later proof to prior publication."""
+    scheduled = _scheduled_initial_snapshot(decisions[0].proposal_active, shared_stochastic_seed)
+    first = decisions[0]
+    if not _same_snapshot_identity(first.proposal_active, scheduled) or not _same_snapshot_identity(
+        first.decision_active, scheduled
+    ):
+        raise ValueError(
+            "adaptation lineage root does not match the scheduled initial policy snapshot"
+        )
+    previous = first.publication_active
+    for proof in decisions[1:]:
+        if not _same_snapshot_identity(
+            proof.proposal_active, previous
+        ) or not _same_snapshot_identity(proof.decision_active, previous):
+            raise ValueError(
+                "adaptation policy lineage forks from the previous publication snapshot"
+            )
+        previous = proof.publication_active
+
+
 def validate_adaptation_evidence_binding(
     evidence: AdaptationEvidence,
     trace: ImmutableTrace,
     events: tuple[ArtifactEvent, ...],
     *,
+    shared_stochastic_seed: int,
     tape: Any | None = None,
     condition: Any | None = None,
     method: Any | None = None,
     config: Any | None = None,
+    provenance: Mapping[str, Any] | None = None,
 ) -> None:
     """Recompute every report/admission and bind each proof to the trace and event stream."""
     if not isinstance(evidence, AdaptationEvidence):
@@ -111,7 +230,7 @@ def validate_adaptation_evidence_binding(
     if any(item is None for item in numerical_context) and not all(
         item is None for item in numerical_context
     ):
-        raise ValueError("adaptation numerical replay requires tape, condition, method, and config")
+        raise ValueError("adaptation context requires tape, condition, method, and config")
 
     decision_events = tuple(
         event
@@ -127,10 +246,18 @@ def validate_adaptation_evidence_binding(
     )
     if len(decision_events) != len(evidence.decisions):
         raise ValueError("adaptation proof count does not match completed decision events")
+    _validate_policy_lineage(evidence.decisions, shared_stochastic_seed)
+    online_job_ids = [proof.job_id for proof in evidence.decisions if proof.phase == "online"]
+    if len(online_job_ids) != len(set(online_job_ids)):
+        raise ValueError("adaptation online decision proofs reuse a scheduler job id")
+    if config is not None:
+        configured_thresholds = _configured_validation_thresholds(config)
+        if any(proof.thresholds != configured_thresholds for proof in evidence.decisions):
+            raise ValueError("adaptation hard-validation thresholds do not match the configuration")
 
     previous_boundary = -1
     for index, (proof, event) in enumerate(zip(evidence.decisions, decision_events, strict=True)):
-        _validate_decision_proof(proof, trace)
+        _validate_decision_proof(proof, trace, event)
         if proof.boundary_step < previous_boundary:
             raise ValueError("adaptation decision proofs are not in boundary order")
         previous_boundary = proof.boundary_step
@@ -172,19 +299,90 @@ def validate_adaptation_evidence_binding(
             raise ValueError("online adaptation event has an invalid publication boundary")
         if index == 0 and proof.phase != "cold_start":
             raise ValueError("the first online-library decision must be cold-start admission")
-    if all(item is not None for item in numerical_context):
-        _validate_numerical_inputs(
-            evidence.decisions,
-            trace,
-            events=events,
-            tape=tape,
-            condition=condition,
-            method=method,
-            config=config,
-        )
+    _validate_trace_snapshot_lineage(evidence.decisions, trace)
+    if provenance is not None:
+        _validate_adaptation_device_roles(evidence.decisions, decision_events, provenance)
+    # BPTT is intentionally not replayed.  Snapshot integrity, scheduled-root lineage, persisted
+    # hard evidence, report recomputation, and publication CAS are all checked above.  This keeps
+    # safety admission independently auditable without requiring byte-identical CUDA arithmetic.
 
 
-def _validate_decision_proof(proof: AdaptationDecisionProof, trace: ImmutableTrace) -> None:
+def _validate_trace_snapshot_lineage(
+    decisions: tuple[AdaptationDecisionProof, ...], trace: ImmutableTrace
+) -> None:
+    """Replay the published active-version state machine across every trace row."""
+    for index, proof in enumerate(decisions):
+        stop = decisions[index + 1].boundary_step if index + 1 < len(decisions) else trace.steps
+        observed = trace.snapshot_version[proof.boundary_step : stop]
+        if not np.all(observed == proof.publication_active.version):
+            raise ValueError(
+                "adaptation trace snapshot-version segment does not match its publication lineage"
+            )
+
+
+def _configured_validation_thresholds(config: Any) -> HardValidationThresholds:
+    return HardValidationThresholds(
+        minimum_current_margin=0.0,
+        safe_policy_margin=0.0,
+        local_non_regression_tolerance=config.validation_retention_tolerance,
+        minimum_coverage=config.validation_minimum_coverage,
+        minimum_redundancy=config.validation_minimum_redundancy,
+        minimum_diversity=config.validation_minimum_diversity,
+        minimum_feasible_fraction=1.0,
+        maximum_runtime_seconds=config.validation_runtime_budget_seconds,
+    )
+
+
+def _validate_adaptation_device_roles(
+    decisions: tuple[AdaptationDecisionProof, ...],
+    decision_events: tuple[ArtifactEvent, ...],
+    provenance: Mapping[str, Any],
+) -> None:
+    """Cross-bind authoritative BPTT/validation device claims to run provenance."""
+    role_devices = validate_provenance(provenance)["jax"]["role_devices"]
+    for proof, event in zip(decisions, decision_events, strict=True):
+        metadata = proof.candidate.metadata
+        if (
+            metadata.get("bptt_execution_contract") != BPTT_EXECUTION_CONTRACT
+            or event.details.get("bptt_execution_contract") != BPTT_EXECUTION_CONTRACT
+        ):
+            raise ValueError("adaptation BPTT execution contract is not proof-bound")
+        bptt_device = metadata.get("bptt_execution_device")
+        validation_device = event.details.get("validation_execution_device")
+        if (
+            not isinstance(bptt_device, str)
+            or not bptt_device
+            or event.details.get("bptt_execution_device") != bptt_device
+            or bptt_device != role_devices["bptt"]
+        ):
+            raise ValueError("adaptation BPTT device does not match run provenance")
+        if (
+            not isinstance(validation_device, str)
+            or not validation_device
+            or validation_device != role_devices["validation"]
+        ):
+            raise ValueError("adaptation validation device does not match run provenance")
+        backend = metadata.get("bptt_execution_backend")
+        device_id = metadata.get("bptt_execution_device_id")
+        if (
+            backend not in {"gpu", "cpu"}
+            or isinstance(device_id, bool)
+            or not isinstance(device_id, int)
+            or device_id < 0
+            or event.details.get("bptt_execution_backend") != backend
+            or event.details.get("bptt_execution_device_id") != device_id
+            or event.details.get("validation_cache_key") != f"evidence:online:{backend}:{device_id}"
+            or not isinstance(event.details.get("validation_compiled_cache_hit"), bool)
+            or event.details.get("validation_execution_synchronized") is not True
+            or event.details.get("validation_compilation_excluded_from_execution_timing")
+            is not True
+        ):
+            raise ValueError("adaptation execution device/cache identity is not proof-bound")
+
+
+def _validate_decision_proof(
+    proof: AdaptationDecisionProof, trace: ImmutableTrace, event: ArtifactEvent
+) -> None:
     if proof.phase not in {"cold_start", "online"} or proof.status not in _STATUSES:
         raise ValueError("adaptation proof phase/status is invalid")
     if (
@@ -198,8 +396,8 @@ def _validate_decision_proof(proof: AdaptationDecisionProof, trace: ImmutableTra
         or not 0 <= proof.boundary_step < trace.steps
     ):
         raise ValueError("adaptation proof job/boundary is invalid")
-    if proof.phase == "cold_start" and proof.context_step != 0:
-        raise ValueError("cold-start adaptation proof must use context step zero")
+    if proof.phase == "cold_start" and (proof.context_step != 0 or proof.boundary_step != 0):
+        raise ValueError("cold-start adaptation proof must use context and boundary step zero")
     if (
         isinstance(proof.decision_model_version, bool)
         or not isinstance(proof.decision_model_version, int)
@@ -208,6 +406,48 @@ def _validate_decision_proof(proof: AdaptationDecisionProof, trace: ImmutableTra
         raise ValueError("adaptation proof decision model version is invalid")
     if not proof.publication_reason:
         raise ValueError("adaptation proof publication reason is empty")
+    metadata = proof.candidate.metadata
+    if (
+        metadata.get("bptt_execution_contract") != BPTT_EXECUTION_CONTRACT
+        or event.details.get("bptt_execution_contract") != BPTT_EXECUTION_CONTRACT
+    ):
+        raise ValueError("adaptation BPTT execution contract is not proof-bound")
+    for name in (
+        "bptt_input_digest",
+        "bptt_cache_key",
+        "bptt_execution_backend",
+        "bptt_execution_device_id",
+        "bptt_execution_device",
+    ):
+        if event.details.get(name) != metadata.get(name):
+            raise ValueError(f"adaptation {name} is not candidate/event bound")
+    backend = metadata.get("bptt_execution_backend")
+    if (
+        backend not in {"gpu", "cpu"}
+        or event.details.get("execution_device_is_gpu") is not (backend == "gpu")
+        or event.details.get("execution_device_is_cpu") is not (backend == "cpu")
+    ):
+        raise ValueError("adaptation BPTT execution-device evidence is inconsistent")
+    context_model_version = int(trace.model_version[proof.context_step])
+    boundary_model_version = int(trace.model_version[proof.boundary_step])
+    if (
+        proof.candidate.model_version != context_model_version
+        or proof.report.model_version != context_model_version
+    ):
+        raise ValueError("adaptation proposal model version does not match its causal context")
+    if proof.decision_model_version != boundary_model_version:
+        raise ValueError("adaptation decision model version does not match its boundary trace row")
+    if int(event.model_version) != proof.decision_model_version:
+        raise ValueError("adaptation decision model version does not match its decision event")
+    event_model_versions = {
+        "training_model_version": proof.candidate.model_version,
+        "validation_model_version": proof.report.model_version,
+        "decision_model_version": proof.decision_model_version,
+    }
+    if any(event.details.get(name) != expected for name, expected in event_model_versions.items()):
+        raise ValueError("adaptation decision event model-version lineage is not proof-bound")
+    _validate_admission_runtime_binding(proof, event)
+    _validate_event_gate_diagnostics(proof, event)
 
     snapshots = (
         proof.proposal_active,
@@ -276,6 +516,71 @@ def _validate_decision_proof(proof: AdaptationDecisionProof, trace: ImmutableTra
         raise ValueError("adaptation proof active snapshot does not match its boundary trace row")
 
 
+def _validate_admission_runtime_binding(
+    proof: AdaptationDecisionProof, event: ArtifactEvent
+) -> None:
+    runtime = np.asarray(proof.evidence.runtime_seconds)
+    recorded = event.details.get("admission_runtime_seconds")
+    if (
+        runtime.shape != (1,)
+        or not np.issubdtype(runtime.dtype, np.number)
+        or not np.isfinite(runtime[0])
+        or float(runtime[0]) < 0.0
+        or isinstance(recorded, bool)
+        or not isinstance(recorded, Real)
+        or not np.isfinite(float(recorded))
+        or float(recorded) < 0.0
+        or float(runtime[0]) != float(recorded)
+    ):
+        raise ValueError("adaptation gate runtime is not bound to its decision event")
+    details = event.details
+    excluded = details.get("admission_excluded_compile_warmup_seconds")
+    excluded_parts = tuple(
+        details.get(name)
+        for name in (
+            "bptt_compile_seconds",
+            "bptt_warmup_seconds",
+            "validation_compile_seconds",
+            "validation_warmup_seconds",
+        )
+    )
+    if (
+        details.get("admission_runtime_scope") != ADMISSION_RUNTIME_SCOPE
+        or details.get("admission_publication_included") is not False
+        or details.get("admission_publication_accounting") != ADMISSION_PUBLICATION_ACCOUNTING
+        or details.get("bptt_compilation_excluded_from_execution_timing") is not True
+        or details.get("validation_compilation_excluded_from_execution_timing") is not True
+        or isinstance(excluded, bool)
+        or not isinstance(excluded, Real)
+        or not np.isfinite(float(excluded))
+        or float(excluded) < 0.0
+        or any(isinstance(value, bool) or not isinstance(value, Real) for value in excluded_parts)
+        or any(not np.isfinite(float(value)) or float(value) < 0.0 for value in excluded_parts)
+        or float(excluded) != sum(float(value) for value in excluded_parts)
+    ):
+        raise ValueError("adaptation admission timing scope/accounting is not proof-bound")
+
+
+def _validate_event_gate_diagnostics(proof: AdaptationDecisionProof, event: ArtifactEvent) -> None:
+    local_retention = np.asarray(proof.report.candidate_local_best) - np.asarray(
+        proof.report.active_local_best
+    )
+    admission_margin = float(
+        np.min(local_retention + proof.thresholds.local_non_regression_tolerance)
+    )
+    expected = {
+        "report_passed": proof.report.passed,
+        "failed_gates": list(proof.report.failed_gate_names),
+        "admission_margin": admission_margin,
+        "minimum_coverage_threshold": proof.thresholds.minimum_coverage,
+        "minimum_redundancy_threshold": proof.thresholds.minimum_redundancy,
+        "minimum_diversity_threshold": proof.thresholds.minimum_diversity,
+        "retention_tolerance": proof.thresholds.local_non_regression_tolerance,
+    }
+    if any(event.details.get(name) != value for name, value in expected.items()):
+        raise ValueError("adaptation decision gate diagnostics are not proof-bound")
+
+
 def _validate_numerical_inputs(
     decisions: tuple[AdaptationDecisionProof, ...],
     trace: ImmutableTrace,
@@ -285,6 +590,7 @@ def _validate_numerical_inputs(
     condition: Any,
     method: Any,
     config: Any,
+    shared_stochastic_seed: int,
 ) -> None:
     """Reconstruct proposal/held-out batches and hard evidence from the scheduled tape."""
     import jax.numpy as jnp
@@ -294,42 +600,54 @@ def _validate_numerical_inputs(
         _VALIDATION_FOLD_NAMES,
         ConditionID,
         _auxiliary_tape,
+        _bptt_runtime_input_digest,
+        _build_bptt_executable_pool,
         _candidate_evidence_device,
         _hard_validation_batch,
         _numeric_digest,
         _replay_dashboard_dynamics_and_contexts,
         _resources_for_tape,
+        _resources_on_device,
         _scenario_digest,
         _training_batch,
         build_experiment_resources,
     )
     from crazyflow.safety.da_plcbf.library import descriptor_targets_from_spec
-    from crazyflow.safety.da_plcbf.quad_actor_bptt import (
-        build_dynamic_model_quad_actor_bptt_functions,
-    )
-    from crazyflow.safety.da_plcbf.quad_actor_losses import QuadLearningConfig
-    from crazyflow.safety.da_plcbf.snapshots import create_active_snapshot
 
     obstacle_count = tape.static_positions.shape[0] + tape.dynamic_positions.shape[1]
     selected_condition = ConditionID(condition)
     resources = _resources_for_tape(
-        build_experiment_resources(config, obstacle_count=obstacle_count, initialization_seed=0),
+        build_experiment_resources(
+            config,
+            obstacle_count=obstacle_count,
+            initialization_seed=int(shared_stochastic_seed) & 0xFFFFFFFF,
+        ),
         tape,
         config,
     )
     schema_reference = create_active_snapshot(
-        resources.initial_params, structural_core=resources.spec, model_version=0
+        resources.initial_params,
+        version=0,
+        model_version=0,
+        structural_core=resources.spec,
+        metadata=_INITIAL_SNAPSHOT_METADATA,
     )
+    if not _same_snapshot_identity(decisions[0].proposal_active, schema_reference) or not (
+        _same_snapshot_identity(decisions[0].decision_active, schema_reference)
+    ):
+        raise ValueError(
+            "adaptation lineage root does not match the configured scheduled "
+            "initial policy snapshot"
+        )
     replay = _replay_dashboard_dynamics_and_contexts(
         trace, tape, selected_condition, method, config
     )
     controller_models = replay[4]
     model_samples = replay[5]
     heldout = _auxiliary_tape(tape, selected_condition, config, purpose="hard-validation")
-    learning = QuadLearningConfig(
-        dt=config.dt, horizon=config.certificate_horizon, policy_gain=config.policy_gain
-    )
     bptt_by_device: dict[tuple[str, int], Any] = {}
+    compiled_bursts_by_device: dict[tuple[str, int], Any] = {}
+    compiled_evidence_by_device: dict[tuple[str, int], Any] = {}
     resources_by_device: dict[tuple[str, int], Any] = {}
     for proof in decisions:
         if proof.proposal_active.params_schema_digest != schema_reference.params_schema_digest:
@@ -342,6 +660,7 @@ def _validate_numerical_inputs(
         expected_metadata = {
             "algorithm": "fixed_budget_truncated_bptt",
             "burst_steps": config.bptt_burst_steps,
+            "bptt_execution_contract": BPTT_EXECUTION_CONTRACT,
             "objective": "plcbf_aligned_coverage_diversity",
             "bptt_execution_scope": "compiled_burst_only",
             "bptt_compilation_excluded_from_execution_timing": True,
@@ -357,6 +676,8 @@ def _validate_numerical_inputs(
         if len(matching_events) != 1:
             raise ValueError("adaptation BPTT replay has no unique decision event")
         decision_details = matching_events[0].details
+        if decision_details.get("bptt_execution_contract") != BPTT_EXECUTION_CONTRACT:
+            raise ValueError("adaptation event BPTT execution contract is not proof-bound")
         backend = metadata.get("bptt_execution_backend")
         device_id = metadata.get("bptt_execution_device_id")
         if (
@@ -376,17 +697,27 @@ def _validate_numerical_inputs(
         if len(matching_devices) != 1:
             raise ValueError("adaptation BPTT execution device is unavailable or ambiguous")
         proof_device = matching_devices[0]
-        isolated_cpu = decision_details.get("execution_device_is_cpu")
-        if not isinstance(isolated_cpu, bool):
-            raise ValueError("adaptation event omits the BPTT device-isolation evidence")
+        is_gpu = decision_details.get("execution_device_is_gpu")
+        is_cpu = decision_details.get("execution_device_is_cpu")
+        if not isinstance(is_gpu, bool) or not isinstance(is_cpu, bool) or is_gpu == is_cpu:
+            raise ValueError("adaptation event omits valid BPTT device evidence")
         cache_key = metadata.get("bptt_cache_key")
-        expected_cache_key = f"online:{backend}:{device_id}" if isolated_cpu else "startup:default"
+        expected_cache_key = f"online:{backend}:{device_id}"
+        execution_device_name = str(proof_device)
         if (
             cache_key != expected_cache_key
-            or (isolated_cpu and (proof.phase != "online" or backend != "cpu"))
             or decision_details.get("bptt_cache_key") != cache_key
             or decision_details.get("bptt_execution_backend") != backend
             or decision_details.get("bptt_execution_device_id") != device_id
+            or metadata.get("bptt_execution_device") != execution_device_name
+            or decision_details.get("bptt_execution_device") != execution_device_name
+            or decision_details.get("validation_execution_device") != execution_device_name
+            or decision_details.get("validation_cache_key")
+            != f"evidence:online:{backend}:{device_id}"
+            or not isinstance(decision_details.get("validation_compiled_cache_hit"), bool)
+            or decision_details.get("validation_execution_synchronized") is not True
+            or decision_details.get("validation_compilation_excluded_from_execution_timing")
+            is not True
         ):
             raise ValueError("adaptation BPTT execution backend is not proof-bound")
 
@@ -397,27 +728,14 @@ def _validate_numerical_inputs(
 
         proof_resources = resources_by_device.get(device_key)
         if proof_resources is None:
-            proof_resources = replace(
-                resources,
-                model=on_device(resources.model),
-                actuator=on_device(resources.actuator),
-                spec=on_device(resources.spec),
-                initial_params=on_device(resources.initial_params),
-            )
+            proof_resources = _resources_on_device(resources, proof_device)
             resources_by_device[device_key] = proof_resources
         bptt = bptt_by_device.get(device_key)
         if bptt is None:
-            bptt = build_dynamic_model_quad_actor_bptt_functions(
-                proof_resources.spec,
-                proof_resources.actuator,
-                proof_resources.actor_config,
-                proof_resources.quad_config,
-                proof_resources.barrier_config,
-                learning,
-                proof_resources.loss_config,
-                burst_steps=config.bptt_burst_steps,
-                device=proof_device,
-            )
+            pool = _build_bptt_executable_pool(proof_resources, config, device=proof_device)
+            if pool.device_key != device_key:
+                raise ValueError("adaptation replay executable device is not proof-bound")
+            bptt = pool.bptt
             bptt_by_device[device_key] = bptt
 
         with jax.default_device(proof_device):
@@ -447,7 +765,7 @@ def _validate_numerical_inputs(
             descriptor_scales_device = on_device(
                 jnp.asarray([2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0], dtype=state.dtype)
             )
-            trained, metrics = bptt.burst(
+            burst_arguments = (
                 optimizer,
                 initial_states,
                 circles,
@@ -457,10 +775,37 @@ def _validate_numerical_inputs(
                 descriptor_scales_device,
                 controller_model,
             )
+            bptt_input_digest = _bptt_runtime_input_digest(burst_arguments)
+            if (
+                metadata.get("bptt_input_digest") != bptt_input_digest
+                or decision_details.get("bptt_input_digest") != bptt_input_digest
+            ):
+                raise ValueError("adaptation BPTT runtime-input digest does not replay")
+            validation = _hard_validation_batch(
+                tape, heldout, state, proof.context_step, controller_model, proof_resources, config
+            )
+            validation = validation._replace(
+                initial_states=on_device(validation.initial_states),
+                scenarios=on_device(validation.scenarios),
+            )
+            if metadata.get("hard_validation_digest") != validation.digest:
+                raise ValueError("adaptation hard-validation batch digest does not replay")
+            compiled_burst = compiled_bursts_by_device.get(device_key)
+            if compiled_burst is None:
+                compiled_burst = bptt.burst.lower(*burst_arguments).compile()
+                trained_warmup, metrics_warmup = compiled_burst(*burst_arguments)
+                jax.block_until_ready((trained_warmup, metrics_warmup))
+                compiled_bursts_by_device[device_key] = compiled_burst
+            trained, metrics = compiled_burst(*burst_arguments)
         replayed_leaves, replayed_tree = jax.tree_util.tree_flatten(trained.params)
         candidate_leaves, candidate_tree = jax.tree_util.tree_flatten(proof.candidate.params)
+        if any(
+            (str(leaf.device.platform), int(leaf.device.id)) != device_key
+            for leaf in replayed_leaves
+        ):
+            raise ValueError("adaptation replay executed on a device other than its proof")
         if replayed_tree != candidate_tree or any(
-            not np.array_equal(np.asarray(actual), np.asarray(expected))
+            not _candidate_leaf_matches_replay(actual, expected, backend=backend)
             for actual, expected in zip(replayed_leaves, candidate_leaves, strict=True)
         ):
             raise ValueError("adaptation candidate parameters do not match deterministic BPTT")
@@ -489,16 +834,6 @@ def _validate_numerical_inputs(
             )
         ):
             raise ValueError("adaptation event BPTT gradient/loss evidence does not replay")
-        with jax.default_device(proof_device):
-            validation = _hard_validation_batch(
-                tape, heldout, state, proof.context_step, controller_model, proof_resources, config
-            )
-            validation = validation._replace(
-                initial_states=on_device(validation.initial_states),
-                scenarios=on_device(validation.scenarios),
-            )
-        if metadata.get("hard_validation_digest") != validation.digest:
-            raise ValueError("adaptation hard-validation batch digest does not replay")
         expected_validation_digest = _scenario_digest(
             tape.sha256, proof.candidate.model_version, validation.digest, *_VALIDATION_FOLD_NAMES
         )
@@ -516,21 +851,52 @@ def _validate_numerical_inputs(
                 )
             )
             candidate_params = on_device(jax.tree.map(jnp.asarray, proof.candidate.params))
-        current, candidate_local, active_local, descriptors, feasibility = (
-            np.asarray(value)
-            for value in _candidate_evidence_device(
-                candidate_params,
-                active_params,
-                proof_resources.spec,
-                validation.initial_states,
-                validation.scenarios,
-                state,
-                window,
-                controller_model,
-                samples,
-                proof_resources,
-                config,
+        evidence_arguments = (
+            candidate_params,
+            active_params,
+            validation.initial_states,
+            validation.scenarios,
+            state,
+            window,
+            controller_model,
+            samples,
+        )
+        compiled_evidence = compiled_evidence_by_device.get(device_key)
+        if compiled_evidence is None:
+
+            def evidence_function(
+                candidate_params: Any,
+                active_params: Any,
+                validation_initial_states: Any,
+                validation_scenarios: Any,
+                state: Any,
+                window: Any,
+                controller_model: Any,
+                samples: Any,
+            ) -> Any:
+                return _candidate_evidence_device(
+                    candidate_params,
+                    active_params,
+                    proof_resources.spec,
+                    validation_initial_states,
+                    validation_scenarios,
+                    state,
+                    window,
+                    controller_model,
+                    samples,
+                    proof_resources,
+                    config,
+                )
+
+            compiled_evidence = _compile_candidate_evidence_replay(
+                evidence_function, evidence_arguments
             )
+            compiled_evidence_by_device[device_key] = compiled_evidence
+        with jax.default_device(proof_device):
+            replayed_evidence = compiled_evidence(*evidence_arguments)
+            jax.block_until_ready(replayed_evidence)
+        current, candidate_local, active_local, descriptors, feasibility = (
+            np.asarray(value) for value in replayed_evidence
         )
         descriptor_scales = np.asarray(
             [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0], dtype=np.asarray(descriptors).dtype
@@ -553,10 +919,36 @@ def _validate_numerical_inputs(
         )
         if any(
             np.asarray(actual).shape != np.asarray(replayed).shape
-            or not np.allclose(actual, replayed, rtol=3e-6, atol=3e-6)
+            or np.asarray(actual).dtype != np.asarray(replayed).dtype
+            or not np.array_equal(actual, replayed)
             for actual, replayed in zip(observed, expected, strict=True)
         ):
-            raise ValueError("adaptation held-out hard evidence does not numerically replay")
+            raise ValueError("adaptation held-out hard evidence does not replay byte-exactly")
+
+
+def _compile_candidate_evidence_replay(function: Any, arguments: tuple[Any, ...]) -> Any:
+    """Lower hard-evidence replay through the same single compiled graph as production."""
+    compiled = jax.jit(function).lower(*arguments).compile()
+    warmup = compiled(*arguments)
+    jax.block_until_ready(warmup)
+    return compiled
+
+
+def _candidate_leaf_matches_replay(actual: Any, expected: Any, *, backend: str) -> bool:
+    """Compare optional diagnostic replay with accelerator-appropriate tolerance."""
+    actual_array = np.asarray(actual)
+    expected_array = np.asarray(expected)
+    if (
+        backend not in {"cpu", "gpu"}
+        or actual_array.shape != expected_array.shape
+        or actual_array.dtype != expected_array.dtype
+    ):
+        return False
+    if actual_array.dtype.kind in "fc" and (
+        not np.all(np.isfinite(actual_array)) or not np.all(np.isfinite(expected_array))
+    ):
+        return False
+    return np.allclose(actual_array, expected_array, rtol=1e-5, atol=1e-6)
 
 
 def save_adaptation_evidence(
@@ -578,6 +970,17 @@ def load_adaptation_evidence(path: str | Path) -> AdaptationEvidence:
     """Strictly load, reconstruct, and digest-check online adaptation evidence."""
     source = Path(path)
     loaded = _load_strict_npz(source, _EXPECTED_ARRAYS)
+    schema_version = loaded["schema_version"]
+    if (
+        schema_version.shape != ()
+        or schema_version.dtype != np.uint16
+        or int(schema_version) != ADAPTATION_EVIDENCE_SCHEMA_VERSION
+    ):
+        if schema_version.shape == () and schema_version.dtype == np.uint16:
+            raise ValueError(
+                "adaptation evidence schema version is unsupported; regenerate the evidence"
+            )
+        raise ValueError("adaptation evidence schema version is invalid")
     recorded = _scalar_text(loaded.pop("content_sha256"), "content_sha256")
     actual = _canonical_array_digest(_PREFIX, loaded)
     if recorded != actual:
@@ -590,25 +993,47 @@ def load_adaptation_evidence(path: str | Path) -> AdaptationEvidence:
 
 def _snapshot_schema(snapshots: tuple[PolicySnapshot, ...]) -> dict[str, Any]:
     first = snapshots[0]
-    params_proto = first._params_treedef.serialize_using_proto().hex()
-    core_proto = first._core_treedef.serialize_using_proto().hex()
     result = {
-        "params_treedef_proto": params_proto,
+        "params_tree": _tree_descriptor(
+            first.params,
+            expected_type=SharedActorParams,
+            codec=_PARAMS_CODEC,
+            field_names=_PARAMS_FIELDS,
+            role="parameters",
+        ),
         "params_leaves": [
             {"dtype": leaf.dtype, "shape": list(leaf.shape)} for leaf in first._params_leaves
         ],
-        "core_treedef_proto": core_proto,
+        "core_tree": _tree_descriptor(
+            first.structural_core,
+            expected_type=SharedActorSpec,
+            codec=_CORE_CODEC,
+            field_names=_CORE_FIELDS,
+            role="structural core",
+        ),
         "core_leaves": [
             {"dtype": leaf.dtype, "shape": list(leaf.shape)} for leaf in first._core_leaves
         ],
     }
     for snapshot in snapshots[1:]:
         other = {
-            "params_treedef_proto": snapshot._params_treedef.serialize_using_proto().hex(),
+            "params_tree": _tree_descriptor(
+                snapshot.params,
+                expected_type=SharedActorParams,
+                codec=_PARAMS_CODEC,
+                field_names=_PARAMS_FIELDS,
+                role="parameters",
+            ),
             "params_leaves": [
                 {"dtype": leaf.dtype, "shape": list(leaf.shape)} for leaf in snapshot._params_leaves
             ],
-            "core_treedef_proto": snapshot._core_treedef.serialize_using_proto().hex(),
+            "core_tree": _tree_descriptor(
+                snapshot.structural_core,
+                expected_type=SharedActorSpec,
+                codec=_CORE_CODEC,
+                field_names=_CORE_FIELDS,
+                role="structural core",
+            ),
             "core_leaves": [
                 {"dtype": leaf.dtype, "shape": list(leaf.shape)} for leaf in snapshot._core_leaves
             ],
@@ -616,6 +1041,19 @@ def _snapshot_schema(snapshots: tuple[PolicySnapshot, ...]) -> dict[str, Any]:
         if other != result:
             raise ValueError("adaptation proof snapshots do not share one exact numeric schema")
     return result
+
+
+def _tree_descriptor(
+    value: Any, *, expected_type: type[Any], codec: str, field_names: tuple[str, ...], role: str
+) -> dict[str, Any]:
+    """Describe one allowlisted Flax PyTree without serializing executable Python state."""
+    if type(value) is not expected_type:
+        raise ValueError(f"adaptation snapshot {role} must use {expected_type.__name__}")
+    registered_fields = tuple(field.name for field in fields(expected_type))
+    leaves, _ = jax.tree_util.tree_flatten(value)
+    if registered_fields != field_names or len(leaves) != len(field_names):
+        raise ValueError(f"adaptation snapshot {role} codec does not match the registered class")
+    return {"codec": codec, "fields": list(field_names)}
 
 
 def _flatten_snapshot_bytes(snapshot: PolicySnapshot, attribute: str) -> np.ndarray:
@@ -779,7 +1217,11 @@ def _stack_evidence(decisions: tuple[AdaptationDecisionProof, ...], attribute: s
 
 def _evidence_from_arrays(arrays: dict[str, np.ndarray]) -> AdaptationEvidence:
     schema_version = arrays["schema_version"]
-    if schema_version.shape != () or schema_version.dtype != np.uint16 or int(schema_version) != 1:
+    if (
+        schema_version.shape != ()
+        or schema_version.dtype != np.uint16
+        or int(schema_version) != ADAPTATION_EVIDENCE_SCHEMA_VERSION
+    ):
         raise ValueError("adaptation evidence schema version is invalid")
     trace_digest = _scalar_text(arrays["trace_content_sha256"], "trace_content_sha256")
     schema = _parse_schema(_scalar_text(arrays["snapshot_schema_json"], "snapshot_schema_json"))
@@ -875,13 +1317,27 @@ def _parse_schema(raw: str) -> dict[str, Any]:
     except (json.JSONDecodeError, TypeError) as error:
         raise ValueError("adaptation snapshot schema is invalid JSON") from error
     if not isinstance(value, dict) or set(value) != {
-        "params_treedef_proto",
+        "params_tree",
         "params_leaves",
-        "core_treedef_proto",
+        "core_tree",
         "core_leaves",
     }:
         raise ValueError("adaptation snapshot schema fields are invalid")
+    _validate_tree_descriptor(value["params_tree"], codec=_PARAMS_CODEC, field_names=_PARAMS_FIELDS)
+    _validate_tree_descriptor(value["core_tree"], codec=_CORE_CODEC, field_names=_CORE_FIELDS)
     return value
+
+
+def _validate_tree_descriptor(descriptor: Any, *, codec: str, field_names: tuple[str, ...]) -> None:
+    if (
+        not isinstance(descriptor, dict)
+        or set(descriptor) != {"codec", "fields"}
+        or descriptor["codec"] != codec
+        or not isinstance(descriptor["fields"], list)
+        or tuple(descriptor["fields"]) != field_names
+        or any(not isinstance(name, str) for name in descriptor["fields"])
+    ):
+        raise ValueError("adaptation snapshot tree descriptor is invalid")
 
 
 def _snapshot_from_arrays(
@@ -889,15 +1345,20 @@ def _snapshot_from_arrays(
 ) -> PolicySnapshot:
     params = _unpack_leaves(arrays["snapshot_params_bytes"][row, role], schema["params_leaves"])
     core = _unpack_leaves(arrays["snapshot_core_bytes"][row, role], schema["core_leaves"])
-    try:
-        params_treedef = jax.tree_util.PyTreeDef.deserialize_using_proto(
-            jax.tree_util.default_registry, bytes.fromhex(schema["params_treedef_proto"])
-        )
-        core_treedef = jax.tree_util.PyTreeDef.deserialize_using_proto(
-            jax.tree_util.default_registry, bytes.fromhex(schema["core_treedef_proto"])
-        )
-    except (TypeError, ValueError) as error:
-        raise ValueError("adaptation snapshot PyTree schema is invalid") from error
+    params_treedef = _registered_treedef(
+        schema["params_tree"],
+        params,
+        expected_type=SharedActorParams,
+        codec=_PARAMS_CODEC,
+        field_names=_PARAMS_FIELDS,
+    )
+    core_treedef = _registered_treedef(
+        schema["core_tree"],
+        core,
+        expected_type=SharedActorSpec,
+        codec=_CORE_CODEC,
+        field_names=_CORE_FIELDS,
+    )
     snapshot = PolicySnapshot(
         kind=str(arrays["snapshot_kind"][row, role]),  # type: ignore[arg-type]
         version=int(arrays["snapshot_version"][row, role]),
@@ -916,6 +1377,30 @@ def _snapshot_from_arrays(
     return snapshot
 
 
+def _registered_treedef(
+    descriptor: Any,
+    frozen_leaves: tuple[_FrozenLeaf, ...],
+    *,
+    expected_type: type[Any],
+    codec: str,
+    field_names: tuple[str, ...],
+) -> jax.tree_util.PyTreeDef:
+    """Rebuild a PyTree definition from the local allowlist, never artifact-provided code."""
+    _validate_tree_descriptor(descriptor, codec=codec, field_names=field_names)
+    registered_fields = tuple(field.name for field in fields(expected_type))
+    if registered_fields != field_names or len(frozen_leaves) != len(field_names):
+        raise ValueError("adaptation snapshot tree does not match its registered codec")
+    values = {name: leaf.array() for name, leaf in zip(field_names, frozen_leaves, strict=True)}
+    try:
+        instance = expected_type(**values)
+        leaves, treedef = jax.tree_util.tree_flatten(instance)
+    except (TypeError, ValueError) as error:
+        raise ValueError("adaptation snapshot tree reconstruction failed") from error
+    if type(instance) is not expected_type or len(leaves) != len(frozen_leaves):
+        raise ValueError("adaptation snapshot tree reconstruction is invalid")
+    return treedef
+
+
 def _unpack_leaves(raw: np.ndarray, schema: Any) -> tuple[_FrozenLeaf, ...]:
     if raw.dtype != np.uint8 or raw.ndim != 1 or not isinstance(schema, list):
         raise ValueError("adaptation snapshot byte payload/schema is invalid")
@@ -925,11 +1410,28 @@ def _unpack_leaves(raw: np.ndarray, schema: Any) -> tuple[_FrozenLeaf, ...]:
     for item in schema:
         if not isinstance(item, dict) or set(item) != {"dtype", "shape"}:
             raise ValueError("adaptation snapshot leaf schema is invalid")
-        dtype = np.dtype(item["dtype"])
-        shape = tuple(int(value) for value in item["shape"])
-        if dtype.kind not in "biufc" or any(value < 0 for value in shape):
+        if not isinstance(item["dtype"], str) or not isinstance(item["shape"], list):
             raise ValueError("adaptation snapshot leaf dtype/shape is invalid")
-        size = int(dtype.itemsize * np.prod(shape, dtype=np.int64))
+        if any(
+            isinstance(value, bool) or not isinstance(value, int) or value < 0
+            for value in item["shape"]
+        ):
+            raise ValueError("adaptation snapshot leaf dtype/shape is invalid")
+        try:
+            dtype = np.dtype(item["dtype"])
+        except (TypeError, ValueError) as error:
+            raise ValueError("adaptation snapshot leaf dtype is invalid") from error
+        shape = tuple(item["shape"])
+        if dtype.str != item["dtype"] or dtype.kind not in "biufc":
+            raise ValueError("adaptation snapshot leaf dtype/shape is invalid")
+        element_count = 1
+        for dimension in shape:
+            element_count *= dimension
+            if element_count > len(payload) // dtype.itemsize:
+                raise ValueError("adaptation snapshot leaf shape exceeds its byte payload")
+        size = dtype.itemsize * element_count
+        if offset + size > len(payload):
+            raise ValueError("adaptation snapshot byte payload length is invalid")
         leaves.append(_FrozenLeaf(dtype.str, shape, payload[offset : offset + size]))
         offset += size
     if offset != len(payload):
@@ -994,6 +1496,7 @@ _EXPECTED_ARRAYS = {
 
 __all__ = [
     "ADAPTATION_EVIDENCE_SCHEMA_VERSION",
+    "BPTT_EXECUTION_CONTRACT",
     "AdaptationDecisionProof",
     "AdaptationEvidence",
     "CandidateValidationMaterial",

@@ -1,14 +1,26 @@
 from __future__ import annotations
 
 import json
+import math
+import os
+import subprocess
+import sys
+import textwrap
 from dataclasses import replace
 from pathlib import Path
 
+import jax
+import jax.numpy as jnp
 import numpy as np
 import pytest
 
-from crazyflow.safety.da_plcbf.adaptation_evidence import validate_adaptation_evidence_binding
+from crazyflow.safety.da_plcbf import adaptation_evidence as adaptation_evidence_module
+from crazyflow.safety.da_plcbf.adaptation_evidence import (
+    BPTT_EXECUTION_CONTRACT,
+    validate_adaptation_evidence_binding,
+)
 from crazyflow.safety.da_plcbf.artifacts import (
+    _validate_runtime_device_roles,
     collect_provenance,
     load_events,
     load_metrics,
@@ -18,6 +30,8 @@ from crazyflow.safety.da_plcbf.artifacts import (
 )
 from crazyflow.safety.da_plcbf.campaign_artifacts import (
     CampaignArtifactStore,
+    _base_airborne_plant,
+    _replay_airborne_transitions,
     _source_tree_sha256,
     _validate_trace_physical_evidence,
     validate_current_source_tree,
@@ -29,18 +43,27 @@ from crazyflow.safety.da_plcbf.experiments import (
     CampaignConfig,
     ConditionID,
     ExperimentConfig,
+    _authoritative_estimator_arguments,
+    _authoritative_estimator_function,
+    _authoritative_estimator_observations,
+    _authoritative_model_samples,
+    _authoritative_resources,
     _auxiliary_tape,
     _barrier_trace,
+    _build_bptt_executable_pool,
     _causal_history_indices,
     _estimator_history_entry,
     _finite_policy_evidence,
     _global_confirmatory_superiority_supported,
+    _initialize_authoritative_estimator,
     _offline_training_batch,
+    _online_bptt_device,
+    _plant_step,
+    _replay_dashboard_dynamics_and_contexts,
     _resources_for_tape,
     _used_online_adaptation_versions,
     build_experiment_resources,
     generate_condition_tape,
-    replay_dashboard_dynamics_evidence,
     run_campaign,
     run_trial,
     save_trial_run,
@@ -48,6 +71,9 @@ from crazyflow.safety.da_plcbf.experiments import (
 )
 from crazyflow.safety.da_plcbf.scientific_dashboard import change_annotations
 from crazyflow.safety.da_plcbf.scientific_evaluation import AnalysisRole, make_paired_trial_schedule
+from crazyflow.safety.da_plcbf.snapshots import ActiveSnapshotStore
+from crazyflow.safety.da_plcbf.validation import hard_validate_candidate
+from crazyflow.safety.da_plcbf.version_a_filter import VersionAActuator
 
 
 def _small_config() -> ExperimentConfig:
@@ -68,6 +94,326 @@ def _assignments(methods: tuple[str, ...], condition: str = "static") -> tuple[o
     return make_paired_trial_schedule(
         root_seed=19, methods=methods, conditions=(condition,), trials_per_condition=1
     ).assignments
+
+
+def _create_pending_campaign_store(
+    root: Path, *, root_seed: int
+) -> tuple[CampaignConfig, object, dict[tuple[str, int], object], Path]:
+    campaign = CampaignConfig(
+        trial=_small_config(),
+        methods=("nominal_only", "analytic_cbf_hocbf"),
+        conditions=("static",),
+        trials_per_condition=1,
+        root_seed=root_seed,
+    )
+    schedule = campaign.schedule()
+    tapes: dict[tuple[str, int], object] = {}
+    for assignment in schedule.assignments:
+        key = (assignment.condition, assignment.fold)
+        if key not in tapes:
+            tapes[key] = generate_condition_tape(
+                assignment.condition,
+                campaign.trial,
+                seed=assignment.scenario_root_seed,
+                fold=assignment.scenario_fold,
+            )
+    repository = Path(__file__).resolve().parents[4]
+    CampaignArtifactStore(root, campaign, schedule, tapes, repository=repository, resume=False)
+    return campaign, schedule, tapes, repository
+
+
+def test_online_bptt_pool_places_closed_constants_on_selected_device(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    config = _small_config()
+    resources = build_experiment_resources(config, obstacle_count=1, initialization_seed=0)
+    assert all(
+        leaf.device.platform == "cpu"
+        for leaf in jax.tree.leaves((resources.spec, resources.initial_params))
+    )
+    captured: dict[str, object] = {}
+
+    def fake_builder(
+        spec: object,
+        actuator: object,
+        *_args: object,
+        device: jax.Device | None = None,
+        **_kwargs: object,
+    ) -> object:
+        captured["spec"] = spec
+        captured["actuator"] = actuator
+        captured["device"] = device
+        return object()
+
+    monkeypatch.setattr(
+        "crazyflow.safety.da_plcbf.experiments.build_dynamic_model_quad_actor_bptt_functions",
+        fake_builder,
+    )
+    pool = _build_bptt_executable_pool(resources, config)
+    selected = _online_bptt_device()
+    assert captured["device"] == pool.device
+    assert pool.device_key == (selected.platform, selected.id)
+    closed_leaves = jax.tree.leaves((captured["spec"], captured["actuator"]))
+    assert closed_leaves
+    assert all(leaf.device.platform == selected.platform for leaf in closed_leaves)
+
+
+def test_trial_rejects_caller_supplied_policy_root_from_wrong_shared_seed() -> None:
+    config = _small_config()
+    assignment = _assignments(("nominal_only", "da_plcbf_full"))[0]
+    tape = generate_condition_tape(
+        assignment.condition,
+        config,
+        seed=assignment.scenario_root_seed,
+        fold=assignment.scenario_fold,
+    )
+    obstacle_count = tape.static_positions.shape[0] + tape.dynamic_positions.shape[1]
+    wrong_resources = build_experiment_resources(
+        config,
+        obstacle_count=obstacle_count,
+        initialization_seed=(assignment.shared_stochastic_seed + 1) & 0xFFFFFFFF,
+    )
+    with pytest.raises(ValueError, match="CPU-canonical scheduled policy root"):
+        run_trial(assignment, tape, config, resources=wrong_resources)
+
+
+def test_authoritative_estimator_context_is_cpu_and_backend_source_independent() -> None:
+    config = _small_config()
+    cpu = jax.devices("cpu")[0]
+    ambient = build_experiment_resources(config, obstacle_count=1, initialization_seed=0)
+    # A stale ambient-backend inverse must never leak into proof resources or runtime contexts.
+    ambient = replace(
+        ambient, model=ambient.model._replace(inertia_inv=jnp.zeros_like(ambient.model.inertia_inv))
+    )
+    with jax.default_device(cpu):
+        cpu_source = build_experiment_resources(config, obstacle_count=1, initialization_seed=0)
+
+    ambient_estimator = _initialize_authoritative_estimator(ambient.model, ambient.estimator_config)
+    cpu_estimator = _initialize_authoritative_estimator(
+        cpu_source.model, cpu_source.estimator_config
+    )
+    ambient_context = _authoritative_model_samples(
+        ambient.model, ambient_estimator, ambient.estimator_config, 4
+    )
+    cpu_context = _authoritative_model_samples(
+        cpu_source.model, cpu_estimator, cpu_source.estimator_config, 4
+    )
+    ambient_proof = _authoritative_resources(ambient)
+    cpu_proof = _authoritative_resources(cpu_source)
+
+    for actual_tree, expected_tree in (
+        (ambient_estimator, cpu_estimator),
+        (ambient_context, cpu_context),
+        (
+            (ambient_proof.model, ambient_proof.actuator, ambient_proof.spec),
+            (cpu_proof.model, cpu_proof.actuator, cpu_proof.spec),
+        ),
+    ):
+        actual_leaves = jax.tree.leaves(actual_tree)
+        expected_leaves = jax.tree.leaves(expected_tree)
+        assert actual_leaves
+        assert all(leaf.device.platform == "cpu" for leaf in actual_leaves)
+        for actual, expected in zip(actual_leaves, expected_leaves, strict=True):
+            np.testing.assert_array_equal(np.asarray(actual), np.asarray(expected))
+
+
+def test_authoritative_estimator_fresh_compiles_are_byte_exact_on_cpu() -> None:
+    config = _small_config()
+    resources = build_experiment_resources(config, obstacle_count=1, initialization_seed=0)
+    estimator = _initialize_authoritative_estimator(resources.model, resources.estimator_config)
+    observations = _authoritative_estimator_observations([], config.estimator_window_steps)
+    arguments = _authoritative_estimator_arguments(estimator, observations, 0)
+    first = (
+        _authoritative_estimator_function(resources.estimator_config).lower(*arguments).compile()
+    )
+    second = (
+        _authoritative_estimator_function(resources.estimator_config).lower(*arguments).compile()
+    )
+    first_output = first(*arguments)
+    second_output = second(*arguments)
+    first_leaves = jax.tree.leaves(first_output)
+    second_leaves = jax.tree.leaves(second_output)
+    assert first_leaves
+    assert all(leaf.device.platform == "cpu" for leaf in first_leaves)
+    for actual, expected in zip(first_leaves, second_leaves, strict=True):
+        np.testing.assert_array_equal(np.asarray(actual), np.asarray(expected))
+
+
+def test_gpu_producer_adaptation_validates_without_cross_process_bptt_replay(
+    tmp_path: Path,
+) -> None:
+    if jax.default_backend() != "gpu":
+        pytest.skip("cross-backend replay regression requires a GPU-default parent process")
+    config = replace(
+        _small_config(),
+        policy_count=16,
+        estimator_interval_steps=1,
+        validation_minimum_diversity=1e-8,
+    )
+    assignment = _assignments(("nominal_only", "da_plcbf_full"))[1]
+    tape = generate_condition_tape(
+        assignment.condition,
+        config,
+        seed=assignment.scenario_root_seed,
+        fold=assignment.scenario_fold,
+    )
+    run = run_trial(assignment, tape, config)
+    assert run.adaptation_evidence is not None
+    assert any(
+        proof.context_step > 0 and proof.candidate.model_version > 0
+        for proof in run.adaptation_evidence.decisions
+    )
+    method_directory = save_trial_run(run, tmp_path / "portable-run")
+    tape_path = (
+        tmp_path
+        / "portable-run"
+        / "scenario_tapes"
+        / assignment.condition
+        / f"{assignment.fold}.npz"
+    )
+    config_json = json.dumps(
+        {name: getattr(config, name) for name in config.__dataclass_fields__}, sort_keys=True
+    )
+    validation_script = textwrap.dedent(
+        """
+        import json
+        import sys
+        from pathlib import Path
+
+        from crazyflow.safety.da_plcbf.adaptation_evidence import (
+            load_adaptation_evidence,
+            validate_adaptation_evidence_binding,
+        )
+        from crazyflow.safety.da_plcbf.artifacts import load_events, load_trace
+        from crazyflow.safety.da_plcbf.experiments import ExperimentConfig
+        from crazyflow.safety.da_plcbf.scenarios import load_scenario_tape
+
+        directory = Path(sys.argv[1])
+        trace = load_trace(directory / "trace.npz")
+        events = load_events(directory / "events.jsonl", trace=trace)
+        evidence = load_adaptation_evidence(directory / "adaptation_evidence.npz")
+        tape = load_scenario_tape(sys.argv[2])
+        config = ExperimentConfig(**json.loads(sys.argv[3]))
+        validate_adaptation_evidence_binding(
+            evidence,
+            trace,
+            events,
+            shared_stochastic_seed=int(sys.argv[4]),
+            tape=tape,
+            condition="static",
+            method="da_plcbf_full",
+            config=config,
+        )
+        """
+    )
+    environment = os.environ.copy()
+    environment["JAX_PLATFORMS"] = "cpu"
+    environment["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
+    environment["JAX_COMPILATION_CACHE_DIR"] = str(tmp_path / "fresh-cpu-cache")
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            validation_script,
+            str(method_directory),
+            str(tape_path),
+            config_json,
+            str(assignment.shared_stochastic_seed),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+        env=environment,
+        timeout=240,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_hard_barrier_tilt_uses_host_canonical_float64_geometry() -> None:
+    config = _small_config()
+    tape = generate_condition_tape("static", config, seed=101, fold=0)
+    states = np.zeros((config.control_steps, 13), dtype=np.float64)
+    states[:, :3] = tape.vehicle_initial_position
+    states[:, 3:7] = np.asarray((0.0, 0.0, 0.0, 1.0))
+    # Retained from a GPU-produced development trace whose float32 GPU and CPU quaternion
+    # lowerings differed by two ulps in the reported tilt margin.
+    states[1, 3:7] = np.asarray(
+        (0.2016475647687912, 0.24650098383426666, 0.02752041257917881, 0.9475326538085938)
+    )
+
+    barriers, _, _ = _barrier_trace(states, tape, config)
+    quaternions = states[:, 3:7]
+    quaternions = quaternions / np.sqrt(np.sum(quaternions**2, axis=-1, keepdims=True))
+    cosine_tilt = 1.0 - 2.0 * (
+        quaternions[:, 0] * quaternions[:, 0] + quaternions[:, 1] * quaternions[:, 1]
+    )
+    tilt_limit = math.cos(config.tilt_max_radians)
+    expected = (cosine_tilt - tilt_limit) / (1.0 - tilt_limit)
+
+    assert barriers.dtype == np.float64
+    np.testing.assert_array_equal(barriers[:, 5], expected)
+
+
+def test_gpu_hard_barrier_trace_replays_exactly_in_fresh_cpu_process(tmp_path: Path) -> None:
+    if jax.default_backend() != "gpu":
+        pytest.skip("cross-backend barrier replay regression requires a GPU-default parent")
+    config = _small_config()
+    tape = generate_condition_tape("static", config, seed=101, fold=0)
+    states = np.zeros((config.control_steps, 13), dtype=np.float64)
+    states[:, :3] = tape.vehicle_initial_position
+    states[:, 3:7] = np.asarray((0.0, 0.0, 0.0, 1.0))
+    states[1, 3:7] = np.asarray(
+        (0.2016475647687912, 0.24650098383426666, 0.02752041257917881, 0.9475326538085938)
+    )
+    gpu_barriers, _, _ = _barrier_trace(states, tape, config)
+    states_path = tmp_path / "states.npy"
+    cpu_barriers_path = tmp_path / "cpu-barriers.npy"
+    np.save(states_path, states, allow_pickle=False)
+    config_json = json.dumps(
+        {name: getattr(config, name) for name in config.__dataclass_fields__}, sort_keys=True
+    )
+    validation_script = textwrap.dedent(
+        """
+        import json
+        import sys
+
+        import numpy as np
+
+        from crazyflow.safety.da_plcbf.experiments import (
+            ExperimentConfig,
+            _barrier_trace,
+            generate_condition_tape,
+        )
+
+        states = np.load(sys.argv[1], allow_pickle=False)
+        config = ExperimentConfig(**json.loads(sys.argv[2]))
+        tape = generate_condition_tape("static", config, seed=101, fold=0)
+        barriers, _, _ = _barrier_trace(states, tape, config)
+        np.save(sys.argv[3], barriers, allow_pickle=False)
+        """
+    )
+    environment = os.environ.copy()
+    environment["JAX_PLATFORMS"] = "cpu"
+    environment["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
+    environment["JAX_COMPILATION_CACHE_DIR"] = str(tmp_path / "fresh-cpu-barrier-cache")
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            validation_script,
+            str(states_path),
+            config_json,
+            str(cpu_barriers_path),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+        env=environment,
+        timeout=240,
+    )
+    assert result.returncode == 0, result.stdout + result.stderr
+    cpu_barriers = np.load(cpu_barriers_path, allow_pickle=False)
+    np.testing.assert_array_equal(cpu_barriers, gpu_barriers)
 
 
 def test_required_condition_configs_isolate_dynamic_obstacle_families() -> None:
@@ -362,7 +708,7 @@ def test_campaign_reuses_same_shape_controller_and_plant_executables() -> None:
 
 
 def test_artifact_campaign_is_complete_resumable_and_retains_numeric_inference(
-    tmp_path: Path,
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     campaign = CampaignConfig(
         trial=_small_config(),
@@ -388,13 +734,46 @@ def test_artifact_campaign_is_complete_resumable_and_retains_numeric_inference(
         path.relative_to(output): path.read_bytes() for path in output.rglob("*") if path.is_file()
     }
 
-    resumed = run_campaign(campaign, output_directory=output, resume=True)
+    portable_runtime = json.loads((output / "provenance.json").read_text())
+    portable_runtime["runtime"]["platform"] = "portable-verification-platform"
+    with monkeypatch.context() as patch:
+        patch.setattr(
+            "crazyflow.safety.da_plcbf.campaign_artifacts.collect_provenance",
+            lambda _repository: portable_runtime,
+        )
+        resumed = run_campaign(campaign, output_directory=output, resume=True)
     after = {
         path.relative_to(output): path.read_bytes() for path in output.rglob("*") if path.is_file()
     }
     assert not resumed.trial_runs
     assert resumed.records == first.records
     assert after == before
+    scipy_drift = json.loads(json.dumps(portable_runtime))
+    scipy_drift["packages"]["scipy"] = "0.0.0-drift"
+    with monkeypatch.context() as patch:
+        patch.setattr(
+            "crazyflow.safety.da_plcbf.campaign_artifacts.collect_provenance",
+            lambda _repository: scipy_drift,
+        )
+        with pytest.raises(ValueError, match="analysis package scipy"):
+            run_campaign(campaign, output_directory=output, resume=True)
+    for runtime_field in ("python", "implementation"):
+        runtime_drift = json.loads(json.dumps(portable_runtime))
+        runtime_drift["runtime"][runtime_field] += "-drift"
+        with monkeypatch.context() as patch:
+            patch.setattr(
+                "crazyflow.safety.da_plcbf.campaign_artifacts.collect_provenance",
+                lambda _repository, current=runtime_drift: current,
+            )
+            with pytest.raises(ValueError, match=f"analysis runtime {runtime_field}"):
+                run_campaign(campaign, output_directory=output, resume=True)
+    with monkeypatch.context() as patch:
+        patch.setattr(
+            "crazyflow.safety.da_plcbf.campaign_artifacts._source_tree_sha256",
+            lambda _repository: "0" * 64,
+        )
+        with pytest.raises(ValueError, match="source digest"):
+            run_campaign(campaign, output_directory=output, resume=True)
     comparison_payload = json.loads((output / "aggregate" / "paired_comparisons.json").read_text())
     assert comparison_payload["schema_version"] == 3
     assert not comparison_payload["global_confirmatory_superiority_supported"]
@@ -507,6 +886,62 @@ def test_resume_revalidates_success_artifacts_before_skipping(tmp_path: Path) ->
         run_campaign(campaign, output_directory=output, resume=True)
 
 
+def test_pending_resume_accepts_same_immutable_execution_identity(tmp_path: Path) -> None:
+    root = tmp_path / "same-identity"
+    campaign, schedule, tapes, repository = _create_pending_campaign_store(root, root_seed=281)
+    resumed = CampaignArtifactStore(
+        root, campaign, schedule, tapes, repository=repository, resume=True
+    )
+    assert not resumed.completed_keys()
+
+
+@pytest.mark.parametrize("drift", ("python", "cpu_model", "device_inventory", "scipy"))
+def test_pending_resume_rejects_runtime_or_device_drift_before_execution(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, drift: str
+) -> None:
+    root = tmp_path / f"drift-{drift}"
+    campaign, _, _, _ = _create_pending_campaign_store(root, root_seed=282)
+    current = json.loads((root / "provenance.json").read_text())
+    if drift == "python":
+        current["runtime"]["python"] = "0.0.0-drift"
+    elif drift == "cpu_model":
+        current["hardware"]["cpu"] = "different-vendor-family-model-stepping"
+    elif drift == "device_inventory":
+        current["jax"]["devices"].append("drift-device:99")
+    else:
+        current["packages"]["scipy"] = "0.0.0-drift"
+    monkeypatch.setattr(
+        "crazyflow.safety.da_plcbf.campaign_artifacts.collect_provenance",
+        lambda _repository: current,
+    )
+    monkeypatch.setattr(
+        "crazyflow.safety.da_plcbf.experiments.run_trial",
+        lambda *_args, **_kwargs: pytest.fail("runtime identity drift reached trial execution"),
+    )
+    expected_error = (
+        "resume analysis" if drift in {"python", "scipy"} else "resume execution identity"
+    )
+    with pytest.raises(ValueError, match=expected_error):
+        run_campaign(campaign, output_directory=root, resume=True)
+
+
+def test_pending_resume_allows_nonexecution_descriptive_provenance_drift(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = tmp_path / "descriptive-drift"
+    campaign, schedule, tapes, repository = _create_pending_campaign_store(root, root_seed=283)
+    current = json.loads((root / "provenance.json").read_text())
+    current["video"]["encoder_version"] += " descriptive-build-metadata-drift"
+    monkeypatch.setattr(
+        "crazyflow.safety.da_plcbf.campaign_artifacts.collect_provenance",
+        lambda _repository: current,
+    )
+    resumed = CampaignArtifactStore(
+        root, campaign, schedule, tapes, repository=repository, resume=True
+    )
+    assert not resumed.completed_keys()
+
+
 def test_physical_trace_evidence_is_recomputed_from_true_state_and_tape() -> None:
     config = _small_config()
     assignment = _assignments(("nominal_only", "analytic_cbf_hocbf"))[0]
@@ -525,6 +960,30 @@ def test_physical_trace_evidence_is_recomputed_from_true_state_and_tape() -> Non
     with np.testing.assert_raises_regex(ValueError, "hard barriers do not recompute"):
         _validate_trace_physical_evidence(tampered, tape, config, condition=assignment.condition)
 
+    changed_filtered = np.array(run.trace.filtered_control, copy=True)
+    changed_filtered[0, 0] += 0.01
+    mismatched_actuator = replace(run.trace, filtered_control=changed_filtered)
+    with np.testing.assert_raises_regex(ValueError, "applied control does not match"):
+        _validate_trace_physical_evidence(
+            mismatched_actuator, tape, config, condition=assignment.condition
+        )
+
+    changed_state = np.array(run.trace.true_state, copy=True)
+    changed_state[1, 10] += 5e-5
+    changed_barriers, changed_contact, changed_failure = _barrier_trace(changed_state, tape, config)
+    near_threshold_tamper = replace(
+        run.trace,
+        true_state=changed_state,
+        hard_barriers=changed_barriers,
+        contact=changed_contact,
+        failure=changed_failure,
+        degraded=np.asarray(run.trace.degraded) | changed_failure,
+    )
+    with np.testing.assert_raises_regex(ValueError, "true-state transition does not replay"):
+        _validate_trace_physical_evidence(
+            near_threshold_tamper, tape, config, condition=assignment.condition
+        )
+
     # Recomputing barriers alone must not legitimize an impossible trajectory. This forged trace
     # has the scheduled nonzero velocity at every node but no position change at all.
     stale_states = np.broadcast_to(run.trace.true_state[0], run.trace.true_state.shape).copy()
@@ -541,6 +1000,164 @@ def test_physical_trace_evidence_is_recomputed_from_true_state_and_tape() -> Non
     assert np.all(np.diff(stale.true_state[:, :3], axis=0) == 0.0)
     with np.testing.assert_raises_regex(ValueError, "true-state transition does not replay"):
         _validate_trace_physical_evidence(stale, tape, config, condition=assignment.condition)
+
+
+def test_physical_trace_binds_exact_motor_names_and_executed_filtered_bounds() -> None:
+    config = _small_config()
+    assignment = _assignments(("nominal_only", "analytic_cbf_hocbf"))[0]
+    tape = generate_condition_tape(
+        assignment.condition,
+        config,
+        seed=assignment.scenario_root_seed,
+        fold=assignment.scenario_fold,
+    )
+    run = run_trial(assignment, tape, config)
+
+    changed_names = np.asarray(run.trace.control_names).copy()
+    changed_names[0] = "motor_0"
+    with pytest.raises(ValueError, match="four-motor schema"):
+        _validate_trace_physical_evidence(
+            replace(run.trace, control_names=changed_names),
+            tape,
+            config,
+            condition=assignment.condition,
+        )
+
+    below_minimum = np.asarray(run.trace.filtered_control).copy()
+    below_minimum[0, 0] = -1.0
+    with pytest.raises(ValueError, match="outside tracked per-rotor thrust bounds"):
+        _validate_trace_physical_evidence(
+            replace(run.trace, filtered_control=below_minimum),
+            tape,
+            config,
+            condition=assignment.condition,
+        )
+
+    above_maximum = np.asarray(run.trace.filtered_control).copy()
+    above_maximum[0, 1] = 1.0
+    with pytest.raises(ValueError, match="outside tracked per-rotor thrust bounds"):
+        _validate_trace_physical_evidence(
+            replace(run.trace, filtered_control=above_maximum),
+            tape,
+            config,
+            condition=assignment.condition,
+        )
+
+    nonfinite = np.asarray(run.trace.filtered_control).copy()
+    nonfinite[0, 2] = np.nan
+    nonfinite_trace = replace(run.trace)
+    object.__setattr__(nonfinite_trace, "filtered_control", nonfinite)
+    with pytest.raises(ValueError, match="not finite four-rotor evidence"):
+        _validate_trace_physical_evidence(
+            nonfinite_trace, tape, config, condition=assignment.condition
+        )
+
+    terminal_is_not_executed = np.asarray(run.trace.filtered_control).copy()
+    terminal_is_not_executed[-1] = np.asarray((-1.0, 1.0, np.nan, np.inf))
+    terminal_trace = replace(run.trace)
+    object.__setattr__(terminal_trace, "filtered_control", terminal_is_not_executed)
+    _validate_trace_physical_evidence(terminal_trace, tape, config, condition=assignment.condition)
+
+
+def test_physical_replay_binds_nonunit_per_rotor_efficiency_and_both_control_records() -> None:
+    config = _small_config()
+    assignment = _assignments(("nominal_only", "analytic_cbf_hocbf"), "dynamics_change")[0]
+    tape = generate_condition_tape(
+        assignment.condition,
+        config,
+        seed=assignment.scenario_root_seed,
+        fold=assignment.scenario_fold,
+    )
+    executed_efficiency = np.asarray(tape.rotor_efficiency[: config.control_steps - 1])
+    assert np.any(executed_efficiency != 1.0)
+    run = run_trial(assignment, tape, config)
+
+    _validate_trace_physical_evidence(run.trace, tape, config, condition=assignment.condition)
+
+    changed_applied = np.array(run.trace.applied_control, copy=True)
+    changed_applied[1, 0] += 1e-4
+    with np.testing.assert_raises_regex(ValueError, "applied control does not match"):
+        _validate_trace_physical_evidence(
+            replace(run.trace, applied_control=changed_applied),
+            tape,
+            config,
+            condition=assignment.condition,
+        )
+
+    changed_filtered = np.array(run.trace.filtered_control, copy=True)
+    changed_filtered[1, 1] += 1e-4
+    with np.testing.assert_raises_regex(ValueError, "applied control does not match"):
+        _validate_trace_physical_evidence(
+            replace(run.trace, filtered_control=changed_filtered),
+            tape,
+            config,
+            condition=assignment.condition,
+        )
+
+
+def test_physical_replay_preserves_scalar_plant_execution_geometry() -> None:
+    # This retained high-cancellation witness differs by 4.75e-5 in angular velocity when GPU XLA
+    # is allowed to turn the scalar plant into a batched matmul.  The replay must instead preserve
+    # the production scalar body's geometry; the existing eight-epsilon bound then remains strict.
+    state = jnp.asarray(
+        (
+            0.54786408,
+            0.89792085,
+            2.4741976,
+            -0.02637339,
+            0.0048929313,
+            -0.00019761101,
+            0.99964017,
+            0.21714544,
+            0.53238428,
+            0.56250781,
+            0.064965561,
+            -0.0010001627,
+            0.0001234099,
+        ),
+        dtype=jnp.float32,
+    )
+    command = jnp.asarray((0.10483667, 0.10505788, 0.10739353, 0.10754688), dtype=jnp.float32)
+    base_model, (arm_length, thrust_to_torque, mixing_matrix) = _base_airborne_plant()
+    actuator = VersionAActuator(
+        arm_length=arm_length,
+        thrust_to_torque=thrust_to_torque,
+        mixing_matrix=mixing_matrix,
+        thrust_min=jnp.zeros(4, dtype=jnp.float32),
+        thrust_max=jnp.ones(4, dtype=jnp.float32),
+    )
+    scalar_plant = jax.jit(
+        lambda candidate_state, candidate_command, model, efficiency: _plant_step(
+            candidate_state, candidate_command, model, efficiency, actuator, 0.02
+        )
+    )
+    reference_state, reference_motor = scalar_plant(
+        state, command, base_model, jnp.ones(4, dtype=jnp.float32)
+    )
+
+    count = 150
+    replayed_state, replayed_motor = _replay_airborne_transitions(
+        jnp.broadcast_to(state, (count, 13)),
+        jnp.broadcast_to(command, (count, 4)),
+        jnp.ones((count, 4), dtype=jnp.float32),
+        jnp.ones(count, dtype=jnp.float32),
+        jnp.ones((count, 3), dtype=jnp.float32),
+        jnp.zeros((count, 3), dtype=jnp.float32),
+        base_model,
+        arm_length,
+        thrust_to_torque,
+        mixing_matrix,
+        0.02,
+    )
+    actual = np.asarray(replayed_state, dtype=np.float64)
+    expected = np.broadcast_to(np.asarray(reference_state, dtype=np.float64), actual.shape)
+    epsilon = float(np.finfo(np.float32).eps)
+    tolerance = 8.0 * epsilon * (1.0 + np.maximum(np.abs(actual), np.abs(expected)))
+    assert np.all(np.abs(actual - expected) <= tolerance)
+    np.testing.assert_array_equal(
+        np.asarray(replayed_motor),
+        np.broadcast_to(np.asarray(reference_motor), np.asarray(replayed_motor).shape),
+    )
 
 
 def test_campaign_reuses_dynamic_bptt_and_estimator_executables_across_folds() -> None:
@@ -688,7 +1305,9 @@ def test_trial_artifacts_round_trip_without_synthetic_trace(tmp_path: Path) -> N
     assert timing["warm_execution_excludes_compilation"] is True
 
 
-def test_full_development_slice_logs_model_and_candidate_lifecycle() -> None:
+def test_full_development_slice_logs_model_and_candidate_lifecycle(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     config = ExperimentConfig(
         control_steps=3,
         certificate_horizon=1,
@@ -710,6 +1329,8 @@ def test_full_development_slice_logs_model_and_candidate_lifecycle() -> None:
         fold=assignment.scenario_fold,
     )
     run = run_trial(assignment, tape, config)
+    provenance = collect_provenance(Path(__file__).resolve().parents[4])
+    _validate_runtime_device_roles(run.events, provenance)
     names = {event.name for event in run.events}
 
     assert "candidate_submitted" in names
@@ -720,6 +1341,24 @@ def test_full_development_slice_logs_model_and_candidate_lifecycle() -> None:
     )
     assert estimator_event.details["event_only_latency_sample"] is True
     assert estimator_event.details["execution_seconds"] > 0.0
+    runtime_device_event = next(
+        event for event in run.events if event.name == "runtime_inputs_precomputed"
+    )
+    assert runtime_device_event.details["estimator_device"] == str(jax.devices("cpu")[0])
+    for field, message in (
+        ("controller_device", "controller/plant device"),
+        ("estimator_device", "estimator device"),
+    ):
+        tampered_runtime_events = tuple(
+            replace(event, details={**event.details, field: "unbound-device"})
+            if event is runtime_device_event
+            else event
+            for event in run.events
+        )
+        with pytest.raises(ValueError, match=message):
+            _validate_runtime_device_roles(tampered_runtime_events, provenance)
+    with pytest.raises(ValueError, match="exactly one"):
+        _validate_runtime_device_roles((*run.events, runtime_device_event), provenance)
     assert np.max(run.trace.model_version) > 0
     assert run.trace.policy_values.shape == (3, 16)
     np.testing.assert_array_equal(run.trace.executed_control, np.asarray([True, True, False]))
@@ -727,14 +1366,45 @@ def test_full_development_slice_logs_model_and_candidate_lifecycle() -> None:
     cold = next(event for event in run.events if event.category == "cold_start")
     assert cold.details["bptt_execution_scope"] == "compiled_burst_only"
     assert cold.details["bptt_compilation_excluded_from_execution_timing"] is True
+    assert cold.details["bptt_execution_contract"] == BPTT_EXECUTION_CONTRACT
+    assert cold.details["execution_device_is_cpu"] is True
+    assert cold.details["execution_device_is_gpu"] is False
+    assert cold.details["bptt_execution_backend"] == "cpu"
+    assert cold.details["bptt_cache_key"].startswith("online:cpu:")
+    assert cold.details["bptt_compiled_cache_hit"] is False
+    assert len(cold.details["bptt_input_digest"]) == 64
     assert cold.details["validation_execution_synchronized"] is True
     scheduler = next(event for event in run.events if event.name == "logical_simulation_scheduler")
     assert scheduler.details["host_load_can_change_event_step"] is False
     assert scheduler.details["real_time_claim_eligible"] is False
+    assert scheduler.details["compiled_execution_backend"] == "cpu"
+    assert scheduler.details["cache_key"].startswith("online:cpu:")
+    assert scheduler.details["cache_hit"] is True
+    assert scheduler.details["gpu_adaptation_included_in_wall_step"] is False
+    assert scheduler.details["cpu_adaptation_included_in_wall_step"] is True
+    online_decisions = tuple(
+        event
+        for event in run.events
+        if event.category == "adaptation"
+        and event.name in {"candidate_admitted", "candidate_rejected"}
+    )
+    assert online_decisions
+    assert all(event.details["execution_device_is_cpu"] is True for event in online_decisions)
+    assert all(event.details["execution_device_is_gpu"] is False for event in online_decisions)
+    assert all(event.details["bptt_execution_backend"] == "cpu" for event in online_decisions)
+    assert all(
+        event.details["bptt_cache_key"].startswith("online:cpu:") for event in online_decisions
+    )
+    assert all(len(event.details["bptt_input_digest"]) == 64 for event in online_decisions)
     assert np.any(run.dashboard_evidence.fallback_rollout_available[:-1])
     assert np.any(run.dashboard_evidence.selected_rollout_available[:-1])
-    replayed = replay_dashboard_dynamics_evidence(
+    replay_with_contexts = _replay_dashboard_dynamics_and_contexts(
         run.trace, tape, assignment.condition, assignment.method, config
+    )
+    replayed = replay_with_contexts[:4]
+    assert all(
+        leaf.device.platform == "cpu"
+        for leaf in jax.tree.leaves((replay_with_contexts[4], replay_with_contexts[5]))
     )
     np.testing.assert_allclose(run.dashboard_evidence.dynamics_true, replayed[0], atol=2e-7)
     np.testing.assert_allclose(run.dashboard_evidence.dynamics_estimated, replayed[1], atol=2e-7)
@@ -778,15 +1448,297 @@ def test_full_development_slice_logs_model_and_candidate_lifecycle() -> None:
             expected_dynamics=replayed,
         )
     assert run.adaptation_evidence is not None
+    assert all(
+        proof.candidate.metadata["bptt_input_digest"]
+        == next(
+            event.details["bptt_input_digest"]
+            for event in run.events
+            if event.details.get("candidate_digest") == proof.candidate.digest
+            and event.name == f"candidate_{proof.status}"
+        )
+        for proof in run.adaptation_evidence.decisions
+    )
+
+    def forbid_cross_process_replay(*_args: object, **_kwargs: object) -> object:
+        raise AssertionError("BPTT/hard-evidence kernels must not be replayed by the validator")
+
+    monkeypatch.setattr(
+        adaptation_evidence_module,
+        "_compile_candidate_evidence_replay",
+        forbid_cross_process_replay,
+    )
     validate_adaptation_evidence_binding(
         run.adaptation_evidence,
         run.trace,
         run.events,
+        shared_stochastic_seed=assignment.shared_stochastic_seed,
         tape=tape,
         condition=assignment.condition,
         method=assignment.method,
         config=config,
+        provenance=provenance,
     )
+    alternate_cpu_provenance = json.loads(json.dumps(provenance))
+    alternate_cpu = "TFRT_CPU_999"
+    alternate_cpu_provenance["jax"]["devices"].append(alternate_cpu)
+    alternate_cpu_provenance["jax"]["cpu_devices"].append(alternate_cpu)
+    for role in ("controller", "plant", "bptt", "validation"):
+        alternate_cpu_provenance["jax"]["role_devices"][role] = alternate_cpu
+    with pytest.raises(ValueError, match="BPTT device does not match run provenance"):
+        validate_adaptation_evidence_binding(
+            run.adaptation_evidence,
+            run.trace,
+            run.events,
+            shared_stochastic_seed=assignment.shared_stochastic_seed,
+            provenance=alternate_cpu_provenance,
+        )
+    first_decision = next(
+        event
+        for event in run.events
+        if event.category == "cold_start"
+        and event.name in {"candidate_admitted", "candidate_rejected"}
+    )
+    for field, value, message in (
+        ("validation_execution_device", "unbound-device", "validation device"),
+        ("validation_cache_key", "evidence:unbound:gpu:0", "device/cache identity"),
+        ("validation_execution_synchronized", False, "device/cache identity"),
+    ):
+        tampered_validation_events = tuple(
+            replace(event, details={**event.details, field: value})
+            if event is first_decision
+            else event
+            for event in run.events
+        )
+        with pytest.raises(ValueError, match=message):
+            validate_adaptation_evidence_binding(
+                run.adaptation_evidence,
+                run.trace,
+                tampered_validation_events,
+                shared_stochastic_seed=assignment.shared_stochastic_seed,
+                provenance=provenance,
+            )
+    for field, value in (
+        ("admission_runtime_scope", "unbound-scope"),
+        ("admission_publication_included", True),
+        ("bptt_compilation_excluded_from_execution_timing", False),
+    ):
+        tampered_timing_scope_events = tuple(
+            replace(event, details={**event.details, field: value})
+            if event is first_decision
+            else event
+            for event in run.events
+        )
+        with pytest.raises(ValueError, match="timing scope/accounting"):
+            validate_adaptation_evidence_binding(
+                run.adaptation_evidence,
+                run.trace,
+                tampered_timing_scope_events,
+                shared_stochastic_seed=assignment.shared_stochastic_seed,
+            )
+    for field, value in (
+        ("report_passed", not first_decision.details["report_passed"]),
+        ("failed_gates", ["forged_gate"]),
+        ("admission_margin", float(first_decision.details["admission_margin"]) + 1.0),
+        (
+            "minimum_coverage_threshold",
+            float(first_decision.details["minimum_coverage_threshold"]) + 0.1,
+        ),
+    ):
+        tampered_gate_events = tuple(
+            replace(event, details={**event.details, field: value})
+            if event is first_decision
+            else event
+            for event in run.events
+        )
+        with pytest.raises(ValueError, match="gate diagnostics"):
+            validate_adaptation_evidence_binding(
+                run.adaptation_evidence,
+                run.trace,
+                tampered_gate_events,
+                shared_stochastic_seed=assignment.shared_stochastic_seed,
+            )
+    original_proof = run.adaptation_evidence.decisions[-1]
+    weakened_thresholds = replace(
+        original_proof.thresholds,
+        maximum_runtime_seconds=original_proof.thresholds.maximum_runtime_seconds + 1.0,
+    )
+    weakened_report = hard_validate_candidate(
+        original_proof.proposal_active,
+        original_proof.candidate,
+        original_proof.evidence,
+        weakened_thresholds,
+        current_model_version=original_proof.report.model_version,
+    )
+    weakened_publication = original_proof.publication_active
+    weakened_reason = original_proof.publication_reason
+    if original_proof.status != "expired":
+        weakened_store = ActiveSnapshotStore(original_proof.decision_active)
+        if original_proof.decision_model_version > weakened_store.model_version:
+            weakened_store.advance_model_version(original_proof.decision_model_version)
+        replayed_publication = weakened_store.admit(original_proof.candidate, weakened_report)
+        assert replayed_publication.accepted is (original_proof.status == "admitted")
+        weakened_publication = replayed_publication.active
+        weakened_reason = replayed_publication.reason
+    weakened_proof = replace(
+        original_proof,
+        thresholds=weakened_thresholds,
+        report=weakened_report,
+        publication_active=weakened_publication,
+        publication_reason=weakened_reason,
+    )
+    weakened_evidence = replace(
+        run.adaptation_evidence, decisions=(*run.adaptation_evidence.decisions[:-1], weakened_proof)
+    )
+    weakened_events = tuple(
+        replace(
+            event,
+            details={
+                **event.details,
+                "report_digest": weakened_report.digest,
+                "reason": weakened_reason,
+                "report_passed": weakened_report.passed,
+                "failed_gates": list(weakened_report.failed_gate_names),
+                "admission_margin": float(
+                    np.min(
+                        np.asarray(weakened_report.candidate_local_best)
+                        - np.asarray(weakened_report.active_local_best)
+                        + weakened_thresholds.local_non_regression_tolerance
+                    )
+                ),
+                "minimum_coverage_threshold": weakened_thresholds.minimum_coverage,
+                "minimum_redundancy_threshold": weakened_thresholds.minimum_redundancy,
+                "minimum_diversity_threshold": weakened_thresholds.minimum_diversity,
+                "retention_tolerance": weakened_thresholds.local_non_regression_tolerance,
+            },
+        )
+        if event.details.get("candidate_digest") == original_proof.candidate.digest
+        and event.name == f"candidate_{original_proof.status}"
+        else event
+        for event in run.events
+    )
+    with pytest.raises(ValueError, match="thresholds do not match the configuration"):
+        validate_adaptation_evidence_binding(
+            weakened_evidence,
+            run.trace,
+            weakened_events,
+            shared_stochastic_seed=assignment.shared_stochastic_seed,
+            tape=tape,
+            condition=assignment.condition,
+            method=assignment.method,
+            config=config,
+        )
+    tampered_runtime_evidence = replace(
+        original_proof.evidence,
+        runtime_seconds=np.asarray(
+            [float(np.asarray(original_proof.evidence.runtime_seconds).item()) + 0.5]
+        ),
+    )
+    tampered_runtime_report = hard_validate_candidate(
+        original_proof.proposal_active,
+        original_proof.candidate,
+        tampered_runtime_evidence,
+        original_proof.thresholds,
+        current_model_version=original_proof.report.model_version,
+    )
+    tampered_runtime_publication = original_proof.publication_active
+    tampered_runtime_reason = original_proof.publication_reason
+    if original_proof.status != "expired":
+        tampered_runtime_store = ActiveSnapshotStore(original_proof.decision_active)
+        if original_proof.decision_model_version > tampered_runtime_store.model_version:
+            tampered_runtime_store.advance_model_version(original_proof.decision_model_version)
+        replayed_runtime_publication = tampered_runtime_store.admit(
+            original_proof.candidate, tampered_runtime_report
+        )
+        assert replayed_runtime_publication.accepted is (original_proof.status == "admitted")
+        tampered_runtime_publication = replayed_runtime_publication.active
+        tampered_runtime_reason = replayed_runtime_publication.reason
+    tampered_runtime_proof = replace(
+        original_proof,
+        evidence=tampered_runtime_evidence,
+        report=tampered_runtime_report,
+        publication_active=tampered_runtime_publication,
+        publication_reason=tampered_runtime_reason,
+    )
+    tampered_runtime_artifact = replace(
+        run.adaptation_evidence,
+        decisions=(*run.adaptation_evidence.decisions[:-1], tampered_runtime_proof),
+    )
+    tampered_runtime_events = tuple(
+        replace(
+            event,
+            details={
+                **event.details,
+                "report_digest": tampered_runtime_report.digest,
+                "reason": tampered_runtime_reason,
+                "report_passed": tampered_runtime_report.passed,
+                "failed_gates": list(tampered_runtime_report.failed_gate_names),
+            },
+        )
+        if event.details.get("candidate_digest") == original_proof.candidate.digest
+        and event.name == f"candidate_{original_proof.status}"
+        else event
+        for event in run.events
+    )
+    with pytest.raises(ValueError, match="gate runtime.*decision event"):
+        validate_adaptation_evidence_binding(
+            tampered_runtime_artifact,
+            run.trace,
+            tampered_runtime_events,
+            shared_stochastic_seed=assignment.shared_stochastic_seed,
+        )
+
+    tampered_contract_events = tuple(
+        replace(event, details={**event.details, "bptt_execution_contract": "unbound-contract"})
+        if event.category == "cold_start"
+        else event
+        for event in run.events
+    )
+    with pytest.raises(ValueError, match="execution contract"):
+        validate_adaptation_evidence_binding(
+            run.adaptation_evidence,
+            run.trace,
+            tampered_contract_events,
+            shared_stochastic_seed=assignment.shared_stochastic_seed,
+            tape=tape,
+            condition=assignment.condition,
+            method=assignment.method,
+            config=config,
+        )
+    tampered_input_events = tuple(
+        replace(event, details={**event.details, "bptt_input_digest": "0" * 64})
+        if event.category == "cold_start"
+        else event
+        for event in run.events
+    )
+    with pytest.raises(ValueError, match="bptt_input_digest"):
+        validate_adaptation_evidence_binding(
+            run.adaptation_evidence,
+            run.trace,
+            tampered_input_events,
+            shared_stochastic_seed=assignment.shared_stochastic_seed,
+            tape=tape,
+            condition=assignment.condition,
+            method=assignment.method,
+            config=config,
+        )
+    tampered_isolation_events = tuple(
+        replace(event, details={**event.details, "execution_device_is_cpu": False})
+        if event.category in {"cold_start", "adaptation"}
+        and event.name in {"candidate_admitted", "candidate_rejected"}
+        else event
+        for event in run.events
+    )
+    with pytest.raises(ValueError, match="execution-device evidence"):
+        validate_adaptation_evidence_binding(
+            run.adaptation_evidence,
+            run.trace,
+            tampered_isolation_events,
+            shared_stochastic_seed=assignment.shared_stochastic_seed,
+            tape=tape,
+            condition=assignment.condition,
+            method=assignment.method,
+            config=config,
+        )
     assert np.any(run.dashboard_evidence.descriptor_available[:-1])
     assert np.any(run.dashboard_evidence.ghost_rollout_available[:-1])
     assert any("K=64" in blocker for blocker in run.claim_blockers)

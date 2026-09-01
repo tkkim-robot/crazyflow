@@ -12,6 +12,7 @@ from crazyflow.safety.da_plcbf.artifact_smoke import synthetic_trace
 from crazyflow.safety.da_plcbf.artifacts import (
     ArtifactEvent,
     ImmutableTrace,
+    _artifact_role,
     _validate_final_core_video_coverage,
     _validate_review_frame_artifacts,
     aggregate_row,
@@ -23,6 +24,7 @@ from crazyflow.safety.da_plcbf.artifacts import (
     load_paired_metrics_csv,
     load_timing,
     load_trace,
+    review_contact_sheet_title,
     save_trace,
     validate_campaign_visual_reviews,
     validate_metrics,
@@ -69,7 +71,7 @@ def _archive_payload(path: Path) -> dict[str, np.ndarray]:
 
 def _provenance() -> dict[str, Any]:
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "git": {"commit": "1" * 40, "branch": "plcbf", "dirty": True},
         "runtime": {
             "python": "3.14.0",
@@ -93,9 +95,28 @@ def _provenance() -> dict[str, Any]:
             "version": "0.11.1",
             "jaxlib_version": "0.11.1",
             "backend": "gpu",
-            "devices": ["CUDA:0"],
+            "jax_enable_x64": False,
+            "devices": ["CUDA:0", "TFRT_CPU_0"],
+            "cpu_devices": ["TFRT_CPU_0"],
+            "role_devices": {
+                "controller": "CUDA:0",
+                "plant": "CUDA:0",
+                "estimator": "TFRT_CPU_0",
+                "bptt": "CUDA:0",
+                "validation": "CUDA:0",
+            },
         },
-        "packages": {"crazyflow": "0.0.1", "imageio-ffmpeg": "0.6.0"},
+        "packages": {
+            "crazyflow": "0.0.1",
+            "numpy": "2.4.2",
+            "scipy": "1.17.0",
+            "jax": "0.11.1",
+            "jaxlib": "0.11.1",
+            "flax": "0.12.2",
+            "optax": "0.2.6",
+            "imageio": "2.37.2",
+            "imageio-ffmpeg": "0.6.0",
+        },
         "video": {
             "backend": "imageio-ffmpeg",
             "package_version": "0.6.0",
@@ -250,6 +271,22 @@ def test_config_seed_and_provenance_schemas_reject_extra_nonfinite_or_unpinned_v
     bad_video = {**provenance["video"], "package_version": "0.5.1"}
     with pytest.raises(ValueError, match="pinned 0.6.0"):
         validate_provenance({**provenance, "video": bad_video})
+    invented_cpu = json.loads(json.dumps(provenance))
+    invented_cpu["jax"]["cpu_devices"].append("TFRT_CPU_99")
+    with pytest.raises(ValueError, match="CPU inventory.*subset"):
+        validate_provenance(invented_cpu)
+    missing_package = json.loads(json.dumps(provenance))
+    missing_package["packages"].pop("optax")
+    with pytest.raises(ValueError, match="exactly the collected package set"):
+        validate_provenance(missing_package)
+    extra_package = json.loads(json.dumps(provenance))
+    extra_package["packages"]["untracked"] = "1.0"
+    with pytest.raises(ValueError, match="exactly the collected package set"):
+        validate_provenance(extra_package)
+    partial_unavailable = json.loads(json.dumps(provenance))
+    partial_unavailable["jax"]["jax_enable_x64"] = "unavailable"
+    with pytest.raises(ValueError, match="available JAX runtime identity is incomplete"):
+        validate_provenance(partial_unavailable)
 
 
 def test_events_are_canonical_ordered_and_bound_to_trace(tmp_path: Path) -> None:
@@ -336,6 +373,13 @@ def test_sha256sums_detects_tampering_extra_files_and_unsafe_entries(tmp_path: P
         verify_sha256sums(tmp_path)
 
 
+def test_manifest_inventory_recognizes_adaptation_evidence_sidecars() -> None:
+    assert (
+        _artifact_role("methods/da_plcbf_full/static/0/adaptation_evidence.npz")
+        == "adaptation-evidence"
+    )
+
+
 def _video_record(condition: str, *, method: str = "da_plcbf_full") -> dict[str, Any]:
     return {
         "renderer": "scientific-dashboard-v1",
@@ -369,6 +413,131 @@ def test_final_video_coverage_requires_one_full_method_video_per_core_condition(
         _validate_final_core_video_coverage((records[0], records[0], *records[2:]))
 
 
+def test_final_review_uses_each_video_stem_for_its_exact_frame_artifacts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    conditions = ("static", "dynamics_change", "ballistic_ball", "interceptor_drone")
+    run = tmp_path / "review-run"
+    video_directory = run / "videos"
+    review_directory = run / "visual_reviews"
+    video_directory.mkdir(parents=True)
+    review_directory.mkdir()
+
+    tape = generate_scenario_tape(4, ScenarioTapeConfig(steps=12, dt=0.05), fold=0)
+    trace = synthetic_trace(tape.sha256, steps=12, dt=0.05)
+    sidecar_digest = "d" * 64
+    tape_records = []
+    videos = []
+    expected_calls = []
+    check_names = (
+        "original_resolution_inspected",
+        "labels_legible_without_console",
+        "unsafe_and_degraded_visibly_distinct",
+        "overlays_agree_with_trace",
+        "event_annotations_agree_with_trace",
+        "camera_and_occlusion_acceptable",
+        "scales_units_and_timing_clear",
+        "unavailable_evidence_explicit",
+    )
+    for offset, condition in enumerate(conditions, start=1):
+        method_directory = run / "methods" / "da_plcbf_full" / condition / "0"
+        tape_directory = run / "scenario_tapes" / condition
+        method_directory.mkdir(parents=True)
+        tape_directory.mkdir(parents=True)
+        save_trace(trace, method_directory / "trace.npz")
+        save_scenario_tape(tape, tape_directory / "0.npz")
+        (method_directory / "dashboard_evidence.npz").write_bytes(b"bound-sidecar")
+        tape_records.append(
+            {
+                "condition": condition,
+                "fold": 0,
+                "path": f"scenario_tapes/{condition}/0.npz",
+                "content_sha256": tape.sha256,
+            }
+        )
+
+        stem = f"da_plcbf_full--{condition}--fold-0000"
+        video_path = video_directory / f"{stem}.mp4"
+        video_path.write_bytes(f"video-{condition}".encode())
+        video = {
+            **_video_record(condition),
+            "sha256": file_sha256(video_path),
+            "frame_count": trace.steps,
+            "duration_seconds": trace.steps / 10.0,
+        }
+        videos.append(video)
+        indices = (0, offset)
+        expected_calls.append(
+            (stem, indices, review_contact_sheet_title("da_plcbf_full", condition, 0))
+        )
+        review = VisualReviewRecord(
+            schema_version=1,
+            reviewer="audit agent",
+            reviewer_kind="agent",
+            reviewed_utc="2026-08-31T00:00:00Z",
+            disposition="pass",
+            trace_content_sha256=trace.content_sha256,
+            scenario_tape_sha256=tape.sha256,
+            dashboard_evidence_sha256=sidecar_digest,
+            video_file_sha256=video["sha256"],
+            decoded_frames_sha256=video["decoded_frames_sha256"],
+            frame_width=video["width"],
+            frame_height=video["height"],
+            keyframe_indices=indices,
+            checks=tuple(
+                VisualReviewCheck(name=name, status="pass", note="Inspected exact evidence.")
+                for name in check_names
+            ),
+            notes=("Inspected exact condition-bound full-resolution frames.",),
+            revisions=(),
+        )
+        write_visual_review_record(review, review_directory / f"{stem}.md")
+
+    write_seeds(
+        {
+            "schema_version": 1,
+            "root_seed": 4,
+            "folds": [0],
+            "named_streams": {"scenario": 1},
+            "scenario_tapes": sorted(
+                tape_records, key=lambda record: (record["condition"], record["fold"])
+            ),
+            "pairing_id": "review-binding",
+        },
+        run / "seeds.json",
+    )
+
+    class _Sidecar:
+        content_sha256 = sidecar_digest
+
+    monkeypatch.setattr(
+        "crazyflow.safety.da_plcbf.dashboard_evidence.load_dashboard_evidence",
+        lambda _path: _Sidecar(),
+    )
+    observed_calls = []
+
+    def capture_frame_validation(
+        _root: Path,
+        *,
+        stem: str,
+        keyframe_indices: tuple[int, ...],
+        contact_sheet_title: str,
+        **_kwargs: Any,
+    ) -> None:
+        observed_calls.append((stem, tuple(keyframe_indices), contact_sheet_title))
+
+    monkeypatch.setattr(
+        "crazyflow.safety.da_plcbf.artifacts._validate_review_frame_artifacts",
+        capture_frame_validation,
+    )
+    reviewed = validate_campaign_visual_reviews(
+        run, tuple(videos), require_all=True, require_final_core=True
+    )
+
+    assert observed_calls == expected_calls
+    assert reviewed == tuple(f"visual_reviews/{stem}.md" for stem, _, _ in expected_calls)
+
+
 def _write_test_png_header(path: Path, *, width: int, height: int) -> None:
     path.write_bytes(
         b"\x89PNG\r\n\x1a\n" + struct.pack(">I", 13) + b"IHDR" + struct.pack(">II", width, height)
@@ -389,7 +558,11 @@ def test_final_review_requires_exact_full_resolution_keyframes_and_contact_sheet
     video = videos / f"{stem}.mp4"
     render_dashboard(trace, video, fps=10.0, size=(640, 360))
     records = extract_keyframes(video, trace, keyframes, count=8)
-    title = "da_plcbf_full · static · paired fold 0"
+    title = review_contact_sheet_title("da_plcbf_full", "static", 0)
+    assert title == (
+        "da_plcbf_full · static · fold 0 · inspect ego-centric fallback selection, "
+        "evasive response, hazards, and BPTT updates"
+    )
     sheet = sheets / f"{stem}.png"
     render_contact_sheet(records, sheet, title=title)
     indices = tuple(record.step for record in records)

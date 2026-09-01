@@ -37,6 +37,9 @@ from crazyflow.safety.da_plcbf.actor import (
     initialize_shared_actor,
 )
 from crazyflow.safety.da_plcbf.adaptation_evidence import (
+    ADMISSION_PUBLICATION_ACCOUNTING,
+    ADMISSION_RUNTIME_SCOPE,
+    BPTT_EXECUTION_CONTRACT,
     AdaptationDecisionProof,
     AdaptationEvidence,
     CandidateValidationMaterial,
@@ -302,7 +305,11 @@ class ExperimentConfig:
     @classmethod
     def final_defaults(cls, *, random_seed: int = 0) -> ExperimentConfig:
         """Return the predeclared K=64/H=50/R=4 final-shape configuration."""
-        return cls(random_seed=random_seed, realtime_pacing=True)
+        return cls(
+            random_seed=random_seed,
+            adaptation_execution_mode=AdaptationExecutionMode.REALTIME_PROBE.value,
+            realtime_pacing=True,
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -429,9 +436,11 @@ class TrialExecutionError(RuntimeError):
 class _BPTTExecutablePool:
     """Campaign-local BPTT function and device executable cache for one exact static shape."""
 
-    def __init__(self, signature: str, bptt: Any) -> None:
+    def __init__(self, signature: str, bptt: Any, device: jax.Device) -> None:
         self.signature = signature
         self.bptt = bptt
+        self.device = device
+        self.device_key = (str(device.platform), int(device.id))
         self.compiled_bursts: dict[str, Any] = {}
         self.compile_timings: dict[str, tuple[float, float]] = {}
         self.compiled_evidence: dict[str, Any] = {}
@@ -545,15 +554,19 @@ def build_experiment_resources(
         thrust_min=jnp.asarray(raw["thrust_min"]),
         thrust_max=jnp.asarray(raw["thrust_max"]),
     )
-    spec = build_shared_quad_library_spec(policy_count=config.policy_count)
     actor_config = SharedActorConfig(hidden_width=32)
-    params = initialize_shared_actor(
-        jax.random.key(initialization_seed),
-        spec,
-        dimension=3,
-        n_obstacles=obstacle_count,
-        config=actor_config,
-    )
+    # Policy initialization is claim-bearing evidence.  Canonicalize its random transform on CPU
+    # so a GPU-produced run reconstructs byte-exactly in a fresh CPU-only validator.
+    actor_initialization_device = jax.devices("cpu")[0]
+    with jax.default_device(actor_initialization_device):
+        spec = build_shared_quad_library_spec(policy_count=config.policy_count)
+        params = initialize_shared_actor(
+            jax.random.key(initialization_seed),
+            spec,
+            dimension=3,
+            n_obstacles=obstacle_count,
+            config=actor_config,
+        )
     return ExperimentResources(
         model=model,
         actuator=actuator,
@@ -732,32 +745,28 @@ def _replay_dashboard_dynamics_and_contexts(
     selected_method = MethodID(method)
     if trace.steps > tape.steps:
         raise ValueError("dynamics replay trace exceeds its scenario tape")
+    device = _authoritative_estimator_device()
     raw: dict[str, Any] = load_params("cf21B_500")
-    base_model = VersionAModel(
-        mass=jnp.asarray(raw["mass"]),
-        gravity_vec=jnp.asarray(raw["gravity_vec"]),
-        inertia=jnp.asarray(raw["J"]),
-        inertia_inv=jnp.linalg.inv(jnp.asarray(raw["J"])),
-        drag_matrix=jnp.asarray(raw["drag_matrix"]),
-        wind_velocity=jnp.zeros(3),
-        external_force=jnp.zeros(3),
-        external_torque=jnp.zeros(3),
-    )
-    actuator = VersionAActuator(
-        arm_length=jnp.asarray(raw["L"]),
-        thrust_to_torque=jnp.asarray(raw["thrust2torque"]),
-        mixing_matrix=jnp.asarray(raw["mixing_matrix"]),
-        thrust_min=jnp.asarray(raw["thrust_min"]),
-        thrust_max=jnp.asarray(raw["thrust_max"]),
-    )
+    with jax.default_device(device):
+        base_model = VersionAModel(
+            mass=jnp.asarray(raw["mass"]),
+            gravity_vec=jnp.asarray(raw["gravity_vec"]),
+            inertia=jnp.asarray(raw["J"]),
+            inertia_inv=jnp.linalg.inv(jnp.asarray(raw["J"])),
+            drag_matrix=jnp.asarray(raw["drag_matrix"]),
+            wind_velocity=jnp.zeros(3),
+            external_force=jnp.zeros(3),
+            external_torque=jnp.zeros(3),
+        )
+        actuator = VersionAActuator(
+            arm_length=jnp.asarray(raw["L"]),
+            thrust_to_torque=jnp.asarray(raw["thrust2torque"]),
+            mixing_matrix=jnp.asarray(raw["mixing_matrix"]),
+            thrust_min=jnp.asarray(raw["thrust_min"]),
+            thrust_max=jnp.asarray(raw["thrust_max"]),
+        )
     estimator_config = EstimatorConfig()
-    estimator = initialize_estimator(
-        estimator_config,
-        mass=float(base_model.mass),
-        drag_force_coefficients=-jnp.diag(base_model.drag_matrix),
-        wind_velocity=base_model.wind_velocity,
-        rotor_efficiency=1.0,
-    )
+    estimator = _initialize_authoritative_estimator(base_model, estimator_config, device=device)
     uses_uncertainty = selected_method in {
         MethodID.DA_PLCBF_NO_ONLINE_MODEL_ADAPTATION,
         MethodID.DA_PLCBF_FULL,
@@ -773,24 +782,33 @@ def _replay_dashboard_dynamics_and_contexts(
     controller_models: list[VersionAModel] = []
     model_sample_contexts: list[VersionAModelSamples] = []
     history: list[tuple[np.ndarray, ...]] = []
+    compiled_estimator = None
+    if updates_estimator:
+        empty = _authoritative_estimator_observations(
+            history, config.estimator_window_steps, device=device
+        )
+        estimator_arguments = _authoritative_estimator_arguments(estimator, empty, 0, device=device)
+        compiled_estimator = (
+            _authoritative_estimator_function(estimator_config)
+            .lower(*estimator_arguments)
+            .compile()
+        )
+        _block(compiled_estimator(*estimator_arguments))
     for index in range(steps):
-        true_model, efficiency = _true_model(base_model, tape, selected_condition, index)
+        with jax.default_device(device):
+            true_model, efficiency = _true_model(base_model, tape, selected_condition, index)
         truth[index] = np.asarray(
             _dynamics_parameter_vector(true_model, efficiency), dtype=np.float64
         )
-        controller_model = _controller_model(base_model, estimator)
+        controller_model, samples = _authoritative_model_samples(
+            base_model, estimator, estimator_config, config.uncertainty_sample_count, device=device
+        )
         controller_models.append(controller_model)
         estimated[index] = np.asarray(
             _dynamics_parameter_vector(
                 controller_model, physical_parameters(estimator).rotor_efficiency
             ),
             dtype=np.float64,
-        )
-        particles = deterministic_parameter_samples(
-            estimator, sample_count=config.uncertainty_sample_count, config=estimator_config
-        )
-        samples = version_a_model_samples_from_estimator(
-            particles, controller_model, estimator_config
         )
         model_sample_contexts.append(samples)
         if uses_uncertainty:
@@ -802,30 +820,27 @@ def _replay_dashboard_dynamics_and_contexts(
             raise ValueError("dashboard estimator model-version history does not replay")
         if index == steps - 1:
             continue
-        state = jnp.asarray(trace.true_state[index], dtype=jnp.float32)
-        next_state = jnp.asarray(trace.true_state[index + 1], dtype=jnp.float32)
-        commanded = jnp.asarray(trace.filtered_control[index], dtype=jnp.float32)
-        realized = jnp.asarray(trace.applied_control[index], dtype=jnp.float32)
+        with jax.default_device(device):
+            state = jnp.asarray(trace.true_state[index], dtype=jnp.float32)
+            next_state = jnp.asarray(trace.true_state[index + 1], dtype=jnp.float32)
+            commanded = jnp.asarray(trace.filtered_control[index], dtype=jnp.float32)
+            realized = jnp.asarray(trace.applied_control[index], dtype=jnp.float32)
         history.append(
             _estimator_history_entry(
                 state, next_state, commanded, realized, true_model, actuator, tape, index, config.dt
             )
         )
         if updates_estimator and (index + 1) % config.estimator_interval_steps == 0:
-            translational, rotor = _estimator_observations(history, config.estimator_window_steps)
-            rotor_update = update_rotor_efficiency(
-                estimator,
-                rotor,
-                sequence=jnp.asarray(index, dtype=jnp.int32),
-                mode="per_rotor",
-                config=estimator_config,
+            if compiled_estimator is None:
+                raise RuntimeError("authoritative estimator executable was not prepared")
+            observations = _authoritative_estimator_observations(
+                history, config.estimator_window_steps, device=device
             )
-            translation_update = update_translational_estimate(
-                rotor_update.state,
-                translational,
-                sequence=jnp.asarray(index, dtype=jnp.int32),
-                config=estimator_config,
+            arguments = _authoritative_estimator_arguments(
+                estimator, observations, index, device=device
             )
+            translation_update, rotor_update = compiled_estimator(*arguments)
+            _block((translation_update, rotor_update))
             estimator = translation_update.state
     return (
         truth,
@@ -1194,7 +1209,11 @@ def _barrier_trace(
     positions = states[:, :3]
     speed = np.linalg.norm(states[:, 7:10], axis=-1)
     angular = np.linalg.norm(states[:, 10:13], axis=-1)
-    rotations = np.asarray(quaternion_to_rotation_matrix(jnp.asarray(states[:, 3:7])))
+    # Persisted physical evidence must reconstruct independently of the controller/plant backend.
+    # In particular, float32 quaternion normalization differs by a few ulps between CPU and GPU
+    # XLA lowerings.  Keep this post-run calculation on the host in float64, like the other hard
+    # barrier terms, so a GPU-produced trace replays exactly in a fresh CPU-only process.
+    rotations = quaternion_to_rotation_matrix(np.asarray(states[:, 3:7], dtype=np.float64))
     cosine_tilt = rotations[:, 2, 2]
     span = tape.arena_upper - tape.arena_lower
     arena = np.min(
@@ -1691,14 +1710,182 @@ def _candidate_evidence(
     return tuple(np.asarray(value) for value in outputs)  # type: ignore[return-value]
 
 
-def _bptt_executable_signature(resources: ExperimentResources, config: ExperimentConfig) -> str:
+def _online_bptt_device() -> jax.Device:
+    """Prefer the first CUDA device for online JIT BPTT, with a CPU-only fallback.
+
+    Production GPU runs keep differentiable rollout, reverse-mode differentiation, and the
+    fixed-budget optimizer burst on the accelerator.  The fallback keeps CPU-only development and
+    unit-test environments usable; every event records which backend was actually selected.
+    """
+    try:
+        gpu_devices = jax.devices("gpu")
+    except (RuntimeError, ValueError):
+        gpu_devices = []
+    if gpu_devices:
+        return gpu_devices[0]
+    cpu_devices = jax.devices("cpu")
+    if not cpu_devices:
+        raise RuntimeError("online BPTT requires an available JAX GPU or CPU device")
+    return cpu_devices[0]
+
+
+def _authoritative_estimator_device() -> jax.Device:
+    """Return the CPU device shared by estimator production and evidence replay."""
+    devices = jax.devices("cpu")
+    if not devices:
+        raise RuntimeError("the causal estimator requires an available JAX CPU device")
+    return devices[0]
+
+
+def _authoritative_model(
+    base_model: VersionAModel, *, device: jax.Device | None = None
+) -> VersionAModel:
+    """Canonicalize static model fields whose construction may depend on ambient XLA."""
+    device = _authoritative_estimator_device() if device is None else device
+    if str(device.platform) != "cpu":
+        raise ValueError("authoritative model canonicalization requires a CPU device")
+    with jax.default_device(device):
+        model = jax.device_put(base_model, device)
+        model = model._replace(inertia_inv=jnp.linalg.inv(model.inertia))
+    return jax.device_put(model, device)
+
+
+def _authoritative_resources(
+    resources: ExperimentResources, *, device: jax.Device | None = None
+) -> ExperimentResources:
+    """Place all numerical proof resources on CPU and canonicalize derived model fields."""
+    device = _authoritative_estimator_device() if device is None else device
+    if str(device.platform) != "cpu":
+        raise ValueError("authoritative proof resources require a CPU device")
+    return replace(
+        resources,
+        model=_authoritative_model(resources.model, device=device),
+        actuator=jax.device_put(resources.actuator, device),
+        spec=jax.device_put(resources.spec, device),
+        initial_params=jax.device_put(resources.initial_params, device),
+    )
+
+
+def _resources_on_device(resources: ExperimentResources, device: jax.Device) -> ExperimentResources:
+    """Canonicalize model constants once on CPU, then place numerical resources on ``device``."""
+    canonical = _authoritative_resources(resources)
+    with jax.default_device(device):
+        return replace(
+            canonical,
+            model=jax.device_put(canonical.model, device),
+            actuator=jax.device_put(canonical.actuator, device),
+            spec=jax.device_put(canonical.spec, device),
+            initial_params=jax.device_put(canonical.initial_params, device),
+        )
+
+
+def _initialize_authoritative_estimator(
+    base_model: VersionAModel,
+    estimator_config: EstimatorConfig,
+    *,
+    device: jax.Device | None = None,
+) -> EstimatorState:
+    """Initialize the causal estimator from canonical CPU-resident model values."""
+    device = _authoritative_estimator_device() if device is None else device
+    if str(device.platform) != "cpu":
+        raise ValueError("authoritative estimator initialization requires a CPU device")
+    with jax.default_device(device):
+        model = _authoritative_model(base_model, device=device)
+        estimator = initialize_estimator(
+            estimator_config,
+            mass=float(model.mass),
+            drag_force_coefficients=-jnp.diag(model.drag_matrix),
+            wind_velocity=model.wind_velocity,
+            rotor_efficiency=1.0,
+        )
+    return jax.device_put(estimator, device)
+
+
+def _authoritative_model_samples(
+    base_model: VersionAModel,
+    estimator: EstimatorState,
+    estimator_config: EstimatorConfig,
+    sample_count: int,
+    *,
+    device: jax.Device | None = None,
+) -> tuple[VersionAModel, VersionAModelSamples]:
+    """Derive every estimator-dependent BPTT context value on authoritative CPU."""
+    device = _authoritative_estimator_device() if device is None else device
+    if str(device.platform) != "cpu":
+        raise ValueError("authoritative adaptation context requires a CPU device")
+    with jax.default_device(device):
+        model = _authoritative_model(base_model, device=device)
+        estimator = jax.device_put(estimator, device)
+        controller_model = _controller_model(model, estimator)
+        particles = deterministic_parameter_samples(
+            estimator, sample_count=sample_count, config=estimator_config
+        )
+        samples = version_a_model_samples_from_estimator(
+            particles, controller_model, estimator_config
+        )
+    return jax.device_put(controller_model, device), jax.device_put(samples, device)
+
+
+def _authoritative_estimator_function(estimator_config: EstimatorConfig) -> Any:
+    """Build the one compiled estimator body used by production and fresh replay."""
+
+    def estimate(
+        current: EstimatorState,
+        translational: TranslationalObservations,
+        rotor: RotorEfficiencyObservations,
+        sequence: Array,
+    ) -> tuple[Any, Any]:
+        rotor_update = update_rotor_efficiency(
+            current, rotor, sequence=sequence, mode="per_rotor", config=estimator_config
+        )
+        translation_update = update_translational_estimate(
+            rotor_update.state, translational, sequence=sequence, config=estimator_config
+        )
+        return translation_update, rotor_update
+
+    return jax.jit(estimate)
+
+
+def _authoritative_estimator_arguments(
+    estimator: EstimatorState,
+    observations: tuple[TranslationalObservations, RotorEfficiencyObservations],
+    sequence: int | Array,
+    *,
+    device: jax.Device | None = None,
+) -> tuple[Any, ...]:
+    """Place one fixed-shape estimator invocation entirely on authoritative CPU."""
+    device = _authoritative_estimator_device() if device is None else device
+    if str(device.platform) != "cpu":
+        raise ValueError("authoritative estimator execution requires a CPU device")
+    with jax.default_device(device):
+        arguments = (
+            jax.device_put(estimator, device),
+            jax.device_put(observations[0], device),
+            jax.device_put(observations[1], device),
+            jax.device_put(jnp.asarray(sequence, dtype=jnp.int32), device),
+        )
+    return arguments
+
+
+def _bptt_runtime_input_digest(arguments: tuple[Any, ...]) -> str:
+    """Hash every exact runtime leaf supplied to one online BPTT burst."""
+    return _numeric_digest("online-bptt-runtime-inputs-v1", *jax.tree.leaves(arguments))
+
+
+def _bptt_executable_signature(
+    resources: ExperimentResources, config: ExperimentConfig, *, device: jax.Device | None = None
+) -> str:
+    device = _online_bptt_device() if device is None else device
+    canonical_resources = _authoritative_resources(resources)
     numeric = _numeric_digest(
         "bptt-static-resources",
-        *jax.tree.leaves(resources.spec),
-        *jax.tree.leaves(resources.actuator),
+        *jax.tree.leaves(canonical_resources.spec),
+        *jax.tree.leaves(canonical_resources.actuator),
     )
     return _scenario_digest(
-        "dynamic-model-bptt-executable-v1",
+        "dynamic-model-online-bptt-executable-v4",
+        BPTT_EXECUTION_CONTRACT,
+        f"{device.platform}:{device.id}",
         config,
         resources.actor_config,
         resources.quad_config,
@@ -1709,22 +1896,30 @@ def _bptt_executable_signature(resources: ExperimentResources, config: Experimen
 
 
 def _build_bptt_executable_pool(
-    resources: ExperimentResources, config: ExperimentConfig
+    resources: ExperimentResources, config: ExperimentConfig, *, device: jax.Device | None = None
 ) -> _BPTTExecutablePool:
+    device = _online_bptt_device() if device is None else device
     learning = QuadLearningConfig(
         dt=config.dt, horizon=config.certificate_horizon, policy_gain=config.policy_gain
     )
-    bptt = build_dynamic_model_quad_actor_bptt_functions(
-        resources.spec,
-        resources.actuator,
-        resources.actor_config,
-        resources.quad_config,
-        resources.barrier_config,
-        learning,
-        resources.loss_config,
-        burst_steps=config.bptt_burst_steps,
+    with jax.default_device(device):
+        runtime_resources = _resources_on_device(resources, device)
+        spec = runtime_resources.spec
+        actuator = runtime_resources.actuator
+        bptt = build_dynamic_model_quad_actor_bptt_functions(
+            spec,
+            actuator,
+            resources.actor_config,
+            resources.quad_config,
+            resources.barrier_config,
+            learning,
+            resources.loss_config,
+            burst_steps=config.bptt_burst_steps,
+            device=device,
+        )
+    return _BPTTExecutablePool(
+        _bptt_executable_signature(resources, config, device=device), bptt, device
     )
-    return _BPTTExecutablePool(_bptt_executable_signature(resources, config), bptt)
 
 
 class _CandidateJob:
@@ -1746,13 +1941,14 @@ class _CandidateJob:
         self._contexts: dict[
             int, list[tuple[int, Array, VersionAModel, VersionAModelSamples, Any]]
         ] = {}
-        self._online_device: jax.Device | None = None
         pool = executable_pool or _build_bptt_executable_pool(resources, config)
-        if pool.signature != _bptt_executable_signature(resources, config):
+        if pool.signature != _bptt_executable_signature(resources, config, device=pool.device):
             raise ValueError("BPTT executable pool is incompatible with this trial")
         # Model parameters are runtime values.  Estimator updates and paired folds therefore reuse
         # one compiled executable instead of manufacturing value-specialized closures.
+        self._adaptation_device = pool.device
         self._bptt = pool.bptt
+        self._bptt_device_key = pool.device_key
         self._compiled_bursts = pool.compiled_bursts
         self._compile_timings = pool.compile_timings
         self._compiled_evidence = pool.compiled_evidence
@@ -1761,12 +1957,10 @@ class _CandidateJob:
         self.diagnostics: dict[str, dict[str, Any]] = {}
         self.validation_material: dict[str, CandidateValidationMaterial] = {}
 
-    def isolate_online_updates_on_cpu(self) -> None:
-        """Route post-startup BPTT to CPU so it cannot occupy the controller's CUDA queue."""
-        devices = jax.devices("cpu")
-        if not devices:
-            raise RuntimeError("online CPU isolation requested but no JAX CPU device is available")
-        self._online_device = devices[0]
+    @property
+    def adaptation_device(self) -> jax.Device:
+        """Device used by the compiled online BPTT and hard-admission graphs."""
+        return self._adaptation_device
 
     @staticmethod
     def _on_device(tree: Any, device: jax.Device | None) -> Any:
@@ -1775,13 +1969,7 @@ class _CandidateJob:
     def _resources_on_device(self, device: jax.Device | None) -> ExperimentResources:
         if device is None:
             return self._resources
-        return replace(
-            self._resources,
-            model=self._on_device(self._resources.model, device),
-            actuator=self._on_device(self._resources.actuator, device),
-            spec=self._on_device(self._resources.spec, device),
-            initial_params=self._on_device(self._resources.initial_params, device),
-        )
+        return _resources_on_device(self._resources, device)
 
     def _bptt_arguments(
         self,
@@ -1790,7 +1978,7 @@ class _CandidateJob:
         start_index: int,
         controller_model: VersionAModel,
         device: jax.Device | None,
-    ) -> tuple[tuple[Any, ...], str, Array]:
+    ) -> tuple[tuple[Any, ...], str, Array, str]:
         with nullcontext() if device is None else jax.default_device(device):
             initial_states, circles, safety = _training_batch(
                 self._tape, self._on_device(state, device), start_index, self._config
@@ -1804,7 +1992,8 @@ class _CandidateJob:
             )
             params = self._on_device(_tree_device(active_params), device)
             optimizer_state = self._on_device(self._bptt.initialize(params), device)
-            targets = self._on_device(descriptor_targets_from_spec(self._resources.spec), device)
+            proof_spec = self._resources_on_device(device).spec
+            targets = self._on_device(descriptor_targets_from_spec(proof_spec), device)
             descriptor_scales = self._on_device(
                 jnp.asarray([2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 3.0, 3.0, 3.0], dtype=state.dtype),
                 device,
@@ -1819,7 +2008,12 @@ class _CandidateJob:
                 descriptor_scales,
                 self._on_device(controller_model, device),
             )
-        return arguments, training_digest, descriptor_scales
+        return (
+            arguments,
+            training_digest,
+            descriptor_scales,
+            _bptt_runtime_input_digest(arguments),
+        )
 
     def _ensure_compiled(
         self, cache_key: str, arguments: tuple[Any, ...]
@@ -1925,22 +2119,20 @@ class _CandidateJob:
         *,
         start_index: int,
     ) -> dict[str, Any]:
-        """Compile and warm CPU BPTT and hard validation before control begins."""
-        if self._online_device is None:
-            raise RuntimeError("online BPTT must be isolated before it is precompiled")
-        arguments, training_digest, _ = self._bptt_arguments(
-            active.params, state, start_index, controller_model, self._online_device
+        """Compile and warm accelerator BPTT and hard validation before control begins."""
+        arguments, training_digest, _, bptt_input_digest = self._bptt_arguments(
+            active.params, state, start_index, controller_model, self._adaptation_device
         )
-        cache_key = f"online:{self._online_device.platform}:{self._online_device.id}"
+        cache_key = f"online:{self._adaptation_device.platform}:{self._adaptation_device.id}"
         _, hit, compile_seconds, warmup_seconds = self._ensure_compiled(cache_key, arguments)
-        with jax.default_device(self._online_device):
-            resources = self._resources_on_device(self._online_device)
+        with jax.default_device(self._adaptation_device):
+            resources = self._resources_on_device(self._adaptation_device)
             validation = _hard_validation_batch(
                 self._tape,
                 self._heldout_tape,
-                self._on_device(state, self._online_device),
+                self._on_device(state, self._adaptation_device),
                 start_index,
-                self._on_device(controller_model, self._online_device),
+                self._on_device(controller_model, self._adaptation_device),
                 resources,
                 self._config,
             )
@@ -1952,9 +2144,11 @@ class _CandidateJob:
                 window,
                 controller_model,
                 model_samples,
-                self._online_device,
+                self._adaptation_device,
             )
-            evidence_key = f"evidence:{self._online_device.platform}:{self._online_device.id}"
+            evidence_key = (
+                f"evidence:online:{self._adaptation_device.platform}:{self._adaptation_device.id}"
+            )
             _, evidence_hit, evidence_compile, evidence_warmup = self._ensure_evidence_compiled(
                 evidence_key, evidence_arguments, evidence_resources
             )
@@ -1968,6 +2162,7 @@ class _CandidateJob:
             "evidence_compile_seconds": evidence_compile,
             "evidence_warmup_seconds": evidence_warmup,
             "training_batch_digest": training_digest,
+            "bptt_input_digest": bptt_input_digest,
             "compilation_excluded_from_execution_timing": True,
         }
 
@@ -2007,8 +2202,8 @@ class _CandidateJob:
                     "candidate context missing for captured model version"
                 ) from error
         admission_start = time.perf_counter()
-        device = self._online_device
-        cache_key = "startup:default" if device is None else f"online:{device.platform}:{device.id}"
+        device = self._adaptation_device
+        cache_key = f"online:{device.platform}:{device.id}"
         job_resources = self._resources_on_device(device)
         setup_start = time.perf_counter()
         with nullcontext() if device is None else jax.default_device(device):
@@ -2016,7 +2211,7 @@ class _CandidateJob:
             controller_model = self._on_device(controller_model, device)
             model_samples = self._on_device(model_samples, device)
             window = self._on_device(window, device)
-            arguments, training_digest, descriptor_scales = self._bptt_arguments(
+            arguments, training_digest, descriptor_scales, bptt_input_digest = self._bptt_arguments(
                 active.params, state, start_index, controller_model, device
             )
             active_params = arguments[5]
@@ -2061,6 +2256,7 @@ class _CandidateJob:
         execution_device = trained_leaves[0].device
         execution_backend = str(execution_device.platform)
         execution_device_id = int(execution_device.id)
+        execution_device_name = str(execution_device)
         candidate = create_candidate_snapshot(
             trained.params,
             version=active.version + 1,
@@ -2070,12 +2266,15 @@ class _CandidateJob:
             metadata={
                 "algorithm": "fixed_budget_truncated_bptt",
                 "burst_steps": self._config.bptt_burst_steps,
+                "bptt_execution_contract": BPTT_EXECUTION_CONTRACT,
                 "objective": "plcbf_aligned_coverage_diversity",
                 "proposal_training_digest": training_digest,
+                "bptt_input_digest": bptt_input_digest,
                 "hard_validation_digest": validation.digest,
                 "bptt_cache_key": cache_key,
                 "bptt_execution_backend": execution_backend,
                 "bptt_execution_device_id": execution_device_id,
+                "bptt_execution_device": execution_device_name,
                 "bptt_compilation_excluded_from_execution_timing": True,
                 "bptt_execution_scope": "compiled_burst_only",
             },
@@ -2090,11 +2289,7 @@ class _CandidateJob:
             model_samples,
             device,
         )
-        evidence_key = (
-            "evidence:startup:default"
-            if device is None
-            else f"evidence:{device.platform}:{device.id}"
-        )
+        evidence_key = f"evidence:online:{device.platform}:{device.id}"
         (
             compiled_evidence,
             evidence_cache_hit,
@@ -2171,25 +2366,23 @@ class _CandidateJob:
                 "bptt_cache_key": cache_key,
                 "bptt_execution_backend": execution_backend,
                 "bptt_execution_device_id": execution_device_id,
+                "bptt_execution_device": execution_device_name,
                 "bptt_compilation_excluded_from_execution_timing": True,
                 "bptt_execution_scope": "compiled_burst_only",
+                "bptt_execution_contract": BPTT_EXECUTION_CONTRACT,
+                "bptt_input_digest": bptt_input_digest,
                 "validation_seconds": validation_seconds,
                 "validation_report_seconds": validation_report_seconds,
                 "admission_runtime_seconds": admission_runtime_seconds,
-                "admission_runtime_scope": (
-                    "complete_prepublication_candidate_job_excluding_compile_and_warmup"
-                ),
+                "admission_runtime_scope": ADMISSION_RUNTIME_SCOPE,
                 "admission_publication_included": False,
-                "admission_publication_accounting": (
-                    "startup publication is pre-control; logical-mode publication is included "
-                    "in postprocessing and wall_step; realtime-mode boundary publication is "
-                    "included in command_preparation and wall_step"
-                ),
+                "admission_publication_accounting": ADMISSION_PUBLICATION_ACCOUNTING,
                 "admission_excluded_compile_warmup_seconds": excluded_compile_warmup_seconds,
                 "validation_compile_seconds": evidence_compile_seconds,
                 "validation_warmup_seconds": evidence_warmup_seconds,
                 "validation_compiled_cache_hit": evidence_cache_hit,
                 "validation_cache_key": evidence_key,
+                "validation_execution_device": execution_device_name,
                 "validation_compilation_excluded_from_execution_timing": True,
                 "validation_execution_synchronized": True,
                 "gradient_norm": float(np.asarray(metrics.gradient_norm[-1])),
@@ -2205,7 +2398,8 @@ class _CandidateJob:
                 "minimum_redundancy_threshold": self._config.validation_minimum_redundancy,
                 "minimum_diversity_threshold": self._config.validation_minimum_diversity,
                 "retention_tolerance": self._config.validation_retention_tolerance,
-                "execution_device_is_cpu": device is not None,
+                "execution_device_is_cpu": execution_backend == "cpu",
+                "execution_device_is_gpu": execution_backend == "gpu",
             }
             self.validation_material[candidate.digest] = CandidateValidationMaterial(
                 proposal_active=active,
@@ -2488,6 +2682,29 @@ def _online_adaptation_lifecycle_blockers(events: Sequence[ArtifactEvent]) -> tu
     failed = any(
         event.category == "adaptation" and event.name == "candidate_failed" for event in events
     )
+    decisions = tuple(
+        event
+        for event in events
+        if event.category in {"cold_start", "adaptation"}
+        and event.name in {"candidate_admitted", "candidate_rejected", "candidate_expired"}
+    )
+    execution_bound = bool(decisions) and all(
+        event.details.get("bptt_execution_backend") in {"gpu", "cpu"}
+        and event.details.get("execution_device_is_gpu")
+        is (event.details.get("bptt_execution_backend") == "gpu")
+        and event.details.get("execution_device_is_cpu")
+        is (event.details.get("bptt_execution_backend") == "cpu")
+        and str(event.details.get("bptt_cache_key", "")).startswith("online:")
+        and event.details.get("bptt_execution_contract") == BPTT_EXECUTION_CONTRACT
+        for event in decisions
+    )
+    try:
+        gpu_available = bool(jax.devices("gpu"))
+    except (RuntimeError, ValueError):
+        gpu_available = False
+    gpu_used_when_available = not gpu_available or all(
+        event.details.get("bptt_execution_backend") == "gpu" for event in decisions
+    )
     blockers: list[str] = []
     if not scheduler_recorded:
         blockers.append("online adaptation execution mode was not recorded")
@@ -2497,6 +2714,10 @@ def _online_adaptation_lifecycle_blockers(events: Sequence[ArtifactEvent]) -> tu
         blockers.append("no post-startup online candidate reached a hard admission decision")
     if failed:
         blockers.append("an online candidate job ended in an execution failure")
+    if not execution_bound:
+        blockers.append("online adaptation execution device was not evidence-bound")
+    if not gpu_used_when_available:
+        blockers.append("online BPTT did not use the available GPU backend")
     return tuple(blockers)
 
 
@@ -2585,8 +2806,13 @@ def _plant_executable_key(config: ExperimentConfig, resources: ExperimentResourc
 
 
 def _estimator_executable_key(config: ExperimentConfig, resources: ExperimentResources) -> str:
+    device = _authoritative_estimator_device()
     return _scenario_digest(
-        "estimator-executable-v1", config.estimator_window_steps, resources.estimator_config
+        "authoritative-cpu-estimator-executable-v2",
+        "authoritative-cpu-estimator-v1",
+        f"{device.platform}:{device.id}",
+        config.estimator_window_steps,
+        resources.estimator_config,
     )
 
 
@@ -2625,6 +2851,18 @@ def _estimator_observations(
     )
 
 
+def _authoritative_estimator_observations(
+    history: Sequence[tuple[np.ndarray, ...]], window: int, *, device: jax.Device | None = None
+) -> tuple[TranslationalObservations, RotorEfficiencyObservations]:
+    """Materialize a fixed estimator window directly on authoritative CPU."""
+    device = _authoritative_estimator_device() if device is None else device
+    if str(device.platform) != "cpu":
+        raise ValueError("authoritative estimator observations require a CPU device")
+    with jax.default_device(device):
+        observations = _estimator_observations(history, window)
+    return jax.device_put(observations, device)
+
+
 def _estimator_history_entry(
     state: Array,
     next_state: Array,
@@ -2643,25 +2881,33 @@ def _estimator_history_entry(
     draw.  The force sensor perturbation is applied before reconstructing collective force so the
     translational and per-rotor estimators consume one physically consistent measured vector.
     """
-    measured_acceleration = np.asarray((next_state[7:10] - state[7:10]) / dt) + np.asarray(
+    device = _authoritative_estimator_device()
+    state_host = np.asarray(state)
+    next_state_host = np.asarray(next_state)
+    commanded_host = np.asarray(commanded_motor)
+    realized_host = np.asarray(realized_motor)
+    measured_acceleration = (next_state_host[7:10] - state_host[7:10]) / dt + np.asarray(
         tape.estimator_acceleration_noise[index]
     )
-    measured_motor = np.asarray(realized_motor) + np.asarray(
-        tape.estimator_motor_force_noise[index]
-    )
-    measured_wrench = motor_forces_to_wrench(
-        jnp.asarray(measured_motor, dtype=state.dtype),
-        L=actuator.arm_length,
-        thrust2torque=actuator.thrust_to_torque,
-        mixing_matrix=actuator.mixing_matrix,
-    )
+    measured_motor = realized_host + np.asarray(tape.estimator_motor_force_noise[index])
+    with jax.default_device(device):
+        state_cpu = jax.device_put(jnp.asarray(state_host), device)
+        actuator_cpu = jax.device_put(actuator, device)
+        measured_wrench = motor_forces_to_wrench(
+            jnp.asarray(measured_motor, dtype=state_cpu.dtype),
+            L=actuator_cpu.arm_length,
+            thrust2torque=actuator_cpu.thrust_to_torque,
+            mixing_matrix=actuator_cpu.mixing_matrix,
+        )
+        rotation = quaternion_to_rotation_matrix(state_cpu[3:7])
+    _block((measured_wrench, rotation))
     return (
-        np.asarray(quaternion_to_rotation_matrix(state[3:7])),
-        np.asarray(state[7:10]),
+        np.asarray(rotation),
+        state_host[7:10],
         measured_acceleration,
         np.asarray(measured_wrench[0]),
         np.asarray(true_model.gravity_vec),
-        np.asarray(commanded_motor),
+        commanded_host,
         measured_motor,
     )
 
@@ -2792,17 +3038,40 @@ def run_trial(
     ):
         raise ValueError("scenario tape seed/fold does not match the paired assignment")
     obstacle_count = tape.static_positions.shape[0] + tape.dynamic_positions.shape[1]
-    resolved = resources or build_experiment_resources(
+    scheduled_resources = build_experiment_resources(
         config,
         obstacle_count=obstacle_count,
         initialization_seed=int(assignment.shared_stochastic_seed & 0xFFFFFFFF),
     )
+    if resources is not None:
+        scheduled_root = create_active_snapshot(
+            scheduled_resources.initial_params,
+            version=0,
+            model_version=0,
+            structural_core=scheduled_resources.spec,
+            metadata={"initialization": "deterministic_structured_zero_residual"},
+        )
+        supplied_root = create_active_snapshot(
+            resources.initial_params,
+            version=0,
+            model_version=0,
+            structural_core=resources.spec,
+            metadata={"initialization": "deterministic_structured_zero_residual"},
+        )
+        if supplied_root.digest != scheduled_root.digest:
+            raise ValueError(
+                "caller-supplied resources do not match the CPU-canonical scheduled policy root"
+            )
+    resolved = scheduled_resources if resources is None else resources
     resolved = _resources_for_tape(resolved, tape, config)
     if resolved.spec.base_codes.shape[0] != config.policy_count:
         raise ValueError("resource policy count does not match the trial configuration")
 
     state = _initial_state(tape)
-    estimator = _initialize_estimator(resolved)
+    estimator_device = _authoritative_estimator_device()
+    estimator = _initialize_authoritative_estimator(
+        resolved.model, resolved.estimator_config, device=estimator_device
+    )
     initial_active = create_active_snapshot(
         resolved.initial_params,
         version=0,
@@ -2830,8 +3099,13 @@ def run_trial(
     event_payloads: list[tuple[int, str, str, dict[str, Any]]] = []
     adaptation_decisions: list[AdaptationDecisionProof] = []
 
-    initial_model = _controller_model(resolved.model, estimator)
-    initial_samples = _model_samples(estimator, resolved, config.uncertainty_sample_count)
+    initial_model, initial_samples = _authoritative_model_samples(
+        resolved.model,
+        estimator,
+        resolved.estimator_config,
+        config.uncertainty_sample_count,
+        device=estimator_device,
+    )
     initial_window = dynamic_sphere_window_from_tape(
         tape,
         start_index=0,
@@ -2917,6 +3191,9 @@ def run_trial(
                     "published_snapshot_version": (
                         publication.active.version if publication.accepted else None
                     ),
+                    "training_model_version": candidate.model_version,
+                    "validation_model_version": report.model_version,
+                    "decision_model_version": decision_model_version,
                     "failed_gates": list(report.failed_gate_names),
                     **cold_start_diagnostics,
                 },
@@ -2927,8 +3204,14 @@ def run_trial(
         # pass the exact hard selector/filter/postcheck.  This is essential for intentionally
         # infeasible adversarial folds: they must produce an explicit degraded/failure trace
         # instead of disappearing from paired statistics.  No rejected candidate is executed.
+        adaptation_device = candidate_job.adaptation_device
+        controller_device = state.device
+        shared_gpu_queue = (
+            str(adaptation_device.platform) == "gpu"
+            and str(controller_device.platform) == "gpu"
+            and int(adaptation_device.id) == int(controller_device.id)
+        )
         if adaptation_mode is AdaptationExecutionMode.REALTIME_PROBE:
-            candidate_job.isolate_online_updates_on_cpu()
             worker = AdaptationWorker(store, candidate_job)
             try:
                 online_precompile = worker.prewarm(
@@ -2951,15 +3234,22 @@ def run_trial(
                     "online_execution_isolated",
                     {
                         "execution_mode": adaptation_mode.value,
-                        "compiled_execution_device": "cpu",
-                        "controller_gpu_execution_not_shared": True,
-                        "host_to_cpu_context_setup_may_synchronize_gpu": True,
+                        "compiled_execution_device": str(adaptation_device),
+                        "compiled_execution_backend": str(adaptation_device.platform),
+                        "gpu_jit_bptt": str(adaptation_device.platform) == "gpu",
+                        "controller_thread_nonblocking": True,
+                        "publication": "controller_boundary_only",
+                        "controller_gpu_queue_shared": shared_gpu_queue,
+                        "host_to_device_context_setup_may_synchronize": True,
                         "complete_cuda_queue_isolation_proven": False,
                         **online_precompile,
                     },
                 )
             )
         else:
+            online_precompile = candidate_job.precompile_online(
+                store.active, state, initial_model, initial_samples, initial_window, start_index=0
+            )
             event_payloads.append(
                 (
                     0,
@@ -2971,7 +3261,20 @@ def run_trial(
                         "publication": "next_control_boundary_only",
                         "host_load_can_change_event_step": False,
                         "real_time_claim_eligible": False,
-                        "gpu_adaptation_included_in_wall_step": True,
+                        "compiled_execution_device": str(adaptation_device),
+                        "compiled_execution_backend": str(adaptation_device.platform),
+                        "gpu_jit_bptt": str(adaptation_device.platform) == "gpu",
+                        "controller_thread_nonblocking": False,
+                        "controller_gpu_queue_shared": shared_gpu_queue,
+                        "host_to_device_context_setup_may_synchronize": True,
+                        "complete_cuda_queue_isolation_proven": False,
+                        "gpu_adaptation_included_in_wall_step": (
+                            str(adaptation_device.platform) == "gpu"
+                        ),
+                        "cpu_adaptation_included_in_wall_step": (
+                            str(adaptation_device.platform) == "cpu"
+                        ),
+                        **online_precompile,
                     },
                 )
             )
@@ -3006,10 +3309,12 @@ def run_trial(
     previous_policy = jnp.asarray(-1, dtype=jnp.int32)
     wrench_weight = jnp.ones((4,), dtype=state.dtype)
     controller_device = state.device
+    adaptation_model_current = initial_model
+    adaptation_samples_current = initial_samples
 
-    # Candidate snapshots may originate on the isolated CPU worker.  Place each immutable active
-    # snapshot on the controller device once per digest instead of relying on an implicit transfer
-    # at every compiled-controller invocation.
+    # Candidate snapshots may originate on the isolated CPU adaptation path.  Place each immutable
+    # active snapshot on the controller device once per digest instead of relying on an implicit
+    # transfer at every compiled-controller invocation.
     active_params_digest = store.active.digest if uses_active else None
     controller_params = _tree_to_device(
         store.active.params if uses_active else fixed_params, controller_device
@@ -3280,32 +3585,17 @@ def run_trial(
         if executable_cache is not None:
             executable_cache.plants[plant_key] = compiled_plant
 
-    def estimator_function(
-        current: EstimatorState,
-        translational: TranslationalObservations,
-        rotor: RotorEfficiencyObservations,
-        sequence: Array,
-    ) -> tuple[Any, Any]:
-        rotor_update = update_rotor_efficiency(
-            current, rotor, sequence=sequence, mode="per_rotor", config=resolved.estimator_config
-        )
-        translation_update = update_translational_estimate(
-            rotor_update.state, translational, sequence=sequence, config=resolved.estimator_config
-        )
-        return translation_update, rotor_update
-
     estimator_history: list[tuple[np.ndarray, ...]] = []
-    empty_observations = _estimator_observations(estimator_history, config.estimator_window_steps)
+    empty_observations = _authoritative_estimator_observations(
+        estimator_history, config.estimator_window_steps, device=estimator_device
+    )
     estimator_compile = 0.0
     compiled_estimator = None
     estimator_cache_hit = False
     if method is MethodID.DA_PLCBF_FULL:
-        jitted_estimator = jax.jit(estimator_function)
-        estimator_args = (
-            estimator,
-            empty_observations[0],
-            empty_observations[1],
-            jnp.asarray(0, dtype=jnp.int32),
+        estimator_function = _authoritative_estimator_function(resolved.estimator_config)
+        estimator_args = _authoritative_estimator_arguments(
+            estimator, empty_observations, 0, device=estimator_device
         )
         estimator_key = _estimator_executable_key(config, resolved)
         compiled_estimator = (
@@ -3314,7 +3604,7 @@ def run_trial(
         estimator_cache_hit = compiled_estimator is not None
         if compiled_estimator is None:
             compile_start = time.perf_counter()
-            compiled_estimator = jitted_estimator.lower(*estimator_args).compile()
+            compiled_estimator = estimator_function.lower(*estimator_args).compile()
             estimator_compile = time.perf_counter() - compile_start
             _block(compiled_estimator(*estimator_args))
             if executable_cache is not None:
@@ -3349,14 +3639,14 @@ def run_trial(
     estimated_physical_current = physical_parameters(estimator)
     estimated_parameter_vector_current = np.asarray(
         _dynamics_parameter_vector(
-            controller_model_current, estimated_physical_current.rotor_efficiency
+            adaptation_model_current, estimated_physical_current.rotor_efficiency
         ),
         dtype=np.float64,
     )
     uncertainty_vectors_current = np.asarray(
-        _sampled_dynamics_parameter_vectors(model_samples_current), dtype=np.float64
+        _sampled_dynamics_parameter_vectors(adaptation_samples_current), dtype=np.float64
     )
-    uncertainty_valid_current = np.asarray(model_samples_current.sample_valid, dtype=np.bool_)
+    uncertainty_valid_current = np.asarray(adaptation_samples_current.sample_valid, dtype=np.bool_)
 
     event_payloads.append(
         (
@@ -3394,6 +3684,7 @@ def run_trial(
                 "target_trajectory_materialized": True,
                 "true_dynamics_schedule_materialized": True,
                 "controller_device": str(controller_device),
+                "estimator_device": str(estimator_device),
                 "excluded_from_warm_step_latency": True,
                 "prediction_horizon_only_at_each_boundary": True,
                 "dynamic_prediction_contract": DYNAMIC_PREDICTION_CONTRACT,
@@ -3466,6 +3757,7 @@ def run_trial(
                     candidate_diagnostics = dict(
                         candidate_job.diagnostics.get(outcome.candidate_digest, {})
                     )
+                    model_lineage_details: dict[str, int] = {}
                     if outcome.status in {AdaptationStatus.ADMITTED, AdaptationStatus.REJECTED}:
                         if outcome.publication is None:
                             raise TrialExecutionError(
@@ -3481,6 +3773,7 @@ def run_trial(
                             if outcome.publication.accepted
                             else outcome.publication.active
                         )
+                        decision_model_version = store.model_version
                         adaptation_decisions.append(
                             AdaptationDecisionProof(
                                 phase="online",
@@ -3492,7 +3785,7 @@ def run_trial(
                                     if outcome.status is AdaptationStatus.ADMITTED
                                     else "rejected"
                                 ),
-                                decision_model_version=store.model_version,
+                                decision_model_version=decision_model_version,
                                 publication_reason=outcome.publication.reason,
                                 used_by_executed_control=False,
                                 proposal_active=material.proposal_active,
@@ -3504,6 +3797,11 @@ def run_trial(
                                 report=material.report,
                             )
                         )
+                        model_lineage_details = {
+                            "training_model_version": material.candidate.model_version,
+                            "validation_model_version": material.report.model_version,
+                            "decision_model_version": decision_model_version,
+                        }
                     if candidate_diagnostics:
                         last_candidate_loss = float(candidate_diagnostics["loss"])
                         last_gradient = float(candidate_diagnostics["gradient_norm"])
@@ -3528,6 +3826,7 @@ def run_trial(
                                     else None
                                 ),
                                 "publication_boundary": index,
+                                **model_lineage_details,
                                 **candidate_diagnostics,
                             },
                         )
@@ -3669,13 +3968,14 @@ def run_trial(
                 compiled_estimator is not None
                 and (index + 1) % config.estimator_interval_steps == 0
             ):
-                observations = _estimator_observations(
-                    estimator_history, config.estimator_window_steps
+                observations = _authoritative_estimator_observations(
+                    estimator_history, config.estimator_window_steps, device=estimator_device
+                )
+                estimator_arguments = _authoritative_estimator_arguments(
+                    estimator, observations, index, device=estimator_device
                 )
                 estimator_start = time.perf_counter()
-                translation_update, rotor_update = compiled_estimator(
-                    estimator, observations[0], observations[1], jnp.asarray(index, dtype=jnp.int32)
-                )
+                translation_update, rotor_update = compiled_estimator(*estimator_arguments)
                 _block((translation_update, rotor_update))
                 latencies[index, 2] = time.perf_counter() - estimator_start
                 previous_version = int(np.asarray(estimator.model_version))
@@ -3711,26 +4011,33 @@ def run_trial(
                             },
                         )
                     )
+                adaptation_model_current, adaptation_samples_current = _authoritative_model_samples(
+                    resolved.model,
+                    estimator,
+                    resolved.estimator_config,
+                    config.uncertainty_sample_count,
+                    device=estimator_device,
+                )
                 controller_model_current = _tree_to_device(
-                    _controller_model(resolved.model, estimator), controller_device
+                    adaptation_model_current, controller_device
                 )
                 model_samples_current = _tree_to_device(
-                    _model_samples(estimator, resolved, config.uncertainty_sample_count),
-                    controller_device,
+                    adaptation_samples_current, controller_device
                 )
                 _block((controller_model_current, model_samples_current))
                 estimated_physical_current = physical_parameters(estimator)
                 estimated_parameter_vector_current = np.asarray(
                     _dynamics_parameter_vector(
-                        controller_model_current, estimated_physical_current.rotor_efficiency
+                        adaptation_model_current, estimated_physical_current.rotor_efficiency
                     ),
                     dtype=np.float64,
                 )
                 uncertainty_vectors_current = np.asarray(
-                    _sampled_dynamics_parameter_vectors(model_samples_current), dtype=np.float64
+                    _sampled_dynamics_parameter_vectors(adaptation_samples_current),
+                    dtype=np.float64,
                 )
                 uncertainty_valid_current = np.asarray(
-                    model_samples_current.sample_valid, dtype=np.bool_
+                    adaptation_samples_current.sample_valid, dtype=np.bool_
                 )
 
             if online_library and index % config.adaptation_interval_steps == 0:
@@ -3756,8 +4063,8 @@ def run_trial(
                     candidate_job.set_context(
                         current_version,
                         next_state,
-                        controller_model_current,
-                        model_samples_current,
+                        adaptation_model_current,
+                        adaptation_samples_current,
                         runtime_inputs.windows[publication_boundary],
                         start_index=publication_boundary,
                     )
@@ -3842,6 +4149,7 @@ def run_trial(
                                     "execution_mode": adaptation_mode.value,
                                     "training_model_version": current_version,
                                     "validation_model_version": report.model_version,
+                                    "decision_model_version": decision_model_version,
                                     **candidate_diagnostics,
                                 },
                             )
@@ -3853,8 +4161,8 @@ def run_trial(
                         candidate_job.set_context(
                             current_version,
                             next_state,
-                            controller_model_current,
-                            model_samples_current,
+                            adaptation_model_current,
+                            adaptation_samples_current,
                             runtime_inputs.windows[publication_boundary],
                             start_index=publication_boundary,
                         )
@@ -3933,6 +4241,7 @@ def run_trial(
                 candidate_diagnostics = dict(
                     candidate_job.diagnostics.get(final_outcome.candidate_digest, {})
                 )
+                model_lineage_details = {}
                 if final_outcome.status is AdaptationStatus.EXPIRED:
                     material = candidate_job.validation_material.get(final_outcome.candidate_digest)
                     if material is None:
@@ -3944,6 +4253,7 @@ def run_trial(
                         or final_outcome.error_message
                         or "terminal_boundary_has_no_future_control"
                     )
+                    decision_model_version = store.model_version
                     adaptation_decisions.append(
                         AdaptationDecisionProof(
                             phase="online",
@@ -3951,7 +4261,7 @@ def run_trial(
                             context_step=material.context_step,
                             boundary_step=steps - 1,
                             status="expired",
-                            decision_model_version=store.model_version,
+                            decision_model_version=decision_model_version,
                             publication_reason=terminal_reason,
                             used_by_executed_control=False,
                             proposal_active=material.proposal_active,
@@ -3963,6 +4273,11 @@ def run_trial(
                             report=material.report,
                         )
                     )
+                    model_lineage_details = {
+                        "training_model_version": material.candidate.model_version,
+                        "validation_model_version": material.report.model_version,
+                        "decision_model_version": decision_model_version,
+                    }
                 event_payloads.append(
                     (
                         steps - 1,
@@ -3989,6 +4304,7 @@ def run_trial(
                                 final_outcome.status is AdaptationStatus.EXPIRED
                             ),
                             "used_by_executed_control": False,
+                            **model_lineage_details,
                             **candidate_diagnostics,
                         },
                     )
@@ -4195,7 +4511,12 @@ def run_trial(
         adaptation_evidence = AdaptationEvidence(
             trace_content_sha256=trace.content_sha256, decisions=bound_decisions
         )
-        validate_adaptation_evidence_binding(adaptation_evidence, trace, tuple(events))
+        validate_adaptation_evidence_binding(
+            adaptation_evidence,
+            trace,
+            tuple(events),
+            shared_stochastic_seed=assignment.shared_stochastic_seed,
+        )
 
     compile_seconds = {
         "controller": controller_compile,

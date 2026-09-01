@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING, Any
 from crazyflow.safety.da_plcbf.artifacts import (
     load_events,
     load_trace,
+    review_contact_sheet_title,
     validate_campaign_visual_reviews,
     validate_run_artifacts,
     write_manifest,
@@ -251,7 +252,9 @@ def _render(arguments: argparse.Namespace) -> None:
             count=min(arguments.keyframes, trace.steps),
         )
         render_contact_sheet(
-            keyframes, sheets / f"{stem}.png", title=f"{method} · {condition} · paired fold {fold}"
+            keyframes,
+            sheets / f"{stem}.png",
+            title=review_contact_sheet_title(method, condition, fold),
         )
         validation = rendered.validation
         records.append(

@@ -21,12 +21,16 @@ class PolytopeQPResult(NamedTuple):
     """Result and KKT audit record for an affine-polytope projection.
 
     ``input_valid`` checks finite data, a positive-definite weight, and nonnegative tolerances.
-    ``feasible`` is true only when a numerically valid KKT candidate satisfies every face.  An
-    invalid or infeasible problem returns a NaN action and infinite objective/residuals; this is a
-    deliberate fail-closed sentinel, not a clipped control that could be mistaken for a solution.
+    ``feasible`` is true only when an enumerated candidate satisfies the normalised primal and dual
+    tolerances.  Raw-unit stationarity and complementarity are reported separately so callers can
+    impose an application-specific KKT audit bound, as the Version-A filters do.  An invalid or
+    infeasible problem returns a NaN action and infinite objective/residuals; this is a deliberate
+    fail-closed sentinel, not a clipped control that could be mistaken for a solution.
 
-    Multipliers correspond to constraints in ``matrix @ action <= upper_bound`` and are therefore
-    nonnegative at a KKT point.  Residuals use the original, unnormalised constraints.
+    ``active_mask`` identifies the enumerated working set.  A float32 feasibility repair may place
+    one of those faces a few ulps inside the polytope, so the mask is not an assertion of exact
+    equality.  Multipliers correspond to constraints in ``matrix @ action <= upper_bound`` and are
+    therefore nonnegative at a KKT point.  Residuals use the original, unnormalised constraints.
     """
 
     action: Array
@@ -247,11 +251,23 @@ def project_affine_polytope(
 
         # Refining only the Gram equation does not remove the final float32 cancellation in
         # ``u_nom + W^-1 A^T y``.  Correct residuals measured on reconstructed actions and retain
-        # the best iterate instead of assuming the final float32 refinement is monotone.  Four
-        # fixed iterations cover the observed RTX-4090 worst case while preserving a static JIT
-        # graph and without relaxing a constraint or tolerance.
-        def refine_action(_: int, carry: tuple[Array, Array, Array]) -> tuple[Array, Array, Array]:
-            solution, best_solution, best_error = carry
+        # the best iterate instead of assuming the final float32 refinement is monotone.  Fixed
+        # iterations preserve a static JIT graph and do not relax any constraint or tolerance.
+        # Rank iterates against a stricter internal guard band before active-face equality error.
+        # Clipping every iterate at the public tolerance would let a near-boundary equality iterate
+        # replace one with deliberate inward roundoff clearance.  Ranking by raw signed violation,
+        # on the other hand, would always choose the deepest repair and needlessly perturb exact
+        # projections.  One quarter of the public tolerance retains a 3/4 roundoff reserve while
+        # still allowing a genuinely exact iterate to win the equality tie-break.
+        #
+        # Retain the action evaluated by this loop as well as its Gram solution: reconstructing the
+        # action later can use a different GPU lowering and lose the clearance we just measured.
+        def refine_action(
+            iteration: int, carry: tuple[Array, Array, Array, Array, Array]
+        ) -> tuple[Array, Array, Array, Array, Array]:
+            solution, best_solution, best_action, best_feasibility_score, best_equality_error = (
+                carry
+            )
             candidate_delta = jnp.einsum(
                 "ij,nkj,nk->ni",
                 weight_inverse,
@@ -269,28 +285,60 @@ def project_affine_polytope(
                 )
                 - active_bound
             )
-            error = jnp.max(jnp.abs(equality_residual), axis=-1)
-            error = jnp.where(full_rank, error, jnp.inf)
-            improved = error < best_error
+            all_residuals = (
+                jnp.einsum(
+                    "md,nd->nm",
+                    normalised_matrix,
+                    candidate_action,
+                    precision=jax.lax.Precision.HIGHEST,
+                )
+                - normalised_bound
+            )
+            guarded_tolerance = 0.25 * tolerance_array
+            primal_violation = jnp.maximum(_constraint_maximum(all_residuals), 0.0)
+            dual_violation = jnp.maximum(jnp.max(solution, axis=-1), 0.0)
+            feasibility_score = jnp.maximum(
+                jnp.maximum(primal_violation - guarded_tolerance, 0.0),
+                jnp.maximum(dual_violation - guarded_tolerance, 0.0),
+            )
+            equality_error = jnp.max(jnp.abs(equality_residual), axis=-1)
+            feasibility_score = jnp.where(full_rank, feasibility_score, jnp.inf)
+            equality_error = jnp.where(full_rank, equality_error, jnp.inf)
+            improved = (feasibility_score < best_feasibility_score) | (
+                (feasibility_score == best_feasibility_score)
+                & (equality_error < best_equality_error)
+            )
             best_solution = jnp.where(improved[:, None], solution, best_solution)
-            best_error = jnp.where(improved, error, best_error)
+            best_action = jnp.where(improved[:, None], candidate_action, best_action)
+            best_feasibility_score = jnp.where(improved, feasibility_score, best_feasibility_score)
+            best_equality_error = jnp.where(improved, equality_error, best_equality_error)
+            # If exact-equality refinement has not produced an accepted float32 iterate, the
+            # second half targets a tiny inward residual.  This repairs backend-sensitive outward
+            # rounding without widening the caller's feasibility tolerance; accepted exact
+            # iterates still win the equality-error tie-break above.
+            target_residual = jnp.where(
+                iteration < 4, jnp.asarray(0.0, dtype=nominal.dtype), -2.0 * tolerance_array
+            )
+            correction_rhs = target_residual - equality_residual
             correction = jnp.linalg.solve(
-                safe_gram, jnp.where(full_rank[:, None], -equality_residual, 0.0)[..., None]
+                safe_gram, jnp.where(full_rank[:, None], correction_rhs, 0.0)[..., None]
             )[..., 0]
-            return solution + correction, best_solution, best_error
+            return (
+                solution + correction,
+                best_solution,
+                best_action,
+                best_feasibility_score,
+                best_equality_error,
+            )
 
-        initial_error = jnp.full((gram_solution.shape[0],), jnp.inf, dtype=nominal.dtype)
-        _, gram_solution, _ = jax.lax.fori_loop(
-            0, 4, refine_action, (gram_solution, gram_solution, initial_error)
+        initial_metric = jnp.full((gram_solution.shape[0],), jnp.inf, dtype=nominal.dtype)
+        initial_action = jnp.broadcast_to(safe_nominal, (gram_solution.shape[0], dimension))
+        _, gram_solution, actions, _, _ = jax.lax.fori_loop(
+            0,
+            8,
+            refine_action,
+            (gram_solution, gram_solution, initial_action, initial_metric, initial_metric),
         )
-        deltas = jnp.einsum(
-            "ij,nkj,nk->ni",
-            weight_inverse,
-            active_matrix,
-            gram_solution,
-            precision=jax.lax.Precision.HIGHEST,
-        )
-        actions = safe_nominal + deltas
         active_multipliers = -gram_solution
 
         all_residuals = (

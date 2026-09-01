@@ -219,6 +219,48 @@ def test_frames_are_deterministic_legible_size_and_require_exact_tape_binding() 
         next(scientific_dashboard_frames(trace, tape=wrong_tape, size=(1280, 720)))
 
 
+def test_default_scene_has_fixed_ego_camera_descriptive_title_and_bptt_notice() -> None:
+    trace, _, events = _trace_and_tape()
+    first_limits = scientific_dashboard_module._ego_camera_limits(np.asarray((1.0, -2.0)))
+    second_limits = scientific_dashboard_module._ego_camera_limits(np.asarray((8.5, 4.0)))
+    assert first_limits[0][1] - first_limits[0][0] == pytest.approx(7.5)
+    assert second_limits[0][1] - second_limits[0][0] == pytest.approx(7.5)
+    assert first_limits[1][1] - first_limits[1][0] == pytest.approx(4.2)
+    assert second_limits[1][1] - second_limits[1][0] == pytest.approx(4.2)
+    assert np.mean(first_limits[0]) == pytest.approx(1.0)
+    assert np.mean(second_limits[1]) == pytest.approx(4.0)
+
+    started = replace(
+        events[0],
+        step=0,
+        time_seconds=float(trace.time[0]),
+        category="runtime",
+        name="trial_started",
+        snapshot_version=int(trace.snapshot_version[0]),
+        details={"method": "da_plcbf_full", "condition": "dynamics_change"},
+    )
+    heading, purpose = scientific_dashboard_module._display_headings((started,))
+    assert "DA-PLCBF MAIN METHOD" in heading
+    assert "changing dynamics / wind" in purpose
+    assert "fallback rollouts" in purpose
+
+    completed = replace(
+        events[0],
+        category="adaptation",
+        name="candidate_admitted",
+        details={
+            "bptt_execution_backend": "gpu",
+            "bptt_execution_seconds": 0.012,
+            "published_snapshot_version": 1,
+        },
+    )
+    notice = scientific_dashboard_module._adaptation_notice(trace, None, (completed,), 3)
+    assert notice is not None
+    assert "BPTT UPDATE COMPLETE ON GPU" in notice.label
+    assert "ADMITTED" in notice.label
+    assert "snapshot v1 is now active" in notice.detail
+
+
 def test_keyframe_selection_prioritizes_safety_and_change_evidence() -> None:
     trace, tape, _ = _trace_and_tape()
     indices = select_keyframe_indices(trace, tape=tape, count=6)

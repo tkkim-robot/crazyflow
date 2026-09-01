@@ -1,0 +1,195 @@
+{
+  "campaign_reference_shape": {
+    "batch": 64,
+    "burst_steps": 10,
+    "horizon": 50,
+    "obstacles": 8,
+    "policies": 64
+  },
+  "correctness": {
+    "all_gradient_norms_finite": true,
+    "all_output_leaves_finite": true,
+    "all_parameter_delta_norms_finite": true,
+    "all_updates_accepted": true,
+    "any_gradient_norm_nonzero": true,
+    "any_parameter_delta_norm_nonzero": true,
+    "candidate_parameter_l2_delta": 0.4959154130830925,
+    "candidate_parameters_changed": true,
+    "effective_shape_matches_request": true,
+    "final_optimizer_steps": 10,
+    "gradient_norms": [
+      0.07359155267477036,
+      0.07226982712745667,
+      0.07214593142271042,
+      0.07234521955251694,
+      0.07299276441335678,
+      0.07395415008068085,
+      0.07515691220760345,
+      0.07641434669494629,
+      0.0774657279253006,
+      0.07827449589967728
+    ],
+    "initial_optimizer_steps": 0,
+    "optimizer_step_delta": 10,
+    "optimizer_steps_advanced_by_burst": true,
+    "parameter_delta_norms": [
+      0.01737736165523529,
+      0.04553952068090439,
+      0.05069630593061447,
+      0.053301528096199036,
+      0.055001094937324524,
+      0.056311458349227905,
+      0.057328276336193085,
+      0.0581815280020237,
+      0.05895911902189255,
+      0.059618040919303894
+    ],
+    "passed": true
+  },
+  "created_at_utc": "2026-09-01T17:50:41.764324+00:00",
+  "device": {
+    "compute_capability": "8.9",
+    "device_kind": "NVIDIA GeForce RTX 4090",
+    "id": 0,
+    "local_hardware_id": 0,
+    "platform": "gpu",
+    "process_index": 0,
+    "slice_index": 0
+  },
+  "effective_shape": {
+    "batch": 64,
+    "burst_steps": 10,
+    "horizon": 50,
+    "obstacles": 8,
+    "policies": 64
+  },
+  "input_fixture": {
+    "evaluation_tape_rows_used": false,
+    "reason": "timing isolates the campaign graph and static axes without consuming scientific evaluation data; numerical rows do not change the compiled graph shape",
+    "resource_builder": "experiments.build_experiment_resources",
+    "training_rows": "deterministic fixed-shape timing fixture",
+    "vehicle_footprint_clearance_matches_scenario_tape_default": true
+  },
+  "interpretation": {
+    "deadline_hz": 20.0,
+    "every_timed_sample_is_device_synchronized": true,
+    "hard_admission_validation_and_snapshot_publication_are_excluded": true,
+    "this_is_candidate_training_only": true,
+    "timing_excludes_compilation": true,
+    "timing_excludes_warmup": true
+  },
+  "measurement_scope": "one fused dynamic-model BPTT burst: 10 sequential full 13-state differentiable rollouts of horizon 50, reverse-mode gradients, and AdamW candidate updates at the explicitly requested shape",
+  "memory": {
+    "compiler_memory_analysis": {
+      "alias_size_in_bytes": 0,
+      "argument_size_in_bytes": 89852,
+      "generated_code_size_in_bytes": 7344,
+      "host_argument_size_in_bytes": 0,
+      "host_output_size_in_bytes": 0,
+      "host_temp_size_in_bytes": 0,
+      "output_size_in_bytes": 47958,
+      "temp_size_in_bytes": 361454632
+    },
+    "device_allocator_after": {
+      "bytes_in_use": 201472,
+      "bytes_limit": 18960351232,
+      "bytes_reserved": 0,
+      "largest_alloc_size": 361454848,
+      "largest_free_block_bytes": 18960094464,
+      "num_allocs": 2157,
+      "peak_bytes_in_use": 361723648,
+      "peak_bytes_reserved": 0,
+      "peak_pool_bytes": 18960351232,
+      "pool_bytes": 18960351232
+    },
+    "device_allocator_before": {
+      "bytes_in_use": 0,
+      "bytes_limit": 18960351232,
+      "bytes_reserved": 0,
+      "largest_alloc_size": 0,
+      "largest_free_block_bytes": 0,
+      "num_allocs": 0,
+      "peak_bytes_in_use": 0,
+      "peak_bytes_reserved": 0,
+      "peak_pool_bytes": 0,
+      "pool_bytes": 0
+    },
+    "process_max_rss_bytes_after": 2309468160,
+    "process_max_rss_bytes_before": 905875456
+  },
+  "no_device_or_shape_fallback": true,
+  "phases": {
+    "lowering_and_compilation_seconds": 5.552959106862545,
+    "problem_construction_seconds": 1.5825673840008676,
+    "timed_synchronized": {
+      "deadline_miss_fraction": 1.0,
+      "deadline_misses": 10,
+      "deadline_seconds": 0.05,
+      "median_bursts_per_second": 7.068571282219266,
+      "median_optimizer_steps_per_second": 70.68571282219267,
+      "median_seconds": 0.14147130446508527,
+      "meets_deadline_for_every_sample": false,
+      "p95_seconds": 0.14160100234439596,
+      "p99_seconds": 0.14163935567019506,
+      "raw_seconds": [
+        0.14154240698553622,
+        0.14149916311725974,
+        0.14123573689721525,
+        0.14148231991566718,
+        0.1412189449183643,
+        0.14164894400164485,
+        0.1412558821029961,
+        0.14150082715786994,
+        0.14090043399482965,
+        0.14146028901450336
+      ],
+      "worst_seconds": 0.14164894400164485
+    },
+    "warmup_synchronized_seconds": [
+      0.15702618192881346,
+      0.14211161085404456,
+      0.1410372438840568
+    ]
+  },
+  "provenance": {
+    "crazyflow": "0.3.2",
+    "git": {
+      "branch": "plcbf",
+      "commit": "22cec20b1f296de00a2d1dbd6d6ac7bb594de27d",
+      "dirty": true
+    },
+    "hostname": "ROB-DASC-06U",
+    "jax": "0.11.1",
+    "jaxlib": "0.11.1",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+    "python": "3.14.7",
+    "source_sha256": "52d174724b1ca256f3a66f5e94b09d391c463d18821c7e6ebffd4b9d5d56c64b"
+  },
+  "request": {
+    "deadline_seconds": 0.05,
+    "device": "gpu",
+    "repeats": 10,
+    "warmups": 3
+  },
+  "requested_shape": {
+    "batch": 64,
+    "burst_steps": 10,
+    "horizon": 50,
+    "obstacles": 8,
+    "policies": 64
+  },
+  "runtime_model_argument": {
+    "argument_index": 7,
+    "mass_kg": 0.045548997819423676,
+    "supplied_to_compiled_burst": true,
+    "wind_velocity_m_per_s": [
+      0.3499999940395355,
+      -0.20000000298023224,
+      0.05000000074505806
+    ]
+  },
+  "schema": "crazyflow.da_plcbf.campaign_gpu_bptt.v1",
+  "shape_overrides_from_campaign_final": {},
+  "status": "ok",
+  "uses_exact_campaign_final_shape": true
+}

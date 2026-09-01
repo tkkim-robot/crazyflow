@@ -25,16 +25,19 @@ uncertainty from their covariance.  All exogenous values live in one immutable t
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
 import math
 import os
 import platform
+import subprocess
 import tempfile
 import time
 import zipfile
 from collections import defaultdict
 from collections.abc import Mapping
 from dataclasses import asdict, dataclass, replace
+from functools import lru_cache
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal, NamedTuple
 
@@ -42,19 +45,19 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 from jax import Array
+from jax.extend import backend as jax_backend
 
+from crazyflow.drones import load_params
 from crazyflow.safety.da_plcbf import experiments as experiment_core
+from crazyflow.safety.da_plcbf.adaptation_evidence import BPTT_EXECUTION_CONTRACT
+from crazyflow.safety.da_plcbf.artifacts import _cpu_identity
 from crazyflow.safety.da_plcbf.direct_wrench import motor_forces_to_wrench
 from crazyflow.safety.da_plcbf.dynamic_filter import dynamic_discrete_runtime_step
 from crazyflow.safety.da_plcbf.dynamic_rollouts import dynamic_sphere_window_from_tape
 from crazyflow.safety.da_plcbf.estimator import (
     EstimatorState,
-    RotorEfficiencyObservations,
-    TranslationalObservations,
     initialize_estimator,
     physical_parameters,
-    update_rotor_efficiency,
-    update_translational_estimate,
 )
 from crazyflow.safety.da_plcbf.experiments import ConditionID, ExperimentConfig, ExperimentResources
 from crazyflow.safety.da_plcbf.quad_rollouts import direct_wrench_symplectic_step
@@ -81,15 +84,15 @@ if TYPE_CHECKING:
     from crazyflow.safety.da_plcbf.version_a_barriers import VersionAModel
 
 
-CAMPAIGN_SCHEMA_VERSION = 3
+CAMPAIGN_SCHEMA_VERSION = 4
 OUTCOME_SCHEMA_VERSION = 3
 TRACE_SCHEMA_VERSION = 2
-MANIFEST_SCHEMA_VERSION = 3
-AGGREGATE_SCHEMA_VERSION = 3
-COMPLETION_MARKER_SCHEMA_VERSION = 3
-STARTUP_SCHEMA_VERSION = 2
-STARTUP_BUNDLE_SCHEMA_VERSION = 1
-RUNTIME_PROVENANCE_SCHEMA_VERSION = 2
+MANIFEST_SCHEMA_VERSION = 4
+AGGREGATE_SCHEMA_VERSION = 4
+COMPLETION_MARKER_SCHEMA_VERSION = 4
+STARTUP_SCHEMA_VERSION = 3
+STARTUP_BUNDLE_SCHEMA_VERSION = 2
+RUNTIME_PROVENANCE_SCHEMA_VERSION = 4
 CONDITION_ID = ConditionID.DYNAMICS_CHANGE.value
 FILTER_IMPLEMENTATION_ID = "discrete_nonlinear_plcbf_filter"
 TRAINING_OBJECTIVE_ID = "point_model_plcbf_aligned_coverage_diversity"
@@ -116,6 +119,10 @@ AXIS_ALIGNED_SAMPLE_RANGE_METRIC_DEFINITION = (
     "sample-range statistic is not convex-hull, posterior, probability, continuum, or safety "
     "coverage."
 )
+ADAPTATION_EVIDENCE_REPLAY_STATUS = (
+    "bptt_replay_not_required_content_hashed_lineage_and_hard_admission_validated"
+)
+CLAIM_ELIGIBILITY_BLOCKER = "protocol_confirmatory_requirements_not_met"
 ADAPTATION_VALIDATION_SAMPLES = 4
 DYNAMICS_PARAMETER_COUNT = 11
 MAX_RUNTIME_SAMPLES = 8
@@ -129,6 +136,27 @@ _RUNTIME_TIMING_KEYS = frozenset(
         "true_plant",
         "causal_estimator",
     }
+)
+_RUNTIME_DEVICE_ROLES = frozenset({"controller", "plant", "estimator", "bptt", "validation"})
+_RUNTIME_IDENTITY_FIELDS = (
+    "schema_version",
+    "source_tree_sha256",
+    "configuration_sha256",
+    "python",
+    "python_implementation",
+    "platform",
+    "jax_version",
+    "jaxlib_version",
+    "numpy_version",
+    "flax_version",
+    "optax_version",
+    "jax_enable_x64",
+    "cpu_model_identity",
+    "nvidia_driver_version",
+    "jax_backend_platform_version",
+    "role_devices",
+    "devices",
+    "timings_are_descriptive_not_hard_realtime_proofs",
 )
 
 VariantID = Literal[
@@ -430,6 +458,11 @@ class _CompiledExecutables:
         self.cartesian: dict[int, Any] = {}
         self.plant: Any | None = None
         self.estimator: Any | None = None
+        self.controller_device: jax.Device | None = None
+        self.plant_device: jax.Device | None = None
+        self.estimator_device: jax.Device | None = None
+        self.bptt_device: jax.Device | None = None
+        self.validation_device: jax.Device | None = None
         self.compile_seconds: dict[str, float] = {}
         self.warmup_seconds: dict[str, float] = {}
 
@@ -573,7 +606,13 @@ def _plant_function(resources: ExperimentResources, profile: DynamicsKnowledgePr
 def _plant_replay_function(
     resources: ExperimentResources, profile: DynamicsKnowledgeProfile
 ) -> Any:
-    """Return a batched verifier for every recorded true-plant transition."""
+    """Replay every transition while retaining the scalar production plant geometry.
+
+    Production invokes a scalar ``state[13]``/``motor[4]`` executable once per interval.  A
+    ``vmap`` verifier can lower the inertia products to different batched GPU kernels, where
+    torque cancellation amplifies otherwise harmless float32 rounding.  ``lax.map`` keeps the
+    scalar body shapes while executing the complete retained replay in one compiled call.
+    """
     base = resources.model
 
     def transition(
@@ -601,39 +640,40 @@ def _plant_replay_function(
             realized_motor,
         )
 
-    return jax.jit(jax.vmap(transition))
+    return jax.jit(
+        lambda states, motor_forces, mass_scale, drag_scale, wind_velocity, rotor_efficiency: (
+            jax.lax.map(
+                lambda arguments: transition(*arguments),
+                (states, motor_forces, mass_scale, drag_scale, wind_velocity, rotor_efficiency),
+            )
+        )
+    )
 
 
 def _estimator_function(resources: ExperimentResources) -> Any:
-    def estimate(
-        current: EstimatorState,
-        translational: TranslationalObservations,
-        rotor: RotorEfficiencyObservations,
-        sequence: Array,
-    ) -> tuple[Any, Any]:
-        rotor_update = update_rotor_efficiency(
-            current, rotor, sequence=sequence, mode="per_rotor", config=resources.estimator_config
-        )
-        translation_update = update_translational_estimate(
-            rotor_update.state, translational, sequence=sequence, config=resources.estimator_config
-        )
-        return translation_update, rotor_update
-
-    return jax.jit(estimate)
+    return experiment_core._authoritative_estimator_function(resources.estimator_config)
 
 
 def _causal_estimator(resources: ExperimentResources) -> EstimatorState:
-    return experiment_core._initialize_estimator(resources)
+    return experiment_core._initialize_authoritative_estimator(
+        resources.model, resources.estimator_config
+    )
 
 
-def _controller_model(resources: ExperimentResources, estimator: EstimatorState) -> VersionAModel:
-    return experiment_core._controller_model(resources.model, estimator)
-
-
-def _model_samples(
-    resources: ExperimentResources, estimator: EstimatorState, count: int
-) -> VersionAModelSamples:
-    return experiment_core._model_samples(estimator, resources, count)
+def _authoritative_model_context(
+    resources: ExperimentResources,
+    estimator: EstimatorState,
+    count: int,
+    *,
+    base_model: VersionAModel | None = None,
+) -> tuple[VersionAModel, VersionAModelSamples]:
+    """Derive the point model and deterministic particles on authoritative CPU."""
+    return experiment_core._authoritative_model_samples(
+        resources.model if base_model is None else base_model,
+        estimator,
+        resources.estimator_config,
+        count,
+    )
 
 
 def _require_valid_runtime_samples(samples: VersionAModelSamples, count: int) -> None:
@@ -646,16 +686,20 @@ def _oracle_estimator_state(
     resources: ExperimentResources, true_model: VersionAModel, *, model_version: int
 ) -> EstimatorState:
     """Center the common admission covariance on the oracle's true current point model."""
+    device = experiment_core._authoritative_estimator_device()
+    true_model = experiment_core._authoritative_model(true_model, device=device)
     nominal = _causal_estimator(resources)
-    return initialize_estimator(
-        resources.estimator_config,
-        mass=float(np.asarray(true_model.mass)),
-        drag_force_coefficients=-jnp.diag(true_model.drag_matrix),
-        wind_velocity=true_model.wind_velocity,
-        rotor_efficiency=1.0,
-        covariance=nominal.covariance,
-        model_version=model_version,
-    )
+    with jax.default_device(device):
+        estimator = initialize_estimator(
+            resources.estimator_config,
+            mass=float(np.asarray(true_model.mass)),
+            drag_force_coefficients=-jnp.diag(true_model.drag_matrix),
+            wind_velocity=true_model.wind_velocity,
+            rotor_efficiency=1.0,
+            covariance=jax.device_put(nominal.covariance, device),
+            model_version=model_version,
+        )
+    return jax.device_put(estimator, device)
 
 
 def _compile_one(name: str, function: Any, arguments: tuple[Any, ...]) -> tuple[Any, float, float]:
@@ -680,6 +724,16 @@ def compile_knowledge_executables(
     profile = bundle.profile
     config = profile.trial
     state = experiment_core._initial_state(tape)
+    controller_device = state.device
+    plant_device = state.device
+    estimator_device = experiment_core._authoritative_estimator_device()
+    bptt_device = experiment_core._online_bptt_device()
+    validation_device = bptt_device
+    bundle.controller_device = controller_device
+    bundle.plant_device = plant_device
+    bundle.estimator_device = estimator_device
+    bundle.bptt_device = bptt_device
+    bundle.validation_device = validation_device
     target_position = jnp.asarray(tape.defender_reference_position[0], dtype=state.dtype)
     target_velocity = jnp.asarray(tape.defender_reference_velocity[0], dtype=state.dtype)
     previous = jnp.asarray(-1, dtype=jnp.int32)
@@ -692,19 +746,24 @@ def compile_knowledge_executables(
         tilt_max_radians=config.tilt_max_radians,
     )
     estimator = _causal_estimator(resources)
-    model = _controller_model(resources, estimator)
+    model, samples_r4 = _authoritative_model_context(
+        resources, estimator, ADAPTATION_VALIDATION_SAMPLES
+    )
     true_model, true_efficiency = experiment_core._true_model(
         resources.model, tape, ConditionID.DYNAMICS_CHANGE, 0
     )
     point_function = _point_control_function(resources, profile)
-    point_args = (
-        state,
-        target_position,
-        target_velocity,
-        previous,
-        resources.initial_params,
-        window,
-        model,
+    point_args = experiment_core._tree_to_device(
+        (
+            state,
+            target_position,
+            target_velocity,
+            previous,
+            resources.initial_params,
+            window,
+            model,
+        ),
+        controller_device,
     )
     bundle.point, seconds, warm = _compile_one("point-controller", point_function, point_args)
     bundle.compile_seconds["point_controller"] = seconds
@@ -712,8 +771,12 @@ def compile_knowledge_executables(
 
     cartesian_function = _cartesian_control_function(resources, profile)
     for count in (4, 8):
-        samples = _model_samples(resources, estimator, count)
-        arguments = (*point_args, samples)
+        samples = (
+            samples_r4
+            if count == ADAPTATION_VALIDATION_SAMPLES
+            else _authoritative_model_context(resources, estimator, count)[1]
+        )
+        arguments = experiment_core._tree_to_device((*point_args, samples), controller_device)
         executable, seconds, warm = _compile_one(
             f"cartesian-r{count}-controller", cartesian_function, arguments
         )
@@ -722,14 +785,20 @@ def compile_knowledge_executables(
         bundle.warmup_seconds[f"cartesian_r{count}_controller"] = warm
 
     plant_function = _plant_function(resources, profile)
-    plant_args = (state, jnp.zeros((4,), dtype=state.dtype), true_model, true_efficiency)
+    plant_args = experiment_core._tree_to_device(
+        (state, jnp.zeros((4,), dtype=state.dtype), true_model, true_efficiency), plant_device
+    )
     bundle.plant, seconds, warm = _compile_one("true-plant", plant_function, plant_args)
     bundle.compile_seconds["true_plant"] = seconds
     bundle.warmup_seconds["true_plant"] = warm
 
-    observations = experiment_core._estimator_observations([], config.estimator_window_steps)
+    observations = experiment_core._authoritative_estimator_observations(
+        [], config.estimator_window_steps, device=estimator_device
+    )
     estimator_function = _estimator_function(resources)
-    estimator_args = (estimator, observations[0], observations[1], jnp.asarray(0, dtype=jnp.int32))
+    estimator_args = experiment_core._authoritative_estimator_arguments(
+        estimator, observations, 0, device=estimator_device
+    )
     bundle.estimator, seconds, warm = _compile_one(
         "causal-estimator", estimator_function, estimator_args
     )
@@ -757,6 +826,105 @@ def _initial_active_snapshot(resources: ExperimentResources) -> PolicySnapshot:
     )
 
 
+def _authoritative_candidate_job(
+    tape: ScenarioTape,
+    resources: ExperimentResources,
+    config: ExperimentConfig,
+    executable_pool: Any,
+) -> Any:
+    """Build a dynamics-knowledge candidate job on the configured online JIT device."""
+    return experiment_core._CandidateJob(
+        tape, ConditionID.DYNAMICS_CHANGE, resources, config, executable_pool
+    )
+
+
+def _authoritative_adaptation_diagnostics_errors(
+    value: Any,
+    *,
+    role_devices: Mapping[str, Any] | None = None,
+    require_available_cpu: bool = False,
+) -> tuple[str, ...]:
+    """Reject dynamics-knowledge adaptation evidence without a bound online JIT device."""
+    if not isinstance(value, dict):
+        return ("authoritative adaptation diagnostics must be an object",)
+    errors: list[str] = []
+    device_id = value.get("bptt_execution_device_id")
+    if isinstance(device_id, bool) or not isinstance(device_id, int) or device_id < 0:
+        errors.append("online adaptation device id is invalid")
+        device_id = None
+    backend = value.get("bptt_execution_backend")
+    if value.get("bptt_execution_contract") != BPTT_EXECUTION_CONTRACT:
+        errors.append("online adaptation execution contract changed")
+    if backend not in {"gpu", "cpu"}:
+        errors.append("online adaptation backend is invalid")
+    if value.get("execution_device_is_gpu") is not (backend == "gpu") or value.get(
+        "execution_device_is_cpu"
+    ) is not (backend == "cpu"):
+        errors.append("online adaptation backend flags are inconsistent")
+    input_digest = value.get("bptt_input_digest")
+    if not (
+        isinstance(input_digest, str)
+        and len(input_digest) == 64
+        and all(character in "0123456789abcdef" for character in input_digest)
+    ):
+        errors.append("online adaptation BPTT input digest is invalid")
+    for name in ("bptt_compiled_cache_hit", "validation_compiled_cache_hit"):
+        if not isinstance(value.get(name), bool):
+            errors.append(f"online adaptation {name} is not boolean")
+    if require_available_cpu and backend in {"gpu", "cpu"}:
+        try:
+            available_ids = {int(device.id) for device in jax.devices(backend)}
+        except (RuntimeError, ValueError):
+            available_ids = set()
+        if device_id is not None and device_id not in available_ids:
+            errors.append("online adaptation execution device is unavailable")
+
+    bptt_platform = str(backend)
+    bptt_device_id = device_id
+    validation_platform = str(backend)
+    validation_device_id = device_id
+    if role_devices is not None:
+        if not isinstance(role_devices, Mapping):
+            errors.append("online adaptation role provenance is malformed")
+        else:
+            bptt_role = role_devices.get("bptt")
+            validation_role = role_devices.get("validation")
+            for role, record in (("BPTT", bptt_role), ("validation", validation_role)):
+                if not isinstance(record, Mapping):
+                    errors.append(f"online adaptation {role} role provenance is malformed")
+                elif record.get("platform") not in {"gpu", "cpu"}:
+                    errors.append(f"online adaptation {role} role backend is invalid")
+                elif isinstance(record.get("id"), bool) or not isinstance(record.get("id"), int):
+                    errors.append(f"online adaptation {role} role device id is invalid")
+            if isinstance(bptt_role, Mapping):
+                bptt_platform = str(bptt_role.get("platform"))
+                role_id = bptt_role.get("id")
+                bptt_device_id = (
+                    role_id if isinstance(role_id, int) and not isinstance(role_id, bool) else None
+                )
+                if (
+                    value.get("bptt_execution_backend") != bptt_platform
+                    or device_id != bptt_device_id
+                ):
+                    errors.append("online adaptation BPTT device differs from provenance")
+            if isinstance(validation_role, Mapping):
+                validation_platform = str(validation_role.get("platform"))
+                role_id = validation_role.get("id")
+                validation_device_id = (
+                    role_id if isinstance(role_id, int) and not isinstance(role_id, bool) else None
+                )
+
+    if bptt_device_id is not None:
+        if value.get("bptt_cache_key") != (f"online:{bptt_platform}:{bptt_device_id}"):
+            errors.append("online adaptation BPTT cache identity changed")
+    if validation_device_id is not None:
+        if value.get("validation_cache_key") != (
+            f"evidence:online:{validation_platform}:{validation_device_id}"
+        ):
+            errors.append("online adaptation validation cache identity changed")
+    return tuple(errors)
+
+
 def prepare_common_startup_adaptation(
     profile: DynamicsKnowledgeProfile,
     tape: ScenarioTape,
@@ -768,8 +936,9 @@ def prepare_common_startup_adaptation(
     store = ActiveSnapshotStore(initial)
     state = experiment_core._initial_state(tape)
     estimator = _causal_estimator(resources)
-    model = _controller_model(resources, estimator)
-    samples = _model_samples(resources, estimator, ADAPTATION_VALIDATION_SAMPLES)
+    model, samples = _authoritative_model_context(
+        resources, estimator, ADAPTATION_VALIDATION_SAMPLES
+    )
     window = dynamic_sphere_window_from_tape(
         tape,
         start_index=0,
@@ -778,9 +947,7 @@ def prepare_common_startup_adaptation(
         angular_rate_max=profile.trial.angular_rate_max,
         tilt_max_radians=profile.trial.tilt_max_radians,
     )
-    job = experiment_core._CandidateJob(
-        tape, ConditionID.DYNAMICS_CHANGE, resources, profile.trial, executable_pool
-    )
+    job = _authoritative_candidate_job(tape, resources, profile.trial, executable_pool)
     started = time.perf_counter()
     try:
         job.set_context(0, state, model, samples, window, start_index=0)
@@ -1023,26 +1190,45 @@ def execute_dynamics_knowledge_trial(
     """Execute one real plant trace with causal boundary ordering and synchronous adaptation."""
     profile.validate()
     config = profile.trial
-    if executables.point is None or executables.plant is None or executables.estimator is None:
+    if (
+        executables.point is None
+        or executables.plant is None
+        or executables.estimator is None
+        or executables.controller_device is None
+        or executables.plant_device is None
+        or executables.estimator_device is None
+    ):
         raise RuntimeError("knowledge executables must be compiled before trial execution")
     started = time.perf_counter()
     steps = config.control_steps
     policy_count = config.policy_count
-    state = experiment_core._initial_state(tape)
-    previous_policy = jnp.asarray(-1, dtype=jnp.int32)
+    controller_device = executables.controller_device
+    plant_device = executables.plant_device
+    estimator_device = executables.estimator_device
+    if estimator_device.platform != "cpu":
+        raise RuntimeError("knowledge estimator executable must run on authoritative CPU")
+    state = experiment_core._tree_to_device(experiment_core._initial_state(tape), controller_device)
+    previous_policy = experiment_core._tree_to_device(
+        jnp.asarray(-1, dtype=jnp.int32), controller_device
+    )
     store = ActiveSnapshotStore(startup.active)
     estimator = _causal_estimator(resources)
     estimator_history: list[tuple[np.ndarray, ...]] = []
     model_last_observation = -1
-    controller_model = _controller_model(resources, estimator)
-    runtime_samples = (
-        _model_samples(resources, estimator, variant.runtime_dynamics_samples)
-        if variant.runtime_dynamics_samples
-        else None
+    controller_model, admission_samples = _authoritative_model_context(
+        resources, estimator, ADAPTATION_VALIDATION_SAMPLES
     )
+    runtime_samples = None
+    if variant.runtime_dynamics_samples:
+        runtime_samples = (
+            admission_samples
+            if variant.runtime_dynamics_samples == ADAPTATION_VALIDATION_SAMPLES
+            else _authoritative_model_context(
+                resources, estimator, variant.runtime_dynamics_samples
+            )[1]
+        )
     if runtime_samples is not None:
         _require_valid_runtime_samples(runtime_samples, variant.runtime_dynamics_samples)
-    admission_samples = _model_samples(resources, estimator, ADAPTATION_VALIDATION_SAMPLES)
     true_pairs = tuple(
         experiment_core._true_model(resources.model, tape, ConditionID.DYNAMICS_CHANGE, index)
         for index in range(steps)
@@ -1053,13 +1239,12 @@ def execute_dynamics_knowledge_trial(
     oracle_regime = 0
     oracle_vector = true_vectors[0].copy()
     if variant.privileged_oracle_upper_bound:
-        controller_model = true_pairs[0][0]
-        oracle_state = _oracle_estimator_state(resources, controller_model, model_version=0)
-        admission_samples = _model_samples(resources, oracle_state, ADAPTATION_VALIDATION_SAMPLES)
+        oracle_state = _oracle_estimator_state(resources, true_pairs[0][0], model_version=0)
+        controller_model, admission_samples = _authoritative_model_context(
+            resources, oracle_state, ADAPTATION_VALIDATION_SAMPLES, base_model=true_pairs[0][0]
+        )
 
-    job = experiment_core._CandidateJob(
-        tape, ConditionID.DYNAMICS_CHANGE, resources, config, adaptation_pool
-    )
+    job = _authoritative_candidate_job(tape, resources, config, adaptation_pool)
     states = np.zeros((steps, 13), dtype=np.float64)
     state_valid = np.zeros((steps,), dtype=bool)
     command_valid = np.zeros((steps,), dtype=bool)
@@ -1128,38 +1313,47 @@ def execute_dynamics_knowledge_trial(
             angular_rate_max=config.angular_rate_max,
             tilt_max_radians=config.tilt_max_radians,
         )
-        params = jax.tree.map(jnp.asarray, store.active.params)
+        params = store.active.params
         control_start = time.perf_counter()
         if variant.runtime_dynamics_samples:
             assert runtime_samples is not None
-            output = executables.cartesian[variant.runtime_dynamics_samples](
-                state,
-                target_position,
-                target_velocity,
-                previous_policy,
-                params,
-                window,
-                controller_model,
-                runtime_samples,
+            controller_arguments = experiment_core._tree_to_device(
+                (
+                    state,
+                    target_position,
+                    target_velocity,
+                    previous_policy,
+                    params,
+                    window,
+                    controller_model,
+                    runtime_samples,
+                ),
+                controller_device,
             )
+            output = executables.cartesian[variant.runtime_dynamics_samples](*controller_arguments)
         else:
-            output = executables.point(
-                state,
-                target_position,
-                target_velocity,
-                previous_policy,
-                params,
-                window,
-                controller_model,
+            controller_arguments = experiment_core._tree_to_device(
+                (
+                    state,
+                    target_position,
+                    target_velocity,
+                    previous_policy,
+                    params,
+                    window,
+                    controller_model,
+                ),
+                controller_device,
             )
+            output = executables.point(*controller_arguments)
         _block(output)
         controller_seconds[index] = time.perf_counter() - control_start
         if not np.all(np.isfinite(np.asarray(output.motor_forces))):
             raise RuntimeError("discrete DA-PLCBF controller returned nonfinite motor forces")
         plant_start = time.perf_counter()
-        next_state_device, realized_device = executables.plant(
-            state, output.motor_forces, true_model, true_efficiency
+        plant_arguments = experiment_core._tree_to_device(
+            (state, output.motor_forces, true_model, true_efficiency), plant_device
         )
+        next_state_device, realized_device = executables.plant(*plant_arguments)
         _block((next_state_device, realized_device))
         plant_seconds[index] = time.perf_counter() - plant_start
         if not np.all(np.isfinite(np.asarray(next_state_device))):
@@ -1200,13 +1394,14 @@ def execute_dynamics_knowledge_trial(
             variant.causal_estimator_history_only
             and boundary % config.estimator_interval_steps == 0
         ):
-            observations = experiment_core._estimator_observations(
-                estimator_history, config.estimator_window_steps
+            observations = experiment_core._authoritative_estimator_observations(
+                estimator_history, config.estimator_window_steps, device=estimator_device
+            )
+            estimator_arguments = experiment_core._authoritative_estimator_arguments(
+                estimator, observations, index, device=estimator_device
             )
             estimator_start = time.perf_counter()
-            translation_update, rotor_update = executables.estimator(
-                estimator, observations[0], observations[1], jnp.asarray(index, dtype=jnp.int32)
-            )
+            translation_update, rotor_update = executables.estimator(*estimator_arguments)
             _block((translation_update, rotor_update))
             estimator_seconds[index] = time.perf_counter() - estimator_start
             translation_status[index] = int(np.asarray(translation_update.status))
@@ -1218,13 +1413,18 @@ def execute_dynamics_knowledge_trial(
                 model_last_observation = index
                 if next_model_version > store.model_version:
                     store.advance_model_version(next_model_version)
-            controller_model = _controller_model(resources, estimator)
-            admission_samples = _model_samples(resources, estimator, ADAPTATION_VALIDATION_SAMPLES)
-            runtime_samples = (
-                _model_samples(resources, estimator, variant.runtime_dynamics_samples)
-                if variant.runtime_dynamics_samples
-                else None
+            controller_model, admission_samples = _authoritative_model_context(
+                resources, estimator, ADAPTATION_VALIDATION_SAMPLES
             )
+            runtime_samples = None
+            if variant.runtime_dynamics_samples:
+                runtime_samples = (
+                    admission_samples
+                    if variant.runtime_dynamics_samples == ADAPTATION_VALIDATION_SAMPLES
+                    else _authoritative_model_context(
+                        resources, estimator, variant.runtime_dynamics_samples
+                    )[1]
+                )
             if runtime_samples is not None:
                 _require_valid_runtime_samples(runtime_samples, variant.runtime_dynamics_samples)
         elif variant.privileged_oracle_upper_bound:
@@ -1234,12 +1434,11 @@ def execute_dynamics_knowledge_trial(
                 oracle_regime += 1
                 oracle_vector = next_vector.copy()
                 store.advance_model_version(oracle_regime)
-            controller_model = next_true_model
             oracle_state = _oracle_estimator_state(
                 resources, next_true_model, model_version=oracle_regime
             )
-            admission_samples = _model_samples(
-                resources, oracle_state, ADAPTATION_VALIDATION_SAMPLES
+            controller_model, admission_samples = _authoritative_model_context(
+                resources, oracle_state, ADAPTATION_VALIDATION_SAMPLES, base_model=next_true_model
             )
 
         if boundary % config.adaptation_interval_steps == 0 and boundary < steps - 1:
@@ -1394,6 +1593,7 @@ def run_dynamics_knowledge_campaign(
     if provenance_path.exists():
         stored_provenance = _read_object(provenance_path)
         _validate_runtime_provenance(stored_provenance, configuration)
+        _validate_resume_analysis_identity(stored_provenance, configuration)
     elif records:
         raise ValueError("existing outcomes lack the immutable pre-execution runtime provenance")
     compiled: _CompiledExecutables | None = None
@@ -1432,16 +1632,21 @@ def run_dynamics_knowledge_campaign(
                     variant=variant,
                     resources=resources,
                     plant_replay=resume_plant_replay,
+                    role_devices=stored_provenance["role_devices"],
                 )
             continue
 
         if compiled is None:
             compiled = compile_knowledge_executables(_CompiledExecutables(resources, profile), tape)
+            current_provenance = _runtime_provenance(compiled, configuration)
             if stored_provenance is None:
-                generated_provenance = _runtime_provenance(compiled, configuration)
-                _write_once_json(provenance_path, generated_provenance)
+                _write_once_json(provenance_path, current_provenance)
                 stored_provenance = _read_object(provenance_path)
                 _validate_runtime_provenance(stored_provenance, configuration)
+            else:
+                _validate_resume_runtime_identity(
+                    stored_provenance, current_provenance, configuration
+                )
         if adaptation_pool is None:
             adaptation_pool = experiment_core._build_bptt_executable_pool(resources, profile.trial)
         startup_json, startup_bundle = _startup_paths(root, fold)
@@ -1455,6 +1660,17 @@ def run_dynamics_knowledge_campaign(
             startup, startup_mapping = _load_common_startup(
                 root, fold, tape.sha256, resources, recover_missing_sidecar=False
             )
+        if startup.record.get("status") == "complete":
+            diagnostic_errors = _authoritative_adaptation_diagnostics_errors(
+                startup.record.get("diagnostics"),
+                role_devices=stored_provenance["role_devices"],
+                require_available_cpu=True,
+            )
+            if diagnostic_errors:
+                raise ValueError(
+                    f"common startup is not executable in the current runtime: fold {fold}: "
+                    f"{diagnostic_errors[0]}"
+                )
 
         for variant in VARIANTS:
             key = (fold, variant.variant_id)
@@ -1468,6 +1684,7 @@ def run_dynamics_knowledge_campaign(
                     variant=variant,
                     resources=resources,
                     plant_replay=resume_plant_replay,
+                    role_devices=stored_provenance["role_devices"],
                 )
                 continue
             try:
@@ -1530,6 +1747,9 @@ def run_dynamics_knowledge_campaign(
             "retained_failures": failed,
             "operational_failures": operational_failures,
             "adaptation_execution_failures": (startup_failures + periodic_adaptation_failures),
+            "confirmatory_metric_family_eligible": manifest["confirmatory_metric_family_eligible"],
+            "adaptation_evidence_replay_status": ADAPTATION_EVIDENCE_REPLAY_STATUS,
+            "claim_eligibility_blockers": manifest["claim_eligibility_blockers"],
             "blanket_safety_superiority_supported": False,
             "operational_failure_definition": OPERATIONAL_FAILURE_DEFINITION,
             "axis_aligned_sample_range_metric_definition": (
@@ -1739,12 +1959,28 @@ def _startup_identity(record: Mapping[str, Any]) -> dict[str, Any]:
         "uncertainty_aware_bptt_training",
         "hard_admission_dynamics_samples",
     )
-    return {name: record.get(name) for name in fields}
+    identity = {name: record.get(name) for name in fields}
+    diagnostics = record.get("diagnostics")
+    diagnostic_fields = (
+        "bptt_execution_contract",
+        "bptt_execution_backend",
+        "bptt_execution_device_id",
+        "execution_device_is_cpu",
+        "bptt_cache_key",
+        "validation_cache_key",
+        "bptt_input_digest",
+    )
+    identity["online_bptt"] = (
+        {name: diagnostics.get(name) for name in diagnostic_fields}
+        if record.get("status") == "complete" and isinstance(diagnostics, dict)
+        else None
+    )
+    return identity
 
 
 def _startup_semantic_digest(record: Mapping[str, Any]) -> str:
     return hashlib.sha256(
-        b"crazyflow.da_plcbf.dynamics-knowledge-startup.v1\0"
+        b"crazyflow.da_plcbf.dynamics-knowledge-startup.v2\0"
         + _canonical_json(_startup_identity(record))
     ).hexdigest()
 
@@ -1891,6 +2127,10 @@ def _load_startup_bundle(
         raise ValueError(f"common startup semantic digest mismatch: fold {fold}")
     if record.get("status") not in {"complete", "failed"}:
         raise ValueError(f"common startup status is invalid: fold {fold}")
+    if record["status"] == "complete":
+        diagnostic_errors = _authoritative_adaptation_diagnostics_errors(record.get("diagnostics"))
+        if diagnostic_errors:
+            raise ValueError(f"common startup {diagnostic_errors[0]}: fold {fold}")
     if record.get("training_objective") != TRAINING_OBJECTIVE_ID:
         raise ValueError(f"common startup training objective changed: fold {fold}")
     if record.get("uncertainty_aware_bptt_training") is not False:
@@ -2064,7 +2304,7 @@ def _configuration_mapping(
 ) -> dict[str, Any]:
     return {
         "schema_version": CAMPAIGN_SCHEMA_VERSION,
-        "experiment_id": "da-plcbf-dynamics-knowledge-closed-loop-v3",
+        "experiment_id": "da-plcbf-dynamics-knowledge-closed-loop-v4",
         "scope": "closed_loop_dynamics_knowledge",
         "claim_boundary": CLAIM_BOUNDARY,
         "profile": profile.name,
@@ -2079,12 +2319,14 @@ def _configuration_mapping(
         "training_claim": TRAINING_CLAIM,
         "uncertainty_aware_bptt_training": False,
         "common_hard_admission_dynamics_samples": ADAPTATION_VALIDATION_SAMPLES,
+        "adaptation_evidence_replay_status": ADAPTATION_EVIDENCE_REPLAY_STATUS,
+        "claim_eligibility_blockers": [],
         "oracle_label": ORACLE_LABEL,
         "oracle_uses_future_truth": False,
         "plant_replay_tolerance": {
             "relative": PLANT_REPLAY_RTOL,
             "absolute": PLANT_REPLAY_ATOL,
-            "reason": "float32 scalar execution versus batched verifier replay",
+            "reason": "float32 scalar execution versus scalar-body mapped verifier replay",
         },
         "blanket_safety_superiority_supported": False,
         "operational_failure_definition": OPERATIONAL_FAILURE_DEFINITION,
@@ -2103,15 +2345,56 @@ def _runtime_provenance(
         or set(compiled.warmup_seconds) != _RUNTIME_TIMING_KEYS
     ):
         raise ValueError("compiled executable timings are incomplete")
-    devices = []
-    for device in jax.devices():
-        devices.append(
-            {
-                "platform": device.platform,
-                "device_kind": getattr(device, "device_kind", "unknown"),
-                "id": int(device.id),
-            }
+    role_bindings = {
+        "controller": compiled.controller_device,
+        "plant": compiled.plant_device,
+        "estimator": compiled.estimator_device,
+        "bptt": compiled.bptt_device,
+        "validation": compiled.validation_device,
+    }
+    if any(device is None for device in role_bindings.values()):
+        raise ValueError("compiled executable device roles are incomplete")
+
+    def device_record(device: jax.Device) -> dict[str, Any]:
+        return {
+            "platform": str(device.platform),
+            "device_kind": str(getattr(device, "device_kind", "unknown")),
+            "id": int(device.id),
+        }
+
+    available_devices = {
+        (str(device.platform), int(device.id)): device
+        for device in (*jax.devices(), *jax.devices("cpu"), *role_bindings.values())
+        if device is not None
+    }
+    devices = [
+        device_record(available_devices[key])
+        for key in sorted(available_devices, key=lambda item: (item[0], item[1]))
+    ]
+    role_devices = {
+        role: device_record(device) for role, device in role_bindings.items() if device is not None
+    }
+    try:
+        driver_query = subprocess.run(
+            ("nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"),
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=10.0,
         )
+        nvidia_driver_version = ",".join(
+            sorted({line.strip() for line in driver_query.stdout.splitlines() if line.strip()})
+        )
+    except (OSError, subprocess.SubprocessError):
+        nvidia_driver_version = "unavailable"
+    if not nvidia_driver_version:
+        nvidia_driver_version = "unavailable"
+    try:
+        backend_platform_version = str(jax_backend.get_backend().platform_version).strip()
+    except (AttributeError, RuntimeError):
+        backend_platform_version = "unavailable"
+    if not backend_platform_version:
+        backend_platform_version = "unavailable"
     return {
         "schema_version": RUNTIME_PROVENANCE_SCHEMA_VERSION,
         "source_tree_sha256": configuration["source_tree_sha256"],
@@ -2119,11 +2402,19 @@ def _runtime_provenance(
             "crazyflow.da_plcbf.dynamics-knowledge-configuration.v1", configuration
         ),
         "python": platform.python_version(),
+        "python_implementation": platform.python_implementation(),
         "platform": platform.platform(),
         "jax_version": jax.__version__,
+        "jaxlib_version": importlib.metadata.version("jaxlib"),
         "numpy_version": np.__version__,
+        "flax_version": importlib.metadata.version("flax"),
+        "optax_version": importlib.metadata.version("optax"),
         "jax_enable_x64": bool(jax.config.jax_enable_x64),
+        "cpu_model_identity": _cpu_identity(),
+        "nvidia_driver_version": nvidia_driver_version,
+        "jax_backend_platform_version": backend_platform_version,
         "devices": devices,
+        "role_devices": role_devices,
         "compile_seconds": dict(compiled.compile_seconds),
         "warmup_seconds": dict(compiled.warmup_seconds),
         "timings_are_descriptive_not_hard_realtime_proofs": True,
@@ -2138,11 +2429,19 @@ def _validate_runtime_provenance(
         "source_tree_sha256",
         "configuration_sha256",
         "python",
+        "python_implementation",
         "platform",
         "jax_version",
+        "jaxlib_version",
         "numpy_version",
+        "flax_version",
+        "optax_version",
         "jax_enable_x64",
+        "cpu_model_identity",
+        "nvidia_driver_version",
+        "jax_backend_platform_version",
         "devices",
+        "role_devices",
         "compile_seconds",
         "warmup_seconds",
         "timings_are_descriptive_not_hard_realtime_proofs",
@@ -2158,7 +2457,19 @@ def _validate_runtime_provenance(
     )
     if provenance["configuration_sha256"] != expected_configuration_digest:
         raise ValueError("runtime provenance configuration digest mismatch")
-    for name in ("python", "platform", "jax_version", "numpy_version"):
+    for name in (
+        "python",
+        "python_implementation",
+        "platform",
+        "jax_version",
+        "jaxlib_version",
+        "numpy_version",
+        "flax_version",
+        "optax_version",
+        "cpu_model_identity",
+        "nvidia_driver_version",
+        "jax_backend_platform_version",
+    ):
         if not isinstance(provenance[name], str) or not provenance[name]:
             raise ValueError(f"runtime provenance {name} is malformed")
     if not isinstance(provenance["jax_enable_x64"], bool):
@@ -2175,6 +2486,31 @@ def _validate_runtime_provenance(
             raise ValueError("runtime provenance device kind is malformed")
         if not isinstance(device["id"], int) or isinstance(device["id"], bool):
             raise ValueError("runtime provenance device id is malformed")
+    role_devices = provenance["role_devices"]
+    if not isinstance(role_devices, dict) or set(role_devices) != _RUNTIME_DEVICE_ROLES:
+        raise ValueError("runtime provenance device roles are incomplete")
+    inventory = {(device["platform"], device["device_kind"], device["id"]) for device in devices}
+    for role, device in role_devices.items():
+        if not isinstance(device, dict) or set(device) != {"platform", "device_kind", "id"}:
+            raise ValueError(f"runtime provenance {role} device record is malformed")
+        if not isinstance(device["platform"], str) or not device["platform"]:
+            raise ValueError(f"runtime provenance {role} device platform is malformed")
+        if not isinstance(device["device_kind"], str) or not device["device_kind"]:
+            raise ValueError(f"runtime provenance {role} device kind is malformed")
+        if not isinstance(device["id"], int) or isinstance(device["id"], bool):
+            raise ValueError(f"runtime provenance {role} device id is malformed")
+        if (device["platform"], device["device_kind"], device["id"]) not in inventory:
+            raise ValueError(f"runtime provenance {role} device is absent from the inventory")
+    if role_devices["controller"] != role_devices["plant"]:
+        raise ValueError("runtime provenance controller and plant devices differ")
+    authoritative = role_devices["estimator"]
+    if authoritative["platform"] != "cpu":
+        raise ValueError("runtime provenance estimator device is not CPU")
+    for role in ("bptt", "validation"):
+        if role_devices[role] != role_devices["controller"]:
+            raise ValueError(
+                f"runtime provenance {role} device differs from controller accelerator"
+            )
     for timing_kind in ("compile_seconds", "warmup_seconds"):
         timings = provenance[timing_kind]
         if not isinstance(timings, dict) or set(timings) != _RUNTIME_TIMING_KEYS:
@@ -2186,6 +2522,59 @@ def _validate_runtime_provenance(
                 raise ValueError(f"runtime provenance {timing_kind}.{name} is invalid")
     if provenance["timings_are_descriptive_not_hard_realtime_proofs"] is not True:
         raise ValueError("runtime provenance timing-claim boundary changed")
+
+
+def _validate_resume_runtime_identity(
+    stored: Mapping[str, Any], current: Mapping[str, Any], configuration: Mapping[str, Any]
+) -> None:
+    """Require a resumed execution session to match immutable non-timing provenance."""
+    _validate_runtime_provenance(stored, configuration)
+    _validate_runtime_provenance(current, configuration)
+    for field in _RUNTIME_IDENTITY_FIELDS:
+        if _canonical_json(stored[field]) != _canonical_json(current[field]):
+            raise ValueError(f"current runtime provenance {field} differs from stored campaign")
+
+
+def _current_runtime_analysis_identity() -> dict[str, Any]:
+    """Return the runtime identity used by replay and aggregate/finalization semantics."""
+    try:
+        backend = jax_backend.get_backend()
+        backend_platform = str(backend.platform).strip()
+        backend_platform_version = str(backend.platform_version).strip()
+    except (AttributeError, RuntimeError):
+        backend_platform = "unavailable"
+        backend_platform_version = "unavailable"
+    if not backend_platform:
+        backend_platform = "unavailable"
+    if not backend_platform_version:
+        backend_platform_version = "unavailable"
+    return {
+        "python": platform.python_version(),
+        "python_implementation": platform.python_implementation(),
+        "jax_version": jax.__version__,
+        "jaxlib_version": importlib.metadata.version("jaxlib"),
+        "numpy_version": np.__version__,
+        "jax_enable_x64": bool(jax.config.jax_enable_x64),
+        "jax_backend_platform": backend_platform,
+        "jax_backend_platform_version": backend_platform_version,
+    }
+
+
+def _validate_resume_analysis_identity(
+    stored: Mapping[str, Any], configuration: Mapping[str, Any]
+) -> None:
+    """Bind even a no-pending finalization pass to its recorded analysis runtime."""
+    _validate_runtime_provenance(stored, configuration)
+    current = _current_runtime_analysis_identity()
+    expected = {
+        **{field: stored[field] for field in current if field != "jax_backend_platform"},
+        "jax_backend_platform": stored["role_devices"]["plant"]["platform"],
+    }
+    for field, value in current.items():
+        if expected[field] != value:
+            raise ValueError(
+                f"current analysis runtime {field} differs from stored campaign provenance"
+            )
 
 
 _AGGREGATE_METRICS: tuple[tuple[str, str], ...] = (
@@ -2275,13 +2664,18 @@ def aggregate_dynamics_knowledge_outcomes(
     startup_failure_count, periodic_adaptation_failure_count = _adaptation_failure_counts(outcomes)
     adaptation_execution_failures = startup_failure_count + periodic_adaptation_failure_count
     schedule_complete = exact_unique_schedule and registry_exact and len(outcomes) == expected
-    confirmatory_eligible = (
+    protocol_confirmatory_requirements_met = (
         profile.intended_for_confirmatory_differences
         and schedule_complete
         and failed_count == 0
         and adaptation_execution_failures == 0
         and len(complete) == expected
     )
+    # Accelerator BPTT is not rerun across machines.  Claim eligibility is instead bound to the
+    # content-hashed candidate lineage, hard admission reports, complete schedule, and retained
+    # execution outcomes.  Blanket safety superiority remains prohibited below.
+    confirmatory_eligible = protocol_confirmatory_requirements_met
+    claim_eligibility_blockers = [] if confirmatory_eligible else [CLAIM_ELIGIBILITY_BLOCKER]
     comparisons: list[dict[str, Any]] = []
     for pair_label, candidate_id, reference_id, family_role in _COMPARISON_PAIRS:
         for metric, direction in _AGGREGATE_METRICS:
@@ -2414,7 +2808,10 @@ def aggregate_dynamics_knowledge_outcomes(
         "periodic_adaptation_execution_failures": periodic_adaptation_failure_count,
         "adaptation_execution_failures": adaptation_execution_failures,
         "schedule_complete": schedule_complete,
+        "protocol_confirmatory_requirements_met": protocol_confirmatory_requirements_met,
         "confirmatory_metric_family_eligible": confirmatory_eligible,
+        "adaptation_evidence_replay_status": ADAPTATION_EVIDENCE_REPLAY_STATUS,
+        "claim_eligibility_blockers": claim_eligibility_blockers,
         "confirmatory_metric_family_size": len(primary_indices),
         "confirmatory_metric_family": [
             {"pair": comparisons[index]["pair"], "metric": comparisons[index]["metric"]}
@@ -2571,7 +2968,7 @@ def verify_dynamics_knowledge_campaign(
 
     if configuration.get("schema_version") != CAMPAIGN_SCHEMA_VERSION:
         errors.append("unsupported dynamics-knowledge campaign schema")
-    if configuration.get("experiment_id") != "da-plcbf-dynamics-knowledge-closed-loop-v3":
+    if configuration.get("experiment_id") != "da-plcbf-dynamics-knowledge-closed-loop-v4":
         errors.append("unexpected dynamics-knowledge experiment identifier")
     if configuration.get("scope") != "closed_loop_dynamics_knowledge":
         errors.append("campaign scope changed")
@@ -2596,11 +2993,17 @@ def verify_dynamics_knowledge_campaign(
     if configuration.get("plant_replay_tolerance") != {
         "relative": PLANT_REPLAY_RTOL,
         "absolute": PLANT_REPLAY_ATOL,
-        "reason": "float32 scalar execution versus batched verifier replay",
+        "reason": "float32 scalar execution versus scalar-body mapped verifier replay",
     }:
         errors.append("campaign plant-replay tolerance changed")
     if configuration.get("common_hard_admission_dynamics_samples") != ADAPTATION_VALIDATION_SAMPLES:
         errors.append("campaign common hard-admission sample count changed")
+    if configuration.get("adaptation_evidence_replay_status") != (
+        ADAPTATION_EVIDENCE_REPLAY_STATUS
+    ):
+        errors.append("campaign adaptation-evidence replay status changed")
+    if configuration.get("claim_eligibility_blockers") != []:
+        errors.append("campaign claim-eligibility blockers changed")
     if configuration.get("axis_aligned_sample_range_metric_definition") != (
         AXIS_ALIGNED_SAMPLE_RANGE_METRIC_DEFINITION
     ):
@@ -2655,6 +3058,14 @@ def verify_dynamics_knowledge_campaign(
         AXIS_ALIGNED_SAMPLE_RANGE_METRIC_DEFINITION
     ):
         errors.append("aggregate axis-aligned sample-range metric definition changed")
+    aggregate_protocol_met = aggregates.get("protocol_confirmatory_requirements_met") is True
+    if aggregates.get("confirmatory_metric_family_eligible") is not aggregate_protocol_met:
+        errors.append("aggregate confirmatory eligibility differs from protocol requirements")
+    if aggregates.get("adaptation_evidence_replay_status") != ADAPTATION_EVIDENCE_REPLAY_STATUS:
+        errors.append("aggregate adaptation-evidence replay status changed")
+    expected_aggregate_blockers = [] if aggregate_protocol_met else [CLAIM_ELIGIBILITY_BLOCKER]
+    if aggregates.get("claim_eligibility_blockers") != expected_aggregate_blockers:
+        errors.append("aggregate claim-eligibility blockers changed")
     if manifest.get("claim_boundary") != CLAIM_BOUNDARY:
         errors.append("manifest claim boundary changed")
     if manifest.get("blanket_safety_superiority_supported") is not False:
@@ -2665,6 +3076,14 @@ def verify_dynamics_knowledge_campaign(
         AXIS_ALIGNED_SAMPLE_RANGE_METRIC_DEFINITION
     ):
         errors.append("manifest axis-aligned sample-range metric definition changed")
+    manifest_protocol_met = manifest.get("protocol_confirmatory_requirements_met") is True
+    if manifest.get("confirmatory_metric_family_eligible") is not manifest_protocol_met:
+        errors.append("manifest confirmatory eligibility differs from protocol requirements")
+    if manifest.get("adaptation_evidence_replay_status") != ADAPTATION_EVIDENCE_REPLAY_STATUS:
+        errors.append("manifest adaptation-evidence replay status changed")
+    expected_manifest_blockers = [] if manifest_protocol_met else [CLAIM_ELIGIBILITY_BLOCKER]
+    if manifest.get("claim_eligibility_blockers") != expected_manifest_blockers:
+        errors.append("manifest claim-eligibility blockers changed")
     if marker is not None:
         if marker.get("manifest_sha256") != _file_sha256(campaign / "manifest.json"):
             errors.append("completion marker does not bind the manifest")
@@ -2678,10 +3097,21 @@ def verify_dynamics_knowledge_campaign(
             AXIS_ALIGNED_SAMPLE_RANGE_METRIC_DEFINITION
         ):
             errors.append("completion marker axis-aligned sample-range definition changed")
+        if marker.get("confirmatory_metric_family_eligible") is not manifest.get(
+            "confirmatory_metric_family_eligible"
+        ):
+            errors.append("completion marker confirmatory eligibility differs from manifest")
+        if marker.get("adaptation_evidence_replay_status") != ADAPTATION_EVIDENCE_REPLAY_STATUS:
+            errors.append("completion marker adaptation-evidence replay status changed")
+        if marker.get("claim_eligibility_blockers") != manifest.get("claim_eligibility_blockers"):
+            errors.append("completion marker claim-eligibility blockers changed")
     try:
         _validate_runtime_provenance(provenance, configuration)
     except (TypeError, ValueError) as error:
         errors.append(f"runtime provenance is malformed: {error}")
+    role_devices = provenance.get("role_devices")
+    if not isinstance(role_devices, Mapping):
+        role_devices = None
     _verify_manifest_files(campaign, manifest, errors)
 
     tape_by_fold: dict[int, ScenarioTape] = {}
@@ -2728,6 +3158,13 @@ def verify_dynamics_knowledge_campaign(
                 errors.append(f"common startup incorrectly claims robust BPTT: fold {fold}")
             if record.get("hard_admission_dynamics_samples") != ADAPTATION_VALIDATION_SAMPLES:
                 errors.append(f"common startup admission sample count changed: fold {fold}")
+            if record.get("status") == "complete":
+                errors.extend(
+                    f"common startup {message}: fold {fold}"
+                    for message in _authoritative_adaptation_diagnostics_errors(
+                        record.get("diagnostics"), role_devices=role_devices
+                    )
+                )
             startup_by_fold[fold] = startup
         except (KeyError, OSError, TypeError, ValueError) as error:
             errors.append(f"invalid common startup for fold {fold}: {error}")
@@ -2736,6 +3173,7 @@ def verify_dynamics_knowledge_campaign(
     completed = 0
     failed = 0
     truth_digest_by_fold: dict[int, set[str]] = defaultdict(set)
+    initial_state_digest_by_fold: dict[int, set[str]] = defaultdict(set)
     startup_digest_by_fold: dict[int, set[str]] = defaultdict(set)
     for record in outcomes:
         try:
@@ -2888,6 +3326,12 @@ def verify_dynamics_knowledge_campaign(
                     {"true_parameters": scientific["true_parameters"]},
                 )
             )
+            initial_state_digest_by_fold[fold].add(
+                _canonical_array_digest(
+                    "dynamics-knowledge-initial-state-v1",
+                    {"initial_state": scientific["states"][0]},
+                )
+            )
             if not all(
                 np.all(np.isfinite(value))
                 for name, value in arrays.items()
@@ -2896,7 +3340,9 @@ def verify_dynamics_knowledge_campaign(
                 errors.append(f"trace final parameters are nonfinite: {key}")
             errors.extend(
                 f"{message}: {key}"
-                for message in _adaptation_event_errors(record.get("adaptation_events"), profile)
+                for message in _adaptation_event_errors(
+                    record.get("adaptation_events"), profile, role_devices=role_devices
+                )
             )
             execution_seconds = float(record.get("execution_seconds"))
             if not math.isfinite(execution_seconds) or execution_seconds < 0.0:
@@ -2907,6 +3353,8 @@ def verify_dynamics_knowledge_campaign(
     for fold in scheduled_folds:
         if len(truth_digest_by_fold[fold]) > 1:
             errors.append(f"paired variants used different true dynamics: fold {fold}")
+        if len(initial_state_digest_by_fold[fold]) > 1:
+            errors.append(f"paired variants used different initial states: fold {fold}")
         if len(startup_digest_by_fold[fold]) > 1:
             errors.append(f"paired variants used different startup adaptation: fold {fold}")
     if len(outcomes) != expected:
@@ -2981,6 +3429,15 @@ def _expected_trace_metadata(
     }
 
 
+@lru_cache(maxsize=1)
+def _tracked_motor_force_bounds() -> tuple[np.ndarray, np.ndarray]:
+    """Return the tracked cf21B-500 per-rotor command limits at float32 precision."""
+    raw = load_params("cf21B_500")
+    lower = np.broadcast_to(np.asarray(raw["thrust_min"], dtype=np.float32), (4,)).copy()
+    upper = np.broadcast_to(np.asarray(raw["thrust_max"], dtype=np.float32), (4,)).copy()
+    return lower, upper
+
+
 def _trace_semantic_errors(
     arrays: Mapping[str, np.ndarray],
     variant: DynamicsKnowledgeVariant,
@@ -3033,6 +3490,9 @@ def _trace_semantic_errors(
             errors.append(f"trace array {name} has shape {arrays[name].shape}, expected {shape}")
     if errors:
         return tuple(errors)
+    expected_initial_state = np.asarray(experiment_core._initial_state(tape), dtype=np.float64)
+    if not np.array_equal(arrays["states"][0], expected_initial_state):
+        errors.append("trace initial state does not match the immutable scenario tape")
     if arrays["barrier_margins"].ndim != 2 or arrays["barrier_margins"].shape[0] != steps:
         errors.append("barrier_margins must have shape (control_steps, barrier_components)")
     elif arrays["barrier_margins"].shape[1] < 1:
@@ -3084,6 +3544,35 @@ def _trace_semantic_errors(
     for name in finite_names:
         if not np.all(np.isfinite(arrays[name])):
             errors.append(f"trace array {name} contains a nonfinite value")
+    executed_command = np.asarray(arrays["commanded_motor_forces"][:-1], dtype=np.float64)
+    executed_realized = np.asarray(arrays["realized_motor_forces"][:-1], dtype=np.float64)
+    thrust_min_raw, thrust_max_raw = _tracked_motor_force_bounds()
+    thrust_min = np.asarray(thrust_min_raw, dtype=np.float64)
+    thrust_max = np.asarray(thrust_max_raw, dtype=np.float64)
+    float32_epsilon = float(np.finfo(np.float32).eps)
+    command_tolerance = (
+        8.0 * float32_epsilon * (1.0 + np.maximum(np.abs(thrust_min), np.abs(thrust_max)))
+    )
+    if np.any(executed_command < thrust_min[None, :] - command_tolerance[None, :]) or np.any(
+        executed_command > thrust_max[None, :] + command_tolerance[None, :]
+    ):
+        errors.append("executed commanded motor forces exceed tracked actuator thrust bounds")
+    # The plant applies rotor efficiency after the bounded actuator command.  A damaged rotor may
+    # therefore realize less than the actuator's raw minimum while remaining physically valid.
+    rotor_efficiency = np.asarray(tape.rotor_efficiency[: steps - 1], dtype=np.float64)
+    realized_endpoint_a = thrust_min[None, :] * rotor_efficiency
+    realized_endpoint_b = thrust_max[None, :] * rotor_efficiency
+    realized_lower = np.minimum(realized_endpoint_a, realized_endpoint_b)
+    realized_upper = np.maximum(realized_endpoint_a, realized_endpoint_b)
+    realized_tolerance = (
+        8.0 * float32_epsilon * (1.0 + np.maximum(np.abs(realized_lower), np.abs(realized_upper)))
+    )
+    if np.any(executed_realized < realized_lower - realized_tolerance) or np.any(
+        executed_realized > realized_upper + realized_tolerance
+    ):
+        errors.append(
+            "executed realized motor forces exceed efficiency-adjusted actuator thrust bounds"
+        )
     for name in ("controller_seconds", "plant_seconds", "estimator_seconds", "adaptation_seconds"):
         if np.any(arrays[name] < 0.0):
             errors.append(f"trace timing array {name} contains a negative value")
@@ -3129,7 +3618,13 @@ def _trace_semantic_errors(
     return tuple(errors)
 
 
-def _adaptation_event_errors(value: Any, profile: DynamicsKnowledgeProfile) -> tuple[str, ...]:
+def _adaptation_event_errors(
+    value: Any,
+    profile: DynamicsKnowledgeProfile,
+    *,
+    role_devices: Mapping[str, Any] | None = None,
+    require_available_cpu: bool = False,
+) -> tuple[str, ...]:
     if not isinstance(value, list):
         return ("adaptation events must be a list",)
     errors: list[str] = []
@@ -3163,6 +3658,15 @@ def _adaptation_event_errors(value: Any, profile: DynamicsKnowledgeProfile) -> t
                 errors.append(f"adaptation timing is invalid at boundary {boundary}")
             if event.get("status") not in {"complete", "failed"}:
                 errors.append(f"adaptation status is invalid at boundary {boundary}")
+            elif event["status"] == "complete":
+                errors.extend(
+                    f"{message} at boundary {boundary}"
+                    for message in _authoritative_adaptation_diagnostics_errors(
+                        event.get("diagnostics"),
+                        role_devices=role_devices,
+                        require_available_cpu=require_available_cpu,
+                    )
+                )
         except (KeyError, TypeError, ValueError) as error:
             errors.append(f"malformed adaptation event: {error}")
     if seen != expected_boundaries:
@@ -3241,6 +3745,13 @@ def _manifest_mapping(
         if relative in excluded:
             continue
         files.append({"path": relative, "sha256": _file_sha256(path), "bytes": path.stat().st_size})
+    protocol_confirmatory_requirements_met = (
+        profile.intended_for_confirmatory_differences
+        and execution_complete
+        and failed == 0
+        and adaptation_execution_failures == 0
+        and completed == expected
+    )
     return {
         "schema_version": MANIFEST_SCHEMA_VERSION,
         "experiment_id": configuration["experiment_id"],
@@ -3254,12 +3765,11 @@ def _manifest_mapping(
         "operational_failures": operational_failures,
         "adaptation_execution_failures": adaptation_execution_failures,
         "execution_complete": execution_complete,
-        "confirmatory_metric_family_eligible": (
-            profile.intended_for_confirmatory_differences
-            and execution_complete
-            and failed == 0
-            and adaptation_execution_failures == 0
-            and completed == expected
+        "protocol_confirmatory_requirements_met": protocol_confirmatory_requirements_met,
+        "confirmatory_metric_family_eligible": protocol_confirmatory_requirements_met,
+        "adaptation_evidence_replay_status": ADAPTATION_EVIDENCE_REPLAY_STATUS,
+        "claim_eligibility_blockers": (
+            [] if protocol_confirmatory_requirements_met else [CLAIM_ELIGIBILITY_BLOCKER]
         ),
         "oracle_label": ORACLE_LABEL,
         "training_claim": TRAINING_CLAIM,
@@ -3393,6 +3903,7 @@ def _verify_resumable_record(
     variant: DynamicsKnowledgeVariant,
     resources: ExperimentResources,
     plant_replay: Any,
+    role_devices: Mapping[str, Any],
 ) -> None:
     key = (int(record.get("fold", -1)), variant.variant_id)
     startup_record = startup.get("record")
@@ -3406,6 +3917,15 @@ def _verify_resumable_record(
         raise ValueError(f"existing common startup semantic identity changed: {key[0]}")
     if startup.get("semantic_digest") != _startup_semantic_digest(startup_record):
         raise ValueError(f"existing common startup semantic digest changed: {key[0]}")
+    if startup_record.get("status") == "complete":
+        diagnostic_errors = _authoritative_adaptation_diagnostics_errors(
+            startup_record.get("diagnostics"), role_devices=role_devices, require_available_cpu=True
+        )
+        if diagnostic_errors:
+            raise ValueError(
+                f"existing common startup device provenance changed: {key[0]}: "
+                f"{diagnostic_errors[0]}"
+            )
     expected_startup_digest = startup.get("semantic_digest")
     expected = {
         "scope": "closed_loop_dynamics_knowledge",
@@ -3522,7 +4042,12 @@ def _verify_resumable_record(
     execution_seconds = float(record.get("execution_seconds"))
     if not math.isfinite(execution_seconds) or execution_seconds < 0.0:
         raise ValueError(f"existing outcome execution timing is invalid: {key}")
-    adaptation_errors = _adaptation_event_errors(record.get("adaptation_events"), profile)
+    adaptation_errors = _adaptation_event_errors(
+        record.get("adaptation_events"),
+        profile,
+        role_devices=role_devices,
+        require_available_cpu=True,
+    )
     if adaptation_errors:
         raise ValueError(f"existing adaptation ledger changed for {key}: {adaptation_errors[0]}")
 

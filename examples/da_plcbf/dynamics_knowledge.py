@@ -21,6 +21,8 @@ from pathlib import Path
 from typing import Any
 
 from crazyflow.safety.da_plcbf.dynamics_knowledge_campaign import (
+    ADAPTATION_EVIDENCE_REPLAY_STATUS,
+    CLAIM_ELIGIBILITY_BLOCKER,
     DynamicsKnowledgeCampaignConfig,
     run_dynamics_knowledge_campaign,
     verify_dynamics_knowledge_campaign,
@@ -53,6 +55,19 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _artifact_eligibility(root: Path) -> tuple[bool, list[str]]:
+    """Read protocol eligibility when a real campaign artifact is available."""
+    try:
+        value = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    except (OSError, TypeError, ValueError, json.JSONDecodeError):
+        return False, [CLAIM_ELIGIBILITY_BLOCKER]
+    eligible = value.get("confirmatory_metric_family_eligible") is True
+    blockers = value.get("claim_eligibility_blockers")
+    if not isinstance(blockers, list) or any(not isinstance(item, str) for item in blockers):
+        return False, [CLAIM_ELIGIBILITY_BLOCKER]
+    return eligible, blockers
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _parser()
     if argv is None:
@@ -71,6 +86,7 @@ def main(argv: list[str] | None = None) -> int:
             arguments.output,
             resume=not arguments.no_resume,
         )
+        eligible, blockers = _artifact_eligibility(run.root)
         payload = {
             "root": str(run.root),
             "expected_outcomes": run.expected_outcomes,
@@ -80,6 +96,9 @@ def main(argv: list[str] | None = None) -> int:
             "execution_complete": run.execution_complete,
             "manifest_sha256": run.manifest_sha256,
             "scope": "closed_loop_dynamics_knowledge",
+            "confirmatory_metric_family_eligible": eligible,
+            "adaptation_evidence_replay_status": ADAPTATION_EVIDENCE_REPLAY_STATUS,
+            "claim_eligibility_blockers": blockers,
             "blanket_safety_superiority_supported": False,
         }
         status = 0 if run.execution_complete and run.failed_outcomes == 0 else 2
@@ -87,6 +106,7 @@ def main(argv: list[str] | None = None) -> int:
         verification = verify_dynamics_knowledge_campaign(
             arguments.output, require_current_source=not arguments.allow_source_drift
         )
+        eligible, blockers = _artifact_eligibility(arguments.output)
         payload = {
             "valid": verification.valid,
             "errors": verification.errors,
@@ -96,6 +116,9 @@ def main(argv: list[str] | None = None) -> int:
             "failed_outcomes": verification.failed_outcomes,
             "operational_failures": verification.operational_failures,
             "scope": "closed_loop_dynamics_knowledge",
+            "confirmatory_metric_family_eligible": eligible,
+            "adaptation_evidence_replay_status": ADAPTATION_EVIDENCE_REPLAY_STATUS,
+            "claim_eligibility_blockers": blockers,
             "blanket_safety_superiority_supported": False,
         }
         status = 0 if verification.valid else 1

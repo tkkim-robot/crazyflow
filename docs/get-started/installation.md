@@ -93,8 +93,9 @@ Adds `pytest` and `pytest-markdown-docs` for running the test suite and doc snip
 === "pixi"
 
     ```bash
-    pixi run tests          # unit and integration tests
-    pixi run test-docs      # doc code snippet tests
+    pixi run -e tests tests         # focused local core tier
+    pixi run -e tests tests-full    # complete non-render unit/integration suite
+    pixi run -e tests test-docs     # doc code snippet tests
     ```
 
 === "uv"

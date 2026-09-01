@@ -22,8 +22,9 @@ Settings are in `pyproject.toml`, layout in the tree, API reference in `docs/`.
 ## Testing
 
 ```bash
-pixi run -e tests tests        # what CI runs
-pixi run -e tests test-docs    # every example in docstrings and docs
+pixi run -e tests tests         # focused local core tier
+pixi run -e tests tests-full    # complete non-render suite; CI and review gate
+pixi run -e tests test-docs     # every example in docstrings and docs
 ```
 
 Use pixi, not uv. `pixi run <cmd>` resolves task names only, so arbitrary commands need `-e tests`.
@@ -36,8 +37,9 @@ Use pixi, not uv. `pixi run <cmd>` resolves task names only, so arbitrary comman
   checked goes in a `pycon` fence with `>>>` prompts, which doctest picks up.
 - `tests/integration/test_examples.py` runs every script under `examples/`, so a new example is a
   new test.
-- `tests/conftest.py` forces JAX's persistent cache on at `/tmp/jax_cache`, shared across branches.
-  Delete it when failures make no sense.
+- `tests/conftest.py` leaves JAX's persistent cache off by default. Set
+  `JAX_COMPILATION_CACHE_DIR` to a fresh, run-specific directory when reproducing cache-sensitive
+  failures; never share one cache across simultaneous test runs.
 - Request the `device` fixture rather than a GPU marker. It falls back to CPU silently, so
   `gpu-tests` asserts nothing about placement on a machine without CUDA.
 

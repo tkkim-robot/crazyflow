@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "videos": [
+    {
+      "codec": "h264",
+      "decoded_frames_sha256": "e1d95fa6c3c6a8c94885551712108921d2490a066473c3af7fa7e74921096e12",
+      "duration_seconds": 10.066666666666666,
+      "fps": 15.0,
+      "frame_count": 151,
+      "height": 900,
+      "path": "videos/da_plcbf_full--static--fold-0000.mp4",
+      "renderer": "scientific-dashboard-v1",
+      "sha256": "28eeeb1eab92ec7ab131f028778ffe3546f6c25dcfbe5047fdcefe17a2b9964f",
+      "source_trace_path": "methods/da_plcbf_full/static/0/trace.npz",
+      "width": 1600
+    },
+    {
+      "codec": "h264",
+      "decoded_frames_sha256": "783ae25f416cab54a903ec530250f8eaa1f6f056fbe8f6980238dcb55709abfb",
+      "duration_seconds": 10.066666666666666,
+      "fps": 15.0,
+      "frame_count": 151,
+      "height": 900,
+      "path": "videos/da_plcbf_full--dynamics_change--fold-0000.mp4",
+      "renderer": "scientific-dashboard-v1",
+      "sha256": "165e6ffbdbd9364e211ac3983d4e2cfa5c3d93ce30ba6e2c595f2abe063a7342",
+      "source_trace_path": "methods/da_plcbf_full/dynamics_change/0/trace.npz",
+      "width": 1600
+    },
+    {
+      "codec": "h264",
+      "decoded_frames_sha256": "3e2253b7da34b47c4b410476d8d2e287b4d6e49eb5d116eb8a36db47fc7e68cb",
+      "duration_seconds": 10.066666666666666,
+      "fps": 15.0,
+      "frame_count": 151,
+      "height": 900,
+      "path": "videos/da_plcbf_full--ballistic_ball--fold-0000.mp4",
+      "renderer": "scientific-dashboard-v1",
+      "sha256": "ea8021d0ab5ec613d8cfc92ec5a64d7f5aa187e78d9f24b6e39601c96dee355a",
+      "source_trace_path": "methods/da_plcbf_full/ballistic_ball/0/trace.npz",
+      "width": 1600
+    },
+    {
+      "codec": "h264",
+      "decoded_frames_sha256": "0915ff1a3000bcc309518a762fed7862985d8d1e3d9ae758e9d8013e8d369476",
+      "duration_seconds": 10.066666666666666,
+      "fps": 15.0,
+      "frame_count": 151,
+      "height": 900,
+      "path": "videos/da_plcbf_full--interceptor_drone--fold-0000.mp4",
+      "renderer": "scientific-dashboard-v1",
+      "sha256": "c32456aa9610a95e542c71e8d74aa7158f53047ec51e2afd3777b12311a3f150",
+      "source_trace_path": "methods/da_plcbf_full/interceptor_drone/0/trace.npz",
+      "width": 1600
+    }
+  ]
+}

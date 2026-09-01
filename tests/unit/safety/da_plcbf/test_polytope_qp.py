@@ -99,6 +99,15 @@ def _assert_auditable_kkt(
     )
 
 
+@jax.jit
+def _independent_normalised_primal_residual(
+    action: jax.Array, matrix: jax.Array, upper_bound: jax.Array
+) -> jax.Array:
+    """Re-audit the returned action through a separately compiled GPU graph."""
+    row_norm = jnp.linalg.norm(matrix, axis=-1)
+    return jnp.max((matrix @ action - upper_bound) / row_norm)
+
+
 @pytest.mark.unit
 def test_interior_nominal_is_returned_without_an_active_face() -> None:
     nominal = np.array([0.2, -0.3, 0.1])
@@ -178,6 +187,10 @@ def test_redundant_and_rank_deficient_faces_do_not_hide_the_solution() -> None:
 @pytest.mark.unit
 @pytest.mark.parametrize("seed", range(8))
 def test_random_feasible_problems_match_independent_scipy(seed: int) -> None:
+    # Seed 3 is also a regression for RTX float32 lowering: active faces (0, 1, 2, 7) can
+    # reconstruct a few ulps outside the polytope unless action refinement retains or repairs a
+    # primal/dual-accepted iterate.  Importing ``direct_wrench`` above preserves the triggering
+    # module order seen in the full suite.
     generator = np.random.default_rng(seed)
     dimension = 4
     constraint_count = 9
@@ -201,6 +214,55 @@ def test_random_feasible_problems_match_independent_scipy(seed: int) -> None:
         jnp.asarray(upper_bound, dtype=jnp.float32),
     )
 
+    assert bool(result.feasible)
+    if seed == 3:
+        residual = _independent_normalised_primal_residual(
+            result.action,
+            jnp.asarray(matrix, dtype=jnp.float32),
+            jnp.asarray(upper_bound, dtype=jnp.float32),
+        )
+        # The eager/full-suite path was the original failure.  Require at least half of the public
+        # 2e-6 feasibility tolerance as reserve under this separately lowered audit.
+        assert float(residual) <= 1e-6
+    np.testing.assert_allclose(result.action, expected_action, rtol=5e-4, atol=5e-4)
+    assert result.objective == pytest.approx(expected_objective, rel=8e-4, abs=5e-4)
+    _assert_auditable_kkt(result, nominal, weight, matrix, upper_bound, tolerance=8e-4)
+
+
+@pytest.mark.unit
+def test_gpu_roundoff_regression_is_stable_under_whole_solver_jit() -> None:
+    generator = np.random.default_rng(3)
+    dimension = 4
+    constraint_count = 9
+    feasible_start = generator.normal(scale=0.25, size=dimension)
+    matrix = generator.normal(size=(constraint_count, dimension))
+    matrix *= 10.0 ** generator.uniform(-2.0, 2.0, size=(constraint_count, 1))
+    slack = 10.0 ** generator.uniform(-1.0, 0.3, size=constraint_count)
+    upper_bound = matrix @ feasible_start + slack
+    nominal = feasible_start + generator.normal(scale=3.0, size=dimension)
+    factor = generator.normal(size=(dimension, dimension))
+    weight = factor.T @ factor + 0.5 * np.eye(dimension)
+    expected_action, expected_objective = _scipy_projection(
+        nominal, weight, matrix, upper_bound, feasible_start
+    )
+    compiled = jax.jit(project_affine_polytope)
+
+    result = compiled(
+        jnp.asarray(nominal, dtype=jnp.float32),
+        jnp.asarray(weight, dtype=jnp.float32),
+        jnp.asarray(matrix, dtype=jnp.float32),
+        jnp.asarray(upper_bound, dtype=jnp.float32),
+    )
+    matrix32 = jnp.asarray(matrix, dtype=jnp.float32)
+    upper_bound32 = jnp.asarray(upper_bound, dtype=jnp.float32)
+
+    assert bool(result.feasible)
+    # Audit through a separately compiled graph and retain at least half of the solver's 2e-6
+    # tolerance as numerical reserve.  A boundary iterate can otherwise fail in full-suite order.
+    assert (
+        float(_independent_normalised_primal_residual(result.action, matrix32, upper_bound32))
+        <= 1e-6
+    )
     np.testing.assert_allclose(result.action, expected_action, rtol=5e-4, atol=5e-4)
     assert result.objective == pytest.approx(expected_objective, rel=8e-4, abs=5e-4)
     _assert_auditable_kkt(result, nominal, weight, matrix, upper_bound, tolerance=8e-4)

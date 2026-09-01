@@ -38,7 +38,7 @@ import numpy as np
 
 TRACE_SCHEMA_VERSION = 2
 RUN_CONFIG_SCHEMA_VERSION = 1
-PROVENANCE_SCHEMA_VERSION = 1
+PROVENANCE_SCHEMA_VERSION = 2
 SEEDS_SCHEMA_VERSION = 1
 EVENT_SCHEMA_VERSION = 1
 METRICS_SCHEMA_VERSION = 1
@@ -60,6 +60,10 @@ _MAX_NPZ_BYTES = 2 * 1024 * 1024 * 1024
 _MAX_JSON_BYTES = 64 * 1024 * 1024
 _MAX_JSONL_LINE_BYTES = 4 * 1024 * 1024
 _TRACE_PREFIX = b"crazyflow.da_plcbf.trace.v2\0"
+_JAX_EXECUTION_ROLES = frozenset({"controller", "plant", "estimator", "bptt", "validation"})
+_PROVENANCE_PACKAGES = frozenset(
+    {"crazyflow", "numpy", "scipy", "jax", "jaxlib", "flax", "optax", "imageio", "imageio-ffmpeg"}
+)
 
 
 @dataclass(frozen=True, slots=True, eq=False)
@@ -393,7 +397,17 @@ def collect_provenance(repository: str | os.PathLike[str]) -> dict[str, Any]:
 
     jax_data = _query_jax_runtime()
     packages: dict[str, str] = {}
-    for package in ("crazyflow", "numpy", "jax", "jaxlib", "imageio", "imageio-ffmpeg"):
+    for package in (
+        "crazyflow",
+        "numpy",
+        "scipy",
+        "jax",
+        "jaxlib",
+        "flax",
+        "optax",
+        "imageio",
+        "imageio-ffmpeg",
+    ):
         try:
             packages[package] = importlib.metadata.version(package)
         except importlib.metadata.PackageNotFoundError:
@@ -408,13 +422,8 @@ def collect_provenance(repository: str | os.PathLike[str]) -> dict[str, Any]:
             "platform": platform.platform(),
             "machine": platform.machine(),
         },
-        "hardware": {"cpu": platform.processor() or platform.machine(), "gpus": gpus},
-        "jax": {
-            "version": jax_data["version"],
-            "jaxlib_version": jax_data["jaxlib_version"],
-            "backend": jax_data["backend"],
-            "devices": jax_data["devices"],
-        },
+        "hardware": {"cpu": _cpu_identity(), "gpus": gpus},
+        "jax": jax_data,
         "packages": packages,
         "video": {
             "backend": "imageio-ffmpeg",
@@ -429,6 +438,30 @@ def collect_provenance(repository: str | os.PathLike[str]) -> dict[str, Any]:
     return validate_provenance(data)
 
 
+def _cpu_identity() -> str:
+    """Return a stable CPU model inventory suitable for resume identity checks."""
+    fallback = platform.processor() or platform.machine() or "unavailable"
+    cpuinfo = Path("/proc/cpuinfo")
+    try:
+        blocks = cpuinfo.read_text(encoding="utf-8").strip().split("\n\n")
+    except OSError:
+        return fallback
+    fields = ("vendor_id", "cpu family", "model", "stepping", "model name")
+    identities: set[str] = set()
+    for block in blocks:
+        values = {
+            name.strip(): value.strip()
+            for line in block.splitlines()
+            if ":" in line
+            for name, value in (line.split(":", maxsplit=1),)
+        }
+        if any(field in values for field in fields):
+            identities.add(
+                ",".join(f"{field}={values.get(field, 'unavailable')}" for field in fields)
+            )
+    return ";".join(sorted(identities)) or fallback
+
+
 def write_provenance(provenance: Mapping[str, Any], path: str | os.PathLike[str]) -> str:
     """Validate and canonically write software/hardware provenance."""
     validated = validate_provenance(provenance)
@@ -436,7 +469,7 @@ def write_provenance(provenance: Mapping[str, Any], path: str | os.PathLike[str]
 
 
 def validate_provenance(provenance: Mapping[str, Any]) -> dict[str, Any]:
-    """Return a validated copy of version-1 provenance metadata."""
+    """Return a validated copy of version-2 provenance metadata."""
     data = _require_exact_mapping(
         provenance,
         {"schema_version", "git", "runtime", "hardware", "jax", "packages", "video"},
@@ -469,7 +502,17 @@ def validate_provenance(provenance: Mapping[str, Any]) -> dict[str, Any]:
         _require_positive_int(gpu["memory_total_bytes"], f"gpu[{index}].memory_total_bytes")
 
     jax_data = _require_exact_mapping(
-        data["jax"], {"version", "jaxlib_version", "backend", "devices"}, "provenance.jax"
+        data["jax"],
+        {
+            "version",
+            "jaxlib_version",
+            "backend",
+            "jax_enable_x64",
+            "devices",
+            "cpu_devices",
+            "role_devices",
+        },
+        "provenance.jax",
     )
     for name in ("version", "jaxlib_version", "backend"):
         _require_nonempty_string(jax_data[name], f"provenance.jax.{name}")
@@ -477,9 +520,60 @@ def validate_provenance(provenance: Mapping[str, Any]) -> dict[str, Any]:
         raise ValueError("provenance.jax.devices must be a nonempty list")
     for device in jax_data["devices"]:
         _require_nonempty_string(device, "provenance.jax.devices[]")
+    if not isinstance(jax_data["cpu_devices"], list) or not jax_data["cpu_devices"]:
+        raise ValueError("provenance.jax.cpu_devices must be a nonempty list")
+    for device in jax_data["cpu_devices"]:
+        _require_nonempty_string(device, "provenance.jax.cpu_devices[]")
+    if any(device not in jax_data["devices"] for device in jax_data["cpu_devices"]):
+        raise ValueError("provenance JAX CPU inventory is not a subset of all devices")
+    if (
+        not isinstance(jax_data["jax_enable_x64"], bool)
+        and jax_data["jax_enable_x64"] != "unavailable"
+    ):
+        raise ValueError("provenance.jax.jax_enable_x64 must be boolean or unavailable")
+    role_devices = _require_exact_mapping(
+        jax_data["role_devices"], set(_JAX_EXECUTION_ROLES), "provenance.jax.role_devices"
+    )
+    for role, device in role_devices.items():
+        _require_nonempty_string(device, f"provenance.jax.role_devices.{role}")
+    unavailable_device_values = (
+        *jax_data["devices"],
+        *jax_data["cpu_devices"],
+        *role_devices.values(),
+    )
+    if jax_data["backend"] == "unavailable":
+        if (
+            jax_data["version"] != "unavailable"
+            or jax_data["jaxlib_version"] != "unavailable"
+            or jax_data["jax_enable_x64"] != "unavailable"
+            or any(not value.startswith("unavailable:") for value in unavailable_device_values)
+        ):
+            raise ValueError(
+                "provenance unavailable JAX runtime fallback is internally inconsistent"
+            )
+    else:
+        if (
+            jax_data["version"] == "unavailable"
+            or jax_data["jaxlib_version"] == "unavailable"
+            or not isinstance(jax_data["jax_enable_x64"], bool)
+            or any(value.startswith("unavailable:") for value in unavailable_device_values)
+        ):
+            raise ValueError("provenance available JAX runtime identity is incomplete")
+        if any(device not in jax_data["devices"] for device in role_devices.values()):
+            raise ValueError("provenance JAX role is absent from the device inventory")
+        if role_devices["controller"] != role_devices["plant"]:
+            raise ValueError("provenance controller and plant JAX roles must share one device")
+        authoritative_cpu = role_devices["estimator"]
+        if authoritative_cpu not in jax_data["cpu_devices"]:
+            raise ValueError("provenance authoritative JAX role is absent from the CPU inventory")
+        accelerated = role_devices["controller"]
+        if any(role_devices[role] != accelerated for role in ("bptt", "validation")):
+            raise ValueError(
+                "provenance controller, BPTT, and validation JAX roles must share one device"
+            )
 
-    if not isinstance(data["packages"], Mapping) or not data["packages"]:
-        raise ValueError("provenance.packages must be a nonempty mapping")
+    if not isinstance(data["packages"], Mapping) or set(data["packages"]) != _PROVENANCE_PACKAGES:
+        raise ValueError("provenance.packages must contain exactly the collected package set")
     for name, version in data["packages"].items():
         _require_nonempty_string(name, "provenance.packages key")
         _require_nonempty_string(version, f"provenance.packages.{name}")
@@ -1316,6 +1410,8 @@ def validate_run_artifacts(
         trace = load_trace(trace_path)
         validate_trace_scenario_binding(trace, condition=condition, fold=seed, seeds=seeds)
         events = load_events(method_dir / "events.jsonl", trace=trace)
+        if manifest["status"] != "synthetic-smoke":
+            _validate_runtime_device_roles(events, provenance)
         metrics = load_metrics(method_dir / "metrics.json", trace=trace)
         load_timing(method_dir / "timing.json", trace=trace)
         if "dashboard_evidence.npz" in actual_names:
@@ -1335,9 +1431,19 @@ def validate_run_artifacts(
                 load_adaptation_evidence,
                 validate_adaptation_evidence_binding,
             )
+            from crazyflow.safety.da_plcbf.scientific_evaluation import rng_provenance
 
             adaptation_evidence = load_adaptation_evidence(method_dir / "adaptation_evidence.npz")
-            validate_adaptation_evidence_binding(adaptation_evidence, trace, events)
+            shared_stochastic_seed = rng_provenance(
+                seeds["root_seed"], "paired_runtime", condition, seed
+            ).derived_seed
+            validate_adaptation_evidence_binding(
+                adaptation_evidence,
+                trace,
+                events,
+                shared_stochastic_seed=shared_stochastic_seed,
+                provenance=provenance,
+            )
         method_records.append(
             {
                 "method": method,
@@ -1585,6 +1691,7 @@ def validate_campaign_visual_reviews(
     }
     reviewed: list[str] = []
     for video, review_path in zip(videos, resolved_paths, strict=True):
+        stem = PurePosixPath(video["path"]).stem
         review = load_visual_review_record(review_path)
         if review.disposition != "pass":
             raise ValueError(f"visual review is not passing: {review_path.relative_to(root)}")
@@ -1635,10 +1742,18 @@ def validate_campaign_visual_reviews(
                 tape=tape,
                 sidecar=sidecar,
                 video_path=root / video["path"],
-                contact_sheet_title=(f"{source.parts[1]} · {condition} · paired fold {fold}"),
+                contact_sheet_title=review_contact_sheet_title(source.parts[1], condition, fold),
             )
         reviewed.append(review_path.relative_to(root).as_posix())
     return tuple(reviewed)
+
+
+def review_contact_sheet_title(method: str, condition: str, fold: int) -> str:
+    """Return the canonical descriptive title shared by rendering and final replay validation."""
+    return (
+        f"{method} · {condition} · fold {fold} · inspect ego-centric fallback selection, "
+        "evasive response, hazards, and BPTT updates"
+    )
 
 
 def _validate_review_frame_artifacts(
@@ -1824,6 +1939,27 @@ def _validate_events(
             if event.model_version != int(trace.model_version[event.step]):
                 raise ValueError("event model version does not match the trace")
     return validated
+
+
+def _validate_runtime_device_roles(
+    events: Sequence[ArtifactEvent], provenance: Mapping[str, Any]
+) -> None:
+    """Bind controller, plant, and estimator execution claims to run provenance."""
+    matches = tuple(
+        event
+        for event in events
+        if event.category == "runtime" and event.name == "runtime_inputs_precomputed"
+    )
+    if len(matches) != 1 or matches[0].step != 0:
+        raise ValueError("run must contain exactly one step-zero runtime device identity event")
+    event = matches[0]
+    roles = validate_provenance(provenance)["jax"]["role_devices"]
+    controller_device = event.details.get("controller_device")
+    estimator_device = event.details.get("estimator_device")
+    if controller_device != roles["controller"] or controller_device != roles["plant"]:
+        raise ValueError("runtime controller/plant device does not match run provenance")
+    if estimator_device != roles["estimator"]:
+        raise ValueError("runtime estimator device does not match run provenance")
 
 
 def _validate_aggregate_rows(rows: Sequence[Mapping[str, Any]]) -> tuple[dict[str, Any], ...]:
@@ -2104,6 +2240,7 @@ def _artifact_role(relative: str) -> str:
     method_names = {
         "trace.npz": "trace",
         "dashboard_evidence.npz": "dashboard-evidence",
+        "adaptation_evidence.npz": "adaptation-evidence",
         "events.jsonl": "events",
         "metrics.json": "metrics",
         "timing.json": "timing",
@@ -2160,11 +2297,31 @@ def _query_gpus() -> list[dict[str, Any]]:
 
 
 def _query_jax_runtime() -> dict[str, Any]:
-    script = (
-        "import json, jax, jaxlib; "
-        "print(json.dumps({'version':jax.__version__,'jaxlib_version':jaxlib.__version__,"
-        "'backend':jax.default_backend(),'devices':[str(x) for x in jax.devices()]}))"
-    )
+    script = """
+import json
+import jax
+import jaxlib
+
+default_devices = jax.devices()
+cpu_devices = jax.devices("cpu")
+controller = str(default_devices[0])
+authoritative_cpu = str(cpu_devices[0])
+print(json.dumps({
+    "version": jax.__version__,
+    "jaxlib_version": jaxlib.__version__,
+    "backend": jax.default_backend(),
+    "jax_enable_x64": bool(jax.config.jax_enable_x64),
+    "devices": sorted({str(device) for device in (*default_devices, *cpu_devices)}),
+    "cpu_devices": sorted(str(device) for device in cpu_devices),
+    "role_devices": {
+        "controller": controller,
+        "plant": controller,
+        "estimator": authoritative_cpu,
+        "bptt": controller,
+        "validation": controller,
+    },
+}))
+"""
     try:
         output = _run_text([sys.executable, "-c", script])
         value = json.loads(output.splitlines()[-1])
@@ -2172,7 +2329,15 @@ def _query_jax_runtime() -> dict[str, Any]:
             raise ValueError
         for name in ("version", "jaxlib_version", "backend"):
             _require_nonempty_string(value[name], f"queried jax.{name}")
-        if not isinstance(value["devices"], list) or not value["devices"]:
+        if (
+            not isinstance(value["devices"], list)
+            or not value["devices"]
+            or not isinstance(value["cpu_devices"], list)
+            or not value["cpu_devices"]
+            or not isinstance(value["jax_enable_x64"], bool)
+            or not isinstance(value["role_devices"], dict)
+            or set(value["role_devices"]) != _JAX_EXECUTION_ROLES
+        ):
             raise ValueError
         return value
     except (KeyError, RuntimeError, ValueError, json.JSONDecodeError) as error:
@@ -2180,7 +2345,12 @@ def _query_jax_runtime() -> dict[str, Any]:
             "version": "unavailable",
             "jaxlib_version": "unavailable",
             "backend": "unavailable",
+            "jax_enable_x64": "unavailable",
             "devices": [f"unavailable:{type(error).__name__}"],
+            "cpu_devices": [f"unavailable:{type(error).__name__}"],
+            "role_devices": {
+                role: f"unavailable:{type(error).__name__}" for role in sorted(_JAX_EXECUTION_ROLES)
+            },
         }
 
 

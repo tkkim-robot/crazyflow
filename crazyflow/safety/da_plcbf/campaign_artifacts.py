@@ -30,6 +30,7 @@ from crazyflow.safety.da_plcbf.adaptation_evidence import (
 from crazyflow.safety.da_plcbf.artifacts import (
     RUN_CONFIG_SCHEMA_VERSION,
     SEEDS_SCHEMA_VERSION,
+    _validate_runtime_device_roles,
     aggregate_row,
     collect_provenance,
     load_events,
@@ -228,6 +229,60 @@ def _seed_mapping(
         "scenario_tapes": records,
         "pairing_id": _schedule_sha256(schedule),
     }
+
+
+_RESUME_NUMERICAL_PACKAGES = ("crazyflow", "numpy", "scipy", "jax", "jaxlib", "flax", "optax")
+_RESUME_ANALYSIS_PACKAGES = ("numpy", "scipy")
+
+
+def _resume_execution_identity(provenance: Mapping[str, Any]) -> dict[str, Any]:
+    """Select immutable controller-execution identity, excluding descriptive media metadata."""
+    validated = validate_provenance(provenance)
+    return {
+        "git": validated["git"],
+        "runtime": validated["runtime"],
+        "hardware": validated["hardware"],
+        "jax": validated["jax"],
+        "numerical_packages": {
+            name: validated["packages"].get(name, "unavailable")
+            for name in _RESUME_NUMERICAL_PACKAGES
+        },
+    }
+
+
+def _validate_resume_execution_identity(
+    stored: Mapping[str, Any], current: Mapping[str, Any]
+) -> None:
+    """Reject pending execution under a different immutable runtime or device identity."""
+    stored_identity = _resume_execution_identity(stored)
+    current_identity = _resume_execution_identity(current)
+    for field in stored_identity:
+        if stored_identity[field] != current_identity[field]:
+            raise ValueError(
+                f"resume execution identity {field} differs from the stored campaign session"
+            )
+
+
+def _validate_resume_analysis_identity(
+    stored: Mapping[str, Any], current: Mapping[str, Any]
+) -> None:
+    """Bind every resumable aggregate/finalization pass to its analysis semantics."""
+    stored_validated = validate_provenance(stored)
+    current_validated = validate_provenance(current)
+    for field in ("python", "implementation"):
+        if stored_validated["runtime"][field] != current_validated["runtime"][field]:
+            raise ValueError(
+                f"resume analysis runtime {field} differs from the stored campaign session"
+            )
+    stored_packages = stored_validated["packages"]
+    current_packages = current_validated["packages"]
+    for package in _RESUME_ANALYSIS_PACKAGES:
+        if stored_packages.get(package, "unavailable") != current_packages.get(
+            package, "unavailable"
+        ):
+            raise ValueError(
+                f"resume analysis package {package} differs from the stored campaign session"
+            )
 
 
 def _metrics_mapping(metrics: ScientificTrialMetrics | None) -> dict[str, Any] | None:
@@ -503,6 +558,7 @@ _TRACE_STATE_NAMES = (
     "angular_velocity_y",
     "angular_velocity_z",
 )
+_TRACE_CONTROL_NAMES = ("motor_force_0", "motor_force_1", "motor_force_2", "motor_force_3")
 _TRACE_BARRIER_NAMES = (
     "static_node",
     "dynamic_node",
@@ -559,10 +615,20 @@ def _base_airborne_plant() -> tuple[VersionAModel, tuple[Any, Any, Any]]:
     return model, actuator
 
 
+@lru_cache(maxsize=1)
+def _base_airborne_motor_limits() -> tuple[np.ndarray, np.ndarray]:
+    """Load the tracked per-rotor command bounds used by controller execution."""
+    raw = load_params("cf21B_500")
+    lower = np.broadcast_to(np.asarray(raw["thrust_min"], dtype=np.float32), (4,)).copy()
+    upper = np.broadcast_to(np.asarray(raw["thrust_max"], dtype=np.float32), (4,)).copy()
+    return lower, upper
+
+
 @partial(jax.jit, static_argnames=("dt",))
 def _replay_airborne_transitions(
     states: Any,
-    applied_motor_forces: Any,
+    filtered_motor_forces: Any,
+    rotor_efficiency: Any,
     mass_scale: Any,
     drag_scale: Any,
     wind_velocity: Any,
@@ -572,20 +638,36 @@ def _replay_airborne_transitions(
     mixing_matrix: Any,
     dt: Any,
 ) -> Any:
-    """Replay every controller interval from its stored state and realized motor forces."""
+    """Replay every controller interval with the scalar execution plant's exact geometry.
 
-    def replay_one(state: Any, motor_forces: Any, mass: Any, drag: Any, wind: Any) -> Any:
+    Production lowers a scalar ``state[13]``/``motor[4]`` plant step and invokes it once per
+    control interval.  ``vmap`` is deliberately not used here: on GPU it lowers the inertia
+    products to different batched kernels, and torque cancellation can then amplify harmless
+    rounding differences by hundreds of ULPs.  ``lax.map`` retains scalar body shapes while still
+    executing the complete evidence replay in one compiled call.
+    """
+
+    def replay_one(
+        state: Any, command_motor: Any, efficiency: Any, mass: Any, drag: Any, wind: Any
+    ) -> tuple[Any, Any]:
         model = base_model._replace(
             mass=base_model.mass * mass,
             drag_matrix=base_model.drag_matrix * drag[None, :],
             wind_velocity=wind,
         )
+        realized_motor = command_motor * efficiency
         wrench = motor_forces_to_wrench(
-            motor_forces, L=arm_length, thrust2torque=thrust_to_torque, mixing_matrix=mixing_matrix
+            realized_motor,
+            L=arm_length,
+            thrust2torque=thrust_to_torque,
+            mixing_matrix=mixing_matrix,
         )
-        return direct_wrench_symplectic_step(state, wrench, model, dt)
+        return direct_wrench_symplectic_step(state, wrench, model, dt), realized_motor
 
-    return jax.vmap(replay_one)(states, applied_motor_forces, mass_scale, drag_scale, wind_velocity)
+    return jax.lax.map(
+        lambda arguments: replay_one(*arguments),
+        (states, filtered_motor_forces, rotor_efficiency, mass_scale, drag_scale, wind_velocity),
+    )
 
 
 def validate_current_source_tree(run_directory: str | Path, *, repository: str | Path) -> str:
@@ -660,6 +742,8 @@ def _validate_trace_physical_evidence(
 
     if tuple(str(name) for name in trace.state_names) != _TRACE_STATE_NAMES:
         raise ValueError("campaign trace state names do not match the physical-state schema")
+    if tuple(str(name) for name in trace.control_names) != _TRACE_CONTROL_NAMES:
+        raise ValueError("campaign trace control names do not match the four-motor schema")
     if tuple(str(name) for name in trace.barrier_names) != _TRACE_BARRIER_NAMES:
         raise ValueError("campaign trace barrier names do not match the hard-evidence schema")
     if not np.array_equal(trace.time, tape.time[: trace.steps]):
@@ -685,6 +769,28 @@ def _validate_trace_physical_evidence(
         ConditionID.FALSIFICATION_COMBINED,
     }
     intervals = trace.steps - 1
+    executed_filtered = np.asarray(trace.filtered_control[:intervals], dtype=np.float64)
+    if executed_filtered.shape != (intervals, 4) or not np.all(np.isfinite(executed_filtered)):
+        raise ValueError("campaign executed filtered control is not finite four-rotor evidence")
+    thrust_min, thrust_max = _base_airborne_motor_limits()
+    lower = np.asarray(thrust_min, dtype=np.float64)
+    upper = np.asarray(thrust_max, dtype=np.float64)
+    epsilon = float(np.finfo(np.float32).eps)
+    bound_tolerance = 8.0 * epsilon * (1.0 + np.maximum(np.abs(lower), np.abs(upper)))
+    lower_excess = lower[None, :] - executed_filtered
+    upper_excess = executed_filtered - upper[None, :]
+    excess = np.maximum(lower_excess, upper_excess)
+    if np.any(excess > bound_tolerance[None, :]):
+        step, motor_index = np.unravel_index(
+            int(np.argmax(excess - bound_tolerance[None, :])), excess.shape
+        )
+        raise ValueError(
+            "campaign executed filtered control is outside tracked per-rotor thrust bounds "
+            f"at step {step} ({_TRACE_CONTROL_NAMES[motor_index]}, "
+            f"value={executed_filtered[step, motor_index]:.9g}, "
+            f"lower={lower[motor_index]:.9g}, upper={upper[motor_index]:.9g}, "
+            f"tolerance={bound_tolerance[motor_index]:.9g})"
+        )
     mass_scale = (
         tape.mass_scale[:intervals] if scheduled_dynamics else np.ones(intervals, dtype=np.float64)
     )
@@ -698,31 +804,47 @@ def _validate_trace_physical_evidence(
         if scheduled_dynamics
         else np.zeros((intervals, 3), dtype=np.float64)
     )
-    base_model, actuator = _base_airborne_plant()
-    replayed = np.asarray(
-        _replay_airborne_transitions(
-            jnp.asarray(trace.true_state[:-1], dtype=jnp.float32),
-            jnp.asarray(trace.applied_control[:-1], dtype=jnp.float32),
-            jnp.asarray(mass_scale, dtype=jnp.float32),
-            jnp.asarray(drag_scale, dtype=jnp.float32),
-            jnp.asarray(wind_velocity, dtype=jnp.float32),
-            base_model,
-            *actuator,
-            float(trial.dt),
-        ),
-        dtype=np.float64,
+    rotor_efficiency = (
+        tape.rotor_efficiency[:intervals]
+        if scheduled_dynamics
+        else np.ones((intervals, 4), dtype=np.float64)
     )
+    base_model, actuator = _base_airborne_plant()
+    replayed_raw, realized_motor_raw = _replay_airborne_transitions(
+        jnp.asarray(trace.true_state[:-1], dtype=jnp.float32),
+        jnp.asarray(trace.filtered_control[:-1], dtype=jnp.float32),
+        jnp.asarray(rotor_efficiency, dtype=jnp.float32),
+        jnp.asarray(mass_scale, dtype=jnp.float32),
+        jnp.asarray(drag_scale, dtype=jnp.float32),
+        jnp.asarray(wind_velocity, dtype=jnp.float32),
+        base_model,
+        *actuator,
+        float(trial.dt),
+    )
+    replayed = np.asarray(replayed_raw, dtype=np.float64)
+    realized_motor = np.asarray(realized_motor_raw, dtype=np.float64)
+    actual_motor = np.asarray(trace.applied_control[:-1], dtype=np.float64)
+    if realized_motor.shape != actual_motor.shape or not np.all(np.isfinite(realized_motor)):
+        raise ValueError("campaign realized-motor replay returned invalid evidence")
+    if not np.array_equal(realized_motor, actual_motor):
+        motor_error = np.abs(realized_motor - actual_motor)
+        step, motor_index = np.unravel_index(int(np.argmax(motor_error)), motor_error.shape)
+        control_name = str(trace.control_names[motor_index])
+        raise ValueError(
+            "campaign applied control does not match filtered control and scheduled rotor "
+            f"efficiency at step {step} ({control_name}, "
+            f"abs_error={motor_error[step, motor_index]:.9g})"
+        )
     if replayed.shape != trace.true_state[1:].shape or not np.all(np.isfinite(replayed)):
         raise ValueError("campaign true-state plant replay returned invalid evidence")
     actual_next = np.asarray(trace.true_state[1:], dtype=np.float64)
-    epsilon = float(np.finfo(np.float32).eps)
     tolerance = 8.0 * epsilon * (1.0 + np.maximum(np.abs(replayed), np.abs(actual_next)))
     error = np.abs(replayed - actual_next)
     if np.any(error > tolerance):
         step, state_index = np.unravel_index(int(np.argmax(error - tolerance)), error.shape)
         state_name = str(trace.state_names[state_index])
         raise ValueError(
-            "campaign true-state transition does not replay from applied control and scheduled "
+            "campaign true-state transition does not replay from filtered control and scheduled "
             f"plant at step {step} ({state_name}, abs_error={error[step, state_index]:.9g}, "
             f"tolerance={tolerance[step, state_index]:.9g})"
         )
@@ -801,6 +923,7 @@ def _validate_success_outcome(
     assignment: TrialAssignment,
     tape: ScenarioTape,
     campaign: CampaignConfig,
+    provenance: Mapping[str, Any],
 ) -> ScientificTrialRecord:
     from crazyflow.safety.da_plcbf.baselines import method_spec
     from crazyflow.safety.da_plcbf.experiments import replay_dashboard_dynamics_evidence
@@ -830,16 +953,19 @@ def _validate_success_outcome(
         raise ValueError("successful campaign trace does not bind its scheduled tape")
     _validate_trace_physical_evidence(trace, tape, campaign.trial, condition=assignment.condition)
     events = load_events(directory / "events.jsonl", trace=trace)
+    _validate_runtime_device_roles(events, provenance)
     if online_library:
         adaptation_evidence = load_adaptation_evidence(directory / "adaptation_evidence.npz")
         validate_adaptation_evidence_binding(
             adaptation_evidence,
             trace,
             events,
+            shared_stochastic_seed=assignment.shared_stochastic_seed,
             tape=tape,
             condition=assignment.condition,
             method=assignment.method,
             config=campaign.trial,
+            provenance=provenance,
         )
     load_metrics(directory / "metrics.json", trace=trace)
     timing = load_timing(directory / "timing.json", trace=trace)
@@ -1051,7 +1177,9 @@ def validate_persisted_campaign_evidence(run_directory: str | Path) -> CampaignR
             raise ValueError("campaign outcome scenario digest disagrees with scheduled tape")
         record = _record_from_outcome(mapping, assignment)
         if record.status is TrialStatus.COMPLETE:
-            record = _validate_success_outcome(root, mapping, assignment, tape, campaign)
+            record = _validate_success_outcome(
+                root, mapping, assignment, tape, campaign, provenance
+            )
             if mapping["method_claim_eligible"] is not True:
                 ineligible.append(assignment.key)
         records.append(record)
@@ -1168,9 +1296,6 @@ class CampaignArtifactStore:
         stored_provenance = validate_provenance(_read_json(self.root / "provenance.json"))
         if self.campaign.intended_for_final_claim and stored_provenance["git"]["dirty"]:
             raise ValueError("final-claim campaign resume requires clean committed provenance")
-        current_provenance = collect_provenance(self.repository)
-        if stored_provenance["git"] != current_provenance["git"]:
-            raise ValueError("resume git commit/branch/dirty state is incompatible")
         actual_seeds = validate_seeds(_read_json(self.root / "seeds.json"))
         if actual_seeds != self.seeds:
             raise ValueError("resume seed/tape mapping is incompatible")
@@ -1179,6 +1304,11 @@ class CampaignArtifactStore:
             if loaded.sha256 != expected.sha256:
                 raise ValueError("resume scenario tape digest mismatch")
         self._load_outcomes()
+        pending = set(self._assignments).difference(self._outcomes)
+        current_provenance = collect_provenance(self.repository)
+        _validate_resume_analysis_identity(stored_provenance, current_provenance)
+        if pending:
+            _validate_resume_execution_identity(stored_provenance, current_provenance)
         self.validate_recorded_successes()
 
     def _load_outcomes(self) -> None:
@@ -1249,6 +1379,7 @@ class CampaignArtifactStore:
 
     def validate_recorded_successes(self) -> None:
         """Validate every trace, sidecar, event, metric, and timing file before resume skips it."""
+        provenance = validate_provenance(_read_json(self.root / "provenance.json"))
         success_keys = {
             key
             for key, mapping in self._outcomes.items()
@@ -1283,6 +1414,7 @@ class CampaignArtifactStore:
                 raise ValueError("resume trace content digest mismatch")
             validate_trace_scenario_binding(trace, condition=condition, fold=fold, seeds=self.seeds)
             events = load_events(directory / "events.jsonl", trace=trace)
+            _validate_runtime_device_roles(events, provenance)
             if online_library:
                 adaptation_evidence = load_adaptation_evidence(
                     directory / "adaptation_evidence.npz"
@@ -1291,10 +1423,12 @@ class CampaignArtifactStore:
                     adaptation_evidence,
                     trace,
                     events,
+                    shared_stochastic_seed=self._assignments[key].shared_stochastic_seed,
                     tape=self.tapes[(condition, fold)],
                     condition=condition,
                     method=method,
                     config=self.campaign.trial,
+                    provenance=provenance,
                 )
             load_metrics(directory / "metrics.json", trace=trace)
             load_timing(directory / "timing.json", trace=trace)

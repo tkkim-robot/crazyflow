@@ -1,650 +1,509 @@
-# DA-PLCBF continuation handoff
+# DA-PLCBF engineering-review handoff
 
-## Read this first
+## Current status — 2026-09-01
 
-This file is the authoritative checkpoint for continuing the current Codex goal on another
-computer/session. The work is **paused, not complete**. No test, benchmark, GPU job, campaign,
-renderer, or background worker was left running when this checkpoint was created.
+This is the current DA-PLCBF **engineering-review checkpoint** after the GPU-online-adaptation
+correction requested during handoff. The implementation and new four-condition review videos are
+ready to inspect. They are not claim-grade scientific evidence, a completed publication run, or a
+hardware-safety result.
 
-The checkpoint intentionally contains substantial implemented code that has passed formatting,
-lint, compilation, and many focused tests, but the most recent evidence-integrity changes have not
-yet passed the complete CPU/GPU suite or a fresh real-GPU end-to-end campaign. Do not describe the
-branch as ready for review and do not promote any existing local artifact to final evidence.
+Repository state at this checkpoint:
 
-The active objective is still:
+- repository: `https://github.com/tkkim-robot/crazyflow.git`;
+- branch: `plcbf`;
+- takeover baseline: `22cec20b1f296de00a2d1dbd6d6ac7bb594de27d`;
+- the current engineering checkpoint is committed and pushed at the tip of `origin/plcbf`;
+- no reset or merge into `main` is authorized by this handoff;
+- the explicitly requested compact engineering-review bundle is tracked with `REVIEW_ONLY.md`;
+  all other ignored development artifacts under `artifacts/da_plcbf/` remain local evidence only.
 
-> On branch `plcbf`, implement and rigorously validate the shared chat's full simulation-grade
-> DA-PLCBF design: finite-horizon policy-library certificates, a shared latent-residual fallback
-> library refined by truncated BPTT, immutable active/candidate snapshots and hard non-regression
-> admission, continuous direct-wrench and discrete full-stack filters with exact post-checks,
-> online parametric dynamics adaptation and uncertainty rollouts, four required conditions,
-> seven matched methods, at least 100 paired final trials per condition, strict reproducible
-> evidence, and four visually reviewed MP4 dashboards. Report failures and finite-horizon limits
-> without overclaiming. Do not substitute a maneuver state machine or hidden safety heuristic.
+The current source uses adaptation-evidence schema **7** and execution contract
+`gpu-preferred-jit-fixed-budget-lineage-bound-no-replay-v1`. On a GPU machine, the real online
+differentiable rollout, reverse-mode gradient, and ten-step optimizer burst execute as one compiled
+GPU graph. The hard-evidence graph also executes on that accelerator, while the causal estimator
+remains CPU-canonical. Active/candidate snapshots stay immutable and content-addressed, and only a
+controller-boundary compare-and-swap can publish an admitted candidate.
 
-The Codex goal remains active. It was not marked complete or blocked because the user requested a
-safe pause and transfer, not termination.
+Cross-process byte-identical BPTT replay is no longer a production or claim-eligibility
+requirement. Validation still binds the scheduled initial policy, candidate/event metadata,
+snapshot lineage, retained hard evidence, recomputed hard-admission report, and publication state
+transition. This deliberately accepts harmless accelerator/driver floating-point differences.
 
-## Repository and branch state
+Current review evidence:
 
-- Repository: `https://github.com/tkkim-robot/crazyflow.git`
-- Upstream: `https://github.com/learnsyslab/crazyflow.git`
-- Working branch: `plcbf`
-- Clean baseline for this branch: `7bb7aa4b49b0ec8539b17d05c37bfb97d31a4539`
-- `main` and `origin/main` were already pushed at `7bb7aa4` before `plcbf` work began.
-- The continuation checkpoint is the commit on `origin/plcbf` that contains this file.
-- Do **not** reset `plcbf` to `main`; that would discard the implementation.
-- Do **not** merge `plcbf` into `main` until the full ready-for-review definition is satisfied and
-  the user explicitly asks for that merge.
+- campaign-faithful RTX 4090 BPTT benchmark:
+  `artifacts/da_plcbf/gpu-bptt-online-20260901-v4.json`;
+- full shape `K=64, B=64, H=50`, eight obstacle slots, ten optimizer updates: median **141.47 ms**,
+  p95 **141.60 ms**, worst **141.65 ms**, with all updates accepted and finite/nonzero gradients;
+- fresh asynchronous four-condition GPU development/review run:
+  `artifacts/da_plcbf/gpu-online-review-all-v2-20260901/`;
+- **8/8** one-fold outcomes completed for `nominal_only` and `da_plcbf_full` across the four
+  conditions; the run has four 1600x900 MP4s, four contact sheets, and 32 keyframes;
+- all four contact sheets were manually inspected: the fixed-span ego scene, hazards, trajectory
+  history, fallback library, selected rollout, and GPU BPTT active/completed banners are legible;
+- this review directory is deliberately **unsealed** and has no digest-bound visual-review records,
+  manifest, or `SHA256SUMS`; it is not claim eligible.
 
-On the next computer:
+The review traces/videos were generated immediately before the final Ruff-only formatting pass;
+that pass changed source bytes but not executable semantics. The v4 timing artifact and focused
+post-format tests bind the final formatted Python source. The unsealed videos are for human review,
+not source-hash-sealed evidence.
 
-```bash
-git fetch origin --prune
-git switch plcbf
-git pull --ff-only origin plcbf
-git status --short --branch
-git log -1 --oneline --decorate
-```
+The measured ten-step BPTT update is not a 20 Hz operation by itself. It does fit the configured
+500 ms adaptation cadence asynchronously. In the fresh four-condition run, warm BPTT jobs were
+roughly 191--230 ms and complete candidate admission roughly 362--443 ms. The full controller had
+26.20--26.51 ms median and 56.04--58.15 ms p95 latency; complete wall steps had 33.57--33.86 ms
+median and 72.97--84.34 ms p95 latency. Thus the median fits a 20 Hz period on this machine but the
+tail does not, every full-method row missed the stricter configured 20 ms deadline, and no
+hard-real-time guarantee exists.
 
-The checkout should be clean immediately after pulling. Bulk numerical artifacts and MP4 files are
-ignored by git and therefore do not transfer with the branch. Their development results are
-recorded below for context only; regenerate evidence on the new machine.
+The fresh run is useful precisely because it does not hide failures:
 
-## Sources and interpretation boundary
+| Full-method condition | Minimum hard margin | Failure steps | Collision steps | Admitted online update |
+|---|---:|---:|---:|---|
+| static | 0.116558408 | 0 | 0 | yes, step 59 |
+| dynamics change | -2.39778634 | 17 | 0 | yes, step 109 |
+| ballistic ball | -0.498397676 | 6 | 1 | no |
+| interceptor drone | -0.465297841 | 22 | 19 | no |
 
-Primary task sources:
+Every full-method outcome is explicitly blocked from a safety claim because `realtime_probe`
+depends on machine load and is hardware-feasibility evidence, not load-invariant safety evidence.
+One fold cannot support comparative statistics. The method reduced failure/collision counts versus
+the paired nominal trace in the ballistic and interceptor examples, but performed worse on the
+dynamics-change minimum margin/failure count and remained unsafe in three of four conditions. This
+is evidence that GPU learning, admission, publication, filtering, and evasive behavior execute; it
+is not evidence that the present method is generally safe or superior.
 
-1. User request and this task history.
+The remaining boundary is important:
+
+- this engineering-review checkpoint means the current source, focused gates, benchmark, and
+  unsealed development campaign can be inspected; the exact-source broad repository/docs/package
+  rerun is still tracked separately below;
+- claim-grade means frozen clean source plus the complete predeclared experiments, including the
+  2,800-trial core campaign and four reviewed final videos;
+- claim-grade work has **not** been run;
+- the dynamics-knowledge study no longer has a permanent independent-BPTT-replay blocker;
+  confirmatory eligibility is now determined by its predeclared schedule and retained execution /
+  hard-admission evidence. Blanket safety-superiority claims remain forbidden.
+
+The earlier sealed v3 development pilot, producer smokes, and full-suite logs below are historical
+evidence from the CPU-BPTT source state. They remain useful diagnostics but do not validate the new
+source digest.
+Do not call the project scientifically complete until the separate claim-grade definition is
+satisfied.
+
+## Task sources and claim boundary
+
+Read these before changing implementation decisions:
+
+1. The user's request and current Codex task history.
 2. Shared chat, **Online Safety Filter Learning**:
    <https://chatgpt.com/s/t_6a94247c0bb081918b7acd5c6baad95c>
-3. Crazyflow paper HTML:
-   <https://arxiv.org/html/2606.01478v1>
-4. Official upstream repository:
-   <https://github.com/learnsyslab/crazyflow>
+3. `DA_PLCBF_PLAN.md`.
+4. Crazyflow paper HTML: <https://arxiv.org/html/2606.01478v1>
+5. Official upstream repository: <https://github.com/learnsyslab/crazyflow>
 
-The shared post was successfully read in full earlier in this task. `DA_PLCBF_PLAN.md` records the
-derived design, equations/contracts, evidence gates, and ready-for-review definition. It should be
-read completely before changing implementation decisions.
-
-The intended safety statement is deliberately narrow:
+The intended safety statement remains deliberately narrow:
 
 > Under the logged model/scenario samples, constraints, numerical tolerances, and finite horizon,
 > the hard rollout and filter checks observed the reported margins and violation rates.
 
-This is not an infinite-horizon, distribution-free, real-world, or hardware guarantee. Physical
-failures, no-safe-fallback intervals, execution failures, deadline misses, rejected candidates, and
-counterexamples must remain in the evidence. A final campaign can be useful evidence even if it
-does **not** show DA-PLCBF superiority; never retune or omit folds after viewing confirmatory data.
+It is not an infinite-horizon, distribution-free, real-world, or hardware guarantee. Preserve
+physical failures, degraded/no-safe-fallback intervals, execution failures, deadline misses,
+rejected candidates, and counterexamples. A completed confirmatory run remains valid if it shows
+no improvement. Never retune or omit folds after inspecting confirmatory outcomes.
 
-## Upstream branch audit already completed
+The upstream audit found no existing upstream DA-PLCBF/PL-CBF implementation to adopt. The local
+branch reused only the compatible symplectic-vectorizer idea from the thrust-limits work. Do not
+merge that branch wholesale: its rotor clipping changes stopped/idle semantics. The broad upstream
+randomization redesign was also intentionally not imported.
 
-The latest fetched upstream heads at the pause were:
+## Environment and test tiers
 
-- `upstream/main`: `dede875`
-- `upstream/feat.thrust_limits`: `45f9bc0`
-- `upstream/feat.randomizations`: `d651db3`
-- `upstream/exp`: `7595dcf`
-- `upstream/feat.dynamics_example`: `8a352bf`
+Pixi 0.76.0 is installed at:
 
-No upstream branch contains BPTT for this safety method, CBF/PL-CBF/SDCBF, the active/candidate
-architecture, or the requested experiments. The only compatible upstream idea reused was the
-symplectic vectorizer fix that prevents the excluded `dt` argument from being placed on the mapped
-axis. Do not cherry-pick the remainder of `feat.thrust_limits`: its later rotor clipping maps a
-stopped rotor toward calibrated airborne minimum thrust and changes powered-off/idle semantics.
-The local implementation keeps filter-level motor feasibility and exact post-checks explicit.
-The randomization branch is a broad parameter-sharing API redesign and was not a safe targeted fix.
+```text
+/home/tk/.pixi/bin/pixi
+```
 
-## What is implemented
+The locked `tests`, `gpu-tests`, `docs`, and `dist`/`release` environments have been resolved on
+this machine. Observed accelerator/runtime context:
 
-### Simulator/repository foundations
+- NVIDIA GeForce RTX 4090, 24,564 MiB;
+- NVIDIA driver 555.42.06 (current takeover machine); historical source artifacts may record a
+  different driver and must retain their own provenance;
+- compute capability 8.9;
+- JAX/jaxlib 0.11.1;
+- `jax.default_backend()` returned `gpu` in `gpu-tests`.
 
-- Corrected integration/vectorization argument ordering across first-principles and SO-RPY
-  dynamics variants.
-- Added robust quaternion/rotation handling and regression tests.
-- Made seeded environment resets reproduce goal sequences.
-- Hardened simulation reset/step semantics and integration tests.
-- Made visualization marker orientation deterministic.
-- Added persistent-renderer lifecycle checks that reject camera/resolution changes until close.
-- Added explicit `imageio-ffmpeg==0.6.0` and direct Optax dependency; the encoder path/version/hash
-  are recorded in provenance.
-- Added DA-PLCBF API documentation and strict reference-page generation.
+Test deactivation is reversible and policy-based. No test was deleted, renamed, or permanently
+skipped:
 
-### DA-PLCBF mathematical/runtime implementation
+- `tests/core-tests.txt` lists 32 files;
+- the separately executed Version-B runtime file makes the curated local tier **33 of 80** files;
+- the other 47 files remain inactive only in the normal local loop;
+- `pixi run -e tests tests` runs the curated tier and Version B in an isolated process;
+- `pixi run -e tests tests-full` runs all 79 files and still isolates Version B;
+- CI uses `tests-full`;
+- render tests remain a separate explicit gate because repository Pytest defaults exclude the
+  `render` marker.
 
-Implemented under `crazyflow/safety/da_plcbf/`:
+Version-B isolation is a deterministic process-lifetime boundary after hundreds of JAX
+compilations; it is not omitted coverage. See `tests/README.md` for the policy.
+
+Always use a unique JAX cache for each substantial gate and run CPU and GPU gates serially. A
+shared fixed `/tmp` cache caused confusing long-suite behavior during takeover.
+
+```bash
+CRAZYFLOW_CPU_CACHE=$(mktemp -d /tmp/crazyflow-jax-cpu.XXXXXX)
+JAX_COMPILATION_CACHE_DIR="$CRAZYFLOW_CPU_CACHE" \
+  /home/tk/.pixi/bin/pixi run -e tests tests-full
+
+CRAZYFLOW_GPU_CACHE=$(mktemp -d /tmp/crazyflow-jax-gpu.XXXXXX)
+JAX_COMPILATION_CACHE_DIR="$CRAZYFLOW_GPU_CACHE" \
+  XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  /home/tk/.pixi/bin/pixi run -e gpu-tests tests-full
+```
+
+Current exact-source DA-PLCBF test status:
+
+- CPU non-render unit coverage passes under the documented Version-B process split: the
+  complementary suite reported **708 passed, 3 skipped, 6 render tests deselected** in 400.92 s,
+  and isolated Version B reported **10 passed, 1 skipped** in 63.47 s. Combined: **718 passed,
+  4 skipped, 6 deselected** in 464.39 s summed;
+- a monolithic run reached more than 89% with no assertion failure, then XLA exited 134 while
+  compiling `test_no_current_certificate_is_explicitly_degraded`. That exact node passes alone
+  (**1 passed** in 17.97 s), and the complete Version-B module passes above, so the monolithic
+  result is recorded as accumulated compiler/resource exhaustion rather than a test failure;
+- focused default-renderer tests reported **11 passed, 2 deselected**, and the render/encode/replay
+  tier reported **2 passed, 11 deselected** before the mechanical formatting pass;
+- after that pass, the four directly affected modules reported **113 passed, 2 skipped, 1 render
+  deselected**, the renderer replay reported **1 passed, 6 deselected**, and Ruff lint/format,
+  compileall, and `git diff --check` all passed;
+- the complete repository-wide CPU/GPU/docs/package rerun on this exact post-correction source is
+  still pending. The larger counts retained later in this handoff are historical and must not be
+  substituted for that gate.
+
+## Implemented architecture
+
+### Simulator and repository foundations
+
+- Integration/vectorization argument ordering is corrected across first-principles and SO-RPY
+  variants.
+- Quaternion/rotation handling, seeded reset/goal sequences, and simulation reset/step semantics
+  have regressions.
+- Visualization marker orientation is deterministic, and renderer reuse rejects incompatible
+  camera/resolution changes until close.
+- `imageio-ffmpeg==0.6.0` and Optax are direct dependencies; evidence provenance records the
+  encoder and runtime.
+- DA-PLCBF APIs and documentation generation are present.
+
+### DA-PLCBF runtime and mathematics
+
+The implementation under `crazyflow/safety/da_plcbf/` includes:
 
 - fixed-shape scenario tapes with independent named RNG streams and semantic digests;
 - static, dynamics-change, ballistic-ball, interceptor-drone, and combined falsification scenes;
 - swept contact/constraint checks and true-plant replay from realized motor forces;
-- double-integrator reference values/filter and quadrotor Version-A direct-wrench model;
-- analytic arena/altitude/speed/angular-rate/tilt/obstacle/capsule barriers;
-- coupled motor-force polytope, exact small active-set projection, KKT checks, and independent
-  solver cross-checks;
-- shared structural plus latent-residual fallback actor, fixed structural slots, adaptive slots,
-  trainable skill codes/durations, common hover/brake horizon tail, and task-agnostic observation;
-- hard sampled policy values, conservative differentiable values, normalized descriptors,
+- a double-integrator reference system and Crazyflow quadrotor Version-A direct-wrench model;
+- arena, altitude, speed, angular-rate, tilt, obstacle, and capsule barriers;
+- a coupled motor-force polytope, active-set projection, KKT audit, and SciPy cross-checks;
+- a shared structural plus latent-residual fallback actor, fixed structural slots, adaptive slots,
+  trainable skill codes/durations, and a common hover/brake horizon tail;
+- hard sampled policy values, conservative differentiable values, normalized descriptors, and
   coverage/redundancy/diversity/action/rate/terminal/trust losses;
-- fixed-budget truncated BPTT for the policy library;
+- fixed-budget truncated BPTT;
 - immutable content-addressed active/candidate snapshots, model versions, hard admission,
-  staleness rejection, atomic boundary publication, rollback, and explicit degraded operation;
+  staleness rejection, atomic publication, rollback, and explicit degraded operation;
 - deterministic positive-hard-value selection with an admissible-set proxy and logged hysteresis;
-- low-dimensional online mass/drag/wind/rotor-efficiency estimator and Cartesian R=4/R=8 model
+- a low-dimensional online mass/drag/wind/rotor-efficiency estimator and Cartesian R=4/R=8 model
   samples;
-- continuous Version-A PL-CBF path and nonlinear/discrete Version-B path through Crazyflow's full
-  allocation/rotor/integrator stack with exact post-checks;
-- seven matched methods:
+- continuous Version-A PL-CBF and nonlinear/discrete Version-B through the full Crazyflow
+  allocation/rotor/integrator path with exact post-checks;
+- seven matched methods and four predeclared core conditions;
+- separate core, candidate-quality, dynamics-knowledge, Version-A/B, performance, and
+  falsification producers so unlike claims are not mixed.
+
+The fallback initialization is a concurrent grid of structural policies, not a runtime maneuver
+state machine. Attacker modes belong to the environment. If no action passes exact checks, the
+runtime records degraded operation and uses an actuator-bounded substitute where necessary; that
+substitute is never labeled certified.
+
+### Device and validation contract
+
+The production role split is intentional:
+
+- controller, plant, online BPTT, and hard candidate-evidence graphs execute on GPU in GPU runs;
+- estimator updates and point-model/sample construction remain CPU-canonical;
+- BPTT compilation/warmup is completed before the warm control loop;
+- realtime mode submits one immutable, single-flight background candidate job and publishes only
+  at a controller boundary;
+- logical-simulation mode remains available for deterministic development tests, but the final
+  defaults and CLI development/final profiles use realtime mode.
+
+Every BPTT runtime input leaf remains digest-bound. Candidate leaves, final loss/gradient/update
+metrics, device identity, validation inputs, and snapshot lineage are persisted. Validation does
+not rerun the BPTT graph. It verifies the candidate payload and lineage, recomputes the hard report
+from retained evidence, and replays the publication state transition.
+
+Schema 7 uses only registered shared-actor codecs for persisted PyTrees; artifacts do not provide
+executable/deserializing code. Older schemas and contracts must be regenerated rather than
+migrated or relabeled.
+
+### Artifact integrity
+
+- NPZ/JSON/JSONL schemas are strict, deterministic, content-addressed, atomic, and write-once.
+- Manifests bind source/runtime, semantic digests, exact inventory, hashes, and resume state.
+- Core validation reconstructs schedules, tapes, traces, plant transitions, barriers, contacts,
+  failure labels, metrics, paired statistics, sidecars, and video bindings.
+- Candidate, Version-A/B, falsification, BPTT, and performance producers implement source-bound,
+  fail-closed verification/finalization. Their pre-GPU-correction smoke artifacts below are
+  historical; fresh claim-grade producer runs are still pending.
+- Scientific dashboard validation decodes real PNG/MP4 content, checks frame/keyframe pixels,
+  reconstructs contact sheets, and requires human visual-review records for final evidence.
+
+The dynamics-knowledge producer uses the same no-BPTT-replay boundary. Its confirmatory metric
+family can be eligible only when its full predeclared protocol completes without execution or
+adaptation failures; this never authorizes a blanket safety-superiority claim.
+
+## Fixed experiment profile
+
+`CampaignConfig.final_core` fixes:
+
+- K=64 policies, H=50 certificate steps, B=64 training scenarios;
+- 4 obstacle-prediction samples and 4 dynamics-uncertainty samples;
+- 151 control nodes at 0.02 s;
+- 10 BPTT updates per burst and adaptation every 25 nodes;
+- seven ordered methods:
   `nominal_only`, `analytic_cbf_hocbf`, `fixed_fallback_pcbf`,
   `handcrafted_fixed_library_plcbf`, `offline_frozen_sdcbf_style`,
   `da_plcbf_no_online_model_adaptation`, and `da_plcbf_full`;
-- confirmatory paired inference with retained failures, Bonferroni family accounting, exact paired
-  sign analysis, bootstrap raw settings, and a global-conjunction superiority summary;
-- separate candidate-quality, dynamics-knowledge, Version-A/B, performance, and falsification
-  campaigns so unlike claims are not mixed into the core safety study.
-
-The structural fallback initialization is a grid of policy parameters evaluated concurrently; it
-is not a runtime maneuver state machine. Scenario attacker modes define the environment, not the
-fallback controller. If no candidate/fallback passes exact checks, the code emits an explicit
-degraded result and an actuator-bounded midpoint/zero substitute where necessary; that substitute
-is never labeled certified.
-
-### Artifact and scientific-integrity implementation
-
-- Deterministic strict NPZ/JSON/JSONL schemas, atomic write-once files, semantic SHA-256 digests,
-  manifest inventories, `SHA256SUMS`, source/runtime binding, orphan rejection, and resume checks.
-- Main campaign validation reconstructs the schedule, tapes, traces, plant transitions, barriers,
-  contacts, failure labels, metrics, paired statistics, reports, sidecars, and rendered-video
-  bindings.
-- Online adaptation evidence now retains proposal-active, decision-active, candidate, and
-  publication-active snapshots, complete hard-validation arrays/thresholds/report, causal context,
-  decision/publication lineage, and whether the admitted snapshot drove executed control.
-- The newest patch also persists the actual BPTT execution backend/device and replays the exact
-  deterministic BPTT burst on that original device, requiring byte-exact candidate leaves and
-  matching final gradient/loss/update evidence. Cold-start is normally GPU; online work is normally
-  isolated on CPU. This newest cross-device path compiles and lints but still needs the real-GPU
-  mixed-device test listed below.
-- Final-intended core campaigns now reject dirty source at creation/finalization, while smoke and
-  development runs may remain explicitly dirty/non-claim-grade.
-- Candidate-ablation finalization now checks source-before/source-after, strictly reconstructs
-  before writing the completion marker, withholds the marker on failure, and auto-verifies in CLI.
-- Dynamics-knowledge campaigns already had exact startup snapshot reuse, source guards,
-  reconstruction, and marker gating.
-- Version-A/B evidence now has exact source bracketing, clean-source mode, strict verify CLI, and
-  no-write-on-drift behavior.
-- Falsification now has deterministic candidate/tape regeneration, crash-stable success/failure
-  caches, true-plant/barrier/contact/failure replay, fixed search/ranking reconstruction, strict
-  whole-campaign manifests, completion markers, and current-source verification.
-- BPTT and DA performance artifacts now use exact schemas, raw-derived summary reconstruction,
-  source/runtime binding, XML/STL asset hashing, clean-source flags, write-once output, strict
-  verification CLIs, and rehashed-tamper regressions.
-- Scientific dashboard finalization fully decodes PNGs, compares keyframe pixels to decoded MP4
-  frames, deterministically reconstructs contact sheets, and forces video replay for scientific
-  evidence. Fake PNG headers cannot satisfy the review gate.
-
-## Important fixed profiles
-
-Core final profile (`CampaignConfig.final_core`):
-
-- K=64 policies;
-- H=50 certificate steps;
-- B=64 training scenarios;
-- obstacle prediction samples=4;
-- dynamics uncertainty samples=4;
-- 151 control nodes at dt=0.02 s;
-- 10 BPTT updates per burst;
-- adaptation interval 25 nodes;
-- seven ordered methods;
-- four ordered conditions: `static`, `dynamics_change`, `ballistic_ball`,
+- four ordered conditions: `static`, `dynamics_change`, `ballistic_ball`, and
   `interceptor_drone`;
-- 100 paired folds per condition;
-- 2,800 scheduled closed-loop trials;
-- logical-simulation adaptation for safety evidence, with wall-time/deadline measurements retained.
+- 100 paired folds per condition, producing 2,800 scheduled closed-loop trials;
+- realtime, asynchronous GPU adaptation by default, while retaining wall-time/deadline and
+  contention measurements; logical-simulation mode is still selectable for deterministic tests.
 
-The final CLI forbids overriding this matrix or its shapes. Development profile defaults use the
-same final shape but allow fewer trials/methods/conditions. Smoke profile is K=16/H=2 and is never
-claim eligible.
+The final CLI rejects shape/matrix overrides. Development uses final geometry with fewer trials;
+smoke uses K=16/H=2 and is never claim eligible.
 
-## Test and audit status at this checkpoint
+## Engineering-review evidence inventory
 
-### Passing at the pause
+All paths below are under:
 
-- Whole-tree `git diff --check`: pass.
-- Whole-tree `ruff format --check`: pass after formatting the final audit edits.
-- Whole-tree `ruff check`: pass.
-- Whole-tree Python `compileall` over `crazyflow`, `examples`, `benchmark`, and `tests`: pass.
-- New clean-final gate plus adaptation-evidence unit file: 4 passed in 2.78 s.
-- Benchmark focused suites (`test_bptt.py`, `test_performance_benchmark.py`): 18 passed.
-- Candidate hardening tests: 13 passed; candidate scoped Ruff/compile pass.
-- Version-A/B hardening tests: 7 fast tests passed; real CPU integration smoke passed in 8.95 s.
-- Falsification focused suite: 20 passed; scoped Ruff/compile pass.
-- Earlier candidate protocol/ablation focused suite before the final source-guard patch: 47 passed.
-- Earlier dynamics-knowledge focused suite: 31 passed, 1 deselected; scoped Ruff clean.
-- Earlier documentation build: `pixi run -e docs docs-build` passed.
-- Earlier Markdown/docstring suite: 94 passed.
-- Earlier simulator-foundation batch reached 218 passed, 24 skipped, 12 deselected; its one BPTT
-  constructor failure was caused by an in-flight strict-schema change and is covered by the later
-  passing 18-test benchmark suite.
-- A prior full repository run before the latest integrity patches reported 1,213 passed,
-  31 skipped, 18 deselected. It is historical only and must not replace a fresh whole-suite run.
-
-### Incomplete/failed runs that must not be hidden
-
-- A later full `tests/unit/safety/da_plcbf` CPU run reached approximately 97%, then showed two
-  failures and aborted fatally inside the JAX compilation cache while executing a Version-B JIT
-  test. Pytest died before printing the two failure summaries. Rerun the entire safety suite with a
-  fresh compilation-cache directory; do not assume those were resolved.
-- The newest device-aware adaptation/BPTT replay path has not run its full-development numerical
-  replay test after the final patch.
-- No fresh full CPU suite, full GPU suite, render suite, docs suite, or package build has run after
-  all final audit changes.
-- A real GPU BPTT smoke wrote a development-only artifact at
-  `/tmp/crazyflow-benchmark-audit.UfpdEp/bptt-public-gpu-smoke.json`, but it was produced while the
-  repository was dirty and its strict CLI verification was not run before the pause. `/tmp` will
-  not transfer to another computer.
-- A prior real-GPU falsification smoke completed 56/56 candidates with 0 evaluator operational
-  failures, found 54 counterexamples, retained 8 unique ranked tapes, and replayed the worst tape
-  across all seven methods (7/7 replay successes). It then correctly refused manifest/marker
-  finalization because concurrent source edits changed the digest. Historical reconstruction
-  passed only in explicit non-promotion mode. Local path:
-  `/tmp/crazyflow-falsification-full-smoke.9bU4gY`.
-- Prior candidate and dynamics GPU smokes similarly exercised real work and correctly rejected
-  strict promotion after concurrent source drift. Regenerate them on the frozen tree.
-
-## Hardware observed on the original machine
-
-- NVIDIA GeForce RTX 4090, 24,564 MiB
-- NVIDIA driver 560.35.03
-- Compute capability 8.9
-- JAX 0.11.1 / jaxlib 0.11.1
-- `jax.default_backend()` returned `gpu`
-- Python environments are managed by Pixi.
-- Approximately 105 GiB disk space was free at the pause.
-
-The latest development-only BPTT GPU smoke used the public smoke shape (2 environments, four
-actions, two optimizer updates): compile 6.0839 s, warmup 0.02991 s, raw executions 0.01960 s and
-0.02148 s, mean 0.02054 s, finite nonzero gradients and parameter change. It is functional evidence
-only, not a paper comparison or claim-grade timing.
-
-Earlier clean-main forward-simulator development measurements on the same 4090 reached about
-1.05 billion world-steps/s at 262,144 one-drone worlds with a fused 50-step rollout. Those CSVs
-were produced before this final branch was clean and are not final evidence. The paper reports
-about 700 million steps/s at one million worlds; rerun a clean scaling sweep and state the world
-count/hardware/protocol difference. No MPPI implementation exists in this repository, so the
-paper's MPPI number has not been reproduced here.
-
-## Local artifacts that existed before transfer
-
-`artifacts/da_plcbf/` is intentionally ignored except for `README.md` and `INDEX.md`. The original
-machine had about 12 MiB of development artifacts, including:
-
-- `20260831-gpu-smoke-core-k16-v3/`
-- `20260831-visual-development-v1/` with one dynamics-change MP4/contact sheet
-- `20260831-candidate-ablation-smoke-v1/` and `v2/`
-- several dynamics-knowledge smoke directories
-- older CPU/GPU BPTT JSON files
-- older Version-A/B final-shape JSON/Markdown
-
-These predate the newest schemas/source digest and are not current evidence. The committed
-`artifacts/da_plcbf/INDEX.md` deliberately states that no scientific run has passed every gate.
-Do not edit that statement until a new final directory passes strict numerical, source, replay,
-and visual validation.
-
-## Immediate continuation sequence
-
-### 1. Establish a clean, isolated test environment
-
-```bash
-git status --short --branch
-nvidia-smi
-mkdir -p /tmp/crazyflow-jax-cache-continuation
-export JAX_COMPILATION_CACHE_DIR=/tmp/crazyflow-jax-cache-continuation
-pixi run -e gpu-tests python -c 'import jax; print(jax.__version__, jax.default_backend(), jax.devices())'
+```text
+/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/
+  engineering-review-20260901-v2-JNVFOwTb/
 ```
 
-Do not edit source while any evidence-producing command is running. Source-drift guards are
-deliberately fail-closed and will invalidate/withhold final markers.
+### Historical pre-GPU-correction repository gates
 
-### 2. Validate the newest integrity changes first
+- CPU non-render suite: **1,281 passed, 35 skipped, 18 deselected** in 574.98 s; isolated Version B:
+  **10 passed, 1 skipped** in 57.52 s. Log: `full-cpu-final-source.log`.
+- GPU non-render suite: **1,308 passed, 31 skipped, 18 deselected** in 1,093.15 s; isolated
+  Version B: **11 passed** in 71.27 s. Log: `full-gpu-final-source.log`.
+- Render, documentation, doctest, lint/format/compile, diff-hygiene, and wheel/sdist verification:
+  **18 render tests passed** (1,350 non-render tests deselected), strict docs built, **94 doctests
+  passed**, all 273 Python files were already Ruff-formatted, Ruff lint and compileall passed,
+  `git diff --check` passed, and fresh wheel/sdist builds passed Twine validation. Logs:
+  `render-final-source.log`, `docs-build-final-source.log`, `doctests-final-source.log`,
+  `package-build-final-source.log`, and `package-twine-final-source.log`.
 
-```bash
-pixi run ruff format --check .
-pixi run ruff check .
-git diff --check
-pixi run -e tests python -m compileall -q crazyflow examples benchmark tests
+These exact counts predate the GPU-online-adaptation correction and must not be reported as passes
+of the current source. The deselections are the repository's explicit `render` tier, which runs
+separately. CPU skips are GPU-only checks. Version B runs in an isolated process as documented in
+`tests/README.md`; it is not omitted coverage.
 
-pixi run -e tests pytest -q \
-  tests/unit/safety/da_plcbf/test_adaptation_evidence.py \
-  tests/unit/safety/da_plcbf/test_experiments.py::test_final_intended_campaign_requires_clean_committed_provenance \
-  tests/unit/safety/da_plcbf/test_experiments.py::test_full_development_slice_logs_model_and_candidate_lifecycle
+The final QP implementation ranks refinement candidates against the actual normalized
+primal/dual gates and applies a fixed inward repair when exact-equality iterations do not produce
+an accepted float32 point. The previously failing RTX seed 3 and whole-solver JIT regressions pass
+in the focused and full gates.
 
-pixi run -e tests pytest -q \
-  tests/unit/test_bptt.py \
-  tests/unit/safety/da_plcbf/test_performance_benchmark.py \
-  tests/unit/safety/da_plcbf/test_ablation_campaign.py \
-  tests/unit/safety/da_plcbf/test_version_b_evidence.py \
-  tests/unit/safety/da_plcbf/test_falsification_experiments.py \
-  tests/unit/safety/da_plcbf/test_dynamics_knowledge_campaign.py
-```
+### Historical pre-GPU-correction producer smokes
 
-Then run a real GPU core smoke that contains both cold-start GPU BPTT and post-startup CPU BPTT,
-and strictly reconstruct its `adaptation_evidence.npz`. The easiest complete route is a fresh core
-smoke campaign with `da_plcbf_full` and enough control nodes to submit/resolve an online job. Do not
-accept only a cold-start proof.
+The immutable historical smokes live in `smokes-final-v3/`. Each producer was generated and then
+verified in a fresh process under the prior CPU-BPTT source contract:
 
-### 3. Run fresh strict smokes for every evidence producer
+- public-protocol BPTT CPU artifact: valid for its recorded historical source;
+- RTX performance: **7/7** requested components passed correctness and measurement gates;
+- matched Version A/B: **3/3** scheduled cases retained and historical-source verified;
+- candidate quality: **5/5** outcomes, zero failures, strict verification valid;
+- dynamics knowledge: **4/4** outcomes, zero operational failures, strict structural verification
+  valid; the stored obsolete independent-BPTT-replay blocker describes only that old artifact and
+  is not a current eligibility requirement;
+- falsification: **56/56** evaluations, 54 counterexamples, 8 unique ranked counterexamples, zero
+  evaluator/replay operational failures, and strict historical-source verification valid.
 
-Use fresh directories under `/tmp` or ignored `artifacts/da_plcbf/`; never overwrite old evidence.
+The dynamics result remains descriptive because its stored status/blocker are intentionally
+unchanged. During falsification, LLVM once exhausted Linux virtual-memory-map entries near the
+host's `vm.max_map_count`; RAM was not exhausted. The same atomic cache resumed without a sysctl
+change, retained every scheduled candidate, and strictly verified.
 
-```bash
-# BPTT smoke + strict current-source/runtime verification
-pixi run -e gpu-tests python benchmark/bptt.py \
-  --protocol public --device gpu --smoke --repeats 2 \
-  --output /tmp/crazyflow-bptt-smoke.json
-pixi run -e gpu-tests python benchmark/bptt.py \
-  --verify-artifact /tmp/crazyflow-bptt-smoke.json
+The performance smoke is descriptive, with one warm execution sample per component. Its observed
+medians were: deterministic rollout 0.497 ms, uncertain rollout 0.567 ms, fused BPTT 1.234 ms,
+Version A 3.318 ms, QP 2.350 ms, Version B 6.317 ms, and host admission 0.695 ms. This is evidence
+that the compiled smoke shapes ran quickly on this RTX 4090; it is not a hard-real-time, 20 Hz,
+deployment, or hardware guarantee.
 
-# DA performance smoke + strict verification
-pixi run -e gpu-tests python benchmark/da_plcbf.py \
-  --device gpu --preset smoke --components all --repeats 3 --warmups 1 \
-  --contention none --output /tmp/crazyflow-da-performance-smoke.json
-pixi run -e gpu-tests python benchmark/da_plcbf.py \
-  --verify-artifact /tmp/crazyflow-da-performance-smoke.json
+### Historical sealed final-shape development pilot
 
-# Candidate campaign
-pixi run -e gpu-tests python examples/da_plcbf/candidate_ablation.py run \
-  --profile smoke --output /tmp/crazyflow-candidate-smoke --no-resume
-pixi run -e gpu-tests python examples/da_plcbf/candidate_ablation.py verify \
-  --output /tmp/crazyflow-candidate-smoke
+The review artifact is `core-development-pilot-v3/`, source-bound to
+`bbf1b146c103829dbe37b56e289c7239807328ea86c80129468fc9fe1555aeac`.
+It contains 28/28 complete method/condition outcomes, zero execution failures, four immutable
+tapes, 28 method traces, eight adaptation-evidence sidecars, 28 dashboard sidecars, four MP4s,
+32 original-resolution keyframes, four visual-review records, and 206 manifest inventory files.
 
-# Dynamics-knowledge campaign
-pixi run -e gpu-tests python examples/da_plcbf/dynamics_knowledge.py run \
-  --profile smoke --output /tmp/crazyflow-dynamics-smoke --no-resume
-pixi run -e gpu-tests python examples/da_plcbf/dynamics_knowledge.py verify \
-  --output /tmp/crazyflow-dynamics-smoke
+Strict numerical validation under the old replay contract passed in both normal GPU-capable and
+forced-CPU processes. The sealed `SHA256SUMS` inventory passes. The four 1600x900, 15 fps,
+151-frame videos and all 32 keyframes were inspected at original resolution; every required visual
+check passed and was bound to the exact trace/video/keyframe digests. This establishes integrity of
+the historical pilot, not correctness of the GPU-corrected source.
 
-# Version A/B evidence
-pixi run -e gpu-tests python examples/da_plcbf/version_b_evidence.py \
-  --profile smoke --device gpu --output /tmp/crazyflow-version-ab-smoke.json
-pixi run -e gpu-tests python examples/da_plcbf/version_b_evidence.py \
-  --verify-artifact /tmp/crazyflow-version-ab-smoke.json
+Full DA-PLCBF development results were:
 
-# Falsification
-pixi run -e gpu-tests python examples/da_plcbf/falsify.py run \
-  --profile smoke --run-dir /tmp/crazyflow-falsification-smoke
-pixi run -e gpu-tests python examples/da_plcbf/falsify.py verify \
-  --run-dir /tmp/crazyflow-falsification-smoke
-```
+| Condition | Minimum hard margin | Failure steps | Degraded steps |
+|---|---:|---:|---:|
+| static | 0.262222553 | 0 | 10 |
+| dynamics change | 0.0186448703 | 0 | 60 |
+| ballistic ball | 0.253276177 | 0 | 34 |
+| interceptor drone | 0.241955792 | 0 | 10 |
 
-The exact flags are documented by each command's `--help`. If a smoke fails, preserve its failure
-cache/directory and turn the cause into a regression test; do not delete the failure and rerun as
-if it never happened.
+Direct review files:
 
-### 4. Run complete repository gates
+- `../gpu-online-review-all-v2-20260901/` — unsealed GPU development/review run generated before
+  the final formatting-only pass;
+- `../gpu-bptt-online-20260901-v4.json` — final formatted-source campaign-faithful GPU timing;
+- `core-development-pilot-v3/manifest.json`;
+- `core-development-pilot-v3/aggregate/report.md`;
+- `core-development-pilot-v3/aggregate/scientific_report.md`;
+- `core-development-pilot-v3/videos/`;
+- `core-development-pilot-v3/visual_reviews/`.
 
-Use a fresh JAX cache if the prior fatal compilation-cache issue recurs.
+The manifest deliberately reports `status=incomplete` and `scientific_evidence=false`. That means
+the one-fold development schedule is not final-claim eligible, not that execution is incomplete.
+All 28 runs completed, but 0/72 confirmatory comparisons can support a final superiority claim.
+The generic report heading “Synthetic schema/replay smoke only” likewise denotes the conservative
+evidence class; the traces are real finite-horizon controller simulations, not fabricated stubs.
 
-```bash
-pixi run -e tests pytest -q
-pixi run -e gpu-tests pytest -q
-pixi run -e gpu-tests pytest -q -m render
-pixi run -e docs docs-build
-pixi run -e tests test-docs
-pixi run -e dist build
-```
+The first sealing attempt, `core-development-pilot-v2`, correctly refused to create a manifest
+because generated `adaptation_evidence.npz` files had no inventory role. `artifacts.py` now maps
+those files to `adaptation-evidence`, and a direct regression guards the mapping. No v2 manifest
+was written. Because that source fix changed the source digest, the complete pilot was honestly
+regenerated as v3 before sealing rather than relabeled.
 
-The default pytest configuration excludes the `render` marker; the separate render command is
-required. Record exact pass/skip/deselect counts and durations in this file or the final report.
+Earlier `continuation-final-shape-pilot-20260831-review-v2/v3` artifacts remain diagnostic. They
+identified the constraints that led to the former CPU-authoritative BPTT and compiled replay
+design; those constraints are not requirements of schema 7. The artifacts predate the present
+schema/source and must not be promoted.
 
-### 5. Run a final-shape development pilot before freezing claims
+### Engineering-review checklist
 
-This is the last place to find implementation/display problems and revise source without touching
-confirmatory data:
+- [x] intended source, tests, dependency, CI, and test-tier changes are inspectable in one working
+  tree diff;
+- [x] current-source focused CPU/GPU BPTT, evidence, runtime-provenance, and renderer gates pass;
+- [x] campaign-faithful full-shape GPU BPTT is measured rather than extrapolated from toy smoke;
+- [x] a real asynchronous GPU campaign records submissions, hard decisions, and admitted snapshot
+  use;
+- [x] all four GPU-corrected ego-centric review videos/contact sheets were generated and manually
+  inspected; they predate only the final formatting-only pass and remain unsealed development
+  evidence without formal visual-review records;
+- [x] diagnostic failures, counterexamples, limitations, and non-claim status remain visible;
+- [x] current-source DA-PLCBF CPU non-render unit coverage passes in the documented Version-B
+  process split (**718 passed, 4 skipped, 6 render tests deselected**);
+- [ ] complete current-source repository-wide CPU/GPU/docs/package rerun after the GPU architecture
+  change;
+- [x] the engineering checkpoint is committed and pushed to `origin/plcbf`; no merge was performed.
 
-```bash
-pixi run -e gpu-tests python examples/da_plcbf/campaign.py run \
-  --profile development \
-  --run-dir artifacts/da_plcbf/continuation-final-shape-pilot \
-  --trials 1 --root-seed 20260831
+## Claim-grade continuation — separate and pending
 
-pixi run -e gpu-tests python examples/da_plcbf/campaign.py render \
-  --run-dir artifacts/da_plcbf/continuation-final-shape-pilot \
-  --methods da_plcbf_full \
-  --conditions static,dynamics_change,ballistic_ball,interceptor_drone \
-  --videos-per-condition 1 --fps 15 --width 1600 --height 900 --keyframes 8
-```
+Engineering review does not authorize or complete this phase. After review and explicit direction
+to begin claim-grade work, freeze the experiment schedule and dependencies against the reviewed
+branch tip. Then:
 
-Review all four contact sheets and representative full-resolution keyframes with the image viewer.
-Check data numerically against trace/events/sidecar, not by appearance alone. If labels, camera,
-occlusion, unsafe/degraded coloring, event annotations, scales, timing, or unavailable-evidence
-labels are unclear, revise the renderer and repeat source tests plus the pilot. Do not inspect final
-confirmatory outcomes and then change the method/configuration.
+1. run clean-source BPTT GPU, DA performance/contention, candidate-quality, Version-A/B, dynamics,
+   falsification schedules with unique IDs and strict verification;
+2. run the fixed 2,800-trial core campaign: seven methods × four conditions × 100 paired folds;
+3. retain every scheduled outcome, exception, rejection, degraded interval, and counterexample;
+4. render exactly four final `da_plcbf_full` videos, one for each predeclared condition;
+5. perform evidence-specific visual review of every final video and bind the reviews into final
+   validation;
+6. finalize only after exact inventory, source/runtime hashes, hard-evidence validation, statistics,
+   video/keyframe/contact-sheet checks, and review bindings all pass;
+7. update `DA_PLCBF_PLAN.md` and `artifacts/da_plcbf/INDEX.md` with exact commands and hashes;
+8. commit/push compact source and metadata only when explicitly authorized.
 
-### 6. Freeze source in a clean commit
+The 2,800 trials, final four videos, frozen clean evidence, compact index, commit, and push are all
+pending. Do not substitute a smaller development matrix while retaining a `final` label.
 
-After every development revision and all gates pass:
+## Risks and non-negotiable boundaries
 
-```bash
-git status --short
-git add -A
-git commit -m "Complete DA-PLCBF implementation and validation harness"
-git push origin plcbf
-git status --short
-```
-
-The status must be clean before every claim-grade command using `--require-clean-source`. Ignored
-artifact outputs do not make Git dirty. Do not edit tracked files until all claim-grade runs,
-rendering, reviews, manifests, and replay validation are complete.
-
-### 7. Run claim-grade independent experiments
-
-Use unique run IDs. Suggested commands:
-
-```bash
-# Paper-informed BPTT reconstruction on CPU (paper timing scope) and GPU (4090 scope)
-pixi run -e gpu-tests python benchmark/bptt.py \
-  --protocol paper --device cpu --repeats 5 --require-clean-source \
-  --output artifacts/da_plcbf/final-bptt-paper-cpu.json
-pixi run -e gpu-tests python benchmark/bptt.py \
-  --verify-artifact artifacts/da_plcbf/final-bptt-paper-cpu.json --require-clean-source
-
-pixi run -e gpu-tests python benchmark/bptt.py \
-  --protocol paper --device gpu --repeats 5 --require-clean-source \
-  --output artifacts/da_plcbf/final-bptt-paper-gpu.json
-pixi run -e gpu-tests python benchmark/bptt.py \
-  --verify-artifact artifacts/da_plcbf/final-bptt-paper-gpu.json --require-clean-source
-
-# DA K/B/R/H sweep, tail latency, correctness, and contention
-pixi run -e gpu-tests python benchmark/da_plcbf.py \
-  --device gpu --preset final --components all --repeats 50 --warmups 5 \
-  --contention cpu,gpu --require-clean-source \
-  --output artifacts/da_plcbf/final-da-performance.json
-pixi run -e gpu-tests python benchmark/da_plcbf.py \
-  --verify-artifact artifacts/da_plcbf/final-da-performance.json --require-clean-source
-
-# Candidate-quality confirmatory schedule (100 folds)
-pixi run -e gpu-tests python examples/da_plcbf/candidate_ablation.py run \
-  --profile confirmatory --output artifacts/da_plcbf/final-candidate-ablation --no-resume
-pixi run -e gpu-tests python examples/da_plcbf/candidate_ablation.py verify \
-  --output artifacts/da_plcbf/final-candidate-ablation
-
-# Dynamics-knowledge matched final schedule (100 trials per variant)
-pixi run -e gpu-tests python examples/da_plcbf/dynamics_knowledge.py run \
-  --profile final --output artifacts/da_plcbf/final-dynamics-knowledge --no-resume
-pixi run -e gpu-tests python examples/da_plcbf/dynamics_knowledge.py verify \
-  --output artifacts/da_plcbf/final-dynamics-knowledge
-
-# Matched Version-A/Version-B evidence
-pixi run -e gpu-tests python examples/da_plcbf/version_b_evidence.py \
-  --profile final --device gpu --require-clean-source \
-  --output artifacts/da_plcbf/final-version-ab.json
-pixi run -e gpu-tests python examples/da_plcbf/version_b_evidence.py \
-  --verify-artifact artifacts/da_plcbf/final-version-ab.json --require-clean-source
-
-# Fixed-budget empirical falsification with seven-method worst-tape replay
-pixi run -e gpu-tests python examples/da_plcbf/falsify.py run \
-  --profile final --run-dir artifacts/da_plcbf/final-falsification
-pixi run -e gpu-tests python examples/da_plcbf/falsify.py verify \
-  --run-dir artifacts/da_plcbf/final-falsification
-```
-
-Also rerun the original Crazyflow forward-throughput protocol on the frozen commit:
-
-```bash
-pixi run -e benchmark python benchmark/main.py \
-  --device=gpu --worlds=262144,524288,1048576 \
-  --n_steps=50 --rollout_steps=50 --include_gym=False
-```
-
-Resource exhaustion at a larger world count is a retained scaling boundary, not a reason to report
-only the last successful point as if it were the paper's one-million-world protocol.
-
-### 8. Run the predeclared 2,800-trial core campaign
-
-This can take many physical hours. Resume is supported, but only with identical config, source,
-commit/branch/dirty state, tapes, and valid recorded successes.
-
-```bash
-pixi run -e gpu-tests python examples/da_plcbf/campaign.py run \
-  --profile final \
-  --run-dir artifacts/da_plcbf/final-core-20260831 \
-  --root-seed 20260831
-```
-
-If interrupted after valid outcomes are committed:
-
-```bash
-pixi run -e gpu-tests python examples/da_plcbf/campaign.py run \
-  --profile final \
-  --run-dir artifacts/da_plcbf/final-core-20260831 \
-  --root-seed 20260831 --resume
-```
-
-Do not use final-profile overrides; the CLI rejects them. Inspect:
-
-- all 2,800 scheduled outcomes retained;
-- zero unrecorded/missing assignments;
-- every execution exception preserved;
-- online methods have post-startup candidate resolution and campaign-level proof that an admitted
-  online snapshot drove executed control;
-- full method produces accepted estimator updates in dynamics-change folds;
-- physical failures and degraded periods agree with true-state/tape replay;
-- confirmatory and exploratory conclusions match the exact retained data;
-- no broad superiority statement unless every predeclared confirmatory member supports it.
-
-### 9. Render exactly four final videos and perform real visual review
-
-```bash
-pixi run -e gpu-tests python examples/da_plcbf/campaign.py render \
-  --run-dir artifacts/da_plcbf/final-core-20260831 \
-  --methods da_plcbf_full \
-  --conditions static,dynamics_change,ballistic_ball,interceptor_drone \
-  --videos-per-condition 1 --fps 15 --width 1600 --height 900 --keyframes 8
-```
-
-For each video, inspect the canonical contact sheet and full-resolution keyframes. Create one
-canonical `visual_reviews/<video-stem>.md` using `VisualReviewRecord` and
-`write_visual_review_record`; rendering must never auto-assert that a display is legible. Every
-review must address all eight checks:
-
-1. `original_resolution_inspected`
-2. `labels_legible_without_console`
-3. `unsafe_and_degraded_visibly_distinct`
-4. `overlays_agree_with_trace`
-5. `event_annotations_agree_with_trace`
-6. `camera_and_occlusion_acceptable`
-7. `scales_units_and_timing_clear`
-8. `unavailable_evidence_explicit`
-
-If any check fails, record `revise`, change the renderer only before finalization, rerun the
-necessary source/test/campaign work required by source binding, and inspect again. Passing review
-records must contain evidence-specific notes rather than boilerplate.
-
-Finalize and replay-validate only after all four reviews pass:
-
-```bash
-pixi run -e gpu-tests python examples/da_plcbf/campaign.py finalize \
-  --run-dir artifacts/da_plcbf/final-core-20260831 --verify-replay
-pixi run -e gpu-tests python examples/da_plcbf/campaign.py validate \
-  --run-dir artifacts/da_plcbf/final-core-20260831 --verify-replay
-```
-
-Final validation checks exact file inventory, hashes, schemas, physical/numerical reconstruction,
-statistics, MP4 codec/frame count/duration/dimensions/non-static content, exact decoded-frame
-digest, keyframe pixels, deterministic contact sheet, and visual-review bindings.
-
-### 10. Publish metadata only after evidence is immutable
-
-After every strict validator passes:
-
-- update `DA_PLCBF_PLAN.md` checkboxes truthfully;
-- update `artifacts/da_plcbf/INDEX.md` with run ID, manifest SHA-256, `SHA256SUMS` SHA-256, storage
-  location, exact reproduction command, and review status;
-- record paper comparisons with protocol/hardware differences;
-- state all counterexamples, unsupported endpoints, missed deadlines, and finite-horizon limits;
-- commit only compact metadata, not bulk NPZ/MP4 output;
-- push `plcbf`;
-- mark the Codex goal complete only when no required gate remains.
-
-## Known risks and things to verify carefully
-
-1. **Newest mixed-device BPTT proof is not fully tested.** It now derives and stores backend/device
-   from the actual trained result and replays on that device. Confirm cold-start GPU plus online CPU
-   in one real trial and strict artifact reconstruction.
-2. **Legacy adaptation artifacts are intentionally incompatible.** New validation requires
-   `bptt_execution_backend` and `bptt_execution_device_id`. Regenerate old sidecars; do not silently
-   migrate or treat them as current evidence.
-3. **Full safety-suite fatal exit needs reproduction.** Use a fresh JAX compilation cache and retain
-   the first actual failing trace/summary.
-4. **Final core cost is large.** K64/H50 plus online CPU-isolated BPTT and strict replay can take many
-   hours. Do not disable replay or reduce folds to make it finish faster while preserving a “final”
-   label.
-5. **Disk use can be substantial.** K64/H50 fallback rollout sidecars across 2,800 trials may use
-   many GiB. Check free space before launch and archive a complete content-addressed directory.
-6. **Performance is descriptive.** Version-A/Version-B earlier dirty-tree final-shape probes were
-   roughly 166 ms and 468 ms per decision respectively and missed the 20 ms deadline. Regenerate
-   clean evidence; do not claim real-time operation unless new retained timings support it.
-7. **Candidate ablation boundaries are explicit.** R=4/R=8 there are held-out hard-scoring shapes;
-   they are not falsely labeled as uncertainty-aware differentiable training. SHAC is explicitly
-   unavailable until a faithful training-only implementation exists.
-8. **Offline SDCBF-style baseline is labeled as style/matched learned library, not an exact external
-   reproduction.** Its source/license constraints are documented in the plan.
-9. **No hardware flight claim.** No physical platform/authority was provided; simulation completion
-   is the current gate.
-10. **Do not merge the upstream rotor-clipping branch wholesale.** It changes idle semantics.
+1. **Source binding is fail-closed.** Any numerical source edit invalidates earlier pilots and
+   smokes. Use new directories; never overwrite or migrate them in place.
+2. **GPU adaptation is the production default.** Keep BPTT and hard evidence on the recorded GPU
+   in GPU runs, keep the estimator CPU-canonical, and retain immutable boundary-only publication.
+3. **QP float32 behavior is backend-sensitive.** Preserve the seed-3 and whole-solver-JIT
+   regressions and rerun them on both CPU and RTX before broad gates.
+4. **Dynamics knowledge has no replay-only blocker.** Eligibility still requires the full
+   predeclared protocol and never permits a blanket superiority claim.
+5. **The final core campaign is expensive.** Resource cost is not permission to weaken `final`.
+6. **Timing evidence is descriptive.** The canonical isolated full-shape BPTT benchmark measured
+   141.47 ms median / 141.60 ms p95 / 141.65 ms worst after JIT. Warm BPTT jobs in the fresh
+   concurrent campaign took roughly 191--230 ms, and complete candidate admission took roughly
+   362--443 ms. Controller tail/queue contention still prevents a hard-real-time guarantee.
+7. **Candidate-study R=4/R=8 scopes are explicit.** Held-out hard-scoring shapes are not
+   uncertainty-aware differentiable training. SHAC remains unavailable without a faithful
+   training-only implementation.
+8. **The offline SDCBF-style baseline is not an exact external reproduction.** Preserve that
+   label and the source/license qualification in the plan.
+9. **No hardware-flight claim exists.** Current scope is finite-horizon simulation.
 
 ## High-value file map
 
-- `DA_PLCBF_PLAN.md` — full design/evidence plan and ready-for-review definition.
-- `crazyflow/safety/da_plcbf/experiments.py` — core trial, BPTT job, seven-method campaign.
+- `DA_PLCBF_PLAN.md` — design, evidence protocol, and claim boundary.
+- `tests/README.md` / `tests/core-tests.txt` — curated and full test-tier policy.
+- `crazyflow/safety/da_plcbf/experiments.py` — core trials, role placement, BPTT jobs, and seven
+  methods.
+- `crazyflow/safety/da_plcbf/adaptation_evidence.py` — schema-7 candidate/admission/lineage and
+  no-cross-process-BPTT validation contract.
 - `crazyflow/safety/da_plcbf/campaign_artifacts.py` — persisted core reconstruction and gates.
-- `crazyflow/safety/da_plcbf/adaptation_evidence.py` — exact candidate/admission/BPTT proof.
 - `crazyflow/safety/da_plcbf/artifacts.py` — trace/event/manifest/video/review validation.
-- `crazyflow/safety/da_plcbf/scientific_evaluation.py` — paired metrics/inference.
-- `crazyflow/safety/da_plcbf/scientific_dashboard.py` — MP4/keyframes/contact-sheet/review records.
+- `crazyflow/safety/da_plcbf/polytope_qp.py` — active-set projection and RTX float32 refinement.
+- `crazyflow/safety/da_plcbf/scientific_evaluation.py` — paired metrics and inference.
+- `crazyflow/safety/da_plcbf/scientific_dashboard.py` — MP4/keyframes/contact sheets/reviews.
 - `crazyflow/safety/da_plcbf/candidate_protocol.py` and `ablation_campaign.py` — proposal study.
-- `crazyflow/safety/da_plcbf/dynamics_knowledge_campaign.py` — oracle/estimated/R4/R8 study.
-- `crazyflow/safety/da_plcbf/version_b_evidence.py` — matched Version A/B evidence.
+- `crazyflow/safety/da_plcbf/dynamics_knowledge_campaign.py` — oracle/estimated/R4/R8 study and
+  protocol-based eligibility.
+- `crazyflow/safety/da_plcbf/version_b_evidence.py` — matched Version-A/Version-B evidence.
 - `crazyflow/safety/da_plcbf/falsification_experiments.py` — fixed-budget adversarial evidence.
-- `benchmark/bptt.py` — public/paper-informed Crazyflow BPTT benchmark and verifier.
-- `benchmark/da_plcbf.py` — K/B/R/H performance/correctness/contention benchmark and verifier.
+- `benchmark/da_plcbf_gpu_bptt.py` — campaign-faithful online GPU BPTT benchmark;
+  `benchmark/bptt.py` / `benchmark/da_plcbf.py` — broader performance artifacts and verifiers.
 - `examples/da_plcbf/` — campaign CLIs.
-- `tests/unit/safety/da_plcbf/` — mathematical, runtime, scientific, artifact, and tamper tests.
-- `artifacts/da_plcbf/README.md` — ignored-artifact policy.
-- `artifacts/da_plcbf/INDEX.md` — committed reviewed-evidence index (currently empty by design).
+- `artifacts/da_plcbf/engineering-review-20260901-v2-JNVFOwTb/core-development-pilot-v3/` — sealed
+  review pilot, manifest, reports, traces, videos, reviews, and checksums.
+- `artifacts/da_plcbf/README.md` / `INDEX.md` — ignored bulk evidence policy and reviewed index.
 
-## Definition of done
+## Definition of engineering-review ready
 
-Do not call this ready until all of the following are true:
+Engineering readiness is about a reviewable, tested implementation and honest development
+evidence, not a superiority result. The current GPU correction is ready for focused review; the
+complete broad post-change gate remains listed explicitly above rather than borrowing the old
+source digest's pass counts.
 
-- complete format/lint/compile/docs/package/CPU/GPU/render gates pass on the final source;
-- DA-PLCBF BPTT gradients, learning, and exact candidate origin replay pass directly;
-- active/candidate isolation, hard admission, stale/bad/nonfinite/slow rejection, rollback, and
-  executed-control lineage pass fault injection and end-to-end tests;
-- dynamics adaptation, R4/R8 uncertainty, Version A/B, candidate, performance, and falsification
-  final artifacts strictly verify against clean current source/runtime;
-- the full 2,800-trial paired core schedule is retained and strictly reconstructed;
-- statistics state supported and unsupported results without cherry-picking;
-- exactly four final full-method MP4s exist and each has an evidence-specific passing visual review;
-- replay regenerates/validates every visual and quantitative binding;
-- plan and compact evidence index are updated with exact hashes/commands;
-- `plcbf` is pushed and the user receives clickable video/report paths plus honest limitations.
+## Definition of claim-grade complete
+
+Do not describe DA-PLCBF as claim-grade complete until all of the following are true:
+
+- a clean frozen commit passes complete CPU/GPU/Version-B/render/docs/package gates;
+- adaptation candidate origin, seeded root, publication lineage, hard admission, rollback,
+  staleness, and executed-control lineage independently validate from retained evidence; the BPTT
+  graph itself is not rerun across processes;
+- every producer included in claims has an appropriate independent numerical validation and no
+  eligibility blocker, without imposing byte-identical accelerator arithmetic;
+- all clean-source final studies strictly verify;
+- all 2,800 predeclared core outcomes are retained and reconstructed;
+- statistics report supported and unsupported results without cherry-picking;
+- exactly four final full-method MP4s have evidence-specific passing visual reviews;
+- every quantitative and visual binding revalidates from immutable artifacts;
+- compact plan/index metadata records exact hashes and reproduction commands;
+- authorized commits are pushed and the user receives reviewable report/video paths plus all
+  limitations.

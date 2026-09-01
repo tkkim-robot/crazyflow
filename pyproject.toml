@@ -193,7 +193,8 @@ matplotlib = "*"
 pytest-markdown-docs = "*"
 
 [tool.pixi.feature.tests.tasks]
-tests = { cmd = "pytest -v tests", description = "Run tests" }
+tests = { cmd = "pytest -v @tests/core-tests.txt && pytest -v tests/unit/safety/da_plcbf/test_version_b_runtime.py", description = "Run the curated core test tier with Version B isolated" }
+tests-full = { cmd = "pytest -v tests --ignore=tests/unit/safety/da_plcbf/test_version_b_runtime.py && pytest -v tests/unit/safety/da_plcbf/test_version_b_runtime.py", description = "Run the complete non-render suite with Version B isolated" }
 test-docs = { cmd = "pytest -v --markdown-docs --markdown-docs-syntax=superfences --doctest-glob='*.md' crazyflow/ docs/ --ignore=docs/gen_ref_pages.py --ignore=crazyflow/sim/splat.py --ignore=crazyflow/sim/sensors/splat.py", description = "Run CPU-compatible doctests in docs and docstrings" }
 
 [tool.pixi.feature.docs.dependencies]

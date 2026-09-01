@@ -26,6 +26,12 @@ The JSON and CSV files below ignored run directories are not expected to appear 
 is deliberate: evidence is transferred or archived as a complete content-addressed directory, not
 as selected loose files.
 
+An explicitly requested, branch-local **engineering review bundle** is the only exception. Such a
+bundle must carry a `REVIEW_ONLY.md`, remain absent from `INDEX.md`, identify every omitted artifact,
+and state that it is unsealed, incomplete for replay/claim purposes, and unsuitable for scientific
+claims. This exception exists only to make compact reports, traces, renderer evidence, and videos
+available to a human reviewer; it does not relax final-run validation or indexing requirements.
+
 Run video rendering and replay validation in a fresh offline process, after the numeric control run
 has exited. Besides keeping rendering out of reported control latency, this avoids forking the
 FFmpeg encoder from a multithreaded JAX process. Render-marked tests are therefore run separately:

@@ -4,8 +4,8 @@
 
 Implement the shared-chat design, **Differentiable Adaptive Policy-Library Control Barrier
 Functions (DA-PLCBF)**, in Crazyflow and produce reviewable evidence that the implementation is
-mathematically consistent, reproducible, fast on the available RTX 4090, and safer than matched
-baselines in the tested finite-horizon simulation conditions.
+mathematically consistent, reproducible, and measurable on the available RTX 4090, and evaluate
+whether it is safer than matched baselines in the tested finite-horizon simulation conditions.
 
 The implementation must not replace learned fallback-library adaptation with a hand-scripted
 maneuver state machine or hidden safety heuristics. The structural seed library, snapshot lifecycle,
@@ -41,20 +41,59 @@ powered-off semantics; filter-level motor feasibility and exact postchecks remai
 Crazyflow is MIT-licensed. The public PL-CBF paper is CC BY 4.0, while its code repository currently
 has no license; implement the method clean-room from the paper/chat and do not copy unlicensed code.
 
-A requirement-to-evidence table will be maintained as implementation proceeds:
+### Current handoff status
+
+The implementation is at a **GPU-corrected engineering-review checkpoint** on branch `plcbf`.
+Online differentiable rollout/BPTT now runs as a compiled GPU graph when a GPU is available, and
+the default development/final execution mode is asynchronous realtime adaptation with immutable
+controller-boundary publication. Cross-process byte-identical BPTT replay is explicitly not
+required. Schema-7 validation instead binds candidate/event metadata, content-addressed snapshot
+lineage, retained hard evidence, recomputed hard-admission reports, and publication transitions.
+
+A campaign-faithful RTX 4090 benchmark at `K=64, B=64, H=50`, eight obstacle slots, and ten
+optimizer updates measured 141.47 ms median / 141.60 ms p95 / 141.65 ms worst after JIT. This fits
+the configured 500 ms adaptation interval, but it is not a 20 Hz full-update or hard-real-time
+guarantee. The canonical benchmark is
+`artifacts/da_plcbf/gpu-bptt-online-20260901-v4.json`. A fresh four-condition, one-fold GPU
+development/review campaign at `artifacts/da_plcbf/gpu-online-review-all-v2-20260901/` completed
+8/8 nominal/full outcomes and produced four MP4s, four manually inspected contact sheets, and 32
+keyframes. It predates only a final Ruff formatting pass, is unsealed, has no formal visual-review
+records, and is not claim eligible. The full method was unsafe in the dynamics-change, ballistic,
+and interceptor examples; only static had no failure. Those one-fold outcomes demonstrate
+execution and expose limitations, not superiority.
+
+On the exact GPU-corrected source, the CPU DA-PLCBF non-render unit tier passes using the documented
+Version-B process split: 708 passed / 3 skipped / 6 render tests deselected in the complementary
+suite, plus 10 passed / 1 skipped in isolated Version B (718 passed / 4 skipped / 6 deselected
+combined). A monolithic process instead exhausted XLA/compiler resources after 89%; its apparent
+stopping node passes alone and in the isolated module. After the mechanical formatting pass, the
+four directly affected modules passed again (113 passed / 2 skipped / 1 render deselected), their
+renderer replay passed, and Ruff lint/format, compileall, and diff hygiene passed. The complete
+repository-wide CPU/GPU/docs/package rerun remains pending, so historical broad counts are not
+borrowed for this source.
+
+This checkpoint does not establish a confirmatory safety result. Claim-grade work remains a
+separate frozen-source phase: clean commit provenance, the predeclared 2,800-trial core schedule,
+independent final studies, exactly four reviewed final videos, immutable evidence indexing, and
+publication only after all validators pass.
+
+Development, smoke, diagnostic, and pilot artifacts must never be relabeled as claim-grade. A
+completed confirmatory run is valid even when it finds no improvement or finds a counterexample.
+
+The requirement-to-evidence table is maintained below:
 
 | Requirement | Code | Tests | Experiment/metric | Status |
 |---|---|---|---|---|
-| Scenario-batched finite-horizon values | `values.py`, `quad_rollouts.py`, `quad_uncertainty.py`, `dynamic_rollouts.py` | value/sign/shape, swept, batch/single, and uncertainty regressions | hard margin traces | code/tests pass; final evidence pending |
-| Shared structured + latent residual actor | `actor.py`, `library.py`, `quad_policy.py` | broadcasting, goal-exclusion, duration-tail, structural-slot, and gradient tests | normalized descriptor sidecar/dashboard | code/tests pass; final evidence pending |
-| Truncated BPTT learner | `bptt.py`, `actor_bptt.py`, `quad_actor_bptt.py`, `quad_generic_diversity_bptt.py` | central-difference, finite/nonzero gradient, fixed-budget, cache, and learning tests | compile/warm/execution timing benchmark | code/tests pass; claim-grade timing pending |
-| Coverage + redundancy + diversity objective | `losses.py`, `actor_losses.py`, `quad_actor_losses.py` | term-level, units, conservative surrogate, trust, and anti-collapse tests | matched one-factor ablations | code/tests pass; ablation evidence pending |
-| Immutable active/candidate snapshots | `snapshots.py`, `runtime.py` | immutability, staleness, controller-boundary publication, rollback, and concurrency tests | content-addressed admit/reject events | code/tests pass; run artifacts pending |
-| Hard candidate admission gate | `validation.py`, `experiments.py` | bad/stale/nonfinite/collapsed/regressing/runtime rejection tests | six-fold non-regression report | code/tests pass; run artifacts pending |
-| PL-CBF filter with exact post-check | `polytope_qp.py`, `version_a_filter.py`, `dynamic_filter.py`, `version_b_runtime.py` | reference-solver KKT, allocation, held/swept, nonlinear replay, and rejection tests | feasibility/intervention/tail latency | code/tests pass; campaign evidence pending |
-| Dynamics adaptation and uncertainty samples | `estimator.py`, `quad_uncertainty.py`, `uncertain_dynamic_filter.py` | identifiable/rank-deficient estimator, bounded particles, Cartesian robust rollouts | estimation error and coverage recovery | code/tests pass; R4/R8/oracle evidence pending |
-| Static, ball, and interceptor scenarios | `scenarios.py`, `experiments.py` | deterministic streams, analytic motion, contact/swept, pairing, and causality tests | paired safety trials and falsification | interceptor ready; ballistic exposure redesign in progress |
-| MP4 dashboard and replayable traces | `artifacts.py`, `dashboard_evidence.py`, `scientific_dashboard.py` | schema/hash/replay/codec/non-static/terminal-mask tests | visually inspected trace-bound MP4s | synthetic QA passes; real campaign videos pending |
+| Scenario-batched finite-horizon values | `values.py`, `quad_rollouts.py`, `quad_uncertainty.py`, `dynamic_rollouts.py` | value/sign/shape, swept, batch/single, and uncertainty regressions | hard margin traces | focused/current DA unit tests pass and fresh traces execute; claim-grade evidence pending |
+| Shared structured + latent residual actor | `actor.py`, `library.py`, `quad_policy.py` | broadcasting, goal-exclusion, duration-tail, structural-slot, and gradient tests | normalized descriptor sidecar/dashboard | focused/current DA unit tests pass and fresh sidecars execute; current review is unsealed |
+| Truncated BPTT learner | `bptt.py`, `actor_bptt.py`, `quad_actor_bptt.py`, `quad_generic_diversity_bptt.py` | central-difference, finite/nonzero gradient, fixed-budget, cache, learning, and GPU placement tests | campaign-faithful `benchmark/da_plcbf_gpu_bptt.py` | full-shape RTX result passes correctness at 141.47 ms median; asynchronous 500 ms cadence feasible, no hard-real-time claim |
+| Coverage + redundancy + diversity objective | `losses.py`, `actor_losses.py`, `quad_actor_losses.py` | term-level, units, conservative surrogate, trust, and anti-collapse tests | matched one-factor ablations | current DA unit tests pass; ablation artifacts are historical and claim-grade ablations remain pending |
+| Immutable active/candidate snapshots | `snapshots.py`, `runtime.py` | immutability, staleness, controller-boundary publication, rollback, and concurrency tests | content-addressed admit/reject events | current DA unit tests pass and fresh unsealed events execute |
+| Hard candidate admission gate | `validation.py`, `experiments.py` | bad/stale/nonfinite/collapsed/regressing/runtime rejection tests | six-fold non-regression report | current DA unit/retained-evidence tests pass; fresh review records decisions; final schedule pending |
+| PL-CBF filter with exact post-check | `polytope_qp.py`, `version_a_filter.py`, `dynamic_filter.py`, `version_b_runtime.py` | reference-solver KKT, allocation, held/swept, nonlinear replay, and rejection tests | feasibility/intervention/tail latency | current DA unit tests pass; fresh review executed but was unsafe in three of four conditions |
+| Dynamics adaptation and uncertainty samples | `estimator.py`, `quad_uncertainty.py`, `uncertain_dynamic_filter.py` | identifiable/rank-deficient estimator, bounded particles, Cartesian robust rollouts | estimation error and coverage recovery | current DA unit tests pass; replay-only blocker removed; old study is historical and claim-grade R4/R8/oracle evidence is pending |
+| Static, ball, and interceptor scenarios | `scenarios.py`, `experiments.py` | deterministic streams, analytic motion, contact/swept, pairing, and causality tests | paired safety trials and falsification | current DA unit tests and fresh two-method/one-fold review execute; claim-grade evidence pending |
+| Ego-centric MP4 replay and immutable traces | `artifacts.py`, `dashboard_evidence.py`, `scientific_dashboard.py` | schema/hash/codec/non-static/terminal-mask and renderer tests | four trace-bound GPU development MP4s | fixed-span single-scene videos were manually inspected and show history, fallback library, selected policy, hazards/agents, and BPTT activity/completion; unsealed and final claim-grade review pending |
 
 ## Exact method contract
 
@@ -67,6 +106,14 @@ A requirement-to-evidence table will be maintained as implementation proceeds:
   common hard scenario set, and atomically admits it only when every gate passes.
 - A model estimator updates low-dimensional dynamics parameters; residual dynamics are deferred
   until the parametric path is correct.
+- The controller, plant, BPTT update, and hard candidate-evidence graph execute on the selected
+  accelerator; estimator and model/sample construction remain CPU-canonical.
+- Realtime adaptation is single-flight and asynchronous. It stages a candidate but cannot mutate
+  the active controller snapshot; only the controller thread can publish at a boundary after hard
+  admission.
+- Adaptation evidence binds every numerical input digest, scheduled initial snapshot, candidate /
+  event execution metadata, and publication-to-next-proposal chain. Cross-process BPTT is not
+  rerun; harmless GPU floating-point variation cannot veto an otherwise valid candidate lineage.
 
 ### Policy library
 
@@ -183,6 +230,11 @@ Add and pin an explicit video encoder/backend in the experiment dependency set.
 
 ## Work plan
 
+Phases 0–6 and the engineering infrastructure in phases 7–9 are implemented and pass the
+development evidence gate. The checked items below mean implementation/development completion, not
+claim-grade experimental completion. Final statistical schedules, the optional faithful SHAC
+comparison, the deferred residual dynamics model, and final evidence publication remain pending.
+
 ### Phase 0 — clean baseline and source audit
 
 - [x] Preserve `main` at pushed commit `7bb7aa4`.
@@ -192,8 +244,9 @@ Add and pin an explicit video encoder/backend in the experiment dependency set.
   implementation exists.
 - [x] Audit `upstream/feat.thrust_limits` commit `4a008e02` and reuse only changes whose semantics
   pass DA-PLCBF actuator and integration tests; do not inherit its known overshoot as a guarantee.
-- [ ] Re-run the complete CPU test suite and the existing generic BPTT GPU smoke test.
-- [ ] Record GPU, driver, JAX/XLA, Python, OS, and git provenance.
+- [x] Re-run the complete CPU test suite and the existing generic BPTT GPU smoke test for the clean
+  baseline; the exact GPU-corrected-source broad rerun is tracked in the handoff.
+- [x] Record GPU, driver, JAX/XLA, Python, OS, and git provenance.
 - [x] Fix the audited reproducibility hazards before scientific runs: seeded environment resets now
   reproduce goal sequences, visualization marker orientation uses a deterministic construction,
   and a persistent renderer rejects camera/resolution changes until it is explicitly closed.
@@ -206,13 +259,13 @@ already tests DA-PLCBF BPTT.
 Implement a double-integrator or planar reference problem with static circular obstacles, `K=16`,
 structured feedback policies, fixed shapes, and direct BPTT over policy parameters.
 
-- [ ] Barrier sign and units.
-- [ ] Hard and conservative-soft rollout values.
-- [ ] Scenario/policy/dynamics batching `[K, B, R, H, ...]`.
-- [ ] Coverage, redundancy, descriptor diversity, regularization, and trust terms.
-- [ ] Exact minimum-intervention QP over the applicable actuator polytope and fallback action path.
-- [ ] BPTT gradient and optimization loop.
-- [ ] Fixed-library PL-CBF and single-policy PCBF baselines.
+- [x] Barrier sign and units.
+- [x] Hard and conservative-soft rollout values.
+- [x] Scenario/policy/dynamics batching `[K, B, R, H, ...]`.
+- [x] Coverage, redundancy, descriptor diversity, regularization, and trust terms.
+- [x] Exact minimum-intervention QP over the applicable actuator polytope and fallback action path.
+- [x] BPTT gradient and optimization loop.
+- [x] Fixed-library PL-CBF and single-policy PCBF baselines.
 
 Gate: finite-difference gradients agree, QP KKT residuals pass, hard margins never come from a soft
 surrogate, and training improves held-out empirical certified coverage without collapsing the
@@ -220,21 +273,21 @@ library.
 
 ### Phase 2 — Crazyflow Version A and cold start
 
-- [ ] Implement or validate a direct-wrench rigid-body adapter using Crazyflow state conventions and
+- [x] Implement or validate a direct-wrench rigid-body adapter using Crazyflow state conventions and
   physical parameters.
-- [ ] Cross-check one-step and batched dynamics against an independently equivalent calculation and
+- [x] Cross-check one-step and batched dynamics against an independently equivalent calculation and
   the closest executable Crazyflow path under matched assumptions.
-- [ ] Verify the control-affine identity numerically and analytically over randomized states and
+- [x] Verify the control-affine identity numerically and analytically over randomized states and
   wrench pairs.
-- [ ] Factor unclipped wrench-to-motor-force and motor-force-to-wrench maps, enforce motor bounds in
+- [x] Factor unclipped wrench-to-motor-force and motor-force-to-wrench maps, enforce motor bounds in
   the filter, and verify accepted commands survive allocation unchanged.
-- [ ] Add static spherical/capsule barriers plus arena, altitude, speed, angular-rate, and tilt
+- [x] Add static spherical/capsule barriers plus arena, altitude, speed, angular-rate, and tilt
   constraints.
-- [ ] Implement a separate waypoint nominal controller.
-- [ ] Implement the `K=64` structured library and shared 2x32/64 latent residual actor.
-- [ ] Train skill-code offsets and residual weights with truncated BPTT.
-- [ ] Run cold-start learning before motion and save every adaptation epoch.
-- [ ] Implement the continuous PL-CBF filter only where the affine/direct-wrench contract is true.
+- [x] Implement a separate waypoint nominal controller.
+- [x] Implement the `K=64` structured library and shared 2x32/64 latent residual actor.
+- [x] Train skill-code offsets and residual weights with truncated BPTT.
+- [x] Run cold-start learning before motion and save every adaptation epoch.
+- [x] Implement the continuous PL-CBF filter only where the affine/direct-wrench contract is true.
 
 Gate: hard held-out policy values and local recovered-safe-set coverage increase, the nominal goal is
 absent from fallback observations, physical limits are respected, and no policy improvement is
@@ -242,13 +295,13 @@ created by hidden floor/contact clipping.
 
 ### Phase 3 — active/candidate runtime
 
-- [ ] Immutable, versioned active and candidate snapshots.
-- [ ] Fixed-budget adaptation worker that cannot block the filter.
-- [ ] Candidate validation on current, perturbed, replay, reachable, dynamics, and obstacle samples.
-- [ ] Current-state margin, local non-regression, core preservation, feasibility, diversity,
+- [x] Immutable, versioned active and candidate snapshots.
+- [x] Fixed-budget adaptation worker that cannot block the filter.
+- [x] Candidate validation on current, perturbed, replay, reachable, dynamics, and obstacle samples.
+- [x] Current-state margin, local non-regression, core preservation, feasibility, diversity,
   freshness, finite-value, and runtime gates.
-- [ ] Atomic swap, stale rejection, rollback, and explicit degraded outcome.
-- [ ] Mathematically defined selection by positive hard value then admissible-set proxy, with the
+- [x] Atomic swap, stale rejection, rollback, and explicit degraded outcome.
+- [x] Mathematically defined selection by positive hard value then admissible-set proxy, with the
   chat-specified switch hysteresis logged and ablated.
 
 Gate: concurrency tests prove active parameters cannot mutate during learning; injected bad, stale,
@@ -258,13 +311,13 @@ nonfinite, collapsed, or slower-than-budget candidates never become active.
 
 In order:
 
-- [ ] Oracle wind step.
-- [ ] Oracle mass/payload change.
-- [ ] Oracle drag change.
-- [ ] Oracle symmetric and single-rotor efficiency changes.
-- [ ] Smooth/time-varying gust.
-- [ ] Low-dimensional online parameter estimator.
-- [ ] Uncertainty/sigma-point scenario rollouts (`R=4`, then `R=8`).
+- [x] Oracle wind step.
+- [x] Oracle mass/payload change.
+- [x] Oracle drag change.
+- [x] Oracle symmetric and single-rotor efficiency changes.
+- [x] Smooth/time-varying gust.
+- [x] Low-dimensional online parameter estimator.
+- [x] Uncertainty/sigma-point scenario rollouts (`R=4`, then `R=8`).
 - [ ] Residual model only after the parametric estimator and uncertainty path pass.
 
 Gate: report coverage loss and recovery rather than reward alone; compare oracle, estimated, and
@@ -272,25 +325,25 @@ estimated-plus-uncertainty variants; reject stale candidates when the dynamics v
 
 ### Phase 5 — nonlinear full stack
 
-- [ ] Use Crazyflow force/torque or attitude commands through motor allocation, actuator clipping,
+- [x] Use Crazyflow force/torque or attitude commands through motor allocation, actuator clipping,
   rotor dynamics, and the original integrator.
-- [ ] Implement the discrete nonlinear PL-CBF condition.
-- [ ] Implement trust-region linearization and exact nonlinear post-check.
-- [ ] Cross-check accepted actions against direct nonlinear evaluation and fall back on rejection.
-- [ ] Compare Version A and Version B without transferring the affine guarantee to Version B.
+- [x] Implement the discrete nonlinear PL-CBF condition.
+- [x] Implement trust-region linearization and exact nonlinear post-check.
+- [x] Cross-check accepted actions against direct nonlinear evaluation and fall back on rejection.
+- [x] Compare Version A and Version B without transferring the affine guarantee to Version B.
 
 Gate: no accepted action violates the configured exact residual tolerance in the validation suite;
 all solver failure and fallback events are counted.
 
 ### Phase 6 — dynamic and adversarial obstacles
 
-- [ ] Ballistic balls with uncertain release velocity, treated as predicted obstacles rather than
+- [x] Ballistic balls with uncertain release velocity, treated as predicted obstacles rather than
   differentiable contacts.
-- [ ] Scripted crossing drone.
-- [ ] Bounded pursuit controller.
-- [ ] Predictive interceptor.
-- [ ] Randomized attacker modes represented as finite trajectory scenarios.
-- [ ] Combined wind/rotor-change stress tests.
+- [x] Scripted crossing drone.
+- [x] Bounded pursuit controller.
+- [x] Predictive interceptor.
+- [x] Randomized attacker modes represented as finite trajectory scenarios.
+- [x] Combined wind/rotor-change stress tests.
 
 Gate: matched-condition trials show where DA-PLCBF helps and where it fails; contact is always a hard
 failure in these experiments and is never used as a training shortcut.
@@ -325,6 +378,11 @@ Gate: at least 100 paired randomized trials per final reported condition, matche
 methods, uncertainty intervals, all failures retained, and no claim of superiority where the paired
 evidence does not support it.
 
+Engineering status: all seven core methods, candidate-quality/dynamics/Version-A-B producers, and
+fixed-budget falsification infrastructure have strict development smokes. The 100-pair final
+statistics and the full ablation matrix remain claim-grade work; SHAC remains excluded unless a
+faithful implementation becomes available.
+
 ### Phase 8 — performance and reproducible artifacts
 
 Benchmark on the available RTX 4090 with compilation separated from warm execution:
@@ -357,17 +415,23 @@ artifacts/da_plcbf/<run-id>/
 │       ├── trace.npz
 │       ├── events.jsonl
 │       ├── metrics.json
-│       └── timing.json
+│       ├── timing.json
+│       ├── dashboard_evidence.npz
+│       └── adaptation_evidence.npz  # online-adaptation methods only
 ├── aggregate/
 │   ├── paired_metrics.csv
 │   ├── confidence_intervals.json
-│   └── report.md
+│   ├── outcomes.jsonl
+│   ├── paired_comparisons.json
+│   ├── video_records.json
+│   ├── report.md
+│   └── scientific_report.md
 ├── plots/
 ├── videos/
-├── keyframes/
+├── keyframes/<video>/
 ├── contact_sheets/
-├── SHA256SUMS
-└── visual_review.md
+├── visual_reviews/<video>.md
+└── SHA256SUMS
 ```
 
 The manifest records hashes for configuration, traces, checkpoints, plots, and MP4s. A replay
@@ -393,17 +457,25 @@ on the host's untracked `/usr/bin/ffmpeg`) and record codec/backend versions.
 Gate: artifact validation checks schema, finiteness, frame count, duration, dimensions, codec,
 non-static video content, metric/trace agreement, and replay determinism.
 
+The engineering pilot `core-development-pilot-v3` exercises this layout with 206 manifest files,
+including eight adaptation sidecars, 28 dashboard sidecars, four videos, 32 keyframes, and four
+digest-bound visual reviews. Its manifest is intentionally non-scientific because it contains one
+paired fold rather than the final schedule.
+
 ### Phase 9 — visual review and revision
 
-Create synchronized MP4 dashboards with:
+Create synchronized MP4s with one uncluttered, fixed-span ego-follow scene rather than auxiliary
+dashboard panels. The scene overlays:
 
-- 3D world, actual/nominal/fallback trajectories, selected rollout, prediction tubes, and margin;
-- policy-value heat map;
-- normalized descriptor view;
-- true/estimated dynamics and uncertainty;
-- loss, safe-policy count, candidate admission, and BPTT time;
-- nominal/filtered action, intervention, solver status, and control latency;
-- pre-change, post-change, and adapted ghost rollouts.
+- the closed-loop trajectory history, nominal preview, every available fallback rollout, and a
+  high-contrast selected fallback;
+- physical ego/obstacle footprints, other agents, and recorded prediction ensembles;
+- a compact runtime HUD with hard margin, safe-policy count, selected policy, intervention, and
+  active snapshot/model versions;
+- an unmistakable temporary BPTT active/completed banner, including admitted/rejected/failed state,
+  execution backend/timing, and published snapshot when recorded;
+- a descriptive method/condition title that says whether the video is the DA-PLCBF main method or
+  a comparison and what the viewer should inspect.
 
 For each final video, extract representative frames and a contact sheet, inspect them at original
 resolution, and revise occlusion, camera, colors, labels, scales, timing, and event annotations until
@@ -412,6 +484,13 @@ the safety-critical behavior is unambiguous. Visual appeal never substitutes for
 Gate: videos are legible without the console, unsafe trajectories and degraded periods are visibly
 distinct, overlays agree with saved traces, and the visual review records what was checked and what
 was revised.
+
+Engineering status: the historical CPU-BPTT `core-development-pilot-v3` has four digest-bound
+visual-review records, but it does not validate the GPU-corrected source. The current GPU review
+campaign is a separate unsealed one-fold development artifact with four MP4s, 32 keyframes, and
+four manually inspected contact sheets. Those files support engineering inspection, but they are
+not final videos and are not claim eligible until a frozen-source final campaign,
+evidence-specific review records, manifest, and checksums all pass.
 
 ## Test hierarchy
 
@@ -468,22 +547,40 @@ For every phase:
 8. turn every discovered failure into a regression test or documented limitation;
 9. rerun the complete relevant matrix before advancing.
 
-## Ready-for-review definition
+## Engineering-review and claim-grade definitions
 
-The branch is ready only when:
+As of 2026-09-01, the GPU-corrected implementation is ready for focused engineering inspection,
+but the complete broad CPU/GPU/docs/package gate on this exact source is still running or pending as
+recorded in `HANDOFF_DA_PLCBF.md`. The sealed `core-development-pilot-v3` and its broad logs are
+historical CPU-BPTT evidence only. The engineering checkpoint is committed on `plcbf`, and no
+development artifact is promoted to claim-grade evidence.
 
-- all applicable phase gates above pass;
-- the full repository test suite, lint, format, docs, and artifact validators pass;
-- BPTT gradients and learning are directly tested for DA-PLCBF, not inferred from the generic
+The branch is ready for **final engineering acceptance** only when:
+
+- all implementation changes are inspectable in one intentionally uncommitted or committed diff;
+- the complete CPU and GPU suites, isolated Version B, render, lint, format, compile, docs, package,
+  and relevant artifact validators pass on the final source;
+- BPTT gradients and learning are directly tested for DA-PLCBF, not inferred from a generic
   Crazyflow benchmark;
-- the active/candidate safety architecture survives injected failures and adversarial cases;
-- final paired trials and raw results are saved and reproducible;
-- performance claims include tail latency and compilation/provenance distinctions;
-- at least the cold-start, wind/mass/rotor, ball, and interceptor demonstrations have clear MP4s;
-- every video has a completed visual review;
-- the report states counterexamples and finite-horizon limitations alongside improvements;
-- no hidden heuristic, state-machine maneuver selector, silent clipping, or unsupported guarantee
-  remains.
+- the active/candidate safety architecture survives injected failures, retained-evidence/report
+  recomputation, lineage tampering, and adversarial cases without requiring cross-process BPTT;
+- every evidence producer passes a strict current-source smoke, and one final-shape development
+  pilot is reconstructed in fresh GPU-capable and CPU-only processes;
+- the handoff records diagnostic failures, counterexamples, known claim-grade blockers, exact
+  commands/results, and the clean-commit status without calling development artifacts final.
+
+The work is **claim-grade complete** only after the final engineering-acceptance gate plus all of
+the following:
+
+- source and dependencies are frozen in a clean reviewed commit;
+- final independent benchmarks/studies and the predeclared 2,800-trial core schedule are retained
+  and strictly reconstructed without post-hoc fold or endpoint selection;
+- exactly four final full-method MP4s exist, each has evidence-bound full-resolution keyframes and
+  a completed visual review, and replay regenerates every visual/quantitative binding;
+- statistics report supported and unsupported results, operational failures, counterexamples,
+  deadlines, provenance distinctions, and finite-horizon limits without blanket superiority;
+- immutable manifests/hashes and the compact evidence index are complete, `plcbf` is pushed, and
+  the user explicitly authorizes any merge or publication action.
 
 Hardware deployment is not part of this simulation completion gate because no physical platform or
 hardware authority has been provided. It is a later phase only after simulation evidence passes.
