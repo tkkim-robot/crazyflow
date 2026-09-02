@@ -1,6 +1,146 @@
-# DA-PLCBF engineering-review handoff
+# Corrected DA-PLCBF mechanism-review handoff
 
-## Current status — 2026-09-01
+> **Current review path.** The corrected algorithm requested in the latest feedback supersedes the
+> admission-gated, uncertainty-sampled campaign path for this review. Start with
+> `CORRECTED_DA_PLCBF_REVIEW.md`. Everything below the explicit **Historical** heading is retained
+> only as engineering history and is bypassed by the corrected demonstrations.
+
+## Current corrected status — 2026-09-01
+
+The corrected path is a deliberately small mechanism demonstration, not a claim-grade campaign:
+
+- a latent-conditioned fallback library is learned without goals, obstacles, safety values, or
+  PL-CBF quantities in the actor input or BPTT objective;
+- one AdamW state persists for the episode, and every finite BPTT micro-update increments and
+  publishes the next library version; NaN/Inf is the only update skip;
+- one telemetry-derived point wind estimate is used by BPTT, nominal/fallback rollouts, the policy
+  value and its JAX gradient, and the continuous Version-A QP;
+- the runtime library is `{nominal} union {fallback skills}`; obstacle geometry is introduced only
+  when the runtime scores those rollouts and builds the safety filter;
+- the selected fallback defines the finite-horizon certificate, while the minimum-intervention QP
+  command is normally executed. The selected fallback's first action is used only if the QP is
+  invalid, and an actuator-bounded midpoint is explicitly marked degraded if neither is valid;
+- the controller receives one immutable parameter snapshot for each computation and sees a newly
+  completed version only at a later control boundary;
+- the main renderer replays recorded traces in a synchronized, ego-centric, actual-MuJoCo
+  Crazyflow split screen. It does not rerun or alter the controller.
+
+There is no candidate policy snapshot, admission/rejection event, held-out safety-validation gate,
+stale-model rejection, uncertainty particle, or Cartesian robust rollout in this path. Those
+components still exist in legacy modules but are not called by the corrected examples.
+
+## Corrected implementation map
+
+Read the corrected code in this order:
+
+1. `crazyflow/safety/da_plcbf/persistent_skill_learner.py`
+   - obstacle-agnostic state/start-state/latent/phase actor;
+   - nine-dimensional trajectory descriptors (final displacement, mean velocity, terminal
+     velocity);
+   - descriptor-target, log-determinant diversity, pairwise-spread, action, action-rate,
+     saturation, and trust terms;
+   - persistent optimizer state and finite-only publication/version increment.
+2. `crazyflow/safety/da_plcbf/point_wind_estimator.py`
+   - a single low-pass wind vector inferred from measured state transition, applied wrench, and
+     known mass/drag; it never receives the true plant wind.
+3. `crazyflow/safety/da_plcbf/continuous_version_a.py`
+   - augmented nominal/fallback rollouts through one point model;
+   - runtime-only static/dynamic spherical obstacle values with relative swept-interval geometry;
+   - JAX value gradients and the direct-wrench Version-A PL-CBF QP/postcheck path.
+4. `crazyflow/safety/da_plcbf/continuous_demo_scenarios.py`
+   - the intentionally blocking static case and the single zero-to-constant wind transition.
+5. `crazyflow/safety/da_plcbf/online_constant_wind.py`
+   - fixed-versus-adaptive integration, shared estimator, persistent online learning, telemetry,
+     objective checks, and immutable trace serialization.
+6. `crazyflow/safety/da_plcbf/mujoco_comparison_video.py`
+   - actual Crazyflow quadrotor mesh, obstacles/shell, goal, winds, rollouts, selected certificate,
+     executed history, QP intervention, continuous-learning HUD, and descriptor inset.
+7. `examples/da_plcbf/static_blocking_obstacle_demo.py` and
+   `examples/da_plcbf/online_constant_wind_demo.py`
+   - the two review entry points.
+
+The focused tests are `test_continuous_version_a.py`, `test_persistent_skill_learner.py`,
+`test_online_constant_wind.py`, and `test_mujoco_comparison_video.py`. The corrected task explicitly
+does not require another broad suite, large campaign, evidence-sealing pass, or baseline expansion.
+
+## Static mechanism evidence — passed
+
+The fixed-library gate is complete at
+`artifacts/da_plcbf/corrected-static-review-20260901/`:
+
+- video: `static_nominal_collision_vs_fixed_plcbf_avoidance.mp4` (actual MuJoCo, 1600x900,
+  20 fps, 6.05 s, 121 frames);
+- metrics: `static_nominal_collision_vs_fixed_plcbf_avoidance_metrics.json`;
+- configuration: `dt=0.02 s` (50 Hz), `H=60`, clearance `0.15 m`, `policy_alpha=2`;
+- nominal minimum center distance: `0.021334 m`, below the `0.480000 m` physical radius;
+- filtered minimum center distance: `0.811760 m`, above the `0.630000 m` inflated shell, leaving
+  `0.181760 m` shell margin;
+- maximum QP intervention norm: `0.207791`; 84 control samples exceed `1e-3`;
+- selected-fallback execution occurred on 20 samples, degraded samples were zero, and final
+  filtered goal error was `0.041914 m`.
+
+This passes the intended elementary gate: the obstacle genuinely blocks the nominal path, while
+the same task with the continuous fixed-library PL-CBF visibly intervenes, avoids, and resumes the
+goal.
+
+## Constant-wind evidence — numerical and video gates passed
+
+The final corrected v5 GPU run is at
+`artifacts/da_plcbf/corrected-online-wind-review-20260901-v5/`:
+
+- trace: `online_constant_wind.npz`;
+- metrics: `online_constant_wind.json`;
+- final video:
+  `constant_wind_fixed_vs_continuously_adaptive_da_plcbf.mp4` (1600x900, 20 fps, 12.05 s,
+  241 frames; visually inspected at the wind change, coverage-separation encounter, avoidance,
+  and goal recovery);
+- device/configuration: `cuda:0`, 600 samples, `dt=0.02 s`, one wind transition at `t=4 s` to
+  `[0.9, 0.55, 0.0] m/s`;
+- every corrected numerical gate and individual objective check passed;
+- fixed/adaptive full states are byte-identical before the change (maximum difference `0.0`);
+- the point estimator detects the change at `4.04 s` and finishes with `6.703e-7 m/s` error;
+- all 398 attempted BPTT steps are finite, persistent, and published through library `v398`; the
+  adaptive parameter delta norm is `3.196885`;
+- shared-probe target loss is fixed `0.119108` versus adaptive `0.095936`, and pairwise spread is
+  fixed `0.532425` versus adaptive `0.659458`;
+- the maximum adaptive safe-fallback-count advantage is 3 on the shared-state comparison and 4 at
+  the actual obstacle encounter;
+- fixed/adaptive minimum inflated clearances are `0.180672 m` / `0.206096 m`; adaptive maximum QP
+  intervention is `0.211479`, both methods record zero degraded samples, and adaptive final goal
+  error is `0.193219 m`;
+- warm controller median/p95 per method is `24.321/24.517 ms`; one BPTT update is
+  `12.394/12.512 ms`. Their sequential sum fits a 50 ms (20 Hz) soft period on this machine but not
+  a 20 ms (50 Hz) period, and no hard-real-time guarantee is claimed.
+
+These results come from the corrected point-estimate/persistent-learner path, not the legacy
+four-condition campaign. Numeric/trace validation is complete; only final encoded-video visual
+inspection remains open.
+
+## Conditional safety boundary for the corrected path
+
+The corrected demonstration makes a narrower statement than the legacy robust machinery:
+
+> Given the current point dynamics estimate, recorded obstacle prediction, actuator model,
+> finite rollout horizon, and numerical tolerances, the selected rollout had the reported policy
+> value and the executed action passed the reported Version-A QP, actuator, and held-interval
+> postchecks.
+
+It does **not** establish robust safety under wind-estimation error, uncertainty sets, unmodeled
+dynamics, missed/delayed obstacles, horizon truncation, active-minimum switches, hardware effects,
+or arbitrary future environments. The true plant may differ from the point estimate while the
+estimator converges. Because this prototype deliberately removed particles and robust minima, a
+positive estimated-model certificate is conditional rather than a guarantee for the true plant.
+The videos and one deterministic scenario are mechanism evidence, not statistical superiority,
+hardware validation, or an infinite-horizon proof.
+
+# Historical admission/uncertainty campaign handoff — bypassed for corrected review
+
+> **Historical material begins here.** It documents the earlier candidate-admission,
+> uncertainty-sampling, seven-method campaign implementation. Keep it for provenance and possible
+> later research, but do not use its algorithm description, evidence, videos, or completion state
+> to assess the corrected mechanism above.
+
+## Historical checkpoint status — 2026-09-01
 
 This is the current DA-PLCBF **engineering-review checkpoint** after the GPU-online-adaptation
 correction requested during handoff. The implementation and new four-condition review videos are
@@ -29,7 +169,7 @@ requirement. Validation still binds the scheduled initial policy, candidate/even
 snapshot lineage, retained hard evidence, recomputed hard-admission report, and publication state
 transition. This deliberately accepts harmless accelerator/driver floating-point differences.
 
-Current review evidence:
+Historical campaign evidence:
 
 - campaign-faithful RTX 4090 BPTT benchmark:
   `artifacts/da_plcbf/gpu-bptt-online-20260901-v4.json`;
@@ -92,7 +232,7 @@ source digest.
 Do not call the project scientifically complete until the separate claim-grade definition is
 satisfied.
 
-## Task sources and claim boundary
+## Historical task sources and claim boundary
 
 Read these before changing implementation decisions:
 
@@ -118,7 +258,7 @@ branch reused only the compatible symplectic-vectorizer idea from the thrust-lim
 merge that branch wholesale: its rotor clipping changes stopped/idle semantics. The broad upstream
 randomization redesign was also intentionally not imported.
 
-## Environment and test tiers
+## Historical campaign environment and test tiers
 
 Pixi 0.76.0 is installed at:
 
@@ -165,7 +305,7 @@ JAX_COMPILATION_CACHE_DIR="$CRAZYFLOW_GPU_CACHE" \
   /home/tk/.pixi/bin/pixi run -e gpu-tests tests-full
 ```
 
-Current exact-source DA-PLCBF test status:
+Historical GPU-campaign checkpoint test status:
 
 - CPU non-render unit coverage passes under the documented Version-B process split: the
   complementary suite reported **708 passed, 3 skipped, 6 render tests deselected** in 400.92 s,
@@ -184,7 +324,7 @@ Current exact-source DA-PLCBF test status:
   still pending. The larger counts retained later in this handoff are historical and must not be
   substituted for that gate.
 
-## Implemented architecture
+## Historical full-campaign architecture
 
 ### Simulator and repository foundations
 
@@ -266,7 +406,7 @@ The dynamics-knowledge producer uses the same no-BPTT-replay boundary. Its confi
 family can be eligible only when its full predeclared protocol completes without execution or
 adaptation failures; this never authorizes a blanket safety-superiority claim.
 
-## Fixed experiment profile
+## Historical full-campaign experiment profile
 
 `CampaignConfig.final_core` fixes:
 
@@ -287,7 +427,7 @@ adaptation failures; this never authorizes a blanket safety-superiority claim.
 The final CLI rejects shape/matrix overrides. Development uses final geometry with fewer trials;
 smoke uses K=16/H=2 and is never claim eligible.
 
-## Engineering-review evidence inventory
+## Historical GPU-campaign evidence inventory
 
 All paths below are under:
 
@@ -396,7 +536,7 @@ identified the constraints that led to the former CPU-authoritative BPTT and com
 design; those constraints are not requirements of schema 7. The artifacts predate the present
 schema/source and must not be promoted.
 
-### Engineering-review checklist
+### Historical GPU-campaign checklist
 
 - [x] intended source, tests, dependency, CI, and test-tier changes are inspectable in one working
   tree diff;
@@ -414,7 +554,7 @@ schema/source and must not be promoted.
   change;
 - [x] the engineering checkpoint is committed and pushed to `origin/plcbf`; no merge was performed.
 
-## Claim-grade continuation — separate and pending
+## Historical full-campaign continuation — separate and pending
 
 Engineering review does not authorize or complete this phase. After review and explicit direction
 to begin claim-grade work, freeze the experiment schedule and dependencies against the reviewed
@@ -435,7 +575,7 @@ branch tip. Then:
 The 2,800 trials, final four videos, frozen clean evidence, compact index, commit, and push are all
 pending. Do not substitute a smaller development matrix while retaining a `final` label.
 
-## Risks and non-negotiable boundaries
+## Historical full-campaign risks and boundaries
 
 1. **Source binding is fail-closed.** Any numerical source edit invalidates earlier pilots and
    smokes. Use new directories; never overwrite or migrate them in place.
@@ -457,7 +597,7 @@ pending. Do not substitute a smaller development matrix while retaining a `final
    label and the source/license qualification in the plan.
 9. **No hardware-flight claim exists.** Current scope is finite-horizon simulation.
 
-## High-value file map
+## Historical full-campaign file map
 
 - `DA_PLCBF_PLAN.md` — design, evidence protocol, and claim boundary.
 - `tests/README.md` / `tests/core-tests.txt` — curated and full test-tier policy.
@@ -482,14 +622,15 @@ pending. Do not substitute a smaller development matrix while retaining a `final
   review pilot, manifest, reports, traces, videos, reviews, and checksums.
 - `artifacts/da_plcbf/README.md` / `INDEX.md` — ignored bulk evidence policy and reviewed index.
 
-## Definition of engineering-review ready
+## Historical full-stack engineering-review definition
 
 Engineering readiness is about a reviewable, tested implementation and honest development
-evidence, not a superiority result. The current GPU correction is ready for focused review; the
+evidence, not a superiority result. This historical GPU correction was ready for focused review;
+the
 complete broad post-change gate remains listed explicitly above rather than borrowing the old
 source digest's pass counts.
 
-## Definition of claim-grade complete
+## Historical definition of claim-grade complete
 
 Do not describe DA-PLCBF as claim-grade complete until all of the following are true:
 

@@ -1,6 +1,140 @@
-# DA-PLCBF implementation and evidence plan
+# Corrected DA-PLCBF mechanism implementation plan
 
-## Mission
+> **Superseding plan for the current review.** The latest corrected-algorithm feedback replaces the
+> admission-gated, uncertainty-sampled campaign workflow below. The old plan is retained after the
+> explicit **Historical** heading only as a record of prior work. It is not the acceptance plan for
+> the corrected demonstrations.
+
+## Corrected mission
+
+Demonstrate the intended online mechanism with the smallest auditable path:
+
+1. maintain diverse latent-conditioned, obstacle-agnostic fallback skills;
+2. update their parameters continuously by differentiating full-state Version-A rollouts through
+   one current point dynamics estimate;
+3. publish every finite optimizer update while preserving optimizer history for the episode;
+4. augment the runtime library with the nominal controller;
+5. evaluate nominal/fallback trajectories against current obstacle predictions only in the
+   PL-CBF runtime;
+6. use JAX value gradients and a coupled-motor-polytope continuous Version-A QP to minimally alter
+   the nominal wrench;
+7. demonstrate the mechanism first with an intentionally blocking static obstacle, then with one
+   permanent wind step and fixed-versus-adaptive libraries in a simple actual-MuJoCo video.
+
+The corrected path does not train on obstacle clearance or safety coverage. It does not create,
+validate, admit, reject, or roll back candidate policies. It does not construct dynamics particles,
+covariance uncertainty sets, or Cartesian robust rollout batches. These older facilities remain in
+the repository but are bypassed rather than broadly refactored.
+
+## Corrected online loop
+
+```text
+initialize theta, persistent AdamW state, library_version = 0
+
+for each control boundary k:
+    infer one current point wind estimate eta_hat_k from telemetry
+
+    if online adaptation is active:
+        theta_next, optimizer_state = BPTT_micro_step(
+            theta, optimizer_state, current_state, eta_hat_k, obstacle_free_skill_loss
+        )
+        if all gradients, optimizer values, and parameters are finite:
+            theta = theta_next
+            library_version += 1
+
+    controller copies one immutable theta_k
+    roll out {nominal} union {fallback(theta_k)} through eta_hat_k
+    score the recorded rollouts against current static/dynamic obstacle trajectories
+    select a positive-valued candidate and differentiate its policy value with JAX
+    solve and postcheck the direct-wrench PL-CBF QP
+    execute QP action; use selected fallback only if QP is invalid
+```
+
+The current deterministic integration performs one jitted micro-step at a control boundary after
+the wind is detected. This preserves the same publication/snapshot semantics as an asynchronous
+worker without introducing a candidate protocol. Asynchronous overlap is a performance extension,
+not an algorithmic requirement for this mechanism review.
+
+## Implemented corrected scope
+
+| Mechanism | Current implementation | Acceptance evidence |
+|---|---|---|
+| Obstacle-free latent skills | `persistent_skill_learner.py` | public actor signature has state/start-state/latent/phase only; focused test checks forbidden inputs |
+| Full-state differentiable BPTT | `rollout_skill_library` and `obstacle_agnostic_skill_loss` | JAX scan through 13-state direct-wrench dynamics; finite nonzero update test |
+| Persistent learning/publication | `PersistentLearnerState`, one jitted AdamW step | optimizer counter, parameter delta, cumulative steps, and library version accumulate; only nonfinite updates skip |
+| One current dynamics estimate | `point_wind_estimator.py` | measured transition and applied wrench infer one low-pass wind vector; no oracle wind enters estimator |
+| Augmented runtime library | `continuous_version_a.py` | nominal is candidate zero and fallbacks follow; obstacle geometry appears only in runtime values |
+| Continuous PL-CBF | `continuous_version_a_step` + `version_a_filter.py` | JAX gradient, coupled motor bounds, QP/action postcheck, held-interval check, fallback-on-QP-failure |
+| Static functional gate | `static_blocking_obstacle_demo.py` | passed; nominal collides, filtered method stays 0.181760 m beyond inflated shell, intervenes, and reaches goal |
+| Single-wind comparison | `online_constant_wind.py` and example CLI | corrected v5 GPU numerical gate passed; 398 finite updates through `v398`, descriptor/spread and safe coverage recovered, adaptive clearance remained positive |
+| Actual 3D review video | `mujoco_comparison_video.py` | static and final synchronized wind MP4s encoded and visually inspected |
+
+The obstacle-free objective uses fixed directional descriptor targets and these terms only:
+descriptor tracking, log-determinant diversity, pairwise repulsion, action magnitude, action rate,
+actuator saturation, and parameter trust. It contains no obstacle, policy-value, safe-count,
+coverage, redundancy, goal, or nominal-waypoint term.
+
+## Corrected completion gate
+
+Status in this table applies only to the corrected mechanism path:
+
+| # | Required observation | Status |
+|---:|---|---|
+| 1 | Nominal controller collides with an intentionally blocking static obstacle | **passed** |
+| 2 | Fixed-library PL-CBF visibly intervenes, avoids the inflated shell, and resumes the goal | **passed** |
+| 3 | Fallback actor and BPTT objective contain no obstacle information | **implemented; focused checks present** |
+| 4 | Optimizer state persists for the episode | **implemented; focused check passed** |
+| 5 | Every finite BPTT step updates/publishes without safety admission or rejection | **passed: 398 finite steps, final `v398`** |
+| 6 | Controller holds one immutable version per computation and reads the next completed version later | **passed in final telemetry: monotone version equals finite steps** |
+| 7 | Wind changes once from zero to one constant vector and remains constant | **passed: one change at 4 s to `[0.9, 0.55, 0.0] m/s`** |
+| 8 | Fixed and adaptive trajectories are identical before the change | **passed: maximum full-state difference `0.0`** |
+| 9 | Frozen library exhibits post-wind descriptor bias or reduced useful safe coverage | **passed: target loss rises from 0.083920 to 0.119108** |
+| 10 | Online BPTT restores descriptor/spread and useful safe coverage under the point estimate | **passed: target 0.095936, spread 0.659458, safe-count advantages 3/4** |
+| 11 | Adaptive PL-CBF selects a safe candidate, intervenes, avoids, and continues to the goal | **passed: 0.206096 m inflated clearance, 0.211479 intervention, 0 degraded, 0.193219 m goal error** |
+| 12 | Mechanism is legible in the synchronized actual-MuJoCo review video | **passed: 1600x900, 20 fps, 241-frame MP4 visually inspected** |
+| 13 | Only focused functional tests and one GPU demonstration are used | **passed for this round; no new campaign run** |
+
+Final corrected evidence is in
+`artifacts/da_plcbf/corrected-online-wind-review-20260901-v5/`. The `cuda:0` run used one change at
+`t=4 s` to `[0.9, 0.55, 0.0] m/s`; detection occurred at `4.04 s`, final point-estimator error was
+`6.703e-7 m/s`, and all 398 updates published through `v398`. Fixed/adaptive inflated clearances
+were `0.180672/0.206096 m`. Warm controller median/p95 per method was `24.321/24.517 ms`, and one
+BPTT update was `12.394/12.512 ms`. The final MP4 path and complete objective values are indexed in
+`CORRECTED_DA_PLCBF_REVIEW.md`; its encoded wind video has also passed visual inspection.
+
+## Review and performance scope
+
+Run only the focused corrected tests, one static numerical/video gate, and one final GPU
+constant-wind demonstration. Report simple warm timings from that run: complete controller per
+method, one BPTT update, and (when separately instrumented) estimator/update substeps. Timing is a
+practicality observation, not a hard-real-time guarantee. Do not restart the 2,800-trial campaign,
+seven-baseline matrix, uncertainty ablations, artifact sealing, or claim-grade schedules for this
+round.
+
+Spline/interpolated policy-value smoothing remains a secondary follow-up. The corrected base demo
+uses hard node and relative swept-interval obstacle geometry. A later differentiable cubic minimum
+may improve within-interval gradient quality, but it cannot remove nonsmoothness from obstacle,
+barrier, active-time, or selected-policy switches and must retain the hard swept postcheck.
+
+## Conditional safety statement
+
+The accepted statement for this round is:
+
+> Under the current point dynamics estimate, recorded obstacle prediction, finite horizon,
+> actuator model, and numerical tolerances, the selected rollout and executed Version-A action
+> had the reported estimated-model margins and passed the reported postchecks.
+
+No robust guarantee under point-estimation error is claimed. No uncertainty set is evaluated in
+this path. Successful deterministic videos do not establish hardware safety, distribution-free
+safety, infinite-horizon safety, or comparative statistical superiority.
+
+# Historical admission/uncertainty campaign plan — bypassed for corrected review
+
+> **Historical material begins here.** Candidate snapshots, hard admission/rejection, uncertainty
+> particles, Cartesian robust rollouts, seven baselines, large campaigns, sealing, and claim-grade
+> scheduling below are not requirements for the corrected mechanism review.
+
+## Historical mission
 
 Implement the shared-chat design, **Differentiable Adaptive Policy-Library Control Barrier
 Functions (DA-PLCBF)**, in Crazyflow and produce reviewable evidence that the implementation is
@@ -41,7 +175,7 @@ powered-off semantics; filter-level motor feasibility and exact postchecks remai
 Crazyflow is MIT-licensed. The public PL-CBF paper is CC BY 4.0, while its code repository currently
 has no license; implement the method clean-room from the paper/chat and do not copy unlicensed code.
 
-### Current handoff status
+### Historical GPU-adaptation checkpoint
 
 The implementation is at a **GPU-corrected engineering-review checkpoint** on branch `plcbf`.
 Online differentiable rollout/BPTT now runs as a compiled GPU graph when a GPU is available, and
@@ -80,7 +214,7 @@ publication only after all validators pass.
 Development, smoke, diagnostic, and pilot artifacts must never be relabeled as claim-grade. A
 completed confirmatory run is valid even when it finds no improvement or finds a counterexample.
 
-The requirement-to-evidence table is maintained below:
+The legacy full-campaign requirement-to-evidence table is retained below for traceability:
 
 | Requirement | Code | Tests | Experiment/metric | Status |
 |---|---|---|---|---|
@@ -95,7 +229,7 @@ The requirement-to-evidence table is maintained below:
 | Static, ball, and interceptor scenarios | `scenarios.py`, `experiments.py` | deterministic streams, analytic motion, contact/swept, pairing, and causality tests | paired safety trials and falsification | current DA unit tests and fresh two-method/one-fold review execute; claim-grade evidence pending |
 | Ego-centric MP4 replay and immutable traces | `artifacts.py`, `dashboard_evidence.py`, `scientific_dashboard.py` | schema/hash/codec/non-static/terminal-mask and renderer tests | four trace-bound GPU development MP4s | fixed-span single-scene videos were manually inspected and show history, fallback library, selected policy, hazards/agents, and BPTT activity/completion; unsealed and final claim-grade review pending |
 
-## Exact method contract
+## Legacy full-method contract — bypassed by the corrected review
 
 ### Roles
 
@@ -188,7 +322,7 @@ It does **not** prove infinite-horizon, distribution-free, real-world, or hardwa
 fallback is an explicit degraded result, not a success. Candidate learning cannot retroactively
 certify an initially unsafe state.
 
-## Repository layout
+## Legacy full-campaign repository layout
 
 Fit the chat's proposed architecture into the existing package:
 
@@ -228,7 +362,7 @@ video rendering replays those immutable traces offline.
 Declare Optax directly rather than relying on its current transitive installation through Flax.
 Add and pin an explicit video encoder/backend in the experiment dependency set.
 
-## Work plan
+## Legacy full-campaign work plan
 
 Phases 0–6 and the engineering infrastructure in phases 7–9 are implemented and pass the
 development evidence gate. The checked items below mean implementation/development completion, not
@@ -492,7 +626,7 @@ four manually inspected contact sheets. Those files support engineering inspecti
 not final videos and are not claim eligible until a frozen-source final campaign,
 evidence-specific review records, manifest, and checksums all pass.
 
-## Test hierarchy
+## Legacy full-campaign test hierarchy
 
 ### Unit
 
@@ -533,7 +667,7 @@ evidence-specific review records, manifest, and checksums all pass.
 - estimation error;
 - forward, backward, validation, filter, and solver tail latency.
 
-## Review loop
+## Legacy full-campaign review loop
 
 For every phase:
 
@@ -547,7 +681,7 @@ For every phase:
 8. turn every discovered failure into a regression test or documented limitation;
 9. rerun the complete relevant matrix before advancing.
 
-## Engineering-review and claim-grade definitions
+## Legacy full-campaign acceptance definitions
 
 As of 2026-09-01, the GPU-corrected implementation is ready for focused engineering inspection,
 but the complete broad CPU/GPU/docs/package gate on this exact source is still running or pending as

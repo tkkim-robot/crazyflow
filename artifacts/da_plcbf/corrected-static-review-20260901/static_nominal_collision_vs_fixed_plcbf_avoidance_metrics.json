@@ -1,0 +1,41 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "no_degraded_controller_steps": true,
+    "nominal_collides_with_physical_obstacle": true,
+    "plcbf_intervenes": true,
+    "plcbf_resumes_and_reaches_goal": true,
+    "plcbf_stays_outside_inflated_shell": true
+  },
+  "controller": {
+    "control_hz": 50.0,
+    "dt_seconds": 0.02,
+    "horizon": 60,
+    "obstacle_clearance": 0.15,
+    "policy_alpha": 2.0,
+    "steps": 300
+  },
+  "geometry": {
+    "inflated_obstacle_radius": 0.629999989271164,
+    "physical_obstacle_radius": 0.47999998927116394
+  },
+  "purpose": "nominal collision versus fixed-library continuous PL-CBF avoidance",
+  "results": {
+    "degraded_steps": 0,
+    "fallback_execution_steps": 20,
+    "filtered_final_goal_distance": 0.04191436618566513,
+    "filtered_minimum_obstacle_distance": 0.8117602433612876,
+    "filtered_minimum_shell_margin": 0.18176025409012364,
+    "maximum_qp_intervention_norm": 0.20779095590114594,
+    "nominal_minimum_obstacle_distance": 0.021334006416126407,
+    "qp_intervention_steps_above_1e-3": 84
+  },
+  "scenario": "blocking_static",
+  "video": {
+    "fps": 20.0,
+    "frame_count": 121,
+    "height": 900,
+    "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/corrected-static-review-20260901/static_nominal_collision_vs_fixed_plcbf_avoidance.mp4",
+    "width": 1600
+  }
+}

@@ -17,6 +17,7 @@ class SelectionConfig:
     minimum_hard_value: float = 0.0
     minimum_admissible_score: float = 0.0
     switch_score_margin: float = 0.02
+    prefer_first_eligible: bool = False
 
     def validate(self) -> None:
         """Reject nonfinite thresholds and negative hysteresis."""
@@ -25,6 +26,8 @@ class SelectionConfig:
             raise ValueError("selection thresholds must be finite")
         if self.switch_score_margin < 0:
             raise ValueError("switch_score_margin must be nonnegative")
+        if not isinstance(self.prefer_first_eligible, bool):
+            raise TypeError("prefer_first_eligible must be boolean")
 
 
 class PolicySelection(NamedTuple):
@@ -81,12 +84,18 @@ def select_hard_policy(
     previous_eligible = previous_index_valid & eligible[safe_previous_index]
     incumbent_score = admissible_scores[safe_previous_index]
     challenger_score = admissible_scores[best_eligible_index]
+    first_preferred = jnp.asarray(config.prefer_first_eligible) & eligible[0]
     retained = (
         has_certificate
         & previous_eligible
         & (challenger_score <= incumbent_score + config.switch_score_margin)
+        & ~first_preferred
     )
-    certified_index = jnp.where(retained, safe_previous_index, best_eligible_index)
+    certified_index = jnp.where(
+        first_preferred,
+        jnp.asarray(0, dtype=jnp.int32),
+        jnp.where(retained, safe_previous_index, best_eligible_index),
+    )
 
     any_finite_hard = jnp.any(jnp.isfinite(hard_values))
     best_effort_index = jnp.argmax(jnp.where(jnp.isfinite(hard_values), hard_values, -jnp.inf))

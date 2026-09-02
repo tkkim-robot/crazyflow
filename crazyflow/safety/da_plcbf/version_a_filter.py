@@ -74,7 +74,12 @@ class PolicyLibraryCertificates(NamedTuple):
 
 @dataclass(frozen=True, slots=True)
 class VersionAFilterConfig:
-    """Continuous-QP, postcheck, and selection tolerances."""
+    """Continuous-QP, postcheck, and selection tolerances.
+
+    ``selection_requires_certified_fallback`` preserves the original conservative selector by
+    default.  The minimal continuous demo disables it: that path selects a positive-valued policy
+    before solving the QP and checks the selected policy action separately only when the QP fails.
+    """
 
     policy_alpha: float = 2.0
     qp_tolerance: float = 2e-6
@@ -85,6 +90,7 @@ class VersionAFilterConfig:
     barrier_tolerance: float = 3e-6
     allocation_model_tolerance: float = 2e-5
     enforce_analytic_barriers: bool = True
+    selection_requires_certified_fallback: bool = True
 
     def validate(self) -> None:
         """Reject nonfinite rates, negative tolerances, or nonboolean switches."""
@@ -116,6 +122,8 @@ class VersionAFilterConfig:
             raise ValueError("all Version-A filter tolerances must be nonnegative")
         if not isinstance(self.enforce_analytic_barriers, bool):
             raise TypeError("enforce_analytic_barriers must be boolean")
+        if not isinstance(self.selection_requires_certified_fallback, bool):
+            raise TypeError("selection_requires_certified_fallback must be boolean")
 
 
 class ValidatedMotorPolytope(NamedTuple):
@@ -476,11 +484,13 @@ def version_a_plcbf_filter(
 ) -> VersionAFilterResult:
     """Project one nominal direct wrench and apply a postchecked fallback on rejection.
 
-    Policy selection is deterministic and task-independent: among entries whose hard value is
-    nonnegative and whose supplied first fallback wrench already satisfies the actuator,
-    analytic-barrier, and PL-CBF conditions, select the largest exact motor-box admissible-volume
-    fraction (breaking exact ties by hard value).  If none qualifies, the largest finite hard value
-    supplies an explicitly uncertified best effort.
+    Policy selection is deterministic and task-independent.  The legacy/default mode requires a
+    candidate's first wrench to satisfy actuator, analytic-barrier, and PL-CBF conditions before
+    selection.  When ``selection_requires_certified_fallback`` is false, a finite positive-valued
+    candidate with a valid gradient and actuator-executable first wrench is selectable before the
+    QP is solved.  In either mode, the selector maximizes the exact motor-box admissible-volume
+    fraction.  If none qualifies, the largest finite hard value supplies an explicitly uncertified
+    best effort.
     """
     barrier_config.validate()
     filter_config.validate()
@@ -556,13 +566,24 @@ def version_a_plcbf_filter(
         & jnp.all(jnp.isfinite(nominal_wrench))
         & _weight_is_positive_definite(jnp.asarray(weight, dtype=state.dtype))
     )
-    selection_prerequisites = (
+    certified_fallback_prerequisites = (
         common_valid
         & certificate_finite
         & gradient_valid
         & (fallback_motor_margin >= -filter_config.motor_tolerance)
         & (fallback_policy_residual >= -filter_config.barrier_tolerance)
         & analytic_eligible
+    )
+    executable_fallback_prerequisites = (
+        common_valid
+        & certificate_finite
+        & gradient_valid
+        & (fallback_motor_margin >= -filter_config.motor_tolerance)
+    )
+    selection_prerequisites = jnp.where(
+        jnp.asarray(filter_config.selection_requires_certified_fallback),
+        certified_fallback_prerequisites,
+        executable_fallback_prerequisites,
     )
     selectable_scores = jnp.where(selection_prerequisites, admissible_fractions, -jnp.inf)
     previous_index = (
