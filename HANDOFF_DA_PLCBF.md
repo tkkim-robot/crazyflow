@@ -5,7 +5,40 @@
 > `CORRECTED_DA_PLCBF_REVIEW.md`. Everything below the explicit **Historical** heading is retained
 > only as engineering history and is bypassed by the corrected demonstrations.
 
-## Current corrected status — 2026-09-01
+## New-session quick start — 2026-09-04
+
+Repository checkpoint:
+
+- repository: `https://github.com/tkkim-robot/crazyflow.git`;
+- active branch: `plcbf`;
+- corrected implementation/results commit:
+  `938a3b267aec1940c965f041730ade76b29fdc1f`
+  (`Implement corrected persistent DA-PLCBF demo`);
+- `938a3b2` is pushed to `origin/plcbf`, and local/remote hashes matched before this handoff refresh;
+- takeover baseline from the previous computer: `22cec20b1f296de00a2d1dbd6d6ac7bb594de27d`;
+- previous GPU/admission-path checkpoint: `7da618e8f036068141970e8d54ae190979fc9344`;
+- no merge into `main` was performed;
+- the passing static and v5 wind MP4s, JSON metrics, and final numerical trace are tracked in
+  `938a3b2` even though `artifacts/da_plcbf/**` is normally ignored;
+- ignored local directories named `corrected-online-wind-review-20260901` through `-v4` are failed
+  tuning runs. Do not review or relabel them. The only passing online artifact is `-v5`.
+
+Read these in order before changing code:
+
+1. `CORRECTED_DA_PLCBF_REVIEW.md` — concise review entry point and evidence index.
+2. The current corrected sections of this handoff, stopping at the explicit **Historical** heading.
+3. `DA_PLCBF_PLAN.md` — the corrected completion table and deferred work.
+4. `crazyflow/safety/da_plcbf/persistent_skill_learner.py`.
+5. `crazyflow/safety/da_plcbf/continuous_version_a.py`.
+6. `crazyflow/safety/da_plcbf/online_constant_wind.py`.
+7. The focused tests and final JSON summaries listed below.
+
+Do not resume the candidate-admission, uncertainty-particle, robust Cartesian, seven-baseline, or
+2,800-trial campaign as though it were the active method. That material remains below solely for
+history. The next session should first perform an independent algorithm/code review of `938a3b2`
+and choose among the explicitly deferred steps near the end of the current section.
+
+## Current corrected status — updated 2026-09-04; evidence generated 2026-09-01
 
 The corrected path is a deliberately small mechanism demonstration, not a claim-grade campaign:
 
@@ -47,15 +80,23 @@ Read the corrected code in this order:
    - augmented nominal/fallback rollouts through one point model;
    - runtime-only static/dynamic spherical obstacle values with relative swept-interval geometry;
    - JAX value gradients and the direct-wrench Version-A PL-CBF QP/postcheck path.
-4. `crazyflow/safety/da_plcbf/continuous_demo_scenarios.py`
+4. `crazyflow/safety/da_plcbf/version_a_filter.py`
+   - reused direct-wrench QP and actuator/postcheck implementation;
+   - a backward-compatible option lets the corrected path select a positive-valued executable
+     policy before the QP, while the historical default remains unchanged.
+5. `crazyflow/safety/da_plcbf/selector.py`
+   - deterministic admissible-score selection and optional first-eligible preference;
+   - the corrected online demo uses zero score hysteresis, not the candidate-training admission
+     mechanism.
+6. `crazyflow/safety/da_plcbf/continuous_demo_scenarios.py`
    - the intentionally blocking static case and the single zero-to-constant wind transition.
-5. `crazyflow/safety/da_plcbf/online_constant_wind.py`
+7. `crazyflow/safety/da_plcbf/online_constant_wind.py`
    - fixed-versus-adaptive integration, shared estimator, persistent online learning, telemetry,
      objective checks, and immutable trace serialization.
-6. `crazyflow/safety/da_plcbf/mujoco_comparison_video.py`
+8. `crazyflow/safety/da_plcbf/mujoco_comparison_video.py`
    - actual Crazyflow quadrotor mesh, obstacles/shell, goal, winds, rollouts, selected certificate,
      executed history, QP intervention, continuous-learning HUD, and descriptor inset.
-7. `examples/da_plcbf/static_blocking_obstacle_demo.py` and
+9. `examples/da_plcbf/static_blocking_obstacle_demo.py` and
    `examples/da_plcbf/online_constant_wind_demo.py`
    - the two review entry points.
 
@@ -78,6 +119,8 @@ The fixed-library gate is complete at
 - maximum QP intervention norm: `0.207791`; 84 control samples exceed `1e-3`;
 - selected-fallback execution occurred on 20 samples, degraded samples were zero, and final
   filtered goal error was `0.041914 m`.
+- the complete video was visually inspected at nominal collision, filtered avoidance, and goal
+  resumption.
 
 This passes the intended elementary gate: the obstacle genuinely blocks the nominal path, while
 the same task with the continuous fixed-library PL-CBF visibly intervenes, avoids, and resumes the
@@ -113,8 +156,141 @@ The final corrected v5 GPU run is at
   a 20 ms (50 Hz) period, and no hard-real-time guarantee is claimed.
 
 These results come from the corrected point-estimate/persistent-learner path, not the legacy
-four-condition campaign. Numeric/trace validation is complete; only final encoded-video visual
-inspection remains open.
+four-condition campaign. Numeric/trace validation and final encoded-video visual inspection are
+complete.
+
+Artifact SHA-256 identities:
+
+- static MP4:
+  `d99f3b777b10cf47988e25448a66b44524844bf68bdde9c381e6e8cb487bd8c2`;
+- static metrics JSON:
+  `f5419aa99a506777e9801158c49726d5915b612ca28580121e466ca35408e99e`;
+- wind MP4:
+  `1320cc7e7876f1e750d7e362d062c9e94ce5565b7e557591284c812a883c381a`;
+- wind metrics JSON:
+  `5e58da7f1ecfdace2340b2f1b5a8a0dede9f7624c10614ddb0e995cfaac91959`;
+- wind numerical trace:
+  `b6d500f0b8a92992217d8528bfc94528089e4cf922fc92e79c6e3772237448da`.
+
+## Corrected-checkpoint validation performed
+
+The following checks were run against the corrected source before commit `938a3b2`:
+
+- corrected focused GPU suite:
+  `test_continuous_version_a.py`, `test_persistent_skill_learner.py`,
+  `test_online_constant_wind.py`, and `test_mujoco_comparison_video.py`;
+  result: **8 passed, 1 render-marked test deselected** in 69.81 s;
+- backward-compatibility regression for modified shared code:
+  `test_selector.py` and `test_version_a_filter.py`; result: **28 passed** in 67.41 s;
+- Ruff lint passed for all 14 corrected/modified Python files;
+- Ruff format check reported all 14 files formatted;
+- `py_compile` passed for the corrected source and example entry points;
+- `git diff --check` passed;
+- the complete static and wind MP4s were rendered, encoded as H.264 at 1600x900/20 fps, and
+  visually inspected at their critical frames. The render-marked unit test was not separately run
+  because the full renderer path had just produced both review videos.
+
+The focused run emitted four JAX deprecation warnings for `jax.jit(..., device=device)`. They do
+not affect this checkpoint, but a later compatibility cleanup should replace that deprecated
+placement style with explicit device placement. No full repository suite, docs build, packaging
+gate, large campaign, or statistical study was run for the corrected checkpoint; that omission is
+intentional under the user's minimal-testing instruction and must not be misreported as coverage.
+
+Environment used for the final run:
+
+- NVIDIA GeForce RTX 4090;
+- JAX device `cuda:0` in the Pixi `gpu-tests` environment;
+- Pixi executable: `/home/tk/.pixi/bin/pixi`;
+- GPU commands used `XLA_PYTHON_CLIENT_PREALLOCATE=false` and a unique JAX compilation cache.
+
+## What remains and how to continue
+
+The requested corrected mechanism round is complete and reviewable. It is not the end of the
+research project. Recommended continuation order:
+
+1. **Independent correctness review.** Check the exact actor inputs/loss, persistent AdamW state,
+   one-point-model data flow, nominal-plus-fallback selection, value gradient, QP constraint,
+   actuator/held-step postchecks, and fallback-on-invalid-QP semantics against the supplied
+   corrected requirements. Treat this as the next decision gate before expanding experiments.
+2. **Cubic-spline policy-value smoothing.** Implement the deferred differentiable interval
+   polynomial/spline minimum and derivative-root evaluation in the continuous path, while keeping
+   the existing hard sampled/swept-geometry postcheck. Do not claim it removes switching
+   nonsmoothness.
+3. **Actual asynchronous execution.** The deterministic evidence run executes one GPU BPTT update
+   and controller work sequentially at each detected boundary. Split learner/controller execution,
+   publish immutable completed snapshots atomically, and remeasure tail latency and missed
+   deadlines. The current medians suggest a 20 Hz soft loop, not 50 Hz or hard real time.
+4. **Estimator/model-mismatch stress.** Test slower/noisier estimation, latency, and moderate
+   unmodeled wind changes while preserving the intended single point estimate. Safety is currently
+   conditional on that estimate; do not reintroduce particles unless the algorithmic target is
+   explicitly changed.
+5. **Small generalization matrix.** Only after the mechanism review passes, add a few deterministic
+   seeds, moderate wind directions/magnitudes, and obstacle layouts. Preserve counterexamples and
+   compare fixed versus adaptive from identical initial state/library/model information. A slow
+   moving obstacle can follow; aggressive interceptors and claim-grade campaigns should wait.
+6. **Compatibility cleanup.** Remove the `jax.jit(..., device=...)` deprecation warnings and decide
+   whether to isolate or eventually remove the bypassed legacy admission/uncertainty path. Avoid a
+   broad refactor until the corrected method contract is accepted.
+
+Important open limitations for the next session:
+
+- the final result is one tuned deterministic two-obstacle wind scenario, not evidence of broad
+  safety or superiority;
+- both fixed and adaptive filters avoid the final obstacles; the evidence for adaptation is the
+  shared-probe descriptor/spread recovery and the 3/4-policy safe-count advantages, not a claim
+  that the frozen filter always fails;
+- the true plant and estimated point model differ briefly after the wind transition;
+- all-candidate gradients are currently computed with `jax.jacfwd`; selected-only gradient and
+  latency optimization remain possible;
+- controller and learner are JIT/GPU-backed but run sequentially in the recorded demo;
+- the committed summary persists complete-controller and BPTT timings, but not separate timing
+  distributions for rollout/value evaluation, selected-value gradient, QP solve, and estimator
+  update; add those before making a detailed real-time budget;
+- the continuous base path uses hard node and relative swept-segment values; cubic smoothing is
+  still deferred;
+- the numerical plant trace is produced by the differentiable direct-wrench/JAX integration. The
+  renderer then replays that immutable trace in real Crazyflow MuJoCo worlds using the real mesh;
+  it is not a closed-loop MuJoCo/MJX plant rollout;
+- only spherical obstacles and the Version-A direct-wrench plant are demonstrated;
+- the adaptive terminal goal distance is `0.193219 m`, which demonstrates continuation/recovery
+  but is not a general convergence proof;
+- hardware flight, noisy perception, delayed obstacle prediction, and formal robustness are not
+  validated.
+
+Useful commands for the next session:
+
+```bash
+# Synchronize the handoff branch and verify the corrected implementation checkpoint
+git switch plcbf
+git pull --ff-only origin plcbf
+git log --oneline -3
+/home/tk/.pixi/bin/pixi install -e gpu-tests
+
+# Focused corrected tests (the repository defaults deselect the render marker)
+XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  /home/tk/.pixi/bin/pixi run -e gpu-tests pytest -q \
+  tests/unit/safety/da_plcbf/test_continuous_version_a.py \
+  tests/unit/safety/da_plcbf/test_persistent_skill_learner.py \
+  tests/unit/safety/da_plcbf/test_online_constant_wind.py \
+  tests/unit/safety/da_plcbf/test_mujoco_comparison_video.py
+
+# Reproduce numerical wind evidence into a new, nonexistent directory
+XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  /home/tk/.pixi/bin/pixi run -e gpu-tests python \
+  examples/da_plcbf/online_constant_wind_demo.py run \
+  --output-dir artifacts/da_plcbf/<new-unique-directory> --device gpu --no-render
+
+# Render an existing saved trace without rerunning learning/control
+MUJOCO_GL=egl PYOPENGL_PLATFORM=egl \
+  /home/tk/.pixi/bin/pixi run -e gpu-tests python \
+  examples/da_plcbf/online_constant_wind_demo.py render \
+  --trace <trace.npz> --summary <summary.json> --video <new-output.mp4> \
+  --fps 20 --width 1600 --height 900
+```
+
+The save/render helpers intentionally refuse to overwrite existing corrected results. Use a new
+output directory and filename. Because the artifact tree is ignored by default, use `git add -f`
+only for deliberately reviewed final artifacts; do not commit tuning failures or temporary frames.
 
 ## Conditional safety boundary for the corrected path
 
@@ -142,22 +318,24 @@ hardware validation, or an infinite-horizon proof.
 
 ## Historical checkpoint status — 2026-09-01
 
-This is the current DA-PLCBF **engineering-review checkpoint** after the GPU-online-adaptation
-correction requested during handoff. The implementation and new four-condition review videos are
-ready to inspect. They are not claim-grade scientific evidence, a completed publication run, or a
-hardware-safety result.
+This section records the earlier DA-PLCBF **engineering-review checkpoint** at `7da618e` after the
+GPU-online-adaptation correction requested during the first handoff. Its implementation and
+four-condition review videos are historical. They are not the corrected method, claim-grade
+scientific evidence, a completed publication run, or a hardware-safety result.
 
-Repository state at this checkpoint:
+Repository state at that historical checkpoint:
 
 - repository: `https://github.com/tkkim-robot/crazyflow.git`;
 - branch: `plcbf`;
 - takeover baseline: `22cec20b1f296de00a2d1dbd6d6ac7bb594de27d`;
-- the current engineering checkpoint is committed and pushed at the tip of `origin/plcbf`;
+- historical checkpoint `7da618e8f036068141970e8d54ae190979fc9344` was committed and pushed;
+  it is no longer the tip of `origin/plcbf`;
 - no reset or merge into `main` is authorized by this handoff;
-- the explicitly requested compact engineering-review bundle is tracked with `REVIEW_ONLY.md`;
-  all other ignored development artifacts under `artifacts/da_plcbf/` remain local evidence only.
+- its explicitly requested compact engineering-review bundle used `REVIEW_ONLY.md`;
+- the separate corrected implementation and selected final artifacts were later tracked in
+  `938a3b267aec1940c965f041730ade76b29fdc1f`.
 
-The current source uses adaptation-evidence schema **7** and execution contract
+That historical source used adaptation-evidence schema **7** and execution contract
 `gpu-preferred-jit-fixed-budget-lineage-bound-no-replay-v1`. On a GPU machine, the real online
 differentiable rollout, reverse-mode gradient, and ten-step optimizer burst execute as one compiled
 GPU graph. The hard-evidence graph also executes on that accelerator, while the causal estimator
