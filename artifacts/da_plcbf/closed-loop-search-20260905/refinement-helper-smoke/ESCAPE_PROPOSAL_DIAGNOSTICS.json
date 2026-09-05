@@ -1,0 +1,284 @@
+[
+  {
+    "proposal_index": 0,
+    "lineage": {
+      "trial_id": "smoke-u132-v1-0000",
+      "ledger": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/trials.jsonl",
+      "trace_path": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/smoke-u132-v1-0000/traces.npz",
+      "trace_sha256": "52c301ceae7b3d1578456485c0c173088c05b6723ecf90bdd85451f5b4645dfe",
+      "parent_scene_sha256": "75957ee012ee2a5b3185eaaaf1f97861955caadda460cdaa37a830980195419f"
+    },
+    "scope": "proposal only: new geometry evaluated on old recorded paths; not an executed closed-loop outcome, and both controllers must rerun from time zero",
+    "requested_strategy": "guard",
+    "used_local_fallback": false,
+    "target_recorded_time_seconds": 4.78,
+    "escape_diagnostics": {
+      "scope": "descriptive recorded motion; task motion alone is not attributed to avoidance",
+      "labels": [
+        "early_recorded_motion",
+        "lateral_escape_or_task_motion"
+      ],
+      "window_seconds": [
+        2.8000000000000003,
+        5.7
+      ],
+      "first_recorded_response_seconds": 3.2600000000000002,
+      "maximum_horizontal_displacement_m": 0.4951684073835321,
+      "maximum_vertical_displacement_m": 0.04411327838897705,
+      "maximum_speed_m_s": 0.5697694532267128,
+      "recorded_control_counts": {
+        "emergency": 0,
+        "fallback": 0,
+        "qp": 73
+      }
+    },
+    "old_recorded_path_audits": {
+      "fixed": {
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": -0.20494175550988597,
+          "minimum_clearance_lower_bound_m": -0.20494175551464153,
+          "minimum_clearance_upper_bound_m": -0.20494175550727256,
+          "maximum_chord_curvature_error_bound_m": 5.821818139237385e-09,
+          "first_chord_intersection_time_seconds": 4.163667298024455,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": -0.2064562814265409,
+          "minimum_clearance_lower_bound_m": -0.2064562814265409,
+          "minimum_clearance_upper_bound_m": -0.2064562814265409,
+          "maximum_chord_curvature_error_bound_m": 5.015292984835458e-09,
+          "first_chord_intersection_time_seconds": 4.1306528323157385,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "safety_shell": {
+          "minimum_clearance_m": -0.3564562814265409,
+          "minimum_clearance_lower_bound_m": -0.3564562814265409,
+          "minimum_clearance_upper_bound_m": -0.3564562814265409,
+          "maximum_chord_curvature_error_bound_m": 5.015292984835458e-09,
+          "first_chord_intersection_time_seconds": 3.8527357279119188,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        }
+      },
+      "adaptive": {
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": 0.01999999999999999,
+          "minimum_clearance_lower_bound_m": 0.019999999731063433,
+          "minimum_clearance_upper_bound_m": 0.02000000021272369,
+          "maximum_chord_curvature_error_bound_m": 5.702669481391022e-09,
+          "first_chord_intersection_time_seconds": null,
+          "first_intersection_obstacle": null,
+          "intersection_classification": "separated_under_recorded_state_interpolation"
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": -0.000759273356736978,
+          "minimum_clearance_lower_bound_m": -0.000759273356736978,
+          "minimum_clearance_upper_bound_m": -0.000759273356736978,
+          "maximum_chord_curvature_error_bound_m": 5.015292984835458e-09,
+          "first_chord_intersection_time_seconds": 4.50378455967232,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "safety_shell": {
+          "minimum_clearance_m": -0.15075927335673697,
+          "minimum_clearance_lower_bound_m": -0.15075927335673697,
+          "minimum_clearance_upper_bound_m": -0.15075927335673697,
+          "maximum_chord_curvature_error_bound_m": 5.015292984835458e-09,
+          "first_chord_intersection_time_seconds": 3.9360057099866466,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        }
+      }
+    }
+  },
+  {
+    "proposal_index": 1,
+    "lineage": {
+      "trial_id": "smoke-u132-v1-0000",
+      "ledger": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/trials.jsonl",
+      "trace_path": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/smoke-u132-v1-0000/traces.npz",
+      "trace_sha256": "52c301ceae7b3d1578456485c0c173088c05b6723ecf90bdd85451f5b4645dfe",
+      "parent_scene_sha256": "75957ee012ee2a5b3185eaaaf1f97861955caadda460cdaa37a830980195419f"
+    },
+    "scope": "proposal only: new geometry evaluated on old recorded paths; not an executed closed-loop outcome, and both controllers must rerun from time zero",
+    "requested_strategy": "mover",
+    "used_local_fallback": false,
+    "target_recorded_time_seconds": 4.86,
+    "escape_diagnostics": {
+      "scope": "descriptive recorded motion; task motion alone is not attributed to avoidance",
+      "labels": [
+        "early_recorded_motion",
+        "lateral_escape_or_task_motion"
+      ],
+      "window_seconds": [
+        2.8000000000000003,
+        5.7
+      ],
+      "first_recorded_response_seconds": 3.2600000000000002,
+      "maximum_horizontal_displacement_m": 0.4951684073835321,
+      "maximum_vertical_displacement_m": 0.04411327838897705,
+      "maximum_speed_m_s": 0.5697694532267128,
+      "recorded_control_counts": {
+        "emergency": 0,
+        "fallback": 0,
+        "qp": 73
+      }
+    },
+    "old_recorded_path_audits": {
+      "fixed": {
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": -0.21555406170626976,
+          "minimum_clearance_lower_bound_m": -0.21555409229060749,
+          "minimum_clearance_upper_bound_m": -0.21555403396827474,
+          "maximum_chord_curvature_error_bound_m": 3.13753175903263e-08,
+          "first_chord_intersection_time_seconds": 4.779735631153016,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": -0.21557032007596955,
+          "minimum_clearance_lower_bound_m": -0.2155703478027654,
+          "minimum_clearance_upper_bound_m": -0.2155702923491737,
+          "maximum_chord_curvature_error_bound_m": 3.0568792435969764e-08,
+          "first_chord_intersection_time_seconds": 4.772283590201871,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "safety_shell": {
+          "minimum_clearance_m": -0.36557032007596957,
+          "minimum_clearance_lower_bound_m": -0.3655703478027654,
+          "minimum_clearance_upper_bound_m": -0.3655702923491737,
+          "maximum_chord_curvature_error_bound_m": 3.0568792435969764e-08,
+          "first_chord_intersection_time_seconds": 4.715792218815663,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        }
+      },
+      "adaptive": {
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": 0.01934876146554329,
+          "minimum_clearance_lower_bound_m": 0.019348733539924893,
+          "minimum_clearance_upper_bound_m": 0.019348789391161688,
+          "maximum_chord_curvature_error_bound_m": 3.1256168932479936e-08,
+          "first_chord_intersection_time_seconds": null,
+          "first_intersection_obstacle": null,
+          "intersection_classification": "separated_under_recorded_state_interpolation"
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": 0.0001941028527642219,
+          "minimum_clearance_lower_bound_m": 0.00019407512596836165,
+          "minimum_clearance_upper_bound_m": 0.00019413057956008215,
+          "maximum_chord_curvature_error_bound_m": 3.0568792435969764e-08,
+          "first_chord_intersection_time_seconds": null,
+          "first_intersection_obstacle": null,
+          "intersection_classification": "separated_under_recorded_state_interpolation"
+        },
+        "safety_shell": {
+          "minimum_clearance_m": -0.1498058971472358,
+          "minimum_clearance_lower_bound_m": -0.14980592487403166,
+          "minimum_clearance_upper_bound_m": -0.14980586942043994,
+          "maximum_chord_curvature_error_bound_m": 3.0568792435969764e-08,
+          "first_chord_intersection_time_seconds": 4.732975606281622,
+          "first_intersection_obstacle": 1,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        }
+      }
+    }
+  },
+  {
+    "proposal_index": 2,
+    "lineage": {
+      "trial_id": "smoke-u132-v1-0000",
+      "ledger": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/trials.jsonl",
+      "trace_path": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/smoke-u132-v1-0000/traces.npz",
+      "trace_sha256": "52c301ceae7b3d1578456485c0c173088c05b6723ecf90bdd85451f5b4645dfe",
+      "parent_scene_sha256": "75957ee012ee2a5b3185eaaaf1f97861955caadda460cdaa37a830980195419f"
+    },
+    "scope": "proposal only: new geometry evaluated on old recorded paths; not an executed closed-loop outcome, and both controllers must rerun from time zero",
+    "requested_strategy": "local",
+    "used_local_fallback": false,
+    "target_recorded_time_seconds": 5.44,
+    "escape_diagnostics": {
+      "scope": "descriptive recorded motion; task motion alone is not attributed to avoidance",
+      "labels": [
+        "early_recorded_motion",
+        "lateral_escape_or_task_motion"
+      ],
+      "window_seconds": [
+        2.8000000000000003,
+        5.7
+      ],
+      "first_recorded_response_seconds": 3.2600000000000002,
+      "maximum_horizontal_displacement_m": 0.4951684073835321,
+      "maximum_vertical_displacement_m": 0.04411327838897705,
+      "maximum_speed_m_s": 0.5697694532267128,
+      "recorded_control_counts": {
+        "emergency": 0,
+        "fallback": 0,
+        "qp": 73
+      }
+    },
+    "old_recorded_path_audits": {
+      "fixed": {
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": -0.12303371420858716,
+          "minimum_clearance_lower_bound_m": -0.12303371711380798,
+          "minimum_clearance_upper_bound_m": -0.12303371130336635,
+          "maximum_chord_curvature_error_bound_m": 3.970548972673717e-09,
+          "first_chord_intersection_time_seconds": 5.268239960122374,
+          "first_intersection_obstacle": 0,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": -0.14359751378769592,
+          "minimum_clearance_lower_bound_m": -0.14359751695171974,
+          "minimum_clearance_upper_bound_m": -0.1435975106236721,
+          "maximum_chord_curvature_error_bound_m": 3.164023818268501e-09,
+          "first_chord_intersection_time_seconds": 5.232294710551657,
+          "first_intersection_obstacle": 0,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "safety_shell": {
+          "minimum_clearance_m": -0.29359751378769594,
+          "minimum_clearance_lower_bound_m": -0.29359751695171976,
+          "minimum_clearance_upper_bound_m": -0.2935975106236721,
+          "maximum_chord_curvature_error_bound_m": 3.164023818268501e-09,
+          "first_chord_intersection_time_seconds": 5.029553348210873,
+          "first_intersection_obstacle": 0,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        }
+      },
+      "adaptive": {
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": -0.046800432926455304,
+          "minimum_clearance_lower_bound_m": -0.04680043630857702,
+          "minimum_clearance_upper_bound_m": -0.04680042954433359,
+          "maximum_chord_curvature_error_bound_m": 3.851400314827354e-09,
+          "first_chord_intersection_time_seconds": 5.021163767589828,
+          "first_intersection_obstacle": 0,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": -0.07385732595644867,
+          "minimum_clearance_lower_bound_m": -0.07385732912047249,
+          "minimum_clearance_upper_bound_m": -0.07385732279242485,
+          "maximum_chord_curvature_error_bound_m": 3.164023818268501e-09,
+          "first_chord_intersection_time_seconds": 4.95935028781677,
+          "first_intersection_obstacle": 0,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        },
+        "safety_shell": {
+          "minimum_clearance_m": -0.2238573259564487,
+          "minimum_clearance_lower_bound_m": -0.22385732912047251,
+          "minimum_clearance_upper_bound_m": -0.22385732279242487,
+          "maximum_chord_curvature_error_bound_m": 3.164023818268501e-09,
+          "first_chord_intersection_time_seconds": 4.7419802483845315,
+          "first_intersection_obstacle": 0,
+          "intersection_classification": "intersecting_under_recorded_state_interpolation"
+        }
+      }
+    }
+  }
+]

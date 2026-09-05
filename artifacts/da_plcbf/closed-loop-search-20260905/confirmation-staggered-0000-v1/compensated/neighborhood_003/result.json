@@ -1,0 +1,183 @@
+{
+  "scene": {
+    "incoming": {
+      "arrival_time_seconds": 4.504346751704443,
+      "direction": [
+        0.8502447207410617,
+        0.22095842923711267,
+        0.47776698023306485
+      ],
+      "speed_m_s": 1.3629615781733246,
+      "radius_m": 0.6770919075912628,
+      "crossing_offset": [
+        -0.2321114869569401,
+        -0.2383490443912359,
+        -0.31777305504485315
+      ],
+      "amplitude_m": 30
+    },
+    "guards": [],
+    "seed": 48794,
+    "wind_onset_seconds": 2.24,
+    "wind_velocity": [
+      -1.6715064379137354,
+      1.169888701285954,
+      0.45703227844283484
+    ],
+    "duration_seconds": 14.0,
+    "navigation_start_seconds": 6.16,
+    "hover_position": [
+      -0.0026798287459926075,
+      -0.004652006576472375,
+      1.4032498921415173
+    ],
+    "waypoint_offsets": [
+      [
+        -1.4973201712540074,
+        1.0046520065764724,
+        0.2967501078584827
+      ],
+      [
+        -1.9973201712540074,
+        -0.9953479934235276,
+        -0.0032498921415172787
+      ]
+    ],
+    "arena_lower": [
+      -5.0,
+      -4.0,
+      0.15
+    ],
+    "arena_upper": [
+      5.0,
+      4.0,
+      4.0
+    ],
+    "dt": 0.02,
+    "control_interval_steps": 2,
+    "ego_radius": 0.106,
+    "obstacle_clearance": 0.15,
+    "reach_radius": 0.4,
+    "additional_incoming": [
+      {
+        "arrival_time_seconds": 5.0192941422256,
+        "direction": [
+          0.028826312167549724,
+          -0.606018101453924,
+          0.7949283643429769
+        ],
+        "speed_m_s": 3.422535263175502,
+        "radius_m": 0.6486168154387973,
+        "crossing_offset": [
+          -0.2104087277040086,
+          0.5199431631550233,
+          0.44302430998685577
+        ],
+        "amplitude_m": 30
+      }
+    ],
+    "initial_velocity": [
+      0.0011800854533242037,
+      0.009532914992924002,
+      -0.003943894596983339
+    ]
+  },
+  "scene_sha256": "beeed4af0a54741081b5655325361694a5e099c4c18119672212031a247ffd08",
+  "mapping": "compensated",
+  "checkpoint": "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_compensated/initial_checkpoint",
+  "checkpoint_sha256": "d9f04a015f07484971e9f4bb112fb45b00f3dd6a56fa8ce9334645e26e44ce67",
+  "methods": {
+    "fixed": {
+      "termination": "completed",
+      "collision_kind": null,
+      "termination_time_seconds": 11.12,
+      "censored": false,
+      "start_time_seconds": 0.0,
+      "collider_lower_m": 0.17122361912861622,
+      "collider_upper_m": 0.17122363395394774,
+      "collider_clearance_m": 0.17122362654128198,
+      "ground_lower_m": 1.2119016055663954,
+      "ground_upper_m": 1.2119016060934837,
+      "enclosure_clearance_m": 0.15598513832680505,
+      "shell_clearance_m": 0.0059851383268050284,
+      "first_collider_intersection_seconds": null,
+      "controls": 278,
+      "qp_controls": 278,
+      "fallback_controls": 0,
+      "emergency_controls": 0,
+      "degraded_controls": 0,
+      "executed_learned_positive_dual_controls": 65,
+      "finite_updates": 0,
+      "initial_version": 660,
+      "final_version": 660,
+      "last_executed_version": 660,
+      "wind_onset_version": 660,
+      "encounter_completed": true,
+      "waypoints_completed": 2,
+      "waypoints_total": 2,
+      "freeze_at_seconds": null,
+      "parameter_reversion_time_seconds": null,
+      "execution_mode": "deterministic_next_boundary",
+      "wall_seconds": 3.1253848341293633,
+      "controller_median_seconds": 0.008942383923567832,
+      "learner_median_seconds": null,
+      "operational_minima": {
+        "arena_m": 1.0480675888061524,
+        "speed_m_s": 1.9351043701171875,
+        "angular_rate_rad_s": 11.34974479675293,
+        "tilt_rad": 0.5965555310249329,
+        "motor_N": 0.06940855085849762
+      },
+      "all_operational_nodes_pass": true
+    },
+    "adaptive": {
+      "termination": "completed",
+      "collision_kind": null,
+      "termination_time_seconds": 11.92,
+      "censored": false,
+      "start_time_seconds": 0.0,
+      "collider_lower_m": 0.17200305143393366,
+      "collider_upper_m": 0.1720030671515496,
+      "collider_clearance_m": 0.17200305929274162,
+      "ground_lower_m": 1.116879171070239,
+      "ground_upper_m": 1.116879171455816,
+      "enclosure_clearance_m": 0.15582536828341675,
+      "shell_clearance_m": 0.005825368283416732,
+      "first_collider_intersection_seconds": null,
+      "controls": 298,
+      "qp_controls": 295,
+      "fallback_controls": 3,
+      "emergency_controls": 0,
+      "degraded_controls": 0,
+      "executed_learned_positive_dual_controls": 57,
+      "finite_updates": 297,
+      "initial_version": 660,
+      "final_version": 957,
+      "last_executed_version": 957,
+      "wind_onset_version": 716,
+      "encounter_completed": true,
+      "waypoints_completed": 2,
+      "waypoints_total": 2,
+      "freeze_at_seconds": null,
+      "parameter_reversion_time_seconds": null,
+      "execution_mode": "deterministic_next_boundary",
+      "wall_seconds": 6.976565140997991,
+      "controller_median_seconds": 0.009035433060489595,
+      "learner_median_seconds": 0.011089582927525043,
+      "operational_minima": {
+        "arena_m": 0.9529458475112916,
+        "speed_m_s": 1.6690188646316528,
+        "angular_rate_rad_s": 11.369150161743164,
+        "tilt_rad": 0.6017084717750549,
+        "motor_N": 0.06781250238418579
+      },
+      "all_operational_nodes_pass": true
+    }
+  },
+  "outcome_class": "both_separated",
+  "fixed_physical_class": "separated",
+  "adaptive_physical_class": "separated",
+  "promotion_candidate": false,
+  "objective": 0.17122363395394774,
+  "clearance_advantage_m": 0.0007794174799859166
+}

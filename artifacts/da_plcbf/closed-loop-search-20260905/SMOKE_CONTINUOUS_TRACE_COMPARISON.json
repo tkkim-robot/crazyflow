@@ -1,0 +1,322 @@
+{
+  "sources": {
+    "artifacts/da_plcbf/case-study-20260905/continuous-deterministic-v1/dense_plant_states.npz": "a68cac12fd4d891bd51fe0a405f8a577328723034184e87e0e0ac9e0de37e0e8",
+    "artifacts/da_plcbf/case-study-20260905/continuous-deterministic-v1/compact_control_trace.npz": "83dd320ddb5fbc8966194a0936d6200878c39792d6f5016c32dd83ec7145909a",
+    "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/smoke-u132-v1-0000/traces.npz": "52c301ceae7b3d1578456485c0c173088c05b6723ecf90bdd85451f5b4645dfe"
+  },
+  "methods": {
+    "fixed": {
+      "dense_state": {
+        "old_shape": [
+          579,
+          13
+        ],
+        "new_shape": [
+          579,
+          13
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "control_state": {
+        "old_shape": [
+          289,
+          13
+        ],
+        "new_shape": [
+          289,
+          13
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "action": {
+        "old_shape": [
+          289,
+          4
+        ],
+        "new_shape": [
+          289,
+          4
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "selected": {
+        "source": "old selected_index (augmented nominal+fallback index); selected_policy is display fallback index, shifted by one",
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "mode": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "qp": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "degraded": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "emergency": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "fallback": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "dual": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "hard": {
+        "old_shape": [
+          289,
+          17
+        ],
+        "new_shape": [
+          289,
+          17
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "smooth": {
+        "old_shape": [
+          289,
+          17
+        ],
+        "new_shape": [
+          289,
+          17
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "version_used": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      }
+    },
+    "adaptive": {
+      "dense_state": {
+        "old_shape": [
+          579,
+          13
+        ],
+        "new_shape": [
+          579,
+          13
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "control_state": {
+        "old_shape": [
+          289,
+          13
+        ],
+        "new_shape": [
+          289,
+          13
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "action": {
+        "old_shape": [
+          289,
+          4
+        ],
+        "new_shape": [
+          289,
+          4
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "selected": {
+        "source": "old selected_index (augmented nominal+fallback index); selected_policy is display fallback index, shifted by one",
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "mode": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "qp": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "degraded": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "emergency": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "fallback": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "dual": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "hard": {
+        "old_shape": [
+          289,
+          17
+        ],
+        "new_shape": [
+          289,
+          17
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "smooth": {
+        "old_shape": [
+          289,
+          17
+        ],
+        "new_shape": [
+          289,
+          17
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      },
+      "version_used": {
+        "old_shape": [
+          289
+        ],
+        "new_shape": [
+          289
+        ],
+        "exact": true,
+        "max_absolute_difference": 0.0,
+        "mismatch_entries": 0
+      }
+    }
+  },
+  "conclusion": "Both methods reproduce all compared applied controls, dense/control states, policy values, augmented selections, modes, duals, and executed versions exactly; no compiler/wrapper difference is observed."
+}

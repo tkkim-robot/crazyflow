@@ -1,0 +1,26 @@
+{
+  "environment": ".pixi/envs/gpu-tests/bin/python",
+  "env": {
+    "JAX_PLATFORMS": "cpu",
+    "CUDA_VISIBLE_DEVICES": "",
+    "PYTHONPATH": "."
+  },
+  "command": "python -m pytest -q tests/unit/safety/da_plcbf/test_case_study_world.py tests/unit/safety/da_plcbf/test_navigation_experiment.py tests/unit/safety/da_plcbf/test_collision_termination.py tests/unit/safety/da_plcbf/test_closed_loop_search.py tests/unit/safety/da_plcbf/test_closed_loop_refinement.py tests/unit/safety/da_plcbf/test_closed_loop_confirmation.py tests/unit/safety/da_plcbf/test_closed_loop_video.py",
+  "result": "97 passed in 65.00s",
+  "scope": "focused behavior regressions and continuous runner integration; numerical GPU episode results published separately",
+  "supplemental_contact_renderer": {
+    "command": "python -m pytest -q -m 'not render' tests/unit/safety/da_plcbf/test_mujoco_comparison_video.py tests/unit/safety/da_plcbf/test_closed_loop_video.py",
+    "result": "39 passed, 3 deselected in 1.26s",
+    "scope": "after contact-mode validation correction; overlaps the earlier video-splice subset; actual final videos rendered and decoded separately"
+  },
+  "final_consolidated": {
+    "command": "python -m pytest -q -m 'not render' tests/unit/safety/da_plcbf/test_case_study_world.py tests/unit/safety/da_plcbf/test_navigation_experiment.py tests/unit/safety/da_plcbf/test_collision_termination.py tests/unit/safety/da_plcbf/test_closed_loop_search.py tests/unit/safety/da_plcbf/test_closed_loop_refinement.py tests/unit/safety/da_plcbf/test_closed_loop_confirmation.py tests/unit/safety/da_plcbf/test_closed_loop_video.py tests/unit/safety/da_plcbf/test_mujoco_comparison_video.py tests/unit/safety/da_plcbf/test_closed_loop_publication.py",
+    "result": "135 passed, 3 deselected in 68.88s",
+    "scope": "final consolidated suite supersedes earlier overlapping test counts; final clips rendered/decoded separately"
+  },
+  "final_publication_selection": {
+    "command": "python -m pytest -q tests/unit/safety/da_plcbf/test_closed_loop_publication.py",
+    "result": "...........                                                              [100%]\n11 passed in 0.05s",
+    "scope": "after reducing publication to eight representative stills; numerical and controller source unchanged"
+  }
+}

@@ -1,5 +1,53 @@
 # DA-PLCBF current handoff — 2026-09-05
 
+Start with [DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md](DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md).
+This revision follows `main` commit `0bcd4a17b03d0fc99f4bdcc024b866090072fa43`.
+
+The full continuous frozen controller now reaches a definite modeled XML-sphere intersection
+at **4.615011 s**, while adaptation completes both waypoints with **+0.172447 m** minimum
+physical clearance in the deterministic replay. Both independent moving obstacles are present
+from time zero. QP, short fallback, emergency rescue, model information, and operational limits
+remain matched. Analytic obstacle HOCBF was already disabled; no extra HOCBF was removed.
+
+The outcome persists at extra clearances 0.15/0.05/0.02/0.00 m, finer 10/5 ms plant integration,
+and all 12 presaved nearby scenes (12 observed fixed contacts, 11 meeting the original strict
+2 mm criterion; the narrow draw also collides at 5 ms). Onset freezing fails despite the identical
+calm prefix. At a common 3.00 s full-scene state, holding the available learned library survives
+and reverting only its control parameters to the original library collides. The later 4.20 s
+reversion survives; that negative necessity result remains recorded.
+
+**Claim boundary:** this is an advantage for the matched uncompensated fallback mapping.
+The stronger explicitly compensated frozen fallback remains safe in the selected geometry,
+all four buffers, and the tested neighborhood. Both nominal and emergency controllers remain
+model-compensated even in the uncompensated-fallback comparison. No advantage over the stronger
+comparator or general safety/hardware guarantee is claimed.
+
+Discovery contains **71 distinct full paired episodes**, plus a separate U132 reproduction pair.
+Deterministic confirmation adds 36 paired comparisons (70 newly executed method episodes), and
+targeted confirmation adds 9 pairs. The 128-pair family budgets stopped early after confirmation;
+there is no completed moving-state campaign. All failed and negative completed trials remain.
+
+The final paced replay completes 250 finite adaptive updates, uses 106 before first arrival,
+and records zero deadline misses in both methods. Fixed still contacts at the same time;
+adaptive completes with +0.173427 m physical clearance. The first paced replay is also retained,
+including one fixed time-zero service overrun. Disposable host-diagnostic warmup and phase timing
+were added before the final replay; causal publication still waits for measured completion.
+
+New evidence: `artifacts/da_plcbf/closed-loop-search-20260905`. Its review scope and publication
+manifest distinguish compact numerical evidence from local videos and bulk rollout tensors.
+Exact execution source archives preserve earlier results across later diagnostic changes.
+Generated videos remain local and are excluded from Git. Final clips are
+`videos/paced-collision-v2/comparison.mp4` and `videos/paced-compensated-v2/comparison.mp4` within
+that evidence root. Earlier camera renders are explicitly superseded. The final consolidated
+suite passes 135 tests; final video verification is separate.
+
+Useful next research: test independently chosen, harder scenes against the compensated fallback,
+then evaluate broader moving-state and uncertain-model settings. Preserve the full controller
+rescues and actual publication timing. Use outcome-driven full episodes, not an exclusive initial
+hard-H certificate gap. Keep engineering case-study evidence separate from a sealed campaign.
+
+## Previous safety-case revision — preserved
+
 Start with [DA_PLCBF_SAFETY_CASE_REVIEW.md](DA_PLCBF_SAFETY_CASE_REVIEW.md).
 The newest revision follows `main` commit `c653e0b522654afd547a43bc93d7f74b545c6a08` and adds
 persistent-wind case discovery, full-QP screening, causal branches, neighborhood confirmation,

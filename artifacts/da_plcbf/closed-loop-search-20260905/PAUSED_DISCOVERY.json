@@ -1,0 +1,18 @@
+{
+  "paused_at_utc": "2026-09-05T23:08:33.520019+00:00",
+  "reason": "isolate GPU for validation of staggered-initial-v1-0000; retain process state and all completed records",
+  "processes": [
+    {
+      "pid": 1653361,
+      "command": ".pixi/envs/gpu-tests/bin/python benchmark/da_plcbf_closed_loop_search.py --output artifacts/da_plcbf/closed-loop-search-20260905/single-initial-v1 --family single --count 128 --seed 37103"
+    },
+    {
+      "pid": 1657697,
+      "command": ".pixi/envs/gpu-tests/bin/python benchmark/da_plcbf_closed_loop_search.py --output artifacts/da_plcbf/closed-loop-search-20260905/guards-initial-v1 --family guards --count 128 --seed 38201"
+    },
+    {
+      "pid": 1680554,
+      "command": ".pixi/envs/gpu-tests/bin/python benchmark/da_plcbf_closed_loop_search.py --output artifacts/da_plcbf/closed-loop-search-20260905/staggered-initial-v1 --family staggered --count 128 --seed 39317"
+    }
+  ]
+}

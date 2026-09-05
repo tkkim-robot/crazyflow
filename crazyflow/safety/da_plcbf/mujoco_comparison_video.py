@@ -760,6 +760,13 @@ def _validate_method(method: MethodVideoTrace, steps: int, prefix: str) -> tuple
         modes = _integer_vector(method.execution_mode, steps, f"{prefix}.execution_mode")
         if np.any(modes < 0) or np.any(modes > 3):
             raise ValueError(f"{prefix}.execution_mode must lie in [0,3]")
+        # Contact rows retain the last airborne mode as archived telemetry, but execute no
+        # controller command. Their explicit replay mask already requires control inactivity.
+        mode_recorded = (
+            np.ones(steps, dtype=bool)
+            if method.contact_replay is None
+            else ~np.asarray(method.contact_replay)
+        )
         for name, mode in (
             ("used_fallback", 1),
             ("used_emergency", 2),
@@ -767,7 +774,9 @@ def _validate_method(method: MethodVideoTrace, steps: int, prefix: str) -> tuple
             ("qp_valid", 0),
         ):
             values = getattr(method, name)
-            if values is not None and np.any(np.asarray(values) != (modes == mode)):
+            if values is not None and np.any(
+                mode_recorded & (np.asarray(values) != (modes == mode))
+            ):
                 raise ValueError(f"{prefix}.{name} must agree with execution_mode")
     if method.qp_rejection_flags is not None:
         flags = np.asarray(method.qp_rejection_flags)

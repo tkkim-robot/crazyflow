@@ -1,0 +1,106 @@
+{
+  "adaptive": {
+    "actual_xml_ground_geometry": {
+      "first_chord_intersection_time_seconds": null,
+      "ground_height_m": 0.0,
+      "minimum_clearance_lower_bound_m": 1.1125397730413693,
+      "minimum_clearance_m": 1.1125397732226212,
+      "minimum_clearance_upper_bound_m": 1.1125397733831923
+    },
+    "actual_xml_sphere_geometry": {
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation",
+      "maximum_chord_curvature_error_bound_m": 4.8703849622307806e-08,
+      "minimum_clearance_lower_bound_m": 0.17177606138253998,
+      "minimum_clearance_m": 0.17177606879760354,
+      "minimum_clearance_upper_bound_m": 0.1717760762126671
+    },
+    "body_origin_envelope": {
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation",
+      "maximum_chord_curvature_error_bound_m": 4.773908745473118e-08,
+      "minimum_clearance_lower_bound_m": 0.15578330343756067,
+      "minimum_clearance_m": 0.15578331142785273,
+      "minimum_clearance_upper_bound_m": 0.1557833186752832
+    },
+    "interpolated_node_count": 12200,
+    "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+    "maximum_substep_seconds": 0.0010000000000012221,
+    "safety_shell": {
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation",
+      "maximum_chord_curvature_error_bound_m": 4.773908745473118e-08,
+      "minimum_clearance_lower_bound_m": 0.005783303437560633,
+      "minimum_clearance_m": 0.005783311427852711,
+      "minimum_clearance_upper_bound_m": 0.005783318675283167
+    },
+    "schema": "recorded_cf21b_collision_geometry_audit_v1",
+    "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+    "source_node_count": 595,
+    "time_support_seconds": [
+      0.0,
+      11.88
+    ],
+    "xml_collider_body_offset_m": [
+      0.0,
+      0.0,
+      0.02
+    ],
+    "xml_collider_radius_m": 0.086
+  },
+  "fixed": {
+    "actual_xml_ground_geometry": {
+      "first_chord_intersection_time_seconds": null,
+      "ground_height_m": 0.0,
+      "minimum_clearance_lower_bound_m": 1.1944222057827847,
+      "minimum_clearance_m": 1.1944222060550511,
+      "minimum_clearance_upper_bound_m": 1.1944222062604763
+    },
+    "actual_xml_sphere_geometry": {
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation",
+      "maximum_chord_curvature_error_bound_m": 4.88392061721058e-08,
+      "minimum_clearance_lower_bound_m": 0.1706942386396516,
+      "minimum_clearance_m": 0.17069424703178238,
+      "minimum_clearance_upper_bound_m": 0.17069425542391314
+    },
+    "body_origin_envelope": {
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation",
+      "maximum_chord_curvature_error_bound_m": 4.773908745473118e-08,
+      "minimum_clearance_lower_bound_m": 0.15599258339103297,
+      "minimum_clearance_m": 0.15599259138132504,
+      "minimum_clearance_upper_bound_m": 0.1559925986287555
+    },
+    "interpolated_node_count": 11592,
+    "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+    "maximum_substep_seconds": 0.0010000000000012221,
+    "safety_shell": {
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation",
+      "maximum_chord_curvature_error_bound_m": 4.773908745473118e-08,
+      "minimum_clearance_lower_bound_m": 0.0059925833910329405,
+      "minimum_clearance_m": 0.005992591381325019,
+      "minimum_clearance_upper_bound_m": 0.005992598628755475
+    },
+    "schema": "recorded_cf21b_collision_geometry_audit_v1",
+    "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+    "source_node_count": 565,
+    "time_support_seconds": [
+      0.0,
+      11.28
+    ],
+    "xml_collider_body_offset_m": [
+      0.0,
+      0.0,
+      0.02
+    ],
+    "xml_collider_radius_m": 0.086
+  }
+}

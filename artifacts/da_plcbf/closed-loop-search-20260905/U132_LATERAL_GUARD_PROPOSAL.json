@@ -1,0 +1,120 @@
+{
+  "scope": "offline blocker fit to already executed continuous U132 paths only; these paths have not been re-executed with the guard present and this is not a closed-loop outcome",
+  "proposed_scene": {
+    "incoming": {
+      "arrival_time_seconds": 4.903185042785481,
+      "direction": [
+        0.3313175909113566,
+        -0.7768071771049359,
+        0.5355364259795553
+      ],
+      "speed_m_s": 1.0971190985292196,
+      "radius_m": 0.4987126130819336,
+      "crossing_offset": [
+        0.39436678439378736,
+        0.4534020610153674,
+        -0.03573476225137706
+      ],
+      "amplitude_m": 30
+    },
+    "guards": [
+      {
+        "offset": [
+          -0.055,
+          -0.6,
+          -0.042
+        ],
+        "radius_m": 0.18
+      }
+    ],
+    "seed": 0,
+    "wind_onset_seconds": 3.0,
+    "wind_velocity": [
+      1.6,
+      0.8,
+      0.0
+    ],
+    "duration_seconds": 12.0,
+    "navigation_start_seconds": 7.0,
+    "hover_position": [
+      0.0,
+      0.0,
+      1.4
+    ],
+    "waypoint_offsets": [
+      [
+        -1.5,
+        1.0,
+        0.3
+      ],
+      [
+        -2.0,
+        -1.0,
+        0.0
+      ]
+    ],
+    "arena_lower": [
+      -5.0,
+      -4.0,
+      0.15
+    ],
+    "arena_upper": [
+      5.0,
+      4.0,
+      4.0
+    ],
+    "dt": 0.02,
+    "control_interval_steps": 2,
+    "ego_radius": 0.106,
+    "obstacle_clearance": 0.15,
+    "reach_radius": 0.4,
+    "additional_incoming": [],
+    "initial_velocity": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "methods": {
+    "fixed": {
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": -0.1553682514653327,
+        "minimum_clearance_lower_bound_m": -0.15536825147008826,
+        "minimum_clearance_upper_bound_m": -0.1553682514627193,
+        "maximum_chord_curvature_error_bound_m": 5.821818139237385e-09,
+        "first_chord_intersection_time_seconds": 4.239315402722262,
+        "first_intersection_obstacle": 1,
+        "intersection_classification": "intersecting_under_recorded_state_interpolation"
+      },
+      "safety_shell": {
+        "minimum_clearance_m": -0.32817977400181914,
+        "minimum_clearance_lower_bound_m": -0.32817977400181914,
+        "minimum_clearance_upper_bound_m": -0.32817977400181914,
+        "maximum_chord_curvature_error_bound_m": 5.015292984826548e-09,
+        "first_chord_intersection_time_seconds": 3.934240270434402,
+        "first_intersection_obstacle": 1,
+        "intersection_classification": "intersecting_under_recorded_state_interpolation"
+      }
+    },
+    "adaptive": {
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": 0.06559100117200106,
+        "minimum_clearance_lower_bound_m": 0.06559100090306451,
+        "minimum_clearance_upper_bound_m": 0.06559100140498768,
+        "maximum_chord_curvature_error_bound_m": 5.702669481391022e-09,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "safety_shell": {
+        "minimum_clearance_m": -0.10633067036301619,
+        "minimum_clearance_lower_bound_m": -0.10633067036301619,
+        "minimum_clearance_upper_bound_m": -0.10633067036301619,
+        "maximum_chord_curvature_error_bound_m": 5.015292984826548e-09,
+        "first_chord_intersection_time_seconds": 4.037730563062093,
+        "first_intersection_obstacle": 1,
+        "intersection_classification": "intersecting_under_recorded_state_interpolation"
+      }
+    }
+  }
+}

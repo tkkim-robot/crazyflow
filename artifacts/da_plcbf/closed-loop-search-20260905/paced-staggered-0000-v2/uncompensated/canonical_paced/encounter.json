@@ -1,0 +1,83 @@
+{
+  "additional_incoming": [
+    {
+      "amplitude_m": 30,
+      "arrival_time_seconds": 5.057568054015885,
+      "crossing_offset": [
+        -0.20989746740265208,
+        0.5041733704135114,
+        0.44082012194967934
+      ],
+      "direction": [
+        0.028826312167549724,
+        -0.606018101453924,
+        0.7949283643429769
+      ],
+      "radius_m": 0.6472216816936824,
+      "speed_m_s": 3.384875328443793
+    }
+  ],
+  "arena_lower": [
+    -5.0,
+    -4.0,
+    0.15
+  ],
+  "arena_upper": [
+    5.0,
+    4.0,
+    4.0
+  ],
+  "control_interval_steps": 2,
+  "dt": 0.02,
+  "duration_seconds": 14.0,
+  "ego_radius": 0.106,
+  "guards": [],
+  "hover_position": [
+    0.0,
+    0.0,
+    1.4
+  ],
+  "incoming": {
+    "amplitude_m": 30,
+    "arrival_time_seconds": 4.5109082526924755,
+    "crossing_offset": [
+      -0.24969562981984494,
+      -0.23621646019211112,
+      -0.3007577339958487
+    ],
+    "direction": [
+      0.8502447207410617,
+      0.22095842923711267,
+      0.47776698023306485
+    ],
+    "radius_m": 0.6798830392950748,
+    "speed_m_s": 1.3847996601332113
+  },
+  "initial_velocity": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "navigation_start_seconds": 6.16,
+  "obstacle_clearance": 0.15,
+  "reach_radius": 0.4,
+  "seed": 39317,
+  "waypoint_offsets": [
+    [
+      -1.5,
+      1.0,
+      0.3
+    ],
+    [
+      -2.0,
+      -1.0,
+      0.0
+    ]
+  ],
+  "wind_onset_seconds": 2.2,
+  "wind_velocity": [
+    -1.657435409174936,
+    1.1251500323514874,
+    0.49833883831253506
+  ]
+}

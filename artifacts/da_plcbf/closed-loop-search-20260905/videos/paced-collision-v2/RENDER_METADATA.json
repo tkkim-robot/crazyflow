@@ -1,0 +1,3114 @@
+{
+  "scope": "Replay a confirmed full episode, with an optional separately simulated contact fall.\n\n``prepare-contact`` uses existing MuJoCo rigid-body contact physics only after a recorded\nmodeled-sphere intersection. ``render`` reads saved flight/contact poses and never reruns\ncontrol, learning, or contact dynamics. Videos remain local artifacts.\n",
+  "source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/navigation_comparison.npz": "8a24e1e8b6adc559648684ce0e476189844335421cd4c2b95620a97a81a043ec",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/navigation_comparison.json": "d0ad3d7d7faff9c824429a2f3b34ed8da047dd03b51b948bc43a37f170d0f548",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/CASE_EPISODE_SUMMARY.json": "3244c2b6dbc73f441f9cd89ae8bf070b7d2eadf7f13d1f41b48cdb405f7c2339",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/contact-paced-v2/contact_replay.json": "d2af4c73861c37967133a65753a50a6fc624fa2f5b90a3787aca1b75103b8c9d",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/contact-paced-v2/contact_replay.npz": "af93be2f22616741b8c4d5994ac9abe4d98e20e48ff2a6056dfe52e4a260b775",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/contact-paced-v2/contact_model.xml": "dd03839116926ad31420206e142831e80efc70b99d020972a44f1f9c6358889c"
+  },
+  "splice": {
+    "scope": "saved physical-contact continuation only; original fixed control stops at handoff",
+    "trigger": {
+      "time_seconds": 4.615010812454642,
+      "kind": "swept_collider_contact",
+      "source_interval": 4615,
+      "obstacle_index": 0,
+      "source_swept_event_time_seconds": 4.615010812454642,
+      "handoff_backoff_seconds": 0.0,
+      "shell_ego_radius_m": null,
+      "shell_clearance_m": 0.0
+    },
+    "source_sample_indices": [
+      25,
+      65,
+      105,
+      145,
+      185,
+      225,
+      265,
+      305,
+      345,
+      385,
+      425,
+      465,
+      505,
+      545,
+      585,
+      625,
+      665,
+      705,
+      745,
+      785,
+      825,
+      865,
+      905,
+      945,
+      985,
+      1025,
+      1065,
+      1105,
+      1145,
+      1185,
+      1225,
+      1265,
+      1305,
+      1345,
+      1385,
+      1425,
+      1465,
+      1505,
+      1545,
+      1585,
+      1625,
+      1665,
+      1705,
+      1745,
+      1785,
+      1825,
+      1865,
+      1905,
+      1945,
+      1985,
+      2025,
+      2065,
+      2105,
+      2145,
+      2185,
+      2225,
+      2265,
+      2305,
+      2345,
+      2385,
+      2425,
+      2465,
+      2505,
+      2545,
+      2585,
+      2625,
+      2665,
+      2705,
+      2745,
+      2785,
+      2825,
+      2865,
+      2905,
+      2945,
+      2985,
+      3025,
+      3065,
+      3105,
+      3145,
+      3185,
+      3225,
+      3265,
+      3305,
+      3345,
+      3385,
+      3425,
+      3465,
+      3505,
+      3545,
+      3585,
+      3625,
+      3665,
+      3705,
+      3745,
+      3785,
+      3825,
+      3865,
+      3905,
+      3945,
+      3985,
+      4025,
+      4065,
+      4105,
+      4145,
+      4185,
+      4225,
+      4265,
+      4305,
+      4345,
+      4385,
+      4425,
+      4465,
+      4505,
+      4545,
+      4585,
+      4625,
+      4665,
+      4705,
+      4745,
+      4785,
+      4825,
+      4865,
+      4905,
+      4945,
+      4985,
+      5025,
+      5065,
+      5105,
+      5145,
+      5185,
+      5225,
+      5265,
+      5305,
+      5345,
+      5385,
+      5425,
+      5465,
+      5505,
+      5545,
+      5585,
+      5625,
+      5665,
+      5705,
+      5745,
+      5785,
+      5825,
+      5865,
+      5905,
+      5945,
+      5985,
+      6025,
+      6065,
+      6105,
+      6145,
+      6185,
+      6225,
+      6265,
+      6305,
+      6345,
+      6385,
+      6425,
+      6465,
+      6505,
+      6545,
+      6585,
+      6625,
+      6665,
+      6705,
+      6745,
+      6785,
+      6825,
+      6865,
+      6905,
+      6945,
+      6985,
+      7025,
+      7065,
+      7105,
+      7145,
+      7185,
+      7225,
+      7265,
+      7305,
+      7345,
+      7385,
+      7425,
+      7465,
+      7505,
+      7545,
+      7585,
+      7625,
+      7665,
+      7705,
+      7745,
+      7785,
+      7825,
+      7865,
+      7905,
+      7945,
+      7985,
+      8025,
+      8065,
+      8105,
+      8145,
+      8185,
+      8225,
+      8265,
+      8305,
+      8345,
+      8385,
+      8425,
+      8465,
+      8505,
+      8545,
+      8585,
+      8625,
+      8665,
+      8705,
+      8745,
+      8785,
+      8825,
+      8865,
+      8905,
+      8945,
+      8985,
+      9025,
+      9065,
+      9105,
+      9145,
+      9185,
+      9225,
+      9265,
+      9305,
+      9345,
+      9385
+    ],
+    "maximum_time_quantization_seconds": 1.0812454643627234e-05,
+    "adaptive_trace_object_unchanged": true,
+    "fixed_precontact_states_exact": true,
+    "no_control_or_waypoint_credit_after_contact": true
+  },
+  "render_config": {
+    "fps": 20,
+    "width": 1600,
+    "height": 900,
+    "camera_azimuth": 225,
+    "camera_elevation": -22.0,
+    "camera_distance": 5.2,
+    "wind_arrow_scale": 0.18,
+    "intervention_arrow_scale": 0.18,
+    "probe_pause_time": null,
+    "probe_pause_seconds": 0.0,
+    "mode": "demo",
+    "repertoire_extent_m": 1.5,
+    "wind_streak_spacing_m": 1.2,
+    "wind_streak_exposure_seconds": 0.25,
+    "freeze_after_collision": true,
+    "freeze_after_termination": false,
+    "comparison_note": "Same physical spheres +15 cm optional clearance \u00b7 after contact: separate MuJoCo motor-off continuation",
+    "hover_camera_distance": 4.3,
+    "camera_transition_seconds": 2.0
+  },
+  "frame_count": 281,
+  "duration_seconds": 14.05,
+  "video_sha256": "fca55c16cc3c8c675a7ee8eeed802d2b291a7f88879ee15e1de0872e6a2d208e",
+  "source_time_support_seconds": [
+    0.0,
+    14.0
+  ],
+  "source_execution_mode": "budgeted",
+  "actual_collider_event_seconds": 4.615010812454642,
+  "adaptive_completion_seconds": 10.52,
+  "source_finite_updates": 250,
+  "render_source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_closed_loop_video.py": "da911719a351c89d65e8497ecb7035f8d91cfa19843295a049b27fb869651ca4",
+    "/home/tk/Desktop/mycode/crazyflow/crazyflow/safety/da_plcbf/mujoco_comparison_video.py": "c2cd2284efa2efb716bc3eb97c6f8c4f1ef6ab8e6b1cf805d1396fe3bd969dd5"
+  },
+  "scene_checks": [
+    {
+      "index": 0,
+      "world": 0,
+      "scene_mean_rgb": 90.5359073812882
+    },
+    {
+      "index": 0,
+      "world": 1,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 1,
+      "world": 0,
+      "scene_mean_rgb": 90.53631699576869
+    },
+    {
+      "index": 1,
+      "world": 1,
+      "scene_mean_rgb": 90.53645510108133
+    },
+    {
+      "index": 3,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 3,
+      "world": 1,
+      "scene_mean_rgb": 90.53557827926657
+    },
+    {
+      "index": 4,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 4,
+      "world": 1,
+      "scene_mean_rgb": 90.5355206864128
+    },
+    {
+      "index": 5,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 5,
+      "world": 1,
+      "scene_mean_rgb": 90.5355712270804
+    },
+    {
+      "index": 6,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 6,
+      "world": 1,
+      "scene_mean_rgb": 90.53574811941702
+    },
+    {
+      "index": 7,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 7,
+      "world": 1,
+      "scene_mean_rgb": 90.53613363892806
+    },
+    {
+      "index": 9,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 9,
+      "world": 1,
+      "scene_mean_rgb": 90.53687353079455
+    },
+    {
+      "index": 10,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 10,
+      "world": 1,
+      "scene_mean_rgb": 90.53687470615891
+    },
+    {
+      "index": 11,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 11,
+      "world": 1,
+      "scene_mean_rgb": 90.53687353079455
+    },
+    {
+      "index": 12,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 12,
+      "world": 1,
+      "scene_mean_rgb": 90.53691231781852
+    },
+    {
+      "index": 14,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 14,
+      "world": 1,
+      "scene_mean_rgb": 90.53736894687353
+    },
+    {
+      "index": 15,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 15,
+      "world": 1,
+      "scene_mean_rgb": 90.53717853784673
+    },
+    {
+      "index": 16,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 16,
+      "world": 1,
+      "scene_mean_rgb": 90.53712388340385
+    },
+    {
+      "index": 17,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 17,
+      "world": 1,
+      "scene_mean_rgb": 90.53680065820404
+    },
+    {
+      "index": 19,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 19,
+      "world": 1,
+      "scene_mean_rgb": 90.53646215326751
+    },
+    {
+      "index": 20,
+      "world": 0,
+      "scene_mean_rgb": 90.53631699576869
+    },
+    {
+      "index": 20,
+      "world": 1,
+      "scene_mean_rgb": 90.53649330042313
+    },
+    {
+      "index": 21,
+      "world": 0,
+      "scene_mean_rgb": 90.53631582040433
+    },
+    {
+      "index": 21,
+      "world": 1,
+      "scene_mean_rgb": 90.53600082275506
+    },
+    {
+      "index": 22,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 22,
+      "world": 1,
+      "scene_mean_rgb": 90.53592031029619
+    },
+    {
+      "index": 24,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 24,
+      "world": 1,
+      "scene_mean_rgb": 90.53563939821345
+    },
+    {
+      "index": 25,
+      "world": 0,
+      "scene_mean_rgb": 90.5363164080865
+    },
+    {
+      "index": 25,
+      "world": 1,
+      "scene_mean_rgb": 90.53599083215796
+    },
+    {
+      "index": 26,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 26,
+      "world": 1,
+      "scene_mean_rgb": 90.5361389280677
+    },
+    {
+      "index": 27,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 27,
+      "world": 1,
+      "scene_mean_rgb": 90.53642983074754
+    },
+    {
+      "index": 29,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 29,
+      "world": 1,
+      "scene_mean_rgb": 90.53677186177715
+    },
+    {
+      "index": 30,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 30,
+      "world": 1,
+      "scene_mean_rgb": 90.53711271744241
+    },
+    {
+      "index": 31,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 31,
+      "world": 1,
+      "scene_mean_rgb": 90.5369857780912
+    },
+    {
+      "index": 32,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 32,
+      "world": 1,
+      "scene_mean_rgb": 90.5368306299953
+    },
+    {
+      "index": 34,
+      "world": 0,
+      "scene_mean_rgb": 90.53631817113305
+    },
+    {
+      "index": 34,
+      "world": 1,
+      "scene_mean_rgb": 90.53665373765867
+    },
+    {
+      "index": 35,
+      "world": 0,
+      "scene_mean_rgb": 90.53631758345087
+    },
+    {
+      "index": 35,
+      "world": 1,
+      "scene_mean_rgb": 90.53661730136342
+    },
+    {
+      "index": 36,
+      "world": 0,
+      "scene_mean_rgb": 90.53803831687823
+    },
+    {
+      "index": 36,
+      "world": 1,
+      "scene_mean_rgb": 90.53836624353549
+    },
+    {
+      "index": 37,
+      "world": 0,
+      "scene_mean_rgb": 90.54860249177246
+    },
+    {
+      "index": 37,
+      "world": 1,
+      "scene_mean_rgb": 90.54877938410907
+    },
+    {
+      "index": 39,
+      "world": 0,
+      "scene_mean_rgb": 90.58073225199811
+    },
+    {
+      "index": 39,
+      "world": 1,
+      "scene_mean_rgb": 90.5807963093559
+    },
+    {
+      "index": 40,
+      "world": 0,
+      "scene_mean_rgb": 90.59826574988246
+    },
+    {
+      "index": 40,
+      "world": 1,
+      "scene_mean_rgb": 90.59826398683592
+    },
+    {
+      "index": 41,
+      "world": 0,
+      "scene_mean_rgb": 90.61768041842971
+    },
+    {
+      "index": 41,
+      "world": 1,
+      "scene_mean_rgb": 90.61765573577809
+    },
+    {
+      "index": 42,
+      "world": 0,
+      "scene_mean_rgb": 90.64736189468735
+    },
+    {
+      "index": 42,
+      "world": 1,
+      "scene_mean_rgb": 90.64740714621533
+    },
+    {
+      "index": 44,
+      "world": 0,
+      "scene_mean_rgb": 90.68345674659145
+    },
+    {
+      "index": 44,
+      "world": 1,
+      "scene_mean_rgb": 90.68354078514339
+    },
+    {
+      "index": 45,
+      "world": 0,
+      "scene_mean_rgb": 90.70274330042314
+    },
+    {
+      "index": 45,
+      "world": 1,
+      "scene_mean_rgb": 90.70280030559474
+    },
+    {
+      "index": 46,
+      "world": 0,
+      "scene_mean_rgb": 90.72723613070052
+    },
+    {
+      "index": 46,
+      "world": 1,
+      "scene_mean_rgb": 90.72742301363422
+    },
+    {
+      "index": 47,
+      "world": 0,
+      "scene_mean_rgb": 90.75067759755524
+    },
+    {
+      "index": 47,
+      "world": 1,
+      "scene_mean_rgb": 90.75112541137753
+    },
+    {
+      "index": 49,
+      "world": 0,
+      "scene_mean_rgb": 90.8015226845322
+    },
+    {
+      "index": 49,
+      "world": 1,
+      "scene_mean_rgb": 90.80184532204983
+    },
+    {
+      "index": 50,
+      "world": 0,
+      "scene_mean_rgb": 90.82986424541608
+    },
+    {
+      "index": 50,
+      "world": 1,
+      "scene_mean_rgb": 90.83014985895628
+    },
+    {
+      "index": 51,
+      "world": 0,
+      "scene_mean_rgb": 90.86072813822285
+    },
+    {
+      "index": 51,
+      "world": 1,
+      "scene_mean_rgb": 90.8608944522802
+    },
+    {
+      "index": 52,
+      "world": 0,
+      "scene_mean_rgb": 90.89175775740479
+    },
+    {
+      "index": 52,
+      "world": 1,
+      "scene_mean_rgb": 90.89181535025858
+    },
+    {
+      "index": 54,
+      "world": 0,
+      "scene_mean_rgb": 90.95438293370945
+    },
+    {
+      "index": 54,
+      "world": 1,
+      "scene_mean_rgb": 90.95458215796897
+    },
+    {
+      "index": 55,
+      "world": 0,
+      "scene_mean_rgb": 91.71390926187118
+    },
+    {
+      "index": 55,
+      "world": 1,
+      "scene_mean_rgb": 91.71461095439587
+    },
+    {
+      "index": 56,
+      "world": 0,
+      "scene_mean_rgb": 91.81067054536906
+    },
+    {
+      "index": 56,
+      "world": 1,
+      "scene_mean_rgb": 91.8007645745181
+    },
+    {
+      "index": 57,
+      "world": 0,
+      "scene_mean_rgb": 91.85962858486131
+    },
+    {
+      "index": 57,
+      "world": 1,
+      "scene_mean_rgb": 91.8324523977433
+    },
+    {
+      "index": 59,
+      "world": 0,
+      "scene_mean_rgb": 91.87251351669018
+    },
+    {
+      "index": 59,
+      "world": 1,
+      "scene_mean_rgb": 91.83904736718382
+    },
+    {
+      "index": 60,
+      "world": 0,
+      "scene_mean_rgb": 91.85422543488481
+    },
+    {
+      "index": 60,
+      "world": 1,
+      "scene_mean_rgb": 91.8199618006582
+    },
+    {
+      "index": 61,
+      "world": 0,
+      "scene_mean_rgb": 91.83510872120357
+    },
+    {
+      "index": 61,
+      "world": 1,
+      "scene_mean_rgb": 91.79195698166431
+    },
+    {
+      "index": 62,
+      "world": 0,
+      "scene_mean_rgb": 91.80357663375646
+    },
+    {
+      "index": 62,
+      "world": 1,
+      "scene_mean_rgb": 91.75327515279737
+    },
+    {
+      "index": 64,
+      "world": 0,
+      "scene_mean_rgb": 91.77977256699577
+    },
+    {
+      "index": 64,
+      "world": 1,
+      "scene_mean_rgb": 91.68633403855195
+    },
+    {
+      "index": 65,
+      "world": 0,
+      "scene_mean_rgb": 91.78901563234602
+    },
+    {
+      "index": 65,
+      "world": 1,
+      "scene_mean_rgb": 91.69641572637518
+    },
+    {
+      "index": 66,
+      "world": 0,
+      "scene_mean_rgb": 91.79460801598495
+    },
+    {
+      "index": 66,
+      "world": 1,
+      "scene_mean_rgb": 91.69921191819464
+    },
+    {
+      "index": 67,
+      "world": 0,
+      "scene_mean_rgb": 91.82683298072402
+    },
+    {
+      "index": 67,
+      "world": 1,
+      "scene_mean_rgb": 91.73577162670428
+    },
+    {
+      "index": 69,
+      "world": 0,
+      "scene_mean_rgb": 91.84867183826987
+    },
+    {
+      "index": 69,
+      "world": 1,
+      "scene_mean_rgb": 91.76121121297602
+    },
+    {
+      "index": 70,
+      "world": 0,
+      "scene_mean_rgb": 91.84552421250588
+    },
+    {
+      "index": 70,
+      "world": 1,
+      "scene_mean_rgb": 91.76378055947343
+    },
+    {
+      "index": 71,
+      "world": 0,
+      "scene_mean_rgb": 91.84804184297133
+    },
+    {
+      "index": 71,
+      "world": 1,
+      "scene_mean_rgb": 91.78877644569816
+    },
+    {
+      "index": 72,
+      "world": 0,
+      "scene_mean_rgb": 91.9217736248237
+    },
+    {
+      "index": 72,
+      "world": 1,
+      "scene_mean_rgb": 91.86935942642219
+    },
+    {
+      "index": 74,
+      "world": 0,
+      "scene_mean_rgb": 92.04649858956276
+    },
+    {
+      "index": 74,
+      "world": 1,
+      "scene_mean_rgb": 92.00558533145275
+    },
+    {
+      "index": 75,
+      "world": 0,
+      "scene_mean_rgb": 92.09526563234603
+    },
+    {
+      "index": 75,
+      "world": 1,
+      "scene_mean_rgb": 92.06323636577339
+    },
+    {
+      "index": 76,
+      "world": 0,
+      "scene_mean_rgb": 92.17167665726375
+    },
+    {
+      "index": 76,
+      "world": 1,
+      "scene_mean_rgb": 92.15632581100141
+    },
+    {
+      "index": 77,
+      "world": 0,
+      "scene_mean_rgb": 92.18498119417019
+    },
+    {
+      "index": 77,
+      "world": 1,
+      "scene_mean_rgb": 92.16899682651622
+    },
+    {
+      "index": 79,
+      "world": 0,
+      "scene_mean_rgb": 92.06603314527503
+    },
+    {
+      "index": 79,
+      "world": 1,
+      "scene_mean_rgb": 92.10197049835449
+    },
+    {
+      "index": 80,
+      "world": 0,
+      "scene_mean_rgb": 92.0301046074283
+    },
+    {
+      "index": 80,
+      "world": 1,
+      "scene_mean_rgb": 92.05073871650211
+    },
+    {
+      "index": 81,
+      "world": 0,
+      "scene_mean_rgb": 91.98791372825576
+    },
+    {
+      "index": 81,
+      "world": 1,
+      "scene_mean_rgb": 92.01706452750352
+    },
+    {
+      "index": 82,
+      "world": 0,
+      "scene_mean_rgb": 91.9317953690644
+    },
+    {
+      "index": 82,
+      "world": 1,
+      "scene_mean_rgb": 91.99241008462623
+    },
+    {
+      "index": 84,
+      "world": 0,
+      "scene_mean_rgb": 91.85526386929948
+    },
+    {
+      "index": 84,
+      "world": 1,
+      "scene_mean_rgb": 91.92852080394923
+    },
+    {
+      "index": 85,
+      "world": 0,
+      "scene_mean_rgb": 91.8119575693465
+    },
+    {
+      "index": 85,
+      "world": 1,
+      "scene_mean_rgb": 91.93934649741419
+    },
+    {
+      "index": 86,
+      "world": 0,
+      "scene_mean_rgb": 91.8293876351669
+    },
+    {
+      "index": 86,
+      "world": 1,
+      "scene_mean_rgb": 91.96657263751763
+    },
+    {
+      "index": 87,
+      "world": 0,
+      "scene_mean_rgb": 91.81810354960038
+    },
+    {
+      "index": 87,
+      "world": 1,
+      "scene_mean_rgb": 92.02754290079925
+    },
+    {
+      "index": 89,
+      "world": 0,
+      "scene_mean_rgb": 91.71977080394923
+    },
+    {
+      "index": 89,
+      "world": 1,
+      "scene_mean_rgb": 91.95162552891397
+    },
+    {
+      "index": 90,
+      "world": 0,
+      "scene_mean_rgb": 91.69204807240244
+    },
+    {
+      "index": 90,
+      "world": 1,
+      "scene_mean_rgb": 91.9152668077104
+    },
+    {
+      "index": 91,
+      "world": 0,
+      "scene_mean_rgb": 91.71860778091208
+    },
+    {
+      "index": 91,
+      "world": 1,
+      "scene_mean_rgb": 91.941230606488
+    },
+    {
+      "index": 92,
+      "world": 0,
+      "scene_mean_rgb": 91.70010225669958
+    },
+    {
+      "index": 92,
+      "world": 1,
+      "scene_mean_rgb": 91.91348260460742
+    },
+    {
+      "index": 94,
+      "world": 0,
+      "scene_mean_rgb": 91.69502350728726
+    },
+    {
+      "index": 94,
+      "world": 1,
+      "scene_mean_rgb": 91.91712270803949
+    },
+    {
+      "index": 95,
+      "world": 0,
+      "scene_mean_rgb": 91.72249177244946
+    },
+    {
+      "index": 95,
+      "world": 1,
+      "scene_mean_rgb": 91.96154913023037
+    },
+    {
+      "index": 96,
+      "world": 0,
+      "scene_mean_rgb": 91.73280324400564
+    },
+    {
+      "index": 96,
+      "world": 1,
+      "scene_mean_rgb": 91.9840356135402
+    },
+    {
+      "index": 97,
+      "world": 0,
+      "scene_mean_rgb": 91.70255347907852
+    },
+    {
+      "index": 97,
+      "world": 1,
+      "scene_mean_rgb": 91.95982957216737
+    },
+    {
+      "index": 99,
+      "world": 0,
+      "scene_mean_rgb": 91.58784790785144
+    },
+    {
+      "index": 99,
+      "world": 1,
+      "scene_mean_rgb": 91.8148983309826
+    },
+    {
+      "index": 100,
+      "world": 0,
+      "scene_mean_rgb": 92.05632757404796
+    },
+    {
+      "index": 100,
+      "world": 1,
+      "scene_mean_rgb": 92.27154736718383
+    },
+    {
+      "index": 101,
+      "world": 0,
+      "scene_mean_rgb": 92.3238645980254
+    },
+    {
+      "index": 101,
+      "world": 1,
+      "scene_mean_rgb": 92.52210801598495
+    },
+    {
+      "index": 102,
+      "world": 0,
+      "scene_mean_rgb": 92.39545604137282
+    },
+    {
+      "index": 102,
+      "world": 1,
+      "scene_mean_rgb": 92.57149800188058
+    },
+    {
+      "index": 104,
+      "world": 0,
+      "scene_mean_rgb": 92.35344969440527
+    },
+    {
+      "index": 104,
+      "world": 1,
+      "scene_mean_rgb": 92.51956041372826
+    },
+    {
+      "index": 105,
+      "world": 0,
+      "scene_mean_rgb": 92.58247296661965
+    },
+    {
+      "index": 105,
+      "world": 1,
+      "scene_mean_rgb": 92.7097713916314
+    },
+    {
+      "index": 106,
+      "world": 0,
+      "scene_mean_rgb": 92.574682651622
+    },
+    {
+      "index": 106,
+      "world": 1,
+      "scene_mean_rgb": 92.67674365303245
+    },
+    {
+      "index": 107,
+      "world": 0,
+      "scene_mean_rgb": 92.322817348378
+    },
+    {
+      "index": 107,
+      "world": 1,
+      "scene_mean_rgb": 92.39846673718853
+    },
+    {
+      "index": 109,
+      "world": 0,
+      "scene_mean_rgb": 91.95807945463093
+    },
+    {
+      "index": 109,
+      "world": 1,
+      "scene_mean_rgb": 91.9907393041843
+    },
+    {
+      "index": 110,
+      "world": 0,
+      "scene_mean_rgb": 91.93526269393512
+    },
+    {
+      "index": 110,
+      "world": 1,
+      "scene_mean_rgb": 91.96957686882934
+    },
+    {
+      "index": 111,
+      "world": 0,
+      "scene_mean_rgb": 91.77305653502586
+    },
+    {
+      "index": 111,
+      "world": 1,
+      "scene_mean_rgb": 91.80079983544898
+    },
+    {
+      "index": 112,
+      "world": 0,
+      "scene_mean_rgb": 91.66796309355901
+    },
+    {
+      "index": 112,
+      "world": 1,
+      "scene_mean_rgb": 91.74235836859427
+    },
+    {
+      "index": 114,
+      "world": 0,
+      "scene_mean_rgb": 91.47426833568406
+    },
+    {
+      "index": 114,
+      "world": 1,
+      "scene_mean_rgb": 91.61974964739069
+    },
+    {
+      "index": 115,
+      "world": 0,
+      "scene_mean_rgb": 91.18595322049835
+    },
+    {
+      "index": 115,
+      "world": 1,
+      "scene_mean_rgb": 91.42713446168312
+    },
+    {
+      "index": 116,
+      "world": 0,
+      "scene_mean_rgb": 89.57405089327692
+    },
+    {
+      "index": 116,
+      "world": 1,
+      "scene_mean_rgb": 91.16088681241185
+    },
+    {
+      "index": 118,
+      "world": 0,
+      "scene_mean_rgb": 88.75735836859427
+    },
+    {
+      "index": 118,
+      "world": 1,
+      "scene_mean_rgb": 90.49005054066761
+    },
+    {
+      "index": 119,
+      "world": 0,
+      "scene_mean_rgb": 88.53310883874
+    },
+    {
+      "index": 119,
+      "world": 1,
+      "scene_mean_rgb": 89.95162376586742
+    },
+    {
+      "index": 120,
+      "world": 0,
+      "scene_mean_rgb": 88.36212623413257
+    },
+    {
+      "index": 120,
+      "world": 1,
+      "scene_mean_rgb": 89.49234308885755
+    },
+    {
+      "index": 121,
+      "world": 0,
+      "scene_mean_rgb": 88.32473436765397
+    },
+    {
+      "index": 121,
+      "world": 1,
+      "scene_mean_rgb": 89.09909379407617
+    },
+    {
+      "index": 123,
+      "world": 0,
+      "scene_mean_rgb": 88.77208509637988
+    },
+    {
+      "index": 123,
+      "world": 1,
+      "scene_mean_rgb": 88.67431828866948
+    },
+    {
+      "index": 124,
+      "world": 0,
+      "scene_mean_rgb": 88.78061295251528
+    },
+    {
+      "index": 124,
+      "world": 1,
+      "scene_mean_rgb": 88.64338269863657
+    },
+    {
+      "index": 125,
+      "world": 0,
+      "scene_mean_rgb": 88.61824283027738
+    },
+    {
+      "index": 125,
+      "world": 1,
+      "scene_mean_rgb": 88.58829513399154
+    },
+    {
+      "index": 126,
+      "world": 0,
+      "scene_mean_rgb": 88.4306599670898
+    },
+    {
+      "index": 126,
+      "world": 1,
+      "scene_mean_rgb": 88.56011694875411
+    },
+    {
+      "index": 127,
+      "world": 0,
+      "scene_mean_rgb": 88.85435766337565
+    },
+    {
+      "index": 127,
+      "world": 1,
+      "scene_mean_rgb": 88.57415373765868
+    },
+    {
+      "index": 129,
+      "world": 0,
+      "scene_mean_rgb": 89.90953749412317
+    },
+    {
+      "index": 129,
+      "world": 1,
+      "scene_mean_rgb": 89.1272396567936
+    },
+    {
+      "index": 130,
+      "world": 0,
+      "scene_mean_rgb": 89.60570756934649
+    },
+    {
+      "index": 130,
+      "world": 1,
+      "scene_mean_rgb": 89.16007110954396
+    },
+    {
+      "index": 131,
+      "world": 0,
+      "scene_mean_rgb": 89.10884755524212
+    },
+    {
+      "index": 131,
+      "world": 1,
+      "scene_mean_rgb": 89.14427950164551
+    },
+    {
+      "index": 132,
+      "world": 0,
+      "scene_mean_rgb": 89.76626704278327
+    },
+    {
+      "index": 132,
+      "world": 1,
+      "scene_mean_rgb": 89.07138457921955
+    },
+    {
+      "index": 134,
+      "world": 0,
+      "scene_mean_rgb": 90.664213093559
+    },
+    {
+      "index": 134,
+      "world": 1,
+      "scene_mean_rgb": 88.59939645039962
+    },
+    {
+      "index": 135,
+      "world": 0,
+      "scene_mean_rgb": 90.75066231781852
+    },
+    {
+      "index": 135,
+      "world": 1,
+      "scene_mean_rgb": 88.42632346027268
+    },
+    {
+      "index": 136,
+      "world": 0,
+      "scene_mean_rgb": 90.65735543018336
+    },
+    {
+      "index": 136,
+      "world": 1,
+      "scene_mean_rgb": 88.34092442407146
+    },
+    {
+      "index": 137,
+      "world": 0,
+      "scene_mean_rgb": 90.45391396332863
+    },
+    {
+      "index": 137,
+      "world": 1,
+      "scene_mean_rgb": 88.34136929948284
+    },
+    {
+      "index": 139,
+      "world": 0,
+      "scene_mean_rgb": 90.03548072402445
+    },
+    {
+      "index": 139,
+      "world": 1,
+      "scene_mean_rgb": 89.08387223789374
+    },
+    {
+      "index": 140,
+      "world": 0,
+      "scene_mean_rgb": 89.94262282557592
+    },
+    {
+      "index": 140,
+      "world": 1,
+      "scene_mean_rgb": 89.58836800658204
+    },
+    {
+      "index": 141,
+      "world": 0,
+      "scene_mean_rgb": 89.84796779501646
+    },
+    {
+      "index": 141,
+      "world": 1,
+      "scene_mean_rgb": 90.09220204513399
+    },
+    {
+      "index": 143,
+      "world": 0,
+      "scene_mean_rgb": 89.75564938881053
+    },
+    {
+      "index": 143,
+      "world": 1,
+      "scene_mean_rgb": 91.16448812881994
+    },
+    {
+      "index": 144,
+      "world": 0,
+      "scene_mean_rgb": 89.58275270333803
+    },
+    {
+      "index": 144,
+      "world": 1,
+      "scene_mean_rgb": 91.32343794076164
+    },
+    {
+      "index": 145,
+      "world": 0,
+      "scene_mean_rgb": 89.40722320169253
+    },
+    {
+      "index": 145,
+      "world": 1,
+      "scene_mean_rgb": 91.41719616831217
+    },
+    {
+      "index": 146,
+      "world": 0,
+      "scene_mean_rgb": 89.2429854254819
+    },
+    {
+      "index": 146,
+      "world": 1,
+      "scene_mean_rgb": 91.5489498119417
+    },
+    {
+      "index": 148,
+      "world": 0,
+      "scene_mean_rgb": 88.98472614010343
+    },
+    {
+      "index": 148,
+      "world": 1,
+      "scene_mean_rgb": 91.78047308415609
+    },
+    {
+      "index": 149,
+      "world": 0,
+      "scene_mean_rgb": 88.8918752938411
+    },
+    {
+      "index": 149,
+      "world": 1,
+      "scene_mean_rgb": 91.84730606488012
+    },
+    {
+      "index": 150,
+      "world": 0,
+      "scene_mean_rgb": 88.78728196991067
+    },
+    {
+      "index": 150,
+      "world": 1,
+      "scene_mean_rgb": 91.89627997179126
+    },
+    {
+      "index": 151,
+      "world": 0,
+      "scene_mean_rgb": 88.72039551010813
+    },
+    {
+      "index": 151,
+      "world": 1,
+      "scene_mean_rgb": 91.94174012693935
+    },
+    {
+      "index": 152,
+      "world": 0,
+      "scene_mean_rgb": 88.68351375176304
+    },
+    {
+      "index": 152,
+      "world": 1,
+      "scene_mean_rgb": 91.9296321109544
+    },
+    {
+      "index": 154,
+      "world": 0,
+      "scene_mean_rgb": 88.57088563704748
+    },
+    {
+      "index": 154,
+      "world": 1,
+      "scene_mean_rgb": 91.89205042313117
+    },
+    {
+      "index": 155,
+      "world": 0,
+      "scene_mean_rgb": 88.51497884344147
+    },
+    {
+      "index": 155,
+      "world": 1,
+      "scene_mean_rgb": 91.70866596144805
+    },
+    {
+      "index": 156,
+      "world": 0,
+      "scene_mean_rgb": 88.44681358721203
+    },
+    {
+      "index": 156,
+      "world": 1,
+      "scene_mean_rgb": 91.52821344616831
+    },
+    {
+      "index": 157,
+      "world": 0,
+      "scene_mean_rgb": 88.38865890926188
+    },
+    {
+      "index": 157,
+      "world": 1,
+      "scene_mean_rgb": 91.32146685472496
+    },
+    {
+      "index": 159,
+      "world": 0,
+      "scene_mean_rgb": 88.1918623648331
+    },
+    {
+      "index": 159,
+      "world": 1,
+      "scene_mean_rgb": 90.82760930888576
+    },
+    {
+      "index": 160,
+      "world": 0,
+      "scene_mean_rgb": 88.08158439116126
+    },
+    {
+      "index": 160,
+      "world": 1,
+      "scene_mean_rgb": 90.63715679360602
+    },
+    {
+      "index": 161,
+      "world": 0,
+      "scene_mean_rgb": 88.13511224729666
+    },
+    {
+      "index": 161,
+      "world": 1,
+      "scene_mean_rgb": 90.56403032440056
+    },
+    {
+      "index": 162,
+      "world": 0,
+      "scene_mean_rgb": 88.03320698166432
+    },
+    {
+      "index": 162,
+      "world": 1,
+      "scene_mean_rgb": 90.3417224964739
+    },
+    {
+      "index": 164,
+      "world": 0,
+      "scene_mean_rgb": 87.82212388340386
+    },
+    {
+      "index": 164,
+      "world": 1,
+      "scene_mean_rgb": 89.92867418899858
+    },
+    {
+      "index": 165,
+      "world": 0,
+      "scene_mean_rgb": 87.75461212976023
+    },
+    {
+      "index": 165,
+      "world": 1,
+      "scene_mean_rgb": 89.83119475787494
+    },
+    {
+      "index": 166,
+      "world": 0,
+      "scene_mean_rgb": 87.72174600376117
+    },
+    {
+      "index": 166,
+      "world": 1,
+      "scene_mean_rgb": 89.77990362012224
+    },
+    {
+      "index": 168,
+      "world": 0,
+      "scene_mean_rgb": 87.65382639868359
+    },
+    {
+      "index": 168,
+      "world": 1,
+      "scene_mean_rgb": 89.72615655853315
+    },
+    {
+      "index": 169,
+      "world": 0,
+      "scene_mean_rgb": 87.61644804889515
+    },
+    {
+      "index": 169,
+      "world": 1,
+      "scene_mean_rgb": 89.8472937235543
+    },
+    {
+      "index": 170,
+      "world": 0,
+      "scene_mean_rgb": 87.57436824165491
+    },
+    {
+      "index": 170,
+      "world": 1,
+      "scene_mean_rgb": 90.06783850493653
+    },
+    {
+      "index": 171,
+      "world": 0,
+      "scene_mean_rgb": 87.55518041842971
+    },
+    {
+      "index": 171,
+      "world": 1,
+      "scene_mean_rgb": 90.39180300893277
+    },
+    {
+      "index": 173,
+      "world": 0,
+      "scene_mean_rgb": 87.58028326281148
+    },
+    {
+      "index": 173,
+      "world": 1,
+      "scene_mean_rgb": 90.77255347907851
+    },
+    {
+      "index": 174,
+      "world": 0,
+      "scene_mean_rgb": 87.55934238363893
+    },
+    {
+      "index": 174,
+      "world": 1,
+      "scene_mean_rgb": 90.7615197461213
+    },
+    {
+      "index": 175,
+      "world": 0,
+      "scene_mean_rgb": 87.58083098260461
+    },
+    {
+      "index": 175,
+      "world": 1,
+      "scene_mean_rgb": 90.83850846262341
+    },
+    {
+      "index": 176,
+      "world": 0,
+      "scene_mean_rgb": 87.62172837329572
+    },
+    {
+      "index": 176,
+      "world": 1,
+      "scene_mean_rgb": 90.91111071932299
+    },
+    {
+      "index": 177,
+      "world": 0,
+      "scene_mean_rgb": 87.70144393511988
+    },
+    {
+      "index": 177,
+      "world": 1,
+      "scene_mean_rgb": 90.90534849553362
+    },
+    {
+      "index": 179,
+      "world": 0,
+      "scene_mean_rgb": 87.8923066525623
+    },
+    {
+      "index": 179,
+      "world": 1,
+      "scene_mean_rgb": 91.0013516690174
+    },
+    {
+      "index": 180,
+      "world": 0,
+      "scene_mean_rgb": 87.91932240244476
+    },
+    {
+      "index": 180,
+      "world": 1,
+      "scene_mean_rgb": 90.95895333803479
+    },
+    {
+      "index": 181,
+      "world": 0,
+      "scene_mean_rgb": 88.1159867183827
+    },
+    {
+      "index": 181,
+      "world": 1,
+      "scene_mean_rgb": 90.92863422661024
+    },
+    {
+      "index": 182,
+      "world": 0,
+      "scene_mean_rgb": 88.33074341795957
+    },
+    {
+      "index": 182,
+      "world": 1,
+      "scene_mean_rgb": 90.97000058768218
+    },
+    {
+      "index": 184,
+      "world": 0,
+      "scene_mean_rgb": 88.65637458862247
+    },
+    {
+      "index": 184,
+      "world": 1,
+      "scene_mean_rgb": 91.01713740009403
+    },
+    {
+      "index": 185,
+      "world": 0,
+      "scene_mean_rgb": 88.76951339915374
+    },
+    {
+      "index": 185,
+      "world": 1,
+      "scene_mean_rgb": 91.10863716502115
+    },
+    {
+      "index": 186,
+      "world": 0,
+      "scene_mean_rgb": 88.8509996473907
+    },
+    {
+      "index": 186,
+      "world": 1,
+      "scene_mean_rgb": 91.14004583921016
+    },
+    {
+      "index": 187,
+      "world": 0,
+      "scene_mean_rgb": 88.87210213916315
+    },
+    {
+      "index": 187,
+      "world": 1,
+      "scene_mean_rgb": 91.16395803949224
+    },
+    {
+      "index": 189,
+      "world": 0,
+      "scene_mean_rgb": 88.82990244475788
+    },
+    {
+      "index": 189,
+      "world": 1,
+      "scene_mean_rgb": 91.29103255759286
+    },
+    {
+      "index": 190,
+      "world": 0,
+      "scene_mean_rgb": 88.81761812411848
+    },
+    {
+      "index": 190,
+      "world": 1,
+      "scene_mean_rgb": 91.33183239304184
+    },
+    {
+      "index": 191,
+      "world": 0,
+      "scene_mean_rgb": 88.73001645510108
+    },
+    {
+      "index": 191,
+      "world": 1,
+      "scene_mean_rgb": 91.40154384109074
+    },
+    {
+      "index": 193,
+      "world": 0,
+      "scene_mean_rgb": 88.59029325340856
+    },
+    {
+      "index": 193,
+      "world": 1,
+      "scene_mean_rgb": 91.41362893747062
+    },
+    {
+      "index": 194,
+      "world": 0,
+      "scene_mean_rgb": 88.55049012693935
+    },
+    {
+      "index": 194,
+      "world": 1,
+      "scene_mean_rgb": 91.483273977433
+    },
+    {
+      "index": 195,
+      "world": 0,
+      "scene_mean_rgb": 88.57096379877763
+    },
+    {
+      "index": 195,
+      "world": 1,
+      "scene_mean_rgb": 91.17435061118947
+    },
+    {
+      "index": 196,
+      "world": 0,
+      "scene_mean_rgb": 88.65073989186648
+    },
+    {
+      "index": 196,
+      "world": 1,
+      "scene_mean_rgb": 91.18204807240244
+    },
+    {
+      "index": 198,
+      "world": 0,
+      "scene_mean_rgb": 88.92261165961447
+    },
+    {
+      "index": 198,
+      "world": 1,
+      "scene_mean_rgb": 91.23154384109074
+    },
+    {
+      "index": 199,
+      "world": 0,
+      "scene_mean_rgb": 89.02212682181477
+    },
+    {
+      "index": 199,
+      "world": 1,
+      "scene_mean_rgb": 91.2372014574518
+    },
+    {
+      "index": 200,
+      "world": 0,
+      "scene_mean_rgb": 89.1466114245416
+    },
+    {
+      "index": 200,
+      "world": 1,
+      "scene_mean_rgb": 91.20994123178185
+    },
+    {
+      "index": 201,
+      "world": 0,
+      "scene_mean_rgb": 89.28691995768688
+    },
+    {
+      "index": 201,
+      "world": 1,
+      "scene_mean_rgb": 91.17247825575929
+    },
+    {
+      "index": 202,
+      "world": 0,
+      "scene_mean_rgb": 89.4327409496944
+    },
+    {
+      "index": 202,
+      "world": 1,
+      "scene_mean_rgb": 91.15263986835919
+    },
+    {
+      "index": 204,
+      "world": 0,
+      "scene_mean_rgb": 89.74517336624353
+    },
+    {
+      "index": 204,
+      "world": 1,
+      "scene_mean_rgb": 90.79268335684063
+    },
+    {
+      "index": 205,
+      "world": 0,
+      "scene_mean_rgb": 89.91157263751764
+    },
+    {
+      "index": 205,
+      "world": 1,
+      "scene_mean_rgb": 90.77260166901739
+    },
+    {
+      "index": 206,
+      "world": 0,
+      "scene_mean_rgb": 90.11296897038082
+    },
+    {
+      "index": 206,
+      "world": 1,
+      "scene_mean_rgb": 90.76941584391162
+    },
+    {
+      "index": 208,
+      "world": 0,
+      "scene_mean_rgb": 90.44114950634697
+    },
+    {
+      "index": 208,
+      "world": 1,
+      "scene_mean_rgb": 90.76328514339446
+    },
+    {
+      "index": 209,
+      "world": 0,
+      "scene_mean_rgb": 90.64204278326281
+    },
+    {
+      "index": 209,
+      "world": 1,
+      "scene_mean_rgb": 90.76711976962858
+    },
+    {
+      "index": 210,
+      "world": 0,
+      "scene_mean_rgb": 90.79931593794076
+    },
+    {
+      "index": 210,
+      "world": 1,
+      "scene_mean_rgb": 90.79726081335214
+    },
+    {
+      "index": 211,
+      "world": 0,
+      "scene_mean_rgb": 90.79770216267043
+    },
+    {
+      "index": 211,
+      "world": 1,
+      "scene_mean_rgb": 90.80538493182887
+    },
+    {
+      "index": 212,
+      "world": 0,
+      "scene_mean_rgb": 90.79010049365303
+    },
+    {
+      "index": 212,
+      "world": 1,
+      "scene_mean_rgb": 90.8272367183827
+    },
+    {
+      "index": 214,
+      "world": 0,
+      "scene_mean_rgb": 90.81383932769158
+    },
+    {
+      "index": 214,
+      "world": 1,
+      "scene_mean_rgb": 90.8532963093559
+    },
+    {
+      "index": 215,
+      "world": 0,
+      "scene_mean_rgb": 90.86135225669958
+    },
+    {
+      "index": 215,
+      "world": 1,
+      "scene_mean_rgb": 90.86789080865069
+    },
+    {
+      "index": 216,
+      "world": 0,
+      "scene_mean_rgb": 90.89146979313587
+    },
+    {
+      "index": 216,
+      "world": 1,
+      "scene_mean_rgb": 90.88426892336625
+    },
+    {
+      "index": 217,
+      "world": 0,
+      "scene_mean_rgb": 90.88381523272214
+    },
+    {
+      "index": 217,
+      "world": 1,
+      "scene_mean_rgb": 90.91470439586271
+    },
+    {
+      "index": 219,
+      "world": 0,
+      "scene_mean_rgb": 90.87184826046074
+    },
+    {
+      "index": 219,
+      "world": 1,
+      "scene_mean_rgb": 90.98083215796898
+    },
+    {
+      "index": 220,
+      "world": 0,
+      "scene_mean_rgb": 90.8726046074283
+    },
+    {
+      "index": 220,
+      "world": 1,
+      "scene_mean_rgb": 91.0240068171133
+    },
+    {
+      "index": 221,
+      "world": 0,
+      "scene_mean_rgb": 91.09938528443817
+    },
+    {
+      "index": 221,
+      "world": 1,
+      "scene_mean_rgb": 91.21028385049365
+    },
+    {
+      "index": 222,
+      "world": 0,
+      "scene_mean_rgb": 91.06218676539727
+    },
+    {
+      "index": 222,
+      "world": 1,
+      "scene_mean_rgb": 91.29145039962388
+    },
+    {
+      "index": 224,
+      "world": 0,
+      "scene_mean_rgb": 91.03364304184296
+    },
+    {
+      "index": 224,
+      "world": 1,
+      "scene_mean_rgb": 91.44629348848143
+    },
+    {
+      "index": 225,
+      "world": 0,
+      "scene_mean_rgb": 91.03008638928068
+    },
+    {
+      "index": 225,
+      "world": 1,
+      "scene_mean_rgb": 91.53748060648802
+    },
+    {
+      "index": 226,
+      "world": 0,
+      "scene_mean_rgb": 91.01235660554772
+    },
+    {
+      "index": 226,
+      "world": 1,
+      "scene_mean_rgb": 91.6414498119417
+    },
+    {
+      "index": 227,
+      "world": 0,
+      "scene_mean_rgb": 90.99048601316409
+    },
+    {
+      "index": 227,
+      "world": 1,
+      "scene_mean_rgb": 91.73487952515279
+    },
+    {
+      "index": 229,
+      "world": 0,
+      "scene_mean_rgb": 91.0026046074283
+    },
+    {
+      "index": 229,
+      "world": 1,
+      "scene_mean_rgb": 91.94864480488951
+    },
+    {
+      "index": 230,
+      "world": 0,
+      "scene_mean_rgb": 90.99451104842501
+    },
+    {
+      "index": 230,
+      "world": 1,
+      "scene_mean_rgb": 92.04283204043253
+    },
+    {
+      "index": 231,
+      "world": 0,
+      "scene_mean_rgb": 90.9741719558063
+    },
+    {
+      "index": 231,
+      "world": 1,
+      "scene_mean_rgb": 92.16724670897979
+    },
+    {
+      "index": 233,
+      "world": 0,
+      "scene_mean_rgb": 90.96158262811471
+    },
+    {
+      "index": 233,
+      "world": 1,
+      "scene_mean_rgb": 92.22984485190409
+    },
+    {
+      "index": 234,
+      "world": 0,
+      "scene_mean_rgb": 90.95076692524682
+    },
+    {
+      "index": 234,
+      "world": 1,
+      "scene_mean_rgb": 92.2885754583921
+    },
+    {
+      "index": 235,
+      "world": 0,
+      "scene_mean_rgb": 90.95400681711331
+    },
+    {
+      "index": 235,
+      "world": 1,
+      "scene_mean_rgb": 92.28101140103432
+    },
+    {
+      "index": 236,
+      "world": 0,
+      "scene_mean_rgb": 90.94187999529855
+    },
+    {
+      "index": 236,
+      "world": 1,
+      "scene_mean_rgb": 92.29276269393512
+    },
+    {
+      "index": 237,
+      "world": 0,
+      "scene_mean_rgb": 90.88917313117066
+    },
+    {
+      "index": 237,
+      "world": 1,
+      "scene_mean_rgb": 92.26744475787494
+    },
+    {
+      "index": 239,
+      "world": 0,
+      "scene_mean_rgb": 90.70652738598966
+    },
+    {
+      "index": 239,
+      "world": 1,
+      "scene_mean_rgb": 92.31406382228491
+    },
+    {
+      "index": 240,
+      "world": 0,
+      "scene_mean_rgb": 90.70812940761635
+    },
+    {
+      "index": 240,
+      "world": 1,
+      "scene_mean_rgb": 92.27009402914904
+    },
+    {
+      "index": 241,
+      "world": 0,
+      "scene_mean_rgb": 90.71544957686883
+    },
+    {
+      "index": 241,
+      "world": 1,
+      "scene_mean_rgb": 92.30294311236483
+    },
+    {
+      "index": 242,
+      "world": 0,
+      "scene_mean_rgb": 90.70976375176305
+    },
+    {
+      "index": 242,
+      "world": 1,
+      "scene_mean_rgb": 92.32953808180535
+    },
+    {
+      "index": 244,
+      "world": 0,
+      "scene_mean_rgb": 90.72980665256229
+    },
+    {
+      "index": 244,
+      "world": 1,
+      "scene_mean_rgb": 92.27171897038082
+    },
+    {
+      "index": 245,
+      "world": 0,
+      "scene_mean_rgb": 90.73778620122238
+    },
+    {
+      "index": 245,
+      "world": 1,
+      "scene_mean_rgb": 92.28008403855195
+    },
+    {
+      "index": 246,
+      "world": 0,
+      "scene_mean_rgb": 90.78797190879173
+    },
+    {
+      "index": 246,
+      "world": 1,
+      "scene_mean_rgb": 92.25657146215326
+    },
+    {
+      "index": 247,
+      "world": 0,
+      "scene_mean_rgb": 90.78420427832629
+    },
+    {
+      "index": 247,
+      "world": 1,
+      "scene_mean_rgb": 92.38463446168312
+    },
+    {
+      "index": 249,
+      "world": 0,
+      "scene_mean_rgb": 90.75355136342266
+    },
+    {
+      "index": 249,
+      "world": 1,
+      "scene_mean_rgb": 92.28832921955807
+    },
+    {
+      "index": 250,
+      "world": 0,
+      "scene_mean_rgb": 90.74666607898449
+    },
+    {
+      "index": 250,
+      "world": 1,
+      "scene_mean_rgb": 92.3107487070992
+    },
+    {
+      "index": 251,
+      "world": 0,
+      "scene_mean_rgb": 90.73975082275506
+    },
+    {
+      "index": 251,
+      "world": 1,
+      "scene_mean_rgb": 92.31195345557123
+    },
+    {
+      "index": 252,
+      "world": 0,
+      "scene_mean_rgb": 90.73254348848143
+    },
+    {
+      "index": 252,
+      "world": 1,
+      "scene_mean_rgb": 92.32213152327222
+    },
+    {
+      "index": 254,
+      "world": 0,
+      "scene_mean_rgb": 90.7483727080395
+    },
+    {
+      "index": 254,
+      "world": 1,
+      "scene_mean_rgb": 92.2942700987306
+    },
+    {
+      "index": 255,
+      "world": 0,
+      "scene_mean_rgb": 90.75853902209685
+    },
+    {
+      "index": 255,
+      "world": 1,
+      "scene_mean_rgb": 92.21583039492242
+    },
+    {
+      "index": 256,
+      "world": 0,
+      "scene_mean_rgb": 90.76239421720733
+    },
+    {
+      "index": 256,
+      "world": 1,
+      "scene_mean_rgb": 92.12357957216737
+    },
+    {
+      "index": 258,
+      "world": 0,
+      "scene_mean_rgb": 90.78735131640809
+    },
+    {
+      "index": 258,
+      "world": 1,
+      "scene_mean_rgb": 91.9857263751763
+    },
+    {
+      "index": 259,
+      "world": 0,
+      "scene_mean_rgb": 90.78286142454161
+    },
+    {
+      "index": 259,
+      "world": 1,
+      "scene_mean_rgb": 91.91297778561353
+    },
+    {
+      "index": 260,
+      "world": 0,
+      "scene_mean_rgb": 90.77805947343677
+    },
+    {
+      "index": 260,
+      "world": 1,
+      "scene_mean_rgb": 91.85515691114246
+    },
+    {
+      "index": 261,
+      "world": 0,
+      "scene_mean_rgb": 90.76650740479549
+    },
+    {
+      "index": 261,
+      "world": 1,
+      "scene_mean_rgb": 91.81045545369065
+    },
+    {
+      "index": 262,
+      "world": 0,
+      "scene_mean_rgb": 90.76610601786554
+    },
+    {
+      "index": 262,
+      "world": 1,
+      "scene_mean_rgb": 91.7833662435355
+    },
+    {
+      "index": 264,
+      "world": 0,
+      "scene_mean_rgb": 90.75771156558532
+    },
+    {
+      "index": 264,
+      "world": 1,
+      "scene_mean_rgb": 91.75038551951104
+    },
+    {
+      "index": 265,
+      "world": 0,
+      "scene_mean_rgb": 90.78816760695815
+    },
+    {
+      "index": 265,
+      "world": 1,
+      "scene_mean_rgb": 91.71981958157029
+    },
+    {
+      "index": 266,
+      "world": 0,
+      "scene_mean_rgb": 90.78585448989186
+    },
+    {
+      "index": 266,
+      "world": 1,
+      "scene_mean_rgb": 91.721256464504
+    },
+    {
+      "index": 267,
+      "world": 0,
+      "scene_mean_rgb": 90.78744181946404
+    },
+    {
+      "index": 267,
+      "world": 1,
+      "scene_mean_rgb": 91.71874882463564
+    },
+    {
+      "index": 269,
+      "world": 0,
+      "scene_mean_rgb": 90.7658215796897
+    },
+    {
+      "index": 269,
+      "world": 1,
+      "scene_mean_rgb": 91.7199494593324
+    },
+    {
+      "index": 270,
+      "world": 0,
+      "scene_mean_rgb": 90.75934473436766
+    },
+    {
+      "index": 270,
+      "world": 1,
+      "scene_mean_rgb": 91.7105929713211
+    },
+    {
+      "index": 271,
+      "world": 0,
+      "scene_mean_rgb": 90.76153913963329
+    },
+    {
+      "index": 271,
+      "world": 1,
+      "scene_mean_rgb": 91.72781499764928
+    },
+    {
+      "index": 272,
+      "world": 0,
+      "scene_mean_rgb": 90.76633932769158
+    },
+    {
+      "index": 272,
+      "world": 1,
+      "scene_mean_rgb": 91.75055183356841
+    },
+    {
+      "index": 274,
+      "world": 0,
+      "scene_mean_rgb": 90.75775975552422
+    },
+    {
+      "index": 274,
+      "world": 1,
+      "scene_mean_rgb": 91.9157522331923
+    },
+    {
+      "index": 275,
+      "world": 0,
+      "scene_mean_rgb": 90.75127938410907
+    },
+    {
+      "index": 275,
+      "world": 1,
+      "scene_mean_rgb": 91.93330571227081
+    },
+    {
+      "index": 276,
+      "world": 0,
+      "scene_mean_rgb": 90.73866008462623
+    },
+    {
+      "index": 276,
+      "world": 1,
+      "scene_mean_rgb": 91.98096967559944
+    },
+    {
+      "index": 277,
+      "world": 0,
+      "scene_mean_rgb": 90.7172079219558
+    },
+    {
+      "index": 277,
+      "world": 1,
+      "scene_mean_rgb": 92.0170463093559
+    },
+    {
+      "index": 279,
+      "world": 0,
+      "scene_mean_rgb": 90.67992830277386
+    },
+    {
+      "index": 279,
+      "world": 1,
+      "scene_mean_rgb": 92.05838446168312
+    },
+    {
+      "index": 280,
+      "world": 0,
+      "scene_mean_rgb": 90.66554830747532
+    },
+    {
+      "index": 280,
+      "world": 1,
+      "scene_mean_rgb": 92.0264909496944
+    },
+    {
+      "index": 281,
+      "world": 0,
+      "scene_mean_rgb": 90.85072226140103
+    },
+    {
+      "index": 281,
+      "world": 1,
+      "scene_mean_rgb": 92.06970086976963
+    },
+    {
+      "index": 283,
+      "world": 0,
+      "scene_mean_rgb": 90.8769575693465
+    },
+    {
+      "index": 283,
+      "world": 1,
+      "scene_mean_rgb": 92.0058345086977
+    },
+    {
+      "index": 284,
+      "world": 0,
+      "scene_mean_rgb": 90.85592795016456
+    },
+    {
+      "index": 284,
+      "world": 1,
+      "scene_mean_rgb": 91.93639809590974
+    },
+    {
+      "index": 285,
+      "world": 0,
+      "scene_mean_rgb": 90.84807005171604
+    },
+    {
+      "index": 285,
+      "world": 1,
+      "scene_mean_rgb": 91.90872237893747
+    },
+    {
+      "index": 286,
+      "world": 0,
+      "scene_mean_rgb": 90.8458627174424
+    },
+    {
+      "index": 286,
+      "world": 1,
+      "scene_mean_rgb": 91.8771162435355
+    },
+    {
+      "index": 287,
+      "world": 0,
+      "scene_mean_rgb": 90.843597790315
+    },
+    {
+      "index": 287,
+      "world": 1,
+      "scene_mean_rgb": 91.85580277385989
+    },
+    {
+      "index": 289,
+      "world": 0,
+      "scene_mean_rgb": 90.82645098730606
+    },
+    {
+      "index": 289,
+      "world": 1,
+      "scene_mean_rgb": 91.90215503055947
+    },
+    {
+      "index": 290,
+      "world": 0,
+      "scene_mean_rgb": 90.8539592148566
+    },
+    {
+      "index": 290,
+      "world": 1,
+      "scene_mean_rgb": 91.88558180535966
+    },
+    {
+      "index": 291,
+      "world": 0,
+      "scene_mean_rgb": 90.87865420780442
+    },
+    {
+      "index": 291,
+      "world": 1,
+      "scene_mean_rgb": 91.85680359661495
+    },
+    {
+      "index": 292,
+      "world": 0,
+      "scene_mean_rgb": 90.90560119887165
+    },
+    {
+      "index": 292,
+      "world": 1,
+      "scene_mean_rgb": 91.84361542078044
+    },
+    {
+      "index": 294,
+      "world": 0,
+      "scene_mean_rgb": 90.94403855195111
+    },
+    {
+      "index": 294,
+      "world": 1,
+      "scene_mean_rgb": 91.88415785143394
+    },
+    {
+      "index": 295,
+      "world": 0,
+      "scene_mean_rgb": 90.96117595204514
+    },
+    {
+      "index": 295,
+      "world": 1,
+      "scene_mean_rgb": 91.88328749412318
+    },
+    {
+      "index": 296,
+      "world": 0,
+      "scene_mean_rgb": 90.95906969910672
+    },
+    {
+      "index": 296,
+      "world": 1,
+      "scene_mean_rgb": 91.8989656793606
+    },
+    {
+      "index": 297,
+      "world": 0,
+      "scene_mean_rgb": 90.96784732016926
+    },
+    {
+      "index": 297,
+      "world": 1,
+      "scene_mean_rgb": 91.93034203102962
+    },
+    {
+      "index": 299,
+      "world": 0,
+      "scene_mean_rgb": 90.9583597790315
+    },
+    {
+      "index": 299,
+      "world": 1,
+      "scene_mean_rgb": 91.9605582980724
+    },
+    {
+      "index": 300,
+      "world": 0,
+      "scene_mean_rgb": 90.73522449459333
+    },
+    {
+      "index": 300,
+      "world": 1,
+      "scene_mean_rgb": 91.94329807240244
+    },
+    {
+      "index": 301,
+      "world": 0,
+      "scene_mean_rgb": 90.72845145745181
+    },
+    {
+      "index": 301,
+      "world": 1,
+      "scene_mean_rgb": 91.92978549600376
+    },
+    {
+      "index": 302,
+      "world": 0,
+      "scene_mean_rgb": 90.76014456981665
+    },
+    {
+      "index": 302,
+      "world": 1,
+      "scene_mean_rgb": 91.95134696755994
+    },
+    {
+      "index": 304,
+      "world": 0,
+      "scene_mean_rgb": 90.74005347907851
+    },
+    {
+      "index": 304,
+      "world": 1,
+      "scene_mean_rgb": 92.53509461683122
+    },
+    {
+      "index": 305,
+      "world": 0,
+      "scene_mean_rgb": 90.73435825105783
+    },
+    {
+      "index": 305,
+      "world": 1,
+      "scene_mean_rgb": 92.69476316408087
+    },
+    {
+      "index": 306,
+      "world": 0,
+      "scene_mean_rgb": 90.7221444522802
+    },
+    {
+      "index": 306,
+      "world": 1,
+      "scene_mean_rgb": 92.86991948754114
+    },
+    {
+      "index": 307,
+      "world": 0,
+      "scene_mean_rgb": 90.71335331452751
+    },
+    {
+      "index": 307,
+      "world": 1,
+      "scene_mean_rgb": 93.07248765867419
+    },
+    {
+      "index": 309,
+      "world": 0,
+      "scene_mean_rgb": 90.70579043253409
+    },
+    {
+      "index": 309,
+      "world": 1,
+      "scene_mean_rgb": 91.78287141513869
+    },
+    {
+      "index": 310,
+      "world": 0,
+      "scene_mean_rgb": 90.70400211565585
+    },
+    {
+      "index": 310,
+      "world": 1,
+      "scene_mean_rgb": 91.79363540197461
+    },
+    {
+      "index": 311,
+      "world": 0,
+      "scene_mean_rgb": 90.70232075693465
+    },
+    {
+      "index": 311,
+      "world": 1,
+      "scene_mean_rgb": 91.7741055477198
+    },
+    {
+      "index": 312,
+      "world": 0,
+      "scene_mean_rgb": 90.70204102021627
+    },
+    {
+      "index": 312,
+      "world": 1,
+      "scene_mean_rgb": 91.79319934179595
+    },
+    {
+      "index": 314,
+      "world": 0,
+      "scene_mean_rgb": 90.68745709920076
+    },
+    {
+      "index": 314,
+      "world": 1,
+      "scene_mean_rgb": 91.80281440996708
+    },
+    {
+      "index": 315,
+      "world": 0,
+      "scene_mean_rgb": 90.69164551010813
+    },
+    {
+      "index": 315,
+      "world": 1,
+      "scene_mean_rgb": 91.78293194640338
+    },
+    {
+      "index": 316,
+      "world": 0,
+      "scene_mean_rgb": 90.69695639398213
+    },
+    {
+      "index": 316,
+      "world": 1,
+      "scene_mean_rgb": 91.78788845792195
+    },
+    {
+      "index": 317,
+      "world": 0,
+      "scene_mean_rgb": 90.69504466384579
+    },
+    {
+      "index": 317,
+      "world": 1,
+      "scene_mean_rgb": 91.80895039962388
+    },
+    {
+      "index": 319,
+      "world": 0,
+      "scene_mean_rgb": 90.67979313587212
+    },
+    {
+      "index": 319,
+      "world": 1,
+      "scene_mean_rgb": 91.80607780912082
+    },
+    {
+      "index": 320,
+      "world": 0,
+      "scene_mean_rgb": 90.73660437235543
+    },
+    {
+      "index": 320,
+      "world": 1,
+      "scene_mean_rgb": 91.78499941231782
+    },
+    {
+      "index": 321,
+      "world": 0,
+      "scene_mean_rgb": 90.746262929008
+    },
+    {
+      "index": 321,
+      "world": 1,
+      "scene_mean_rgb": 91.76467618711801
+    },
+    {
+      "index": 322,
+      "world": 0,
+      "scene_mean_rgb": 90.74567759755524
+    },
+    {
+      "index": 322,
+      "world": 1,
+      "scene_mean_rgb": 91.76857428302773
+    },
+    {
+      "index": 324,
+      "world": 0,
+      "scene_mean_rgb": 90.72896861777151
+    },
+    {
+      "index": 324,
+      "world": 1,
+      "scene_mean_rgb": 91.76620827456512
+    },
+    {
+      "index": 325,
+      "world": 0,
+      "scene_mean_rgb": 90.72925070521862
+    },
+    {
+      "index": 325,
+      "world": 1,
+      "scene_mean_rgb": 91.77960448989187
+    },
+    {
+      "index": 326,
+      "world": 0,
+      "scene_mean_rgb": 90.72001821814763
+    },
+    {
+      "index": 326,
+      "world": 1,
+      "scene_mean_rgb": 91.76931535025858
+    },
+    {
+      "index": 327,
+      "world": 0,
+      "scene_mean_rgb": 90.7092448283968
+    },
+    {
+      "index": 327,
+      "world": 1,
+      "scene_mean_rgb": 91.78566173013634
+    },
+    {
+      "index": 329,
+      "world": 0,
+      "scene_mean_rgb": 90.73628643629525
+    },
+    {
+      "index": 329,
+      "world": 1,
+      "scene_mean_rgb": 91.74638928067701
+    },
+    {
+      "index": 330,
+      "world": 0,
+      "scene_mean_rgb": 90.74038023037141
+    },
+    {
+      "index": 330,
+      "world": 1,
+      "scene_mean_rgb": 91.71970380818054
+    },
+    {
+      "index": 331,
+      "world": 0,
+      "scene_mean_rgb": 90.74476081335214
+    },
+    {
+      "index": 331,
+      "world": 1,
+      "scene_mean_rgb": 91.69273683591913
+    },
+    {
+      "index": 332,
+      "world": 0,
+      "scene_mean_rgb": 90.73172367183827
+    },
+    {
+      "index": 332,
+      "world": 1,
+      "scene_mean_rgb": 91.68056535025858
+    },
+    {
+      "index": 334,
+      "world": 0,
+      "scene_mean_rgb": 90.72486718382699
+    },
+    {
+      "index": 334,
+      "world": 1,
+      "scene_mean_rgb": 91.67116948754114
+    },
+    {
+      "index": 335,
+      "world": 0,
+      "scene_mean_rgb": 90.73211212976022
+    },
+    {
+      "index": 335,
+      "world": 1,
+      "scene_mean_rgb": 91.68939116125999
+    },
+    {
+      "index": 336,
+      "world": 0,
+      "scene_mean_rgb": 90.70829748472026
+    },
+    {
+      "index": 336,
+      "world": 1,
+      "scene_mean_rgb": 91.70599024447579
+    },
+    {
+      "index": 337,
+      "world": 0,
+      "scene_mean_rgb": 90.68782263751763
+    },
+    {
+      "index": 337,
+      "world": 1,
+      "scene_mean_rgb": 91.71481135401974
+    },
+    {
+      "index": 339,
+      "world": 0,
+      "scene_mean_rgb": 90.68212799717912
+    },
+    {
+      "index": 339,
+      "world": 1,
+      "scene_mean_rgb": 91.69720322049835
+    },
+    {
+      "index": 340,
+      "world": 0,
+      "scene_mean_rgb": 90.66932475317348
+    },
+    {
+      "index": 340,
+      "world": 1,
+      "scene_mean_rgb": 91.68953161730137
+    },
+    {
+      "index": 341,
+      "world": 0,
+      "scene_mean_rgb": 90.908756464504
+    },
+    {
+      "index": 341,
+      "world": 1,
+      "scene_mean_rgb": 91.8455012929008
+    },
+    {
+      "index": 342,
+      "world": 0,
+      "scene_mean_rgb": 90.88795780441937
+    },
+    {
+      "index": 342,
+      "world": 1,
+      "scene_mean_rgb": 91.93959449929478
+    },
+    {
+      "index": 344,
+      "world": 0,
+      "scene_mean_rgb": 90.85231017865539
+    },
+    {
+      "index": 344,
+      "world": 1,
+      "scene_mean_rgb": 92.01407616361072
+    },
+    {
+      "index": 345,
+      "world": 0,
+      "scene_mean_rgb": 90.84049659144334
+    },
+    {
+      "index": 345,
+      "world": 1,
+      "scene_mean_rgb": 92.06710448989186
+    },
+    {
+      "index": 346,
+      "world": 0,
+      "scene_mean_rgb": 90.84040197461213
+    },
+    {
+      "index": 346,
+      "world": 1,
+      "scene_mean_rgb": 92.14689468735308
+    },
+    {
+      "index": 347,
+      "world": 0,
+      "scene_mean_rgb": 90.83707099200753
+    },
+    {
+      "index": 347,
+      "world": 1,
+      "scene_mean_rgb": 92.17609661495064
+    },
+    {
+      "index": 349,
+      "world": 0,
+      "scene_mean_rgb": 91.02465444287729
+    },
+    {
+      "index": 349,
+      "world": 1,
+      "scene_mean_rgb": 92.14189057357781
+    },
+    {
+      "index": 350,
+      "world": 0,
+      "scene_mean_rgb": 91.09837212035731
+    },
+    {
+      "index": 350,
+      "world": 1,
+      "scene_mean_rgb": 92.10856546779502
+    }
+  ],
+  "git_policy": "local video only; do not stage"
+}

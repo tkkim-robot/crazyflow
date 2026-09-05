@@ -1,0 +1,100 @@
+{
+  "created_at_utc": "2026-09-05T23:17:14.147171+00:00",
+  "source_scene": {
+    "incoming": {
+      "arrival_time_seconds": 4.5109082526924755,
+      "direction": [
+        0.8502447207410617,
+        0.22095842923711267,
+        0.47776698023306485
+      ],
+      "speed_m_s": 1.3847996601332113,
+      "radius_m": 0.6798830392950748,
+      "crossing_offset": [
+        -0.24969562981984494,
+        -0.23621646019211112,
+        -0.3007577339958487
+      ],
+      "amplitude_m": 30
+    },
+    "guards": [],
+    "seed": 39317,
+    "wind_onset_seconds": 2.2,
+    "wind_velocity": [
+      -1.657435409174936,
+      1.1251500323514874,
+      0.49833883831253506
+    ],
+    "duration_seconds": 14.0,
+    "navigation_start_seconds": 6.16,
+    "hover_position": [
+      0.0,
+      0.0,
+      1.4
+    ],
+    "waypoint_offsets": [
+      [
+        -1.5,
+        1.0,
+        0.3
+      ],
+      [
+        -2.0,
+        -1.0,
+        0.0
+      ]
+    ],
+    "arena_lower": [
+      -5.0,
+      -4.0,
+      0.15
+    ],
+    "arena_upper": [
+      5.0,
+      4.0,
+      4.0
+    ],
+    "dt": 0.02,
+    "control_interval_steps": 2,
+    "ego_radius": 0.106,
+    "obstacle_clearance": 0.15,
+    "reach_radius": 0.4,
+    "additional_incoming": [
+      {
+        "arrival_time_seconds": 5.057568054015885,
+        "direction": [
+          0.028826312167549724,
+          -0.606018101453924,
+          0.7949283643429769
+        ],
+        "speed_m_s": 3.384875328443793,
+        "radius_m": 0.6472216816936824,
+        "crossing_offset": [
+          -0.20989746740265208,
+          0.5041733704135114,
+          0.44082012194967934
+        ],
+        "amplitude_m": 30
+      }
+    ],
+    "initial_velocity": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "early_parameter_reversion_time_seconds": 3.0,
+  "boundary_reason": "last control boundary before the saved adaptive versus wind-onset-frozen position difference first exceeds 2 cm at 3.04 s; selected from actual input/trajectory diagnostics, before new intervention outcomes",
+  "narrow_neighbor": "confirmation-staggered-0000-v1/uncompensated/neighborhood_009/result.json",
+  "narrow_refined_plant_substeps": 4,
+  "buffers_m": [
+    0.05,
+    0.02,
+    0.0
+  ],
+  "mappings": [
+    "uncompensated",
+    "compensated"
+  ],
+  "scope": "additional mechanism and matched buffer diagnostics; original confirmation and held-out thresholds unchanged"
+}

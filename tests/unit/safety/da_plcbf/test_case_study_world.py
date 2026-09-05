@@ -67,6 +67,98 @@ def test_prescribed_crossing_and_branch_share_absolute_clock_and_roundtrip() -> 
         branch.initial_state[0] = 2
 
 
+def test_staggered_movers_and_guards_share_prediction_and_absolute_motion() -> None:
+    config = HoverEncounterConfig(
+        incoming=IncomingSphere(arrival_time_seconds=7.6, radius_m=0.35),
+        additional_incoming=(
+            IncomingSphere(
+                arrival_time_seconds=8.24,
+                direction=(-2.0, 1.0, 0.5),
+                speed_m_s=2.4,
+                radius_m=0.2,
+                crossing_offset=(0.2, -0.1, 0.3),
+            ),
+            IncomingSphere(
+                arrival_time_seconds=9.48,
+                direction=(0.0, -1.0, 0.0),
+                speed_m_s=1.7,
+                radius_m=0.25,
+                crossing_offset=(-0.3, 0.1, 0.0),
+            ),
+        ),
+        guards=(GuardSphere((0, 1.2, 0), radius_m=0.3),),
+    )
+    roundtrip = HoverEncounterConfig.from_dict(json.loads(json.dumps(asdict(config))))
+    assert roundtrip == config
+    assert all(isinstance(sphere, IncomingSphere) for sphere in roundtrip.additional_incoming)
+    world = build_hover_encounter_world(roundtrip)
+    assert world.config.obstacle_count == 4
+    for index, sphere in enumerate((config.incoming, *config.additional_incoming)):
+        centers, velocities = world.obstacle_kinematics(sphere.arrival_time_seconds)
+        np.testing.assert_allclose(
+            centers[index], np.asarray(config.hover_position) + sphere.crossing_offset
+        )
+        np.testing.assert_allclose(
+            velocities[index],
+            np.asarray(sphere.direction) * sphere.speed_m_s / np.linalg.norm(sphere.direction),
+        )
+        np.testing.assert_array_equal(velocities[-1], 0)
+    prediction = world.obstacle_prediction(7.12, dt=0.02, horizon=150)
+    centers, velocities = world.obstacle_kinematics(7.12 + 0.02 * np.arange(151))
+    np.testing.assert_allclose(prediction.centers, centers, atol=5e-7)
+    np.testing.assert_allclose(prediction.velocities, velocities, atol=2e-7)
+    np.testing.assert_allclose(prediction.radii, (0.35, 0.2, 0.25, 0.3))
+    assert np.asarray(prediction.mask).all()
+    # A branch is another view of the same complete scene, including its other movers.
+    branch = build_hover_encounter_world(config, initial_time_seconds=5.0)
+    np.testing.assert_array_equal(
+        branch.obstacle_kinematics(8.24)[0], world.obstacle_kinematics(8.24)[0]
+    )
+    # The independent swept audit includes the later incoming sphere as obstacle index 2.
+    audit = audit_recorded_collider_clearance(
+        world,
+        np.array((9.0, 10.0)),
+        _stationary_states(2, position=(-0.3, 0.1, 1.4)),
+    )
+    assert audit["actual_xml_sphere_geometry"]["first_intersection_obstacle"] == 2
+    assert audit["actual_xml_sphere_geometry"]["minimum_clearance_upper_bound_m"] < 0
+
+
+@pytest.mark.parametrize("navigation_start", (0.0, 1.2, 3.0, 11.0))
+def test_moving_initial_state_and_early_navigation_preserve_wind_schedule(
+    navigation_start: float,
+) -> None:
+    config = HoverEncounterConfig(
+        initial_velocity=(1.2, -0.4, 0.25), navigation_start_seconds=navigation_start
+    )
+    world = build_hover_encounter_world(config)
+    np.testing.assert_array_equal(world.initial_state[7:10], config.initial_velocity)
+    np.testing.assert_array_equal(world.wind_at(0.0), (0, 0, 0))
+    np.testing.assert_array_equal(world.wind_at(3.0), config.wind_velocity)
+    assert world.case_study_config.navigation_start_seconds == navigation_start
+    assert HoverEncounterConfig.from_dict(json.loads(json.dumps(asdict(config)))) == config
+    branch_state = world.initial_state.copy()
+    branch_state[7:10] = (0.2, 0.1, 0)
+    branch = build_hover_encounter_world(config, initial_state=branch_state)
+    np.testing.assert_array_equal(branch.initial_state, branch_state)
+
+
+def test_clearance_tuning_preserves_physical_radii_and_legacy_config_defaults() -> None:
+    config = HoverEncounterConfig(guards=(GuardSphere((0.3, 0, 0), radius_m=0.15),))
+    with pytest.raises(ValueError, match="outside every inflated"):
+        build_hover_encounter_world(config)
+    unbuffered = build_hover_encounter_world(replace(config, obstacle_clearance=0.0))
+    np.testing.assert_array_equal(unbuffered.obstacle_radii, (0.5, 0.15))
+    assert unbuffered.config.ego_radius == 0.106
+    assert unbuffered.config.obstacle_clearance == 0
+    legacy = asdict(HoverEncounterConfig())
+    del legacy["additional_incoming"]
+    del legacy["initial_velocity"]
+    loaded = HoverEncounterConfig.from_dict(json.loads(json.dumps(legacy)))
+    assert loaded == HoverEncounterConfig()
+    np.testing.assert_array_equal(build_hover_encounter_world(loaded).initial_state[7:10], 0)
+
+
 @pytest.mark.parametrize(
     ("changes", "message"),
     (
@@ -75,6 +167,17 @@ def test_prescribed_crossing_and_branch_share_absolute_clock_and_roundtrip() -> 
         ({"ego_radius": 0.05}, "enclose"),
         ({"wind_onset_seconds": 3.01}, "control boundaries"),
         ({"navigation_start_seconds": 11.01}, "control boundary"),
+        ({"navigation_start_seconds": -0.04}, "control boundary"),
+        ({"navigation_start_seconds": 16.0}, "control boundary"),
+        ({"initial_velocity": (1, float("nan"), 0)}, "finite three-vector"),
+        ({"initial_velocity": (0, 0)}, "finite three-vector"),
+        ({"initial_velocity": (3.6, 0, 0)}, "speed limit"),
+        ({"obstacle_clearance": -0.001}, "nonnegative finite"),
+        ({"additional_incoming": (IncomingSphere(direction=(0, 0, 0)),)}, "nonzero"),
+        (
+            {"additional_incoming": (IncomingSphere(arrival_time_seconds=0.04),)},
+            "outside every inflated",
+        ),
         ({"guards": (GuardSphere((0, 0, 0)),)}, "outside every inflated"),
     ),
 )

@@ -1,0 +1,834 @@
+{
+  "schema": "paced_v2_and_early_reversion_independent_audit_v1",
+  "scope": "retained-record and CPU provenance audit; no new GPU episode",
+  "paced": {
+    "v1": {
+      "uncompensated": {
+        "adaptive": {
+          "controls": 265,
+          "termination": "completed",
+          "termination_time_seconds": 10.6,
+          "collider_lower_m": 0.17267092521437855,
+          "finite_updates": 262,
+          "publications": 262,
+          "degraded_controls": 0,
+          "deadline_misses": 0,
+          "first_boundary_total_seconds": 0.026550258044153452,
+          "maximum_boundary_total_seconds": 0.03425167710520327,
+          "minimum_deadline_slack_seconds": 0.00574832289479673,
+          "missed_boundaries": [],
+          "timings": {
+            "controller_seconds": {
+              "first_seconds": 0.009922391036525369,
+              "median_seconds": 0.009633403969928622,
+              "maximum_seconds": 0.015175788197666407
+            },
+            "learner_seconds": {
+              "first_seconds": 0.011663172859698534,
+              "median_seconds": 0.010817480040714145,
+              "maximum_seconds": 0.012834226014092565
+            }
+          },
+          "host_warmup": null,
+          "causal_checks": {
+            "publication_has_finite_service": true,
+            "completion_matches_publication_record": true,
+            "publication_after_service_completion": true,
+            "publication_follows_training_boundary": true,
+            "control_uses_latest_available_publication": true,
+            "counter_increment_matches_finite_update": true,
+            "deadline_flags_match_measured_completion": true,
+            "trace_versions_match_inputs": true,
+            "trace_active_count_matches_inputs": true
+          },
+          "at_three_second_control": {
+            "version_used": 733,
+            "total_updates_used": 73,
+            "calm_updates_used": 54,
+            "wind_updates_used": 19,
+            "finite_services_completed_strictly_before_wall_three_seconds": 73,
+            "publications_strictly_before_wall_three_seconds": 72,
+            "last_used_training_simulation_time": 2.96
+          },
+          "before_first_arrival": {
+            "version_used": 770,
+            "total_updates_used": 110,
+            "wind_updates_used": 56
+          }
+        },
+        "fixed": {
+          "controls": 116,
+          "termination": "physical_collision",
+          "termination_time_seconds": 4.640000000000001,
+          "collider_lower_m": -0.017174816895818807,
+          "finite_updates": 0,
+          "publications": 0,
+          "degraded_controls": 28,
+          "deadline_misses": 1,
+          "first_boundary_total_seconds": 0.04697613790631294,
+          "maximum_boundary_total_seconds": 0.04697613790631294,
+          "minimum_deadline_slack_seconds": -0.006976137906312942,
+          "missed_boundaries": [
+            0.0
+          ],
+          "timings": {
+            "controller_seconds": {
+              "first_seconds": 0.010096329031512141,
+              "median_seconds": 0.012599740992300212,
+              "maximum_seconds": 0.0220467709004879
+            },
+            "learner_seconds": {
+              "first_seconds": 0.0,
+              "median_seconds": 0.0,
+              "maximum_seconds": 0.0
+            }
+          },
+          "host_warmup": null,
+          "causal_checks": {
+            "publication_has_finite_service": true,
+            "completion_matches_publication_record": true,
+            "publication_after_service_completion": true,
+            "publication_follows_training_boundary": true,
+            "control_uses_latest_available_publication": true,
+            "counter_increment_matches_finite_update": true,
+            "deadline_flags_match_measured_completion": true,
+            "trace_versions_match_inputs": true,
+            "trace_active_count_matches_inputs": true
+          },
+          "at_three_second_control": {
+            "version_used": 660,
+            "total_updates_used": 0,
+            "calm_updates_used": 0,
+            "wind_updates_used": 0,
+            "finite_services_completed_strictly_before_wall_three_seconds": 0,
+            "publications_strictly_before_wall_three_seconds": 0,
+            "last_used_training_simulation_time": null
+          },
+          "before_first_arrival": {
+            "version_used": 660,
+            "total_updates_used": 0,
+            "wind_updates_used": 0
+          }
+        }
+      },
+      "compensated": {
+        "adaptive": {
+          "controls": 297,
+          "termination": "completed",
+          "termination_time_seconds": 11.879999999999999,
+          "collider_lower_m": 0.1718069293387575,
+          "finite_updates": 294,
+          "publications": 294,
+          "degraded_controls": 1,
+          "deadline_misses": 0,
+          "first_boundary_total_seconds": 0.027160927886143327,
+          "maximum_boundary_total_seconds": 0.034352126996964216,
+          "minimum_deadline_slack_seconds": 0.005647873003035785,
+          "missed_boundaries": [],
+          "timings": {
+            "controller_seconds": {
+              "first_seconds": 0.010200415039435029,
+              "median_seconds": 0.009826089022681117,
+              "maximum_seconds": 0.014386184979230165
+            },
+            "learner_seconds": {
+              "first_seconds": 0.011740715010091662,
+              "median_seconds": 0.010979280108585954,
+              "maximum_seconds": 0.012181186117231846
+            }
+          },
+          "host_warmup": null,
+          "causal_checks": {
+            "publication_has_finite_service": true,
+            "completion_matches_publication_record": true,
+            "publication_after_service_completion": true,
+            "publication_follows_training_boundary": true,
+            "control_uses_latest_available_publication": true,
+            "counter_increment_matches_finite_update": true,
+            "deadline_flags_match_measured_completion": true,
+            "trace_versions_match_inputs": true,
+            "trace_active_count_matches_inputs": true
+          },
+          "at_three_second_control": {
+            "version_used": 733,
+            "total_updates_used": 73,
+            "calm_updates_used": 53,
+            "wind_updates_used": 20,
+            "finite_services_completed_strictly_before_wall_three_seconds": 73,
+            "publications_strictly_before_wall_three_seconds": 72,
+            "last_used_training_simulation_time": 2.96
+          },
+          "before_first_arrival": {
+            "version_used": 770,
+            "total_updates_used": 110,
+            "wind_updates_used": 57
+          }
+        },
+        "fixed": {
+          "controls": 282,
+          "termination": "completed",
+          "termination_time_seconds": 11.28,
+          "collider_lower_m": 0.1706942386396516,
+          "finite_updates": 0,
+          "publications": 0,
+          "degraded_controls": 0,
+          "deadline_misses": 0,
+          "first_boundary_total_seconds": 0.016001471085473895,
+          "maximum_boundary_total_seconds": 0.029369103955104947,
+          "minimum_deadline_slack_seconds": 0.010630896044895054,
+          "missed_boundaries": [],
+          "timings": {
+            "controller_seconds": {
+              "first_seconds": 0.010306458920240402,
+              "median_seconds": 0.012845751480199397,
+              "maximum_seconds": 0.01627826690673828
+            },
+            "learner_seconds": {
+              "first_seconds": 0.0,
+              "median_seconds": 0.0,
+              "maximum_seconds": 0.0
+            }
+          },
+          "host_warmup": null,
+          "causal_checks": {
+            "publication_has_finite_service": true,
+            "completion_matches_publication_record": true,
+            "publication_after_service_completion": true,
+            "publication_follows_training_boundary": true,
+            "control_uses_latest_available_publication": true,
+            "counter_increment_matches_finite_update": true,
+            "deadline_flags_match_measured_completion": true,
+            "trace_versions_match_inputs": true,
+            "trace_active_count_matches_inputs": true
+          },
+          "at_three_second_control": {
+            "version_used": 660,
+            "total_updates_used": 0,
+            "calm_updates_used": 0,
+            "wind_updates_used": 0,
+            "finite_services_completed_strictly_before_wall_three_seconds": 0,
+            "publications_strictly_before_wall_three_seconds": 0,
+            "last_used_training_simulation_time": null
+          },
+          "before_first_arrival": {
+            "version_used": 660,
+            "total_updates_used": 0,
+            "wind_updates_used": 0
+          }
+        }
+      }
+    },
+    "v2": {
+      "uncompensated": {
+        "adaptive": {
+          "controls": 263,
+          "termination": "completed",
+          "termination_time_seconds": 10.52,
+          "collider_lower_m": 0.17342708162196005,
+          "finite_updates": 250,
+          "publications": 250,
+          "degraded_controls": 0,
+          "deadline_misses": 0,
+          "first_boundary_total_seconds": 0.025422939099371433,
+          "maximum_boundary_total_seconds": 0.03516197297722101,
+          "minimum_deadline_slack_seconds": 0.004838027022778989,
+          "missed_boundaries": [],
+          "timings": {
+            "pre_controller_seconds": {
+              "first_seconds": 0.0008253341075032949,
+              "median_seconds": 0.0016968899872153997,
+              "maximum_seconds": 0.004550209967419505
+            },
+            "controller_seconds": {
+              "first_seconds": 0.009700197959318757,
+              "median_seconds": 0.009393159998580813,
+              "maximum_seconds": 0.014324742136523128
+            },
+            "host_recording_seconds": {
+              "first_seconds": 0.002124655991792679,
+              "median_seconds": 0.002075162949040532,
+              "maximum_seconds": 0.01143472595140338
+            },
+            "plant_seconds": {
+              "first_seconds": 0.0003150107804685831,
+              "median_seconds": 0.00019449112005531788,
+              "maximum_seconds": 0.0008475291542708874
+            },
+            "collider_audit_seconds": {
+              "first_seconds": 0.0005492600612342358,
+              "median_seconds": 0.0005411480087786913,
+              "maximum_seconds": 0.0026441270019859076
+            },
+            "learner_seconds": {
+              "first_seconds": 0.011453235056251287,
+              "median_seconds": 0.010624384973198175,
+              "maximum_seconds": 0.013266267022117972
+            }
+          },
+          "host_warmup": {
+            "collider_audit_seconds": 0.0005815501790493727,
+            "discarded_record_count": 1,
+            "nominal_encounter_seconds": 0.0005072799976915121,
+            "recording_seconds": 0.0030599827878177166,
+            "scope": "disposable host diagnostics before epoch; no live states, updates, or records",
+            "total_seconds": 0.004148812964558601
+          },
+          "causal_checks": {
+            "publication_has_finite_service": true,
+            "completion_matches_publication_record": true,
+            "publication_after_service_completion": true,
+            "publication_follows_training_boundary": true,
+            "control_uses_latest_available_publication": true,
+            "counter_increment_matches_finite_update": true,
+            "deadline_flags_match_measured_completion": true,
+            "trace_versions_match_inputs": true,
+            "trace_active_count_matches_inputs": true
+          },
+          "at_three_second_control": {
+            "version_used": 730,
+            "total_updates_used": 70,
+            "calm_updates_used": 53,
+            "wind_updates_used": 17,
+            "finite_services_completed_strictly_before_wall_three_seconds": 70,
+            "publications_strictly_before_wall_three_seconds": 70,
+            "last_used_training_simulation_time": 2.92
+          },
+          "before_first_arrival": {
+            "version_used": 766,
+            "total_updates_used": 106,
+            "wind_updates_used": 53
+          },
+          "final_checkpoint_restore": {
+            "reference_binding": "verified_npz_and_manifest_sha256",
+            "version": 910,
+            "version_equals_initial_plus_finite_updates": true
+          }
+        },
+        "fixed": {
+          "controls": 116,
+          "termination": "physical_collision",
+          "termination_time_seconds": 4.640000000000001,
+          "collider_lower_m": -0.017174816895818807,
+          "finite_updates": 0,
+          "publications": 0,
+          "degraded_controls": 28,
+          "deadline_misses": 0,
+          "first_boundary_total_seconds": 0.03727710200473666,
+          "maximum_boundary_total_seconds": 0.03727710200473666,
+          "minimum_deadline_slack_seconds": 0.002722897995263339,
+          "missed_boundaries": [],
+          "timings": {
+            "pre_controller_seconds": {
+              "first_seconds": 0.0007541580125689507,
+              "median_seconds": 0.0036106801126152277,
+              "maximum_seconds": 0.0059642361011356115
+            },
+            "controller_seconds": {
+              "first_seconds": 0.009487743955105543,
+              "median_seconds": 0.012302102637477219,
+              "maximum_seconds": 0.02057594805955887
+            },
+            "host_recording_seconds": {
+              "first_seconds": 0.0250197178684175,
+              "median_seconds": 0.003274777438491583,
+              "maximum_seconds": 0.0250197178684175
+            },
+            "plant_seconds": {
+              "first_seconds": 0.001228498062118888,
+              "median_seconds": 0.00026338943280279636,
+              "maximum_seconds": 0.001228498062118888
+            },
+            "collider_audit_seconds": {
+              "first_seconds": 0.000752496998757124,
+              "median_seconds": 0.0007479399209842086,
+              "maximum_seconds": 0.0015071271918714046
+            },
+            "learner_seconds": {
+              "first_seconds": 0.0,
+              "median_seconds": 0.0,
+              "maximum_seconds": 0.0
+            }
+          },
+          "host_warmup": {
+            "collider_audit_seconds": 0.0008430411107838154,
+            "discarded_record_count": 1,
+            "nominal_encounter_seconds": 0.00028701499104499817,
+            "recording_seconds": 0.0033164198976010084,
+            "scope": "disposable host diagnostics before epoch; no live states, updates, or records",
+            "total_seconds": 0.004446475999429822
+          },
+          "causal_checks": {
+            "publication_has_finite_service": true,
+            "completion_matches_publication_record": true,
+            "publication_after_service_completion": true,
+            "publication_follows_training_boundary": true,
+            "control_uses_latest_available_publication": true,
+            "counter_increment_matches_finite_update": true,
+            "deadline_flags_match_measured_completion": true,
+            "trace_versions_match_inputs": true,
+            "trace_active_count_matches_inputs": true
+          },
+          "at_three_second_control": {
+            "version_used": 660,
+            "total_updates_used": 0,
+            "calm_updates_used": 0,
+            "wind_updates_used": 0,
+            "finite_services_completed_strictly_before_wall_three_seconds": 0,
+            "publications_strictly_before_wall_three_seconds": 0,
+            "last_used_training_simulation_time": null
+          },
+          "before_first_arrival": {
+            "version_used": 660,
+            "total_updates_used": 0,
+            "wind_updates_used": 0
+          }
+        }
+      },
+      "compensated": {
+        "adaptive": {
+          "controls": 297,
+          "termination": "completed",
+          "termination_time_seconds": 11.879999999999999,
+          "collider_lower_m": 0.17177606138253998,
+          "finite_updates": 292,
+          "publications": 292,
+          "degraded_controls": 1,
+          "deadline_misses": 0,
+          "first_boundary_total_seconds": 0.025790276937186718,
+          "maximum_boundary_total_seconds": 0.03394963778555393,
+          "minimum_deadline_slack_seconds": 0.006050362214446069,
+          "missed_boundaries": [],
+          "timings": {
+            "pre_controller_seconds": {
+              "first_seconds": 0.0008826230186969042,
+              "median_seconds": 0.0016026159282773733,
+              "maximum_seconds": 0.004813370062038302
+            },
+            "controller_seconds": {
+              "first_seconds": 0.00997555092908442,
+              "median_seconds": 0.009473063051700592,
+              "maximum_seconds": 0.015144837088882923
+            },
+            "host_recording_seconds": {
+              "first_seconds": 0.002129486994817853,
+              "median_seconds": 0.0018480918370187283,
+              "maximum_seconds": 0.005748003954067826
+            },
+            "plant_seconds": {
+              "first_seconds": 0.00023789796978235245,
+              "median_seconds": 0.00020521599799394608,
+              "maximum_seconds": 0.0005881581455469131
+            },
+            "collider_audit_seconds": {
+              "first_seconds": 0.0005392630118876696,
+              "median_seconds": 0.0005410630255937576,
+              "maximum_seconds": 0.002523100934922695
+            },
+            "learner_seconds": {
+              "first_seconds": 0.011577851139008999,
+              "median_seconds": 0.010773106012493372,
+              "maximum_seconds": 0.01319995615631342
+            }
+          },
+          "host_warmup": {
+            "collider_audit_seconds": 0.0005964080337435007,
+            "discarded_record_count": 1,
+            "nominal_encounter_seconds": 0.0002614390105009079,
+            "recording_seconds": 0.0030733479652553797,
+            "scope": "disposable host diagnostics before epoch; no live states, updates, or records",
+            "total_seconds": 0.003931195009499788
+          },
+          "causal_checks": {
+            "publication_has_finite_service": true,
+            "completion_matches_publication_record": true,
+            "publication_after_service_completion": true,
+            "publication_follows_training_boundary": true,
+            "control_uses_latest_available_publication": true,
+            "counter_increment_matches_finite_update": true,
+            "deadline_flags_match_measured_completion": true,
+            "trace_versions_match_inputs": true,
+            "trace_active_count_matches_inputs": true
+          },
+          "at_three_second_control": {
+            "version_used": 735,
+            "total_updates_used": 75,
+            "calm_updates_used": 55,
+            "wind_updates_used": 20,
+            "finite_services_completed_strictly_before_wall_three_seconds": 75,
+            "publications_strictly_before_wall_three_seconds": 74,
+            "last_used_training_simulation_time": 2.96
+          },
+          "before_first_arrival": {
+            "version_used": 772,
+            "total_updates_used": 112,
+            "wind_updates_used": 57
+          },
+          "final_checkpoint_restore": {
+            "reference_binding": "verified_npz_and_manifest_sha256",
+            "version": 952,
+            "version_equals_initial_plus_finite_updates": true
+          }
+        },
+        "fixed": {
+          "controls": 282,
+          "termination": "completed",
+          "termination_time_seconds": 11.28,
+          "collider_lower_m": 0.1706942386396516,
+          "finite_updates": 0,
+          "publications": 0,
+          "degraded_controls": 0,
+          "deadline_misses": 0,
+          "first_boundary_total_seconds": 0.01315563777461648,
+          "maximum_boundary_total_seconds": 0.03269374696537852,
+          "minimum_deadline_slack_seconds": 0.007306253034621478,
+          "missed_boundaries": [],
+          "timings": {
+            "pre_controller_seconds": {
+              "first_seconds": 0.0007862991187721491,
+              "median_seconds": 0.004092982970178127,
+              "maximum_seconds": 0.0060881259851157665
+            },
+            "controller_seconds": {
+              "first_seconds": 0.009829070884734392,
+              "median_seconds": 0.012434583506546915,
+              "maximum_seconds": 0.017499774927273393
+            },
+            "host_recording_seconds": {
+              "first_seconds": 0.0017720588948577642,
+              "median_seconds": 0.003507255925796926,
+              "maximum_seconds": 0.011480727000162005
+            },
+            "plant_seconds": {
+              "first_seconds": 0.00020327488891780376,
+              "median_seconds": 0.0002657684963196516,
+              "maximum_seconds": 0.0009039298165589571
+            },
+            "collider_audit_seconds": {
+              "first_seconds": 0.0005527790635824203,
+              "median_seconds": 0.0007423964561894536,
+              "maximum_seconds": 0.002659536898136139
+            },
+            "learner_seconds": {
+              "first_seconds": 0.0,
+              "median_seconds": 0.0,
+              "maximum_seconds": 0.0
+            }
+          },
+          "host_warmup": {
+            "collider_audit_seconds": 0.0005819178186357021,
+            "discarded_record_count": 1,
+            "nominal_encounter_seconds": 0.00029225111939013004,
+            "recording_seconds": 0.0025744838640093803,
+            "scope": "disposable host diagnostics before epoch; no live states, updates, or records",
+            "total_seconds": 0.0034486528020352125
+          },
+          "causal_checks": {
+            "publication_has_finite_service": true,
+            "completion_matches_publication_record": true,
+            "publication_after_service_completion": true,
+            "publication_follows_training_boundary": true,
+            "control_uses_latest_available_publication": true,
+            "counter_increment_matches_finite_update": true,
+            "deadline_flags_match_measured_completion": true,
+            "trace_versions_match_inputs": true,
+            "trace_active_count_matches_inputs": true
+          },
+          "at_three_second_control": {
+            "version_used": 660,
+            "total_updates_used": 0,
+            "calm_updates_used": 0,
+            "wind_updates_used": 0,
+            "finite_services_completed_strictly_before_wall_three_seconds": 0,
+            "publications_strictly_before_wall_three_seconds": 0,
+            "last_used_training_simulation_time": null
+          },
+          "before_first_arrival": {
+            "version_used": 660,
+            "total_updates_used": 0,
+            "wind_updates_used": 0
+          }
+        }
+      }
+    }
+  },
+  "fixed_identity": {
+    "uncompensated": {
+      "v1_v2_dense_states_exact": true,
+      "v2_deterministic_dense_states_exact": true,
+      "v1_v2_executed_actions_exact": true,
+      "v2_deterministic_executed_actions_exact": true
+    },
+    "compensated": {
+      "v1_v2_dense_states_exact": true,
+      "v2_deterministic_dense_states_exact": true,
+      "v1_v2_executed_actions_exact": true,
+      "v2_deterministic_executed_actions_exact": true
+    }
+  },
+  "early_reversion": {
+    "uncompensated": {
+      "boundary_seconds": 3.0,
+      "selection_reason": "last control boundary before the saved adaptive versus wind-onset-frozen position difference first exceeds 2 cm at 3.04 s; selected from actual input/trajectory diagnostics, before new intervention outcomes",
+      "outcome_class": "fixed_only_collision",
+      "common_state_intervention_valid": true,
+      "parameters_differ": true,
+      "checks": {
+        "prefix_state_exact": true,
+        "prefix_action_exact": true,
+        "prefix_selected_exact": true,
+        "prefix_mode_exact": true,
+        "prefix_qp_exact": true,
+        "prefix_hard_exact": true,
+        "prefix_smooth_exact": true,
+        "prefix_version_used_exact": true,
+        "prefix_completed_version_exact": true,
+        "prefix_finite_update_exact": true,
+        "prefix_publication_time_exact": true,
+        "held_learned_zero_postintervention_updates": true,
+        "held_learned_used_version": true,
+        "reverted_initial_zero_postintervention_updates": true,
+        "reverted_initial_used_version": true,
+        "controller_input_fields_exact": true
+      },
+      "methods": {
+        "fixed": {
+          "collider_lower_m": -0.011145092275387798,
+          "collider_upper_m": -0.011145075732369607,
+          "shell_clearance_m": -0.17665256365048,
+          "degraded_controls": 31,
+          "termination": "physical_collision",
+          "termination_time_seconds": 4.76,
+          "finite_updates": 75,
+          "last_executed_version": 660
+        },
+        "adaptive": {
+          "collider_lower_m": 0.17431176653476588,
+          "collider_upper_m": 0.17431178420913562,
+          "shell_clearance_m": 0.006280653057303631,
+          "degraded_controls": 0,
+          "termination": "completed",
+          "termination_time_seconds": 10.479999999999999,
+          "finite_updates": 75,
+          "last_executed_version": 735
+        }
+      },
+      "qp": {
+        "held_learned": {
+          "eligible": 12,
+          "accepted": 12,
+          "selected": 9,
+          "qp_valid": true,
+          "executed_policy_dual": 0.00046808921615593135,
+          "action_difference_vs_executed": 0.0
+        },
+        "reverted_initial": {
+          "eligible": 9,
+          "accepted": 9,
+          "selected": 7,
+          "qp_valid": true,
+          "executed_policy_dual": 0.0005646558711305261,
+          "action_difference_vs_executed": 0.0
+        }
+      },
+      "checkpoint_restore": {
+        "held_learned_snapshot": {
+          "full_hashes_match_record": true,
+          "reference_binding": "verified_npz_and_manifest_sha256",
+          "version": 735,
+          "available_time_seconds": 3.0,
+          "physical_state_time_seconds": 3.0
+        },
+        "held_learned_used_snapshot": {
+          "full_hashes_match_record": true,
+          "reference_binding": "verified_npz_and_manifest_sha256",
+          "version": 735,
+          "available_time_seconds": 3.0,
+          "physical_state_time_seconds": 3.0
+        },
+        "reverted_initial_snapshot": {
+          "full_hashes_match_record": true,
+          "reference_binding": "verified_npz_and_manifest_sha256",
+          "version": 735,
+          "available_time_seconds": 3.0,
+          "physical_state_time_seconds": 3.0
+        },
+        "reverted_initial_used_snapshot": {
+          "full_hashes_match_record": true,
+          "reference_binding": "verified_npz_and_manifest_sha256",
+          "version": 660,
+          "available_time_seconds": 0.0,
+          "physical_state_time_seconds": 3.0,
+          "equals_original_full_checkpoint_state": true
+        }
+      }
+    },
+    "compensated": {
+      "boundary_seconds": 3.0,
+      "selection_reason": "last control boundary before the saved adaptive versus wind-onset-frozen position difference first exceeds 2 cm at 3.04 s; selected from actual input/trajectory diagnostics, before new intervention outcomes",
+      "outcome_class": "both_separated",
+      "common_state_intervention_valid": true,
+      "parameters_differ": true,
+      "checks": {
+        "prefix_state_exact": true,
+        "prefix_action_exact": true,
+        "prefix_selected_exact": true,
+        "prefix_mode_exact": true,
+        "prefix_qp_exact": true,
+        "prefix_hard_exact": true,
+        "prefix_smooth_exact": true,
+        "prefix_version_used_exact": true,
+        "prefix_completed_version_exact": true,
+        "prefix_finite_update_exact": true,
+        "prefix_publication_time_exact": true,
+        "held_learned_zero_postintervention_updates": true,
+        "held_learned_used_version": true,
+        "reverted_initial_zero_postintervention_updates": true,
+        "reverted_initial_used_version": true,
+        "controller_input_fields_exact": true
+      },
+      "methods": {
+        "fixed": {
+          "collider_lower_m": 0.17135712791719837,
+          "collider_upper_m": 0.17135714328560092,
+          "shell_clearance_m": 0.005949022363987422,
+          "degraded_controls": 0,
+          "termination": "completed",
+          "termination_time_seconds": 11.0,
+          "finite_updates": 75,
+          "last_executed_version": 660
+        },
+        "adaptive": {
+          "collider_lower_m": 0.17001560089633783,
+          "collider_upper_m": 0.1700156169287443,
+          "shell_clearance_m": 0.005773677345981776,
+          "degraded_controls": 0,
+          "termination": "completed",
+          "termination_time_seconds": 11.799999999999999,
+          "finite_updates": 75,
+          "last_executed_version": 735
+        }
+      },
+      "qp": {
+        "held_learned": {
+          "eligible": 11,
+          "accepted": 11,
+          "selected": 0,
+          "qp_valid": true,
+          "executed_policy_dual": 0.00046652823220938444,
+          "action_difference_vs_executed": 0.0
+        },
+        "reverted_initial": {
+          "eligible": 11,
+          "accepted": 11,
+          "selected": 7,
+          "qp_valid": true,
+          "executed_policy_dual": 0.0004399545141495764,
+          "action_difference_vs_executed": 0.0
+        }
+      },
+      "checkpoint_restore": {
+        "held_learned_snapshot": {
+          "full_hashes_match_record": true,
+          "reference_binding": "verified_npz_and_manifest_sha256",
+          "version": 735,
+          "available_time_seconds": 3.0,
+          "physical_state_time_seconds": 3.0
+        },
+        "held_learned_used_snapshot": {
+          "full_hashes_match_record": true,
+          "reference_binding": "verified_npz_and_manifest_sha256",
+          "version": 735,
+          "available_time_seconds": 3.0,
+          "physical_state_time_seconds": 3.0
+        },
+        "reverted_initial_snapshot": {
+          "full_hashes_match_record": true,
+          "reference_binding": "verified_npz_and_manifest_sha256",
+          "version": 735,
+          "available_time_seconds": 3.0,
+          "physical_state_time_seconds": 3.0
+        },
+        "reverted_initial_used_snapshot": {
+          "full_hashes_match_record": true,
+          "reference_binding": "verified_npz_and_manifest_sha256",
+          "version": 660,
+          "available_time_seconds": 0.0,
+          "physical_state_time_seconds": 3.0,
+          "equals_original_full_checkpoint_state": true
+        }
+      }
+    }
+  },
+  "source_hashes": {
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/uncompensated/canonical_paced/navigation_comparison.json": "68beea7223e6258113a6cd65b64bd7e4b0d2f678cfdef5898e33babd8aa82134",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/uncompensated/canonical_paced/CASE_EPISODE_SUMMARY.json": "b9ad276b03f0a069c9f1556a942d3aa19bb31fffecefd9cf582cfd516c67fa48",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/compensated/canonical_paced/navigation_comparison.json": "1c874c98585decaff7bf06512cda24dada1c3c535f07f10cc21c8cb08349e3f8",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/compensated/canonical_paced/CASE_EPISODE_SUMMARY.json": "96aa6551cb102ef529697f91e0c8214988f1b650d88175157a35c32ee54e6eed",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/navigation_comparison.json": "d0ad3d7d7faff9c824429a2f3b34ed8da047dd03b51b948bc43a37f170d0f548",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/CASE_EPISODE_SUMMARY.json": "3244c2b6dbc73f441f9cd89ae8bf070b7d2eadf7f13d1f41b48cdb405f7c2339",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/compensated/canonical_paced/navigation_comparison.json": "4024b08ca6c4aa41a6f1b9fef1ec7875244f026aa74634e5f2d61c98ccd10645",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/compensated/canonical_paced/CASE_EPISODE_SUMMARY.json": "4423f0d559b01d5988ebffa4fb162f14f988cc512d1434ddb6670508ee4e2a81",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/result.json": "27ccee7791b6d6f8c99fd480322ee8e28640f1d10a9d8b9b78540ea26d1d8eb2",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/FULL_QP_AUDIT.json": "40de914732fc4c52fc555df5fd039130cb7767a3df9ef3bd655897599fb6a0a3",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/result.json": "2f979dfe4b7e4c28c21e927e7d68860f1bc46794ecc8f6336e8fe6517eec6e94",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/FULL_QP_AUDIT.json": "ef157209eda8c3edcb827cb25cfb8ea59c7fc968966ef79b9060c6a0cc0b0305",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/held_learned_snapshot.npz": "93372cb53b75e24f213b74bedae2ff2e464f60aa3ec6c5cc4ec61d58bd2d38b3",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/held_learned_snapshot.json": "0d2984c80d6d45f1e55e20fcf07d1b51839c86fbbb784e8947abf6103b7e18c3",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/held_learned_used_snapshot.npz": "93372cb53b75e24f213b74bedae2ff2e464f60aa3ec6c5cc4ec61d58bd2d38b3",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/held_learned_used_snapshot.json": "0d2984c80d6d45f1e55e20fcf07d1b51839c86fbbb784e8947abf6103b7e18c3",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/reverted_initial_snapshot.npz": "93372cb53b75e24f213b74bedae2ff2e464f60aa3ec6c5cc4ec61d58bd2d38b3",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/reverted_initial_snapshot.json": "99319bc3f206106d941d06e077bfecb7faf1d001dda8cc131b6d5563cad62176",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/reverted_initial_used_snapshot.npz": "6c8336c074b2a0274a14d78c940d9361bb4c39ea30b18f5374bdf1ba4ecee499",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/reverted_initial_used_snapshot.json": "bd939434a24b578a969a0c0dbc7ae0f6a841853874c6cce114507aab30f77a68",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/held_learned_snapshot.npz": "b344b71bfd8dd32a3cae29382ef9824b206f350809454a16b730dfda7287b23e",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/held_learned_snapshot.json": "6d1f749c482c766ae6e6fbc280d564403194da099601fe04ef6caf2b8e5574c2",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/held_learned_used_snapshot.npz": "b344b71bfd8dd32a3cae29382ef9824b206f350809454a16b730dfda7287b23e",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/held_learned_used_snapshot.json": "6d1f749c482c766ae6e6fbc280d564403194da099601fe04ef6caf2b8e5574c2",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/reverted_initial_snapshot.npz": "b344b71bfd8dd32a3cae29382ef9824b206f350809454a16b730dfda7287b23e",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/reverted_initial_snapshot.json": "8c9d1f5f03fe366ff25ff041421736ecd41c8e00f192e144fe8ab455edbdc8c2",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/reverted_initial_used_snapshot.npz": "5e5c9e2601775f386238a2879e84269bad5948ace182fb0efe1b2219da684be0",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/reverted_initial_used_snapshot.json": "c479986e642ff66c5ce35390738638dd1a8d1518d07c6c76f3309574c40af3f5",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/uncompensated/canonical_paced/dense_plant_states.npz": "1c4fe87ba95855757f112ece2e4d9bf4251277d24a438d668f0c2b7e6f41a1ea",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/uncompensated/canonical_paced/navigation_comparison.npz": "320c5b74274b24a9811e7592dc4893cabd1b331f614fd69db03e3e472cc2014d",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/compensated/canonical_paced/dense_plant_states.npz": "f1355d5bfbe49b475f593364cff28e5c1c09bb477291ac4e347554ee8d67ef80",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/compensated/canonical_paced/navigation_comparison.npz": "5d7ea04ae98b4c32a947aa6d5eb67f2ae986556db2c0f194022e138bac192fed",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/dense_plant_states.npz": "d263e5e84bac3c082c9024b67c0d838bd6fed6151b50b6005a9ab4c606fa90ff",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/navigation_comparison.npz": "8a24e1e8b6adc559648684ce0e476189844335421cd4c2b95620a97a81a043ec",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/compensated/canonical_paced/dense_plant_states.npz": "763886958f20539cd9403bfe7a17c4b6ce4bf7379b74a0f47709530c43d4c3d8",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/compensated/canonical_paced/navigation_comparison.npz": "ef52ac0bb48f08356b747d35d605eb26f5316a9f35c84b9d90741b9839c95f01",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v1/protocol.json": "eb0604709b048ec676a822d6d0bf70d878f72c750e62b526cdab200eb06f52c5",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/protocol.json": "9ea7e99797007be58fbf79200e11c7e6329a7c754c8b51914a711ef55f7afbc9",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/protocol.json": "9e3ad78ae807becea8b4ecc167c9dedf3d0d13888c01cb2bfccfd9dfc38d7e09",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/held_learned_traces.npz": "8d078795bff26432e26a649d7692ea6bb5fc8e2c6a0912bc0502b5899a21e4ff",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/reverted_initial_traces.npz": "c04523fe99f38d24e0acf99918cab43b9ac5b23778f847707de6d8e7adb38004",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/held_learned_controller_input.npz": "868da63c865aa5880241d0305ddabe57595271324fa29b505f40d92a331178cf",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/reverted_initial_controller_input.npz": "868da63c865aa5880241d0305ddabe57595271324fa29b505f40d92a331178cf",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/nominal_reference.npz": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/nominal_reference.json": "c105b8a9eec836073d55a8a931722fbdc29410a98d7e992375ec8e299972e92f",
+    "artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/uncompensated/original/traces.npz": "34efeff8c0013046c4c7c5ae05bc35e937f90aa77cc15cb87a10eca8427e560e",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/final_adaptive_checkpoint.npz": "15f926b1c3e9575c9a6ee9a266edaf9746cd5baa840fe3168a5245172d1a3dd7",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/final_adaptive_checkpoint.json": "7c10096ff93194960097f76836839be428f44e0352f006f4e7aa53c88fda0590",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/nominal_reference.npz": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/nominal_reference.json": "c105b8a9eec836073d55a8a931722fbdc29410a98d7e992375ec8e299972e92f",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/protocol.json": "9e3ad78ae807becea8b4ecc167c9dedf3d0d13888c01cb2bfccfd9dfc38d7e09",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/held_learned_traces.npz": "481e69791fa75ffd6ef76ea3989248917bab6319156e55810acd3206766fb2d2",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/reverted_initial_traces.npz": "1917c0eb5ef43f1ce1751ff88695cdce695913d438598877d5c7799308fa5b8c",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/held_learned_controller_input.npz": "59cd04f5897664a398194fa59f51790fae4dadef1f182f5158103d70404ea78e",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/reverted_initial_controller_input.npz": "59cd04f5897664a398194fa59f51790fae4dadef1f182f5158103d70404ea78e",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/nominal_reference.npz": "d0fdc97909f7d8e150a1b929b140da60f49e21d253b9991a42f6f7939e8437ae",
+    "artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/early_parameter_reversion/nominal_reference.json": "06d328e8cee7b6704faac4a12faa30e7e3c0f6a8e4888292fb95573b0606f31a",
+    "artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/compensated/original/traces.npz": "9b571e23b5a95fab5619eb3131bc86229d22e75799f6363720cc7459d15ec1ce",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/compensated/canonical_paced/final_adaptive_checkpoint.npz": "0648c9ab37798214dfbb03909363ce832c66b9486e6ac11283c4e0f65f120c6d",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/compensated/canonical_paced/final_adaptive_checkpoint.json": "f48d7fe33f37562d3a1f64481e40ca83595f986f0b8d03f3d5fe354614f6a304",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/compensated/canonical_paced/nominal_reference.npz": "d0fdc97909f7d8e150a1b929b140da60f49e21d253b9991a42f6f7939e8437ae",
+    "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/compensated/canonical_paced/nominal_reference.json": "06d328e8cee7b6704faac4a12faa30e7e3c0f6a8e4888292fb95573b0606f31a",
+    "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_uncompensated_gated/initial_checkpoint.npz": "8f70370b8c9b3603838e71f32fbc9fec2d0e57436068843395a882b68f583dc6",
+    "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_uncompensated_gated/initial_checkpoint.json": "5bc9b33e558f22be8a1b0ad73142e9fbd97ff19abbd0922600979381c70d10ee",
+    "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_uncompensated_gated/nominal_reference.npz": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd",
+    "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_uncompensated_gated/nominal_reference.json": "c105b8a9eec836073d55a8a931722fbdc29410a98d7e992375ec8e299972e92f",
+    "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_compensated/initial_checkpoint.npz": "d9f04a015f07484971e9f4bb112fb45b00f3dd6a56fa8ce9334645e26e44ce67",
+    "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_compensated/initial_checkpoint.json": "9f966953cb2bccce293c0cbafb7d554d99002f1389349b66bbace9c4593f916f",
+    "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_compensated/nominal_reference.npz": "d0fdc97909f7d8e150a1b929b140da60f49e21d253b9991a42f6f7939e8437ae",
+    "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_compensated/nominal_reference.json": "06d328e8cee7b6704faac4a12faa30e7e3c0f6a8e4888292fb95573b0606f31a"
+  }
+}

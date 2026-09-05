@@ -1,0 +1,7958 @@
+{
+  "schema": "crazyflow.mujoco_contact_replay.v1",
+  "scope": "Separate motor-off crash/abort presentation; no original controller commands execute after handoff and no controller safety guarantee is transferred.",
+  "trigger": {
+    "time_seconds": 4.615010812454642,
+    "kind": "swept_collider_contact",
+    "source_interval": 4615,
+    "obstacle_index": 0,
+    "source_swept_event_time_seconds": 4.615010812454642,
+    "handoff_backoff_seconds": 0.0,
+    "shell_ego_radius_m": null,
+    "shell_clearance_m": 0.0
+  },
+  "config": {
+    "duration_seconds": 9.384989187545358,
+    "timestep": 0.001,
+    "ground_height": 0.0,
+    "collision_radius": 0.086,
+    "collision_offset_body": [
+      0.0,
+      0.0,
+      0.02
+    ],
+    "friction": [
+      0.7,
+      0.01,
+      0.001
+    ],
+    "contact_time_constant": 0.006,
+    "obstacle_drive_mass_kg": 1000.0
+  },
+  "body": {
+    "mass_kg": 0.043379999697208405,
+    "inertia_kg_m2": [
+      [
+        2.499999936844688e-05,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        2.8000000384054147e-05,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        4.8999998398358e-05
+      ]
+    ],
+    "inertial_origin_body_m": [
+      0,
+      0,
+      0
+    ],
+    "gravity_m_s2": [
+      0.0,
+      0.0,
+      -9.81
+    ],
+    "drag_matrix_body": [
+      [
+        -0.02149163,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        -0.02149163,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        -0.02359736
+      ]
+    ]
+  },
+  "model_semantics": "Recorded mass/inertia and aerodynamic parameters are frozen at handoff; prescribed wind and obstacle positions may vary. Obstacle free-joint poses AND world velocities are imposed from the absolute-time trajectory at every step. A large finite drive mass approximates an externally driven environment; the solver sees moving surfaces, but obstacle impact response is reset each step. This external trajectory drive can supply work and is not a closed isolated system.",
+  "obstacle_drive": {
+    "mass_kg_per_obstacle": 1000.0,
+    "drone_to_obstacle_mass_ratio": 4.33799996972084e-05,
+    "velocity_rule": "piecewise-linear center derivative; right derivative at knots",
+    "maximum_step_position_correction_m": 2.5796281352378603e-06,
+    "maximum_step_velocity_correction_m_s": 0.0025796602048250867
+  },
+  "collider_semantics": "cf21B XML sphere geometry by default; separate from any older centered point-model ego envelope.",
+  "state_semantics": "position/world velocity; xyzw body-to-world quaternion; body-frame angular velocity",
+  "integration": "MuJoCo implicitfast, explicit 1-step mj_step calls; drone qpos/qvel assigned only once at handoff",
+  "mujoco_version": "3.12.0",
+  "obstacle_contact_steps": 62,
+  "ground_contact_steps": 8095,
+  "maximum_contact_force_norm_N": 5145.343563639437,
+  "minimum_contact_distance_m": -0.007069569598002479,
+  "warning_counts": {},
+  "official_references": [
+    "https://mujoco.readthedocs.io/en/latest/overview.html#floating-objects",
+    "https://mujoco.readthedocs.io/en/latest/XMLreference.html#body-mocap"
+  ],
+  "source": {
+    "directory": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced",
+    "method": "fixed",
+    "input_sha256": {
+      "encounter.json": "b50ba617664fb5fc4b576805f595e379a91b239bd86abe65a71e8118d7a36abe",
+      "navigation_comparison.npz": "8a24e1e8b6adc559648684ce0e476189844335421cd4c2b95620a97a81a043ec",
+      "navigation_comparison.json": "d0ad3d7d7faff9c824429a2f3b34ed8da047dd03b51b948bc43a37f170d0f548",
+      "dense_plant_states.npz": "d263e5e84bac3c082c9024b67c0d838bd6fed6151b50b6005a9ab4c606fa90ff",
+      "raw_diagnostics.npz": "723d9682961b579efb9c0c841089bca4ab1fd26a3543972e651f35a31357c8dd"
+    },
+    "audited_xml_intersection_seconds": 4.615010812454642,
+    "handoff_event_disagreement_seconds": 0.0,
+    "collision_trigger_scope": "physical XML sphere only; neither clearance shell nor degradation"
+  },
+  "obstacle_motion": "Original independently prescribed absolute-time sinusoids sampled at 1 ms; both obstacle positions and derivatives of that interpolant drive MuJoCo surfaces.",
+  "presentation_source_sha256": "ce274d7093ed6a485835648c6058b8cbf163f287c07ae8b37c2e46408f2b9b71",
+  "contact_events": [
+    {
+      "time_seconds": 4.616010812454642,
+      "kind": "obstacle_contact",
+      "other": "obstacle_0",
+      "point_world": [
+        0.11490173445531449,
+        0.4301004279996119,
+        1.208632055153774
+      ],
+      "normal_world": [
+        -0.3544369967438571,
+        -0.9332388611700497,
+        -0.05864847262481535
+      ],
+      "contact_distance_m": -0.0007197987639678827,
+      "force_norm_N": 7.7228381519414695
+    },
+    {
+      "time_seconds": 4.735010812454642,
+      "kind": "obstacle_contact",
+      "other": "obstacle_1",
+      "point_world": [
+        0.13604828022486085,
+        0.6515144080707356,
+        1.0792293021270152
+      ],
+      "normal_world": [
+        -0.5836961733833075,
+        0.7952080561577476,
+        -0.16414300045844402
+      ],
+      "contact_distance_m": -0.0012643164457639688,
+      "force_norm_N": 36.24437119205266
+    },
+    {
+      "time_seconds": 4.749010812454642,
+      "kind": "obstacle_contact",
+      "other": "obstacle_0",
+      "point_world": [
+        0.1867638052543631,
+        0.48019486497486685,
+        1.105138566256084
+      ],
+      "normal_world": [
+        -0.22980224681874498,
+        -0.9472980752726782,
+        0.22319785828214456
+      ],
+      "contact_distance_m": -0.0010439706094473866,
+      "force_norm_N": 2579.627785721367
+    },
+    {
+      "time_seconds": 4.754010812454642,
+      "kind": "obstacle_contact",
+      "other": "obstacle_1",
+      "point_world": [
+        0.16515288646749662,
+        0.6248229366006168,
+        1.0804901630553523
+      ],
+      "normal_world": [
+        -0.6252732237588582,
+        0.775541807760659,
+        -0.08699597729512581
+      ],
+      "contact_distance_m": -8.537006066700048e-05,
+      "force_norm_N": 1052.4081969906556
+    },
+    {
+      "time_seconds": 5.414010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.4864813047521994,
+        0.8380089446555798,
+        -0.0004927599165487212
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -0.0009855198330974285,
+      "force_norm_N": 61.902372208763445
+    },
+    {
+      "time_seconds": 5.455010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.5566205450688477,
+        0.8377577151222644,
+        -1.6929608222096548e-05
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.3859216444193097e-05,
+      "force_norm_N": 1.6711922462447901
+    },
+    {
+      "time_seconds": 5.478010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.5919232297566117,
+        0.8372211640709849,
+        -1.5722417872482408e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.1444835744964816e-06,
+      "force_norm_N": 0.6466013383955984
+    },
+    {
+      "time_seconds": 5.482010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.597597255678075,
+        0.8371560652750646,
+        -3.92175380022064e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.84350760044128e-06,
+      "force_norm_N": 0.6942468151972369
+    },
+    {
+      "time_seconds": 5.488010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.605850566897502,
+        0.8370853600690485,
+        -9.763360937636856e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.952672187541249e-06,
+      "force_norm_N": 0.6318771209698824
+    },
+    {
+      "time_seconds": 5.492010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6111878207912154,
+        0.837057818434845,
+        -1.5832750576288968e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.1665501152716713e-06,
+      "force_norm_N": 0.6409176197977394
+    },
+    {
+      "time_seconds": 5.496010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6163962071587308,
+        0.8370450885826387,
+        -2.2891407659569873e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.5782815319278525e-06,
+      "force_norm_N": 0.6301434547797686
+    },
+    {
+      "time_seconds": 5.500010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6214803751976985,
+        0.8370427401573806,
+        -1.3783856896987245e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.756771379397449e-06,
+      "force_norm_N": 0.6121092185031297
+    },
+    {
+      "time_seconds": 5.503010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6252169836383057,
+        0.837044554571691,
+        -2.973661128349847e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.947322256713572e-06,
+      "force_norm_N": 0.6324072722453186
+    },
+    {
+      "time_seconds": 5.507010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6300997348838504,
+        0.8370450671831288,
+        -5.968932117600412e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.1937864235200824e-06,
+      "force_norm_N": 0.5894894733020349
+    },
+    {
+      "time_seconds": 5.510010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6336912939061439,
+        0.8370441656303178,
+        -4.124814495659601e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.249628991319202e-07,
+      "force_norm_N": 0.6037459327249002
+    },
+    {
+      "time_seconds": 5.513010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6372243894582308,
+        0.837040938747308,
+        -1.0035476705888557e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.0070953411638337e-06,
+      "force_norm_N": 0.6064043186338935
+    },
+    {
+      "time_seconds": 5.516010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6407006123792918,
+        0.8370345005239902,
+        -1.5275230028227726e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.0550460056455453e-06,
+      "force_norm_N": 0.6028603174312505
+    },
+    {
+      "time_seconds": 5.519010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.644121621097788,
+        0.8370243365165115,
+        -1.665423870464422e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.330847740928844e-06,
+      "force_norm_N": 0.5964692997512456
+    },
+    {
+      "time_seconds": 5.522010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6474890836726015,
+        0.8370101511100839,
+        -1.3664532928225892e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.7329065856451784e-06,
+      "force_norm_N": 0.5891918593650025
+    },
+    {
+      "time_seconds": 5.525010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6508046432595844,
+        0.8369917772231926,
+        -7.007339660747292e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.4014679321494583e-06,
+      "force_norm_N": 0.5820886648504633
+    },
+    {
+      "time_seconds": 5.529010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6551484668864176,
+        0.8369636453053159,
+        -6.476996791890399e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.2953993583794676e-05,
+      "force_norm_N": 0.7082816125145609
+    },
+    {
+      "time_seconds": 5.537010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.663579824638583,
+        0.8368810806899201,
+        -8.347151990786839e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.6694303981587555e-05,
+      "force_norm_N": 0.7575558921552827
+    },
+    {
+      "time_seconds": 5.546010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6726866907857643,
+        0.8367499519839777,
+        -5.096019401018559e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.0192038802037118e-05,
+      "force_norm_N": 0.7276017875386247
+    },
+    {
+      "time_seconds": 5.553010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6795152599256193,
+        0.8366203474310643,
+        -2.947804848968394e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.89560969779801e-07,
+      "force_norm_N": 0.6151724316188278
+    },
+    {
+      "time_seconds": 5.556010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.682378414217789,
+        0.8365590267815527,
+        -1.6958465690330993e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.3916931380661985e-06,
+      "force_norm_N": 0.5824275974202788
+    },
+    {
+      "time_seconds": 5.559010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6852047273591464,
+        0.8364925983351978,
+        -9.474912526369339e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.89498250525999e-06,
+      "force_norm_N": 0.563293406897341
+    },
+    {
+      "time_seconds": 5.5630108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6889185181312079,
+        0.8363996682054408,
+        -5.179518320352905e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.035903664070581e-05,
+      "force_norm_N": 0.6788740715574347
+    },
+    {
+      "time_seconds": 5.569010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6943752098303713,
+        0.8362438446950291,
+        -3.888005159782826e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.776010319551774e-06,
+      "force_norm_N": 0.6354945354943411
+    },
+    {
+      "time_seconds": 5.575010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.6997031866273091,
+        0.8360713773933258,
+        -6.140131364046342e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.2280262728231461e-06,
+      "force_norm_N": 0.6249447275089088
+    },
+    {
+      "time_seconds": 5.580010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7040510138781855,
+        0.8359178199327677,
+        -3.980582951229605e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.96116590245921e-06,
+      "force_norm_N": 0.663262962575411
+    },
+    {
+      "time_seconds": 5.586010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.70916288311391,
+        0.8357176019730942,
+        -3.100553203627676e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.201106407255352e-06,
+      "force_norm_N": 0.6357113758943417
+    },
+    {
+      "time_seconds": 5.592010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.714166439599287,
+        0.8355019306347318,
+        -1.2139879263101117e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.427975852634101e-06,
+      "force_norm_N": 0.6307102394652243
+    },
+    {
+      "time_seconds": 5.596010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7174452553533646,
+        0.8353497893788522,
+        -8.332839988856033e-08
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.6665679979099846e-07,
+      "force_norm_N": 0.5444891317514922
+    },
+    {
+      "time_seconds": 5.598010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.719068428242958,
+        0.83527231410716,
+        -2.5046731425282243e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.0093462850564485e-06,
+      "force_norm_N": 0.5996196069201262
+    },
+    {
+      "time_seconds": 5.603010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7230800213924595,
+        0.8350701114960306,
+        -4.658307116878202e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.316614233756404e-06,
+      "force_norm_N": 0.6595621588877232
+    },
+    {
+      "time_seconds": 5.608010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7270280348437814,
+        0.8348555587387719,
+        -2.0137159968680596e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.027431993736119e-07,
+      "force_norm_N": 0.518829790059719
+    },
+    {
+      "time_seconds": 5.610010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7285903876672502,
+        0.8347680934819315,
+        -1.601272172954693e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.2025443458955083e-06,
+      "force_norm_N": 0.5819674035443723
+    },
+    {
+      "time_seconds": 5.613010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7309163161728358,
+        0.8346333499583181,
+        -2.3525106617461322e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.7050213234922644e-06,
+      "force_norm_N": 0.5727186922814962
+    },
+    {
+      "time_seconds": 5.618010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7347475612362868,
+        0.8344009512976718,
+        -3.6742759244312584e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.348551848862517e-06,
+      "force_norm_N": 0.6552984637881436
+    },
+    {
+      "time_seconds": 5.623010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7385245597217518,
+        0.8341571071629853,
+        -2.420420763954434e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.84084152777009e-07,
+      "force_norm_N": 0.5241531254665343
+    },
+    {
+      "time_seconds": 5.625010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7400209328527887,
+        0.8340579849843535,
+        -2.181701966086358e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.363403932172716e-06,
+      "force_norm_N": 0.5892609771969516
+    },
+    {
+      "time_seconds": 5.630010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.743727063245588,
+        0.8338027600229169,
+        -5.419879960819052e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.0839759921624226e-05,
+      "force_norm_N": 0.6678692319517862
+    },
+    {
+      "time_seconds": 5.637010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7488362433250888,
+        0.833426961965474,
+        -2.8831380930877115e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.766276186189301e-06,
+      "force_norm_N": 0.6305382638619837
+    },
+    {
+      "time_seconds": 5.6430108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.753146827106405,
+        0.8330909824842098,
+        -4.54662169675768e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.093243393529238e-06,
+      "force_norm_N": 0.6537828310485724
+    },
+    {
+      "time_seconds": 5.650010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.758101514220877,
+        0.8326802237555853,
+        -2.717530369164556e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.435060738329112e-06,
+      "force_norm_N": 0.6347780946116888
+    },
+    {
+      "time_seconds": 5.655010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7615949412817324,
+        0.8323747853626088,
+        -3.3137923803605585e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.627584760721117e-07,
+      "force_norm_N": 0.5314058477961691
+    },
+    {
+      "time_seconds": 5.657010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7629822370016857,
+        0.8322511115083113,
+        -3.220619186727891e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.441238373455782e-06,
+      "force_norm_N": 0.6011546884329715
+    },
+    {
+      "time_seconds": 5.663010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7671114774229089,
+        0.8318683881473325,
+        -4.357860798262503e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.715721596511128e-06,
+      "force_norm_N": 0.6540593879467161
+    },
+    {
+      "time_seconds": 5.670010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7718710178241408,
+        0.8314038026180469,
+        -4.307449179161149e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.614898358322298e-06,
+      "force_norm_N": 0.6438911333031065
+    },
+    {
+      "time_seconds": 5.677010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.77657363743374,
+        0.8309200517672592,
+        -4.226759741834951e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.45351948368378e-06,
+      "force_norm_N": 0.6452078118845739
+    },
+    {
+      "time_seconds": 5.684010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7812248812732325,
+        0.830417152529114,
+        -4.771623987709361e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.543247975418723e-06,
+      "force_norm_N": 0.6486194572117485
+    },
+    {
+      "time_seconds": 5.690010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.78517461935935,
+        0.8299691212283775,
+        -5.104537928457553e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.0209075856915106e-06,
+      "force_norm_N": 0.521880887637953
+    },
+    {
+      "time_seconds": 5.692010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7864835917382984,
+        0.8298179388655385,
+        -3.4220071639667893e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.8440143279335786e-06,
+      "force_norm_N": 0.599215422248858
+    },
+    {
+      "time_seconds": 5.697010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7897376871895352,
+        0.8294297455934111,
+        -5.356731186123564e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.0713462372247129e-06,
+      "force_norm_N": 0.5341564134313347
+    },
+    {
+      "time_seconds": 5.700010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7916771642295226,
+        0.8291927358427886,
+        -1.2477298900609446e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.4954597801080114e-06,
+      "force_norm_N": 0.5687391321683892
+    },
+    {
+      "time_seconds": 5.7040108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7942510515708892,
+        0.8288704754835019,
+        -5.82626748568682e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.165253497137364e-06,
+      "force_norm_N": 0.5534519610472938
+    },
+    {
+      "time_seconds": 5.707010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.7961739845821527,
+        0.8286251531133745,
+        -2.2864422460217027e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.572884492043405e-06,
+      "force_norm_N": 0.580594460548094
+    },
+    {
+      "time_seconds": 5.711010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.798729680633955,
+        0.8282915284972108,
+        -2.0211810698861354e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.042362139786149e-06,
+      "force_norm_N": 0.559105067189656
+    },
+    {
+      "time_seconds": 5.715010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.801276912391207,
+        0.827950999050943,
+        -6.007281099923434e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.2014562199846868e-06,
+      "force_norm_N": 0.551449449663544
+    },
+    {
+      "time_seconds": 5.718010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.803182201181856,
+        0.8276920567301979,
+        -2.246622116966468e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.493244233932936e-06,
+      "force_norm_N": 0.5815268401998022
+    },
+    {
+      "time_seconds": 5.722010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8057169765387628,
+        0.8273402442842136,
+        -2.161957659688185e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.323915319362492e-06,
+      "force_norm_N": 0.561960687204733
+    },
+    {
+      "time_seconds": 5.726010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8082459748760034,
+        0.8269814297970587,
+        -9.918123199947892e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.9836246399895785e-06,
+      "force_norm_N": 0.5549924253869133
+    },
+    {
+      "time_seconds": 5.729010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8101392210140352,
+        0.8267086988976363,
+        -2.822942328853384e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.645884657706768e-06,
+      "force_norm_N": 0.5854120010888466
+    },
+    {
+      "time_seconds": 5.735010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8139189369731346,
+        0.8261515273338292,
+        -5.467302045827904e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.0934604091655808e-05,
+      "force_norm_N": 0.6745233913933483
+    },
+    {
+      "time_seconds": 5.743010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8189493214587307,
+        0.8253833908505751,
+        -4.4941574340040535e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.988314868008107e-06,
+      "force_norm_N": 0.6540768796960077
+    },
+    {
+      "time_seconds": 5.749010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.822718983477815,
+        0.8247882678136076,
+        -1.328517679297092e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.6570353585803064e-06,
+      "force_norm_N": 0.5365041148920938
+    },
+    {
+      "time_seconds": 5.7520108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8246034095737358,
+        0.8244855164439244,
+        -2.175587257360889e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.351174514735656e-06,
+      "force_norm_N": 0.5787284464351594
+    },
+    {
+      "time_seconds": 5.756010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8271169215073846,
+        0.8240752336875273,
+        -2.236547327630345e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.473094655246812e-06,
+      "force_norm_N": 0.5676916283237595
+    },
+    {
+      "time_seconds": 5.760010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8296321466289995,
+        0.823657610085497,
+        -1.670156348540508e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.340312697081016e-06,
+      "force_norm_N": 0.5640119440683372
+    },
+    {
+      "time_seconds": 5.764010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.832149863208241,
+        0.8232327718004686,
+        -1.0856387076541019e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.1712774153082037e-06,
+      "force_norm_N": 0.5635738000213056
+    },
+    {
+      "time_seconds": 5.7680108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.834670908237045,
+        0.8228007081666866,
+        -6.783361826828704e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.356672365351863e-06,
+      "force_norm_N": 0.5644373954092223
+    },
+    {
+      "time_seconds": 5.771010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8365640233889151,
+        0.8224727331719351,
+        -3.323276733330216e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.646553466660432e-06,
+      "force_norm_N": 0.5977866730451694
+    },
+    {
+      "time_seconds": 5.776010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8397264080259481,
+        0.8219148626439505,
+        -1.0824425281108496e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.1648850562216992e-06,
+      "force_norm_N": 0.5514369632057423
+    },
+    {
+      "time_seconds": 5.779010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8416276775829574,
+        0.8215755459076132,
+        -2.942509666106763e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.885019332227404e-06,
+      "force_norm_N": 0.5915403948915807
+    },
+    {
+      "time_seconds": 5.7840108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8448056979662577,
+        0.8209988926357723,
+        -5.225508342560081e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.0451016685120162e-06,
+      "force_norm_N": 0.5515275752530787
+    },
+    {
+      "time_seconds": 5.787010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8467175756938834,
+        0.8206482637872868,
+        -2.5461434279561157e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.092286855912231e-06,
+      "force_norm_N": 0.5931108197145626
+    },
+    {
+      "time_seconds": 5.792010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.849915479564376,
+        0.8200525610139215,
+        -4.2721383285149184e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.544276656891059e-07,
+      "force_norm_N": 0.5538556617951854
+    },
+    {
+      "time_seconds": 5.795010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8518405530377233,
+        0.819690385498171,
+        -2.633849412500555e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.267698825014988e-06,
+      "force_norm_N": 0.5957724571075578
+    },
+    {
+      "time_seconds": 5.800010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8550626812267255,
+        0.8190751941883158,
+        -7.049787252022544e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.4099574504045087e-06,
+      "force_norm_N": 0.556293316662732
+    },
+    {
+      "time_seconds": 5.803010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.857003564738022,
+        0.8187011949425855,
+        -3.015069303197171e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.030138606394342e-06,
+      "force_norm_N": 0.5983886649862621
+    },
+    {
+      "time_seconds": 5.808010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.860254286813436,
+        0.8180660376372392,
+        -1.1679992074492551e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.3359984148846324e-06,
+      "force_norm_N": 0.5593276716116865
+    },
+    {
+      "time_seconds": 5.812010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8628687060422418,
+        0.8175487896742741,
+        -6.248470166697606e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.2496940333395212e-06,
+      "force_norm_N": 0.5723200126759664
+    },
+    {
+      "time_seconds": 5.816010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8654956858954814,
+        0.8170226000944585,
+        -8.250092677769549e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.650018535540032e-06,
+      "force_norm_N": 0.5778631609266981
+    },
+    {
+      "time_seconds": 5.820010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8681356674340097,
+        0.81648659274867,
+        -1.1700203871728432e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.3400407743318086e-06,
+      "force_norm_N": 0.5803225643051976
+    },
+    {
+      "time_seconds": 5.824010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8707891869138398,
+        0.8159401447137131,
+        -1.4818621770773532e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.9637243541547065e-06,
+      "force_norm_N": 0.5816588857035635
+    },
+    {
+      "time_seconds": 5.828010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8734568389208774,
+        0.8153827603937813,
+        -1.7365112945921801e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.4730225891843602e-06,
+      "force_norm_N": 0.582690917147531
+    },
+    {
+      "time_seconds": 5.832010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8761392559955843,
+        0.8148140069836318,
+        -1.954611304658127e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.909222609330132e-06,
+      "force_norm_N": 0.5837262785404739
+    },
+    {
+      "time_seconds": 5.836010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8788370947091906,
+        0.8142334812860217,
+        -2.161574380779574e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.323148761559148e-06,
+      "force_norm_N": 0.5848604189502629
+    },
+    {
+      "time_seconds": 5.840010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8815510253553875,
+        0.8136407923158074,
+        -2.376252404803769e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.752504809607538e-06,
+      "force_norm_N": 0.5861105825164921
+    },
+    {
+      "time_seconds": 5.844010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8842817241683352,
+        0.8130355518441982,
+        -2.6100469491807665e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.220093898361533e-06,
+      "force_norm_N": 0.5874715367866824
+    },
+    {
+      "time_seconds": 5.850010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8884100980208598,
+        0.8121046428174991,
+        -6.509972993049007e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.3019945986084136e-05,
+      "force_norm_N": 0.7122763353502809
+    },
+    {
+      "time_seconds": 5.859010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8946827047264547,
+        0.8106479604468779,
+        -4.6356850346568335e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.271370069313667e-06,
+      "force_norm_N": 0.6864167544631473
+    },
+    {
+      "time_seconds": 5.866010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8996313998217427,
+        0.8094633939811623,
+        -1.4871472706068367e-08
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.9742945412136734e-08,
+      "force_norm_N": 0.5546527642714839
+    },
+    {
+      "time_seconds": 5.868010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.901055866354289,
+        0.809118659269862,
+        -4.559987555621814e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.119975111243628e-06,
+      "force_norm_N": 0.6494751087079305
+    },
+    {
+      "time_seconds": 5.874010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9053646174696512,
+        0.80805469343078,
+        -1.5075562151550814e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.015112430296285e-06,
+      "force_norm_N": 0.569009611208034
+    },
+    {
+      "time_seconds": 5.878010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9082643689682732,
+        0.8073259817582011,
+        -1.256675875180302e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.5133517503744818e-06,
+      "force_norm_N": 0.5928837044681535
+    },
+    {
+      "time_seconds": 5.882010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9111864306193325,
+        0.8065811420044743,
+        -2.5393255458222574e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.078651091630637e-06,
+      "force_norm_N": 0.6041604886913662
+    },
+    {
+      "time_seconds": 5.887010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.914872211532679,
+        0.8056248021465514,
+        -1.15840894772401e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.316817895461898e-06,
+      "force_norm_N": 0.586068668098037
+    },
+    {
+      "time_seconds": 5.891010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9178470668370498,
+        0.8048406462613065,
+        -2.2067075122061963e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.413415024412393e-06,
+      "force_norm_N": 0.6061804545447597
+    },
+    {
+      "time_seconds": 5.896010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9216000424217683,
+        0.8038338614276491,
+        -1.2802147611734593e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.5604295223469187e-06,
+      "force_norm_N": 0.592319613900123
+    },
+    {
+      "time_seconds": 5.900010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9246295685010808,
+        0.8030081299079799,
+        -2.820802749894935e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.64160549978987e-06,
+      "force_norm_N": 0.6138520799928224
+    },
+    {
+      "time_seconds": 5.905010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9284518813299525,
+        0.8019476942115651,
+        -2.378536570910028e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.757073141833934e-06,
+      "force_norm_N": 0.6003805058501978
+    },
+    {
+      "time_seconds": 5.910010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9323135420959419,
+        0.8008557998218951,
+        -1.4476838136462389e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.8953676273063556e-06,
+      "force_norm_N": 0.6008557287419231
+    },
+    {
+      "time_seconds": 5.915010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9362145311549297,
+        0.7997318199096651,
+        -1.0592595616198963e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.1185191232397926e-06,
+      "force_norm_N": 0.605619349473429
+    },
+    {
+      "time_seconds": 5.920010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9401548086981106,
+        0.7985747694634556,
+        -1.2880019872735238e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.5760039745331698e-06,
+      "force_norm_N": 0.6115179997181298
+    },
+    {
+      "time_seconds": 5.925010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.94413415462837,
+        0.797383614096533,
+        -1.991181703187017e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.982363406374034e-06,
+      "force_norm_N": 0.617654861172641
+    },
+    {
+      "time_seconds": 5.930010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.948152090846237,
+        0.7961573613263938,
+        -3.024294394915472e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.048588789830944e-06,
+      "force_norm_N": 0.6238530540293542
+    },
+    {
+      "time_seconds": 5.936010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9530240173566489,
+        0.7946371028915343,
+        -1.6648961765064474e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.3297923530128948e-06,
+      "force_norm_N": 0.6151378123545395
+    },
+    {
+      "time_seconds": 5.941010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9571237507043273,
+        0.7933305983613205,
+        -3.1982931696789008e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.3965863393578015e-06,
+      "force_norm_N": 0.6349408011830319
+    },
+    {
+      "time_seconds": 5.947010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9620895870393582,
+        0.7917120666625564,
+        -3.1764738687573013e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.35294773752848e-06,
+      "force_norm_N": 0.6300025094358243
+    },
+    {
+      "time_seconds": 5.953010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.967102224013659,
+        0.790038206538777,
+        -3.3194438585903985e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.638887717180797e-06,
+      "force_norm_N": 0.6364444351175504
+    },
+    {
+      "time_seconds": 5.960010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.973003810326591,
+        0.7880137997723743,
+        -1.9973680604051802e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.9947361208103604e-06,
+      "force_norm_N": 0.6355474270775104
+    },
+    {
+      "time_seconds": 5.967010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9789544299073585,
+        0.7859130200664631,
+        -1.9814812171198293e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.9629624342396585e-06,
+      "force_norm_N": 0.6450501186809651
+    },
+    {
+      "time_seconds": 5.974010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9849435303321978,
+        0.7837360826014043,
+        -3.2753933969925653e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.5507867939851305e-06,
+      "force_norm_N": 0.6547557325023496
+    },
+    {
+      "time_seconds": 5.982010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9918197557758692,
+        0.7811553141898182,
+        -3.4047868300718376e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.809573660143675e-06,
+      "force_norm_N": 0.656836808330297
+    },
+    {
+      "time_seconds": 5.991010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9995702355504394,
+        0.7781383000589961,
+        -2.926017105234213e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.852034210468426e-06,
+      "force_norm_N": 0.660800522393642
+    },
+    {
+      "time_seconds": 6.000010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0073030064004316,
+        0.7750094137825645,
+        -4.2157466472875216e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.431493294561165e-06,
+      "force_norm_N": 0.6677322551280772
+    },
+    {
+      "time_seconds": 6.011010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0166748482883436,
+        0.7710475219716475,
+        -3.530802255569121e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.061604511138242e-06,
+      "force_norm_N": 0.6653716551268726
+    },
+    {
+      "time_seconds": 6.022010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.025882777020781,
+        0.7669595404190027,
+        -4.533291128663852e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.066582257341582e-06,
+      "force_norm_N": 0.6593172691955757
+    },
+    {
+      "time_seconds": 6.0340108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.035655634284256,
+        0.76239083107919,
+        -3.7082626154344434e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.416525230868887e-06,
+      "force_norm_N": 0.6532736395448481
+    },
+    {
+      "time_seconds": 6.045010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0443089393186917,
+        0.7581412127481744,
+        -4.359028947617527e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.718057895221176e-06,
+      "force_norm_N": 0.646199517741198
+    },
+    {
+      "time_seconds": 6.056010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0526138876668005,
+        0.7538697649353093,
+        -4.215024017248381e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.430048034482884e-06,
+      "force_norm_N": 0.6342381660299484
+    },
+    {
+      "time_seconds": 6.067010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.06052691588397,
+        0.7496121024644704,
+        -3.5502885392113548e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.1005770784227096e-06,
+      "force_norm_N": 0.6208595747257575
+    },
+    {
+      "time_seconds": 6.077010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0673540277503513,
+        0.7457808822457231,
+        -4.091043118478743e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.182086236943609e-06,
+      "force_norm_N": 0.6103884274868393
+    },
+    {
+      "time_seconds": 6.087010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.073814516263721,
+        0.7420081441448673,
+        -3.8664830270401795e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.732966054080359e-06,
+      "force_norm_N": 0.5975353485150058
+    },
+    {
+      "time_seconds": 6.097010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.079898916118509,
+        0.7383104936517307,
+        -3.331455816102391e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.662911632204782e-06,
+      "force_norm_N": 0.5857563888289724
+    },
+    {
+      "time_seconds": 6.107010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0856030018254743,
+        0.7347004328227086,
+        -2.8462918977151253e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.692583795444128e-06,
+      "force_norm_N": 0.5754725646326836
+    },
+    {
+      "time_seconds": 6.117010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0909265145446527,
+        0.7311865667827006,
+        -2.55710783135521e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.114215662724297e-06,
+      "force_norm_N": 0.5684175226236435
+    },
+    {
+      "time_seconds": 6.126010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0953965222554802,
+        0.7281014818933784,
+        -3.3826096484251833e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.765219296864244e-06,
+      "force_norm_N": 0.5643027109848328
+    },
+    {
+      "time_seconds": 6.135010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.099566628983492,
+        0.7250795671411508,
+        -3.6545629198275753e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.309125839669028e-06,
+      "force_norm_N": 0.5584234885876739
+    },
+    {
+      "time_seconds": 6.145010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1038529110237354,
+        0.7217939322472827,
+        -2.3600798728512506e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.7201597456886235e-06,
+      "force_norm_N": 0.5502220255820555
+    },
+    {
+      "time_seconds": 6.154010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1074045353842035,
+        0.7189027603109187,
+        -3.2178198323129514e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.435639664625903e-06,
+      "force_norm_N": 0.549464120367233
+    },
+    {
+      "time_seconds": 6.1640108124546416,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1110152436453036,
+        0.7157640529249854,
+        -2.657242674106164e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.3144853482262056e-06,
+      "force_norm_N": 0.543061817004813
+    },
+    {
+      "time_seconds": 6.174010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1142805135526186,
+        0.7127035951785736,
+        -2.720641562439785e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.44128312487957e-06,
+      "force_norm_N": 0.5406188256316663
+    },
+    {
+      "time_seconds": 6.184010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1172073350335596,
+        0.709721504492431,
+        -3.2606311447108682e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.5212622894217365e-06,
+      "force_norm_N": 0.5386236100041408
+    },
+    {
+      "time_seconds": 6.195010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1200435361480308,
+        0.7065316140584698,
+        -2.9423075364326534e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.884615072851429e-06,
+      "force_norm_N": 0.5352363940903855
+    },
+    {
+      "time_seconds": 6.206010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1224875107597843,
+        0.7034361733507482,
+        -3.5236221768708553e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.047244353741711e-06,
+      "force_norm_N": 0.5343592425856283
+    },
+    {
+      "time_seconds": 6.218010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1247152434388306,
+        0.7001664608556368,
+        -3.6188216847587995e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.237643369517599e-06,
+      "force_norm_N": 0.5325379102279417
+    },
+    {
+      "time_seconds": 6.231010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1266234298112954,
+        0.6967501554721732,
+        -3.646361478745752e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.292722957491504e-06,
+      "force_norm_N": 0.5308516477474446
+    },
+    {
+      "time_seconds": 6.245010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1281022766763567,
+        0.6932178253376479,
+        -3.537030204447955e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.07406040889591e-06,
+      "force_norm_N": 0.5298153885431223
+    },
+    {
+      "time_seconds": 6.260010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.129034975174069,
+        0.6895991980306722,
+        -3.456062961135209e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.912125922270418e-06,
+      "force_norm_N": 0.5296941672245896
+    },
+    {
+      "time_seconds": 6.275010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1293028778086467,
+        0.686149139594679,
+        -4.0855087033581095e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.171017406702341e-06,
+      "force_norm_N": 0.5298772253522882
+    },
+    {
+      "time_seconds": 6.292010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1288100770559306,
+        0.6824427916168578,
+        -3.646522774861105e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.293045549736088e-06,
+      "force_norm_N": 0.5303129776922236
+    },
+    {
+      "time_seconds": 6.309010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1274767463510806,
+        0.6789486629170822,
+        -4.021933087211549e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.043866174423098e-06,
+      "force_norm_N": 0.5320209262844326
+    },
+    {
+      "time_seconds": 6.325010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1254568253168253,
+        0.6758466497092013,
+        -3.7914771628677624e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.582954325735525e-06,
+      "force_norm_N": 0.5316457107399571
+    },
+    {
+      "time_seconds": 6.340010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1228898838398846,
+        0.6730950656537208,
+        -3.569536193320788e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.139072386641576e-06,
+      "force_norm_N": 0.5318892806357342
+    },
+    {
+      "time_seconds": 6.354010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.11990412329894,
+        0.6706590452275613,
+        -3.573931948885889e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.147863897771778e-06,
+      "force_norm_N": 0.5325952546973757
+    },
+    {
+      "time_seconds": 6.367010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.116618326288711,
+        0.6685090994089531,
+        -3.8589216246470714e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.717843249294143e-06,
+      "force_norm_N": 0.5338136665128648
+    },
+    {
+      "time_seconds": 6.380010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1128333971400104,
+        0.6664669864698948,
+        -3.0923795869136628e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.184759173813448e-06,
+      "force_norm_N": 0.5341040862445341
+    },
+    {
+      "time_seconds": 6.391010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.109237540516072,
+        0.6648276943739985,
+        -3.579680104323635e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.159360208661147e-06,
+      "force_norm_N": 0.5373132227390528
+    },
+    {
+      "time_seconds": 6.402010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.105275827159017,
+        0.6632742326120827,
+        -2.660212093621994e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.320424187257866e-06,
+      "force_norm_N": 0.5388807496184173
+    },
+    {
+      "time_seconds": 6.412010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.1013542081382517,
+        0.6619403289791101,
+        -2.56141626069073e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.12283252138146e-06,
+      "force_norm_N": 0.5431695906118383
+    },
+    {
+      "time_seconds": 6.421010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0975619076464493,
+        0.6608071423609658,
+        -3.213189259748672e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.426378519497344e-06,
+      "force_norm_N": 0.5484878148108204
+    },
+    {
+      "time_seconds": 6.430010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.093518405798571,
+        0.6597413172170308,
+        -3.0441558146465653e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.0883116292931305e-06,
+      "force_norm_N": 0.5514031353459664
+    },
+    {
+      "time_seconds": 6.439010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0892229802723667,
+        0.6587464341519031,
+        -2.472758575150502e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.945517150301004e-06,
+      "force_norm_N": 0.55531669567668
+    },
+    {
+      "time_seconds": 6.447010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.085194044096631,
+        0.6579248367502222,
+        -3.4177074041130684e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.835414808226137e-06,
+      "force_norm_N": 0.563884620945373
+    },
+    {
+      "time_seconds": 6.456010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.080423913027115,
+        0.6570757362115295,
+        -2.2462659468591717e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.492531893718343e-06,
+      "force_norm_N": 0.5646741788183645
+    },
+    {
+      "time_seconds": 6.464010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0759760145125465,
+        0.6563910781457123,
+        -2.962841120016102e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.925682240018326e-06,
+      "force_norm_N": 0.5747735010047401
+    },
+    {
+      "time_seconds": 6.472010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0713350977345564,
+        0.6557764961423314,
+        -3.5425148098983117e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.085029619796623e-06,
+      "force_norm_N": 0.5808315885706248
+    },
+    {
+      "time_seconds": 6.481010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0658883918171225,
+        0.6551738962396227,
+        -2.2180374403130143e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.436074880626029e-06,
+      "force_norm_N": 0.583489803512387
+    },
+    {
+      "time_seconds": 6.489010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.060854556685208,
+        0.6547208580846237,
+        -3.2252069667032535e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.450413933420385e-06,
+      "force_norm_N": 0.5955671670702948
+    },
+    {
+      "time_seconds": 6.498010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.054984749983038,
+        0.6543098066084682,
+        -2.6149963424509926e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.229992684915863e-06,
+      "force_norm_N": 0.5991997410677047
+    },
+    {
+      "time_seconds": 6.507010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.048911483941107,
+        0.6540077847601762,
+        -2.5541376181131836e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.1082752362124895e-06,
+      "force_norm_N": 0.6079127348440234
+    },
+    {
+      "time_seconds": 6.516010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.042653839906374,
+        0.6538195101381885,
+        -3.069297230665069e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.138594461344016e-06,
+      "force_norm_N": 0.6163634386112569
+    },
+    {
+      "time_seconds": 6.525010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.036234729086349,
+        0.6537489612383327,
+        -3.88336757889407e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.76673515778814e-06,
+      "force_norm_N": 0.6238953782735861
+    },
+    {
+      "time_seconds": 6.535010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0289454067806676,
+        0.653812457765511,
+        -3.3434301315166115e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.686860263047101e-06,
+      "force_norm_N": 0.6275919646183665
+    },
+    {
+      "time_seconds": 6.545010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0215314825976374,
+        0.6540267121464619,
+        -3.664608268283409e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.329216536566818e-06,
+      "force_norm_N": 0.6334086292113914
+    },
+    {
+      "time_seconds": 6.556010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.013293976246367,
+        0.6544362610559102,
+        -3.0097757172248274e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.019551434463533e-06,
+      "force_norm_N": 0.6314559363598992
+    },
+    {
+      "time_seconds": 6.566010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0057879227903017,
+        0.6549625023928056,
+        -3.841188285835795e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.68237657167159e-06,
+      "force_norm_N": 0.6347606255908332
+    },
+    {
+      "time_seconds": 6.576010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9982999107103026,
+        0.6556301251034515,
+        -3.751368593693516e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.502737187387032e-06,
+      "force_norm_N": 0.6329254303169118
+    },
+    {
+      "time_seconds": 6.586010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.990871161852088,
+        0.6564313066608707,
+        -3.272495300410405e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.54499060082081e-06,
+      "force_norm_N": 0.6295191159121645
+    },
+    {
+      "time_seconds": 6.596010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9835412333607612,
+        0.6573564452557983,
+        -2.5975925844884395e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.195185168990757e-06,
+      "force_norm_N": 0.6245066000146103
+    },
+    {
+      "time_seconds": 6.605010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9770574787797712,
+        0.6582857844502531,
+        -3.3404932904684825e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.680986580936965e-06,
+      "force_norm_N": 0.6221236435813526
+    },
+    {
+      "time_seconds": 6.614010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9707043370461177,
+        0.6592981390090216,
+        -3.3345541297358228e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.6691082594716455e-06,
+      "force_norm_N": 0.6151833122097999
+    },
+    {
+      "time_seconds": 6.623010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9644999277013058,
+        0.660384644388435,
+        -2.819719836122392e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.639439672244784e-06,
+      "force_norm_N": 0.6080299540481003
+    },
+    {
+      "time_seconds": 6.6320108124546415,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9584585957618592,
+        0.6615364261084341,
+        -2.1330577712058707e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.266115542411741e-06,
+      "force_norm_N": 0.6010419556291111
+    },
+    {
+      "time_seconds": 6.640010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9532336679758173,
+        0.6626079184405937,
+        -3.0907307141669893e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.181461428333979e-06,
+      "force_norm_N": 0.5996615726250314
+    },
+    {
+      "time_seconds": 6.6480108124546415,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.948152004110318,
+        0.6637184989287728,
+        -3.4924619179560468e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.984923835898216e-06,
+      "force_norm_N": 0.5934242866009087
+    },
+    {
+      "time_seconds": 6.656010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9432173459674944,
+        0.6648628335260283,
+        -3.3997491939857793e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.799498387957681e-06,
+      "force_norm_N": 0.5874489473181447
+    },
+    {
+      "time_seconds": 6.6640108124546416,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9384317694852142,
+        0.666036009748789,
+        -3.1298844830052186e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.259768966010437e-06,
+      "force_norm_N": 0.5821766656430661
+    },
+    {
+      "time_seconds": 6.6720108124546424,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9337960940633248,
+        0.667233625269624,
+        -2.8524715709049575e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.704943141796037e-06,
+      "force_norm_N": 0.5775100895260198
+    },
+    {
+      "time_seconds": 6.680010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9293100914705987,
+        0.6684518153870964,
+        -2.637896900262171e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.275793800524342e-06,
+      "force_norm_N": 0.5733651690950161
+    },
+    {
+      "time_seconds": 6.6880108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9249726707495531,
+        0.6696872636944121,
+        -2.511368993110552e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.022737986234982e-06,
+      "force_norm_N": 0.5696944142422917
+    },
+    {
+      "time_seconds": 6.696010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.920782051898507,
+        0.6709372001678945,
+        -2.4792620733210535e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.958524146655985e-06,
+      "force_norm_N": 0.5664644593584843
+    },
+    {
+      "time_seconds": 6.7040108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9167359222791878,
+        0.6721993873543847,
+        -2.540043322174501e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.080086644349002e-06,
+      "force_norm_N": 0.5636441292421198
+    },
+    {
+      "time_seconds": 6.712010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.91283157206868,
+        0.6734720960939351,
+        -2.6886754776328514e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.377350955279581e-06,
+      "force_norm_N": 0.561200864898136
+    },
+    {
+      "time_seconds": 6.7200108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9090660081991326,
+        0.6747540728795174,
+        -2.9184757445871456e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.836951489188169e-06,
+      "force_norm_N": 0.5591006177180617
+    },
+    {
+      "time_seconds": 6.728010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9054360480207437,
+        0.6760445012532628,
+        -3.221990204180236e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.443980408346595e-06,
+      "force_norm_N": 0.5573087724418014
+    },
+    {
+      "time_seconds": 6.737010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9015110361077736,
+        0.6775060229374635,
+        -2.0194767136189062e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.0389534272378125e-06,
+      "force_norm_N": 0.5528672722652322
+    },
+    {
+      "time_seconds": 6.745010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8981574266019179,
+        0.6788212333384045,
+        -2.7552540645126022e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.5105081290252045e-06,
+      "force_norm_N": 0.5558744131011626
+    },
+    {
+      "time_seconds": 6.754010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8945336995646223,
+        0.6803253585123272,
+        -2.030531584651385e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.06106316930277e-06,
+      "force_norm_N": 0.550785432333076
+    },
+    {
+      "time_seconds": 6.762010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8914398587728616,
+        0.681685336484363,
+        -3.3132574548816462e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.62651490977717e-06,
+      "force_norm_N": 0.5546619398753342
+    },
+    {
+      "time_seconds": 6.771010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8880998433618585,
+        0.6832417350887948,
+        -3.085845143899202e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.171690287798404e-06,
+      "force_norm_N": 0.5499946806536082
+    },
+    {
+      "time_seconds": 6.780010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8849032019946685,
+        0.6848259527741976,
+        -3.2481088022423554e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.496217604498589e-06,
+      "force_norm_N": 0.5499593080053756
+    },
+    {
+      "time_seconds": 6.790010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8815145979565269,
+        0.6866192395479094,
+        -2.5372525007394398e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.0745050014788795e-06,
+      "force_norm_N": 0.5475701716803018
+    },
+    {
+      "time_seconds": 6.800010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8782911475415602,
+        0.6884477426747773,
+        -2.742929449836562e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.485858899659246e-06,
+      "force_norm_N": 0.5490655626332541
+    },
+    {
+      "time_seconds": 6.810010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8752270707161016,
+        0.6903110534233142,
+        -3.2390314531755005e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.478062906351001e-06,
+      "force_norm_N": 0.5496934758720395
+    },
+    {
+      "time_seconds": 6.821010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8720342534005547,
+        0.6924002986149782,
+        -2.5221704145622637e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.044340829124527e-06,
+      "force_norm_N": 0.5480497242676459
+    },
+    {
+      "time_seconds": 6.831010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8692858390222618,
+        0.6943357219843529,
+        -3.5006130449377615e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.001226089875523e-06,
+      "force_norm_N": 0.550211059235008
+    },
+    {
+      "time_seconds": 6.842010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8664268560238302,
+        0.6965050777418065,
+        -3.0243632248433405e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.048726449672803e-06,
+      "force_norm_N": 0.5484515829174417
+    },
+    {
+      "time_seconds": 6.853010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8637325309610258,
+        0.6987175409909506,
+        -2.992655155839574e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.985310311679148e-06,
+      "force_norm_N": 0.5489652099820448
+    },
+    {
+      "time_seconds": 6.864010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.861196523674482,
+        0.7009742153527665,
+        -3.201294402496724e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.40258880497957e-06,
+      "force_norm_N": 0.5493020972405959
+    },
+    {
+      "time_seconds": 6.875010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8588128711425234,
+        0.7032763108596397,
+        -3.4765934112529484e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.953186822505897e-06,
+      "force_norm_N": 0.5495297119933467
+    },
+    {
+      "time_seconds": 6.887010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8563800812931859,
+        0.7058410395566983,
+        -2.7687037072177123e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.537407414435425e-06,
+      "force_norm_N": 0.5487868542589223
+    },
+    {
+      "time_seconds": 6.8980108124546415,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8542969558579938,
+        0.708242579877019,
+        -3.6806032986252957e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.361206597250591e-06,
+      "force_norm_N": 0.5503062140513049
+    },
+    {
+      "time_seconds": 6.910010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.852180008361501,
+        0.7109195951994461,
+        -3.229903521737021e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.4598070434879196e-06,
+      "force_norm_N": 0.5492072595219452
+    },
+    {
+      "time_seconds": 6.9220108124546424,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8502188751101853,
+        0.713658418537229,
+        -3.223418433673242e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.446836867346484e-06,
+      "force_norm_N": 0.5495929273381297
+    },
+    {
+      "time_seconds": 6.934010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8484081654773616,
+        0.7164615907773882,
+        -3.39303609661612e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.78607219323224e-06,
+      "force_norm_N": 0.5497391217225753
+    },
+    {
+      "time_seconds": 6.946010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8467428828990065,
+        0.7193317920874627,
+        -3.5906507215160977e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.181301443046073e-06,
+      "force_norm_N": 0.5497624022377818
+    },
+    {
+      "time_seconds": 6.958010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8452184697352234,
+        0.7222716725185275,
+        -3.6837181072724157e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.367436214544831e-06,
+      "force_norm_N": 0.5491412859786762
+    },
+    {
+      "time_seconds": 6.9700108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.843830989416408,
+        0.725283755288818,
+        -3.5306122152384267e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.0612244304768534e-06,
+      "force_norm_N": 0.5481800751935089
+    },
+    {
+      "time_seconds": 6.982010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8425770624867315,
+        0.7283710987530848,
+        -3.1659855693338956e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.331971138667791e-06,
+      "force_norm_N": 0.5478837385598315
+    },
+    {
+      "time_seconds": 6.994010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8414537630079169,
+        0.7315373722458965,
+        -2.668723053114719e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.337446106243315e-06,
+      "force_norm_N": 0.5475946303111469
+    },
+    {
+      "time_seconds": 7.005010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8405362631388733,
+        0.7345127407760164,
+        -3.1359178223749895e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.271835644763857e-06,
+      "force_norm_N": 0.5483633966776447
+    },
+    {
+      "time_seconds": 7.016010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8397248716793335,
+        0.737561429886438,
+        -2.9652535250418444e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.9305070500975665e-06,
+      "force_norm_N": 0.5476406862164228
+    },
+    {
+      "time_seconds": 7.027010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8390180659341169,
+        0.7406868777060108,
+        -2.4917391552720103e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.9834783105440206e-06,
+      "force_norm_N": 0.5471263029747823
+    },
+    {
+      "time_seconds": 7.037010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8384648062039728,
+        0.7435979669992865,
+        -3.0600986701961874e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.120197340406253e-06,
+      "force_norm_N": 0.5484428488439846
+    },
+    {
+      "time_seconds": 7.0470108124546424,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8379964118115604,
+        0.7465786181598515,
+        -2.984013046450351e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.968026092900702e-06,
+      "force_norm_N": 0.5475790736787338
+    },
+    {
+      "time_seconds": 7.057010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8376122830329935,
+        0.7496317433797831,
+        -2.544244502605819e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.088489005211638e-06,
+      "force_norm_N": 0.5469218444673307
+    },
+    {
+      "time_seconds": 7.066010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.837337781432151,
+        0.7524441414996506,
+        -3.2553172072263825e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.510634414466643e-06,
+      "force_norm_N": 0.5491181475643898
+    },
+    {
+      "time_seconds": 7.076010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8371129247686073,
+        0.7556439509888194,
+        -1.97964005876905e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.9592801175381e-06,
+      "force_norm_N": 0.545400557264573
+    },
+    {
+      "time_seconds": 7.085010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8369814831282931,
+        0.7585937337951475,
+        -2.2296395513349276e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.4592791026559775e-06,
+      "force_norm_N": 0.5477622331747712
+    },
+    {
+      "time_seconds": 7.094010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8369178669452098,
+        0.7616128074631912,
+        -2.1018886739027076e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.203777347819293e-06,
+      "force_norm_N": 0.5468970235655473
+    },
+    {
+      "time_seconds": 7.102010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8369178607766907,
+        0.764356760257014,
+        -3.0940489715997055e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.188097943185533e-06,
+      "force_norm_N": 0.5502319495061367
+    },
+    {
+      "time_seconds": 7.1110108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.836982997942084,
+        0.767514459175443,
+        -1.8966556047800287e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.7933112095461796e-06,
+      "force_norm_N": 0.5448599810516049
+    },
+    {
+      "time_seconds": 7.119010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.837097840281276,
+        0.7703861932989365,
+        -2.250972537892748e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.501945075785496e-06,
+      "force_norm_N": 0.5484266548318963
+    },
+    {
+      "time_seconds": 7.1270108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8372671503517783,
+        0.7733215611282456,
+        -2.297252719454801e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.594505438909602e-06,
+      "force_norm_N": 0.5476587772641287
+    },
+    {
+      "time_seconds": 7.135010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8374912876239853,
+        0.7763229168180891,
+        -1.959717419758311e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.919434839516622e-06,
+      "force_norm_N": 0.5469748574365512
+    },
+    {
+      "time_seconds": 7.142010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8377319695283405,
+        0.7790051776870818,
+        -3.0745235639756396e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.149047127965157e-06,
+      "force_norm_N": 0.5526642817364135
+    },
+    {
+      "time_seconds": 7.150010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8380597703218668,
+        0.7821375315805067,
+        -1.9468542827028035e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.893708565405607e-06,
+      "force_norm_N": 0.5458850746034731
+    },
+    {
+      "time_seconds": 7.157010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8383916897529538,
+        0.7849386694695586,
+        -2.4181622009372683e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.836324401874537e-06,
+      "force_norm_N": 0.5515330959349828
+    },
+    {
+      "time_seconds": 7.1640108124546416,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8387665684148784,
+        0.7877983564800006,
+        -2.7133579948573905e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.426715989728659e-06,
+      "force_norm_N": 0.5515905721209308
+    },
+    {
+      "time_seconds": 7.171010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8391847935381482,
+        0.7907186238749375,
+        -2.5933982247816623e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.1867964495633245e-06,
+      "force_norm_N": 0.5511107828095295
+    },
+    {
+      "time_seconds": 7.178010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.83964663124175,
+        0.7937015277903171,
+        -2.230776719236438e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.461553438472876e-06,
+      "force_norm_N": 0.550864486506291
+    },
+    {
+      "time_seconds": 7.185010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8401523844705434,
+        0.7967491868718911,
+        -1.7605583887830845e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.521116777552291e-06,
+      "force_norm_N": 0.5508672588657318
+    },
+    {
+      "time_seconds": 7.191010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8406203974407331,
+        0.7994144682192464,
+        -3.137038169800932e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.274076339615742e-06,
+      "force_norm_N": 0.5601197177055174
+    },
+    {
+      "time_seconds": 7.198010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.841208792506469,
+        0.8025882950563507,
+        -2.2714014955432793e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.542802991100436e-06,
+      "force_norm_N": 0.5515045612036036
+    },
+    {
+      "time_seconds": 7.2040108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.84174834945762,
+        0.8053650417689913,
+        -3.040317634164791e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.080635268329582e-06,
+      "force_norm_N": 0.5600981831108611
+    },
+    {
+      "time_seconds": 7.211010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.842420885354578,
+        0.808672807741489,
+        -1.7528245367520734e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.505649073490269e-06,
+      "force_norm_N": 0.5519935247790038
+    },
+    {
+      "time_seconds": 7.217010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8430331876098707,
+        0.8115677248519518,
+        -2.373923487342111e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.747846974684222e-06,
+      "force_norm_N": 0.561109750769249
+    },
+    {
+      "time_seconds": 7.224010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8437914480478734,
+        0.8150173399303373,
+        -1.038827555657762e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.0776551113294017e-06,
+      "force_norm_N": 0.5534997805473655
+    },
+    {
+      "time_seconds": 7.230010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.84447802734829,
+        0.818037242658928,
+        -1.692803642608376e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.3856072852306296e-06,
+      "force_norm_N": 0.5630377671214507
+    },
+    {
+      "time_seconds": 7.2360108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.845199463362794,
+        0.8211171169398377,
+        -2.4872638135498004e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.974527627099601e-06,
+      "force_norm_N": 0.5652978781321646
+    },
+    {
+      "time_seconds": 7.242010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8459563936900074,
+        0.8242584176051734,
+        -2.932358526303025e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.86471705260605e-06,
+      "force_norm_N": 0.5662849380202729
+    },
+    {
+      "time_seconds": 7.249010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8468858375688495,
+        0.8280029561950161,
+        -9.440712675640173e-07
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -1.8881425351419123e-06,
+      "force_norm_N": 0.5579468249245984
+    },
+    {
+      "time_seconds": 7.254010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8475785404640532,
+        0.8307305095673476,
+        -3.360936636331857e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.721873272663714e-06,
+      "force_norm_N": 0.5821018364521771
+    },
+    {
+      "time_seconds": 7.261010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.848594612488611,
+        0.8346238813044123,
+        -1.6384429776666876e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.276885955333375e-06,
+      "force_norm_N": 0.5637145690687128
+    },
+    {
+      "time_seconds": 7.267010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8495081960464916,
+        0.8380277483879519,
+        -1.388321287917882e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -2.776642575821886e-06,
+      "force_norm_N": 0.5726087896963588
+    },
+    {
+      "time_seconds": 7.2730108124546415,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.850463227855087,
+        0.8414919415865962,
+        -1.540824614551517e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.081649229089156e-06,
+      "force_norm_N": 0.5757978398534533
+    },
+    {
+      "time_seconds": 7.279010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.851461016624145,
+        0.8450161454199719,
+        -1.6627391776491418e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.3254783552982836e-06,
+      "force_norm_N": 0.5780140944605783
+    },
+    {
+      "time_seconds": 7.285010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8525025066596885,
+        0.848600159644503,
+        -1.7519325358206217e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.5038650716412434e-06,
+      "force_norm_N": 0.5803072105699266
+    },
+    {
+      "time_seconds": 7.291010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.853588535800591,
+        0.8522437258453286,
+        -1.856056656007743e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.712113312015486e-06,
+      "force_norm_N": 0.5828519115933355
+    },
+    {
+      "time_seconds": 7.2970108124546424,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8547198916075969,
+        0.8559464413293578,
+        -2.0079316031956784e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.015863206377479e-06,
+      "force_norm_N": 0.5856468922281358
+    },
+    {
+      "time_seconds": 7.303010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.855897315057306,
+        0.8597077072140552,
+        -2.2249009422325994e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.449801884465199e-06,
+      "force_norm_N": 0.5886691707076495
+    },
+    {
+      "time_seconds": 7.309010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8571214903084494,
+        0.8635266907300493,
+        -2.515575520029012e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.031151040058024e-06,
+      "force_norm_N": 0.5918989527415106
+    },
+    {
+      "time_seconds": 7.315010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8583930300426725,
+        0.8674022935999433,
+        -2.884308980932726e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.768617961865452e-06,
+      "force_norm_N": 0.5953186309467552
+    },
+    {
+      "time_seconds": 7.321010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8597124585937517,
+        0.8713331232242646,
+        -3.3333140287833407e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.666628057566681e-06,
+      "force_norm_N": 0.5989090300819626
+    },
+    {
+      "time_seconds": 7.328010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8613138834429452,
+        0.8759867766522853,
+        -1.620623898829221e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.241247797658442e-06,
+      "force_norm_N": 0.5930864112850713
+    },
+    {
+      "time_seconds": 7.3340108124546415,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.862738128648272,
+        0.8800311026987416,
+        -2.631019423521286e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.262038847042572e-06,
+      "force_norm_N": 0.6065302408201351
+    },
+    {
+      "time_seconds": 7.341010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8644622223702902,
+        0.8848106877676722,
+        -1.9901739641142724e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.980347928214667e-06,
+      "force_norm_N": 0.6023759904877013
+    },
+    {
+      "time_seconds": 7.347010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.865991790209804,
+        0.8889566247133948,
+        -3.6804265383383328e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.3608530766766656e-06,
+      "force_norm_N": 0.6158582830019298
+    },
+    {
+      "time_seconds": 7.354010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8678383940087098,
+        0.8938460723659607,
+        -3.505621214330845e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.011242428675568e-06,
+      "force_norm_N": 0.6112003510479543
+    },
+    {
+      "time_seconds": 7.3610108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8697500006901435,
+        0.8987865336623362,
+        -3.4265842636244104e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.853168527234943e-06,
+      "force_norm_N": 0.6150907158505887
+    },
+    {
+      "time_seconds": 7.369010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8720132904981122,
+        0.904486417244976,
+        -1.9594478162660023e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.9188956325320046e-06,
+      "force_norm_N": 0.613374365912232
+    },
+    {
+      "time_seconds": 7.376010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8740586763275884,
+        0.9095120532635298,
+        -3.468779697410329e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.937559394834536e-06,
+      "force_norm_N": 0.6234265128410608
+    },
+    {
+      "time_seconds": 7.384010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8764694592426185,
+        0.915286552001087,
+        -3.43773735463071e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.87547470926142e-06,
+      "force_norm_N": 0.6202011355656726
+    },
+    {
+      "time_seconds": 7.392010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8789537657778432,
+        0.9210833650260885,
+        -3.465376997122127e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.930753994244254e-06,
+      "force_norm_N": 0.6236965197781331
+    },
+    {
+      "time_seconds": 7.400010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8815069593419331,
+        0.9268906610896214,
+        -3.805271040976943e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.610542081953886e-06,
+      "force_norm_N": 0.626711314198716
+    },
+    {
+      "time_seconds": 7.4090108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.884455645462408,
+        0.9334187838288602,
+        -2.606959435880185e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.21391887176037e-06,
+      "force_norm_N": 0.6243990031551863
+    },
+    {
+      "time_seconds": 7.417010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8871361556163853,
+        0.9392014565160732,
+        -3.916034921655487e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.832069843324851e-06,
+      "force_norm_N": 0.630411254917643
+    },
+    {
+      "time_seconds": 7.426010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.890211061945058,
+        0.9456635317992701,
+        -3.2811492805123743e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.562298561038626e-06,
+      "force_norm_N": 0.6246595574697456
+    },
+    {
+      "time_seconds": 7.435010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.893336666925081,
+        0.952058926541555,
+        -2.857392623636934e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.714785247287746e-06,
+      "force_norm_N": 0.6235192294193356
+    },
+    {
+      "time_seconds": 7.444010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8964996882463123,
+        0.958365673061281,
+        -2.6336686692884914e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.267337338576983e-06,
+      "force_norm_N": 0.62112061112283
+    },
+    {
+      "time_seconds": 7.453010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.8996863047200367,
+        0.9645637748211362,
+        -2.390890847830951e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.781781695661902e-06,
+      "force_norm_N": 0.6174393855409577
+    },
+    {
+      "time_seconds": 7.461010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9025269150111124,
+        0.9699682914428559,
+        -3.738932733379774e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.47786546674567e-06,
+      "force_norm_N": 0.6180476679814974
+    },
+    {
+      "time_seconds": 7.4700108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9057207196688262,
+        0.975915277788089,
+        -2.584041405961912e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.168082811923824e-06,
+      "force_norm_N": 0.6074752457755188
+    },
+    {
+      "time_seconds": 7.478010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9085471346457303,
+        0.9810749511894014,
+        -3.19922258344707e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.398445166908018e-06,
+      "force_norm_N": 0.607121317157205
+    },
+    {
+      "time_seconds": 7.4860108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9113539811919371,
+        0.9861075508276124,
+        -3.4378603325502244e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.875720665100449e-06,
+      "force_norm_N": 0.6016456567944477
+    },
+    {
+      "time_seconds": 7.494010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9141343692643575,
+        0.9910076685303824,
+        -3.226022576366394e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.452045152746666e-06,
+      "force_norm_N": 0.5959275171004345
+    },
+    {
+      "time_seconds": 7.5020108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.916882443179893,
+        0.9957714319096509,
+        -2.8108616341032677e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.621723268192658e-06,
+      "force_norm_N": 0.590511386093285
+    },
+    {
+      "time_seconds": 7.510010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9195947787709777,
+        1.0003969136329507,
+        -2.2165914144306464e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.433182828875171e-06,
+      "force_norm_N": 0.5872886883209703
+    },
+    {
+      "time_seconds": 7.517010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9219447538206669,
+        1.004335525641637,
+        -2.9808388644220196e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.961677728844039e-06,
+      "force_norm_N": 0.5893372781555064
+    },
+    {
+      "time_seconds": 7.524010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.924277264801368,
+        1.0081742993800396,
+        -3.4124625689774257e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.824925137968729e-06,
+      "force_norm_N": 0.5859802700371597
+    },
+    {
+      "time_seconds": 7.532010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.926922753541339,
+        1.0124386822494404,
+        -1.6554558543852016e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.310911708770403e-06,
+      "force_norm_N": 0.5757477798231011
+    },
+    {
+      "time_seconds": 7.5390108124546416,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9292185491171505,
+        1.016064059123833,
+        -2.3012212474887717e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.602442494977543e-06,
+      "force_norm_N": 0.5798148349734474
+    },
+    {
+      "time_seconds": 7.546010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9314967123497722,
+        1.019589835365332,
+        -3.1154745283451524e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.230949056690305e-06,
+      "force_norm_N": 0.5779551426196355
+    },
+    {
+      "time_seconds": 7.554010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9340786378577919,
+        1.0234966097472669,
+        -1.8928488232511365e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.785697646502273e-06,
+      "force_norm_N": 0.5687359292142186
+    },
+    {
+      "time_seconds": 7.561010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9363175107173536,
+        1.0268097440828465,
+        -2.887408526455748e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.774817052897618e-06,
+      "force_norm_N": 0.5732740885596452
+    },
+    {
+      "time_seconds": 7.569010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9388536823008287,
+        1.0304750395812279,
+        -2.23803350384022e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.476067007666562e-06,
+      "force_norm_N": 0.5652796771467452
+    },
+    {
+      "time_seconds": 7.577010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.941364954928989,
+        1.0340131372912564,
+        -1.9132780163660934e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -3.826556032746065e-06,
+      "force_norm_N": 0.5639290248913219
+    },
+    {
+      "time_seconds": 7.585010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.943851109939838,
+        1.0374255427739838,
+        -2.082659132110476e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.165318264207074e-06,
+      "force_norm_N": 0.56334548963212
+    },
+    {
+      "time_seconds": 7.593010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9463116249692274,
+        1.040713701064615,
+        -2.40529764837516e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.81059529675032e-06,
+      "force_norm_N": 0.562337299364257
+    },
+    {
+      "time_seconds": 7.601010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9487460330868502,
+        1.0438793659958103,
+        -2.725099182962487e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.450198365911096e-06,
+      "force_norm_N": 0.5611500808090594
+    },
+    {
+      "time_seconds": 7.609010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9511541144119695,
+        1.046924538611521,
+        -3.0312285514838555e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.062457102967711e-06,
+      "force_norm_N": 0.5601197452991241
+    },
+    {
+      "time_seconds": 7.617010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.953535875161139,
+        1.049851337523208,
+        -3.3485649369169312e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.6971298738338625e-06,
+      "force_norm_N": 0.5592736433297216
+    },
+    {
+      "time_seconds": 7.626010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.956184317108073,
+        1.0530045290652077,
+        -2.192175687046327e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -4.384351374106532e-06,
+      "force_norm_N": 0.5544774939584978
+    },
+    {
+      "time_seconds": 7.634010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9585105191415029,
+        1.055687186935695,
+        -3.1875777779660774e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.375155555946033e-06,
+      "force_norm_N": 0.558483958168732
+    },
+    {
+      "time_seconds": 7.6430108124546425,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9610970846922933,
+        1.0585711595550795,
+        -2.6683908875557716e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.336781775111543e-06,
+      "force_norm_N": 0.5539519074562823
+    },
+    {
+      "time_seconds": 7.652010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.963651454227888,
+        1.061316999413614,
+        -2.55356404905982e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.107128098133518e-06,
+      "force_norm_N": 0.5539201777174847
+    },
+    {
+      "time_seconds": 7.661010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9661741760150417,
+        1.0639276729596203,
+        -2.8320877418358537e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.6641754836578295e-06,
+      "force_norm_N": 0.5539813536747947
+    },
+    {
+      "time_seconds": 7.670010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9686658512447093,
+        1.0664059686054859,
+        -3.2836680303321986e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.567336060678275e-06,
+      "force_norm_N": 0.5539473961056423
+    },
+    {
+      "time_seconds": 7.680010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.971398900517954,
+        1.0690071500205212,
+        -2.539068078885598e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.078136157757318e-06,
+      "force_norm_N": 0.5513261684454833
+    },
+    {
+      "time_seconds": 7.690010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9740951341798045,
+        1.0714522037363388,
+        -2.545654232480321e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.09130846497452e-06,
+      "force_norm_N": 0.5518801411537608
+    },
+    {
+      "time_seconds": 7.700010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.976755581237555,
+        1.0737445030714121,
+        -2.977902677711586e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.955805355423172e-06,
+      "force_norm_N": 0.5522071611352205
+    },
+    {
+      "time_seconds": 7.710010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9793812510590902,
+        1.0758872431714446,
+        -3.558607673689873e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.117215347365868e-06,
+      "force_norm_N": 0.5523820000578377
+    },
+    {
+      "time_seconds": 7.721010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9822306419376634,
+        1.0780747043005836,
+        -3.0911951423989725e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.182390284784067e-06,
+      "force_norm_N": 0.5509359421493071
+    },
+    {
+      "time_seconds": 7.732010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9850403681770803,
+        1.0800890546087853,
+        -3.3408285478736532e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.6816570957473065e-06,
+      "force_norm_N": 0.5515798160444749
+    },
+    {
+      "time_seconds": 7.744010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9880621367847229,
+        1.0820927429035623,
+        -2.9523092119343453e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.9046184238686905e-06,
+      "force_norm_N": 0.551016764640246
+    },
+    {
+      "time_seconds": 7.756010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9910403878360414,
+        1.0838990482362605,
+        -3.3250807541379546e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.650161508289787e-06,
+      "force_norm_N": 0.5515381529986
+    },
+    {
+      "time_seconds": 7.769010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9942204404321817,
+        1.0856371256450907,
+        -2.9677293787583325e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.935458757530543e-06,
+      "force_norm_N": 0.5505511896100074
+    },
+    {
+      "time_seconds": 7.782010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        1.9973549701718547,
+        1.0871524580466414,
+        -3.1479761231772985e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.295952246354597e-06,
+      "force_norm_N": 0.5502859969853574
+    },
+    {
+      "time_seconds": 7.795010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.000447438616595,
+        1.088448650311321,
+        -3.441337303011771e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.882674606023542e-06,
+      "force_norm_N": 0.5502106068698672
+    },
+    {
+      "time_seconds": 7.808010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0035014024012217,
+        1.0895288696026513,
+        -3.7212054008056716e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.442410801611343e-06,
+      "force_norm_N": 0.5503908039298174
+    },
+    {
+      "time_seconds": 7.822010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0067511874497606,
+        1.0904533144983524,
+        -3.171433600637763e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.342867201261648e-06,
+      "force_norm_N": 0.5503546894773017
+    },
+    {
+      "time_seconds": 7.836010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.009964021249129,
+        1.091133050989797,
+        -3.219922807232156e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.4398456144504346e-06,
+      "force_norm_N": 0.5507785187772466
+    },
+    {
+      "time_seconds": 7.8500108124546415,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0131435061436833,
+        1.0915696585454389,
+        -3.415510707108216e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.831021414202554e-06,
+      "force_norm_N": 0.5509522355890929
+    },
+    {
+      "time_seconds": 7.864010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.016292855153818,
+        1.0917640764332757,
+        -3.627009306131357e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.254018612262714e-06,
+      "force_norm_N": 0.5515009830858774
+    },
+    {
+      "time_seconds": 7.878010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.019413266687573,
+        1.0917159545126827,
+        -3.7731419877257144e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.546283975465307e-06,
+      "force_norm_N": 0.5520910434712788
+    },
+    {
+      "time_seconds": 7.892010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.02250024091958,
+        1.091422343002811,
+        -3.777303938315435e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.554607876616992e-06,
+      "force_norm_N": 0.5519085687693855
+    },
+    {
+      "time_seconds": 7.906010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.025552882070813,
+        1.0908809486021322,
+        -3.893499614035512e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.786999228071023e-06,
+      "force_norm_N": 0.5518059975457572
+    },
+    {
+      "time_seconds": 7.921010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0287870349453967,
+        1.0900232736438107,
+        -3.3514806497686456e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.702961299551169e-06,
+      "force_norm_N": 0.5516503162380387
+    },
+    {
+      "time_seconds": 7.936010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.031984621325879,
+        1.0888758123981623,
+        -3.396060109142618e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.792120218271358e-06,
+      "force_norm_N": 0.5520101629003571
+    },
+    {
+      "time_seconds": 7.951010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0351470459575483,
+        1.0874346199965716,
+        -3.5669075318517374e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.133815063689597e-06,
+      "force_norm_N": 0.5527534110842207
+    },
+    {
+      "time_seconds": 7.966010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0382777797325633,
+        1.085696493720069,
+        -3.29603632599762e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.592072652009118e-06,
+      "force_norm_N": 0.5524372919576364
+    },
+    {
+      "time_seconds": 7.980010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0411734926157625,
+        1.0838035397782577,
+        -3.517323698312702e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.034647396611526e-06,
+      "force_norm_N": 0.552235757272421
+    },
+    {
+      "time_seconds": 7.994010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.044045248196444,
+        1.0816450929718808,
+        -3.1804393137851994e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.360878627584277e-06,
+      "force_norm_N": 0.551961879680064
+    },
+    {
+      "time_seconds": 8.007010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0466908420621728,
+        1.079400042069124,
+        -3.5257088280143956e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.051417656014913e-06,
+      "force_norm_N": 0.5521577178695287
+    },
+    {
+      "time_seconds": 8.020010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0493165416759083,
+        1.0769191268768834,
+        -3.314594687650607e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.629189375301214e-06,
+      "force_norm_N": 0.5520267868399203
+    },
+    {
+      "time_seconds": 8.033010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.051922053008955,
+        1.074198988763768,
+        -2.9639623542326854e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.9279247084792486e-06,
+      "force_norm_N": 0.5522450377653693
+    },
+    {
+      "time_seconds": 8.045010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0543083817172527,
+        1.0714731170634864,
+        -3.5080938821929752e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.0161877643859505e-06,
+      "force_norm_N": 0.5531591496168323
+    },
+    {
+      "time_seconds": 8.057010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.056675857495547,
+        1.0685375482698922,
+        -3.5017065851683515e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.003413170336703e-06,
+      "force_norm_N": 0.5534022712288839
+    },
+    {
+      "time_seconds": 8.069010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0590229878685604,
+        1.0653900199326527,
+        -3.334607356450525e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.669214712887173e-06,
+      "force_norm_N": 0.5540838979586308
+    },
+    {
+      "time_seconds": 8.081010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.061347742028456,
+        1.0620285430627296,
+        -3.1722343517837093e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.3444687035674185e-06,
+      "force_norm_N": 0.5550758862642823
+    },
+    {
+      "time_seconds": 8.093010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0636475451523117,
+        1.0584516350408963,
+        -3.0469014872663847e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.093802974546647e-06,
+      "force_norm_N": 0.5562143207749359
+    },
+    {
+      "time_seconds": 8.105010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.065919553106666,
+        1.0546585125181975,
+        -2.817276261016244e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.634552522032488e-06,
+      "force_norm_N": 0.556973897531745
+    },
+    {
+      "time_seconds": 8.116010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0679743835601614,
+        1.0509918483467224,
+        -3.483752319274891e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.967504638549782e-06,
+      "force_norm_N": 0.5593086363511176
+    },
+    {
+      "time_seconds": 8.127010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0699983821868777,
+        1.0471437353066975,
+        -3.4757592548562144e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.951518509712429e-06,
+      "force_norm_N": 0.560559691880548
+    },
+    {
+      "time_seconds": 8.138010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.071986348528934,
+        1.043115958276504,
+        -3.224833045725739e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.4496660914376e-06,
+      "force_norm_N": 0.5623570665363175
+    },
+    {
+      "time_seconds": 8.149010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0739322975064916,
+        1.0389116043998854,
+        -2.9694604963548255e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.938920992709651e-06,
+      "force_norm_N": 0.5645076404160014
+    },
+    {
+      "time_seconds": 8.160010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0758294462064537,
+        1.0345353677238174,
+        -2.7828526537182485e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.565705307436497e-06,
+      "force_norm_N": 0.5668714517958701
+    },
+    {
+      "time_seconds": 8.171010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.077670272222827,
+        1.0299939163946816,
+        -2.6882358108298865e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.376471621645895e-06,
+      "force_norm_N": 0.5693709749990277
+    },
+    {
+      "time_seconds": 8.182010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0794466139336594,
+        1.0252962272000377,
+        -2.6929130229474962e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.385826045881115e-06,
+      "force_norm_N": 0.572199916340297
+    },
+    {
+      "time_seconds": 8.193010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.081149605052779,
+        1.020453842941273,
+        -2.792035357815359e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.584070715630718e-06,
+      "force_norm_N": 0.5750733470029333
+    },
+    {
+      "time_seconds": 8.204010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.082770042612609,
+        1.0154811783510702,
+        -2.986452682415819e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.9729053648455155e-06,
+      "force_norm_N": 0.577840846949428
+    },
+    {
+      "time_seconds": 8.215010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0842985733228083,
+        1.0103956783746113,
+        -3.272042869442715e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.544085738871552e-06,
+      "force_norm_N": 0.5803686635709072
+    },
+    {
+      "time_seconds": 8.226010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0857258623880215,
+        1.0052178576473783,
+        -3.6396244454256488e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.2792488908512976e-06,
+      "force_norm_N": 0.5825133807219188
+    },
+    {
+      "time_seconds": 8.238010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0871567286872983,
+        0.9994914384738535,
+        -2.978403746162206e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.956807492324412e-06,
+      "force_norm_N": 0.5830561780215497
+    },
+    {
+      "time_seconds": 8.250010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.088445014182209,
+        0.9937174126204786,
+        -3.1275852131612547e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.255170426322509e-06,
+      "force_norm_N": 0.5844493043679061
+    },
+    {
+      "time_seconds": 8.262010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0895803498785024,
+        0.9879329461075023,
+        -3.616014323568062e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.232028647136124e-06,
+      "force_norm_N": 0.5846103627010236
+    },
+    {
+      "time_seconds": 8.275010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.090624626174354,
+        0.9817001517884137,
+        -3.18822857610368e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.37645715220736e-06,
+      "force_norm_N": 0.5825858339720317
+    },
+    {
+      "time_seconds": 8.288010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0914604313350793,
+        0.9755524132584267,
+        -3.4802502402453417e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.960500480490683e-06,
+      "force_norm_N": 0.5816260687821418
+    },
+    {
+      "time_seconds": 8.301010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.092086113222014,
+        0.969541084079275,
+        -3.9630560630526945e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.926112126091511e-06,
+      "force_norm_N": 0.5783382065813584
+    },
+    {
+      "time_seconds": 8.315010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0925272475776877,
+        0.9632855470163124,
+        -3.5279748901856367e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.055949780357396e-06,
+      "force_norm_N": 0.5753406271434344
+    },
+    {
+      "time_seconds": 8.329010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.092726139237337,
+        0.9572982733249743,
+        -3.3798439713489392e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.759687942684001e-06,
+      "force_norm_N": 0.5719861047271211
+    },
+    {
+      "time_seconds": 8.343010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.092684999057304,
+        0.951623499244812,
+        -3.5586067951703937e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.117213590340787e-06,
+      "force_norm_N": 0.56917109671626
+    },
+    {
+      "time_seconds": 8.357010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.092409260367402,
+        0.9463020325907504,
+        -3.952610077434526e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.905220154869053e-06,
+      "force_norm_N": 0.5661782413778229
+    },
+    {
+      "time_seconds": 8.372010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.091863462269065,
+        0.9410314094760691,
+        -3.785294761651792e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.570589523289706e-06,
+      "force_norm_N": 0.5624299256787485
+    },
+    {
+      "time_seconds": 8.388010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.091012245375176,
+        0.935937361335648,
+        -3.8116086994860465e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.623217398972093e-06,
+      "force_norm_N": 0.5585444875312503
+    },
+    {
+      "time_seconds": 8.406010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0897460843653706,
+        0.9308949193565712,
+        -3.961215227207826e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.922430454415652e-06,
+      "force_norm_N": 0.5561124536312186
+    },
+    {
+      "time_seconds": 8.427010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0878931383914554,
+        0.9259704944396673,
+        -4.133848973450482e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.267697946887087e-06,
+      "force_norm_N": 0.5549159956505196
+    },
+    {
+      "time_seconds": 8.449010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.085555501444418,
+        0.9219402636409338,
+        -4.195741370019435e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.391482740024991e-06,
+      "force_norm_N": 0.5523049161278115
+    },
+    {
+      "time_seconds": 8.473010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.082603047148699,
+        0.918864618190385,
+        -4.358959919417704e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.717919838849286e-06,
+      "force_norm_N": 0.551198421929157
+    },
+    {
+      "time_seconds": 8.503010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.078425740360089,
+        0.9169396179070601,
+        -4.711080611286e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.422161222572e-06,
+      "force_norm_N": 0.552054707691925
+    },
+    {
+      "time_seconds": 8.535010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.073509324591211,
+        0.9171886715611385,
+        -4.643832193645947e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.287664387291894e-06,
+      "force_norm_N": 0.5529473116060776
+    },
+    {
+      "time_seconds": 8.558010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0697436733220935,
+        0.9187976348660891,
+        -4.41355612160188e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.82711224320376e-06,
+      "force_norm_N": 0.5525021849837879
+    },
+    {
+      "time_seconds": 8.578010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0663428561700607,
+        0.9211368653143382,
+        -4.047448496163897e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.094896992327794e-06,
+      "force_norm_N": 0.5535953622343187
+    },
+    {
+      "time_seconds": 8.596010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0632036766969506,
+        0.9239630634313258,
+        -3.9274310548315094e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.854862109663019e-06,
+      "force_norm_N": 0.5552851147533195
+    },
+    {
+      "time_seconds": 8.613010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0601901261335978,
+        0.9272335689757176,
+        -3.744323701690422e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.488647403380844e-06,
+      "force_norm_N": 0.5575558729695028
+    },
+    {
+      "time_seconds": 8.629010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.057328444604807,
+        0.9308193461270833,
+        -3.8127464161569202e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.6254928323138405e-06,
+      "force_norm_N": 0.5600309461182503
+    },
+    {
+      "time_seconds": 8.645010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0544607522607654,
+        0.9348686517125556,
+        -3.5054646408128054e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.010929281625611e-06,
+      "force_norm_N": 0.5628936704652204
+    },
+    {
+      "time_seconds": 8.660010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0517842423985653,
+        0.9390557981094827,
+        -3.901814628518019e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.803629257049916e-06,
+      "force_norm_N": 0.5655766577701608
+    },
+    {
+      "time_seconds": 8.675010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0491373179652324,
+        0.943588743037907,
+        -3.906514866494626e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.81302973300313e-06,
+      "force_norm_N": 0.5681485760299497
+    },
+    {
+      "time_seconds": 8.690010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0465384108357063,
+        0.9484311372705349,
+        -3.6438603242400225e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.287720648466167e-06,
+      "force_norm_N": 0.5692501602307386
+    },
+    {
+      "time_seconds": 8.704010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0441730372203297,
+        0.9531947221503001,
+        -3.962390327474918e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.924780654949837e-06,
+      "force_norm_N": 0.5700024084566847
+    },
+    {
+      "time_seconds": 8.718010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0418822108702375,
+        0.9581581699521409,
+        -3.7056356484849173e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.411271296969835e-06,
+      "force_norm_N": 0.5706337085414918
+    },
+    {
+      "time_seconds": 8.732010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0396806951039297,
+        0.9632838902383789,
+        -3.360399963500682e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.720799927015242e-06,
+      "force_norm_N": 0.5715645320751453
+    },
+    {
+      "time_seconds": 8.745010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.03772800979831,
+        0.9681543986900656,
+        -3.9325346095769875e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.865069219153975e-06,
+      "force_norm_N": 0.5722982352224314
+    },
+    {
+      "time_seconds": 8.759010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0357355008952855,
+        0.9734775821635956,
+        -3.114528509803871e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.229057019607742e-06,
+      "force_norm_N": 0.5718125095440554
+    },
+    {
+      "time_seconds": 8.772010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0339955435687855,
+        0.9784580565553728,
+        -3.3265556771550076e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.653111354323893e-06,
+      "force_norm_N": 0.5718235504106245
+    },
+    {
+      "time_seconds": 8.785010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.032369029490621,
+        0.9834495577192289,
+        -2.9512978561435643e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.902595712287129e-06,
+      "force_norm_N": 0.5711058915950878
+    },
+    {
+      "time_seconds": 8.797010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.030972029583437,
+        0.988042841488087,
+        -3.464335781730443e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.928671563474764e-06,
+      "force_norm_N": 0.5710040554103487
+    },
+    {
+      "time_seconds": 8.809010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0296784364389016,
+        0.9926008532255998,
+        -3.3849270269920018e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.769854053970126e-06,
+      "force_norm_N": 0.5696673217785391
+    },
+    {
+      "time_seconds": 8.821010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.028489724690543,
+        0.9971042887608684,
+        -3.1421407015591596e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.284281403118319e-06,
+      "force_norm_N": 0.5684088559908592
+    },
+    {
+      "time_seconds": 8.833010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0274065572682427,
+        1.0015355286852574,
+        -2.919448255297996e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.83889651060987e-06,
+      "force_norm_N": 0.5671028476418145
+    },
+    {
+      "time_seconds": 8.845010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.026428894752648,
+        1.0058787548806516,
+        -2.7654949124600314e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.530989824920063e-06,
+      "force_norm_N": 0.5662085856739381
+    },
+    {
+      "time_seconds": 8.856010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.025624976678764,
+        1.009771818026535,
+        -3.688706354407212e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.377412708800546e-06,
+      "force_norm_N": 0.5669449933705784
+    },
+    {
+      "time_seconds": 8.868010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.02485200692758,
+        1.0139161600059305,
+        -2.7676891871247777e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.535378374263433e-06,
+      "force_norm_N": 0.5639038259469589
+    },
+    {
+      "time_seconds": 8.879010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.024238932501693,
+        1.0176163629363206,
+        -3.4455514886649885e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.891102977316099e-06,
+      "force_norm_N": 0.5641151266087975
+    },
+    {
+      "time_seconds": 8.891010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0236751251910436,
+        1.0215371503488933,
+        -2.7958401489364126e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -5.5916802978589475e-06,
+      "force_norm_N": 0.5616261436356055
+    },
+    {
+      "time_seconds": 8.902010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0232529039670455,
+        1.0250197619839079,
+        -3.7208980347563925e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.441796069512785e-06,
+      "force_norm_N": 0.5619462999387851
+    },
+    {
+      "time_seconds": 8.914010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.022895409817942,
+        1.028690802006562,
+        -3.2765841198462153e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.553168239692431e-06,
+      "force_norm_N": 0.5595866424439667
+    },
+    {
+      "time_seconds": 8.926010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.022643301401408,
+        1.0322234648525295,
+        -3.3680105969990937e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.736021193998187e-06,
+      "force_norm_N": 0.5589434375883433
+    },
+    {
+      "time_seconds": 8.938010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.022495010699161,
+        1.0356133959196128,
+        -3.73721037290331e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.474420745820498e-06,
+      "force_norm_N": 0.5582019944414258
+    },
+    {
+      "time_seconds": 8.951010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0224496329445762,
+        1.0391202090799512,
+        -3.3403444934104742e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.6806889868209485e-06,
+      "force_norm_N": 0.5568986468596916
+    },
+    {
+      "time_seconds": 8.964010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0225211427009557,
+        1.042451715370042,
+        -3.682934486756717e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.365868973513434e-06,
+      "force_norm_N": 0.556538723215096
+    },
+    {
+      "time_seconds": 8.978010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0227262369229306,
+        1.0458397147488654,
+        -3.53409851590325e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.068197031792622e-06,
+      "force_norm_N": 0.5557858615612699
+    },
+    {
+      "time_seconds": 8.993010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0230893234347795,
+        1.049236912407999,
+        -3.43842005863515e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -6.8768401172841775e-06,
+      "force_norm_N": 0.5555186475131949
+    },
+    {
+      "time_seconds": 9.009010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0236353432060104,
+        1.0525924343926003,
+        -3.5722727924764053e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.1445455849528106e-06,
+      "force_norm_N": 0.5554481292953913
+    },
+    {
+      "time_seconds": 9.026010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.024389408285606,
+        1.0558519546002354,
+        -3.950915181585857e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.901830363171714e-06,
+      "force_norm_N": 0.5554799461236183
+    },
+    {
+      "time_seconds": 9.045010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0254369944904984,
+        1.0591196915486223,
+        -4.1620389907987e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.324077981611278e-06,
+      "force_norm_N": 0.5569472011326961
+    },
+    {
+      "time_seconds": 9.066010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.026831851892697,
+        1.0622671526208052,
+        -4.0466155473012355e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.093231094616349e-06,
+      "force_norm_N": 0.557324184758846
+    },
+    {
+      "time_seconds": 9.087010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.028458515734746,
+        1.0649276246786468,
+        -4.376322417384837e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.752644834769674e-06,
+      "force_norm_N": 0.5570884481060443
+    },
+    {
+      "time_seconds": 9.110010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.030488779236246,
+        1.0672856342519046,
+        -4.235988415826619e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.471976831667116e-06,
+      "force_norm_N": 0.5575010327287945
+    },
+    {
+      "time_seconds": 9.134010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.03286515055833,
+        1.0691309300335445,
+        -4.480172837065255e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.960345674144388e-06,
+      "force_norm_N": 0.5576822113693348
+    },
+    {
+      "time_seconds": 9.161010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.035829018151321,
+        1.0704600964919377,
+        -4.538507351756205e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.07701470351241e-06,
+      "force_norm_N": 0.5583312008531249
+    },
+    {
+      "time_seconds": 9.191010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.039449234848998,
+        1.0710129534732318,
+        -4.512461423425429e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.024922846850858e-06,
+      "force_norm_N": 0.557908712426073
+    },
+    {
+      "time_seconds": 9.218010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0429703128152252,
+        1.0706739959251252,
+        -4.537866899675946e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.07573379936577e-06,
+      "force_norm_N": 0.5580716207361875
+    },
+    {
+      "time_seconds": 9.242010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0462892672220194,
+        1.069702030558049,
+        -4.391168758208219e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.78233751640256e-06,
+      "force_norm_N": 0.5575326212031708
+    },
+    {
+      "time_seconds": 9.264010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0494759873193655,
+        1.0682566825840387,
+        -4.033188733584825e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.06637746716965e-06,
+      "force_norm_N": 0.5571013969450765
+    },
+    {
+      "time_seconds": 9.284010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.052484134163307,
+        1.0664853765401068,
+        -3.941899382811642e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.883798765623284e-06,
+      "force_norm_N": 0.5567846802154461
+    },
+    {
+      "time_seconds": 9.302010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0552744195305053,
+        1.0645222077142908,
+        -4.187739237951349e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.375478475902698e-06,
+      "force_norm_N": 0.5565486556804394
+    },
+    {
+      "time_seconds": 9.320010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0581356802855,
+        1.0622138271602564,
+        -3.7403798500701413e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.4807597001402826e-06,
+      "force_norm_N": 0.5571089903006375
+    },
+    {
+      "time_seconds": 9.337010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.060894811108689,
+        1.0597231216360314,
+        -3.7819749040962636e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.563949808206405e-06,
+      "force_norm_N": 0.5576798607805713
+    },
+    {
+      "time_seconds": 9.353010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0635339647129136,
+        1.0571104137752634,
+        -4.048977055720604e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.097954111441208e-06,
+      "force_norm_N": 0.5583158680406781
+    },
+    {
+      "time_seconds": 9.369010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0662052926378984,
+        1.0542459691704995,
+        -3.879982621482481e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.759965242964961e-06,
+      "force_norm_N": 0.5592978209129884
+    },
+    {
+      "time_seconds": 9.385010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.068898370381209,
+        1.0511411735309149,
+        -3.7007135141042813e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.4014270282085626e-06,
+      "force_norm_N": 0.5605372417118624
+    },
+    {
+      "time_seconds": 9.401010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.071601202011912,
+        1.0478102652540904,
+        -3.5945593702263468e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.1891187404526935e-06,
+      "force_norm_N": 0.5618871807013501
+    },
+    {
+      "time_seconds": 9.417010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0743000468400834,
+        1.0442708565663927,
+        -3.576055037840531e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.152110075681062e-06,
+      "force_norm_N": 0.5632773920225986
+    },
+    {
+      "time_seconds": 9.433010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0769793449580054,
+        1.0405443254465205,
+        -3.6471042359903505e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.294208471980701e-06,
+      "force_norm_N": 0.5646369029989633
+    },
+    {
+      "time_seconds": 9.449010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.079621729582679,
+        1.0366560882889857,
+        -3.8057367096749894e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.611473419349979e-06,
+      "force_norm_N": 0.5658828996825054
+    },
+    {
+      "time_seconds": 9.465010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.082208141504328,
+        1.0326357133778155,
+        -4.047623350836305e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.095246701658732e-06,
+      "force_norm_N": 0.5669239848860039
+    },
+    {
+      "time_seconds": 9.482010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.084871993706064,
+        1.0282568588419174,
+        -3.813307218228368e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -7.6266144364706134e-06,
+      "force_norm_N": 0.5679724373178544
+    },
+    {
+      "time_seconds": 9.499010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.087423532420625,
+        1.0238118939103051,
+        -4.1391982991967335e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.278396598393467e-06,
+      "force_norm_N": 0.5684551529152263
+    },
+    {
+      "time_seconds": 9.517010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.089973214197233,
+        1.0190875421311651,
+        -4.1323984212998655e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.264796842613609e-06,
+      "force_norm_N": 0.5686170936955649
+    },
+    {
+      "time_seconds": 9.536010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0924607948286904,
+        1.014147343709566,
+        -4.2268646684856526e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.453729336971305e-06,
+      "force_norm_N": 0.5683897593686246
+    },
+    {
+      "time_seconds": 9.557010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.094924967891253,
+        1.0088301753657867,
+        -4.166622311382873e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.333244622779623e-06,
+      "force_norm_N": 0.5679008384960075
+    },
+    {
+      "time_seconds": 9.580010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0972305461094174,
+        1.003291398071369,
+        -4.441032976670867e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.882065953341733e-06,
+      "force_norm_N": 0.5666024263898961
+    },
+    {
+      "time_seconds": 9.608010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0994156021430497,
+        0.9971229463938635,
+        -4.581162726779997e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.162325453559994e-06,
+      "force_norm_N": 0.5649594539149096
+    },
+    {
+      "time_seconds": 9.829010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.091566837714068,
+        0.9833491639122571,
+        -4.716980075217259e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.433960150434517e-06,
+      "force_norm_N": 0.5619894016078949
+    },
+    {
+      "time_seconds": 9.858010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0880101656663697,
+        0.9863393497568688,
+        -4.606381991456576e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.212763982913152e-06,
+      "force_norm_N": 0.56187048056303
+    },
+    {
+      "time_seconds": 9.883010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0847029369678802,
+        0.9896361162394176,
+        -4.461997050439481e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.923994100878962e-06,
+      "force_norm_N": 0.562808902263438
+    },
+    {
+      "time_seconds": 9.906010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.081529336924827,
+        0.9931761418549325,
+        -4.389751343342185e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.77950268668437e-06,
+      "force_norm_N": 0.5637262864653352
+    },
+    {
+      "time_seconds": 9.928010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0784329163209914,
+        0.9969400918704271,
+        -4.318882887918707e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.637765775851292e-06,
+      "force_norm_N": 0.5645040435586346
+    },
+    {
+      "time_seconds": 9.949010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0754706475958686,
+        1.000799858035595,
+        -4.361537997876752e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.723075995753504e-06,
+      "force_norm_N": 0.5649106229873418
+    },
+    {
+      "time_seconds": 9.970010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.072546595089001,
+        1.0048530742871573,
+        -4.059442647100231e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.118885294200462e-06,
+      "force_norm_N": 0.5654236361312218
+    },
+    {
+      "time_seconds": 9.990010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.069834373088129,
+        1.0088303693505671,
+        -4.1892204342280914e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.378440868456183e-06,
+      "force_norm_N": 0.5652390170149556
+    },
+    {
+      "time_seconds": 10.010010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.067225502477195,
+        1.0128608460905508,
+        -4.091089822452765e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.182179644919407e-06,
+      "force_norm_N": 0.56499348382722
+    },
+    {
+      "time_seconds": 10.030010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0647479180588126,
+        1.0168869211980103,
+        -4.050743879865926e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.101487759745729e-06,
+      "force_norm_N": 0.5644987027381477
+    },
+    {
+      "time_seconds": 10.050010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.062425453001662,
+        1.020854842223021,
+        -4.099802278986764e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.199604557987406e-06,
+      "force_norm_N": 0.563778272353587
+    },
+    {
+      "time_seconds": 10.070010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0602777419643714,
+        1.0247157861610572,
+        -4.241694706294541e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.483389412589082e-06,
+      "force_norm_N": 0.5629050496912078
+    },
+    {
+      "time_seconds": 10.091010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0582278635492828,
+        1.0286073907128948,
+        -4.134532140639968e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.269064281279936e-06,
+      "force_norm_N": 0.5622580277630955
+    },
+    {
+      "time_seconds": 10.113010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0563206916641312,
+        1.032460432820772,
+        -4.130226316137464e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.260452632274928e-06,
+      "force_norm_N": 0.5620061945467159
+    },
+    {
+      "time_seconds": 10.136010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0546083002295035,
+        1.0362103161175853,
+        -4.2426263449496515e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.485252689899303e-06,
+      "force_norm_N": 0.5613215459474038
+    },
+    {
+      "time_seconds": 10.161010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0530879899277155,
+        1.0399266291300664,
+        -4.3983178275724955e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.796635655144991e-06,
+      "force_norm_N": 0.5609336440169949
+    },
+    {
+      "time_seconds": 10.190010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0517792174328253,
+        1.0437217840536028,
+        -4.605298289370174e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.210596578754227e-06,
+      "force_norm_N": 0.5608926847154246
+    },
+    {
+      "time_seconds": 10.429010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.057869381627054,
+        1.051029497772413,
+        -4.725937105168332e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.451874210322786e-06,
+      "force_norm_N": 0.5616080253268125
+    },
+    {
+      "time_seconds": 10.462010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.060577288854477,
+        1.0487874482430715,
+        -4.542423468714696e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.08484693744327e-06,
+      "force_norm_N": 0.5609004120316571
+    },
+    {
+      "time_seconds": 10.490010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0631190975279265,
+        1.0463465248733113,
+        -4.45061176877759e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.901223537541303e-06,
+      "force_norm_N": 0.5607759466580188
+    },
+    {
+      "time_seconds": 10.516010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0656462209446564,
+        1.0436755162105174,
+        -4.316860666597755e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.63372133319551e-06,
+      "force_norm_N": 0.561033966012487
+    },
+    {
+      "time_seconds": 10.540010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.068090942187,
+        1.0409021164372676,
+        -4.421989165545592e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.843978331105062e-06,
+      "force_norm_N": 0.5611982573805654
+    },
+    {
+      "time_seconds": 10.564010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0706111839083974,
+        1.0378751886497606,
+        -4.245827800050672e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.491655600115222e-06,
+      "force_norm_N": 0.5618546488812491
+    },
+    {
+      "time_seconds": 10.587010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.073064461154033,
+        1.0347814793033236,
+        -4.418093339300655e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.836186678587432e-06,
+      "force_norm_N": 0.5621513142061547
+    },
+    {
+      "time_seconds": 10.610010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0755201102989123,
+        1.0315485460268499,
+        -4.477283048739955e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.95456609747991e-06,
+      "force_norm_N": 0.5625844069922306
+    },
+    {
+      "time_seconds": 10.634010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0780446109328063,
+        1.0280858072776324,
+        -4.39506977346904e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.790139546924203e-06,
+      "force_norm_N": 0.5631613773848708
+    },
+    {
+      "time_seconds": 10.659010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.080585248100375,
+        1.0244537982763329,
+        -4.46245070283291e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -8.92490140566582e-06,
+      "force_norm_N": 0.56348382093068
+    },
+    {
+      "time_seconds": 10.686010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0831676282927822,
+        1.0205942834074115,
+        -4.55171711731539e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.103434234644658e-06,
+      "force_norm_N": 0.5636857815874691
+    },
+    {
+      "time_seconds": 10.718010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0859237732704283,
+        1.0162434424582705,
+        -4.6567049556967e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.3134099113934e-06,
+      "force_norm_N": 0.5638484355443991
+    },
+    {
+      "time_seconds": 11.103010812454642,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0801477227040714,
+        1.014114761100074,
+        -4.7571394069523265e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.514278813904653e-06,
+      "force_norm_N": 0.5650345353883418
+    },
+    {
+      "time_seconds": 11.143010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.0769818835243865,
+        1.0182715681033523,
+        -4.693864250143731e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.387728500287462e-06,
+      "force_norm_N": 0.564369196634637
+    },
+    {
+      "time_seconds": 11.180010812454643,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.074134527335357,
+        1.0221984802299031,
+        -4.704906971894629e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.40981394377538e-06,
+      "force_norm_N": 0.5640013896396245
+    },
+    {
+      "time_seconds": 11.219010812454641,
+      "kind": "ground_contact",
+      "other": "ground",
+      "point_world": [
+        2.071345876909503,
+        1.026221227568055,
+        -4.712608751344938e-06
+      ],
+      "normal_world": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "contact_distance_m": -9.425217502689875e-06,
+      "force_norm_N": 0.5639042680054487
+    }
+  ],
+  "npz_sha256": "af93be2f22616741b8c4d5994ac9abe4d98e20e48ff2a6056dfe52e4a260b775",
+  "xml_sha256": "dd03839116926ad31420206e142831e80efc70b99d020972a44f1f9c6358889c",
+  "source_sha256": "7521977d3b01e3fd1338cf0d2f1918f7b34130029ba4aa02365cd9f277da8d4c"
+}

@@ -1,0 +1,11 @@
+{
+  "command": "JAX_PLATFORMS=cpu CUDA_VISIBLE_DEVICES='' PYTHONPATH=. .pixi/envs/gpu-tests/bin/python -m pytest -q tests/unit/safety/da_plcbf/test_closed_loop_publication.py",
+  "exit_code": 0,
+  "result": "11 passed",
+  "log": "publication-tests.log",
+  "log_sha256": "9b11cb2f3356aba2b6bea79c5002067b83ed8c2e96bb42b301fec1fe49fd2c79",
+  "source_hashes": {
+    "benchmark/da_plcbf_closed_loop_publication.py": "eade89d28a39926b14d76d3dedfcbf7fe509a2fcc61e4913f4db154e4486f1ec",
+    "tests/unit/safety/da_plcbf/test_closed_loop_publication.py": "5ce1669e92effd14c7c2a0360cbf98746ea58bb7acb38bbd921ee3749d0f2e02"
+  }
+}

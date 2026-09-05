@@ -2,7 +2,17 @@
 
 ## Published engineering review — 2026-09-05
 
-The latest addition is `case-study-20260905`: persistent-wind case discovery, causal margin
+The latest addition is `closed-loop-search-20260905`: 71 complete paired discovery trials,
+continuous modeled-contact versus survival, causal parameter interventions, matched buffer
+sweeps, nearby scenes, and measured paced learning. The compensated fixed comparator survives.
+Start with [`DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md`](../../DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md).
+Its [review scope](closed-loop-search-20260905/REVIEW_ONLY.md) and
+[publication manifest](closed-loop-search-20260905/publication/PUBLICATION_MANIFEST.json) identify
+compact evidence and all local-only omissions. Videos and bulk prediction tensors remain local.
+
+The previous addition is retained below for historical comparison.
+
+The preceding addition is `case-study-20260905`: persistent-wind case discovery, causal margin
 comparisons, negative continuous confirmation, and positive paced learning availability.
 Start with [`DA_PLCBF_SAFETY_CASE_REVIEW.md`](../../DA_PLCBF_SAFETY_CASE_REVIEW.md).
 Its [review scope](case-study-20260905/REVIEW_ONLY.md) and

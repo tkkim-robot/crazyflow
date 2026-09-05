@@ -443,7 +443,12 @@ def screen_cases(
                     time_seconds=times,
                     goal_position=np.asarray(cfg.hover_position),
                     obstacles=tuple(
-                        ObstacleTrack(centers[:, i], r, r + 0.15, f"Incoming {i}")
+                        ObstacleTrack(
+                            centers[:, i],
+                            r,
+                            r + world.config.ego_radius + world.config.obstacle_clearance,
+                            f"Incoming {i}",
+                        )
                         for i, r in enumerate(world.obstacle_radii)
                     ),
                     true_wind=winds,
@@ -455,7 +460,7 @@ def screen_cases(
                     title="Persistent wind encounter: controlled same-state branches",
                     right_label="ADAPTED SNAPSHOT HELD FIXED",
                     show_wind_change_banner=False,
-                    drone_radius=0.106,
+                    drone_radius=world.config.ego_radius,
                     drone_model="cf21B_500",
                     physical_model_name="Shared point model; held motors; geometric contact audit",
                     task_phase=np.full(len(times), "hover"),

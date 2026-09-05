@@ -20,6 +20,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
+from crazyflow.safety.da_plcbf.case_study_world import audit_recorded_collider_clearance
 from crazyflow.safety.da_plcbf.continuous_version_a import (
     ContinuousVersionAConfig,
     PolicyRollouts,
@@ -83,6 +84,7 @@ class NavigationExperimentConfig:
     navigation_start_seconds: float = 0.0
     fallback_mapping: str = "compensated"
     allow_legacy_point_enclosure: bool = False
+    termination_geometry: str = "body_origin_enclosure"
 
     def validate(self, world: NavigationWorld) -> None:
         if self.execution_mode not in {"deterministic", "budgeted"}:
@@ -102,6 +104,10 @@ class NavigationExperimentConfig:
             raise ValueError("unknown matched fallback mapping")
         if type(self.allow_legacy_point_enclosure) is not bool:
             raise ValueError("allow_legacy_point_enclosure must be boolean")
+        if self.termination_geometry not in {"body_origin_enclosure", "modeled_collider"}:
+            raise ValueError("unknown simulation termination geometry")
+        if self.termination_geometry == "modeled_collider" and world.config.payload_events:
+            raise ValueError("modeled-collider termination currently audits the unladen cf21B")
         if (
             world.config.ego_radius < CF21B_BODY_ORIGIN_ENCLOSURE_M - 1e-9
             and not self.allow_legacy_point_enclosure
@@ -310,6 +316,101 @@ def _finite_probe_value(value: Any) -> float | None:
     return number if np.isfinite(number) else None
 
 
+def evaluate_collision_termination(
+    world: NavigationWorld,
+    times: np.ndarray,
+    states: np.ndarray,
+    *,
+    termination_geometry: str = "modeled_collider",
+) -> dict[str, Any]:
+    """Audit an executed hold without changing its command or the safety constraints.
+
+    The simulation-only collider mode stops only for a strictly negative upper clearance
+    bound of the rotated cf21B XML sphere against an obstacle or the floor. A bound
+    straddling zero is unresolved and does not count as a collision. The caller stops at
+    the next control boundary; the interpolated geometric event time remains separate.
+    Legacy enclosure mode deliberately keeps its original uncorrected chord criterion.
+    """
+    if termination_geometry not in {"body_origin_enclosure", "modeled_collider"}:
+        raise ValueError("unknown simulation termination geometry")
+    if termination_geometry == "modeled_collider" and world.config.payload_events:
+        raise ValueError("modeled-collider termination currently audits the unladen cf21B")
+    audit = audit_recorded_collider_clearance(world, times, states)
+    sphere = audit["actual_xml_sphere_geometry"]
+    floor = audit["actual_xml_ground_geometry"]
+    candidates = [
+        (name, geometry["first_chord_intersection_time_seconds"])
+        for name, geometry in (
+            ("modeled_collider_obstacle", sphere),
+            ("modeled_collider_floor", floor),
+        )
+        if geometry["minimum_clearance_upper_bound_m"] is not None
+        and geometry["minimum_clearance_upper_bound_m"] < 0
+    ]
+    kind, event_time = min(candidates, key=lambda row: row[1]) if candidates else (None, None)
+    centers, _ = world.obstacle_kinematics(np.asarray(times))
+    enclosure_clearance = _minimum_segment_clearance(
+        np.asarray(states), centers, world.obstacle_radii + world.config.ego_radius
+    )
+    enclosure_breach = enclosure_clearance <= 0
+    if termination_geometry == "body_origin_enclosure":
+        kind = "body_origin_enclosure" if enclosure_breach else None
+        event_time = (
+            audit["body_origin_envelope"]["first_chord_intersection_time_seconds"]
+            if enclosure_breach
+            else None
+        )
+    return {
+        "termination_geometry": termination_geometry,
+        "terminate": kind is not None,
+        "collision_kind": kind,
+        "first_intersection_time_seconds": event_time,
+        "body_origin_enclosure_breach": bool(enclosure_breach),
+        "requested_shell_breach": bool(enclosure_clearance <= world.config.obstacle_clearance),
+        "audit": audit,
+    }
+
+
+def summarize_collision_observation(
+    audit: dict[str, Any], *, termination_geometry: str, termination: str | None
+) -> dict[str, Any]:
+    """Keep censored or numerically unresolved true-collider outcomes distinct from safety."""
+    geometries = [audit["actual_xml_sphere_geometry"], audit["actual_xml_ground_geometry"]]
+    intersecting = any(
+        item["minimum_clearance_upper_bound_m"] is not None
+        and item["minimum_clearance_upper_bound_m"] < 0
+        for item in geometries
+    )
+    unresolved = any(
+        item["minimum_clearance_lower_bound_m"] is not None
+        and item["minimum_clearance_lower_bound_m"] <= 0
+        and item["minimum_clearance_upper_bound_m"] >= 0
+        for item in geometries
+    )
+    censored = (
+        termination_geometry == "body_origin_enclosure"
+        and termination == "physical_collision"
+        and not intersecting
+    )
+    return {
+        "modeled_collider_collision": (
+            True if intersecting else None if censored or unresolved else False
+        ),
+        "modeled_collision_observation": (
+            "observed_geometric_intersection"
+            if intersecting
+            else "censored_by_enclosure_termination"
+            if censored
+            else "unresolved_at_interpolation_error_bound"
+            if unresolved
+            else "separated_on_executed_trace"
+        ),
+        "enclosure_termination_censors_later_collider_outcome": bool(censored),
+        "interpolation_error_straddles_zero": bool(unresolved),
+        "measured_mujoco_contact_event": None,
+    }
+
+
 def _append_terminal_record(records: dict[str, list[Any]], state: np.ndarray) -> None:
     """Retain the final executed state while carrying the last real prediction as stale data.
 
@@ -326,6 +427,63 @@ def _append_terminal_record(records: dict[str, list[Any]], state: np.ndarray) ->
     for name in ("controller_seconds", "learner_seconds"):
         records[name][-1] = 0.0
     records["missed_deadline"][-1] = False
+
+
+def _warm_host_diagnostics(
+    world: NavigationWorld,
+    config: NavigationExperimentConfig,
+    state: Any,
+    persistent: Any,
+    model: Any,
+    prediction: Any,
+    decision: Any,
+    interval_states: np.ndarray,
+) -> dict[str, Any]:
+    """Exercise recording/geometry on a disposable warm hold, never on live experiment state."""
+    started = time.perf_counter()
+    discarded_records = _empty_method_records()
+    _append_method_record(
+        discarded_records,
+        state,
+        decision,
+        library_version=int(persistent.library_version),
+        cumulative_gradient_steps=int(persistent.cumulative_gradient_steps),
+        diversity_loss=0.0,
+        descriptor_target_loss=0.0,
+        gradient_norm=0.0,
+        parameter_update_norm=0.0,
+        estimated_wind=model.wind_velocity,
+    )
+    recorded = time.perf_counter()
+    nominal_encounter_metrics(
+        np.asarray(decision.candidates.states)[0, :, :3],
+        prediction,
+        dt=world.config.dt,
+        ego_radius=world.config.ego_radius,
+        obstacle_clearance=world.config.obstacle_clearance,
+    )
+    encountered = time.perf_counter()
+    _minimum_segment_clearance(
+        interval_states,
+        np.asarray(prediction.centers)[: world.config.control_interval_steps + 1],
+        world.obstacle_radii + world.config.ego_radius,
+    )
+    if config.termination_geometry == "modeled_collider":
+        evaluate_collision_termination(
+            world,
+            np.arange(len(interval_states)) * world.config.dt,
+            interval_states,
+            termination_geometry=config.termination_geometry,
+        )
+    completed = time.perf_counter()
+    return {
+        "recording_seconds": recorded - started,
+        "nominal_encounter_seconds": encountered - recorded,
+        "collider_audit_seconds": completed - encountered,
+        "total_seconds": completed - started,
+        "discarded_record_count": len(discarded_records["position"]),
+        "scope": "disposable host diagnostics before epoch; no live states, updates, or records",
+    }
 
 
 def run_navigation_experiment(
@@ -444,6 +602,7 @@ def run_navigation_experiment(
         encounters, snapshots, controller_seconds, learner_seconds = [], [], [], []
         checkpoint_buffers = []
         first_diagnosis_saved = False
+        collision_event = None
         last_update_metrics = None
         pending = None
         last_training_time = 0.0
@@ -463,6 +622,8 @@ def run_navigation_experiment(
         warm_estimator = initialize_point_wind_estimator()
         warm_durations = []
         for _ in range(5):
+            warm_record_state = warm_state
+            warm_interval = [np.asarray(warm_state)]
             warm_point = (
                 warm_model
                 if config.model_information == "oracle"
@@ -485,6 +646,7 @@ def run_navigation_experiment(
                         warm_estimator, warm_state, following, decision.action, warm_model
                     )
                 warm_state = following
+                warm_interval.append(np.asarray(warm_state))
             if method == "adaptive" and config.enable_learning:
                 # Match the live stopwatch: learner inputs are ready before timing begins.
                 jax.block_until_ready((warm_state, warm_estimator))
@@ -495,6 +657,16 @@ def run_navigation_experiment(
                 warm_durations.append(time.perf_counter() - started)
             warm_previous = decision.selected_index
         jax.block_until_ready((warm_state, warm_estimator))
+        host_warmup = _warm_host_diagnostics(
+            world,
+            config,
+            warm_record_state,
+            warm_learning,
+            warm_point,
+            warm_prediction,
+            decision,
+            np.asarray(warm_interval),
+        )
         scheduler = BoundarySnapshotScheduler(
             persistent,
             int(persistent.library_version),
@@ -507,6 +679,7 @@ def run_navigation_experiment(
             "initial_measured_update_seconds": scheduler.measured_update_seconds,
             "initial_reserved_update_seconds": scheduler.estimated_service_seconds,
             "event_model_preconstruction": True,
+            "host_diagnostics": host_warmup,
         }
         (directory / f"{method}_warmup.json").write_text(
             json.dumps(warmup_metadata, indent=2) + "\n"
@@ -562,11 +735,13 @@ def run_navigation_experiment(
             goals.append(np.asarray(goal))
             waypoint_indices.append(progress.completed)
             started = time.perf_counter()
+            pre_controller_seconds = started - boundary_wall
             decision = jax.block_until_ready(
                 controller(state, persistent.params, model, prediction, previous, goal)
             )
             service = time.perf_counter() - started
             controller_seconds.append(service)
+            recording_started = time.perf_counter()
             gradient = (
                 float(last_update_metrics.gradient_norm) if last_update_metrics is not None else 0.0
             )
@@ -642,8 +817,10 @@ def run_navigation_experiment(
                         )
                     )
                 first_diagnosis_saved |= diagnosis
+            host_recording_seconds = time.perf_counter() - recording_started
             training_state = state
             interval_states = [np.asarray(state)]
+            plant_started = time.perf_counter()
             for _ in range(world.config.control_interval_steps):
                 following = plant(state, decision.action, actual_model)
                 if config.model_information == "estimated":
@@ -652,18 +829,36 @@ def run_navigation_experiment(
                 interval_states.append(np.asarray(state))
                 states.append(np.asarray(state))
             jax.block_until_ready((state, estimator))
+            plant_seconds = time.perf_counter() - plant_started
             previous = decision.selected_index
+            audit_started = time.perf_counter()
             physical_clearance = _minimum_segment_clearance(
                 np.asarray(interval_states),
                 np.asarray(prediction.centers)[: world.config.control_interval_steps + 1],
                 world.obstacle_radii + dynamics.ego_radius,
             )
+            interval_collision = None
+            terminate_for_collision = physical_clearance <= 0
+            if config.termination_geometry == "modeled_collider":
+                interval_collision = evaluate_collision_termination(
+                    world,
+                    float(when) + np.arange(len(interval_states)) * world.config.dt,
+                    np.asarray(interval_states),
+                    termination_geometry=config.termination_geometry,
+                )
+                terminate_for_collision = interval_collision["terminate"]
+                if terminate_for_collision and collision_event is None:
+                    collision_event = {
+                        key: interval_collision[key]
+                        for key in ("collision_kind", "first_intersection_time_seconds")
+                    }
+            collider_audit_seconds = time.perf_counter() - audit_started
             progress = advance_waypoints(
                 world,
                 progress,
                 np.asarray(state)[:3],
                 float(when + world.config.control_period),
-                physical_collision=physical_clearance <= 0,
+                physical_collision=terminate_for_collision,
                 navigation_enabled=float(when) >= config.navigation_start_seconds - 1e-10,
             )
             update_seconds, finite = 0.0, False
@@ -723,12 +918,32 @@ def run_navigation_experiment(
                     "finite": finite,
                     "completed_version": int(pending[0].library_version) if pending else None,
                     "controller_seconds": service,
+                    "pre_controller_seconds": pre_controller_seconds,
+                    "host_recording_seconds": host_recording_seconds,
+                    "plant_seconds": plant_seconds,
+                    "collider_audit_seconds": collider_audit_seconds,
                     "learner_seconds": update_seconds,
                     "learner_started_wall_seconds": learner_started_wall,
                     "learner_completed_wall_seconds": learner_completed_wall,
                     "physical_clearance_m": physical_clearance
                     if np.isfinite(physical_clearance)
                     else None,
+                    "body_origin_enclosure_breach": bool(physical_clearance <= 0),
+                    "requested_shell_breach": bool(
+                        physical_clearance <= world.config.obstacle_clearance
+                    ),
+                    "termination_geometry": config.termination_geometry,
+                    "modeled_collider_clearance_bounds_m": (
+                        {
+                            key: [
+                                interval_collision["audit"][key][f"minimum_clearance_{bound}_bound_m"]
+                                for bound in ("lower", "upper")
+                            ]
+                            for key in ("actual_xml_sphere_geometry", "actual_xml_ground_geometry")
+                        }
+                        if interval_collision is not None
+                        else None
+                    ),
                 }
             )
             if progress_callback and index % 100 == 0:
@@ -758,6 +973,13 @@ def run_navigation_experiment(
         )
         mask = np.asarray(active)
         blocked = np.asarray([row["nominal_blocked"] for row in encounters], dtype=bool)
+        modeled_audit = (
+            audit_recorded_collider_clearance(
+                world, np.arange(len(states)) * world.config.dt, dense[method]
+            )
+            if config.termination_geometry == "modeled_collider"
+            else None
+        )
         summaries[method] = {
             "waypoints_completed": progress.completed,
             "waypoints_total": len(world.waypoint_positions),
@@ -765,6 +987,26 @@ def run_navigation_experiment(
             "termination_time_seconds": progress.termination_time_seconds,
             "arrival_times_seconds": progress.arrival_times_seconds,
             "physical_collision": progress.termination == "physical_collision",
+            "termination_geometry": config.termination_geometry,
+            "collision_event": collision_event,
+            "termination_time_scope": "following control boundary after the executed hold",
+            "body_origin_enclosure_breach_recorded": bool(clearance <= 0),
+            "requested_shell_breach_recorded": bool(clearance <= world.config.obstacle_clearance),
+            "modeled_collider_audit": modeled_audit,
+            "collision_observation": (
+                summarize_collision_observation(
+                    modeled_audit,
+                    termination_geometry=config.termination_geometry,
+                    termination=progress.termination,
+                )
+                if modeled_audit is not None
+                else {
+                    "modeled_collision_observation": "not_audited_by_legacy_runner",
+                    "enclosure_termination_censors_later_collider_outcome": (
+                        progress.termination == "physical_collision"
+                    ),
+                }
+            ),
             "minimum_physical_clearance_m": clearance if np.isfinite(clearance) else None,
             "minimum_inflated_clearance_m": clearance - world.config.obstacle_clearance
             if np.isfinite(clearance)
@@ -963,9 +1205,14 @@ def run_navigation_experiment(
             "no real-time deadline claim"
         ),
         "collision_scope": (
-            "swept relative chords of the configured spherical body-origin enclosure at "
+            "simulation termination at definite rotated cf21B XML-sphere obstacle or floor "
+            "intersection; enclosure/shell breaches remain logged without stopping control; "
+            "recorded-state interpolation bounds do not establish measured MuJoCo contact"
+            if config.termination_geometry == "modeled_collider"
+            else "swept relative chords of the configured spherical body-origin enclosure at "
             "integration nodes; enclosure violations are not measured MuJoCo contacts, and "
-            "accelerated obstacle arcs are not continuously certified"
+            "accelerated obstacle arcs are not continuously certified; enclosure termination "
+            "censors subsequent actual-collider outcomes"
         ),
     }
     from crazyflow.safety.da_plcbf.runtime_feasibility import assess_navigation_runtime_feasibility

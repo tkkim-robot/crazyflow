@@ -1,0 +1,265 @@
+[
+  {
+    "scene": {
+      "incoming": {
+        "arrival_time_seconds": 4.903185042785481,
+        "direction": [
+          0.3313175909113566,
+          -0.7768071771049359,
+          0.5355364259795553
+        ],
+        "speed_m_s": 1.0971190985292196,
+        "radius_m": 0.4987126130819336,
+        "crossing_offset": [
+          0.39436678439378736,
+          0.4534020610153674,
+          -0.03573476225137706
+        ],
+        "amplitude_m": 30
+      },
+      "guards": [
+        {
+          "offset": [
+            -0.054412158702305514,
+            -0.49106929032378194,
+            -0.02268320119993783
+          ],
+          "radius_m": 0.11894175550988596
+        }
+      ],
+      "seed": 0,
+      "wind_onset_seconds": 3.0,
+      "wind_velocity": [
+        1.6,
+        0.8,
+        0.0
+      ],
+      "duration_seconds": 12.0,
+      "navigation_start_seconds": 7.0,
+      "hover_position": [
+        0.0,
+        0.0,
+        1.4
+      ],
+      "waypoint_offsets": [
+        [
+          -1.5,
+          1.0,
+          0.3
+        ],
+        [
+          -2.0,
+          -1.0,
+          0.0
+        ]
+      ],
+      "arena_lower": [
+        -5.0,
+        -4.0,
+        0.15
+      ],
+      "arena_upper": [
+        5.0,
+        4.0,
+        4.0
+      ],
+      "dt": 0.02,
+      "control_interval_steps": 2,
+      "ego_radius": 0.106,
+      "obstacle_clearance": 0.15,
+      "reach_radius": 0.4,
+      "additional_incoming": [],
+      "initial_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "mapping": "uncompensated",
+    "family": "single",
+    "proposal": "executed_escape_guard",
+    "parent": "smoke-u132-v1-0000",
+    "lineage": {
+      "trial_id": "smoke-u132-v1-0000",
+      "ledger": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/trials.jsonl",
+      "trace_path": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/smoke-u132-v1-0000/traces.npz",
+      "trace_sha256": "52c301ceae7b3d1578456485c0c173088c05b6723ecf90bdd85451f5b4645dfe",
+      "parent_scene_sha256": "75957ee012ee2a5b3185eaaaf1f97861955caadda460cdaa37a830980195419f"
+    }
+  },
+  {
+    "scene": {
+      "incoming": {
+        "arrival_time_seconds": 4.903185042785481,
+        "direction": [
+          0.3313175909113566,
+          -0.7768071771049359,
+          0.5355364259795553
+        ],
+        "speed_m_s": 1.0971190985292196,
+        "radius_m": 0.4987126130819336,
+        "crossing_offset": [
+          0.39436678439378736,
+          0.4534020610153674,
+          -0.03573476225137706
+        ],
+        "amplitude_m": 30
+      },
+      "guards": [],
+      "seed": 0,
+      "wind_onset_seconds": 3.0,
+      "wind_velocity": [
+        1.6,
+        0.8,
+        0.0
+      ],
+      "duration_seconds": 12.0,
+      "navigation_start_seconds": 7.0,
+      "hover_position": [
+        0.0,
+        0.0,
+        1.4
+      ],
+      "waypoint_offsets": [
+        [
+          -1.5,
+          1.0,
+          0.3
+        ],
+        [
+          -2.0,
+          -1.0,
+          0.0
+        ]
+      ],
+      "arena_lower": [
+        -5.0,
+        -4.0,
+        0.15
+      ],
+      "arena_upper": [
+        5.0,
+        4.0,
+        4.0
+      ],
+      "dt": 0.02,
+      "control_interval_steps": 2,
+      "ego_radius": 0.106,
+      "obstacle_clearance": 0.15,
+      "reach_radius": 0.4,
+      "additional_incoming": [
+        {
+          "arrival_time_seconds": 4.86,
+          "direction": [
+            -0.9934978356289046,
+            0.1138510017552855,
+            0.0
+          ],
+          "speed_m_s": 2.708599303074342,
+          "radius_m": 0.12955406170626976,
+          "crossing_offset": [
+            -0.05602755920808761,
+            -0.4889132106931258,
+            -0.021421052315888867
+          ],
+          "amplitude_m": 30.0
+        }
+      ],
+      "initial_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "mapping": "uncompensated",
+    "family": "single",
+    "proposal": "executed_escape_mover",
+    "parent": "smoke-u132-v1-0000",
+    "lineage": {
+      "trial_id": "smoke-u132-v1-0000",
+      "ledger": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/trials.jsonl",
+      "trace_path": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/smoke-u132-v1-0000/traces.npz",
+      "trace_sha256": "52c301ceae7b3d1578456485c0c173088c05b6723ecf90bdd85451f5b4645dfe",
+      "parent_scene_sha256": "75957ee012ee2a5b3185eaaaf1f97861955caadda460cdaa37a830980195419f"
+    }
+  },
+  {
+    "scene": {
+      "incoming": {
+        "arrival_time_seconds": 4.935172226645159,
+        "direction": [
+          0.4365952311889048,
+          -0.7079842367953049,
+          0.5551062281694168
+        ],
+        "speed_m_s": 0.8714159261699226,
+        "radius_m": 0.5045366527020342,
+        "crossing_offset": [
+          0.17228461661174366,
+          0.27447485883132133,
+          -0.29468991492328156
+        ],
+        "amplitude_m": 30
+      },
+      "guards": [],
+      "seed": 0,
+      "wind_onset_seconds": 3.12,
+      "wind_velocity": [
+        1.9088171103910359,
+        0.7908640350726452,
+        -0.2946952887756201
+      ],
+      "duration_seconds": 12.0,
+      "navigation_start_seconds": 7.0,
+      "hover_position": [
+        0.0,
+        0.0,
+        1.4
+      ],
+      "waypoint_offsets": [
+        [
+          -1.5,
+          1.0,
+          0.3
+        ],
+        [
+          -2.0,
+          -1.0,
+          0.0
+        ]
+      ],
+      "arena_lower": [
+        -5.0,
+        -4.0,
+        0.15
+      ],
+      "arena_upper": [
+        5.0,
+        4.0,
+        4.0
+      ],
+      "dt": 0.02,
+      "control_interval_steps": 2,
+      "ego_radius": 0.106,
+      "obstacle_clearance": 0.15,
+      "reach_radius": 0.4,
+      "additional_incoming": [],
+      "initial_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "mapping": "uncompensated",
+    "family": "single",
+    "proposal": "executed_escape_local",
+    "parent": "smoke-u132-v1-0000",
+    "lineage": {
+      "trial_id": "smoke-u132-v1-0000",
+      "ledger": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/trials.jsonl",
+      "trace_path": "artifacts/da_plcbf/closed-loop-search-20260905/smoke-u132-v1/smoke-u132-v1-0000/traces.npz",
+      "trace_sha256": "52c301ceae7b3d1578456485c0c173088c05b6723ecf90bdd85451f5b4645dfe",
+      "parent_scene_sha256": "75957ee012ee2a5b3185eaaaf1f97861955caadda460cdaa37a830980195419f"
+    }
+  }
+]

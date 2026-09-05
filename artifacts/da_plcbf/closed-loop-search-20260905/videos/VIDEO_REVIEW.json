@@ -1,0 +1,284 @@
+{
+  "schema": "crazyflow.closed_loop_video_review.v1",
+  "scope": "Full decode and exact extracted video frames from final v2 cameras. Physical contact continuation is separately simulated only after archived physical collider intersection. Original adaptive poses and precontact fixed poses are unchanged.",
+  "videos": [
+    {
+      "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/comparison.mp4",
+      "sha256": "fca55c16cc3c8c675a7ee8eeed802d2b291a7f88879ee15e1de0872e6a2d208e",
+      "bytes": 4241761,
+      "frame_count": 281,
+      "fps": 20.0,
+      "size": [
+        1600,
+        900
+      ],
+      "duration_seconds": 14.05,
+      "ffmpeg_full_decode_exit": 0,
+      "ffmpeg_stderr": "",
+      "render_metadata_sha256": "1cb3bfb02f4d0e9cef36ddb9a9a5d2d9e9ffab4efd48e54769fe79bfb9ee7392",
+      "minimum_rendered_panel_mean_rgb": 87.55518041842971,
+      "representative_stills": [
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_000_00.00s.png",
+          "video_time_seconds": 0.0,
+          "source_control_time_seconds": 0.0,
+          "sha256": "e286265ac6ff7d411bb11780e6abc37fa6e1901db8c3a4a0774361bfa78072ed"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_040_02.00s.png",
+          "video_time_seconds": 2.0,
+          "source_control_time_seconds": 2.0,
+          "sha256": "05c5433243f76820ce8e29ad12e6895fbaefe1deb568806940f499aa0f4b52e2"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_044_02.20s.png",
+          "video_time_seconds": 2.2,
+          "source_control_time_seconds": 2.2,
+          "sha256": "88ec95c1a760430c555377ce8d0772ab537a23fa016fee7263dfad1b9794b6de"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_070_03.50s.png",
+          "video_time_seconds": 3.5,
+          "source_control_time_seconds": 3.48,
+          "sha256": "43ec8cf468937a151e9cbefde3c2f318f5b02ac1c985ce2de585be2a40bedddd"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_089_04.45s.png",
+          "video_time_seconds": 4.45,
+          "source_control_time_seconds": 4.44,
+          "sha256": "75cdeb0d51f0930be79ce28cb4fa377f6c79c80f151e2e44cbf6bc9866de26a6"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_092_04.60s.png",
+          "video_time_seconds": 4.6,
+          "source_control_time_seconds": 4.6000000000000005,
+          "sha256": "66f0850b1d94e483b2453748072a6bc39de22b2e6902228896b831a60e4a2df9"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_093_04.65s.png",
+          "video_time_seconds": 4.65,
+          "source_control_time_seconds": 4.64,
+          "sha256": "7d41e80529339dd733a6c44aeb227c5840f4e175c561baea3a48b26bca2f2d57"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_094_04.70s.png",
+          "video_time_seconds": 4.7,
+          "source_control_time_seconds": 4.72,
+          "sha256": "0c8f035aa5ed389809475a2cc2c9a8006c78d74bd3f0f8c269c39c679c57c72e"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_095_04.75s.png",
+          "video_time_seconds": 4.75,
+          "source_control_time_seconds": 4.76,
+          "sha256": "dba7f68b78224c1cae080582aafc889bda8a99d022a9fa4bd9c52c4c1a4fe24e"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_098_04.90s.png",
+          "video_time_seconds": 4.9,
+          "source_control_time_seconds": 4.92,
+          "sha256": "bb27c113a3488825a8cf21303151b6b150d7d146ca74bf80469c03eb02c90e26"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_102_05.10s.png",
+          "video_time_seconds": 5.1,
+          "source_control_time_seconds": 5.08,
+          "sha256": "30a3ba80471441e7c44b1ca8a49e73815a900442782f9857b868e38fdf44e761"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_108_05.40s.png",
+          "video_time_seconds": 5.4,
+          "source_control_time_seconds": 5.4,
+          "sha256": "d8ff2225f7bc9d5bea9b9ade04ee6db82cf627c6e994299199ec7772c087b6a2"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_110_05.50s.png",
+          "video_time_seconds": 5.5,
+          "source_control_time_seconds": 5.48,
+          "sha256": "e0c5716032cf680ac3607ae9dca9add19f7872e0f8aa7331c4d4d10cd46d95f2"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_123_06.15s.png",
+          "video_time_seconds": 6.15,
+          "source_control_time_seconds": 6.16,
+          "sha256": "fadc1c7a1c1a89a8d25969f671069375764bd822429bbead344b96f1b798ef96"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_170_08.50s.png",
+          "video_time_seconds": 8.5,
+          "source_control_time_seconds": 8.48,
+          "sha256": "dd83700ce2c6f8eff6b27fc716668da9a0cead0e7830b817cbd4648fa142bae4"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_214_10.70s.png",
+          "video_time_seconds": 10.7,
+          "source_control_time_seconds": 10.68,
+          "sha256": "b379f0a5ae459db69acc30ef71dbcf21e1286f90519277776b78790a0a04f26c"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_239_11.95s.png",
+          "video_time_seconds": 11.95,
+          "source_control_time_seconds": 11.96,
+          "sha256": "0947399b44615e5e560501ab2606f3d88a37fb41e7abc1510fd0d009401372a3"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/frame_280_14.00s.png",
+          "video_time_seconds": 14.0,
+          "source_control_time_seconds": 14.0,
+          "sha256": "88c25b8c637f9431187977a3bb809228ff4cef1827e5559cfa3d20ea3fc660ea"
+        }
+      ]
+    },
+    {
+      "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/comparison.mp4",
+      "sha256": "f98f021a74c5e66f30ed44f8e2f9ec03e0cfef254c0e3dc89f29d95b31f64dc7",
+      "bytes": 4670302,
+      "frame_count": 281,
+      "fps": 20.0,
+      "size": [
+        1600,
+        900
+      ],
+      "duration_seconds": 14.05,
+      "ffmpeg_full_decode_exit": 0,
+      "ffmpeg_stderr": "",
+      "render_metadata_sha256": "b13d7221f918516813789a4fec2ae83f259521e44f266738d7b59356ef1fdf58",
+      "minimum_rendered_panel_mean_rgb": 88.13052186177715,
+      "representative_stills": [
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_000_00.00s.png",
+          "video_time_seconds": 0.0,
+          "source_control_time_seconds": 0.0,
+          "sha256": "dee43b6ee7ff47b01966a56421acfb8a78374114137a0adcbd67de677a0b2724"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_040_02.00s.png",
+          "video_time_seconds": 2.0,
+          "source_control_time_seconds": 2.0,
+          "sha256": "d6193bf4b8f9de9483662dd5bf2341eeaac41b52e6b874eef44edef93480c906"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_044_02.20s.png",
+          "video_time_seconds": 2.2,
+          "source_control_time_seconds": 2.2,
+          "sha256": "23282110240e5f2e9bef8714860f2394dcfe850f0b1c7df2cb5f100ec8fef806"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_070_03.50s.png",
+          "video_time_seconds": 3.5,
+          "source_control_time_seconds": 3.48,
+          "sha256": "849cb157d7deae20385ab8154cc71282a8a1891e52f7fa1ab692ffa8b5f282aa"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_089_04.45s.png",
+          "video_time_seconds": 4.45,
+          "source_control_time_seconds": 4.44,
+          "sha256": "9189d55b588cc38a08894786d27dcfb965e8f44b192cbf77be2e909f3073b617"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_092_04.60s.png",
+          "video_time_seconds": 4.6,
+          "source_control_time_seconds": 4.6000000000000005,
+          "sha256": "4d73a436f7aedf0053e4d9190f0608c6766aff71f6eecb91c4c4db3e02155a4c"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_093_04.65s.png",
+          "video_time_seconds": 4.65,
+          "source_control_time_seconds": 4.64,
+          "sha256": "6fe4e5ce5dce7f885dd92ab58562f213a91f60a4022de935afa72f1635ede4f2"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_094_04.70s.png",
+          "video_time_seconds": 4.7,
+          "source_control_time_seconds": 4.72,
+          "sha256": "1fcb253ba840c8d99c53291fe6d59aa93e89387aba36e670782f8fbc1c405677"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_095_04.75s.png",
+          "video_time_seconds": 4.75,
+          "source_control_time_seconds": 4.76,
+          "sha256": "1051a129b160e9cd460ea1dbd66f7059404f24616686eaf49826a5c414458fc9"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_098_04.90s.png",
+          "video_time_seconds": 4.9,
+          "source_control_time_seconds": 4.92,
+          "sha256": "4d678d82cddbe152b57ea06f8dd49bd130ae519b1cc94b4bc60bdb91a082bc9d"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_102_05.10s.png",
+          "video_time_seconds": 5.1,
+          "source_control_time_seconds": 5.08,
+          "sha256": "20315f881304c2201556006b2153b355620f292509016b6f7e69bdf57c4e4349"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_108_05.40s.png",
+          "video_time_seconds": 5.4,
+          "source_control_time_seconds": 5.4,
+          "sha256": "4fe61de93c744840e9407ef939f5bea8e1002053bbb4c17b89a2d3bd169b66b6"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_110_05.50s.png",
+          "video_time_seconds": 5.5,
+          "source_control_time_seconds": 5.48,
+          "sha256": "ca339853c03bbaf82be69bb7ad6e990987c44f152f8971f0c90bdeafc2ce4bed"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_123_06.15s.png",
+          "video_time_seconds": 6.15,
+          "source_control_time_seconds": 6.16,
+          "sha256": "04a832564ec9564d1d3e16c53cd5d56055d65b7596ee7cd4b115d936a8355c90"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_170_08.50s.png",
+          "video_time_seconds": 8.5,
+          "source_control_time_seconds": 8.48,
+          "sha256": "20116ccf1660a822333b856766ac90e0ca455d50dde99397db754be585cbbc03"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_214_10.70s.png",
+          "video_time_seconds": 10.7,
+          "source_control_time_seconds": 10.68,
+          "sha256": "e7ceafae63aa53312a3a65e14c317fc55a54255024eb617d385f04fb80673be8"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_239_11.95s.png",
+          "video_time_seconds": 11.95,
+          "source_control_time_seconds": 11.96,
+          "sha256": "59b5e34e7abb416481053af8a14c6c70b47ba77838cb48491e5ed1446a7a0072"
+        },
+        {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-compensated-v2/frame_280_14.00s.png",
+          "video_time_seconds": 14.0,
+          "source_control_time_seconds": 14.0,
+          "sha256": "d0b04fff8740b6961c5e4a8d39de08ebf92a6523c6a1047a2094e13fa0efcf79"
+        }
+      ]
+    }
+  ],
+  "contact_trigger_seconds": 4.615010812454642,
+  "first_contact_events_seconds": {
+    "obstacle_contact": 4.616010812454642,
+    "ground_contact": 5.414010812454642
+  },
+  "contact_replay_source_sha256": "d2af4c73861c37967133a65753a50a6fc624fa2f5b90a3787aca1b75103b8c9d",
+  "historical_contact_wrapper": {
+    "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/contact-paced-v2/CONTACT_PRESENTATION_SOURCE_AT_EXECUTION.py",
+    "sha256": "ce274d7093ed6a485835648c6058b8cbf163f287c07ae8b37c2e46408f2b9b71",
+    "matches_original_execution_hash": true,
+    "reconstruction": "Reversed only subsequently logged compensated-case caption/validation and camera-default patches; exact whole-file hash verified before archiving.",
+    "prepare_contact_ast_identical_to_final_source": true
+  },
+  "visual_inspection": {
+    "status": "passed",
+    "scope": "Representative exact decoded frames visually inspected, with full numerical nonblack checks on every rendered scene. Inspection includes calm start, precontact camera previews, visible fixed contact, measured grounded fixed body, adaptive route completion, and both-safe compensated encounter/completion. No physical state or obstacle geometry was altered for camera selection.",
+    "fixed_impact_frame": "paced-collision-v2/frame_093_04.65s.png",
+    "fixed_ground_frame": "paced-collision-v2/frame_110_05.50s.png",
+    "calm_frame": "paced-collision-v2/frame_000_00.00s.png",
+    "uncompensated_completion_frame": "paced-collision-v2/frame_214_10.70s.png",
+    "compensated_encounter_frame": "paced-compensated-v2/frame_094_04.70s.png",
+    "compensated_completion_frame": "paced-compensated-v2/frame_239_11.95s.png",
+    "presentation_limit": "The true 10 cm vehicle remains visually small relative to the true 1.3 m diameter incoming obstacles; +225 degree camera exposes its contact side and ensuing ground fall without enlarging or replacing it. Colored lines remain archived predicted skills, not simultaneous physical flights."
+  },
+  "superseded": "v1 clips use an occluding -45-degree camera; camera-preview contains excluded presentation diagnostics. Final v2 uses +225 degrees, hover distance 4.3 m.",
+  "video_sampling": "20 fps video samples the nearest archived 25 Hz control-time pose; source clock is printed on each frame and can differ from encoded frame time by up to 20 ms. Contact poses use the nearest saved 1 ms MuJoCo state at each selected control-time pose."
+}

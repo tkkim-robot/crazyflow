@@ -122,6 +122,60 @@ def test_old_undersized_enclosure_requires_explicit_reproduction_opt_in() -> Non
     NavigationExperimentConfig(allow_legacy_point_enclosure=True).validate(world)
 
 
+def test_modeled_termination_retains_controls_after_an_enclosure_only_breach(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Scripted plant isolates the observer; both modes retain identical real controller calls."""
+    world = build_navigation_world(
+        NavigationWorldConfig(obstacle_count=0, waypoint_count=2, duration_seconds=0.12)
+    )
+    initial = np.array([0, 0, 1.4, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], dtype=float)
+    world = replace(
+        world,
+        config=replace(world.config, obstacle_count=1),
+        initial_state=initial,
+        waypoint_positions=np.array([[2.0, 0, 1.4], [-2.0, 0, 1.4]]),
+        obstacle_mean_centers=np.array([[0.5, 0, 1.4]]),
+        obstacle_amplitudes=np.zeros((1, 3)),
+        obstacle_angular_frequencies=np.zeros(1),
+        obstacle_phases=np.zeros(1),
+        obstacle_radii=np.array([0.1]),
+    )
+    checkpoint, cpu, _ = _tiny_checkpoint(world, tmp_path)
+
+    def scripted_plant(state: Any, action: Any, model: Any, dt: float) -> Any:
+        del action, model, dt
+        return state.at[0].add(0.15)
+
+    monkeypatch.setattr(experiment, "direct_wrench_symplectic_step", scripted_plant)
+    results = {}
+    for geometry in ("body_origin_enclosure", "modeled_collider"):
+        config = NavigationExperimentConfig(
+            enable_learning=False, learner_kind="original", termination_geometry=geometry
+        )
+        results[geometry] = run_navigation_experiment(
+            world, config, checkpoint, tmp_path / geometry, device=cpu
+        )
+    legacy, modeled = (results[key] for key in ("body_origin_enclosure", "modeled_collider"))
+    for method in ("fixed", "adaptive"):
+        before = legacy.summary["methods"][method]
+        after = modeled.summary["methods"][method]
+        assert before["active_controls"] == 1
+        assert before["termination_time_seconds"] == pytest.approx(0.04)
+        assert after["active_controls"] == 2
+        assert after["termination_time_seconds"] == pytest.approx(0.08)
+        assert after["collision_event"]["collision_kind"] == "modeled_collider_obstacle"
+        assert after["collision_observation"]["modeled_collider_collision"] is True
+        assert after["body_origin_enclosure_breach_recorded"]
+        assert after["waypoints_completed"] == 0
+        assert not after["publications_and_inputs"][0]["modeled_collider_clearance_bounds_m"][
+            "actual_xml_sphere_geometry"
+        ][0] < 0
+        np.testing.assert_array_equal(
+            legacy.methods[method].applied_wrench[0], modeled.methods[method].applied_wrench[0]
+        )
+
+
 def test_no_learning_pair_preserves_state_action_parameter_and_optimizer_identity(
     tmp_path: Path,
 ) -> None:
@@ -222,12 +276,27 @@ def test_budgeted_runner_publishes_finite_updates_only_at_completed_boundaries(
         elapsed[0] += seconds
 
     monkeypatch.setattr(experiment, "time", SimpleNamespace(perf_counter=now, sleep=sleep))
+    host_warmups = []
+    warm_host = experiment._warm_host_diagnostics
+
+    def audit_discarded_warmup(*args: Any) -> dict[str, Any]:
+        original_state = np.array(args[2])
+        original_snapshot = [np.array(leaf) for leaf in jax.tree.leaves(args[3])]
+        diagnostics = warm_host(*args)
+        np.testing.assert_array_equal(args[2], original_state)
+        for before, after in zip(original_snapshot, jax.tree.leaves(args[3]), strict=True):
+            np.testing.assert_array_equal(before, after)
+        host_warmups.append(diagnostics)
+        return diagnostics
+
+    monkeypatch.setattr(experiment, "_warm_host_diagnostics", audit_discarded_warmup)
     config = NavigationExperimentConfig(
         execution_mode="budgeted",
         learner_kind="original",
         learning_start_seconds=0.0,
         update_every_controls=1,
         probe_every_controls=1,
+        termination_geometry="modeled_collider",
     )
     with jax.default_device(cpu):
         result = run_navigation_experiment(
@@ -239,12 +308,33 @@ def test_budgeted_runner_publishes_finite_updates_only_at_completed_boundaries(
     summary = result.summary["methods"]["adaptive"]
     assert summary["finite_updates"] == 2
     assert int(final.state.library_version) == int(initial.library_version) + 2
+    assert len(host_warmups) == 2
+    assert all(row["discarded_record_count"] == 1 for row in host_warmups)
+    for method in ("fixed", "adaptive"):
+        np.testing.assert_array_equal(
+            result.methods[method].full_state[0], world.initial_state.astype(np.float32)
+        )
+        assert result.methods[method].library_version[0] == int(initial.library_version)
+        assert result.summary["methods"][method]["active_controls"] == 3
+        assert result.summary["methods"][method]["warmup"]["host_diagnostics"][
+            "discarded_record_count"
+        ] == 1
     boundaries = summary["publications_and_inputs"]
     assert [row["completed_version"] for row in boundaries] == [1, 2, None]
     for before, after in zip(boundaries[:-1], boundaries[1:], strict=True):
         assert before["completed_wall_seconds"] <= after["started_wall_seconds"]
         assert after["started_wall_seconds"] >= after["scheduled_wall_seconds"]
         assert before["completed_version"] == after["version_used"]
+    assert all(
+        row[key] >= 0
+        for row in boundaries
+        for key in (
+            "pre_controller_seconds",
+            "host_recording_seconds",
+            "plant_seconds",
+            "collider_audit_seconds",
+        )
+    )
     assert summary["service_exceeds_nominal_period_count"] == 0
     assert result.summary["schedule"]["mode"] == "exogenous_deterministic_opportunity_mask"
     assert result.summary["schedule"]["actual_execution_mode"] == "budgeted"

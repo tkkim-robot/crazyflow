@@ -1,0 +1,129 @@
+{
+  "methods": {
+    "fixed": {
+      "termination": "completed",
+      "collision_kind": null,
+      "termination_time_seconds": 11.28,
+      "censored": false,
+      "start_time_seconds": 0.0,
+      "collider_lower_m": 0.17068442797774186,
+      "collider_upper_m": 0.1706844447624699,
+      "collider_clearance_m": 0.17068443637010589,
+      "ground_lower_m": 1.1944974187300257,
+      "ground_upper_m": 1.1944974192072757,
+      "enclosure_clearance_m": 0.15598550876712647,
+      "shell_clearance_m": 0.005985508767126446,
+      "first_collider_intersection_seconds": null,
+      "controls": 282,
+      "qp_controls": 282,
+      "fallback_controls": 0,
+      "emergency_controls": 0,
+      "degraded_controls": 0,
+      "executed_learned_positive_dual_controls": 65,
+      "finite_updates": 55,
+      "initial_version": 660,
+      "final_version": 715,
+      "last_executed_version": 715,
+      "wind_onset_version": 715,
+      "encounter_completed": true,
+      "waypoints_completed": 2,
+      "waypoints_total": 2,
+      "freeze_at_seconds": 2.2,
+      "parameter_reversion_time_seconds": null,
+      "execution_mode": "deterministic_next_boundary",
+      "wall_seconds": 3.734176762867719,
+      "controller_median_seconds": 0.00879311643075198,
+      "learner_median_seconds": 0.01085380301810801,
+      "operational_minima": {
+        "arena_m": 1.0306735229492188,
+        "speed_m_s": 1.8926465511322021,
+        "angular_rate_rad_s": 11.334538459777832,
+        "tilt_rad": 0.5996835231781006,
+        "motor_N": 0.07100299000740051
+      },
+      "all_operational_nodes_pass": true
+    },
+    "adaptive": {
+      "termination": "completed",
+      "collision_kind": null,
+      "termination_time_seconds": 11.879999999999999,
+      "censored": false,
+      "start_time_seconds": 0.0,
+      "collider_lower_m": 0.17177606138253998,
+      "collider_upper_m": 0.1717760762126671,
+      "collider_clearance_m": 0.17177606879760354,
+      "ground_lower_m": 1.1125397730413693,
+      "ground_upper_m": 1.1125397733831923,
+      "enclosure_clearance_m": 0.15578331142785273,
+      "shell_clearance_m": 0.005783311427852711,
+      "first_collider_intersection_seconds": null,
+      "controls": 297,
+      "qp_controls": 294,
+      "fallback_controls": 3,
+      "emergency_controls": 0,
+      "degraded_controls": 1,
+      "executed_learned_positive_dual_controls": 58,
+      "finite_updates": 296,
+      "initial_version": 660,
+      "final_version": 956,
+      "last_executed_version": 956,
+      "wind_onset_version": 715,
+      "encounter_completed": true,
+      "waypoints_completed": 2,
+      "waypoints_total": 2,
+      "freeze_at_seconds": null,
+      "parameter_reversion_time_seconds": null,
+      "execution_mode": "deterministic_next_boundary",
+      "wall_seconds": 7.903401688905433,
+      "controller_median_seconds": 0.008806896163150668,
+      "learner_median_seconds": 0.010889860917814076,
+      "operational_minima": {
+        "arena_m": 0.9486019802093507,
+        "speed_m_s": 1.6840190887451172,
+        "angular_rate_rad_s": 11.373699188232422,
+        "tilt_rad": 0.6053301692008972,
+        "motor_N": 0.06740955263376236
+      },
+      "all_operational_nodes_pass": true
+    }
+  },
+  "outcome_class": "both_separated",
+  "fixed_physical_class": "separated",
+  "adaptive_physical_class": "separated",
+  "promotion_candidate": false,
+  "objective": 0.1706844447624699,
+  "clearance_advantage_m": 0.0010916166200700683,
+  "fixed_label": "same calm learner prefix, frozen at actual wind-onset snapshot",
+  "shared_calm_audit": {
+    "both_reached_wind_onset": true,
+    "shared_calm_execution_verified": true,
+    "fields": {
+      "time": {
+        "exact_match": true,
+        "maximum_absolute_difference": 0.0
+      },
+      "state": {
+        "exact_match": true,
+        "maximum_absolute_difference": 0.0
+      },
+      "action": {
+        "exact_match": true,
+        "maximum_absolute_difference": 0.0
+      },
+      "hard": {
+        "exact_match": true,
+        "maximum_absolute_difference": 0.0
+      },
+      "smooth": {
+        "exact_match": true,
+        "maximum_absolute_difference": 0.0
+      },
+      "version_used": {
+        "exact_match": true,
+        "maximum_absolute_difference": 0.0
+      }
+    },
+    "scope": "direct observable comparison through the wind-onset control; full parameter/Adam snapshot hashes are a separate provenance requirement"
+  },
+  "adaptive_trace": "../original/traces.npz:adaptive_*"
+}

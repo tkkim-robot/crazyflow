@@ -1,0 +1,26 @@
+{
+  "stopped_at_utc": "2026-09-05T23:26:35.865085+00:00",
+  "reason": "qualifying continuous collision/survival case confirmed on .02/.01/.005 plant grids, freeze-at-onset and early same-state interventions, local perturbations, and actual paced learning; no further discovery required for this mechanism case",
+  "terminated_paused_processes": [
+    {
+      "pid": 1653361,
+      "command": ".pixi/envs/gpu-tests/bin/python benchmark/da_plcbf_closed_loop_search.py --output artifacts/da_plcbf/closed-loop-search-20260905/single-initial-v1 --family single --count 128 --seed 37103"
+    },
+    {
+      "pid": 1657697,
+      "command": ".pixi/envs/gpu-tests/bin/python benchmark/da_plcbf_closed_loop_search.py --output artifacts/da_plcbf/closed-loop-search-20260905/guards-initial-v1 --family guards --count 128 --seed 38201"
+    },
+    {
+      "pid": 1680554,
+      "command": ".pixi/envs/gpu-tests/bin/python benchmark/da_plcbf_closed_loop_search.py --output artifacts/da_plcbf/closed-loop-search-20260905/staggered-initial-v1 --family staggered --count 128 --seed 39317"
+    }
+  ],
+  "completed_search_pairs": 71,
+  "counts": {
+    "single-initial-v1": 36,
+    "guards-initial-v1": 23,
+    "guards-escape-u132-v1": 8,
+    "staggered-initial-v1": 4
+  },
+  "not_claimed": "128 completed per family, a full moving-state campaign, or superiority over compensated fixed control"
+}

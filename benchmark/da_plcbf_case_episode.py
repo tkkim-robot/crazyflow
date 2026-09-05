@@ -26,6 +26,7 @@ from crazyflow.safety.da_plcbf.learner_checkpoint import load_learner_checkpoint
 from crazyflow.safety.da_plcbf.navigation_experiment import (
     NavigationExperimentConfig,
     run_navigation_experiment,
+    summarize_collision_observation,
 )
 
 
@@ -102,6 +103,7 @@ def run_case_episode(
     *,
     execution_mode: str = "deterministic",
     enable_learning: bool = True,
+    termination_geometry: str = "modeled_collider",
     device: jax.Device,
 ) -> dict[str, Any]:
     """Run the unchanged paired experiment from time zero and audit only executed dense states."""
@@ -114,6 +116,7 @@ def run_case_episode(
         enable_learning=enable_learning,
         navigation_start_seconds=encounter.navigation_start_seconds,
         probe_every_controls=5,
+        termination_geometry=termination_geometry,
         fallback_mapping="compensated"
         if bundle.config.model_compensation
         else "matched_uncompensated",
@@ -147,6 +150,8 @@ def run_case_episode(
             for key in (
                 "termination",
                 "termination_time_seconds",
+                "termination_geometry",
+                "collision_event",
                 "waypoints_completed",
                 "waypoints_total",
                 "degraded_controls",
@@ -163,23 +168,33 @@ def run_case_episode(
         }
         methods[name].update(
             {
-                "body_origin_envelope_breach_recorded": bool(method["physical_collision"]),
+                "body_origin_envelope_breach_recorded": method[
+                    "body_origin_enclosure_breach_recorded"
+                ],
                 "legacy_physical_collision_label_scope": (
                     "configured body-origin enclosure intersection"
+                    if termination_geometry == "body_origin_enclosure"
+                    else "definite modeled XML-sphere obstacle or floor intersection"
                 ),
                 "xml_sphere_geometric_intersection": audits[name]["actual_xml_sphere_geometry"],
-                "measured_mujoco_contact_event": None,
+                "xml_ground_geometric_intersection": audits[name]["actual_xml_ground_geometry"],
+                **summarize_collision_observation(
+                    audits[name],
+                    termination_geometry=termination_geometry,
+                    termination=method["termination"],
+                ),
                 "availability_at_arrival": availability[name],
             }
         )
     report = {
-        "schema": "da_plcbf_continuous_persistent_wind_case_v1",
+        "schema": "da_plcbf_continuous_persistent_wind_case_v2",
         "scope": (
             "continuous paired episode from shared calm hover; obstacles present from time zero"
         ),
         "encounter": asdict(encounter),
         "execution_mode": execution_mode,
         "enable_learning": enable_learning,
+        "termination_geometry": termination_geometry,
         "checkpoint_npz_sha256": bundle.sha256,
         "controller_reserve_seconds": config.controller_reserve_seconds,
         "update_safety_factor": config.update_safety_factor,
@@ -195,9 +210,12 @@ def run_case_episode(
             )
         ),
         "collision_scope": (
-            "the flight runner terminates on conservative body-envelope intersection; "
-            "the independent "
-            "rotated XML-sphere audit is geometric and does not establish measured MuJoCo contact"
+            "the flight runner retains commands after enclosure/shell breaches and terminates "
+            "at the next control boundary after a definite XML-sphere obstacle/floor intersection; "
+            "zero-straddling bounds remain unresolved; geometry is not measured MuJoCo contact"
+            if termination_geometry == "modeled_collider"
+            else "legacy enclosure termination censors later actual-collider outcomes; "
+            "the retained-state XML-sphere audit is geometric and cannot infer later contact"
         ),
         "source_sha256": {
             str(path): hashlib.sha256(path.read_bytes()).hexdigest()
@@ -231,6 +249,11 @@ def main() -> None:
     )
     parser.add_argument("--device", choices=("cpu", "gpu"), default="gpu")
     parser.add_argument("--disable-learning", action="store_true")
+    parser.add_argument(
+        "--termination-geometry",
+        choices=("modeled_collider", "body_origin_enclosure"),
+        default="modeled_collider",
+    )
     parser.add_argument("--unchanged-dynamics", action="store_true")
     parser.add_argument("--render", action="store_true")
     parser.add_argument("--fps", type=float, default=20.0)
@@ -247,6 +270,7 @@ def main() -> None:
         args.output,
         execution_mode=args.execution_mode,
         enable_learning=not args.disable_learning,
+        termination_geometry=args.termination_geometry,
         device=jax.devices(args.device)[0],
     )
     print(

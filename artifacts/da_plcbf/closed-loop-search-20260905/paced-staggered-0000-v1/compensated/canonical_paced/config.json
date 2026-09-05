@@ -1,0 +1,18 @@
+{
+  "execution_mode": "budgeted",
+  "model_information": "oracle",
+  "estimator_response_rate": 2.4,
+  "learning_start_seconds": 0.0,
+  "update_every_controls": 1,
+  "enable_learning": true,
+  "learner_kind": "reference",
+  "nominal_acceleration_limit": 1.2,
+  "probe_every_controls": 5,
+  "save_periodic_snapshots_controls": 100,
+  "controller_reserve_seconds": 0.003,
+  "update_safety_factor": 1.25,
+  "navigation_start_seconds": 6.16,
+  "fallback_mapping": "compensated",
+  "allow_legacy_point_enclosure": false,
+  "termination_geometry": "modeled_collider"
+}

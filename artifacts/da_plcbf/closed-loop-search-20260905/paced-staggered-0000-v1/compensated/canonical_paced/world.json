@@ -1,0 +1,202 @@
+{
+  "schema": "exogenous_navigation_world_v1",
+  "config": {
+    "seed": 39317,
+    "obstacle_count": 2,
+    "dt": 0.02,
+    "control_interval_steps": 2,
+    "duration_seconds": 14.0,
+    "waypoint_count": 2,
+    "reach_radius": 0.4,
+    "moving_obstacles": true,
+    "wind_events": [
+      {
+        "time_seconds": 2.2,
+        "velocity": [
+          -1.657435409174936,
+          1.1251500323514874,
+          0.49833883831253506
+        ]
+      }
+    ],
+    "payload_events": [],
+    "ego_radius": 0.106,
+    "obstacle_clearance": 0.15,
+    "arena_lower": [
+      -5.0,
+      -4.0,
+      0.15
+    ],
+    "arena_upper": [
+      5.0,
+      4.0,
+      4.0
+    ],
+    "speed_max": 3.5,
+    "angular_rate_max": 12.0,
+    "tilt_max_radians": 0.9
+  },
+  "trajectory": "center(t) = mean + amplitude * sin(omega*t + phase)",
+  "event_semantics": "right-continuous prescribed changes at command boundaries",
+  "obstacle_masks": "all obstacles active at all prediction nodes; no teleports",
+  "ego_enclosure": {
+    "radius_m": 0.106,
+    "cf21b_asset_collider_radius_m": 0.086,
+    "cf21b_asset_collider_body_offset_m": [
+      0.0,
+      0.0,
+      0.02
+    ],
+    "encloses_asset_collider": true,
+    "scope": "body-origin spherical safety envelope; envelope intersection is distinct from a measured MuJoCo collider contact"
+  },
+  "initial_state": [
+    0.0,
+    0.0,
+    1.4,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "waypoint_positions": [
+    [
+      -1.5,
+      1.0,
+      1.7
+    ],
+    [
+      -2.0,
+      -1.0,
+      1.4
+    ]
+  ],
+  "obstacle_mean_centers": [
+    [
+      -0.24969562981984494,
+      -0.23621646019211112,
+      1.0992422660041512
+    ],
+    [
+      -0.20989746740265208,
+      0.5041733704135114,
+      1.8408201219496791
+    ]
+  ],
+  "obstacle_amplitudes": [
+    [
+      25.507341622231852,
+      6.628752877113381,
+      14.333009406991945
+    ],
+    [
+      0.8647893650264917,
+      -18.18054304361772,
+      23.847850930289304
+    ]
+  ],
+  "obstacle_angular_frequencies": [
+    0.046159988671107044,
+    0.11282917761479311
+  ],
+  "obstacle_phases": [
+    -0.20822347384068793,
+    -0.5706412442654618
+  ],
+  "obstacle_radii": [
+    0.6798830392950748,
+    0.6472216816936824
+  ],
+  "case_study_config": {
+    "incoming": {
+      "arrival_time_seconds": 4.5109082526924755,
+      "direction": [
+        0.8502447207410617,
+        0.22095842923711267,
+        0.47776698023306485
+      ],
+      "speed_m_s": 1.3847996601332113,
+      "radius_m": 0.6798830392950748,
+      "crossing_offset": [
+        -0.24969562981984494,
+        -0.23621646019211112,
+        -0.3007577339958487
+      ],
+      "amplitude_m": 30
+    },
+    "guards": [],
+    "seed": 39317,
+    "wind_onset_seconds": 2.2,
+    "wind_velocity": [
+      -1.657435409174936,
+      1.1251500323514874,
+      0.49833883831253506
+    ],
+    "duration_seconds": 14.0,
+    "navigation_start_seconds": 6.16,
+    "hover_position": [
+      0.0,
+      0.0,
+      1.4
+    ],
+    "waypoint_offsets": [
+      [
+        -1.5,
+        1.0,
+        0.3
+      ],
+      [
+        -2.0,
+        -1.0,
+        0.0
+      ]
+    ],
+    "arena_lower": [
+      -5.0,
+      -4.0,
+      0.15
+    ],
+    "arena_upper": [
+      5.0,
+      4.0,
+      4.0
+    ],
+    "dt": 0.02,
+    "control_interval_steps": 2,
+    "ego_radius": 0.106,
+    "obstacle_clearance": 0.15,
+    "reach_radius": 0.4,
+    "additional_incoming": [
+      {
+        "arrival_time_seconds": 5.057568054015885,
+        "direction": [
+          0.028826312167549724,
+          -0.606018101453924,
+          0.7949283643429769
+        ],
+        "speed_m_s": 3.384875328443793,
+        "radius_m": 0.6472216816936824,
+        "crossing_offset": [
+          -0.20989746740265208,
+          0.5041733704135114,
+          0.44082012194967934
+        ],
+        "amplitude_m": 30
+      }
+    ],
+    "initial_velocity": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "initial_state_time_seconds": 0.0,
+  "case_study_time_convention": "all obstacle and dynamics queries use absolute time",
+  "incoming_motion_scope": "globally bounded analytic passage; obstacle may originate outside ego arena"
+}

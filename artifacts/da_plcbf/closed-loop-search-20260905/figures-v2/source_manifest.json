@@ -1,0 +1,148 @@
+{
+  "scope": "Plot source-bound full-episode clearances, causal timing, and matched buffer outcomes.\n\nClearance lines evaluate the oriented XML sphere at recorded plant nodes, joined for display.\nSwept first-contact times and minimum-clearance bounds come from the independent saved audits.\nNo flight is extended after its recorded stop, and penetration depth is not crash severity.\n",
+  "inputs_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/uncompensated/original/result.json": "43c0a4948a9b8b26c76cbe19a2e1c80616e2388294fddcafb369ee1363855986",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/compensated/original/result.json": "91bd96609a27fbe2f82d36266bbc365cf91957396558cb41bb407f259d8cb662",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/uncompensated/original/traces.npz": "34efeff8c0013046c4c7c5ae05bc35e937f90aa77cc15cb87a10eca8427e560e",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/compensated/original/traces.npz": "9b571e23b5a95fab5619eb3131bc86229d22e75799f6363720cc7459d15ec1ce",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/uncompensated/freeze_at_wind_onset/result.json": "d9b2371e332bc1224ebc65dadb1245e199a17d2cfd01549e29819bc193bd5493",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/uncompensated/freeze_at_wind_onset/traces.npz": "0bbef757accbf294042f128d63256ed2f5e136fce40f44a585ee9c93ba886f83",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/result.json": "27ccee7791b6d6f8c99fd480322ee8e28640f1d10a9d8b9b78540ea26d1d8eb2",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/held_learned_traces.npz": "8d078795bff26432e26a649d7692ea6bb5fc8e2c6a0912bc0502b5899a21e4ff",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/early_parameter_reversion/reverted_initial_traces.npz": "c04523fe99f38d24e0acf99918cab43b9ac5b23778f847707de6d8e7adb38004",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/clearance_0.05/result.json": "6581d0e8b6abd76600e421dbd089d2096ff1831d19dd5a05577b4d00df6dfc7d",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/clearance_0.02/result.json": "e7f3fcadba6ff1bf4dc5124f6157055694391e94c6ac1a02248addf0419d0647",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/uncompensated/clearance_0.00/result.json": "47231808c39245843dfd271c50cd9637d0fb16e4c66dea8901a5d436b0d40e17",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/clearance_0.05/result.json": "103d95649a4b2a25af6d4addfd81be811ccbb82d9eebe0bf70c468a8e2d96655",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/clearance_0.02/result.json": "6c9a92fa9df4ac77bb2fcf7d731ec754a9e0fa878a37f0c4fabf77ae57a1d987",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/targeted-confirmation-v1/compensated/clearance_0.00/result.json": "25d1f352a5c955434db0a81c4497a7bceb8a74f2fcf934be2ea4aad87bd548db"
+  },
+  "figure_source_sha256": "40d1ec22423358c0ba6d5f19b860e022c1aa9dcb8a8d9476546fd83acd12a8e1",
+  "buffer_table": {
+    "uncompensated": {
+      "0.15": {
+        "fixed": {
+          "collision": true,
+          "collider_lower_m": -0.017174816895818807,
+          "first_collider_intersection_seconds": 4.615010812454642,
+          "termination": "physical_collision"
+        },
+        "adaptive": {
+          "collision": false,
+          "collider_lower_m": 0.172447284617342,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        }
+      },
+      "0.05": {
+        "fixed": {
+          "collision": true,
+          "collider_lower_m": -0.03921271528220659,
+          "first_collider_intersection_seconds": 4.481445435517114,
+          "termination": "physical_collision"
+        },
+        "adaptive": {
+          "collision": false,
+          "collider_lower_m": 0.07338472183532661,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        }
+      },
+      "0.02": {
+        "fixed": {
+          "collision": true,
+          "collider_lower_m": -0.04313803285448382,
+          "first_collider_intersection_seconds": 4.931364130335308,
+          "termination": "physical_collision"
+        },
+        "adaptive": {
+          "collision": false,
+          "collider_lower_m": 0.04473171313276621,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        }
+      },
+      "0.0": {
+        "fixed": {
+          "collision": true,
+          "collider_lower_m": -0.05746093436700165,
+          "first_collider_intersection_seconds": 4.893220756770115,
+          "termination": "physical_collision"
+        },
+        "adaptive": {
+          "collision": false,
+          "collider_lower_m": 0.026830026127791635,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        }
+      }
+    },
+    "compensated": {
+      "0.15": {
+        "fixed": {
+          "collision": false,
+          "collider_lower_m": 0.1706942386396516,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        },
+        "adaptive": {
+          "collision": false,
+          "collider_lower_m": 0.17177606138253998,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        }
+      },
+      "0.05": {
+        "fixed": {
+          "collision": false,
+          "collider_lower_m": 0.07274169028417088,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        },
+        "adaptive": {
+          "collision": false,
+          "collider_lower_m": 0.07248133384222617,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        }
+      },
+      "0.02": {
+        "fixed": {
+          "collision": false,
+          "collider_lower_m": 0.04230911196393929,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        },
+        "adaptive": {
+          "collision": false,
+          "collider_lower_m": 0.04399554122633354,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        }
+      },
+      "0.0": {
+        "fixed": {
+          "collision": false,
+          "collider_lower_m": 0.022845932557167308,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        },
+        "adaptive": {
+          "collision": false,
+          "collider_lower_m": 0.024724073342003185,
+          "first_collider_intersection_seconds": null,
+          "termination": "completed"
+        }
+      }
+    }
+  },
+  "onset_snapshot_version": 715,
+  "intervention_snapshot_version": 735,
+  "outputs_sha256": {
+    "closed_loop_and_causal_results.pdf": "54cc82799a9ff0dd223752473c457ee4e5fe88506278e7d7946c682413e58427",
+    "closed_loop_and_causal_results.png": "befbc4435b3a9d228eaf1c5fbbdfec4b27dfaaa506b781d0ef54d52ea6107723",
+    "figure_data.npz": "81f22b00e0e262c5c4075335f71649f7fe04cf29114fd944b0660e46ca58f085",
+    "matched_buffer_outcomes.pdf": "6ac60458c080b7ff8ebb603ea58ac23c26a5b8dcdb131d9dc4240c8d0fba1dde",
+    "matched_buffer_outcomes.png": "47b0f0145d2e2e93325029b08bbdc46c91f5e47e3a1376611571650feb07d761"
+  }
+}
