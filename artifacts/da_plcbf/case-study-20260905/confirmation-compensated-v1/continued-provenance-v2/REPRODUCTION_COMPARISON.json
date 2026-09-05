@@ -1,0 +1,69 @@
+{
+  "original_observable_history": "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1",
+  "numeric_history_comparison": {
+    "dense_states": {
+      "same_shape": true,
+      "array_equal": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "dense_times": {
+      "same_shape": true,
+      "array_equal": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "time": {
+      "same_shape": true,
+      "array_equal": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "state": {
+      "same_shape": true,
+      "array_equal": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "action": {
+      "same_shape": true,
+      "array_equal": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "hard": {
+      "same_shape": true,
+      "array_equal": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "smooth": {
+      "same_shape": true,
+      "array_equal": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "dual": {
+      "same_shape": true,
+      "array_equal": true,
+      "maximum_absolute_difference": 0.0
+    }
+  },
+  "discrete_history_equal": {
+    "executed": true,
+    "version": true,
+    "snapshot_available_time": true,
+    "selected": true,
+    "mode": true,
+    "qp": true,
+    "degraded": true,
+    "eligible": true,
+    "finite_update": true
+  },
+  "all_observed_history_equal": true,
+  "initial_checkpoint_persistent_state_exact": true,
+  "final_checkpoint_matches_final_published_state": true,
+  "each_completed_state_hash_matches_next_publication": true,
+  "each_completed_update_precedes_next_control_wall_clock": true,
+  "update_count": 75,
+  "finite_update_count": 75,
+  "initial_library_version": 760,
+  "final_library_version": 835,
+  "last_executed_control_version": 834,
+  "initial_checkpoint_npz_sha256": "8e3b5681aec5f5c660ef4c74d9d0ce7572a57ca3bf1e1fcc973f9c5cecdf8096",
+  "final_checkpoint_npz_sha256": "c25227781c0ef2b685c7421f25ea19cb6a93b65b4c5e42c677169ff6044f0f63",
+  "limitation": "Original run had no per-update parameter hashes; observable equality is checked, not nonexistent original hashes."
+}

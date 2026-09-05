@@ -1,0 +1,28 @@
+{
+  "base_commit": "c653e0b522654afd547a43bc93d7f74b545c6a08",
+  "scope": "changed/new source and review files over base commit; collected before implementation commit",
+  "archive_sha256": "3914c3d70d63403f6f13456a98d1dcbb864bd63485bb37344fdd68154836b436",
+  "files": {
+    "DA_PLCBF_SAFETY_CASE_REVIEW.md": "1bc05e2563e9f98178a9c01af1ad6f4e25767c963d300cc5357c8882c725aa95",
+    "HANDOFF_DA_PLCBF.md": "1a84a1c7fe3a49fdbafb5cb523447daf97a2d159a3293ad7e028869585c852fd",
+    "benchmark/da_plcbf_case_attribution.py": "384f7dc8dae6843e70101f0cea01028c816e7b49ff1f7074ad83775612fa38e7",
+    "benchmark/da_plcbf_case_confirmation.py": "4fb64d6bc78a1e8999e698910b0c37fd870760ab5c798d39df1f9328bb990f76",
+    "benchmark/da_plcbf_case_discovery.py": "bc3a98ddf0453e2e21985c8be29d0878a57b53f52bb21e4249bd35ecf7279c2f",
+    "benchmark/da_plcbf_case_episode.py": "0a147d9e0ffef1d68635a942bee3f6bc7b80d4e131e572129fa1be9bc8608f80",
+    "benchmark/da_plcbf_case_figures.py": "e60482bfc59ba4174eb2d32a65c4f9bddae7743852f8707f96c2237db8b26a18",
+    "benchmark/da_plcbf_case_mechanism.py": "a02a6882693cf084b5c18efd8744679fb86223a0ab7bc1a4d81c65f938821c7c",
+    "benchmark/da_plcbf_case_publication.py": "ba93ddf23719372aae98b351431848c8395cbb535c73bc210256b297178da4cf",
+    "benchmark/da_plcbf_case_runtime.py": "2e8c21910b593178d1b8a88e2c788cbd0e6eaf45c5847ecaefefcce56afd47b3",
+    "crazyflow/safety/da_plcbf/case_study_world.py": "1385337cbb2cf72ac32df8978c5d881cfe824147c27875482e3baec17ede37e6",
+    "crazyflow/safety/da_plcbf/navigation_experiment.py": "3f1a67e01d2a58916b4467c50558bcd504c63ee91a5e0bc812898a9bd84a2abd",
+    "crazyflow/safety/da_plcbf/policy_qp_audit.py": "64c67b4bef614d7892275af65c6fde221a7ddde3a08859bb433e2eda4b270354",
+    "crazyflow/safety/da_plcbf/quad_rollouts.py": "2ba3b7cdfec8497ad2ea5e80b11078e54acffaa0c8ebc3eef46c3695bf3ac43e",
+    "tests/unit/safety/da_plcbf/test_case_discovery.py": "c69efa43b212fadd2d4e4d287ab261a5f14f49eef9593d1c5d7baff0b1cdc571",
+    "tests/unit/safety/da_plcbf/test_case_episode.py": "fde649626b234fc2bcd0f63ebd06ae8898be8611aa16984c775779dda07adecd",
+    "tests/unit/safety/da_plcbf/test_case_provenance.py": "2dd8e84bec2c1e45a04ee7ac1cce58e1d2ead8149ff9deba806872cc614f8533",
+    "tests/unit/safety/da_plcbf/test_case_runtime.py": "75562385ad29361eb9929fb592f17409494a729bbec44a5e8ad5e8e0b6115e11",
+    "tests/unit/safety/da_plcbf/test_case_study_world.py": "0510e2b89fc4ef6ea8c7feffcf2d14fc87a21072bd48d062b0bba8c17e913639",
+    "tests/unit/safety/da_plcbf/test_held_rollout_compilation.py": "0a7de5d2881d0deba2ad6202ddbc7d5ff35bf83f0540b79e147a197361a9a9af",
+    "tests/unit/safety/da_plcbf/test_policy_qp_audit.py": "6593c793bfe944979fdfa42581f74758e9f71fc64f662dc49b8e450008902861"
+  }
+}

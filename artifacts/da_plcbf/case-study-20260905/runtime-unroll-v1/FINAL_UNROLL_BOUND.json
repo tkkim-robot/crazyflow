@@ -1,0 +1,15 @@
+{
+  "final_expression": "unroll=min(command_hold_steps, 2)",
+  "profile_expression": "unroll=command_hold_steps",
+  "profile_command_hold_steps": 2,
+  "profile_and_final_lowered_unroll_value": 2,
+  "reason": "Keep compile size bounded for generic longer holds. Production two-step hold is unchanged.",
+  "final_source_sha256": "2ba3b7cdfec8497ad2ea5e80b11078e54acffaa0c8ebc3eef46c3695bf3ac43e",
+  "cpu_literal_execution_and_gradient_hold_steps": [
+    1,
+    2,
+    3,
+    5
+  ],
+  "cpu_tests_passed": 4
+}

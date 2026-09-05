@@ -1,0 +1,69 @@
+{
+  "selected_development_case": "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-000-t0100-132",
+  "selection": {
+    "case": "uncompensated",
+    "anchor": "t0100",
+    "index": 132,
+    "time_seconds": 4.0,
+    "arrival_delay": 0.9031850427854806,
+    "direction": [
+      0.3313175909113566,
+      -0.7768071771049359,
+      0.5355364259795553
+    ],
+    "speed": 1.0971190985292196,
+    "radius": 0.4987126130819336,
+    "crossing_offset": [
+      0.39436678439378736,
+      0.4534020610153674,
+      -0.03573476225137706
+    ],
+    "initial_shell_clearance": 0.5634740297651047,
+    "fixed_H": -0.23473906345038875,
+    "adaptive_H": 0.03500000000000003,
+    "fixed_asset_H": -0.005194180079932498,
+    "emergency_asset_H": -0.06578375093133454,
+    "fixed_best": 5,
+    "adaptive_best": 5,
+    "nominal_blocked": true,
+    "emergency_blocked": true,
+    "hover_blocked": true,
+    "stage_b_accepted": true,
+    "rejection": null
+  },
+  "seed": 27581,
+  "neighbor_count": 12,
+  "geometry_offset_uniform_m": [
+    -0.015,
+    0.015
+  ],
+  "arrival_shift_uniform_s": [
+    -0.04,
+    0.04
+  ],
+  "radius_shift_uniform_m": [
+    -0.005,
+    0.005
+  ],
+  "initial_position_uniform_m": [
+    -0.005,
+    0.005
+  ],
+  "initial_velocity_uniform_mps": [
+    -0.01,
+    0.01
+  ],
+  "wind_shift_uniform_mps": [
+    -0.05,
+    0.05
+  ],
+  "wind_perturbation_scope": "new common point-model change at branch; saved prefix unchanged",
+  "critical_skill_zero_based": 4,
+  "snapshot": "artifacts/da_plcbf/case-study-20260905/atlas-v1/uncompensated/t0100",
+  "snapshot_sha256": "914f538f820cb587a1ed04e66ba50e0a7fb25420076f8f224d1c712c127d1dc3",
+  "frozen_checkpoint_sha256": "8f70370b8c9b3603838e71f32fbc9fec2d0e57436068843395a882b68f583dc6",
+  "snapshot_available_at": 4.0,
+  "controller": "production full filter, unchanged emergency, same .04s hold",
+  "continue_after_envelope_breach": true,
+  "stop_event": "oriented asset geometry intersection; not an artificial motor cut"
+}

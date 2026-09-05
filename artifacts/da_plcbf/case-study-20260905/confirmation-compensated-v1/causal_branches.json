@@ -1,0 +1,410 @@
+{
+  "frozen": {
+    "termination": "window_end",
+    "executed_controls": 75,
+    "degraded_controls": 24,
+    "qp_controls": 51,
+    "fallback_controls": 22,
+    "emergency_controls": 2,
+    "learned_constraint_positive_dual_controls": 0,
+    "first_no_certificate": 4.0,
+    "first_qp_rejection": 4.0,
+    "first_degraded": 4.0,
+    "finite_updates": 0,
+    "first_version": 660,
+    "last_used_version": 660,
+    "waypoints_completed": 0,
+    "geometry_audit": {
+      "schema": "recorded_cf21b_collision_geometry_audit_v1",
+      "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+      "source_node_count": 151,
+      "interpolated_node_count": 3086,
+      "time_support_seconds": [
+        4.0,
+        7.0
+      ],
+      "maximum_substep_seconds": 0.001000000000000334,
+      "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+      "xml_collider_radius_m": 0.086,
+      "xml_collider_body_offset_m": [
+        0.0,
+        0.0,
+        0.02
+      ],
+      "safety_shell": {
+        "minimum_clearance_m": -0.0009028759424458688,
+        "minimum_clearance_lower_bound_m": -0.0009028988659879082,
+        "minimum_clearance_upper_bound_m": -0.0009028530189038294,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": 4.896463604749,
+        "first_intersection_obstacle": 0,
+        "intersection_classification": "intersecting_under_recorded_state_interpolation"
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": 0.14909712405755415,
+        "minimum_clearance_lower_bound_m": 0.14909710113401212,
+        "minimum_clearance_upper_bound_m": 0.1490971469810962,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": 0.161255909529482,
+        "minimum_clearance_lower_bound_m": 0.16125588595456028,
+        "minimum_clearance_upper_bound_m": 0.1612559331044037,
+        "maximum_chord_curvature_error_bound_m": 2.6851865776102393e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_ground_geometry": {
+        "ground_height_m": 0.0,
+        "minimum_clearance_m": 1.1032709070805746,
+        "minimum_clearance_lower_bound_m": 1.1032709069383995,
+        "minimum_clearance_upper_bound_m": 1.1032709072193405,
+        "first_chord_intersection_time_seconds": null
+      }
+    }
+  },
+  "adapted_held": {
+    "termination": "window_end",
+    "executed_controls": 75,
+    "degraded_controls": 0,
+    "qp_controls": 75,
+    "fallback_controls": 0,
+    "emergency_controls": 0,
+    "learned_constraint_positive_dual_controls": 21,
+    "first_no_certificate": null,
+    "first_qp_rejection": null,
+    "first_degraded": null,
+    "finite_updates": 0,
+    "first_version": 760,
+    "last_used_version": 760,
+    "waypoints_completed": 0,
+    "geometry_audit": {
+      "schema": "recorded_cf21b_collision_geometry_audit_v1",
+      "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+      "source_node_count": 151,
+      "interpolated_node_count": 3086,
+      "time_support_seconds": [
+        4.0,
+        7.0
+      ],
+      "maximum_substep_seconds": 0.001000000000000334,
+      "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+      "xml_collider_radius_m": 0.086,
+      "xml_collider_body_offset_m": [
+        0.0,
+        0.0,
+        0.02
+      ],
+      "safety_shell": {
+        "minimum_clearance_m": 0.007323610177608075,
+        "minimum_clearance_lower_bound_m": 0.007323587254066036,
+        "minimum_clearance_upper_bound_m": 0.007323633101150115,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": 0.1573236101776081,
+        "minimum_clearance_lower_bound_m": 0.15732358725406606,
+        "minimum_clearance_upper_bound_m": 0.15732363310115013,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": 0.17423314709759385,
+        "minimum_clearance_lower_bound_m": 0.1742331240481899,
+        "minimum_clearance_upper_bound_m": 0.1742331701469978,
+        "maximum_chord_curvature_error_bound_m": 2.56884851038633e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_ground_geometry": {
+        "ground_height_m": 0.0,
+        "minimum_clearance_m": 1.2670639672609734,
+        "minimum_clearance_lower_bound_m": 1.2670639672133888,
+        "minimum_clearance_upper_bound_m": 1.2670639673036854,
+        "first_chord_intersection_time_seconds": null
+      }
+    }
+  },
+  "continued_learning": {
+    "termination": "window_end",
+    "executed_controls": 75,
+    "degraded_controls": 0,
+    "qp_controls": 75,
+    "fallback_controls": 0,
+    "emergency_controls": 0,
+    "learned_constraint_positive_dual_controls": 22,
+    "first_no_certificate": null,
+    "first_qp_rejection": null,
+    "first_degraded": null,
+    "finite_updates": 75,
+    "first_version": 760,
+    "last_used_version": 834,
+    "waypoints_completed": 0,
+    "geometry_audit": {
+      "schema": "recorded_cf21b_collision_geometry_audit_v1",
+      "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+      "source_node_count": 151,
+      "interpolated_node_count": 3086,
+      "time_support_seconds": [
+        4.0,
+        7.0
+      ],
+      "maximum_substep_seconds": 0.001000000000000334,
+      "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+      "xml_collider_radius_m": 0.086,
+      "xml_collider_body_offset_m": [
+        0.0,
+        0.0,
+        0.02
+      ],
+      "safety_shell": {
+        "minimum_clearance_m": 0.0074066221272515165,
+        "minimum_clearance_lower_bound_m": 0.007406599203709477,
+        "minimum_clearance_upper_bound_m": 0.007406645050793556,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": 0.15740662212725154,
+        "minimum_clearance_lower_bound_m": 0.1574065992037095,
+        "minimum_clearance_upper_bound_m": 0.15740664505079358,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": 0.1747120168866516,
+        "minimum_clearance_lower_bound_m": 0.17471199386926065,
+        "minimum_clearance_upper_bound_m": 0.17471203990404258,
+        "maximum_chord_curvature_error_bound_m": 2.566140455168832e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_ground_geometry": {
+        "ground_height_m": 0.0,
+        "minimum_clearance_m": 1.2658448439483403,
+        "minimum_clearance_lower_bound_m": 1.2658448438914522,
+        "minimum_clearance_upper_bound_m": 1.2658448439901047,
+        "first_chord_intersection_time_seconds": null
+      }
+    }
+  },
+  "critical_skill_original": {
+    "termination": "window_end",
+    "executed_controls": 75,
+    "degraded_controls": 3,
+    "qp_controls": 69,
+    "fallback_controls": 6,
+    "emergency_controls": 0,
+    "learned_constraint_positive_dual_controls": 15,
+    "first_no_certificate": 4.0,
+    "first_qp_rejection": 4.0,
+    "first_degraded": 4.0,
+    "finite_updates": 0,
+    "first_version": 760,
+    "last_used_version": 760,
+    "waypoints_completed": 0,
+    "geometry_audit": {
+      "schema": "recorded_cf21b_collision_geometry_audit_v1",
+      "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+      "source_node_count": 151,
+      "interpolated_node_count": 3086,
+      "time_support_seconds": [
+        4.0,
+        7.0
+      ],
+      "maximum_substep_seconds": 0.001000000000000334,
+      "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+      "xml_collider_radius_m": 0.086,
+      "xml_collider_body_offset_m": [
+        0.0,
+        0.0,
+        0.02
+      ],
+      "safety_shell": {
+        "minimum_clearance_m": 0.007679451826356987,
+        "minimum_clearance_lower_bound_m": 0.007679428902814947,
+        "minimum_clearance_upper_bound_m": 0.007679474749899026,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": 0.157679451826357,
+        "minimum_clearance_lower_bound_m": 0.15767942890281497,
+        "minimum_clearance_upper_bound_m": 0.15767947474989905,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": 0.1774307615380506,
+        "minimum_clearance_lower_bound_m": 0.1774307358388436,
+        "minimum_clearance_upper_bound_m": 0.17743078723725758,
+        "maximum_chord_curvature_error_bound_m": 2.5749223889970466e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_ground_geometry": {
+        "ground_height_m": 0.0,
+        "minimum_clearance_m": 1.3260142555594132,
+        "minimum_clearance_lower_bound_m": 1.3260142555058794,
+        "minimum_clearance_upper_bound_m": 1.326014255603382,
+        "first_chord_intersection_time_seconds": null
+      }
+    }
+  },
+  "frozen_plant_dt_010": {
+    "termination": "window_end",
+    "executed_controls": 75,
+    "degraded_controls": 24,
+    "qp_controls": 51,
+    "fallback_controls": 22,
+    "emergency_controls": 2,
+    "learned_constraint_positive_dual_controls": 0,
+    "first_no_certificate": 4.0,
+    "first_qp_rejection": 4.0,
+    "first_degraded": 4.0,
+    "finite_updates": 0,
+    "first_version": 660,
+    "last_used_version": 660,
+    "waypoints_completed": 0,
+    "geometry_audit": {
+      "schema": "recorded_cf21b_collision_geometry_audit_v1",
+      "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+      "source_node_count": 301,
+      "interpolated_node_count": 3086,
+      "time_support_seconds": [
+        4.0,
+        7.0
+      ],
+      "maximum_substep_seconds": 0.001000000000000334,
+      "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+      "xml_collider_radius_m": 0.086,
+      "xml_collider_body_offset_m": [
+        0.0,
+        0.0,
+        0.02
+      ],
+      "safety_shell": {
+        "minimum_clearance_m": -0.0026414967124943622,
+        "minimum_clearance_lower_bound_m": -0.002641521985699461,
+        "minimum_clearance_upper_bound_m": -0.0026414714392892637,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": 4.883609527800387,
+        "first_intersection_obstacle": 0,
+        "intersection_classification": "intersecting_under_recorded_state_interpolation"
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": 0.14735850328750566,
+        "minimum_clearance_lower_bound_m": 0.14735847801430055,
+        "minimum_clearance_upper_bound_m": 0.14735852856071077,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": 0.15952979702502113,
+        "minimum_clearance_lower_bound_m": 0.1595297753722768,
+        "minimum_clearance_upper_bound_m": 0.15952981867776544,
+        "maximum_chord_curvature_error_bound_m": 2.69439125105418e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_ground_geometry": {
+        "ground_height_m": 0.0,
+        "minimum_clearance_m": 1.1019087406521333,
+        "minimum_clearance_lower_bound_m": 1.101908740487718,
+        "minimum_clearance_upper_bound_m": 1.1019087407899784,
+        "first_chord_intersection_time_seconds": null
+      }
+    }
+  },
+  "adapted_plant_dt_010": {
+    "termination": "window_end",
+    "executed_controls": 75,
+    "degraded_controls": 0,
+    "qp_controls": 75,
+    "fallback_controls": 0,
+    "emergency_controls": 0,
+    "learned_constraint_positive_dual_controls": 22,
+    "first_no_certificate": null,
+    "first_qp_rejection": null,
+    "first_degraded": null,
+    "finite_updates": 0,
+    "first_version": 760,
+    "last_used_version": 760,
+    "waypoints_completed": 0,
+    "geometry_audit": {
+      "schema": "recorded_cf21b_collision_geometry_audit_v1",
+      "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+      "source_node_count": 301,
+      "interpolated_node_count": 3086,
+      "time_support_seconds": [
+        4.0,
+        7.0
+      ],
+      "maximum_substep_seconds": 0.001000000000000334,
+      "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+      "xml_collider_radius_m": 0.086,
+      "xml_collider_body_offset_m": [
+        0.0,
+        0.0,
+        0.02
+      ],
+      "safety_shell": {
+        "minimum_clearance_m": 0.007154438171325994,
+        "minimum_clearance_lower_bound_m": 0.0071544172843796315,
+        "minimum_clearance_upper_bound_m": 0.007154459058272357,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": 0.15715443817132602,
+        "minimum_clearance_lower_bound_m": 0.15715441728437965,
+        "minimum_clearance_upper_bound_m": 0.15715445905827238,
+        "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": 0.17429767758417158,
+        "minimum_clearance_lower_bound_m": 0.17429765669586392,
+        "minimum_clearance_upper_bound_m": 0.17429769847247925,
+        "maximum_chord_curvature_error_bound_m": 2.570160024814966e-08,
+        "first_chord_intersection_time_seconds": null,
+        "first_intersection_obstacle": null,
+        "intersection_classification": "separated_under_recorded_state_interpolation"
+      },
+      "actual_xml_ground_geometry": {
+        "ground_height_m": 0.0,
+        "minimum_clearance_m": 1.245071243873273,
+        "minimum_clearance_lower_bound_m": 1.2450712438243488,
+        "minimum_clearance_upper_bound_m": 1.2450712439093325,
+        "first_chord_intersection_time_seconds": null
+      }
+    }
+  }
+}

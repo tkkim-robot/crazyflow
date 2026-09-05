@@ -1,0 +1,28 @@
+{
+  "seed": 19301,
+  "candidates_per_anchor": 512,
+  "fixed_max_H_upper": -0.002,
+  "adaptive_max_H_lower": 0.025,
+  "arrival_delay_range_s": [
+    0.4,
+    1.1
+  ],
+  "speed_range_m_s": [
+    1.0,
+    3.0
+  ],
+  "radius_range_m": [
+    0.25,
+    0.85
+  ],
+  "offset_range_m": [
+    -0.15,
+    0.15
+  ],
+  "trajectory_amplitude_m": 30,
+  "ego_enclosure_m": 0.106,
+  "shell_clearance_m": 0.15,
+  "selection": "seeded Sobol development search; all outcomes retained",
+  "guard_count": 0,
+  "atlas": "artifacts/da_plcbf/case-study-20260905/atlas-v1"
+}

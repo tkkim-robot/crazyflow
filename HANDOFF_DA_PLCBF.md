@@ -1,6 +1,37 @@
 # DA-PLCBF current handoff — 2026-09-05
 
-Start with [DA_PLCBF_HOVER_REVIEW.md](DA_PLCBF_HOVER_REVIEW.md), followed by
+Start with [DA_PLCBF_SAFETY_CASE_REVIEW.md](DA_PLCBF_SAFETY_CASE_REVIEW.md).
+The newest revision follows `main` commit `c653e0b522654afd547a43bc93d7f74b545c6a08` and adds
+persistent-wind case discovery, full-QP screening, causal branches, neighborhood confirmation,
+separate collider geometry audits, and actual paced learning.
+
+The selected uncompensated controlled branch has frozen/adapted shell clearance
+−81.76/+7.78 mm and 36/0 degraded commands. Its neighborhood gives positive shell clearance in
+0/12 frozen versus 12/12 adapted branches. A matched compensated case also has a smaller local
+margin benefit; its neighborhood is 3/12 versus 12/12, with one adaptive degraded command retained.
+No physical collision is claimed. The frozen controller survives through fallback/emergency
+segments, and both methods succeed when the selected obstacle scene runs continuously from time
+zero. That negative continuous confirmation is part of the result.
+
+Bounded unrolling preserves 20 ms integration and 40 ms held commands while reducing full learner
+service from about 20.7 to 10.8 ms. The paced continuous run publishes 283 finite updates,
+uses 117 before obstacle arrival, and records zero controller deadline misses with the unchanged
+3 ms reserve and 1.25 update safety factor. Compiler roundoff is measured; old numerical artifacts
+are not claimed to be byte-identical under the new graph. The two-anchor objective remains intact.
+
+Newest evidence: `artifacts/da_plcbf/case-study-20260905`. Its publication inventory distinguishes
+compact review data from local videos/bulk tensors. Updated local videos are
+`videos/controlled-encounter/comparison-v2.mp4` and `videos/paced-continuous/comparison-v2.mp4`.
+The earlier first-render videos are explicitly superseded. Generated videos remain excluded from Git.
+
+Continue next with the exact saved configurations and snapshots. The remaining stronger target is
+a continuous safety advantage against the complete competent baseline; a lost committed-library
+certificate alone does not establish loss of full-controller recoverability. Do not disable the
+baseline's early response, emergency brake, or short fallback execution to manufacture a failure.
+
+## Previous hover explanation — preserved
+
+Read [DA_PLCBF_HOVER_REVIEW.md](DA_PLCBF_HOVER_REVIEW.md), followed by
 [DA_PLCBF_NAVIGATION_REVIEW.md](DA_PLCBF_NAVIGATION_REVIEW.md). The newest revision addresses
 the user's five visual/functionality comments: clipped shadows, unclear payload/CoM behavior,
 similar fallback fans, a hover-first wind-on/off experiment before navigation, and actual

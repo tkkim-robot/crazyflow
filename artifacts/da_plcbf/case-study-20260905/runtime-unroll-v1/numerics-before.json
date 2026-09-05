@@ -1,0 +1,636 @@
+{
+  "checkpoint_npz_sha256": "914f538f820cb587a1ed04e66ba50e0a7fb25420076f8f224d1c712c127d1dc3",
+  "quad_rollouts_source_sha256": "0623e6289ab9f55a740023aba1c7683ab8aa801eafe6d53b4eb932db32dedbbd",
+  "tolerance_predeclared": {
+    "floating_point_rtol": 3e-05,
+    "floating_point_atol": 1e-07,
+    "booleans_and_integers": "exact"
+  },
+  "groups": {
+    "wind_rollouts": "PyTreeDef(CustomNode(namedtuple[SkillRollout], [*, *, *, *, *, *, *, *]))",
+    "nominal_rollouts": "PyTreeDef(CustomNode(namedtuple[SkillRollout], [*, *, *, *, *, *, *, *]))",
+    "objective_and_gradient": "PyTreeDef(((*, CustomNode(namedtuple[SkillLossMetrics], [*, *, *, *, *, *, *, *, *, *, *, *, *, *, *, *])), CustomNode(SkillActorParams[()], [*, *, *, *, *, *, *, *])))",
+    "persistent_update": "PyTreeDef((CustomNode(PersistentLearnerState[()], [CustomNode(SkillActorParams[()], [*, *, *, *, *, *, *, *]), CustomNode(SkillActorParams[()], [*, *, *, *, *, *, *, *]), (CustomNode(namedtuple[EmptyState], []), (CustomNode(namedtuple[ScaleByAdamState], [*, CustomNode(SkillActorParams[()], [*, *, *, *, *, *, *, *]), CustomNode(SkillActorParams[()], [*, *, *, *, *, *, *, *])]), CustomNode(namedtuple[EmptyState], []), CustomNode(namedtuple[EmptyState], []))), *, CustomNode(namedtuple[VersionAModel], [*, *, *, *, *, *, *, *]), *]), CustomNode(namedtuple[PersistentStepMetrics], [CustomNode(namedtuple[SkillLossMetrics], [*, *, *, *, *, *, *, *, *, *, *, *, *, *, *, *]), *, *, *, *, *])))"
+  },
+  "arrays": {
+    "wind_rollouts_000": {
+      "shape": [
+        4,
+        16,
+        61,
+        13
+      ],
+      "dtype": "<f4"
+    },
+    "wind_rollouts_001": {
+      "shape": [
+        4,
+        16,
+        60,
+        4
+      ],
+      "dtype": "<f4"
+    },
+    "wind_rollouts_002": {
+      "shape": [
+        4,
+        16,
+        60,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "wind_rollouts_003": {
+      "shape": [
+        4,
+        16,
+        60,
+        4
+      ],
+      "dtype": "<f4"
+    },
+    "wind_rollouts_004": {
+      "shape": [
+        4,
+        16,
+        60,
+        4
+      ],
+      "dtype": "<f4"
+    },
+    "wind_rollouts_005": {
+      "shape": [
+        4,
+        16,
+        60
+      ],
+      "dtype": "|b1"
+    },
+    "wind_rollouts_006": {
+      "shape": [
+        4,
+        16,
+        9
+      ],
+      "dtype": "<f4"
+    },
+    "wind_rollouts_007": {
+      "shape": [
+        4,
+        16,
+        60,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "nominal_rollouts_000": {
+      "shape": [
+        4,
+        16,
+        61,
+        13
+      ],
+      "dtype": "<f4"
+    },
+    "nominal_rollouts_001": {
+      "shape": [
+        4,
+        16,
+        60,
+        4
+      ],
+      "dtype": "<f4"
+    },
+    "nominal_rollouts_002": {
+      "shape": [
+        4,
+        16,
+        60,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "nominal_rollouts_003": {
+      "shape": [
+        4,
+        16,
+        60,
+        4
+      ],
+      "dtype": "<f4"
+    },
+    "nominal_rollouts_004": {
+      "shape": [
+        4,
+        16,
+        60,
+        4
+      ],
+      "dtype": "<f4"
+    },
+    "nominal_rollouts_005": {
+      "shape": [
+        4,
+        16,
+        60
+      ],
+      "dtype": "|b1"
+    },
+    "nominal_rollouts_006": {
+      "shape": [
+        4,
+        16,
+        9
+      ],
+      "dtype": "<f4"
+    },
+    "nominal_rollouts_007": {
+      "shape": [
+        4,
+        16,
+        60,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_000": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_001": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_002": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_003": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_004": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_005": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_006": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_007": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_008": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_009": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_010": {
+      "shape": [
+        16,
+        9
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_011": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_012": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_013": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_014": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_015": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_016": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_017": {
+      "shape": [
+        16,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_018": {
+      "shape": [
+        16
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_019": {
+      "shape": [
+        22,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_020": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_021": {
+      "shape": [
+        32,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_022": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_023": {
+      "shape": [
+        32,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "objective_and_gradient_024": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_000": {
+      "shape": [
+        16,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_001": {
+      "shape": [
+        16
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_002": {
+      "shape": [
+        22,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_003": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_004": {
+      "shape": [
+        32,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_005": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_006": {
+      "shape": [
+        32,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_007": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_008": {
+      "shape": [
+        16,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_009": {
+      "shape": [
+        16
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_010": {
+      "shape": [
+        22,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_011": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_012": {
+      "shape": [
+        32,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_013": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_014": {
+      "shape": [
+        32,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_015": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_016": {
+      "shape": [],
+      "dtype": "<i4"
+    },
+    "persistent_update_017": {
+      "shape": [
+        16,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_018": {
+      "shape": [
+        16
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_019": {
+      "shape": [
+        22,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_020": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_021": {
+      "shape": [
+        32,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_022": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_023": {
+      "shape": [
+        32,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_024": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_025": {
+      "shape": [
+        16,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_026": {
+      "shape": [
+        16
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_027": {
+      "shape": [
+        22,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_028": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_029": {
+      "shape": [
+        32,
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_030": {
+      "shape": [
+        32
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_031": {
+      "shape": [
+        32,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_032": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_033": {
+      "shape": [],
+      "dtype": "<i4"
+    },
+    "persistent_update_034": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_035": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_036": {
+      "shape": [
+        3,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_037": {
+      "shape": [
+        3,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_038": {
+      "shape": [
+        3,
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_039": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_040": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_041": {
+      "shape": [
+        3
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_042": {
+      "shape": [],
+      "dtype": "<i4"
+    },
+    "persistent_update_043": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_044": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_045": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_046": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_047": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_048": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_049": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_050": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_051": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_052": {
+      "shape": [
+        16,
+        9
+      ],
+      "dtype": "<f4"
+    },
+    "persistent_update_053": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_054": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_055": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_056": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_057": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_058": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_059": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_060": {
+      "shape": [],
+      "dtype": "<f4"
+    },
+    "persistent_update_061": {
+      "shape": [],
+      "dtype": "|b1"
+    },
+    "persistent_update_062": {
+      "shape": [],
+      "dtype": "<i4"
+    },
+    "persistent_update_063": {
+      "shape": [],
+      "dtype": "<i4"
+    }
+  }
+}

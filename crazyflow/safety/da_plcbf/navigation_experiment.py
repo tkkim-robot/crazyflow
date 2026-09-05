@@ -157,14 +157,38 @@ class NavigationExperimentConfig:
 
 
 def build_navigation_controller(
-    world: NavigationWorld, bundle: Any, config: NavigationExperimentConfig
+    world: NavigationWorld,
+    bundle: Any,
+    config: NavigationExperimentConfig,
+    *,
+    selection_config: SelectionConfig = SelectionConfig(switch_score_margin=0.0),
+    frozen_replacement: tuple[Any, int] | None = None,
 ) -> Any:
-    """The only function in this experiment that combines tasks with safety geometry."""
+    """Combine tasks with safety geometry, optionally evaluating an explicit offline ablation.
+
+    Normal calls retain the original selector and whole learned library. ``frozen_replacement``
+    is an offline diagnostic ``(original_parameters, zero_based_fallback_skill_index)``: only
+    that skill's states, wrenches, and validity come from its original evaluator. Both evaluators
+    use the same candidate state/model inside differentiation, so the replaced certificate has
+    its matching original gradient. The augmented nominal stays at index zero and library size
+    is unchanged. ``selection_config`` supports forced-incumbent offline complete-QP audits.
+    """
+    selection_config.validate()
     policy_config = bundle.config
     if policy_config.control_interval_steps != world.config.control_interval_steps:
         raise ValueError("checkpoint command cadence must equal the executed command hold")
     if policy_config.dt != world.config.dt:
         raise ValueError("checkpoint and world integration steps differ")
+    if frozen_replacement is not None:
+        if not isinstance(frozen_replacement, tuple) or len(frozen_replacement) != 2:
+            raise ValueError("frozen replacement must be (parameters, fallback skill index)")
+        replacement_index = frozen_replacement[1]
+        if (
+            isinstance(replacement_index, bool)
+            or not isinstance(replacement_index, (int, np.integer))
+            or not 0 <= replacement_index < bundle.spec.latent_codes.shape[0]
+        ):
+            raise ValueError("replacement skill index must be inside the fallback library")
     safety = world.safety_limits()
     barrier = VersionABarrierConfig(
         obstacle_clearance=world.config.obstacle_clearance,
@@ -205,12 +229,26 @@ def build_navigation_controller(
             result = rollout_skill_library(
                 params, bundle.spec, candidate, point, bundle.actuator, policy_config
             )
-            return PolicyRollouts(
+            policies = PolicyRollouts(
                 result.states,
                 result.wrenches,
                 jnp.all(result.policy_valid, axis=1)
                 & jnp.all(jnp.isfinite(result.states), axis=(1, 2)),
             )
+            if frozen_replacement is not None:
+                original_params, skill = frozen_replacement
+                original = rollout_skill_library(
+                    original_params, bundle.spec, candidate, point, bundle.actuator, policy_config
+                )
+                original_valid = jnp.all(original.policy_valid[skill]) & jnp.all(
+                    jnp.isfinite(original.states[skill])
+                )
+                policies = PolicyRollouts(
+                    policies.states.at[skill].set(original.states[skill]),
+                    policies.wrenches.at[skill].set(original.wrenches[skill]),
+                    policies.valid.at[skill].set(original_valid),
+                )
+            return policies
 
         return continuous_version_a_step(
             state,
@@ -224,7 +262,7 @@ def build_navigation_controller(
             VersionAFilterConfig(),
             runtime,
             previous_policy_index=previous,
-            selection_config=SelectionConfig(switch_score_margin=0.0),
+            selection_config=selection_config,
         )
 
     return controller

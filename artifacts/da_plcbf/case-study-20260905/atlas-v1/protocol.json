@@ -1,0 +1,26 @@
+{
+  "scope": "obstacle-free controlled prefix; geometry discovery happens afterward",
+  "wind_onset_seconds": 3.0,
+  "wind_velocity": [
+    1.6,
+    0.8,
+    0.0
+  ],
+  "snapshot_times_seconds": [
+    3.0,
+    4.0,
+    5.0,
+    7.0,
+    9.0
+  ],
+  "integration_dt": 0.02,
+  "command_hold_seconds": 0.04,
+  "learning": "one complete finite update each period, published at next boundary",
+  "cases": [
+    "uncompensated",
+    "compensated"
+  ],
+  "source_commit": "c653e0b522654afd547a43bc93d7f74b545c6a08",
+  "source_sha256": "8dab65ef7fab081d3b65fc0b97a00a9f9a3d26a27d2a29a018e9df1be732a760",
+  "geometry_or_goal_enters_learner": false
+}

@@ -1,0 +1,39 @@
+{
+  "scope": "Measured compiler effects; strict blanket numerical check is retained separately and failed. The physics equations, integration timestep, command hold, horizon and anchor retention are unchanged. Rerun closed-loop cases on revised source.",
+  "all_shapes_dtypes_preserved": true,
+  "all_integer_boolean_arrays_identical": true,
+  "point_models": {
+    "wind": {
+      "position_max_abs_m": 6.496906280517578e-06,
+      "quaternion_max_abs": 3.0957162380218506e-06,
+      "velocity_max_abs_mps": 1.5133991837501526e-05,
+      "body_rate_max_abs_rad_s": 4.76837158203125e-05,
+      "wrench_max_abs": 2.980232238769531e-07,
+      "bounded_motor_force_max_abs_N": 2.3096799850463867e-07,
+      "all_policy_valid_flags_identical": true
+    },
+    "nominal": {
+      "position_max_abs_m": 4.76837158203125e-07,
+      "quaternion_max_abs": 1.1920928955078125e-07,
+      "velocity_max_abs_mps": 2.3245811462402344e-06,
+      "body_rate_max_abs_rad_s": 7.12461769580841e-08,
+      "wrench_max_abs": 8.940696716308594e-08,
+      "bounded_motor_force_max_abs_N": 2.2351741790771484e-08,
+      "all_policy_valid_flags_identical": true
+    }
+  },
+  "parameter_gradient": {
+    "maximum_absolute_difference": 2.147135091945529e-07,
+    "relative_l2_difference": 1.2410874660417903e-05
+  },
+  "next_parameters": {
+    "maximum_absolute_difference": 5.960464477539063e-08,
+    "relative_l2_difference": 2.6156559584933348e-08
+  },
+  "cpu_validation": {
+    "command": "pytest test_held_rollout_compilation.py test_case_runtime.py test_quad_policy_rollouts.py -q",
+    "passed": 8,
+    "literal_step_gradient_rtol": 3e-05,
+    "literal_step_gradient_atol": 1e-08
+  }
+}

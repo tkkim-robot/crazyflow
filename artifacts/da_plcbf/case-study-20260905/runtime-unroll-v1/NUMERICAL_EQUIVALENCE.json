@@ -1,0 +1,533 @@
+{
+  "all_within_predeclared_tolerance": false,
+  "all_bitwise_equal": false,
+  "rtol": 3e-05,
+  "atol": 1e-07,
+  "arrays": {
+    "wind_rollouts_000": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": false,
+      "maximum_absolute_difference": 4.76837158203125e-05
+    },
+    "wind_rollouts_001": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.980232238769531e-07
+    },
+    "wind_rollouts_002": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": false,
+      "maximum_absolute_difference": 2.722814679145813e-05
+    },
+    "wind_rollouts_003": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.3096799850463867e-07
+    },
+    "wind_rollouts_004": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.3096799850463867e-07
+    },
+    "wind_rollouts_005": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "wind_rollouts_006": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": false,
+      "maximum_absolute_difference": 1.4204531908035278e-05
+    },
+    "wind_rollouts_007": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": false,
+      "maximum_absolute_difference": 2.722814679145813e-05
+    },
+    "nominal_rollouts_000": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.3245811462402344e-06
+    },
+    "nominal_rollouts_001": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 8.940696716308594e-08
+    },
+    "nominal_rollouts_002": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 4.112720489501953e-06
+    },
+    "nominal_rollouts_003": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.2351741790771484e-08
+    },
+    "nominal_rollouts_004": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.2351741790771484e-08
+    },
+    "nominal_rollouts_005": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "nominal_rollouts_006": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.1473894119262695e-06
+    },
+    "nominal_rollouts_007": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 4.112720489501953e-06
+    },
+    "objective_and_gradient_000": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_001": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_002": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 5.820766091346741e-10
+    },
+    "objective_and_gradient_003": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_004": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_005": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_006": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.1641532182693481e-10
+    },
+    "objective_and_gradient_007": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_008": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_009": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_010": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 8.344650268554688e-07
+    },
+    "objective_and_gradient_011": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.7939677238464355e-09
+    },
+    "objective_and_gradient_012": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_013": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "objective_and_gradient_014": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 3.4924596548080444e-10
+    },
+    "objective_and_gradient_015": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.3283064365386963e-10
+    },
+    "objective_and_gradient_016": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.3969838619232178e-09
+    },
+    "objective_and_gradient_017": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": false,
+      "maximum_absolute_difference": 2.0104926079511642e-07
+    },
+    "objective_and_gradient_018": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.4156103134155273e-07
+    },
+    "objective_and_gradient_019": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": false,
+      "maximum_absolute_difference": 2.147135091945529e-07
+    },
+    "objective_and_gradient_020": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 4.662433639168739e-08
+    },
+    "objective_and_gradient_021": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.523302100598812e-08
+    },
+    "objective_and_gradient_022": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.614615368656814e-08
+    },
+    "objective_and_gradient_023": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": false,
+      "maximum_absolute_difference": 1.2364762369543314e-07
+    },
+    "objective_and_gradient_024": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 9.371433407068253e-08
+    },
+    "persistent_update_000": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.4901161193847656e-08
+    },
+    "persistent_update_001": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_002": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 5.960464477539063e-08
+    },
+    "persistent_update_003": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 3.725290298461914e-09
+    },
+    "persistent_update_004": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 5.960464477539063e-08
+    },
+    "persistent_update_005": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 3.725290298461914e-09
+    },
+    "persistent_update_006": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.9802322387695312e-08
+    },
+    "persistent_update_007": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 6.984919309616089e-10
+    },
+    "persistent_update_008": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_009": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_010": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_011": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_012": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_013": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_014": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_015": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_016": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_017": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.0023435354232788e-08
+    },
+    "persistent_update_018": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_019": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.1478626877069473e-08
+    },
+    "persistent_update_020": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 4.6566128730773926e-09
+    },
+    "persistent_update_021": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.5029294192790985e-09
+    },
+    "persistent_update_022": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.561137080192566e-09
+    },
+    "persistent_update_023": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.210719347000122e-08
+    },
+    "persistent_update_024": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 9.313225746154785e-09
+    },
+    "persistent_update_025": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.8189894035458565e-12
+    },
+    "persistent_update_026": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_027": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 4.973799150320701e-13
+    },
+    "persistent_update_028": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_029": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.1368683772161603e-13
+    },
+    "persistent_update_030": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 5.684341886080802e-14
+    },
+    "persistent_update_031": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.2737367544323206e-12
+    },
+    "persistent_update_032": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 9.094947017729282e-13
+    },
+    "persistent_update_033": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_034": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_035": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_036": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_037": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_038": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_039": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_040": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_041": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_042": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_043": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_044": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 5.820766091346741e-10
+    },
+    "persistent_update_045": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_046": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_047": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_048": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.1641532182693481e-10
+    },
+    "persistent_update_049": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_050": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_051": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_052": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 8.344650268554688e-07
+    },
+    "persistent_update_053": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.7939677238464355e-09
+    },
+    "persistent_update_054": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_055": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_056": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 3.4924596548080444e-10
+    },
+    "persistent_update_057": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.3283064365386963e-10
+    },
+    "persistent_update_058": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 1.3969838619232178e-09
+    },
+    "persistent_update_059": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 2.384185791015625e-07
+    },
+    "persistent_update_060": {
+      "bitwise_equal": false,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 3.725290298461914e-09
+    },
+    "persistent_update_061": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_062": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    },
+    "persistent_update_063": {
+      "bitwise_equal": true,
+      "within_predeclared_tolerance": true,
+      "maximum_absolute_difference": 0.0
+    }
+  }
+}

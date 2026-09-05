@@ -1,0 +1,27 @@
+{
+  "scope": "deterministic continued-learning provenance reproduction only",
+  "original_confirmation_directory": "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1",
+  "source_sha256": {
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/protocol.json": "739da05c967c4807070d9ca5877dfe7a49a24258590ee6f04e8663be37cfab91",
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/continued_learning_controls.json": "64c489aa2f7209419389358d8c19b8daabd8a5cc18687bffaa8b5a2ab430da25",
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/causal_dense_states.npz": "0acdb0e6bbe80aecdd90bc9172c3df646b9db3358f272f8916e3505abd0af004",
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/causal_branches.json": "ad583ae55ceb942265b8f014d9e44b6251026b7bc7b9b80ff60800f14b0077d4",
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_case_confirmation.py": "4fb64d6bc78a1e8999e698910b0c37fd870760ab5c798d39df1f9328bb990f76",
+    "benchmark/da_plcbf_case_attribution.py": "384f7dc8dae6843e70101f0cea01028c816e7b49ff1f7074ad83775612fa38e7"
+  },
+  "original_protocol_unchanged": true,
+  "snapshot_source": "artifacts/da_plcbf/case-study-20260905/atlas-v1/uncompensated/t0100",
+  "snapshot_source_sha256": "914f538f820cb587a1ed04e66ba50e0a7fb25420076f8f224d1c712c127d1dc3",
+  "frozen_source_sha256": "8f70370b8c9b3603838e71f32fbc9fec2d0e57436068843395a882b68f583dc6",
+  "initial_persistent_identity": {
+    "library_version": 760,
+    "cumulative_gradient_steps": 760,
+    "persistent_state_sha256": "8f8eeec003609eb04046d5d9500432428f9e267f7f18f8a78bf9e80a34293ce2",
+    "parameters_sha256": "06e25aab32711ce067908e714978a51213571dc3103b10575b12d03ee5f10ad2",
+    "previous_parameters_sha256": "19cbeea095d3902762c9c76d3eb5e17460b844d81394b34d1805d078b1da2e81",
+    "optimizer_state_sha256": "412e3f2e3eda58b4a1dc4062211bd2ca5eb70c1fa3422125df1293947984a146"
+  },
+  "initial_snapshot_available_seconds": 4.0,
+  "publication_schedule": "completed finite updates become available at the next .04s boundary",
+  "wall_clock_scope": "synchronized service observations; not a paced deployment claim"
+}

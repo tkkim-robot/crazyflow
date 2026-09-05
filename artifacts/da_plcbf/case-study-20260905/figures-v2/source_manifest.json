@@ -1,0 +1,39 @@
+{
+  "files": {
+    "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-000-t0100-132/encounter.json": "b64ca2eaae432247f296786fd6663f958da3549cab80d516d26f43bd39608f74",
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/causal_dense_states.npz": "0acdb0e6bbe80aecdd90bc9172c3df646b9db3358f272f8916e3505abd0af004",
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/neighbor_ledger.json": "8f42f2b4103efe578f1787f51aa5199f4a65cc5f361af953b5837ae06aa685eb",
+    "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/compensated-002-t0100-487/encounter.json": "3a4d0e9665cec06613570c56fcd595929a8169078db689b9f7a0271b74bf44cc",
+    "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1/causal_dense_states.npz": "5f2ee811a52288acc6d25bbdb4dd554798cfa4ecda4e870ec77385a56102ca7b",
+    "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1/neighbor_ledger.json": "1585ee5eccd09bc9d73e47daa8f250009ce2d9d7d0f7592e48d246595ec2bf8e",
+    "artifacts/da_plcbf/case-study-20260905/runtime-profile-v1/anchors-2/runtime.json": "673f0ba96afa20a510ddd5ad8d3d31a10852a1e032a7189f4cbb31244f82dce2",
+    "artifacts/da_plcbf/case-study-20260905/runtime-unroll-v1/profile/anchors-2/runtime.json": "c55358c28649c099d6b509b53674703d82538178168e01be6e37650aa95b0051",
+    "artifacts/da_plcbf/case-study-20260905/continuous-paced-v1/navigation_comparison.npz": "ed44fff6ffb16cb38f359adfa2b825b2702af7cf4d3067d5e207771d91b7a516"
+  },
+  "neighborhood_summary": {
+    "uncompensated": {
+      "frozen": {
+        "positive_shell": 0,
+        "minimum_cm": -10.712539129589537,
+        "maximum_cm": -6.827190366891034
+      },
+      "adapted_held": {
+        "positive_shell": 12,
+        "minimum_cm": 0.7436301993005823,
+        "maximum_cm": 0.7889175306736163
+      }
+    },
+    "compensated": {
+      "frozen": {
+        "positive_shell": 3,
+        "minimum_cm": -3.430027358289933,
+        "maximum_cm": 0.7118918035402655
+      },
+      "adapted_held": {
+        "positive_shell": 12,
+        "minimum_cm": 0.7115376204659851,
+        "maximum_cm": 0.7345247406312039
+      }
+    }
+  }
+}

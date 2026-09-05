@@ -1,0 +1,49 @@
+{
+  "scope": "Render-only camera/caption revision from unchanged saved traces; one fresh EGL process per video.",
+  "source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-000-t0100-132/comparison.npz": "a49fcc6f95339f264e7a1f332a61f230a1b25513a5dcab7227348d847c511c77",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-000-t0100-132/comparison.json": "c8f987b649561fbb9619b1b51148c68d00e89fab2765b64a4d5b30fba09ad8e8"
+  },
+  "render_source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/case-study-20260905/videos/render_case_video_v2.py": "6f2538ffb1fd794c5bb294eb850cd93db778c5c9fb7f2a969a128d62286ab4e7",
+    "/home/tk/Desktop/mycode/crazyflow/crazyflow/safety/da_plcbf/mujoco_comparison_video.py": "becffc579c2adc90f407c7498ecd89d0490795dbfcbe3179284c3d46009d07e3"
+  },
+  "presentation_only_overrides": {
+    "title": "Persistent wind encounter | controlled same-state branch",
+    "comparison_note": "Controlled branch at t=4s | adapted snapshot held fixed | shell violation is not collision",
+    "camera_azimuth": -45
+  },
+  "render_config": {
+    "fps": 20,
+    "width": 1600,
+    "height": 900,
+    "camera_azimuth": -45,
+    "camera_elevation": -22.0,
+    "camera_distance": null,
+    "wind_arrow_scale": 0.18,
+    "intervention_arrow_scale": 0.18,
+    "probe_pause_time": null,
+    "probe_pause_seconds": 0.0,
+    "mode": "demo",
+    "repertoire_extent_m": 1.5,
+    "wind_streak_spacing_m": 1.2,
+    "wind_streak_exposure_seconds": 0.25,
+    "freeze_after_collision": true,
+    "freeze_after_termination": true,
+    "comparison_note": "Controlled branch at t=4s | adapted snapshot held fixed | shell violation is not collision",
+    "hover_camera_distance": 2.8,
+    "camera_transition_seconds": 2.0
+  },
+  "video_path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/case-study-20260905/videos/controlled-encounter/comparison-v2.mp4",
+  "video_sha256": "1aa8fb9cb522c7f198ba1dfaaa2917cb50c9ca209341450bc05dfe7074415395",
+  "frame_count": 61,
+  "duration_seconds": 3.05,
+  "source_time_support_seconds": [
+    4.0,
+    7.0
+  ],
+  "rendered_scene_panels_checked": 122,
+  "minimum_scene_mean_rgb": 88.47768570756935,
+  "no_black_scene_panels": true,
+  "git_policy": "Local ignored video; do not stage."
+}

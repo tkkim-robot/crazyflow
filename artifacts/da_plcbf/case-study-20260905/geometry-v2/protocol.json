@@ -1,0 +1,32 @@
+{
+  "seed": 19302,
+  "candidates_per_anchor": 512,
+  "reason": "v1 central large spheres exhausted both repertoires",
+  "offset_bounds_m": [
+    -0.6,
+    0.6
+  ],
+  "radius_bounds_m": [
+    0.08,
+    0.6
+  ],
+  "arrival_delay_bounds_s": [
+    0.5,
+    1.15
+  ],
+  "speed_bounds_m_s": [
+    1.0,
+    3.0
+  ],
+  "radius_selection": "midpoint of squared fixed/adaptive augmented minimum distances, clipped to bounds",
+  "H_thresholds_m2": [
+    -0.002,
+    0.025
+  ],
+  "required_threats": [
+    "nominal",
+    "emergency",
+    "stationary"
+  ],
+  "scope": "contrastive selected development; no obstacle inputs to learner"
+}

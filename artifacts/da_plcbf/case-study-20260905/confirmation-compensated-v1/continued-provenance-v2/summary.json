@@ -1,0 +1,93 @@
+{
+  "termination": "window_end",
+  "executed_controls": 75,
+  "degraded_controls": 0,
+  "qp_controls": 75,
+  "fallback_controls": 0,
+  "emergency_controls": 0,
+  "learned_constraint_positive_dual_controls": 22,
+  "first_no_certificate": null,
+  "first_no_certificate_definition": "legacy field: no nonnegative hard collision path",
+  "first_no_hard_collision_path": null,
+  "first_no_eligible_certificate": null,
+  "first_qp_rejection": null,
+  "first_degraded": null,
+  "finite_updates": 75,
+  "first_version": 760,
+  "last_used_version": 834,
+  "waypoints_completed": 0,
+  "geometry_audit": {
+    "schema": "recorded_cf21b_collision_geometry_audit_v1",
+    "scope": "geometry of interpolated recorded states; no contact dynamics or measured MuJoCo contact event is inferred",
+    "source_node_count": 151,
+    "interpolated_node_count": 3086,
+    "time_support_seconds": [
+      4.0,
+      7.0
+    ],
+    "maximum_substep_seconds": 0.001000000000000334,
+    "interpolation": "linear body position; shortest-arc quaternion SLERP; analytic obstacles",
+    "xml_collider_radius_m": 0.086,
+    "xml_collider_body_offset_m": [
+      0.0,
+      0.0,
+      0.02
+    ],
+    "safety_shell": {
+      "minimum_clearance_m": 0.0074066221272515165,
+      "minimum_clearance_lower_bound_m": 0.007406599203709477,
+      "minimum_clearance_upper_bound_m": 0.007406645050793556,
+      "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation"
+    },
+    "body_origin_envelope": {
+      "minimum_clearance_m": 0.15740662212725154,
+      "minimum_clearance_lower_bound_m": 0.1574065992037095,
+      "minimum_clearance_upper_bound_m": 0.15740664505079358,
+      "maximum_chord_curvature_error_bound_m": 2.5273205098421255e-08,
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation"
+    },
+    "actual_xml_sphere_geometry": {
+      "minimum_clearance_m": 0.1747120168866516,
+      "minimum_clearance_lower_bound_m": 0.17471199386926065,
+      "minimum_clearance_upper_bound_m": 0.17471203990404258,
+      "maximum_chord_curvature_error_bound_m": 2.566140455168832e-08,
+      "first_chord_intersection_time_seconds": null,
+      "first_intersection_obstacle": null,
+      "intersection_classification": "separated_under_recorded_state_interpolation"
+    },
+    "actual_xml_ground_geometry": {
+      "ground_height_m": 0.0,
+      "minimum_clearance_m": 1.2658448439483403,
+      "minimum_clearance_lower_bound_m": 1.2658448438914522,
+      "minimum_clearance_upper_bound_m": 1.2658448439901047,
+      "first_chord_intersection_time_seconds": null
+    }
+  },
+  "continuation_provenance": {
+    "scope": "deterministic publication boundaries; measured service clocks are separate",
+    "initial": {
+      "library_version": 760,
+      "cumulative_gradient_steps": 760,
+      "persistent_state_sha256": "384f3f63ae7f8ee1886ed91d9c63ad26511b26a0b5f16ed2961b573e2ba1513c",
+      "parameters_sha256": "3e316dee016070e5ccec2788f0eb0dca061767aabe3afd39c279bbc7c14ceee1",
+      "previous_parameters_sha256": "743287cb3fe54e4b6902282b6670feb0390aef52b532040e8cbfc11adca4e3f4",
+      "optimizer_state_sha256": "caa9e743f19a81a17dbcba496e5d38d2980e834b64ae621a00b40bea40e12b83"
+    },
+    "final": {
+      "library_version": 835,
+      "cumulative_gradient_steps": 835,
+      "persistent_state_sha256": "582067bf6057e702d698d7986b53dbc15b948143f5e13cf328c421e5db68782e",
+      "parameters_sha256": "e669d95e8affe64f087c35161e6d3c186b2c6b3be871ee6f88ec7b0e707bea6e",
+      "previous_parameters_sha256": "e4d602b319dc147d8130945f1fe6a262fc858b1e2e16e6e5466c7ff45b0d93cf",
+      "optimizer_state_sha256": "db818e1aa73ead645598ba7844e7bd635362c767a20eea0720332caba639797c"
+    },
+    "final_snapshot_available_time_seconds": 7.0,
+    "last_executed_control_version": 834,
+    "checkpoint_directory": "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1/continued-provenance-v2/learner"
+  }
+}

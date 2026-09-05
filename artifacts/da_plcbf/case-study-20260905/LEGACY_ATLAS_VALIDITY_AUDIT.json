@@ -1,0 +1,112 @@
+{
+  "scope": "Post hoc audit of immutable atlas-v1 contemporaneously recorded actuator-validity diagnostics and saved states; original ledgers unchanged.",
+  "all_anchors_valid": true,
+  "anchors": [
+    {
+      "case": "compensated",
+      "anchor": "t0075",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "compensated",
+      "anchor": "t0100",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "compensated",
+      "anchor": "t0125",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "compensated",
+      "anchor": "t0175",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "compensated",
+      "anchor": "t0225",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "uncompensated",
+      "anchor": "t0075",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "uncompensated",
+      "anchor": "t0100",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "uncompensated",
+      "anchor": "t0125",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "uncompensated",
+      "anchor": "t0175",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    },
+    {
+      "case": "uncompensated",
+      "anchor": "t0225",
+      "all_fallback_rollouts_finite_and_actuator_valid": true,
+      "finite_policy_fractions": {
+        "fixed": 1.0,
+        "adaptive": 1.0
+      },
+      "all_shared_states_finite": true
+    }
+  ],
+  "source_hashes": {
+    "artifacts/da_plcbf/case-study-20260905/atlas-v1/compensated/atlas.json": "f024179fe5f67b9dcbb0d4c53dd5c10238b05fc5fb405347746be171abcccd5f",
+    "artifacts/da_plcbf/case-study-20260905/atlas-v1/compensated/atlas.npz": "2d02d5ff6fdb1a00bad886048032e3a05465c930f532ffe6f3866e1a22d22f97",
+    "artifacts/da_plcbf/case-study-20260905/atlas-v1/uncompensated/atlas.json": "c094782def479c4ef2c5b1b1f3be23550f0525cf690eb1207aa9f3a644999420",
+    "artifacts/da_plcbf/case-study-20260905/atlas-v1/uncompensated/atlas.npz": "ca16a1818eb35c7cf64e0636a897c3208c9e06898261f99e7e9c7c780b9f59ec"
+  }
+}

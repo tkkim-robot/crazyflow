@@ -1,0 +1,49 @@
+{
+  "scope": "Post hoc provenance clarification only; frozen confirmation protocols and numerical outputs are untouched.",
+  "protocol_audits": [
+    {
+      "original_protocol": "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1/protocol.json",
+      "original_protocol_sha256": "23611f4dd1ffc9677fc907bb4fbda1dccce9d22359a4082829ea61e1810ec381",
+      "post_hoc_audit": true,
+      "original_protocol_unchanged": true,
+      "recorded_critical_skill_zero_based": 9,
+      "executed_first_positive_dual_skill_zero_based": 9,
+      "critical_skill_agrees": true,
+      "critical_skill_execution_source": "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/compensated-002-t0100-487/adaptive_held_controls.json",
+      "critical_skill_execution_sha256": "b089ba52eeb327117d1908ec7ac9dc3280b9a10c344b0d2097be754ed45e1eb5",
+      "frozen_availability_note": "Original fixed-branch availability at branch start is a conservative availability bound, not the original creation/publication time; future code reports 0.0 for the already available frozen checkpoint.",
+      "first_no_certificate_note": "Original field tests max hard H<0; it must not be interpreted as absence of an eligible complete-QP certificate. New code records both chronologies explicitly.",
+      "recorded_continued_attempts": 75,
+      "recorded_continued_all_updates_finite": true,
+      "availability_bug_affected_this_continuation": false,
+      "atlas_snapshot_manifest": "artifacts/da_plcbf/case-study-20260905/atlas-v1/compensated/t0100.json",
+      "atlas_snapshot_manifest_sha256": "66eb194d792ea5c0cf2232ea8367789e171fc2af27695b3d202ed82a07490dc9",
+      "authenticated_atlas_state_time_seconds": 4.0,
+      "authenticated_training_before_seconds": 4.0,
+      "branch_time_matches_authenticated_atlas": true,
+      "training_not_after_snapshot": true
+    },
+    {
+      "original_protocol": "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/protocol.json",
+      "original_protocol_sha256": "739da05c967c4807070d9ca5877dfe7a49a24258590ee6f04e8663be37cfab91",
+      "post_hoc_audit": true,
+      "original_protocol_unchanged": true,
+      "recorded_critical_skill_zero_based": 4,
+      "executed_first_positive_dual_skill_zero_based": 4,
+      "critical_skill_agrees": true,
+      "critical_skill_execution_source": "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-000-t0100-132/adaptive_held_controls.json",
+      "critical_skill_execution_sha256": "0594bc696c27329abf675a0905bd12e795c78038da1d00f9f6ad2e2d6fd7cc95",
+      "frozen_availability_note": "Original fixed-branch availability at branch start is a conservative availability bound, not the original creation/publication time; future code reports 0.0 for the already available frozen checkpoint.",
+      "first_no_certificate_note": "Original field tests max hard H<0; it must not be interpreted as absence of an eligible complete-QP certificate. New code records both chronologies explicitly.",
+      "recorded_continued_attempts": 75,
+      "recorded_continued_all_updates_finite": true,
+      "availability_bug_affected_this_continuation": false,
+      "atlas_snapshot_manifest": "artifacts/da_plcbf/case-study-20260905/atlas-v1/uncompensated/t0100.json",
+      "atlas_snapshot_manifest_sha256": "525db7edfd2683a21ff8d83e47c29a375faf39853f6f6dc987a0d74c6c41f067",
+      "authenticated_atlas_state_time_seconds": 4.0,
+      "authenticated_training_before_seconds": 4.0,
+      "branch_time_matches_authenticated_atlas": true,
+      "training_not_after_snapshot": true
+    }
+  ]
+}

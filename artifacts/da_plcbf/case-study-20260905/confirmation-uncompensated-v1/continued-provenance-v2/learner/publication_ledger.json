@@ -1,0 +1,3192 @@
+{
+  "summary": {
+    "scope": "deterministic publication boundaries; measured service clocks are separate",
+    "initial": {
+      "library_version": 760,
+      "cumulative_gradient_steps": 760,
+      "persistent_state_sha256": "8f8eeec003609eb04046d5d9500432428f9e267f7f18f8a78bf9e80a34293ce2",
+      "parameters_sha256": "06e25aab32711ce067908e714978a51213571dc3103b10575b12d03ee5f10ad2",
+      "previous_parameters_sha256": "19cbeea095d3902762c9c76d3eb5e17460b844d81394b34d1805d078b1da2e81",
+      "optimizer_state_sha256": "412e3f2e3eda58b4a1dc4062211bd2ca5eb70c1fa3422125df1293947984a146"
+    },
+    "final": {
+      "library_version": 835,
+      "cumulative_gradient_steps": 835,
+      "persistent_state_sha256": "b5fd4c23c69f5b8f3698b96fefaa14744f22255d0d2307f6a5edf228f27e189c",
+      "parameters_sha256": "6272f8a1fb1b4e6e92de83070927ce9eed11eae5efb64384134e5540993610ee",
+      "previous_parameters_sha256": "a54671509ef74420d34feafa4d58f8fd6d7d1f018854589f9fba600e443bded6",
+      "optimizer_state_sha256": "4d72950cea31c075161dd7292d9c909600a6cccfc8045fa5df6bc8a1135f3c54"
+    },
+    "final_snapshot_available_time_seconds": 7.0,
+    "last_executed_control_version": 834,
+    "checkpoint_directory": "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/continued-provenance-v2/learner"
+  },
+  "rows": [
+    {
+      "time": 4.0,
+      "executed": true,
+      "version": 760,
+      "snapshot_available_time": 4.0,
+      "published_learner_state": {
+        "library_version": 760,
+        "cumulative_gradient_steps": 760,
+        "persistent_state_sha256": "8f8eeec003609eb04046d5d9500432428f9e267f7f18f8a78bf9e80a34293ce2",
+        "parameters_sha256": "06e25aab32711ce067908e714978a51213571dc3103b10575b12d03ee5f10ad2",
+        "previous_parameters_sha256": "19cbeea095d3902762c9c76d3eb5e17460b844d81394b34d1805d078b1da2e81",
+        "optimizer_state_sha256": "412e3f2e3eda58b4a1dc4062211bd2ca5eb70c1fa3422125df1293947984a146"
+      },
+      "controller_started_perf_counter_ns": 2086766577713659,
+      "controller_completed_perf_counter_ns": 2086773923797572,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.0,
+        "publication_time_seconds": 4.04,
+        "training_state_sha256": "d8c6f2ac173d81d7d99031decb8ffa4c2049ca4006bc899f2d92e8353d20da09",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086773926662006,
+        "completed_perf_counter_ns": 2086774972735833,
+        "synchronized_service_seconds": 1.046073827,
+        "before": {
+          "library_version": 760,
+          "cumulative_gradient_steps": 760,
+          "persistent_state_sha256": "8f8eeec003609eb04046d5d9500432428f9e267f7f18f8a78bf9e80a34293ce2",
+          "parameters_sha256": "06e25aab32711ce067908e714978a51213571dc3103b10575b12d03ee5f10ad2",
+          "previous_parameters_sha256": "19cbeea095d3902762c9c76d3eb5e17460b844d81394b34d1805d078b1da2e81",
+          "optimizer_state_sha256": "412e3f2e3eda58b4a1dc4062211bd2ca5eb70c1fa3422125df1293947984a146"
+        },
+        "after": {
+          "library_version": 761,
+          "cumulative_gradient_steps": 761,
+          "persistent_state_sha256": "67bf951251dd6b72a93449290b053d8ddd8e61c670097c95e8a73fe0bd65adee",
+          "parameters_sha256": "3b5b6810223b5f89101f79fd29a88ab6dee4c5fac77f7db7f0762aab730adfa4",
+          "previous_parameters_sha256": "06e25aab32711ce067908e714978a51213571dc3103b10575b12d03ee5f10ad2",
+          "optimizer_state_sha256": "4518ceed5a7b0699397f6f4ca2234a182c70a09ad93ec41ab52f1ca8104a99c6"
+        }
+      }
+    },
+    {
+      "time": 4.04,
+      "executed": true,
+      "version": 761,
+      "snapshot_available_time": 4.04,
+      "published_learner_state": {
+        "library_version": 761,
+        "cumulative_gradient_steps": 761,
+        "persistent_state_sha256": "67bf951251dd6b72a93449290b053d8ddd8e61c670097c95e8a73fe0bd65adee",
+        "parameters_sha256": "3b5b6810223b5f89101f79fd29a88ab6dee4c5fac77f7db7f0762aab730adfa4",
+        "previous_parameters_sha256": "06e25aab32711ce067908e714978a51213571dc3103b10575b12d03ee5f10ad2",
+        "optimizer_state_sha256": "4518ceed5a7b0699397f6f4ca2234a182c70a09ad93ec41ab52f1ca8104a99c6"
+      },
+      "controller_started_perf_counter_ns": 2086775286747275,
+      "controller_completed_perf_counter_ns": 2086778212600441,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.04,
+        "publication_time_seconds": 4.08,
+        "training_state_sha256": "9245c91a882cf16024f7414967948769cce0cef64db69e233cba7a085b0c3c34",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086778215676574,
+        "completed_perf_counter_ns": 2086778841456058,
+        "synchronized_service_seconds": 0.625779484,
+        "before": {
+          "library_version": 761,
+          "cumulative_gradient_steps": 761,
+          "persistent_state_sha256": "67bf951251dd6b72a93449290b053d8ddd8e61c670097c95e8a73fe0bd65adee",
+          "parameters_sha256": "3b5b6810223b5f89101f79fd29a88ab6dee4c5fac77f7db7f0762aab730adfa4",
+          "previous_parameters_sha256": "06e25aab32711ce067908e714978a51213571dc3103b10575b12d03ee5f10ad2",
+          "optimizer_state_sha256": "4518ceed5a7b0699397f6f4ca2234a182c70a09ad93ec41ab52f1ca8104a99c6"
+        },
+        "after": {
+          "library_version": 762,
+          "cumulative_gradient_steps": 762,
+          "persistent_state_sha256": "ab221ca5482f76cfb6274361006273221ce5bd71ff30f37457c04c0945961adc",
+          "parameters_sha256": "f59aaff900b2171a7e0a259edc332ae29020396cda9321c968ce189daebdae69",
+          "previous_parameters_sha256": "3b5b6810223b5f89101f79fd29a88ab6dee4c5fac77f7db7f0762aab730adfa4",
+          "optimizer_state_sha256": "de0d2c3a039d1719ec416de546134a8d717b3d1479dd50682ad2c3eb33e16243"
+        }
+      }
+    },
+    {
+      "time": 4.08,
+      "executed": true,
+      "version": 762,
+      "snapshot_available_time": 4.08,
+      "published_learner_state": {
+        "library_version": 762,
+        "cumulative_gradient_steps": 762,
+        "persistent_state_sha256": "ab221ca5482f76cfb6274361006273221ce5bd71ff30f37457c04c0945961adc",
+        "parameters_sha256": "f59aaff900b2171a7e0a259edc332ae29020396cda9321c968ce189daebdae69",
+        "previous_parameters_sha256": "3b5b6810223b5f89101f79fd29a88ab6dee4c5fac77f7db7f0762aab730adfa4",
+        "optimizer_state_sha256": "de0d2c3a039d1719ec416de546134a8d717b3d1479dd50682ad2c3eb33e16243"
+      },
+      "controller_started_perf_counter_ns": 2086778847227830,
+      "controller_completed_perf_counter_ns": 2086778861521555,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.08,
+        "publication_time_seconds": 4.12,
+        "training_state_sha256": "7f41fc4afa6bbb7e98b12f1577ad8b54c90a6f4ec637a5838fbc80920d511714",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086778862556366,
+        "completed_perf_counter_ns": 2086778873945821,
+        "synchronized_service_seconds": 0.011389455000000001,
+        "before": {
+          "library_version": 762,
+          "cumulative_gradient_steps": 762,
+          "persistent_state_sha256": "ab221ca5482f76cfb6274361006273221ce5bd71ff30f37457c04c0945961adc",
+          "parameters_sha256": "f59aaff900b2171a7e0a259edc332ae29020396cda9321c968ce189daebdae69",
+          "previous_parameters_sha256": "3b5b6810223b5f89101f79fd29a88ab6dee4c5fac77f7db7f0762aab730adfa4",
+          "optimizer_state_sha256": "de0d2c3a039d1719ec416de546134a8d717b3d1479dd50682ad2c3eb33e16243"
+        },
+        "after": {
+          "library_version": 763,
+          "cumulative_gradient_steps": 763,
+          "persistent_state_sha256": "8bea01786ce009191af1fd33deae92550fcf2d453abf79cf104b90a5102fd609",
+          "parameters_sha256": "606a19cbe89321625e18d0e049c9f4039aa3b1d6a5bc4f38ec55679bfd505c46",
+          "previous_parameters_sha256": "f59aaff900b2171a7e0a259edc332ae29020396cda9321c968ce189daebdae69",
+          "optimizer_state_sha256": "5676996c3783aeaefd1f1fa2f5643d242e13785f0619245497fa7169b7334ac7"
+        }
+      }
+    },
+    {
+      "time": 4.12,
+      "executed": true,
+      "version": 763,
+      "snapshot_available_time": 4.12,
+      "published_learner_state": {
+        "library_version": 763,
+        "cumulative_gradient_steps": 763,
+        "persistent_state_sha256": "8bea01786ce009191af1fd33deae92550fcf2d453abf79cf104b90a5102fd609",
+        "parameters_sha256": "606a19cbe89321625e18d0e049c9f4039aa3b1d6a5bc4f38ec55679bfd505c46",
+        "previous_parameters_sha256": "f59aaff900b2171a7e0a259edc332ae29020396cda9321c968ce189daebdae69",
+        "optimizer_state_sha256": "5676996c3783aeaefd1f1fa2f5643d242e13785f0619245497fa7169b7334ac7"
+      },
+      "controller_started_perf_counter_ns": 2086778877349804,
+      "controller_completed_perf_counter_ns": 2086778887112707,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.12,
+        "publication_time_seconds": 4.16,
+        "training_state_sha256": "d243b54bc9ba316eadf918bd1c910c00bbcfbf4c7966ba8c3b336d39ae54e6c3",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086778887753797,
+        "completed_perf_counter_ns": 2086778899145986,
+        "synchronized_service_seconds": 0.011392189,
+        "before": {
+          "library_version": 763,
+          "cumulative_gradient_steps": 763,
+          "persistent_state_sha256": "8bea01786ce009191af1fd33deae92550fcf2d453abf79cf104b90a5102fd609",
+          "parameters_sha256": "606a19cbe89321625e18d0e049c9f4039aa3b1d6a5bc4f38ec55679bfd505c46",
+          "previous_parameters_sha256": "f59aaff900b2171a7e0a259edc332ae29020396cda9321c968ce189daebdae69",
+          "optimizer_state_sha256": "5676996c3783aeaefd1f1fa2f5643d242e13785f0619245497fa7169b7334ac7"
+        },
+        "after": {
+          "library_version": 764,
+          "cumulative_gradient_steps": 764,
+          "persistent_state_sha256": "17a1e5b493e2101be7f1d2d5536712b39e0fe13e2452aee61185842835da071a",
+          "parameters_sha256": "35fc8fa91298a2b1c51268903fd91feef6b645cb1ad427697c261ae115b480e9",
+          "previous_parameters_sha256": "606a19cbe89321625e18d0e049c9f4039aa3b1d6a5bc4f38ec55679bfd505c46",
+          "optimizer_state_sha256": "4b6926ec3386773f8bbe66f83528f666005783c9c84c48038455a1c8232108ab"
+        }
+      }
+    },
+    {
+      "time": 4.16,
+      "executed": true,
+      "version": 764,
+      "snapshot_available_time": 4.16,
+      "published_learner_state": {
+        "library_version": 764,
+        "cumulative_gradient_steps": 764,
+        "persistent_state_sha256": "17a1e5b493e2101be7f1d2d5536712b39e0fe13e2452aee61185842835da071a",
+        "parameters_sha256": "35fc8fa91298a2b1c51268903fd91feef6b645cb1ad427697c261ae115b480e9",
+        "previous_parameters_sha256": "606a19cbe89321625e18d0e049c9f4039aa3b1d6a5bc4f38ec55679bfd505c46",
+        "optimizer_state_sha256": "4b6926ec3386773f8bbe66f83528f666005783c9c84c48038455a1c8232108ab"
+      },
+      "controller_started_perf_counter_ns": 2086778902114916,
+      "controller_completed_perf_counter_ns": 2086778911642163,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.16,
+        "publication_time_seconds": 4.2,
+        "training_state_sha256": "389a804622e215a7577213052c80a9c62919590546f621133e392dd86ff12cdc",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086778912376527,
+        "completed_perf_counter_ns": 2086778923615634,
+        "synchronized_service_seconds": 0.011239107,
+        "before": {
+          "library_version": 764,
+          "cumulative_gradient_steps": 764,
+          "persistent_state_sha256": "17a1e5b493e2101be7f1d2d5536712b39e0fe13e2452aee61185842835da071a",
+          "parameters_sha256": "35fc8fa91298a2b1c51268903fd91feef6b645cb1ad427697c261ae115b480e9",
+          "previous_parameters_sha256": "606a19cbe89321625e18d0e049c9f4039aa3b1d6a5bc4f38ec55679bfd505c46",
+          "optimizer_state_sha256": "4b6926ec3386773f8bbe66f83528f666005783c9c84c48038455a1c8232108ab"
+        },
+        "after": {
+          "library_version": 765,
+          "cumulative_gradient_steps": 765,
+          "persistent_state_sha256": "2b093c965ddc0642b4d7cb497843ef7acd53de95d5f7604ced6269cdeff719e3",
+          "parameters_sha256": "535c34f553cfef5e144938c430f05cf210c4e4228bf08c845c81345711a17854",
+          "previous_parameters_sha256": "35fc8fa91298a2b1c51268903fd91feef6b645cb1ad427697c261ae115b480e9",
+          "optimizer_state_sha256": "f17b057e7220f8b6b8d38431c1a30688f88c955a415ade3c73a1e4db175b9548"
+        }
+      }
+    },
+    {
+      "time": 4.2,
+      "executed": true,
+      "version": 765,
+      "snapshot_available_time": 4.2,
+      "published_learner_state": {
+        "library_version": 765,
+        "cumulative_gradient_steps": 765,
+        "persistent_state_sha256": "2b093c965ddc0642b4d7cb497843ef7acd53de95d5f7604ced6269cdeff719e3",
+        "parameters_sha256": "535c34f553cfef5e144938c430f05cf210c4e4228bf08c845c81345711a17854",
+        "previous_parameters_sha256": "35fc8fa91298a2b1c51268903fd91feef6b645cb1ad427697c261ae115b480e9",
+        "optimizer_state_sha256": "f17b057e7220f8b6b8d38431c1a30688f88c955a415ade3c73a1e4db175b9548"
+      },
+      "controller_started_perf_counter_ns": 2086778926881797,
+      "controller_completed_perf_counter_ns": 2086778936406302,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.2,
+        "publication_time_seconds": 4.24,
+        "training_state_sha256": "30da6be021fc62af3627bd0448451c371f9c10e8c8abe5971112b5fa59fb8b76",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086778937106699,
+        "completed_perf_counter_ns": 2086778948347234,
+        "synchronized_service_seconds": 0.011240535000000001,
+        "before": {
+          "library_version": 765,
+          "cumulative_gradient_steps": 765,
+          "persistent_state_sha256": "2b093c965ddc0642b4d7cb497843ef7acd53de95d5f7604ced6269cdeff719e3",
+          "parameters_sha256": "535c34f553cfef5e144938c430f05cf210c4e4228bf08c845c81345711a17854",
+          "previous_parameters_sha256": "35fc8fa91298a2b1c51268903fd91feef6b645cb1ad427697c261ae115b480e9",
+          "optimizer_state_sha256": "f17b057e7220f8b6b8d38431c1a30688f88c955a415ade3c73a1e4db175b9548"
+        },
+        "after": {
+          "library_version": 766,
+          "cumulative_gradient_steps": 766,
+          "persistent_state_sha256": "029f3dd06ec93c3254189659326cde77873cbe85e1aa1a074ffcaa8a54f08179",
+          "parameters_sha256": "0b4003b4b9a2fec2fdeab131d77ea7579991663485ddd0f0a03b838d1e89085e",
+          "previous_parameters_sha256": "535c34f553cfef5e144938c430f05cf210c4e4228bf08c845c81345711a17854",
+          "optimizer_state_sha256": "aa1c07b96a7cd437bccaccba61ccdf30ab5a70cc4af24a2838a44e3d19e6d5b7"
+        }
+      }
+    },
+    {
+      "time": 4.24,
+      "executed": true,
+      "version": 766,
+      "snapshot_available_time": 4.24,
+      "published_learner_state": {
+        "library_version": 766,
+        "cumulative_gradient_steps": 766,
+        "persistent_state_sha256": "029f3dd06ec93c3254189659326cde77873cbe85e1aa1a074ffcaa8a54f08179",
+        "parameters_sha256": "0b4003b4b9a2fec2fdeab131d77ea7579991663485ddd0f0a03b838d1e89085e",
+        "previous_parameters_sha256": "535c34f553cfef5e144938c430f05cf210c4e4228bf08c845c81345711a17854",
+        "optimizer_state_sha256": "aa1c07b96a7cd437bccaccba61ccdf30ab5a70cc4af24a2838a44e3d19e6d5b7"
+      },
+      "controller_started_perf_counter_ns": 2086778951303660,
+      "controller_completed_perf_counter_ns": 2086778960795601,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.24,
+        "publication_time_seconds": 4.28,
+        "training_state_sha256": "412a1d96da435d67be8d3753f930769a8502775a5243bab6af6cfa9df4b7a7f8",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086778961425204,
+        "completed_perf_counter_ns": 2086778972228188,
+        "synchronized_service_seconds": 0.010802984,
+        "before": {
+          "library_version": 766,
+          "cumulative_gradient_steps": 766,
+          "persistent_state_sha256": "029f3dd06ec93c3254189659326cde77873cbe85e1aa1a074ffcaa8a54f08179",
+          "parameters_sha256": "0b4003b4b9a2fec2fdeab131d77ea7579991663485ddd0f0a03b838d1e89085e",
+          "previous_parameters_sha256": "535c34f553cfef5e144938c430f05cf210c4e4228bf08c845c81345711a17854",
+          "optimizer_state_sha256": "aa1c07b96a7cd437bccaccba61ccdf30ab5a70cc4af24a2838a44e3d19e6d5b7"
+        },
+        "after": {
+          "library_version": 767,
+          "cumulative_gradient_steps": 767,
+          "persistent_state_sha256": "e26dd6d28a14511595abceb73fde8a57598af326d2f51c2f28f09b09f92886ea",
+          "parameters_sha256": "edebfa69e521e6bfbf31e9656ffb115788b354d6bf78319d1d40859fa2ec5a7a",
+          "previous_parameters_sha256": "0b4003b4b9a2fec2fdeab131d77ea7579991663485ddd0f0a03b838d1e89085e",
+          "optimizer_state_sha256": "013fa791b36c4562eccc903f42448a34d078e76d7e99fb6801f8062be4103c25"
+        }
+      }
+    },
+    {
+      "time": 4.28,
+      "executed": true,
+      "version": 767,
+      "snapshot_available_time": 4.28,
+      "published_learner_state": {
+        "library_version": 767,
+        "cumulative_gradient_steps": 767,
+        "persistent_state_sha256": "e26dd6d28a14511595abceb73fde8a57598af326d2f51c2f28f09b09f92886ea",
+        "parameters_sha256": "edebfa69e521e6bfbf31e9656ffb115788b354d6bf78319d1d40859fa2ec5a7a",
+        "previous_parameters_sha256": "0b4003b4b9a2fec2fdeab131d77ea7579991663485ddd0f0a03b838d1e89085e",
+        "optimizer_state_sha256": "013fa791b36c4562eccc903f42448a34d078e76d7e99fb6801f8062be4103c25"
+      },
+      "controller_started_perf_counter_ns": 2086778975197334,
+      "controller_completed_perf_counter_ns": 2086778984065101,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.28,
+        "publication_time_seconds": 4.32,
+        "training_state_sha256": "4ab30bc6ad59be18dec8b5caa50e1323c166e1baf72f3f85f40b1c346434fe8e",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086778984750926,
+        "completed_perf_counter_ns": 2086778995296664,
+        "synchronized_service_seconds": 0.010545738,
+        "before": {
+          "library_version": 767,
+          "cumulative_gradient_steps": 767,
+          "persistent_state_sha256": "e26dd6d28a14511595abceb73fde8a57598af326d2f51c2f28f09b09f92886ea",
+          "parameters_sha256": "edebfa69e521e6bfbf31e9656ffb115788b354d6bf78319d1d40859fa2ec5a7a",
+          "previous_parameters_sha256": "0b4003b4b9a2fec2fdeab131d77ea7579991663485ddd0f0a03b838d1e89085e",
+          "optimizer_state_sha256": "013fa791b36c4562eccc903f42448a34d078e76d7e99fb6801f8062be4103c25"
+        },
+        "after": {
+          "library_version": 768,
+          "cumulative_gradient_steps": 768,
+          "persistent_state_sha256": "42f7639455b86053917e81a35351d1a07ccc58b90e9b4e139487549181653f9e",
+          "parameters_sha256": "a728deefd4d20c8a254d327ce0d7f27bf28683b77f56b005a6dbc11facbaa638",
+          "previous_parameters_sha256": "edebfa69e521e6bfbf31e9656ffb115788b354d6bf78319d1d40859fa2ec5a7a",
+          "optimizer_state_sha256": "8cd07bf83430525ca59fda4489c39b5dbb474d2ca0ce483deb186fda6c6bbfbb"
+        }
+      }
+    },
+    {
+      "time": 4.32,
+      "executed": true,
+      "version": 768,
+      "snapshot_available_time": 4.32,
+      "published_learner_state": {
+        "library_version": 768,
+        "cumulative_gradient_steps": 768,
+        "persistent_state_sha256": "42f7639455b86053917e81a35351d1a07ccc58b90e9b4e139487549181653f9e",
+        "parameters_sha256": "a728deefd4d20c8a254d327ce0d7f27bf28683b77f56b005a6dbc11facbaa638",
+        "previous_parameters_sha256": "edebfa69e521e6bfbf31e9656ffb115788b354d6bf78319d1d40859fa2ec5a7a",
+        "optimizer_state_sha256": "8cd07bf83430525ca59fda4489c39b5dbb474d2ca0ce483deb186fda6c6bbfbb"
+      },
+      "controller_started_perf_counter_ns": 2086778999144454,
+      "controller_completed_perf_counter_ns": 2086779007973576,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.32,
+        "publication_time_seconds": 4.36,
+        "training_state_sha256": "e7d75510965eb011a2056c80751147f6185530ddcae9a4962c703801b2408243",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779008672137,
+        "completed_perf_counter_ns": 2086779019242898,
+        "synchronized_service_seconds": 0.010570761000000001,
+        "before": {
+          "library_version": 768,
+          "cumulative_gradient_steps": 768,
+          "persistent_state_sha256": "42f7639455b86053917e81a35351d1a07ccc58b90e9b4e139487549181653f9e",
+          "parameters_sha256": "a728deefd4d20c8a254d327ce0d7f27bf28683b77f56b005a6dbc11facbaa638",
+          "previous_parameters_sha256": "edebfa69e521e6bfbf31e9656ffb115788b354d6bf78319d1d40859fa2ec5a7a",
+          "optimizer_state_sha256": "8cd07bf83430525ca59fda4489c39b5dbb474d2ca0ce483deb186fda6c6bbfbb"
+        },
+        "after": {
+          "library_version": 769,
+          "cumulative_gradient_steps": 769,
+          "persistent_state_sha256": "e032bc1f1f99816f58636035763402ceb9f407d2a55b77c0eb00eab967b09de0",
+          "parameters_sha256": "34bc38b9f45cf93169ec4ea7cc1637fbb49ee04e56d348f7a20253b7c98066cc",
+          "previous_parameters_sha256": "a728deefd4d20c8a254d327ce0d7f27bf28683b77f56b005a6dbc11facbaa638",
+          "optimizer_state_sha256": "e1511d420096c64eefefa036866a3a955c51f5a0432f2df37900da94714fece2"
+        }
+      }
+    },
+    {
+      "time": 4.36,
+      "executed": true,
+      "version": 769,
+      "snapshot_available_time": 4.36,
+      "published_learner_state": {
+        "library_version": 769,
+        "cumulative_gradient_steps": 769,
+        "persistent_state_sha256": "e032bc1f1f99816f58636035763402ceb9f407d2a55b77c0eb00eab967b09de0",
+        "parameters_sha256": "34bc38b9f45cf93169ec4ea7cc1637fbb49ee04e56d348f7a20253b7c98066cc",
+        "previous_parameters_sha256": "a728deefd4d20c8a254d327ce0d7f27bf28683b77f56b005a6dbc11facbaa638",
+        "optimizer_state_sha256": "e1511d420096c64eefefa036866a3a955c51f5a0432f2df37900da94714fece2"
+      },
+      "controller_started_perf_counter_ns": 2086779022370287,
+      "controller_completed_perf_counter_ns": 2086779031242655,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.36,
+        "publication_time_seconds": 4.4,
+        "training_state_sha256": "ee017677dd7b7d2bb2689e8dfd09932ceff07fc14822c1254506cd7b4ea85ede",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779031923598,
+        "completed_perf_counter_ns": 2086779042530609,
+        "synchronized_service_seconds": 0.010607011000000001,
+        "before": {
+          "library_version": 769,
+          "cumulative_gradient_steps": 769,
+          "persistent_state_sha256": "e032bc1f1f99816f58636035763402ceb9f407d2a55b77c0eb00eab967b09de0",
+          "parameters_sha256": "34bc38b9f45cf93169ec4ea7cc1637fbb49ee04e56d348f7a20253b7c98066cc",
+          "previous_parameters_sha256": "a728deefd4d20c8a254d327ce0d7f27bf28683b77f56b005a6dbc11facbaa638",
+          "optimizer_state_sha256": "e1511d420096c64eefefa036866a3a955c51f5a0432f2df37900da94714fece2"
+        },
+        "after": {
+          "library_version": 770,
+          "cumulative_gradient_steps": 770,
+          "persistent_state_sha256": "e58231295e4112726a4aa549773a2b7b0ab9e4f2f63067125f86fed46ef27f11",
+          "parameters_sha256": "4034b0f20aa2b5b0c17dcb6f726076476ce49c612210376f592cca6dd3ef2013",
+          "previous_parameters_sha256": "34bc38b9f45cf93169ec4ea7cc1637fbb49ee04e56d348f7a20253b7c98066cc",
+          "optimizer_state_sha256": "fa94c0d095b86764da989531cfdcf4889f751df0967857b0b80eeb37ac240fbb"
+        }
+      }
+    },
+    {
+      "time": 4.4,
+      "executed": true,
+      "version": 770,
+      "snapshot_available_time": 4.4,
+      "published_learner_state": {
+        "library_version": 770,
+        "cumulative_gradient_steps": 770,
+        "persistent_state_sha256": "e58231295e4112726a4aa549773a2b7b0ab9e4f2f63067125f86fed46ef27f11",
+        "parameters_sha256": "4034b0f20aa2b5b0c17dcb6f726076476ce49c612210376f592cca6dd3ef2013",
+        "previous_parameters_sha256": "34bc38b9f45cf93169ec4ea7cc1637fbb49ee04e56d348f7a20253b7c98066cc",
+        "optimizer_state_sha256": "fa94c0d095b86764da989531cfdcf4889f751df0967857b0b80eeb37ac240fbb"
+      },
+      "controller_started_perf_counter_ns": 2086779045558302,
+      "controller_completed_perf_counter_ns": 2086779054459329,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.4,
+        "publication_time_seconds": 4.44,
+        "training_state_sha256": "0ac363b721e305cfdf4cb6399cf7498831a983ece7478e99ede1931ff55b1483",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779055157874,
+        "completed_perf_counter_ns": 2086779065695994,
+        "synchronized_service_seconds": 0.010538120000000002,
+        "before": {
+          "library_version": 770,
+          "cumulative_gradient_steps": 770,
+          "persistent_state_sha256": "e58231295e4112726a4aa549773a2b7b0ab9e4f2f63067125f86fed46ef27f11",
+          "parameters_sha256": "4034b0f20aa2b5b0c17dcb6f726076476ce49c612210376f592cca6dd3ef2013",
+          "previous_parameters_sha256": "34bc38b9f45cf93169ec4ea7cc1637fbb49ee04e56d348f7a20253b7c98066cc",
+          "optimizer_state_sha256": "fa94c0d095b86764da989531cfdcf4889f751df0967857b0b80eeb37ac240fbb"
+        },
+        "after": {
+          "library_version": 771,
+          "cumulative_gradient_steps": 771,
+          "persistent_state_sha256": "a60677f53c716b76a577de67c0a0bedb1ddc953eea66c79ceceec74364dd517b",
+          "parameters_sha256": "7101b92c81de6aa2d276d0758ed8f917f68f58d27ce7544fcbda8e56c99e3c7c",
+          "previous_parameters_sha256": "4034b0f20aa2b5b0c17dcb6f726076476ce49c612210376f592cca6dd3ef2013",
+          "optimizer_state_sha256": "4ff92a7a6fd0148f4009460885b4dfc8c8d1f944ae4581fb20e5cd0bcfe909ce"
+        }
+      }
+    },
+    {
+      "time": 4.44,
+      "executed": true,
+      "version": 771,
+      "snapshot_available_time": 4.44,
+      "published_learner_state": {
+        "library_version": 771,
+        "cumulative_gradient_steps": 771,
+        "persistent_state_sha256": "a60677f53c716b76a577de67c0a0bedb1ddc953eea66c79ceceec74364dd517b",
+        "parameters_sha256": "7101b92c81de6aa2d276d0758ed8f917f68f58d27ce7544fcbda8e56c99e3c7c",
+        "previous_parameters_sha256": "4034b0f20aa2b5b0c17dcb6f726076476ce49c612210376f592cca6dd3ef2013",
+        "optimizer_state_sha256": "4ff92a7a6fd0148f4009460885b4dfc8c8d1f944ae4581fb20e5cd0bcfe909ce"
+      },
+      "controller_started_perf_counter_ns": 2086779068796398,
+      "controller_completed_perf_counter_ns": 2086779077742785,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.44,
+        "publication_time_seconds": 4.48,
+        "training_state_sha256": "fe63e07135deeb69afd92416209f6cf629f0098daf0ad13844eb0eb874be766e",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779078402042,
+        "completed_perf_counter_ns": 2086779089012728,
+        "synchronized_service_seconds": 0.010610686000000001,
+        "before": {
+          "library_version": 771,
+          "cumulative_gradient_steps": 771,
+          "persistent_state_sha256": "a60677f53c716b76a577de67c0a0bedb1ddc953eea66c79ceceec74364dd517b",
+          "parameters_sha256": "7101b92c81de6aa2d276d0758ed8f917f68f58d27ce7544fcbda8e56c99e3c7c",
+          "previous_parameters_sha256": "4034b0f20aa2b5b0c17dcb6f726076476ce49c612210376f592cca6dd3ef2013",
+          "optimizer_state_sha256": "4ff92a7a6fd0148f4009460885b4dfc8c8d1f944ae4581fb20e5cd0bcfe909ce"
+        },
+        "after": {
+          "library_version": 772,
+          "cumulative_gradient_steps": 772,
+          "persistent_state_sha256": "55e0b3523c9a8affc072d6a0b5f66d563b0e1af59b72c26b0c57abcde32eb7aa",
+          "parameters_sha256": "f5da95875d2f9f9cb172013fb3b5a7b1b6260f92b2f789105bb1781696eea112",
+          "previous_parameters_sha256": "7101b92c81de6aa2d276d0758ed8f917f68f58d27ce7544fcbda8e56c99e3c7c",
+          "optimizer_state_sha256": "5595b78d653b4df6fd10f474f1642fbc748560a70a940da7ba7e072bb55e31a4"
+        }
+      }
+    },
+    {
+      "time": 4.48,
+      "executed": true,
+      "version": 772,
+      "snapshot_available_time": 4.48,
+      "published_learner_state": {
+        "library_version": 772,
+        "cumulative_gradient_steps": 772,
+        "persistent_state_sha256": "55e0b3523c9a8affc072d6a0b5f66d563b0e1af59b72c26b0c57abcde32eb7aa",
+        "parameters_sha256": "f5da95875d2f9f9cb172013fb3b5a7b1b6260f92b2f789105bb1781696eea112",
+        "previous_parameters_sha256": "7101b92c81de6aa2d276d0758ed8f917f68f58d27ce7544fcbda8e56c99e3c7c",
+        "optimizer_state_sha256": "5595b78d653b4df6fd10f474f1642fbc748560a70a940da7ba7e072bb55e31a4"
+      },
+      "controller_started_perf_counter_ns": 2086779092390562,
+      "controller_completed_perf_counter_ns": 2086779101300740,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.48,
+        "publication_time_seconds": 4.5200000000000005,
+        "training_state_sha256": "07d453558ddc1c98c65c320a704af6e369a2491b919e3386a7a3f7e5e81baffd",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779101991302,
+        "completed_perf_counter_ns": 2086779112578724,
+        "synchronized_service_seconds": 0.010587422,
+        "before": {
+          "library_version": 772,
+          "cumulative_gradient_steps": 772,
+          "persistent_state_sha256": "55e0b3523c9a8affc072d6a0b5f66d563b0e1af59b72c26b0c57abcde32eb7aa",
+          "parameters_sha256": "f5da95875d2f9f9cb172013fb3b5a7b1b6260f92b2f789105bb1781696eea112",
+          "previous_parameters_sha256": "7101b92c81de6aa2d276d0758ed8f917f68f58d27ce7544fcbda8e56c99e3c7c",
+          "optimizer_state_sha256": "5595b78d653b4df6fd10f474f1642fbc748560a70a940da7ba7e072bb55e31a4"
+        },
+        "after": {
+          "library_version": 773,
+          "cumulative_gradient_steps": 773,
+          "persistent_state_sha256": "a4e8ef6e3eeab0b5a6f3a3c899fe8fe32b158bb9523cf546e338e3403662f823",
+          "parameters_sha256": "192d4d3af9ae7a9ff5650fd16ad96c8d6c76abf26b08a230320607e56891ef77",
+          "previous_parameters_sha256": "f5da95875d2f9f9cb172013fb3b5a7b1b6260f92b2f789105bb1781696eea112",
+          "optimizer_state_sha256": "e5250638f620ecc2ee03ab366cf5e23fc2f53fa561943b0f53ba35810bc2cb93"
+        }
+      }
+    },
+    {
+      "time": 4.52,
+      "executed": true,
+      "version": 773,
+      "snapshot_available_time": 4.5200000000000005,
+      "published_learner_state": {
+        "library_version": 773,
+        "cumulative_gradient_steps": 773,
+        "persistent_state_sha256": "a4e8ef6e3eeab0b5a6f3a3c899fe8fe32b158bb9523cf546e338e3403662f823",
+        "parameters_sha256": "192d4d3af9ae7a9ff5650fd16ad96c8d6c76abf26b08a230320607e56891ef77",
+        "previous_parameters_sha256": "f5da95875d2f9f9cb172013fb3b5a7b1b6260f92b2f789105bb1781696eea112",
+        "optimizer_state_sha256": "e5250638f620ecc2ee03ab366cf5e23fc2f53fa561943b0f53ba35810bc2cb93"
+      },
+      "controller_started_perf_counter_ns": 2086779115616681,
+      "controller_completed_perf_counter_ns": 2086779124508241,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.52,
+        "publication_time_seconds": 4.56,
+        "training_state_sha256": "e7546e93395c728865e3596c714d55ab806ed2b891c4f4a0d8eef2b6a3789513",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779125210987,
+        "completed_perf_counter_ns": 2086779135714627,
+        "synchronized_service_seconds": 0.01050364,
+        "before": {
+          "library_version": 773,
+          "cumulative_gradient_steps": 773,
+          "persistent_state_sha256": "a4e8ef6e3eeab0b5a6f3a3c899fe8fe32b158bb9523cf546e338e3403662f823",
+          "parameters_sha256": "192d4d3af9ae7a9ff5650fd16ad96c8d6c76abf26b08a230320607e56891ef77",
+          "previous_parameters_sha256": "f5da95875d2f9f9cb172013fb3b5a7b1b6260f92b2f789105bb1781696eea112",
+          "optimizer_state_sha256": "e5250638f620ecc2ee03ab366cf5e23fc2f53fa561943b0f53ba35810bc2cb93"
+        },
+        "after": {
+          "library_version": 774,
+          "cumulative_gradient_steps": 774,
+          "persistent_state_sha256": "8ff35f1adc32fc5c9890b4578f213e7a2bb72463649af812d93467349fbefc34",
+          "parameters_sha256": "0908c8ef23481878cfec29ec78f777810a3f440ec24425cf18b10d1794a3e7c5",
+          "previous_parameters_sha256": "192d4d3af9ae7a9ff5650fd16ad96c8d6c76abf26b08a230320607e56891ef77",
+          "optimizer_state_sha256": "013829c8c595a90749e9561ec36d2d5c1213d5ab36c10334b32aa1bbde8e234e"
+        }
+      }
+    },
+    {
+      "time": 4.5600000000000005,
+      "executed": true,
+      "version": 774,
+      "snapshot_available_time": 4.56,
+      "published_learner_state": {
+        "library_version": 774,
+        "cumulative_gradient_steps": 774,
+        "persistent_state_sha256": "8ff35f1adc32fc5c9890b4578f213e7a2bb72463649af812d93467349fbefc34",
+        "parameters_sha256": "0908c8ef23481878cfec29ec78f777810a3f440ec24425cf18b10d1794a3e7c5",
+        "previous_parameters_sha256": "192d4d3af9ae7a9ff5650fd16ad96c8d6c76abf26b08a230320607e56891ef77",
+        "optimizer_state_sha256": "013829c8c595a90749e9561ec36d2d5c1213d5ab36c10334b32aa1bbde8e234e"
+      },
+      "controller_started_perf_counter_ns": 2086779138787195,
+      "controller_completed_perf_counter_ns": 2086779147674952,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.5600000000000005,
+        "publication_time_seconds": 4.6000000000000005,
+        "training_state_sha256": "7c6495c2b83c92bf55d634f6db559da88d80bcfb5e5b39abf22761af72d87ebe",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779148371896,
+        "completed_perf_counter_ns": 2086779158999015,
+        "synchronized_service_seconds": 0.010627119,
+        "before": {
+          "library_version": 774,
+          "cumulative_gradient_steps": 774,
+          "persistent_state_sha256": "8ff35f1adc32fc5c9890b4578f213e7a2bb72463649af812d93467349fbefc34",
+          "parameters_sha256": "0908c8ef23481878cfec29ec78f777810a3f440ec24425cf18b10d1794a3e7c5",
+          "previous_parameters_sha256": "192d4d3af9ae7a9ff5650fd16ad96c8d6c76abf26b08a230320607e56891ef77",
+          "optimizer_state_sha256": "013829c8c595a90749e9561ec36d2d5c1213d5ab36c10334b32aa1bbde8e234e"
+        },
+        "after": {
+          "library_version": 775,
+          "cumulative_gradient_steps": 775,
+          "persistent_state_sha256": "66f3b70af21e23a09c0dda4d6175e1cc8731bb84efdca9585392295783b92e1b",
+          "parameters_sha256": "75ac8490a07e170d4069052e0762b1384f2fda29b6da7918a3760b68ad94a236",
+          "previous_parameters_sha256": "0908c8ef23481878cfec29ec78f777810a3f440ec24425cf18b10d1794a3e7c5",
+          "optimizer_state_sha256": "5ac0b7b0b8269cdaaa78f8ee93929d826eac29cec39021248ba0f8e211000bba"
+        }
+      }
+    },
+    {
+      "time": 4.6,
+      "executed": true,
+      "version": 775,
+      "snapshot_available_time": 4.6000000000000005,
+      "published_learner_state": {
+        "library_version": 775,
+        "cumulative_gradient_steps": 775,
+        "persistent_state_sha256": "66f3b70af21e23a09c0dda4d6175e1cc8731bb84efdca9585392295783b92e1b",
+        "parameters_sha256": "75ac8490a07e170d4069052e0762b1384f2fda29b6da7918a3760b68ad94a236",
+        "previous_parameters_sha256": "0908c8ef23481878cfec29ec78f777810a3f440ec24425cf18b10d1794a3e7c5",
+        "optimizer_state_sha256": "5ac0b7b0b8269cdaaa78f8ee93929d826eac29cec39021248ba0f8e211000bba"
+      },
+      "controller_started_perf_counter_ns": 2086779162033552,
+      "controller_completed_perf_counter_ns": 2086779170943530,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.6,
+        "publication_time_seconds": 4.64,
+        "training_state_sha256": "35eba8d44274114f76cbbc0aa4f95eed9f70ae2c494649b09d90911cb14792e2",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779171648906,
+        "completed_perf_counter_ns": 2086779182256365,
+        "synchronized_service_seconds": 0.010607459000000001,
+        "before": {
+          "library_version": 775,
+          "cumulative_gradient_steps": 775,
+          "persistent_state_sha256": "66f3b70af21e23a09c0dda4d6175e1cc8731bb84efdca9585392295783b92e1b",
+          "parameters_sha256": "75ac8490a07e170d4069052e0762b1384f2fda29b6da7918a3760b68ad94a236",
+          "previous_parameters_sha256": "0908c8ef23481878cfec29ec78f777810a3f440ec24425cf18b10d1794a3e7c5",
+          "optimizer_state_sha256": "5ac0b7b0b8269cdaaa78f8ee93929d826eac29cec39021248ba0f8e211000bba"
+        },
+        "after": {
+          "library_version": 776,
+          "cumulative_gradient_steps": 776,
+          "persistent_state_sha256": "262da81541885274ab6fcce853c8c23782161fbe27dfac074534d03730a2f504",
+          "parameters_sha256": "3bbd538a99713c92f2badc2b11d32e93815e99cc8c3b9191768ab67e63fd37a9",
+          "previous_parameters_sha256": "75ac8490a07e170d4069052e0762b1384f2fda29b6da7918a3760b68ad94a236",
+          "optimizer_state_sha256": "cb5e3a3c5164a0d9b615aef5a54fea6534516d41ef89320abd6b4fa21de6649a"
+        }
+      }
+    },
+    {
+      "time": 4.64,
+      "executed": true,
+      "version": 776,
+      "snapshot_available_time": 4.64,
+      "published_learner_state": {
+        "library_version": 776,
+        "cumulative_gradient_steps": 776,
+        "persistent_state_sha256": "262da81541885274ab6fcce853c8c23782161fbe27dfac074534d03730a2f504",
+        "parameters_sha256": "3bbd538a99713c92f2badc2b11d32e93815e99cc8c3b9191768ab67e63fd37a9",
+        "previous_parameters_sha256": "75ac8490a07e170d4069052e0762b1384f2fda29b6da7918a3760b68ad94a236",
+        "optimizer_state_sha256": "cb5e3a3c5164a0d9b615aef5a54fea6534516d41ef89320abd6b4fa21de6649a"
+      },
+      "controller_started_perf_counter_ns": 2086779185334225,
+      "controller_completed_perf_counter_ns": 2086779194229325,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.64,
+        "publication_time_seconds": 4.68,
+        "training_state_sha256": "c049979821e050ab021f6cb785ef1cde01bb8f15f9eeb7d98985f3418be79f99",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779194880250,
+        "completed_perf_counter_ns": 2086779205381850,
+        "synchronized_service_seconds": 0.0105016,
+        "before": {
+          "library_version": 776,
+          "cumulative_gradient_steps": 776,
+          "persistent_state_sha256": "262da81541885274ab6fcce853c8c23782161fbe27dfac074534d03730a2f504",
+          "parameters_sha256": "3bbd538a99713c92f2badc2b11d32e93815e99cc8c3b9191768ab67e63fd37a9",
+          "previous_parameters_sha256": "75ac8490a07e170d4069052e0762b1384f2fda29b6da7918a3760b68ad94a236",
+          "optimizer_state_sha256": "cb5e3a3c5164a0d9b615aef5a54fea6534516d41ef89320abd6b4fa21de6649a"
+        },
+        "after": {
+          "library_version": 777,
+          "cumulative_gradient_steps": 777,
+          "persistent_state_sha256": "aca5812f26d51f9c8ea3a89b53284f35c1f288d3e28f5db060b649631a903efb",
+          "parameters_sha256": "22859f45f7e19b3a64f02e589b4b3ba26571374ad5de62b7494a10ab51e6a7bd",
+          "previous_parameters_sha256": "3bbd538a99713c92f2badc2b11d32e93815e99cc8c3b9191768ab67e63fd37a9",
+          "optimizer_state_sha256": "0028c509cfbb7a5375c1a80c533e74193890d5996b4d1645118cb4e6a4feae18"
+        }
+      }
+    },
+    {
+      "time": 4.68,
+      "executed": true,
+      "version": 777,
+      "snapshot_available_time": 4.68,
+      "published_learner_state": {
+        "library_version": 777,
+        "cumulative_gradient_steps": 777,
+        "persistent_state_sha256": "aca5812f26d51f9c8ea3a89b53284f35c1f288d3e28f5db060b649631a903efb",
+        "parameters_sha256": "22859f45f7e19b3a64f02e589b4b3ba26571374ad5de62b7494a10ab51e6a7bd",
+        "previous_parameters_sha256": "3bbd538a99713c92f2badc2b11d32e93815e99cc8c3b9191768ab67e63fd37a9",
+        "optimizer_state_sha256": "0028c509cfbb7a5375c1a80c533e74193890d5996b4d1645118cb4e6a4feae18"
+      },
+      "controller_started_perf_counter_ns": 2086779208459694,
+      "controller_completed_perf_counter_ns": 2086779217317579,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.68,
+        "publication_time_seconds": 4.72,
+        "training_state_sha256": "9d11b42fccd1e7e1670d4620419e05851ad13285da65014968c0e7843b334bb0",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779217989904,
+        "completed_perf_counter_ns": 2086779228540966,
+        "synchronized_service_seconds": 0.010551062,
+        "before": {
+          "library_version": 777,
+          "cumulative_gradient_steps": 777,
+          "persistent_state_sha256": "aca5812f26d51f9c8ea3a89b53284f35c1f288d3e28f5db060b649631a903efb",
+          "parameters_sha256": "22859f45f7e19b3a64f02e589b4b3ba26571374ad5de62b7494a10ab51e6a7bd",
+          "previous_parameters_sha256": "3bbd538a99713c92f2badc2b11d32e93815e99cc8c3b9191768ab67e63fd37a9",
+          "optimizer_state_sha256": "0028c509cfbb7a5375c1a80c533e74193890d5996b4d1645118cb4e6a4feae18"
+        },
+        "after": {
+          "library_version": 778,
+          "cumulative_gradient_steps": 778,
+          "persistent_state_sha256": "a5751cce029acdb18e1fc254ec1995e4a08cebba4347b85b2604574f10860929",
+          "parameters_sha256": "624606758b174f9f96e22d6d4e693bb226a7e895a4dcda6b4d10b5be5fdff6c3",
+          "previous_parameters_sha256": "22859f45f7e19b3a64f02e589b4b3ba26571374ad5de62b7494a10ab51e6a7bd",
+          "optimizer_state_sha256": "008ef5b533a12f2efa970121eb0bbed476c77a7a1ed87310d15a9087812d91c0"
+        }
+      }
+    },
+    {
+      "time": 4.72,
+      "executed": true,
+      "version": 778,
+      "snapshot_available_time": 4.72,
+      "published_learner_state": {
+        "library_version": 778,
+        "cumulative_gradient_steps": 778,
+        "persistent_state_sha256": "a5751cce029acdb18e1fc254ec1995e4a08cebba4347b85b2604574f10860929",
+        "parameters_sha256": "624606758b174f9f96e22d6d4e693bb226a7e895a4dcda6b4d10b5be5fdff6c3",
+        "previous_parameters_sha256": "22859f45f7e19b3a64f02e589b4b3ba26571374ad5de62b7494a10ab51e6a7bd",
+        "optimizer_state_sha256": "008ef5b533a12f2efa970121eb0bbed476c77a7a1ed87310d15a9087812d91c0"
+      },
+      "controller_started_perf_counter_ns": 2086779231733581,
+      "controller_completed_perf_counter_ns": 2086779240652225,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.72,
+        "publication_time_seconds": 4.76,
+        "training_state_sha256": "ab00b3e7330cee77d239b1c9f952338d6fc7c033ea4c101bcffd3a028dfac34d",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779241349895,
+        "completed_perf_counter_ns": 2086779251929224,
+        "synchronized_service_seconds": 0.010579329,
+        "before": {
+          "library_version": 778,
+          "cumulative_gradient_steps": 778,
+          "persistent_state_sha256": "a5751cce029acdb18e1fc254ec1995e4a08cebba4347b85b2604574f10860929",
+          "parameters_sha256": "624606758b174f9f96e22d6d4e693bb226a7e895a4dcda6b4d10b5be5fdff6c3",
+          "previous_parameters_sha256": "22859f45f7e19b3a64f02e589b4b3ba26571374ad5de62b7494a10ab51e6a7bd",
+          "optimizer_state_sha256": "008ef5b533a12f2efa970121eb0bbed476c77a7a1ed87310d15a9087812d91c0"
+        },
+        "after": {
+          "library_version": 779,
+          "cumulative_gradient_steps": 779,
+          "persistent_state_sha256": "3edca669eb3414b42e37a88cdea33f49c356590da27af16102480f11d3d0fffd",
+          "parameters_sha256": "216b0ddae0dd1f04cd3299e8edfe8c86d28b6af434f25c2f6cca3d47cce54aa0",
+          "previous_parameters_sha256": "624606758b174f9f96e22d6d4e693bb226a7e895a4dcda6b4d10b5be5fdff6c3",
+          "optimizer_state_sha256": "19895021824ee9da9978cf9735dc025b554f16471778464c8176e8997566260f"
+        }
+      }
+    },
+    {
+      "time": 4.76,
+      "executed": true,
+      "version": 779,
+      "snapshot_available_time": 4.76,
+      "published_learner_state": {
+        "library_version": 779,
+        "cumulative_gradient_steps": 779,
+        "persistent_state_sha256": "3edca669eb3414b42e37a88cdea33f49c356590da27af16102480f11d3d0fffd",
+        "parameters_sha256": "216b0ddae0dd1f04cd3299e8edfe8c86d28b6af434f25c2f6cca3d47cce54aa0",
+        "previous_parameters_sha256": "624606758b174f9f96e22d6d4e693bb226a7e895a4dcda6b4d10b5be5fdff6c3",
+        "optimizer_state_sha256": "19895021824ee9da9978cf9735dc025b554f16471778464c8176e8997566260f"
+      },
+      "controller_started_perf_counter_ns": 2086779255025465,
+      "controller_completed_perf_counter_ns": 2086779263983652,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.76,
+        "publication_time_seconds": 4.8,
+        "training_state_sha256": "273340589d2b3bdcd75b27b1623efd1b9f3f4124e4aadd36080d20becd6eb9d4",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779264679891,
+        "completed_perf_counter_ns": 2086779275253940,
+        "synchronized_service_seconds": 0.010574049,
+        "before": {
+          "library_version": 779,
+          "cumulative_gradient_steps": 779,
+          "persistent_state_sha256": "3edca669eb3414b42e37a88cdea33f49c356590da27af16102480f11d3d0fffd",
+          "parameters_sha256": "216b0ddae0dd1f04cd3299e8edfe8c86d28b6af434f25c2f6cca3d47cce54aa0",
+          "previous_parameters_sha256": "624606758b174f9f96e22d6d4e693bb226a7e895a4dcda6b4d10b5be5fdff6c3",
+          "optimizer_state_sha256": "19895021824ee9da9978cf9735dc025b554f16471778464c8176e8997566260f"
+        },
+        "after": {
+          "library_version": 780,
+          "cumulative_gradient_steps": 780,
+          "persistent_state_sha256": "8a6e320951eb95327a5b587b9311df6b711c8a1b39fcb26c9b6aa86fab514142",
+          "parameters_sha256": "202f9236685a2adbca61a7c4eb2d68e38e71e22b0242aaed238632a54b742b22",
+          "previous_parameters_sha256": "216b0ddae0dd1f04cd3299e8edfe8c86d28b6af434f25c2f6cca3d47cce54aa0",
+          "optimizer_state_sha256": "0ef39ab44eab362d1b8a4345f3f948fb170e9d5e86439bd1b99eaa1f8963c86b"
+        }
+      }
+    },
+    {
+      "time": 4.8,
+      "executed": true,
+      "version": 780,
+      "snapshot_available_time": 4.8,
+      "published_learner_state": {
+        "library_version": 780,
+        "cumulative_gradient_steps": 780,
+        "persistent_state_sha256": "8a6e320951eb95327a5b587b9311df6b711c8a1b39fcb26c9b6aa86fab514142",
+        "parameters_sha256": "202f9236685a2adbca61a7c4eb2d68e38e71e22b0242aaed238632a54b742b22",
+        "previous_parameters_sha256": "216b0ddae0dd1f04cd3299e8edfe8c86d28b6af434f25c2f6cca3d47cce54aa0",
+        "optimizer_state_sha256": "0ef39ab44eab362d1b8a4345f3f948fb170e9d5e86439bd1b99eaa1f8963c86b"
+      },
+      "controller_started_perf_counter_ns": 2086779278312762,
+      "controller_completed_perf_counter_ns": 2086779287232057,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.8,
+        "publication_time_seconds": 4.84,
+        "training_state_sha256": "84c6d03f051908e55dab00baabba7ee4344dd9a386834599742e305d8947857e",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779287926262,
+        "completed_perf_counter_ns": 2086779298515846,
+        "synchronized_service_seconds": 0.010589584,
+        "before": {
+          "library_version": 780,
+          "cumulative_gradient_steps": 780,
+          "persistent_state_sha256": "8a6e320951eb95327a5b587b9311df6b711c8a1b39fcb26c9b6aa86fab514142",
+          "parameters_sha256": "202f9236685a2adbca61a7c4eb2d68e38e71e22b0242aaed238632a54b742b22",
+          "previous_parameters_sha256": "216b0ddae0dd1f04cd3299e8edfe8c86d28b6af434f25c2f6cca3d47cce54aa0",
+          "optimizer_state_sha256": "0ef39ab44eab362d1b8a4345f3f948fb170e9d5e86439bd1b99eaa1f8963c86b"
+        },
+        "after": {
+          "library_version": 781,
+          "cumulative_gradient_steps": 781,
+          "persistent_state_sha256": "48874865c19a9e14298b96f161f5488d0e35dd236632b8d56a2257cce28fa979",
+          "parameters_sha256": "a37b95171f0df2d12ccc50308f15a2bbf71467e360b5ec7393b1bc3ee4181c71",
+          "previous_parameters_sha256": "202f9236685a2adbca61a7c4eb2d68e38e71e22b0242aaed238632a54b742b22",
+          "optimizer_state_sha256": "4b9a8d408c956cc681ff326c7b21a9d1d5535d84461dbd60a71deb1faf7679ae"
+        }
+      }
+    },
+    {
+      "time": 4.84,
+      "executed": true,
+      "version": 781,
+      "snapshot_available_time": 4.84,
+      "published_learner_state": {
+        "library_version": 781,
+        "cumulative_gradient_steps": 781,
+        "persistent_state_sha256": "48874865c19a9e14298b96f161f5488d0e35dd236632b8d56a2257cce28fa979",
+        "parameters_sha256": "a37b95171f0df2d12ccc50308f15a2bbf71467e360b5ec7393b1bc3ee4181c71",
+        "previous_parameters_sha256": "202f9236685a2adbca61a7c4eb2d68e38e71e22b0242aaed238632a54b742b22",
+        "optimizer_state_sha256": "4b9a8d408c956cc681ff326c7b21a9d1d5535d84461dbd60a71deb1faf7679ae"
+      },
+      "controller_started_perf_counter_ns": 2086779301700573,
+      "controller_completed_perf_counter_ns": 2086779310647682,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.84,
+        "publication_time_seconds": 4.88,
+        "training_state_sha256": "42aeeb3a3b33c097c388ed20b984168ec905537e8daee1cdf2f9283bed5a575a",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779311359335,
+        "completed_perf_counter_ns": 2086779321968467,
+        "synchronized_service_seconds": 0.010609132,
+        "before": {
+          "library_version": 781,
+          "cumulative_gradient_steps": 781,
+          "persistent_state_sha256": "48874865c19a9e14298b96f161f5488d0e35dd236632b8d56a2257cce28fa979",
+          "parameters_sha256": "a37b95171f0df2d12ccc50308f15a2bbf71467e360b5ec7393b1bc3ee4181c71",
+          "previous_parameters_sha256": "202f9236685a2adbca61a7c4eb2d68e38e71e22b0242aaed238632a54b742b22",
+          "optimizer_state_sha256": "4b9a8d408c956cc681ff326c7b21a9d1d5535d84461dbd60a71deb1faf7679ae"
+        },
+        "after": {
+          "library_version": 782,
+          "cumulative_gradient_steps": 782,
+          "persistent_state_sha256": "75ec7d8fa6cfe729c1f3117f4e32df622e1ccbbaa292a6471f9ad6f3ce11b578",
+          "parameters_sha256": "e093b4be859ae73eb0dfc7abdbb2646f0cdd5682db2f297516ed9ae0157321b9",
+          "previous_parameters_sha256": "a37b95171f0df2d12ccc50308f15a2bbf71467e360b5ec7393b1bc3ee4181c71",
+          "optimizer_state_sha256": "139fe2157ccecfd2194cf5e10c4ce6d15b399135d0d0a9fa1f0fbf4647f104a6"
+        }
+      }
+    },
+    {
+      "time": 4.88,
+      "executed": true,
+      "version": 782,
+      "snapshot_available_time": 4.88,
+      "published_learner_state": {
+        "library_version": 782,
+        "cumulative_gradient_steps": 782,
+        "persistent_state_sha256": "75ec7d8fa6cfe729c1f3117f4e32df622e1ccbbaa292a6471f9ad6f3ce11b578",
+        "parameters_sha256": "e093b4be859ae73eb0dfc7abdbb2646f0cdd5682db2f297516ed9ae0157321b9",
+        "previous_parameters_sha256": "a37b95171f0df2d12ccc50308f15a2bbf71467e360b5ec7393b1bc3ee4181c71",
+        "optimizer_state_sha256": "139fe2157ccecfd2194cf5e10c4ce6d15b399135d0d0a9fa1f0fbf4647f104a6"
+      },
+      "controller_started_perf_counter_ns": 2086779325023523,
+      "controller_completed_perf_counter_ns": 2086779333939437,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.88,
+        "publication_time_seconds": 4.92,
+        "training_state_sha256": "28fff790ebd649be3b07fc076e941d69d10e46f0de192706a319c40648d956bb",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779334645277,
+        "completed_perf_counter_ns": 2086779345185163,
+        "synchronized_service_seconds": 0.010539886,
+        "before": {
+          "library_version": 782,
+          "cumulative_gradient_steps": 782,
+          "persistent_state_sha256": "75ec7d8fa6cfe729c1f3117f4e32df622e1ccbbaa292a6471f9ad6f3ce11b578",
+          "parameters_sha256": "e093b4be859ae73eb0dfc7abdbb2646f0cdd5682db2f297516ed9ae0157321b9",
+          "previous_parameters_sha256": "a37b95171f0df2d12ccc50308f15a2bbf71467e360b5ec7393b1bc3ee4181c71",
+          "optimizer_state_sha256": "139fe2157ccecfd2194cf5e10c4ce6d15b399135d0d0a9fa1f0fbf4647f104a6"
+        },
+        "after": {
+          "library_version": 783,
+          "cumulative_gradient_steps": 783,
+          "persistent_state_sha256": "cfe6b567c75f6ae1fcc15341cf8a24933a29fa602344abdafc02314b1cc79ca5",
+          "parameters_sha256": "e2da1fecd60d160f559433d8c647f40f7a846f19ce852aae1077e1fd5bc6d858",
+          "previous_parameters_sha256": "e093b4be859ae73eb0dfc7abdbb2646f0cdd5682db2f297516ed9ae0157321b9",
+          "optimizer_state_sha256": "6a18497c19fb05728408ce6c180836767209cdd88f71d147a4df4506019db35c"
+        }
+      }
+    },
+    {
+      "time": 4.92,
+      "executed": true,
+      "version": 783,
+      "snapshot_available_time": 4.92,
+      "published_learner_state": {
+        "library_version": 783,
+        "cumulative_gradient_steps": 783,
+        "persistent_state_sha256": "cfe6b567c75f6ae1fcc15341cf8a24933a29fa602344abdafc02314b1cc79ca5",
+        "parameters_sha256": "e2da1fecd60d160f559433d8c647f40f7a846f19ce852aae1077e1fd5bc6d858",
+        "previous_parameters_sha256": "e093b4be859ae73eb0dfc7abdbb2646f0cdd5682db2f297516ed9ae0157321b9",
+        "optimizer_state_sha256": "6a18497c19fb05728408ce6c180836767209cdd88f71d147a4df4506019db35c"
+      },
+      "controller_started_perf_counter_ns": 2086779348197137,
+      "controller_completed_perf_counter_ns": 2086779357131013,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.92,
+        "publication_time_seconds": 4.96,
+        "training_state_sha256": "c0c10faf6f0347712a88c1267b175dffe3316b9c05c3eb8064d0857171d21464",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779357822510,
+        "completed_perf_counter_ns": 2086779368420910,
+        "synchronized_service_seconds": 0.010598400000000001,
+        "before": {
+          "library_version": 783,
+          "cumulative_gradient_steps": 783,
+          "persistent_state_sha256": "cfe6b567c75f6ae1fcc15341cf8a24933a29fa602344abdafc02314b1cc79ca5",
+          "parameters_sha256": "e2da1fecd60d160f559433d8c647f40f7a846f19ce852aae1077e1fd5bc6d858",
+          "previous_parameters_sha256": "e093b4be859ae73eb0dfc7abdbb2646f0cdd5682db2f297516ed9ae0157321b9",
+          "optimizer_state_sha256": "6a18497c19fb05728408ce6c180836767209cdd88f71d147a4df4506019db35c"
+        },
+        "after": {
+          "library_version": 784,
+          "cumulative_gradient_steps": 784,
+          "persistent_state_sha256": "869ac9905b068aa504b1cc871c931b2a7e5aa5be17113c53f69b2672a5ddb5aa",
+          "parameters_sha256": "825398ebbc38e44fe6d47e631a2d5419f4c01033df31e7c796d6c9fe64dfde64",
+          "previous_parameters_sha256": "e2da1fecd60d160f559433d8c647f40f7a846f19ce852aae1077e1fd5bc6d858",
+          "optimizer_state_sha256": "33d12be2fa9a17113e116241dcdbef6a7d2948970fc95acf401c64d7056e12f5"
+        }
+      }
+    },
+    {
+      "time": 4.96,
+      "executed": true,
+      "version": 784,
+      "snapshot_available_time": 4.96,
+      "published_learner_state": {
+        "library_version": 784,
+        "cumulative_gradient_steps": 784,
+        "persistent_state_sha256": "869ac9905b068aa504b1cc871c931b2a7e5aa5be17113c53f69b2672a5ddb5aa",
+        "parameters_sha256": "825398ebbc38e44fe6d47e631a2d5419f4c01033df31e7c796d6c9fe64dfde64",
+        "previous_parameters_sha256": "e2da1fecd60d160f559433d8c647f40f7a846f19ce852aae1077e1fd5bc6d858",
+        "optimizer_state_sha256": "33d12be2fa9a17113e116241dcdbef6a7d2948970fc95acf401c64d7056e12f5"
+      },
+      "controller_started_perf_counter_ns": 2086779371438837,
+      "controller_completed_perf_counter_ns": 2086779380341311,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 4.96,
+        "publication_time_seconds": 5.0,
+        "training_state_sha256": "f9d3a09db9a48e43577b2d265cc0389a21f583a15936804680765f62e8a5d96b",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779381040742,
+        "completed_perf_counter_ns": 2086779391666997,
+        "synchronized_service_seconds": 0.010626255000000001,
+        "before": {
+          "library_version": 784,
+          "cumulative_gradient_steps": 784,
+          "persistent_state_sha256": "869ac9905b068aa504b1cc871c931b2a7e5aa5be17113c53f69b2672a5ddb5aa",
+          "parameters_sha256": "825398ebbc38e44fe6d47e631a2d5419f4c01033df31e7c796d6c9fe64dfde64",
+          "previous_parameters_sha256": "e2da1fecd60d160f559433d8c647f40f7a846f19ce852aae1077e1fd5bc6d858",
+          "optimizer_state_sha256": "33d12be2fa9a17113e116241dcdbef6a7d2948970fc95acf401c64d7056e12f5"
+        },
+        "after": {
+          "library_version": 785,
+          "cumulative_gradient_steps": 785,
+          "persistent_state_sha256": "36552583457216bc22e990feb866ba30fc83661f25055c6ffb33f2be27b090d8",
+          "parameters_sha256": "b99acf1a50ee56a854ee7459b7a46aee094e6b2c7a6aacc328d1cf5960e33168",
+          "previous_parameters_sha256": "825398ebbc38e44fe6d47e631a2d5419f4c01033df31e7c796d6c9fe64dfde64",
+          "optimizer_state_sha256": "c20314c8361cafd165cacbbcf5ca75f4ac440488166dc81029b7525f3118e222"
+        }
+      }
+    },
+    {
+      "time": 5.0,
+      "executed": true,
+      "version": 785,
+      "snapshot_available_time": 5.0,
+      "published_learner_state": {
+        "library_version": 785,
+        "cumulative_gradient_steps": 785,
+        "persistent_state_sha256": "36552583457216bc22e990feb866ba30fc83661f25055c6ffb33f2be27b090d8",
+        "parameters_sha256": "b99acf1a50ee56a854ee7459b7a46aee094e6b2c7a6aacc328d1cf5960e33168",
+        "previous_parameters_sha256": "825398ebbc38e44fe6d47e631a2d5419f4c01033df31e7c796d6c9fe64dfde64",
+        "optimizer_state_sha256": "c20314c8361cafd165cacbbcf5ca75f4ac440488166dc81029b7525f3118e222"
+      },
+      "controller_started_perf_counter_ns": 2086779395077092,
+      "controller_completed_perf_counter_ns": 2086779403942975,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.0,
+        "publication_time_seconds": 5.04,
+        "training_state_sha256": "d7899c3d7879f408c8c8177241b193b787b44b3eaa0a612e0232e9df4bb71bae",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779404650033,
+        "completed_perf_counter_ns": 2086779415257121,
+        "synchronized_service_seconds": 0.010607088,
+        "before": {
+          "library_version": 785,
+          "cumulative_gradient_steps": 785,
+          "persistent_state_sha256": "36552583457216bc22e990feb866ba30fc83661f25055c6ffb33f2be27b090d8",
+          "parameters_sha256": "b99acf1a50ee56a854ee7459b7a46aee094e6b2c7a6aacc328d1cf5960e33168",
+          "previous_parameters_sha256": "825398ebbc38e44fe6d47e631a2d5419f4c01033df31e7c796d6c9fe64dfde64",
+          "optimizer_state_sha256": "c20314c8361cafd165cacbbcf5ca75f4ac440488166dc81029b7525f3118e222"
+        },
+        "after": {
+          "library_version": 786,
+          "cumulative_gradient_steps": 786,
+          "persistent_state_sha256": "f733a6c457bbc9865260c5dd47e731fa4d989db4e05c096006a3f4ec5d396423",
+          "parameters_sha256": "cebb35651cda5dbf2c80e4be867c0821969287e40eb02dba29356f09ece7f7d1",
+          "previous_parameters_sha256": "b99acf1a50ee56a854ee7459b7a46aee094e6b2c7a6aacc328d1cf5960e33168",
+          "optimizer_state_sha256": "2048710a0aaac491478274083581f591c75109d92df955b9e5ec5f29ea965b8a"
+        }
+      }
+    },
+    {
+      "time": 5.04,
+      "executed": true,
+      "version": 786,
+      "snapshot_available_time": 5.04,
+      "published_learner_state": {
+        "library_version": 786,
+        "cumulative_gradient_steps": 786,
+        "persistent_state_sha256": "f733a6c457bbc9865260c5dd47e731fa4d989db4e05c096006a3f4ec5d396423",
+        "parameters_sha256": "cebb35651cda5dbf2c80e4be867c0821969287e40eb02dba29356f09ece7f7d1",
+        "previous_parameters_sha256": "b99acf1a50ee56a854ee7459b7a46aee094e6b2c7a6aacc328d1cf5960e33168",
+        "optimizer_state_sha256": "2048710a0aaac491478274083581f591c75109d92df955b9e5ec5f29ea965b8a"
+      },
+      "controller_started_perf_counter_ns": 2086779418318737,
+      "controller_completed_perf_counter_ns": 2086779427261694,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.04,
+        "publication_time_seconds": 5.08,
+        "training_state_sha256": "c6d6fb5be74c29e79357ca365586a7e17af4935ae47c4ed752f3958d3f887d22",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779427937853,
+        "completed_perf_counter_ns": 2086779438494874,
+        "synchronized_service_seconds": 0.010557021000000002,
+        "before": {
+          "library_version": 786,
+          "cumulative_gradient_steps": 786,
+          "persistent_state_sha256": "f733a6c457bbc9865260c5dd47e731fa4d989db4e05c096006a3f4ec5d396423",
+          "parameters_sha256": "cebb35651cda5dbf2c80e4be867c0821969287e40eb02dba29356f09ece7f7d1",
+          "previous_parameters_sha256": "b99acf1a50ee56a854ee7459b7a46aee094e6b2c7a6aacc328d1cf5960e33168",
+          "optimizer_state_sha256": "2048710a0aaac491478274083581f591c75109d92df955b9e5ec5f29ea965b8a"
+        },
+        "after": {
+          "library_version": 787,
+          "cumulative_gradient_steps": 787,
+          "persistent_state_sha256": "15bc280ed72bb3657dec091a9ea3aa3888b6ab3cbce2d37146ef0ff0a4590889",
+          "parameters_sha256": "29c32f0f6a65944f515bcd47c72624b9859f9c16eb4bab7e3d1d9c3ed59a3705",
+          "previous_parameters_sha256": "cebb35651cda5dbf2c80e4be867c0821969287e40eb02dba29356f09ece7f7d1",
+          "optimizer_state_sha256": "72705916d2003adeeed4a2caede1e163320dafb5e746fe343f43ff3dbd903bcd"
+        }
+      }
+    },
+    {
+      "time": 5.08,
+      "executed": true,
+      "version": 787,
+      "snapshot_available_time": 5.08,
+      "published_learner_state": {
+        "library_version": 787,
+        "cumulative_gradient_steps": 787,
+        "persistent_state_sha256": "15bc280ed72bb3657dec091a9ea3aa3888b6ab3cbce2d37146ef0ff0a4590889",
+        "parameters_sha256": "29c32f0f6a65944f515bcd47c72624b9859f9c16eb4bab7e3d1d9c3ed59a3705",
+        "previous_parameters_sha256": "cebb35651cda5dbf2c80e4be867c0821969287e40eb02dba29356f09ece7f7d1",
+        "optimizer_state_sha256": "72705916d2003adeeed4a2caede1e163320dafb5e746fe343f43ff3dbd903bcd"
+      },
+      "controller_started_perf_counter_ns": 2086779441560468,
+      "controller_completed_perf_counter_ns": 2086779450495563,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.08,
+        "publication_time_seconds": 5.12,
+        "training_state_sha256": "a8afa805a9f7120169bfed286073e5b114cd064cbef6f177d1e9ce177d1d8824",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779451219607,
+        "completed_perf_counter_ns": 2086779461810440,
+        "synchronized_service_seconds": 0.010590833000000001,
+        "before": {
+          "library_version": 787,
+          "cumulative_gradient_steps": 787,
+          "persistent_state_sha256": "15bc280ed72bb3657dec091a9ea3aa3888b6ab3cbce2d37146ef0ff0a4590889",
+          "parameters_sha256": "29c32f0f6a65944f515bcd47c72624b9859f9c16eb4bab7e3d1d9c3ed59a3705",
+          "previous_parameters_sha256": "cebb35651cda5dbf2c80e4be867c0821969287e40eb02dba29356f09ece7f7d1",
+          "optimizer_state_sha256": "72705916d2003adeeed4a2caede1e163320dafb5e746fe343f43ff3dbd903bcd"
+        },
+        "after": {
+          "library_version": 788,
+          "cumulative_gradient_steps": 788,
+          "persistent_state_sha256": "5980a9d4ad5d6b405b3a2ee5dc012750501a969f92f7464880549a449723aeda",
+          "parameters_sha256": "d51c99f80afe42b383b44626a69b8ac709c4dee5fe8082e97b65727445b68f5d",
+          "previous_parameters_sha256": "29c32f0f6a65944f515bcd47c72624b9859f9c16eb4bab7e3d1d9c3ed59a3705",
+          "optimizer_state_sha256": "9bc2418c481880ddf8a3c61f94c4a9c6ed4b61e9a918997ce30520fdcd8d3c0e"
+        }
+      }
+    },
+    {
+      "time": 5.12,
+      "executed": true,
+      "version": 788,
+      "snapshot_available_time": 5.12,
+      "published_learner_state": {
+        "library_version": 788,
+        "cumulative_gradient_steps": 788,
+        "persistent_state_sha256": "5980a9d4ad5d6b405b3a2ee5dc012750501a969f92f7464880549a449723aeda",
+        "parameters_sha256": "d51c99f80afe42b383b44626a69b8ac709c4dee5fe8082e97b65727445b68f5d",
+        "previous_parameters_sha256": "29c32f0f6a65944f515bcd47c72624b9859f9c16eb4bab7e3d1d9c3ed59a3705",
+        "optimizer_state_sha256": "9bc2418c481880ddf8a3c61f94c4a9c6ed4b61e9a918997ce30520fdcd8d3c0e"
+      },
+      "controller_started_perf_counter_ns": 2086779465005638,
+      "controller_completed_perf_counter_ns": 2086779473924901,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.12,
+        "publication_time_seconds": 5.16,
+        "training_state_sha256": "fdb8a4e3c5cfaa171b5c1164af7a32f7ca2fb21d9404692afe146cfcfb1c26c5",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779474629856,
+        "completed_perf_counter_ns": 2086779485188655,
+        "synchronized_service_seconds": 0.010558799,
+        "before": {
+          "library_version": 788,
+          "cumulative_gradient_steps": 788,
+          "persistent_state_sha256": "5980a9d4ad5d6b405b3a2ee5dc012750501a969f92f7464880549a449723aeda",
+          "parameters_sha256": "d51c99f80afe42b383b44626a69b8ac709c4dee5fe8082e97b65727445b68f5d",
+          "previous_parameters_sha256": "29c32f0f6a65944f515bcd47c72624b9859f9c16eb4bab7e3d1d9c3ed59a3705",
+          "optimizer_state_sha256": "9bc2418c481880ddf8a3c61f94c4a9c6ed4b61e9a918997ce30520fdcd8d3c0e"
+        },
+        "after": {
+          "library_version": 789,
+          "cumulative_gradient_steps": 789,
+          "persistent_state_sha256": "473b6c7c490cc87fd516547ae5a6574fe97e704b46023faec4e96528e402b0ae",
+          "parameters_sha256": "c3d25a426791ce5749a72c2e8a9f61e3648c9533acbba98af336079bff703d03",
+          "previous_parameters_sha256": "d51c99f80afe42b383b44626a69b8ac709c4dee5fe8082e97b65727445b68f5d",
+          "optimizer_state_sha256": "8450b9930c2b8bce849e81c6a591a904609e2489d9022143c267db2cac37aa26"
+        }
+      }
+    },
+    {
+      "time": 5.16,
+      "executed": true,
+      "version": 789,
+      "snapshot_available_time": 5.16,
+      "published_learner_state": {
+        "library_version": 789,
+        "cumulative_gradient_steps": 789,
+        "persistent_state_sha256": "473b6c7c490cc87fd516547ae5a6574fe97e704b46023faec4e96528e402b0ae",
+        "parameters_sha256": "c3d25a426791ce5749a72c2e8a9f61e3648c9533acbba98af336079bff703d03",
+        "previous_parameters_sha256": "d51c99f80afe42b383b44626a69b8ac709c4dee5fe8082e97b65727445b68f5d",
+        "optimizer_state_sha256": "8450b9930c2b8bce849e81c6a591a904609e2489d9022143c267db2cac37aa26"
+      },
+      "controller_started_perf_counter_ns": 2086779488290494,
+      "controller_completed_perf_counter_ns": 2086779497199377,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.16,
+        "publication_time_seconds": 5.2,
+        "training_state_sha256": "802d72b9f979e688fcf9c96fc1bab7e72b37f99c76889fc0eeaa463b92f3a367",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779497912886,
+        "completed_perf_counter_ns": 2086779508498805,
+        "synchronized_service_seconds": 0.010585919000000001,
+        "before": {
+          "library_version": 789,
+          "cumulative_gradient_steps": 789,
+          "persistent_state_sha256": "473b6c7c490cc87fd516547ae5a6574fe97e704b46023faec4e96528e402b0ae",
+          "parameters_sha256": "c3d25a426791ce5749a72c2e8a9f61e3648c9533acbba98af336079bff703d03",
+          "previous_parameters_sha256": "d51c99f80afe42b383b44626a69b8ac709c4dee5fe8082e97b65727445b68f5d",
+          "optimizer_state_sha256": "8450b9930c2b8bce849e81c6a591a904609e2489d9022143c267db2cac37aa26"
+        },
+        "after": {
+          "library_version": 790,
+          "cumulative_gradient_steps": 790,
+          "persistent_state_sha256": "471895fe2aa2ba68f571b6c04d9ed883dc5ed3a81cfe9cc29654960f902368fb",
+          "parameters_sha256": "49dc3d54745c0200e79b81726fb0b98d1c6533d59d8cc9c0554e67e2db650a46",
+          "previous_parameters_sha256": "c3d25a426791ce5749a72c2e8a9f61e3648c9533acbba98af336079bff703d03",
+          "optimizer_state_sha256": "614b8c2aed5cc3b7715a138ae8d98f61cb71c4f3d3743b51e336cc2f02497e4f"
+        }
+      }
+    },
+    {
+      "time": 5.2,
+      "executed": true,
+      "version": 790,
+      "snapshot_available_time": 5.2,
+      "published_learner_state": {
+        "library_version": 790,
+        "cumulative_gradient_steps": 790,
+        "persistent_state_sha256": "471895fe2aa2ba68f571b6c04d9ed883dc5ed3a81cfe9cc29654960f902368fb",
+        "parameters_sha256": "49dc3d54745c0200e79b81726fb0b98d1c6533d59d8cc9c0554e67e2db650a46",
+        "previous_parameters_sha256": "c3d25a426791ce5749a72c2e8a9f61e3648c9533acbba98af336079bff703d03",
+        "optimizer_state_sha256": "614b8c2aed5cc3b7715a138ae8d98f61cb71c4f3d3743b51e336cc2f02497e4f"
+      },
+      "controller_started_perf_counter_ns": 2086779511840973,
+      "controller_completed_perf_counter_ns": 2086779520810953,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.2,
+        "publication_time_seconds": 5.24,
+        "training_state_sha256": "2201ff18bf47e2c5521dd8b690b374e869202637a69369524193d6576b3ec4fb",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779521508449,
+        "completed_perf_counter_ns": 2086779532060177,
+        "synchronized_service_seconds": 0.010551728,
+        "before": {
+          "library_version": 790,
+          "cumulative_gradient_steps": 790,
+          "persistent_state_sha256": "471895fe2aa2ba68f571b6c04d9ed883dc5ed3a81cfe9cc29654960f902368fb",
+          "parameters_sha256": "49dc3d54745c0200e79b81726fb0b98d1c6533d59d8cc9c0554e67e2db650a46",
+          "previous_parameters_sha256": "c3d25a426791ce5749a72c2e8a9f61e3648c9533acbba98af336079bff703d03",
+          "optimizer_state_sha256": "614b8c2aed5cc3b7715a138ae8d98f61cb71c4f3d3743b51e336cc2f02497e4f"
+        },
+        "after": {
+          "library_version": 791,
+          "cumulative_gradient_steps": 791,
+          "persistent_state_sha256": "f2a09723cea9d66e6793c90e0da13909e1d0460d54494d98a2856148f1be8e53",
+          "parameters_sha256": "aa81f6e95205c5b822cb00f7ae149cbd8985720a3fbf922bda0d951e931b5191",
+          "previous_parameters_sha256": "49dc3d54745c0200e79b81726fb0b98d1c6533d59d8cc9c0554e67e2db650a46",
+          "optimizer_state_sha256": "15d6112c838416954a08a012577c7ebcd3f0e1e78215351a89ca671430c084ee"
+        }
+      }
+    },
+    {
+      "time": 5.24,
+      "executed": true,
+      "version": 791,
+      "snapshot_available_time": 5.24,
+      "published_learner_state": {
+        "library_version": 791,
+        "cumulative_gradient_steps": 791,
+        "persistent_state_sha256": "f2a09723cea9d66e6793c90e0da13909e1d0460d54494d98a2856148f1be8e53",
+        "parameters_sha256": "aa81f6e95205c5b822cb00f7ae149cbd8985720a3fbf922bda0d951e931b5191",
+        "previous_parameters_sha256": "49dc3d54745c0200e79b81726fb0b98d1c6533d59d8cc9c0554e67e2db650a46",
+        "optimizer_state_sha256": "15d6112c838416954a08a012577c7ebcd3f0e1e78215351a89ca671430c084ee"
+      },
+      "controller_started_perf_counter_ns": 2086779534948399,
+      "controller_completed_perf_counter_ns": 2086779543847627,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.24,
+        "publication_time_seconds": 5.28,
+        "training_state_sha256": "a5a30ad092cc53f9a9288c16fb493242469eb98b93c8252dd6f3643efb80a20d",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779544530509,
+        "completed_perf_counter_ns": 2086779555125466,
+        "synchronized_service_seconds": 0.010594957,
+        "before": {
+          "library_version": 791,
+          "cumulative_gradient_steps": 791,
+          "persistent_state_sha256": "f2a09723cea9d66e6793c90e0da13909e1d0460d54494d98a2856148f1be8e53",
+          "parameters_sha256": "aa81f6e95205c5b822cb00f7ae149cbd8985720a3fbf922bda0d951e931b5191",
+          "previous_parameters_sha256": "49dc3d54745c0200e79b81726fb0b98d1c6533d59d8cc9c0554e67e2db650a46",
+          "optimizer_state_sha256": "15d6112c838416954a08a012577c7ebcd3f0e1e78215351a89ca671430c084ee"
+        },
+        "after": {
+          "library_version": 792,
+          "cumulative_gradient_steps": 792,
+          "persistent_state_sha256": "1c3d14c1f1dd0ab0d8884611a4983951e30fe68cef087072a8ee968ab8c2eb31",
+          "parameters_sha256": "46305d8cd498b5c1e6df1ec7c63169faefe76087eae3f320c4d2d28800173324",
+          "previous_parameters_sha256": "aa81f6e95205c5b822cb00f7ae149cbd8985720a3fbf922bda0d951e931b5191",
+          "optimizer_state_sha256": "95fed99800f4c22e15e3e0254237a7a598a143ce809771b6f3e36d367089be5e"
+        }
+      }
+    },
+    {
+      "time": 5.28,
+      "executed": true,
+      "version": 792,
+      "snapshot_available_time": 5.28,
+      "published_learner_state": {
+        "library_version": 792,
+        "cumulative_gradient_steps": 792,
+        "persistent_state_sha256": "1c3d14c1f1dd0ab0d8884611a4983951e30fe68cef087072a8ee968ab8c2eb31",
+        "parameters_sha256": "46305d8cd498b5c1e6df1ec7c63169faefe76087eae3f320c4d2d28800173324",
+        "previous_parameters_sha256": "aa81f6e95205c5b822cb00f7ae149cbd8985720a3fbf922bda0d951e931b5191",
+        "optimizer_state_sha256": "95fed99800f4c22e15e3e0254237a7a598a143ce809771b6f3e36d367089be5e"
+      },
+      "controller_started_perf_counter_ns": 2086779557991238,
+      "controller_completed_perf_counter_ns": 2086779566910365,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.28,
+        "publication_time_seconds": 5.32,
+        "training_state_sha256": "bee1e1f818bd7a536e9d8416cd423880c33117d94333ca490c272fc4c11968e4",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779567640825,
+        "completed_perf_counter_ns": 2086779578260897,
+        "synchronized_service_seconds": 0.010620072000000001,
+        "before": {
+          "library_version": 792,
+          "cumulative_gradient_steps": 792,
+          "persistent_state_sha256": "1c3d14c1f1dd0ab0d8884611a4983951e30fe68cef087072a8ee968ab8c2eb31",
+          "parameters_sha256": "46305d8cd498b5c1e6df1ec7c63169faefe76087eae3f320c4d2d28800173324",
+          "previous_parameters_sha256": "aa81f6e95205c5b822cb00f7ae149cbd8985720a3fbf922bda0d951e931b5191",
+          "optimizer_state_sha256": "95fed99800f4c22e15e3e0254237a7a598a143ce809771b6f3e36d367089be5e"
+        },
+        "after": {
+          "library_version": 793,
+          "cumulative_gradient_steps": 793,
+          "persistent_state_sha256": "9bd64001ac9987ce68a25a83a627a395948b339debb04fe6969c30c3b05c161b",
+          "parameters_sha256": "9ae88eb9c40260d99565b4557bbdc7c5010db58001cdf3a44105aa668421fbc1",
+          "previous_parameters_sha256": "46305d8cd498b5c1e6df1ec7c63169faefe76087eae3f320c4d2d28800173324",
+          "optimizer_state_sha256": "dc9872d21eecd307e9c72aebd1d49ff260ff1bf028f68e0031f767949e6f045e"
+        }
+      }
+    },
+    {
+      "time": 5.32,
+      "executed": true,
+      "version": 793,
+      "snapshot_available_time": 5.32,
+      "published_learner_state": {
+        "library_version": 793,
+        "cumulative_gradient_steps": 793,
+        "persistent_state_sha256": "9bd64001ac9987ce68a25a83a627a395948b339debb04fe6969c30c3b05c161b",
+        "parameters_sha256": "9ae88eb9c40260d99565b4557bbdc7c5010db58001cdf3a44105aa668421fbc1",
+        "previous_parameters_sha256": "46305d8cd498b5c1e6df1ec7c63169faefe76087eae3f320c4d2d28800173324",
+        "optimizer_state_sha256": "dc9872d21eecd307e9c72aebd1d49ff260ff1bf028f68e0031f767949e6f045e"
+      },
+      "controller_started_perf_counter_ns": 2086779581408584,
+      "controller_completed_perf_counter_ns": 2086779590393823,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.32,
+        "publication_time_seconds": 5.36,
+        "training_state_sha256": "b37c30513c9368a57ea6691af71e1e92af0fc7e0a7ec7bcb1ecc61b772912341",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779591025981,
+        "completed_perf_counter_ns": 2086779601558978,
+        "synchronized_service_seconds": 0.010532997,
+        "before": {
+          "library_version": 793,
+          "cumulative_gradient_steps": 793,
+          "persistent_state_sha256": "9bd64001ac9987ce68a25a83a627a395948b339debb04fe6969c30c3b05c161b",
+          "parameters_sha256": "9ae88eb9c40260d99565b4557bbdc7c5010db58001cdf3a44105aa668421fbc1",
+          "previous_parameters_sha256": "46305d8cd498b5c1e6df1ec7c63169faefe76087eae3f320c4d2d28800173324",
+          "optimizer_state_sha256": "dc9872d21eecd307e9c72aebd1d49ff260ff1bf028f68e0031f767949e6f045e"
+        },
+        "after": {
+          "library_version": 794,
+          "cumulative_gradient_steps": 794,
+          "persistent_state_sha256": "7d4f07373c3665c8273096175815d52966311898fdf60d5540c488081a95f544",
+          "parameters_sha256": "7e4799454ce6594124e1a741cbcd00eb1a162980cf5fa66e194fe67bcd0b74ab",
+          "previous_parameters_sha256": "9ae88eb9c40260d99565b4557bbdc7c5010db58001cdf3a44105aa668421fbc1",
+          "optimizer_state_sha256": "9a2b8ea9a546691eb49551f654eeb971b0169bbd2782f0749e4c155b2f896181"
+        }
+      }
+    },
+    {
+      "time": 5.36,
+      "executed": true,
+      "version": 794,
+      "snapshot_available_time": 5.36,
+      "published_learner_state": {
+        "library_version": 794,
+        "cumulative_gradient_steps": 794,
+        "persistent_state_sha256": "7d4f07373c3665c8273096175815d52966311898fdf60d5540c488081a95f544",
+        "parameters_sha256": "7e4799454ce6594124e1a741cbcd00eb1a162980cf5fa66e194fe67bcd0b74ab",
+        "previous_parameters_sha256": "9ae88eb9c40260d99565b4557bbdc7c5010db58001cdf3a44105aa668421fbc1",
+        "optimizer_state_sha256": "9a2b8ea9a546691eb49551f654eeb971b0169bbd2782f0749e4c155b2f896181"
+      },
+      "controller_started_perf_counter_ns": 2086779604619568,
+      "controller_completed_perf_counter_ns": 2086779613613229,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.36,
+        "publication_time_seconds": 5.4,
+        "training_state_sha256": "91b6e2e44490ff056ad87ead70dc0af171fff59d75e93a74e5e7be8c1beea0ba",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779614278109,
+        "completed_perf_counter_ns": 2086779624847863,
+        "synchronized_service_seconds": 0.010569754,
+        "before": {
+          "library_version": 794,
+          "cumulative_gradient_steps": 794,
+          "persistent_state_sha256": "7d4f07373c3665c8273096175815d52966311898fdf60d5540c488081a95f544",
+          "parameters_sha256": "7e4799454ce6594124e1a741cbcd00eb1a162980cf5fa66e194fe67bcd0b74ab",
+          "previous_parameters_sha256": "9ae88eb9c40260d99565b4557bbdc7c5010db58001cdf3a44105aa668421fbc1",
+          "optimizer_state_sha256": "9a2b8ea9a546691eb49551f654eeb971b0169bbd2782f0749e4c155b2f896181"
+        },
+        "after": {
+          "library_version": 795,
+          "cumulative_gradient_steps": 795,
+          "persistent_state_sha256": "4d66e599a07e1bedd46ecc056afe0cfed99bd823cbe81b19fed7f2675c113428",
+          "parameters_sha256": "a5cde37390792797d46e00ee741af92c8b95f2fda137b3fdc642fbd8299fa774",
+          "previous_parameters_sha256": "7e4799454ce6594124e1a741cbcd00eb1a162980cf5fa66e194fe67bcd0b74ab",
+          "optimizer_state_sha256": "3a151af3a620d1eebfbabcd4a4b57e167b06d55d29f599fa75d175011bc60ea5"
+        }
+      }
+    },
+    {
+      "time": 5.4,
+      "executed": true,
+      "version": 795,
+      "snapshot_available_time": 5.4,
+      "published_learner_state": {
+        "library_version": 795,
+        "cumulative_gradient_steps": 795,
+        "persistent_state_sha256": "4d66e599a07e1bedd46ecc056afe0cfed99bd823cbe81b19fed7f2675c113428",
+        "parameters_sha256": "a5cde37390792797d46e00ee741af92c8b95f2fda137b3fdc642fbd8299fa774",
+        "previous_parameters_sha256": "7e4799454ce6594124e1a741cbcd00eb1a162980cf5fa66e194fe67bcd0b74ab",
+        "optimizer_state_sha256": "3a151af3a620d1eebfbabcd4a4b57e167b06d55d29f599fa75d175011bc60ea5"
+      },
+      "controller_started_perf_counter_ns": 2086779627869386,
+      "controller_completed_perf_counter_ns": 2086779636767352,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.4,
+        "publication_time_seconds": 5.44,
+        "training_state_sha256": "372c15d98357c8de0b8aa64659ee683fd692c292bc0970a19e007d84665bb548",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779637442725,
+        "completed_perf_counter_ns": 2086779648030891,
+        "synchronized_service_seconds": 0.010588166000000001,
+        "before": {
+          "library_version": 795,
+          "cumulative_gradient_steps": 795,
+          "persistent_state_sha256": "4d66e599a07e1bedd46ecc056afe0cfed99bd823cbe81b19fed7f2675c113428",
+          "parameters_sha256": "a5cde37390792797d46e00ee741af92c8b95f2fda137b3fdc642fbd8299fa774",
+          "previous_parameters_sha256": "7e4799454ce6594124e1a741cbcd00eb1a162980cf5fa66e194fe67bcd0b74ab",
+          "optimizer_state_sha256": "3a151af3a620d1eebfbabcd4a4b57e167b06d55d29f599fa75d175011bc60ea5"
+        },
+        "after": {
+          "library_version": 796,
+          "cumulative_gradient_steps": 796,
+          "persistent_state_sha256": "6f0f21a4fbe4aa646da2f76d302608014736645909c616926ad5d88bec105eb1",
+          "parameters_sha256": "27dd6902ccada80e5b06ccea3afdb1e4b01bab2d85216ece4555179568c8bc63",
+          "previous_parameters_sha256": "a5cde37390792797d46e00ee741af92c8b95f2fda137b3fdc642fbd8299fa774",
+          "optimizer_state_sha256": "c93a9a2e100609e3f17872efca4a85b5321d66009a7a92500133d9654138a7c9"
+        }
+      }
+    },
+    {
+      "time": 5.4399999999999995,
+      "executed": true,
+      "version": 796,
+      "snapshot_available_time": 5.44,
+      "published_learner_state": {
+        "library_version": 796,
+        "cumulative_gradient_steps": 796,
+        "persistent_state_sha256": "6f0f21a4fbe4aa646da2f76d302608014736645909c616926ad5d88bec105eb1",
+        "parameters_sha256": "27dd6902ccada80e5b06ccea3afdb1e4b01bab2d85216ece4555179568c8bc63",
+        "previous_parameters_sha256": "a5cde37390792797d46e00ee741af92c8b95f2fda137b3fdc642fbd8299fa774",
+        "optimizer_state_sha256": "c93a9a2e100609e3f17872efca4a85b5321d66009a7a92500133d9654138a7c9"
+      },
+      "controller_started_perf_counter_ns": 2086779651029722,
+      "controller_completed_perf_counter_ns": 2086779659912607,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.4399999999999995,
+        "publication_time_seconds": 5.4799999999999995,
+        "training_state_sha256": "a2af620cb332cd732d922872219b6fc8fbb7b9870378a4985e3e8204563207c1",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779660588094,
+        "completed_perf_counter_ns": 2086779671171029,
+        "synchronized_service_seconds": 0.010582935,
+        "before": {
+          "library_version": 796,
+          "cumulative_gradient_steps": 796,
+          "persistent_state_sha256": "6f0f21a4fbe4aa646da2f76d302608014736645909c616926ad5d88bec105eb1",
+          "parameters_sha256": "27dd6902ccada80e5b06ccea3afdb1e4b01bab2d85216ece4555179568c8bc63",
+          "previous_parameters_sha256": "a5cde37390792797d46e00ee741af92c8b95f2fda137b3fdc642fbd8299fa774",
+          "optimizer_state_sha256": "c93a9a2e100609e3f17872efca4a85b5321d66009a7a92500133d9654138a7c9"
+        },
+        "after": {
+          "library_version": 797,
+          "cumulative_gradient_steps": 797,
+          "persistent_state_sha256": "4102ed0e979354825f982c5ce322fb16944bb916679585c39f3d4f5b848c23c9",
+          "parameters_sha256": "7d61281b82d23e62c9cd8e3c1da058a362560151d2697128ac82112c2eb8f3d6",
+          "previous_parameters_sha256": "27dd6902ccada80e5b06ccea3afdb1e4b01bab2d85216ece4555179568c8bc63",
+          "optimizer_state_sha256": "53a3683c3fdf9eba9f11d36964dbf05faf7e80d3a870493cba4246c6db93b84d"
+        }
+      }
+    },
+    {
+      "time": 5.48,
+      "executed": true,
+      "version": 797,
+      "snapshot_available_time": 5.4799999999999995,
+      "published_learner_state": {
+        "library_version": 797,
+        "cumulative_gradient_steps": 797,
+        "persistent_state_sha256": "4102ed0e979354825f982c5ce322fb16944bb916679585c39f3d4f5b848c23c9",
+        "parameters_sha256": "7d61281b82d23e62c9cd8e3c1da058a362560151d2697128ac82112c2eb8f3d6",
+        "previous_parameters_sha256": "27dd6902ccada80e5b06ccea3afdb1e4b01bab2d85216ece4555179568c8bc63",
+        "optimizer_state_sha256": "53a3683c3fdf9eba9f11d36964dbf05faf7e80d3a870493cba4246c6db93b84d"
+      },
+      "controller_started_perf_counter_ns": 2086779674224815,
+      "controller_completed_perf_counter_ns": 2086779683192664,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.48,
+        "publication_time_seconds": 5.5200000000000005,
+        "training_state_sha256": "6a32ecc36e3d1aa1b3f941e514e831387f4a2d713b207fe4c50d0a4c21df1472",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779683867675,
+        "completed_perf_counter_ns": 2086779694404466,
+        "synchronized_service_seconds": 0.010536791,
+        "before": {
+          "library_version": 797,
+          "cumulative_gradient_steps": 797,
+          "persistent_state_sha256": "4102ed0e979354825f982c5ce322fb16944bb916679585c39f3d4f5b848c23c9",
+          "parameters_sha256": "7d61281b82d23e62c9cd8e3c1da058a362560151d2697128ac82112c2eb8f3d6",
+          "previous_parameters_sha256": "27dd6902ccada80e5b06ccea3afdb1e4b01bab2d85216ece4555179568c8bc63",
+          "optimizer_state_sha256": "53a3683c3fdf9eba9f11d36964dbf05faf7e80d3a870493cba4246c6db93b84d"
+        },
+        "after": {
+          "library_version": 798,
+          "cumulative_gradient_steps": 798,
+          "persistent_state_sha256": "fd656bb4f2da8854579993aad2a91bfc90043cbbbb2007549f4f542aabddcd75",
+          "parameters_sha256": "26a07701637a9b1f418d50f59f712b68ef968403d4e48664911dda2d781686ec",
+          "previous_parameters_sha256": "7d61281b82d23e62c9cd8e3c1da058a362560151d2697128ac82112c2eb8f3d6",
+          "optimizer_state_sha256": "bac5f8ef9e8264ecf50f0bda27d8b3971aa06b8ca2c39fc0ff5cc8a158c0775a"
+        }
+      }
+    },
+    {
+      "time": 5.52,
+      "executed": true,
+      "version": 798,
+      "snapshot_available_time": 5.5200000000000005,
+      "published_learner_state": {
+        "library_version": 798,
+        "cumulative_gradient_steps": 798,
+        "persistent_state_sha256": "fd656bb4f2da8854579993aad2a91bfc90043cbbbb2007549f4f542aabddcd75",
+        "parameters_sha256": "26a07701637a9b1f418d50f59f712b68ef968403d4e48664911dda2d781686ec",
+        "previous_parameters_sha256": "7d61281b82d23e62c9cd8e3c1da058a362560151d2697128ac82112c2eb8f3d6",
+        "optimizer_state_sha256": "bac5f8ef9e8264ecf50f0bda27d8b3971aa06b8ca2c39fc0ff5cc8a158c0775a"
+      },
+      "controller_started_perf_counter_ns": 2086779697507144,
+      "controller_completed_perf_counter_ns": 2086779706404677,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.52,
+        "publication_time_seconds": 5.56,
+        "training_state_sha256": "60eefddc6764a4f20490dd931d96bd0c2ea232ac9453ec16ebd80ad3954f1eb2",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779707081512,
+        "completed_perf_counter_ns": 2086779717672951,
+        "synchronized_service_seconds": 0.010591439000000001,
+        "before": {
+          "library_version": 798,
+          "cumulative_gradient_steps": 798,
+          "persistent_state_sha256": "fd656bb4f2da8854579993aad2a91bfc90043cbbbb2007549f4f542aabddcd75",
+          "parameters_sha256": "26a07701637a9b1f418d50f59f712b68ef968403d4e48664911dda2d781686ec",
+          "previous_parameters_sha256": "7d61281b82d23e62c9cd8e3c1da058a362560151d2697128ac82112c2eb8f3d6",
+          "optimizer_state_sha256": "bac5f8ef9e8264ecf50f0bda27d8b3971aa06b8ca2c39fc0ff5cc8a158c0775a"
+        },
+        "after": {
+          "library_version": 799,
+          "cumulative_gradient_steps": 799,
+          "persistent_state_sha256": "d199c41135c19ab178d4f4ffee89cbf83a3da9d9419ccd9bb282352910586c8c",
+          "parameters_sha256": "470740004754257fcdd49f2b16041dda3a2224fdde12a9699fa9b3bca50c2b71",
+          "previous_parameters_sha256": "26a07701637a9b1f418d50f59f712b68ef968403d4e48664911dda2d781686ec",
+          "optimizer_state_sha256": "907315f3a9d950f2a3005352e218a848a638f13ee8f6f000dccc5995981e8094"
+        }
+      }
+    },
+    {
+      "time": 5.5600000000000005,
+      "executed": true,
+      "version": 799,
+      "snapshot_available_time": 5.56,
+      "published_learner_state": {
+        "library_version": 799,
+        "cumulative_gradient_steps": 799,
+        "persistent_state_sha256": "d199c41135c19ab178d4f4ffee89cbf83a3da9d9419ccd9bb282352910586c8c",
+        "parameters_sha256": "470740004754257fcdd49f2b16041dda3a2224fdde12a9699fa9b3bca50c2b71",
+        "previous_parameters_sha256": "26a07701637a9b1f418d50f59f712b68ef968403d4e48664911dda2d781686ec",
+        "optimizer_state_sha256": "907315f3a9d950f2a3005352e218a848a638f13ee8f6f000dccc5995981e8094"
+      },
+      "controller_started_perf_counter_ns": 2086779720705252,
+      "controller_completed_perf_counter_ns": 2086779729556722,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.5600000000000005,
+        "publication_time_seconds": 5.6000000000000005,
+        "training_state_sha256": "c6df340a07cf57b13718ee0433c7565695a3decf75ba1a6b61e12b1d1fa0fcad",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779730230846,
+        "completed_perf_counter_ns": 2086779740774349,
+        "synchronized_service_seconds": 0.010543503000000001,
+        "before": {
+          "library_version": 799,
+          "cumulative_gradient_steps": 799,
+          "persistent_state_sha256": "d199c41135c19ab178d4f4ffee89cbf83a3da9d9419ccd9bb282352910586c8c",
+          "parameters_sha256": "470740004754257fcdd49f2b16041dda3a2224fdde12a9699fa9b3bca50c2b71",
+          "previous_parameters_sha256": "26a07701637a9b1f418d50f59f712b68ef968403d4e48664911dda2d781686ec",
+          "optimizer_state_sha256": "907315f3a9d950f2a3005352e218a848a638f13ee8f6f000dccc5995981e8094"
+        },
+        "after": {
+          "library_version": 800,
+          "cumulative_gradient_steps": 800,
+          "persistent_state_sha256": "f7a2533009cc5f108e66e771e8917248a151e0c4722a067c0676628072bd5dd6",
+          "parameters_sha256": "3d370c84dcbcd46989d599aa80f3f5056f3c1f05985b23b88b8881cc832132b5",
+          "previous_parameters_sha256": "470740004754257fcdd49f2b16041dda3a2224fdde12a9699fa9b3bca50c2b71",
+          "optimizer_state_sha256": "5a0b9351bfc1cc35b4cfe145d7d558e2f4798288cf62df7aed94c552be36051b"
+        }
+      }
+    },
+    {
+      "time": 5.6,
+      "executed": true,
+      "version": 800,
+      "snapshot_available_time": 5.6000000000000005,
+      "published_learner_state": {
+        "library_version": 800,
+        "cumulative_gradient_steps": 800,
+        "persistent_state_sha256": "f7a2533009cc5f108e66e771e8917248a151e0c4722a067c0676628072bd5dd6",
+        "parameters_sha256": "3d370c84dcbcd46989d599aa80f3f5056f3c1f05985b23b88b8881cc832132b5",
+        "previous_parameters_sha256": "470740004754257fcdd49f2b16041dda3a2224fdde12a9699fa9b3bca50c2b71",
+        "optimizer_state_sha256": "5a0b9351bfc1cc35b4cfe145d7d558e2f4798288cf62df7aed94c552be36051b"
+      },
+      "controller_started_perf_counter_ns": 2086779743835031,
+      "controller_completed_perf_counter_ns": 2086779752740076,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.6,
+        "publication_time_seconds": 5.64,
+        "training_state_sha256": "38c8d58a1d49b5ea4559bc259feb28230a7737f192b954fd2a476ad9698c4f9b",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779753394745,
+        "completed_perf_counter_ns": 2086779763942786,
+        "synchronized_service_seconds": 0.010548041000000001,
+        "before": {
+          "library_version": 800,
+          "cumulative_gradient_steps": 800,
+          "persistent_state_sha256": "f7a2533009cc5f108e66e771e8917248a151e0c4722a067c0676628072bd5dd6",
+          "parameters_sha256": "3d370c84dcbcd46989d599aa80f3f5056f3c1f05985b23b88b8881cc832132b5",
+          "previous_parameters_sha256": "470740004754257fcdd49f2b16041dda3a2224fdde12a9699fa9b3bca50c2b71",
+          "optimizer_state_sha256": "5a0b9351bfc1cc35b4cfe145d7d558e2f4798288cf62df7aed94c552be36051b"
+        },
+        "after": {
+          "library_version": 801,
+          "cumulative_gradient_steps": 801,
+          "persistent_state_sha256": "6fae8ec5c5ea8abdc6f153fecedc72547c7251d5e2706cb6d70c613809275692",
+          "parameters_sha256": "1c5996ea363f7cf6a15da35eba5219be840b64c2773a3000a89ab80b6f5ef87e",
+          "previous_parameters_sha256": "3d370c84dcbcd46989d599aa80f3f5056f3c1f05985b23b88b8881cc832132b5",
+          "optimizer_state_sha256": "37b7b34c4bf573497d2750907bc0acc6b5982b50ff39e0aee39e325fcab96ebb"
+        }
+      }
+    },
+    {
+      "time": 5.640000000000001,
+      "executed": true,
+      "version": 801,
+      "snapshot_available_time": 5.64,
+      "published_learner_state": {
+        "library_version": 801,
+        "cumulative_gradient_steps": 801,
+        "persistent_state_sha256": "6fae8ec5c5ea8abdc6f153fecedc72547c7251d5e2706cb6d70c613809275692",
+        "parameters_sha256": "1c5996ea363f7cf6a15da35eba5219be840b64c2773a3000a89ab80b6f5ef87e",
+        "previous_parameters_sha256": "3d370c84dcbcd46989d599aa80f3f5056f3c1f05985b23b88b8881cc832132b5",
+        "optimizer_state_sha256": "37b7b34c4bf573497d2750907bc0acc6b5982b50ff39e0aee39e325fcab96ebb"
+      },
+      "controller_started_perf_counter_ns": 2086779766942751,
+      "controller_completed_perf_counter_ns": 2086779775880159,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.640000000000001,
+        "publication_time_seconds": 5.680000000000001,
+        "training_state_sha256": "fda00a450f13b0de973a846a9d8b044fe5dde7a9c59810c0e4db2c3d89bf047c",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779776550520,
+        "completed_perf_counter_ns": 2086779787184850,
+        "synchronized_service_seconds": 0.01063433,
+        "before": {
+          "library_version": 801,
+          "cumulative_gradient_steps": 801,
+          "persistent_state_sha256": "6fae8ec5c5ea8abdc6f153fecedc72547c7251d5e2706cb6d70c613809275692",
+          "parameters_sha256": "1c5996ea363f7cf6a15da35eba5219be840b64c2773a3000a89ab80b6f5ef87e",
+          "previous_parameters_sha256": "3d370c84dcbcd46989d599aa80f3f5056f3c1f05985b23b88b8881cc832132b5",
+          "optimizer_state_sha256": "37b7b34c4bf573497d2750907bc0acc6b5982b50ff39e0aee39e325fcab96ebb"
+        },
+        "after": {
+          "library_version": 802,
+          "cumulative_gradient_steps": 802,
+          "persistent_state_sha256": "c12f0712a72941be52286cbf2d991e036678e4cd3825dc60414cb7530e1c50b9",
+          "parameters_sha256": "2f3c902fdafa927e2e836ceeaed0d300db7e0097e1b70431bc1189edfd1adce4",
+          "previous_parameters_sha256": "1c5996ea363f7cf6a15da35eba5219be840b64c2773a3000a89ab80b6f5ef87e",
+          "optimizer_state_sha256": "8684d0f065f74630c5c842bad4aa6ee79c2f7ef08ed406c1c4b0203d6827e3ff"
+        }
+      }
+    },
+    {
+      "time": 5.68,
+      "executed": true,
+      "version": 802,
+      "snapshot_available_time": 5.680000000000001,
+      "published_learner_state": {
+        "library_version": 802,
+        "cumulative_gradient_steps": 802,
+        "persistent_state_sha256": "c12f0712a72941be52286cbf2d991e036678e4cd3825dc60414cb7530e1c50b9",
+        "parameters_sha256": "2f3c902fdafa927e2e836ceeaed0d300db7e0097e1b70431bc1189edfd1adce4",
+        "previous_parameters_sha256": "1c5996ea363f7cf6a15da35eba5219be840b64c2773a3000a89ab80b6f5ef87e",
+        "optimizer_state_sha256": "8684d0f065f74630c5c842bad4aa6ee79c2f7ef08ed406c1c4b0203d6827e3ff"
+      },
+      "controller_started_perf_counter_ns": 2086779790259765,
+      "controller_completed_perf_counter_ns": 2086779799212397,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.68,
+        "publication_time_seconds": 5.72,
+        "training_state_sha256": "eaacbfab51a4b5e5ea32b61e01306c6de408cb1a33167184240a733ced963906",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779799866006,
+        "completed_perf_counter_ns": 2086779810454444,
+        "synchronized_service_seconds": 0.010588438,
+        "before": {
+          "library_version": 802,
+          "cumulative_gradient_steps": 802,
+          "persistent_state_sha256": "c12f0712a72941be52286cbf2d991e036678e4cd3825dc60414cb7530e1c50b9",
+          "parameters_sha256": "2f3c902fdafa927e2e836ceeaed0d300db7e0097e1b70431bc1189edfd1adce4",
+          "previous_parameters_sha256": "1c5996ea363f7cf6a15da35eba5219be840b64c2773a3000a89ab80b6f5ef87e",
+          "optimizer_state_sha256": "8684d0f065f74630c5c842bad4aa6ee79c2f7ef08ed406c1c4b0203d6827e3ff"
+        },
+        "after": {
+          "library_version": 803,
+          "cumulative_gradient_steps": 803,
+          "persistent_state_sha256": "d48f11f2035333e59b3c784954b9f9b0ced83ab5a0609ed81698c23b51ec7a01",
+          "parameters_sha256": "ce0c43f1cc700051f6be1037e7eb48e79fa6e0fdff270323c4d49769ee93aaaf",
+          "previous_parameters_sha256": "2f3c902fdafa927e2e836ceeaed0d300db7e0097e1b70431bc1189edfd1adce4",
+          "optimizer_state_sha256": "46033dbab40e3fad328163381e61147a25d275deb3fc2e72067963ca44535e0f"
+        }
+      }
+    },
+    {
+      "time": 5.72,
+      "executed": true,
+      "version": 803,
+      "snapshot_available_time": 5.72,
+      "published_learner_state": {
+        "library_version": 803,
+        "cumulative_gradient_steps": 803,
+        "persistent_state_sha256": "d48f11f2035333e59b3c784954b9f9b0ced83ab5a0609ed81698c23b51ec7a01",
+        "parameters_sha256": "ce0c43f1cc700051f6be1037e7eb48e79fa6e0fdff270323c4d49769ee93aaaf",
+        "previous_parameters_sha256": "2f3c902fdafa927e2e836ceeaed0d300db7e0097e1b70431bc1189edfd1adce4",
+        "optimizer_state_sha256": "46033dbab40e3fad328163381e61147a25d275deb3fc2e72067963ca44535e0f"
+      },
+      "controller_started_perf_counter_ns": 2086779813494788,
+      "controller_completed_perf_counter_ns": 2086779822410760,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.72,
+        "publication_time_seconds": 5.76,
+        "training_state_sha256": "48c31d9be83ffdc609080ac3ec8eab975b9c2cd8fe1a41ad6c3f65460c4703a6",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779823073797,
+        "completed_perf_counter_ns": 2086779833645719,
+        "synchronized_service_seconds": 0.010571922000000001,
+        "before": {
+          "library_version": 803,
+          "cumulative_gradient_steps": 803,
+          "persistent_state_sha256": "d48f11f2035333e59b3c784954b9f9b0ced83ab5a0609ed81698c23b51ec7a01",
+          "parameters_sha256": "ce0c43f1cc700051f6be1037e7eb48e79fa6e0fdff270323c4d49769ee93aaaf",
+          "previous_parameters_sha256": "2f3c902fdafa927e2e836ceeaed0d300db7e0097e1b70431bc1189edfd1adce4",
+          "optimizer_state_sha256": "46033dbab40e3fad328163381e61147a25d275deb3fc2e72067963ca44535e0f"
+        },
+        "after": {
+          "library_version": 804,
+          "cumulative_gradient_steps": 804,
+          "persistent_state_sha256": "5a002f05afa40fbe765870f5422881723346eaaa50bcb8c138ebd14885fcc5cf",
+          "parameters_sha256": "029d9bd2fa8f4c9f3529d10fdb2fe70f0786bc7b7dcf9669acc063cf4556657b",
+          "previous_parameters_sha256": "ce0c43f1cc700051f6be1037e7eb48e79fa6e0fdff270323c4d49769ee93aaaf",
+          "optimizer_state_sha256": "2b78c3f6e69771647b2581fb008a28b325cdefc867a4e4f6050d8b675590249d"
+        }
+      }
+    },
+    {
+      "time": 5.76,
+      "executed": true,
+      "version": 804,
+      "snapshot_available_time": 5.76,
+      "published_learner_state": {
+        "library_version": 804,
+        "cumulative_gradient_steps": 804,
+        "persistent_state_sha256": "5a002f05afa40fbe765870f5422881723346eaaa50bcb8c138ebd14885fcc5cf",
+        "parameters_sha256": "029d9bd2fa8f4c9f3529d10fdb2fe70f0786bc7b7dcf9669acc063cf4556657b",
+        "previous_parameters_sha256": "ce0c43f1cc700051f6be1037e7eb48e79fa6e0fdff270323c4d49769ee93aaaf",
+        "optimizer_state_sha256": "2b78c3f6e69771647b2581fb008a28b325cdefc867a4e4f6050d8b675590249d"
+      },
+      "controller_started_perf_counter_ns": 2086779836691474,
+      "controller_completed_perf_counter_ns": 2086779845588012,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.76,
+        "publication_time_seconds": 5.8,
+        "training_state_sha256": "bd1c43d7da9362e7acb452ca50f2f78dae4fdea720bdd10566e4481f57d548cc",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779846232399,
+        "completed_perf_counter_ns": 2086779856799925,
+        "synchronized_service_seconds": 0.010567526,
+        "before": {
+          "library_version": 804,
+          "cumulative_gradient_steps": 804,
+          "persistent_state_sha256": "5a002f05afa40fbe765870f5422881723346eaaa50bcb8c138ebd14885fcc5cf",
+          "parameters_sha256": "029d9bd2fa8f4c9f3529d10fdb2fe70f0786bc7b7dcf9669acc063cf4556657b",
+          "previous_parameters_sha256": "ce0c43f1cc700051f6be1037e7eb48e79fa6e0fdff270323c4d49769ee93aaaf",
+          "optimizer_state_sha256": "2b78c3f6e69771647b2581fb008a28b325cdefc867a4e4f6050d8b675590249d"
+        },
+        "after": {
+          "library_version": 805,
+          "cumulative_gradient_steps": 805,
+          "persistent_state_sha256": "ea333290ac05b05b91ec97b45fd51c831c24e7841ae06a93f81f4834f162c02d",
+          "parameters_sha256": "80b49621bf2c5dc464855322c6021de3dc83a61d3b4f0f4b5196f6546834758d",
+          "previous_parameters_sha256": "029d9bd2fa8f4c9f3529d10fdb2fe70f0786bc7b7dcf9669acc063cf4556657b",
+          "optimizer_state_sha256": "e5a5693b9dee91816c9e56a69f9ac15a8bca2fd7fbd0497e4df26efceeff22bb"
+        }
+      }
+    },
+    {
+      "time": 5.8,
+      "executed": true,
+      "version": 805,
+      "snapshot_available_time": 5.8,
+      "published_learner_state": {
+        "library_version": 805,
+        "cumulative_gradient_steps": 805,
+        "persistent_state_sha256": "ea333290ac05b05b91ec97b45fd51c831c24e7841ae06a93f81f4834f162c02d",
+        "parameters_sha256": "80b49621bf2c5dc464855322c6021de3dc83a61d3b4f0f4b5196f6546834758d",
+        "previous_parameters_sha256": "029d9bd2fa8f4c9f3529d10fdb2fe70f0786bc7b7dcf9669acc063cf4556657b",
+        "optimizer_state_sha256": "e5a5693b9dee91816c9e56a69f9ac15a8bca2fd7fbd0497e4df26efceeff22bb"
+      },
+      "controller_started_perf_counter_ns": 2086779859976944,
+      "controller_completed_perf_counter_ns": 2086779868920568,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.8,
+        "publication_time_seconds": 5.84,
+        "training_state_sha256": "125d4fc06271ddb7591aed0b0ad04084be4df9a79de1bdd5753a776974caa05f",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779869571389,
+        "completed_perf_counter_ns": 2086779880052644,
+        "synchronized_service_seconds": 0.010481255,
+        "before": {
+          "library_version": 805,
+          "cumulative_gradient_steps": 805,
+          "persistent_state_sha256": "ea333290ac05b05b91ec97b45fd51c831c24e7841ae06a93f81f4834f162c02d",
+          "parameters_sha256": "80b49621bf2c5dc464855322c6021de3dc83a61d3b4f0f4b5196f6546834758d",
+          "previous_parameters_sha256": "029d9bd2fa8f4c9f3529d10fdb2fe70f0786bc7b7dcf9669acc063cf4556657b",
+          "optimizer_state_sha256": "e5a5693b9dee91816c9e56a69f9ac15a8bca2fd7fbd0497e4df26efceeff22bb"
+        },
+        "after": {
+          "library_version": 806,
+          "cumulative_gradient_steps": 806,
+          "persistent_state_sha256": "4aa3f0342d8af698dcc31ac1bdc3e08349ec08768abbbac7642fe6c05d573f3c",
+          "parameters_sha256": "9d7326780652b672aa5fe7473873674df98674fba4cb2f1ab217aeb3965f9627",
+          "previous_parameters_sha256": "80b49621bf2c5dc464855322c6021de3dc83a61d3b4f0f4b5196f6546834758d",
+          "optimizer_state_sha256": "d732c78024534123e7392784e2fa741f0432620a3978d4dea21f8e69b9eae831"
+        }
+      }
+    },
+    {
+      "time": 5.84,
+      "executed": true,
+      "version": 806,
+      "snapshot_available_time": 5.84,
+      "published_learner_state": {
+        "library_version": 806,
+        "cumulative_gradient_steps": 806,
+        "persistent_state_sha256": "4aa3f0342d8af698dcc31ac1bdc3e08349ec08768abbbac7642fe6c05d573f3c",
+        "parameters_sha256": "9d7326780652b672aa5fe7473873674df98674fba4cb2f1ab217aeb3965f9627",
+        "previous_parameters_sha256": "80b49621bf2c5dc464855322c6021de3dc83a61d3b4f0f4b5196f6546834758d",
+        "optimizer_state_sha256": "d732c78024534123e7392784e2fa741f0432620a3978d4dea21f8e69b9eae831"
+      },
+      "controller_started_perf_counter_ns": 2086779883125846,
+      "controller_completed_perf_counter_ns": 2086779892053245,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.84,
+        "publication_time_seconds": 5.88,
+        "training_state_sha256": "0f4fc262368c29050ad18b58955e55675492ccb0764f37eb917ba5451cbe3e7f",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779892678584,
+        "completed_perf_counter_ns": 2086779903216715,
+        "synchronized_service_seconds": 0.010538131000000001,
+        "before": {
+          "library_version": 806,
+          "cumulative_gradient_steps": 806,
+          "persistent_state_sha256": "4aa3f0342d8af698dcc31ac1bdc3e08349ec08768abbbac7642fe6c05d573f3c",
+          "parameters_sha256": "9d7326780652b672aa5fe7473873674df98674fba4cb2f1ab217aeb3965f9627",
+          "previous_parameters_sha256": "80b49621bf2c5dc464855322c6021de3dc83a61d3b4f0f4b5196f6546834758d",
+          "optimizer_state_sha256": "d732c78024534123e7392784e2fa741f0432620a3978d4dea21f8e69b9eae831"
+        },
+        "after": {
+          "library_version": 807,
+          "cumulative_gradient_steps": 807,
+          "persistent_state_sha256": "eee79813f509098c392f44a0d50dfbe6ade37160544cb20b9498995e6a86af7a",
+          "parameters_sha256": "33af0687f06c65f87d5491d75d80342971634e969d200c46d61fdf69af5077e6",
+          "previous_parameters_sha256": "9d7326780652b672aa5fe7473873674df98674fba4cb2f1ab217aeb3965f9627",
+          "optimizer_state_sha256": "b98ea65273ca5a7a6a105fc4cb3162ea4508062b2c891adda4e6bcc5462e69aa"
+        }
+      }
+    },
+    {
+      "time": 5.88,
+      "executed": true,
+      "version": 807,
+      "snapshot_available_time": 5.88,
+      "published_learner_state": {
+        "library_version": 807,
+        "cumulative_gradient_steps": 807,
+        "persistent_state_sha256": "eee79813f509098c392f44a0d50dfbe6ade37160544cb20b9498995e6a86af7a",
+        "parameters_sha256": "33af0687f06c65f87d5491d75d80342971634e969d200c46d61fdf69af5077e6",
+        "previous_parameters_sha256": "9d7326780652b672aa5fe7473873674df98674fba4cb2f1ab217aeb3965f9627",
+        "optimizer_state_sha256": "b98ea65273ca5a7a6a105fc4cb3162ea4508062b2c891adda4e6bcc5462e69aa"
+      },
+      "controller_started_perf_counter_ns": 2086779906256652,
+      "controller_completed_perf_counter_ns": 2086779915166485,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.88,
+        "publication_time_seconds": 5.92,
+        "training_state_sha256": "33f6622571752dd287cc9970172817051a616fcf15a7dcb35a18338951220762",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779915789316,
+        "completed_perf_counter_ns": 2086779926389801,
+        "synchronized_service_seconds": 0.010600485000000002,
+        "before": {
+          "library_version": 807,
+          "cumulative_gradient_steps": 807,
+          "persistent_state_sha256": "eee79813f509098c392f44a0d50dfbe6ade37160544cb20b9498995e6a86af7a",
+          "parameters_sha256": "33af0687f06c65f87d5491d75d80342971634e969d200c46d61fdf69af5077e6",
+          "previous_parameters_sha256": "9d7326780652b672aa5fe7473873674df98674fba4cb2f1ab217aeb3965f9627",
+          "optimizer_state_sha256": "b98ea65273ca5a7a6a105fc4cb3162ea4508062b2c891adda4e6bcc5462e69aa"
+        },
+        "after": {
+          "library_version": 808,
+          "cumulative_gradient_steps": 808,
+          "persistent_state_sha256": "177e3b04bbe26d42cf010e5c9b1c235a804610f8b4b01f18ee8ac8289ac4f4cc",
+          "parameters_sha256": "5c7ac0a623bd68e99a2ea5babb05d284fb1b53a61250c477eaa3d017562f0af2",
+          "previous_parameters_sha256": "33af0687f06c65f87d5491d75d80342971634e969d200c46d61fdf69af5077e6",
+          "optimizer_state_sha256": "ed68183d32cbc0cbae8111b4556697df416625397d8300d2f1c01c7f08c04613"
+        }
+      }
+    },
+    {
+      "time": 5.92,
+      "executed": true,
+      "version": 808,
+      "snapshot_available_time": 5.92,
+      "published_learner_state": {
+        "library_version": 808,
+        "cumulative_gradient_steps": 808,
+        "persistent_state_sha256": "177e3b04bbe26d42cf010e5c9b1c235a804610f8b4b01f18ee8ac8289ac4f4cc",
+        "parameters_sha256": "5c7ac0a623bd68e99a2ea5babb05d284fb1b53a61250c477eaa3d017562f0af2",
+        "previous_parameters_sha256": "33af0687f06c65f87d5491d75d80342971634e969d200c46d61fdf69af5077e6",
+        "optimizer_state_sha256": "ed68183d32cbc0cbae8111b4556697df416625397d8300d2f1c01c7f08c04613"
+      },
+      "controller_started_perf_counter_ns": 2086779929497994,
+      "controller_completed_perf_counter_ns": 2086779938452200,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.92,
+        "publication_time_seconds": 5.96,
+        "training_state_sha256": "207c5ca0b4d6e47c5dcf9cbc7948e5042112ba713424e9acf38f10e9a553a090",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779939091193,
+        "completed_perf_counter_ns": 2086779949727699,
+        "synchronized_service_seconds": 0.010636506,
+        "before": {
+          "library_version": 808,
+          "cumulative_gradient_steps": 808,
+          "persistent_state_sha256": "177e3b04bbe26d42cf010e5c9b1c235a804610f8b4b01f18ee8ac8289ac4f4cc",
+          "parameters_sha256": "5c7ac0a623bd68e99a2ea5babb05d284fb1b53a61250c477eaa3d017562f0af2",
+          "previous_parameters_sha256": "33af0687f06c65f87d5491d75d80342971634e969d200c46d61fdf69af5077e6",
+          "optimizer_state_sha256": "ed68183d32cbc0cbae8111b4556697df416625397d8300d2f1c01c7f08c04613"
+        },
+        "after": {
+          "library_version": 809,
+          "cumulative_gradient_steps": 809,
+          "persistent_state_sha256": "ff340bdc215d8d8d7c53ae3c1a1d4db013c1c8319ca86ce35382beae3117e6b1",
+          "parameters_sha256": "9ea6e5a123c511c30331d49b9bb3baab046cba83cb4ea2b76614f709b5d6899b",
+          "previous_parameters_sha256": "5c7ac0a623bd68e99a2ea5babb05d284fb1b53a61250c477eaa3d017562f0af2",
+          "optimizer_state_sha256": "1844af6e6f7c8d2b7ab2a0df38bb7fb57fd645bf02139fce164be16eafcc3eb4"
+        }
+      }
+    },
+    {
+      "time": 5.96,
+      "executed": true,
+      "version": 809,
+      "snapshot_available_time": 5.96,
+      "published_learner_state": {
+        "library_version": 809,
+        "cumulative_gradient_steps": 809,
+        "persistent_state_sha256": "ff340bdc215d8d8d7c53ae3c1a1d4db013c1c8319ca86ce35382beae3117e6b1",
+        "parameters_sha256": "9ea6e5a123c511c30331d49b9bb3baab046cba83cb4ea2b76614f709b5d6899b",
+        "previous_parameters_sha256": "5c7ac0a623bd68e99a2ea5babb05d284fb1b53a61250c477eaa3d017562f0af2",
+        "optimizer_state_sha256": "1844af6e6f7c8d2b7ab2a0df38bb7fb57fd645bf02139fce164be16eafcc3eb4"
+      },
+      "controller_started_perf_counter_ns": 2086779952784870,
+      "controller_completed_perf_counter_ns": 2086779961690954,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 5.96,
+        "publication_time_seconds": 6.0,
+        "training_state_sha256": "e9611a954e9cff8d2e6c8cc0716f03aff8b05d790546843ef40c500495a7473a",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779962352653,
+        "completed_perf_counter_ns": 2086779972964768,
+        "synchronized_service_seconds": 0.010612115,
+        "before": {
+          "library_version": 809,
+          "cumulative_gradient_steps": 809,
+          "persistent_state_sha256": "ff340bdc215d8d8d7c53ae3c1a1d4db013c1c8319ca86ce35382beae3117e6b1",
+          "parameters_sha256": "9ea6e5a123c511c30331d49b9bb3baab046cba83cb4ea2b76614f709b5d6899b",
+          "previous_parameters_sha256": "5c7ac0a623bd68e99a2ea5babb05d284fb1b53a61250c477eaa3d017562f0af2",
+          "optimizer_state_sha256": "1844af6e6f7c8d2b7ab2a0df38bb7fb57fd645bf02139fce164be16eafcc3eb4"
+        },
+        "after": {
+          "library_version": 810,
+          "cumulative_gradient_steps": 810,
+          "persistent_state_sha256": "beecd25f24393d53e7bcf8a5733c64cfecd117c7e0cdb2b49c3cd1950af0d335",
+          "parameters_sha256": "5313fc3a6f3571b024b9968d984ace6dec6ce5896ee566164a8916beea82a2aa",
+          "previous_parameters_sha256": "9ea6e5a123c511c30331d49b9bb3baab046cba83cb4ea2b76614f709b5d6899b",
+          "optimizer_state_sha256": "b15e37de6d8da181197d3b3c5c47a4b6efb0adb45a79f8c21db6902935f28658"
+        }
+      }
+    },
+    {
+      "time": 6.0,
+      "executed": true,
+      "version": 810,
+      "snapshot_available_time": 6.0,
+      "published_learner_state": {
+        "library_version": 810,
+        "cumulative_gradient_steps": 810,
+        "persistent_state_sha256": "beecd25f24393d53e7bcf8a5733c64cfecd117c7e0cdb2b49c3cd1950af0d335",
+        "parameters_sha256": "5313fc3a6f3571b024b9968d984ace6dec6ce5896ee566164a8916beea82a2aa",
+        "previous_parameters_sha256": "9ea6e5a123c511c30331d49b9bb3baab046cba83cb4ea2b76614f709b5d6899b",
+        "optimizer_state_sha256": "b15e37de6d8da181197d3b3c5c47a4b6efb0adb45a79f8c21db6902935f28658"
+      },
+      "controller_started_perf_counter_ns": 2086779976034706,
+      "controller_completed_perf_counter_ns": 2086779984983644,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.0,
+        "publication_time_seconds": 6.04,
+        "training_state_sha256": "0440a82de268ad03ac458e6b3ee3946b69dc3f15efcc0970aea69bed53ca3170",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086779985671399,
+        "completed_perf_counter_ns": 2086779996262850,
+        "synchronized_service_seconds": 0.010591451,
+        "before": {
+          "library_version": 810,
+          "cumulative_gradient_steps": 810,
+          "persistent_state_sha256": "beecd25f24393d53e7bcf8a5733c64cfecd117c7e0cdb2b49c3cd1950af0d335",
+          "parameters_sha256": "5313fc3a6f3571b024b9968d984ace6dec6ce5896ee566164a8916beea82a2aa",
+          "previous_parameters_sha256": "9ea6e5a123c511c30331d49b9bb3baab046cba83cb4ea2b76614f709b5d6899b",
+          "optimizer_state_sha256": "b15e37de6d8da181197d3b3c5c47a4b6efb0adb45a79f8c21db6902935f28658"
+        },
+        "after": {
+          "library_version": 811,
+          "cumulative_gradient_steps": 811,
+          "persistent_state_sha256": "c52173cb6187041cb4da10dfee320b68c851c6758b5da38c1a82168bdbd2ea32",
+          "parameters_sha256": "90239d18c84ce38f6d9d36b0c333ed631dc107f1e3e668a1c499cc4e3697b6d2",
+          "previous_parameters_sha256": "5313fc3a6f3571b024b9968d984ace6dec6ce5896ee566164a8916beea82a2aa",
+          "optimizer_state_sha256": "b716f4117e4ca6b0562d207b1e047cb864b60f00d80eb1c240c04b08b8ec5667"
+        }
+      }
+    },
+    {
+      "time": 6.04,
+      "executed": true,
+      "version": 811,
+      "snapshot_available_time": 6.04,
+      "published_learner_state": {
+        "library_version": 811,
+        "cumulative_gradient_steps": 811,
+        "persistent_state_sha256": "c52173cb6187041cb4da10dfee320b68c851c6758b5da38c1a82168bdbd2ea32",
+        "parameters_sha256": "90239d18c84ce38f6d9d36b0c333ed631dc107f1e3e668a1c499cc4e3697b6d2",
+        "previous_parameters_sha256": "5313fc3a6f3571b024b9968d984ace6dec6ce5896ee566164a8916beea82a2aa",
+        "optimizer_state_sha256": "b716f4117e4ca6b0562d207b1e047cb864b60f00d80eb1c240c04b08b8ec5667"
+      },
+      "controller_started_perf_counter_ns": 2086779999245918,
+      "controller_completed_perf_counter_ns": 2086780008174074,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.04,
+        "publication_time_seconds": 6.08,
+        "training_state_sha256": "294b8e913a330ff9b0db8ba39bf4ed702a2e0cb7bd8edc1da525fb66550612be",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780008805726,
+        "completed_perf_counter_ns": 2086780019363630,
+        "synchronized_service_seconds": 0.010557904,
+        "before": {
+          "library_version": 811,
+          "cumulative_gradient_steps": 811,
+          "persistent_state_sha256": "c52173cb6187041cb4da10dfee320b68c851c6758b5da38c1a82168bdbd2ea32",
+          "parameters_sha256": "90239d18c84ce38f6d9d36b0c333ed631dc107f1e3e668a1c499cc4e3697b6d2",
+          "previous_parameters_sha256": "5313fc3a6f3571b024b9968d984ace6dec6ce5896ee566164a8916beea82a2aa",
+          "optimizer_state_sha256": "b716f4117e4ca6b0562d207b1e047cb864b60f00d80eb1c240c04b08b8ec5667"
+        },
+        "after": {
+          "library_version": 812,
+          "cumulative_gradient_steps": 812,
+          "persistent_state_sha256": "5711c6640a1bf23a37453f570135583869f46f2b5174ca69ba6ec42d6be80e9c",
+          "parameters_sha256": "27dc669683b3e7aa5f7821932e2a482be569a74c8426cc669689bd9f127c9543",
+          "previous_parameters_sha256": "90239d18c84ce38f6d9d36b0c333ed631dc107f1e3e668a1c499cc4e3697b6d2",
+          "optimizer_state_sha256": "b5b7d87bfa8fa60dd08269a849f0778b985f5fb9f0965b9fd9f678fff39e75e8"
+        }
+      }
+    },
+    {
+      "time": 6.08,
+      "executed": true,
+      "version": 812,
+      "snapshot_available_time": 6.08,
+      "published_learner_state": {
+        "library_version": 812,
+        "cumulative_gradient_steps": 812,
+        "persistent_state_sha256": "5711c6640a1bf23a37453f570135583869f46f2b5174ca69ba6ec42d6be80e9c",
+        "parameters_sha256": "27dc669683b3e7aa5f7821932e2a482be569a74c8426cc669689bd9f127c9543",
+        "previous_parameters_sha256": "90239d18c84ce38f6d9d36b0c333ed631dc107f1e3e668a1c499cc4e3697b6d2",
+        "optimizer_state_sha256": "b5b7d87bfa8fa60dd08269a849f0778b985f5fb9f0965b9fd9f678fff39e75e8"
+      },
+      "controller_started_perf_counter_ns": 2086780022354165,
+      "controller_completed_perf_counter_ns": 2086780031343580,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.08,
+        "publication_time_seconds": 6.12,
+        "training_state_sha256": "e004b8acf7fabdaac17e0d9ee8a94932f1f7b7f79f03d5bea012cb7d2e221c8a",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780031974551,
+        "completed_perf_counter_ns": 2086780042572047,
+        "synchronized_service_seconds": 0.010597496000000001,
+        "before": {
+          "library_version": 812,
+          "cumulative_gradient_steps": 812,
+          "persistent_state_sha256": "5711c6640a1bf23a37453f570135583869f46f2b5174ca69ba6ec42d6be80e9c",
+          "parameters_sha256": "27dc669683b3e7aa5f7821932e2a482be569a74c8426cc669689bd9f127c9543",
+          "previous_parameters_sha256": "90239d18c84ce38f6d9d36b0c333ed631dc107f1e3e668a1c499cc4e3697b6d2",
+          "optimizer_state_sha256": "b5b7d87bfa8fa60dd08269a849f0778b985f5fb9f0965b9fd9f678fff39e75e8"
+        },
+        "after": {
+          "library_version": 813,
+          "cumulative_gradient_steps": 813,
+          "persistent_state_sha256": "a03c7883504f86ee8b06fa6c26ce70cdd0d1dc0f466fcd9460b035b1060f4783",
+          "parameters_sha256": "b085c2325e1f1396fa084de6710d94756bd723a86d9373f3bd35cc46593fffb6",
+          "previous_parameters_sha256": "27dc669683b3e7aa5f7821932e2a482be569a74c8426cc669689bd9f127c9543",
+          "optimizer_state_sha256": "c1effa46d8c0ace0ed296d715faa7ff8b2868274af4efd281b9129b8d8204d9a"
+        }
+      }
+    },
+    {
+      "time": 6.12,
+      "executed": true,
+      "version": 813,
+      "snapshot_available_time": 6.12,
+      "published_learner_state": {
+        "library_version": 813,
+        "cumulative_gradient_steps": 813,
+        "persistent_state_sha256": "a03c7883504f86ee8b06fa6c26ce70cdd0d1dc0f466fcd9460b035b1060f4783",
+        "parameters_sha256": "b085c2325e1f1396fa084de6710d94756bd723a86d9373f3bd35cc46593fffb6",
+        "previous_parameters_sha256": "27dc669683b3e7aa5f7821932e2a482be569a74c8426cc669689bd9f127c9543",
+        "optimizer_state_sha256": "c1effa46d8c0ace0ed296d715faa7ff8b2868274af4efd281b9129b8d8204d9a"
+      },
+      "controller_started_perf_counter_ns": 2086780045446189,
+      "controller_completed_perf_counter_ns": 2086780054407398,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.12,
+        "publication_time_seconds": 6.16,
+        "training_state_sha256": "7a50ab29c163e1926e7b075dae7599d5524995fef2df67034058976b33e8967a",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780055185948,
+        "completed_perf_counter_ns": 2086780065789433,
+        "synchronized_service_seconds": 0.010603485000000001,
+        "before": {
+          "library_version": 813,
+          "cumulative_gradient_steps": 813,
+          "persistent_state_sha256": "a03c7883504f86ee8b06fa6c26ce70cdd0d1dc0f466fcd9460b035b1060f4783",
+          "parameters_sha256": "b085c2325e1f1396fa084de6710d94756bd723a86d9373f3bd35cc46593fffb6",
+          "previous_parameters_sha256": "27dc669683b3e7aa5f7821932e2a482be569a74c8426cc669689bd9f127c9543",
+          "optimizer_state_sha256": "c1effa46d8c0ace0ed296d715faa7ff8b2868274af4efd281b9129b8d8204d9a"
+        },
+        "after": {
+          "library_version": 814,
+          "cumulative_gradient_steps": 814,
+          "persistent_state_sha256": "45fa6b7e25ec1ae052b689b261551de3e244fda96657816743befd7e0cf54283",
+          "parameters_sha256": "7687dc9351926f49cbddbc371a0048910024eb5e9594ab5c135a8ea5a0e05f92",
+          "previous_parameters_sha256": "b085c2325e1f1396fa084de6710d94756bd723a86d9373f3bd35cc46593fffb6",
+          "optimizer_state_sha256": "3cb4ab9f979f3d9bc7ddc5027b875ecda002d8dd9c04f3279e6c599248e6f85b"
+        }
+      }
+    },
+    {
+      "time": 6.16,
+      "executed": true,
+      "version": 814,
+      "snapshot_available_time": 6.16,
+      "published_learner_state": {
+        "library_version": 814,
+        "cumulative_gradient_steps": 814,
+        "persistent_state_sha256": "45fa6b7e25ec1ae052b689b261551de3e244fda96657816743befd7e0cf54283",
+        "parameters_sha256": "7687dc9351926f49cbddbc371a0048910024eb5e9594ab5c135a8ea5a0e05f92",
+        "previous_parameters_sha256": "b085c2325e1f1396fa084de6710d94756bd723a86d9373f3bd35cc46593fffb6",
+        "optimizer_state_sha256": "3cb4ab9f979f3d9bc7ddc5027b875ecda002d8dd9c04f3279e6c599248e6f85b"
+      },
+      "controller_started_perf_counter_ns": 2086780068868073,
+      "controller_completed_perf_counter_ns": 2086780077797781,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.16,
+        "publication_time_seconds": 6.2,
+        "training_state_sha256": "899249eee33d13ba4c2391a48588a3e17ee37d8ea2c3e2d5bd9caee05904e292",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780078460807,
+        "completed_perf_counter_ns": 2086780089117520,
+        "synchronized_service_seconds": 0.010656713,
+        "before": {
+          "library_version": 814,
+          "cumulative_gradient_steps": 814,
+          "persistent_state_sha256": "45fa6b7e25ec1ae052b689b261551de3e244fda96657816743befd7e0cf54283",
+          "parameters_sha256": "7687dc9351926f49cbddbc371a0048910024eb5e9594ab5c135a8ea5a0e05f92",
+          "previous_parameters_sha256": "b085c2325e1f1396fa084de6710d94756bd723a86d9373f3bd35cc46593fffb6",
+          "optimizer_state_sha256": "3cb4ab9f979f3d9bc7ddc5027b875ecda002d8dd9c04f3279e6c599248e6f85b"
+        },
+        "after": {
+          "library_version": 815,
+          "cumulative_gradient_steps": 815,
+          "persistent_state_sha256": "a48ea8c711a9bf4f13eafcc136159d6767d5267644f9297f4712d09e97c5314b",
+          "parameters_sha256": "4f523d3a435a19e1cfb59470fdd04bd0cd5b4b21763ff44816d58201240a84c2",
+          "previous_parameters_sha256": "7687dc9351926f49cbddbc371a0048910024eb5e9594ab5c135a8ea5a0e05f92",
+          "optimizer_state_sha256": "bbb7a35ee083fb383dd839ca9d82e13e5b46957436969f0b94ce0da7208235cc"
+        }
+      }
+    },
+    {
+      "time": 6.2,
+      "executed": true,
+      "version": 815,
+      "snapshot_available_time": 6.2,
+      "published_learner_state": {
+        "library_version": 815,
+        "cumulative_gradient_steps": 815,
+        "persistent_state_sha256": "a48ea8c711a9bf4f13eafcc136159d6767d5267644f9297f4712d09e97c5314b",
+        "parameters_sha256": "4f523d3a435a19e1cfb59470fdd04bd0cd5b4b21763ff44816d58201240a84c2",
+        "previous_parameters_sha256": "7687dc9351926f49cbddbc371a0048910024eb5e9594ab5c135a8ea5a0e05f92",
+        "optimizer_state_sha256": "bbb7a35ee083fb383dd839ca9d82e13e5b46957436969f0b94ce0da7208235cc"
+      },
+      "controller_started_perf_counter_ns": 2086780092196418,
+      "controller_completed_perf_counter_ns": 2086780101331477,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.2,
+        "publication_time_seconds": 6.24,
+        "training_state_sha256": "18a294743574765cb49ad5d5ecfc55f04d46bbe068f46d21edf552ac41c2097a",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780102008016,
+        "completed_perf_counter_ns": 2086780112606951,
+        "synchronized_service_seconds": 0.010598935,
+        "before": {
+          "library_version": 815,
+          "cumulative_gradient_steps": 815,
+          "persistent_state_sha256": "a48ea8c711a9bf4f13eafcc136159d6767d5267644f9297f4712d09e97c5314b",
+          "parameters_sha256": "4f523d3a435a19e1cfb59470fdd04bd0cd5b4b21763ff44816d58201240a84c2",
+          "previous_parameters_sha256": "7687dc9351926f49cbddbc371a0048910024eb5e9594ab5c135a8ea5a0e05f92",
+          "optimizer_state_sha256": "bbb7a35ee083fb383dd839ca9d82e13e5b46957436969f0b94ce0da7208235cc"
+        },
+        "after": {
+          "library_version": 816,
+          "cumulative_gradient_steps": 816,
+          "persistent_state_sha256": "10f6c3d5fb45c3c27f6e8dd00b0006d452f69e6789d0b99892f4a95dc0840873",
+          "parameters_sha256": "93a99ebbdea609959862ac50118d517dd99f41d73594ebafcb41180d99839add",
+          "previous_parameters_sha256": "4f523d3a435a19e1cfb59470fdd04bd0cd5b4b21763ff44816d58201240a84c2",
+          "optimizer_state_sha256": "3ec11ff15aa5eeb903a6117bd3099b4470fd785a8185e676ba42958845a04db7"
+        }
+      }
+    },
+    {
+      "time": 6.24,
+      "executed": true,
+      "version": 816,
+      "snapshot_available_time": 6.24,
+      "published_learner_state": {
+        "library_version": 816,
+        "cumulative_gradient_steps": 816,
+        "persistent_state_sha256": "10f6c3d5fb45c3c27f6e8dd00b0006d452f69e6789d0b99892f4a95dc0840873",
+        "parameters_sha256": "93a99ebbdea609959862ac50118d517dd99f41d73594ebafcb41180d99839add",
+        "previous_parameters_sha256": "4f523d3a435a19e1cfb59470fdd04bd0cd5b4b21763ff44816d58201240a84c2",
+        "optimizer_state_sha256": "3ec11ff15aa5eeb903a6117bd3099b4470fd785a8185e676ba42958845a04db7"
+      },
+      "controller_started_perf_counter_ns": 2086780115725075,
+      "controller_completed_perf_counter_ns": 2086780124701166,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.24,
+        "publication_time_seconds": 6.28,
+        "training_state_sha256": "3bc1f76843f7ebfdaee3f542a4e4c81f9b3a34659135b327ffe5cc005466119f",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780125334124,
+        "completed_perf_counter_ns": 2086780136025522,
+        "synchronized_service_seconds": 0.010691398000000001,
+        "before": {
+          "library_version": 816,
+          "cumulative_gradient_steps": 816,
+          "persistent_state_sha256": "10f6c3d5fb45c3c27f6e8dd00b0006d452f69e6789d0b99892f4a95dc0840873",
+          "parameters_sha256": "93a99ebbdea609959862ac50118d517dd99f41d73594ebafcb41180d99839add",
+          "previous_parameters_sha256": "4f523d3a435a19e1cfb59470fdd04bd0cd5b4b21763ff44816d58201240a84c2",
+          "optimizer_state_sha256": "3ec11ff15aa5eeb903a6117bd3099b4470fd785a8185e676ba42958845a04db7"
+        },
+        "after": {
+          "library_version": 817,
+          "cumulative_gradient_steps": 817,
+          "persistent_state_sha256": "f374142ed9c64b7299e99487c8b1b35774122d56c06c21afd6bdcb2e9e901e90",
+          "parameters_sha256": "7e0bdb504ac00e6f8105072a4673766af6d9394c3c2edad1fef440296ea93d85",
+          "previous_parameters_sha256": "93a99ebbdea609959862ac50118d517dd99f41d73594ebafcb41180d99839add",
+          "optimizer_state_sha256": "89a2d6627471debf2a0635a3060b095b0df7bc046138007ae2deecc28fe389a8"
+        }
+      }
+    },
+    {
+      "time": 6.28,
+      "executed": true,
+      "version": 817,
+      "snapshot_available_time": 6.28,
+      "published_learner_state": {
+        "library_version": 817,
+        "cumulative_gradient_steps": 817,
+        "persistent_state_sha256": "f374142ed9c64b7299e99487c8b1b35774122d56c06c21afd6bdcb2e9e901e90",
+        "parameters_sha256": "7e0bdb504ac00e6f8105072a4673766af6d9394c3c2edad1fef440296ea93d85",
+        "previous_parameters_sha256": "93a99ebbdea609959862ac50118d517dd99f41d73594ebafcb41180d99839add",
+        "optimizer_state_sha256": "89a2d6627471debf2a0635a3060b095b0df7bc046138007ae2deecc28fe389a8"
+      },
+      "controller_started_perf_counter_ns": 2086780138991685,
+      "controller_completed_perf_counter_ns": 2086780148020939,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.28,
+        "publication_time_seconds": 6.32,
+        "training_state_sha256": "9c3380f48d7c2637f26ffac812eb41411e5496cd70c08d1ad0db4ead2dfa00b8",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780148664370,
+        "completed_perf_counter_ns": 2086780159223095,
+        "synchronized_service_seconds": 0.010558725000000001,
+        "before": {
+          "library_version": 817,
+          "cumulative_gradient_steps": 817,
+          "persistent_state_sha256": "f374142ed9c64b7299e99487c8b1b35774122d56c06c21afd6bdcb2e9e901e90",
+          "parameters_sha256": "7e0bdb504ac00e6f8105072a4673766af6d9394c3c2edad1fef440296ea93d85",
+          "previous_parameters_sha256": "93a99ebbdea609959862ac50118d517dd99f41d73594ebafcb41180d99839add",
+          "optimizer_state_sha256": "89a2d6627471debf2a0635a3060b095b0df7bc046138007ae2deecc28fe389a8"
+        },
+        "after": {
+          "library_version": 818,
+          "cumulative_gradient_steps": 818,
+          "persistent_state_sha256": "6cb37673542727f2f78c0d133eeb8a01dff0f48dae6dcabc29e97f874505474b",
+          "parameters_sha256": "02f7a92ab5344f901e5db8b2189496fda2e0a923346196bf84b78267f13e4442",
+          "previous_parameters_sha256": "7e0bdb504ac00e6f8105072a4673766af6d9394c3c2edad1fef440296ea93d85",
+          "optimizer_state_sha256": "dfc80690f90e603c622dd32bbbd3faab5ddb38b938c0d34357c094fa60556489"
+        }
+      }
+    },
+    {
+      "time": 6.32,
+      "executed": true,
+      "version": 818,
+      "snapshot_available_time": 6.32,
+      "published_learner_state": {
+        "library_version": 818,
+        "cumulative_gradient_steps": 818,
+        "persistent_state_sha256": "6cb37673542727f2f78c0d133eeb8a01dff0f48dae6dcabc29e97f874505474b",
+        "parameters_sha256": "02f7a92ab5344f901e5db8b2189496fda2e0a923346196bf84b78267f13e4442",
+        "previous_parameters_sha256": "7e0bdb504ac00e6f8105072a4673766af6d9394c3c2edad1fef440296ea93d85",
+        "optimizer_state_sha256": "dfc80690f90e603c622dd32bbbd3faab5ddb38b938c0d34357c094fa60556489"
+      },
+      "controller_started_perf_counter_ns": 2086780162278769,
+      "controller_completed_perf_counter_ns": 2086780171249714,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.32,
+        "publication_time_seconds": 6.36,
+        "training_state_sha256": "473c8de748f7ce6386fcffee5491af029fbb83dee5d4afdc80972e66e7e24d71",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780171905097,
+        "completed_perf_counter_ns": 2086780182429220,
+        "synchronized_service_seconds": 0.010524123,
+        "before": {
+          "library_version": 818,
+          "cumulative_gradient_steps": 818,
+          "persistent_state_sha256": "6cb37673542727f2f78c0d133eeb8a01dff0f48dae6dcabc29e97f874505474b",
+          "parameters_sha256": "02f7a92ab5344f901e5db8b2189496fda2e0a923346196bf84b78267f13e4442",
+          "previous_parameters_sha256": "7e0bdb504ac00e6f8105072a4673766af6d9394c3c2edad1fef440296ea93d85",
+          "optimizer_state_sha256": "dfc80690f90e603c622dd32bbbd3faab5ddb38b938c0d34357c094fa60556489"
+        },
+        "after": {
+          "library_version": 819,
+          "cumulative_gradient_steps": 819,
+          "persistent_state_sha256": "8760e21c10d2fc86fbae5d7e10267f92a42cd1180bcbdc70718d775a0a64e395",
+          "parameters_sha256": "ed6479b7ee73995ba8a90f6db6257ac6359b419ce0ed20df7d4f8052ce5a6ae4",
+          "previous_parameters_sha256": "02f7a92ab5344f901e5db8b2189496fda2e0a923346196bf84b78267f13e4442",
+          "optimizer_state_sha256": "992021f2c3577516922be25951b2978c991b6b60c8191c1fba9a1c27a14c5d86"
+        }
+      }
+    },
+    {
+      "time": 6.359999999999999,
+      "executed": true,
+      "version": 819,
+      "snapshot_available_time": 6.36,
+      "published_learner_state": {
+        "library_version": 819,
+        "cumulative_gradient_steps": 819,
+        "persistent_state_sha256": "8760e21c10d2fc86fbae5d7e10267f92a42cd1180bcbdc70718d775a0a64e395",
+        "parameters_sha256": "ed6479b7ee73995ba8a90f6db6257ac6359b419ce0ed20df7d4f8052ce5a6ae4",
+        "previous_parameters_sha256": "02f7a92ab5344f901e5db8b2189496fda2e0a923346196bf84b78267f13e4442",
+        "optimizer_state_sha256": "992021f2c3577516922be25951b2978c991b6b60c8191c1fba9a1c27a14c5d86"
+      },
+      "controller_started_perf_counter_ns": 2086780185459111,
+      "controller_completed_perf_counter_ns": 2086780194435828,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.359999999999999,
+        "publication_time_seconds": 6.3999999999999995,
+        "training_state_sha256": "fac5b4921b1727f3aaa6bb97e2f1a1e1b6dcce597d3e0b80a492865610dff0f6",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780195177568,
+        "completed_perf_counter_ns": 2086780205698358,
+        "synchronized_service_seconds": 0.01052079,
+        "before": {
+          "library_version": 819,
+          "cumulative_gradient_steps": 819,
+          "persistent_state_sha256": "8760e21c10d2fc86fbae5d7e10267f92a42cd1180bcbdc70718d775a0a64e395",
+          "parameters_sha256": "ed6479b7ee73995ba8a90f6db6257ac6359b419ce0ed20df7d4f8052ce5a6ae4",
+          "previous_parameters_sha256": "02f7a92ab5344f901e5db8b2189496fda2e0a923346196bf84b78267f13e4442",
+          "optimizer_state_sha256": "992021f2c3577516922be25951b2978c991b6b60c8191c1fba9a1c27a14c5d86"
+        },
+        "after": {
+          "library_version": 820,
+          "cumulative_gradient_steps": 820,
+          "persistent_state_sha256": "5cc66fb62db1cb942338944d90819e3ef45e33d01dce5adc13990c410d1f7382",
+          "parameters_sha256": "e0d7236e756fdcd4af978315f7ba7be2203f40e83910ac730e20ca74afd96f4a",
+          "previous_parameters_sha256": "ed6479b7ee73995ba8a90f6db6257ac6359b419ce0ed20df7d4f8052ce5a6ae4",
+          "optimizer_state_sha256": "e617b5ca1bc224fa6909d14d6405175edd7713822b5660909e0d9fd9689b08dc"
+        }
+      }
+    },
+    {
+      "time": 6.4,
+      "executed": true,
+      "version": 820,
+      "snapshot_available_time": 6.3999999999999995,
+      "published_learner_state": {
+        "library_version": 820,
+        "cumulative_gradient_steps": 820,
+        "persistent_state_sha256": "5cc66fb62db1cb942338944d90819e3ef45e33d01dce5adc13990c410d1f7382",
+        "parameters_sha256": "e0d7236e756fdcd4af978315f7ba7be2203f40e83910ac730e20ca74afd96f4a",
+        "previous_parameters_sha256": "ed6479b7ee73995ba8a90f6db6257ac6359b419ce0ed20df7d4f8052ce5a6ae4",
+        "optimizer_state_sha256": "e617b5ca1bc224fa6909d14d6405175edd7713822b5660909e0d9fd9689b08dc"
+      },
+      "controller_started_perf_counter_ns": 2086780208651957,
+      "controller_completed_perf_counter_ns": 2086780217650392,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.4,
+        "publication_time_seconds": 6.44,
+        "training_state_sha256": "58e227470fcc35b0af8822fcc72e6e74404ac97f1810db05c42d8f19cff1e207",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780218321979,
+        "completed_perf_counter_ns": 2086780228908209,
+        "synchronized_service_seconds": 0.01058623,
+        "before": {
+          "library_version": 820,
+          "cumulative_gradient_steps": 820,
+          "persistent_state_sha256": "5cc66fb62db1cb942338944d90819e3ef45e33d01dce5adc13990c410d1f7382",
+          "parameters_sha256": "e0d7236e756fdcd4af978315f7ba7be2203f40e83910ac730e20ca74afd96f4a",
+          "previous_parameters_sha256": "ed6479b7ee73995ba8a90f6db6257ac6359b419ce0ed20df7d4f8052ce5a6ae4",
+          "optimizer_state_sha256": "e617b5ca1bc224fa6909d14d6405175edd7713822b5660909e0d9fd9689b08dc"
+        },
+        "after": {
+          "library_version": 821,
+          "cumulative_gradient_steps": 821,
+          "persistent_state_sha256": "105860e8cb8097cb1bc901e2c8dceb2091fa9da64dcdd322fe8ae3e3e4309d6c",
+          "parameters_sha256": "c606c2d7dd7a6f91ce292e9f02cf98384365f9b27094682fed70fc2cb2b3635b",
+          "previous_parameters_sha256": "e0d7236e756fdcd4af978315f7ba7be2203f40e83910ac730e20ca74afd96f4a",
+          "optimizer_state_sha256": "2825b98f34efa502b8f62e73567c637769cfc704ced3203bcd9b6cda86a50a6f"
+        }
+      }
+    },
+    {
+      "time": 6.4399999999999995,
+      "executed": true,
+      "version": 821,
+      "snapshot_available_time": 6.44,
+      "published_learner_state": {
+        "library_version": 821,
+        "cumulative_gradient_steps": 821,
+        "persistent_state_sha256": "105860e8cb8097cb1bc901e2c8dceb2091fa9da64dcdd322fe8ae3e3e4309d6c",
+        "parameters_sha256": "c606c2d7dd7a6f91ce292e9f02cf98384365f9b27094682fed70fc2cb2b3635b",
+        "previous_parameters_sha256": "e0d7236e756fdcd4af978315f7ba7be2203f40e83910ac730e20ca74afd96f4a",
+        "optimizer_state_sha256": "2825b98f34efa502b8f62e73567c637769cfc704ced3203bcd9b6cda86a50a6f"
+      },
+      "controller_started_perf_counter_ns": 2086780231871047,
+      "controller_completed_perf_counter_ns": 2086780240852864,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.4399999999999995,
+        "publication_time_seconds": 6.4799999999999995,
+        "training_state_sha256": "c7d66fb973d37e4564a64b99b9d87d4f72394ffb09e75f411bd636252e8496f6",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780241512277,
+        "completed_perf_counter_ns": 2086780252197897,
+        "synchronized_service_seconds": 0.01068562,
+        "before": {
+          "library_version": 821,
+          "cumulative_gradient_steps": 821,
+          "persistent_state_sha256": "105860e8cb8097cb1bc901e2c8dceb2091fa9da64dcdd322fe8ae3e3e4309d6c",
+          "parameters_sha256": "c606c2d7dd7a6f91ce292e9f02cf98384365f9b27094682fed70fc2cb2b3635b",
+          "previous_parameters_sha256": "e0d7236e756fdcd4af978315f7ba7be2203f40e83910ac730e20ca74afd96f4a",
+          "optimizer_state_sha256": "2825b98f34efa502b8f62e73567c637769cfc704ced3203bcd9b6cda86a50a6f"
+        },
+        "after": {
+          "library_version": 822,
+          "cumulative_gradient_steps": 822,
+          "persistent_state_sha256": "4ac4cf3d6257180125decec8efa83609dac30fe2ee24f8cb707fbc76d6a1c661",
+          "parameters_sha256": "090345cb777803a7da96d4686476646508b2ed39ecce45ce28d6d7549a72114d",
+          "previous_parameters_sha256": "c606c2d7dd7a6f91ce292e9f02cf98384365f9b27094682fed70fc2cb2b3635b",
+          "optimizer_state_sha256": "2a90b3fe285497542a981120bf0ded88fd499a0e19c42e630992467c20235bac"
+        }
+      }
+    },
+    {
+      "time": 6.48,
+      "executed": true,
+      "version": 822,
+      "snapshot_available_time": 6.4799999999999995,
+      "published_learner_state": {
+        "library_version": 822,
+        "cumulative_gradient_steps": 822,
+        "persistent_state_sha256": "4ac4cf3d6257180125decec8efa83609dac30fe2ee24f8cb707fbc76d6a1c661",
+        "parameters_sha256": "090345cb777803a7da96d4686476646508b2ed39ecce45ce28d6d7549a72114d",
+        "previous_parameters_sha256": "c606c2d7dd7a6f91ce292e9f02cf98384365f9b27094682fed70fc2cb2b3635b",
+        "optimizer_state_sha256": "2a90b3fe285497542a981120bf0ded88fd499a0e19c42e630992467c20235bac"
+      },
+      "controller_started_perf_counter_ns": 2086780257331765,
+      "controller_completed_perf_counter_ns": 2086780267638308,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.48,
+        "publication_time_seconds": 6.5200000000000005,
+        "training_state_sha256": "06f32eb4ec18a4cc2bb0f8114d0783a37584a0aae4dded13235f8a3c82d41308",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780269231731,
+        "completed_perf_counter_ns": 2086780280492648,
+        "synchronized_service_seconds": 0.011260917,
+        "before": {
+          "library_version": 822,
+          "cumulative_gradient_steps": 822,
+          "persistent_state_sha256": "4ac4cf3d6257180125decec8efa83609dac30fe2ee24f8cb707fbc76d6a1c661",
+          "parameters_sha256": "090345cb777803a7da96d4686476646508b2ed39ecce45ce28d6d7549a72114d",
+          "previous_parameters_sha256": "c606c2d7dd7a6f91ce292e9f02cf98384365f9b27094682fed70fc2cb2b3635b",
+          "optimizer_state_sha256": "2a90b3fe285497542a981120bf0ded88fd499a0e19c42e630992467c20235bac"
+        },
+        "after": {
+          "library_version": 823,
+          "cumulative_gradient_steps": 823,
+          "persistent_state_sha256": "610478295100a3111fa5b5dd8ca9f737c274c871ec7a24f108074f63318874a1",
+          "parameters_sha256": "fd627c7ee9ac65f856f717cc912005568557fd74516c24a9185fe98a920f171f",
+          "previous_parameters_sha256": "090345cb777803a7da96d4686476646508b2ed39ecce45ce28d6d7549a72114d",
+          "optimizer_state_sha256": "9d55aa9291b991984f644def7cb298a5c1ad89cffd885d32524ab194e695865c"
+        }
+      }
+    },
+    {
+      "time": 6.52,
+      "executed": true,
+      "version": 823,
+      "snapshot_available_time": 6.5200000000000005,
+      "published_learner_state": {
+        "library_version": 823,
+        "cumulative_gradient_steps": 823,
+        "persistent_state_sha256": "610478295100a3111fa5b5dd8ca9f737c274c871ec7a24f108074f63318874a1",
+        "parameters_sha256": "fd627c7ee9ac65f856f717cc912005568557fd74516c24a9185fe98a920f171f",
+        "previous_parameters_sha256": "090345cb777803a7da96d4686476646508b2ed39ecce45ce28d6d7549a72114d",
+        "optimizer_state_sha256": "9d55aa9291b991984f644def7cb298a5c1ad89cffd885d32524ab194e695865c"
+      },
+      "controller_started_perf_counter_ns": 2086780290554042,
+      "controller_completed_perf_counter_ns": 2086780300295632,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.52,
+        "publication_time_seconds": 6.56,
+        "training_state_sha256": "c335ed4db6131b366bc81d21874fb48f217b25112145e85683b8efaa707d34f5",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780300948053,
+        "completed_perf_counter_ns": 2086780311536818,
+        "synchronized_service_seconds": 0.010588765,
+        "before": {
+          "library_version": 823,
+          "cumulative_gradient_steps": 823,
+          "persistent_state_sha256": "610478295100a3111fa5b5dd8ca9f737c274c871ec7a24f108074f63318874a1",
+          "parameters_sha256": "fd627c7ee9ac65f856f717cc912005568557fd74516c24a9185fe98a920f171f",
+          "previous_parameters_sha256": "090345cb777803a7da96d4686476646508b2ed39ecce45ce28d6d7549a72114d",
+          "optimizer_state_sha256": "9d55aa9291b991984f644def7cb298a5c1ad89cffd885d32524ab194e695865c"
+        },
+        "after": {
+          "library_version": 824,
+          "cumulative_gradient_steps": 824,
+          "persistent_state_sha256": "c9741086cd7e2370c9635d6e51316e42e2d76877b7df76390b21b588acca8811",
+          "parameters_sha256": "6ca92abdd2d0eb59ad918d3a7c60388ab217f73f82d347d9f57d619cd17e137f",
+          "previous_parameters_sha256": "fd627c7ee9ac65f856f717cc912005568557fd74516c24a9185fe98a920f171f",
+          "optimizer_state_sha256": "d7f61ca137ade2d753821bf713ea0c940e3839f9cf5b173d6923afb5c3de42b5"
+        }
+      }
+    },
+    {
+      "time": 6.5600000000000005,
+      "executed": true,
+      "version": 824,
+      "snapshot_available_time": 6.56,
+      "published_learner_state": {
+        "library_version": 824,
+        "cumulative_gradient_steps": 824,
+        "persistent_state_sha256": "c9741086cd7e2370c9635d6e51316e42e2d76877b7df76390b21b588acca8811",
+        "parameters_sha256": "6ca92abdd2d0eb59ad918d3a7c60388ab217f73f82d347d9f57d619cd17e137f",
+        "previous_parameters_sha256": "fd627c7ee9ac65f856f717cc912005568557fd74516c24a9185fe98a920f171f",
+        "optimizer_state_sha256": "d7f61ca137ade2d753821bf713ea0c940e3839f9cf5b173d6923afb5c3de42b5"
+      },
+      "controller_started_perf_counter_ns": 2086780314609905,
+      "controller_completed_perf_counter_ns": 2086780323503659,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.5600000000000005,
+        "publication_time_seconds": 6.6000000000000005,
+        "training_state_sha256": "3a1a431d2e04c93665c17ddb131587b9a9188d1db55066b11db71a1232502fdc",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780324161049,
+        "completed_perf_counter_ns": 2086780334663136,
+        "synchronized_service_seconds": 0.010502087,
+        "before": {
+          "library_version": 824,
+          "cumulative_gradient_steps": 824,
+          "persistent_state_sha256": "c9741086cd7e2370c9635d6e51316e42e2d76877b7df76390b21b588acca8811",
+          "parameters_sha256": "6ca92abdd2d0eb59ad918d3a7c60388ab217f73f82d347d9f57d619cd17e137f",
+          "previous_parameters_sha256": "fd627c7ee9ac65f856f717cc912005568557fd74516c24a9185fe98a920f171f",
+          "optimizer_state_sha256": "d7f61ca137ade2d753821bf713ea0c940e3839f9cf5b173d6923afb5c3de42b5"
+        },
+        "after": {
+          "library_version": 825,
+          "cumulative_gradient_steps": 825,
+          "persistent_state_sha256": "5f29be0381d316ef0b488b27025d788eb2bb8cf355694876481ec4e9cc2c7e62",
+          "parameters_sha256": "2bd2c6b9568abdcf4d6a14e9ee04d4fa06e29b5298e1530c7f98731b2c45865c",
+          "previous_parameters_sha256": "6ca92abdd2d0eb59ad918d3a7c60388ab217f73f82d347d9f57d619cd17e137f",
+          "optimizer_state_sha256": "aef7170438a18efd3b52ea39dac77c6fc1979d441703934a485c06fa81f78647"
+        }
+      }
+    },
+    {
+      "time": 6.6,
+      "executed": true,
+      "version": 825,
+      "snapshot_available_time": 6.6000000000000005,
+      "published_learner_state": {
+        "library_version": 825,
+        "cumulative_gradient_steps": 825,
+        "persistent_state_sha256": "5f29be0381d316ef0b488b27025d788eb2bb8cf355694876481ec4e9cc2c7e62",
+        "parameters_sha256": "2bd2c6b9568abdcf4d6a14e9ee04d4fa06e29b5298e1530c7f98731b2c45865c",
+        "previous_parameters_sha256": "6ca92abdd2d0eb59ad918d3a7c60388ab217f73f82d347d9f57d619cd17e137f",
+        "optimizer_state_sha256": "aef7170438a18efd3b52ea39dac77c6fc1979d441703934a485c06fa81f78647"
+      },
+      "controller_started_perf_counter_ns": 2086780337740648,
+      "controller_completed_perf_counter_ns": 2086780346664458,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.6,
+        "publication_time_seconds": 6.64,
+        "training_state_sha256": "4a582431b90e7ae2876f2856482ed3307e05e06474fdb3273609c4b453c2b04f",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780347295054,
+        "completed_perf_counter_ns": 2086780357885005,
+        "synchronized_service_seconds": 0.010589951,
+        "before": {
+          "library_version": 825,
+          "cumulative_gradient_steps": 825,
+          "persistent_state_sha256": "5f29be0381d316ef0b488b27025d788eb2bb8cf355694876481ec4e9cc2c7e62",
+          "parameters_sha256": "2bd2c6b9568abdcf4d6a14e9ee04d4fa06e29b5298e1530c7f98731b2c45865c",
+          "previous_parameters_sha256": "6ca92abdd2d0eb59ad918d3a7c60388ab217f73f82d347d9f57d619cd17e137f",
+          "optimizer_state_sha256": "aef7170438a18efd3b52ea39dac77c6fc1979d441703934a485c06fa81f78647"
+        },
+        "after": {
+          "library_version": 826,
+          "cumulative_gradient_steps": 826,
+          "persistent_state_sha256": "7116b6bc890de9c72d58b5ae2a39be7eac6f3347e1b5f0d263ac8cd793dfb0e6",
+          "parameters_sha256": "c8ba6771540a36c89962369801852e2fd6272818860feb4e9a6edfa9dd3f9ac1",
+          "previous_parameters_sha256": "2bd2c6b9568abdcf4d6a14e9ee04d4fa06e29b5298e1530c7f98731b2c45865c",
+          "optimizer_state_sha256": "e89690ca3c628d81d3c2ec490842dcbe5d64f2b3bd8e4fb59be0b4ab20639aeb"
+        }
+      }
+    },
+    {
+      "time": 6.640000000000001,
+      "executed": true,
+      "version": 826,
+      "snapshot_available_time": 6.64,
+      "published_learner_state": {
+        "library_version": 826,
+        "cumulative_gradient_steps": 826,
+        "persistent_state_sha256": "7116b6bc890de9c72d58b5ae2a39be7eac6f3347e1b5f0d263ac8cd793dfb0e6",
+        "parameters_sha256": "c8ba6771540a36c89962369801852e2fd6272818860feb4e9a6edfa9dd3f9ac1",
+        "previous_parameters_sha256": "2bd2c6b9568abdcf4d6a14e9ee04d4fa06e29b5298e1530c7f98731b2c45865c",
+        "optimizer_state_sha256": "e89690ca3c628d81d3c2ec490842dcbe5d64f2b3bd8e4fb59be0b4ab20639aeb"
+      },
+      "controller_started_perf_counter_ns": 2086780360909310,
+      "controller_completed_perf_counter_ns": 2086780369795469,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.640000000000001,
+        "publication_time_seconds": 6.680000000000001,
+        "training_state_sha256": "e8972531aa6e74ec22e41e670c92a0acace70b4ef1fd9cd88246765230f11b21",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780370464786,
+        "completed_perf_counter_ns": 2086780380996944,
+        "synchronized_service_seconds": 0.010532158,
+        "before": {
+          "library_version": 826,
+          "cumulative_gradient_steps": 826,
+          "persistent_state_sha256": "7116b6bc890de9c72d58b5ae2a39be7eac6f3347e1b5f0d263ac8cd793dfb0e6",
+          "parameters_sha256": "c8ba6771540a36c89962369801852e2fd6272818860feb4e9a6edfa9dd3f9ac1",
+          "previous_parameters_sha256": "2bd2c6b9568abdcf4d6a14e9ee04d4fa06e29b5298e1530c7f98731b2c45865c",
+          "optimizer_state_sha256": "e89690ca3c628d81d3c2ec490842dcbe5d64f2b3bd8e4fb59be0b4ab20639aeb"
+        },
+        "after": {
+          "library_version": 827,
+          "cumulative_gradient_steps": 827,
+          "persistent_state_sha256": "2e84cdae01a67fd68355a4af477adbc939a35e9f0cccce9bc8a56f889b8fed57",
+          "parameters_sha256": "0ea53b09d48f44c5e29a27980754a77a978068b0fe635f2319340065fd99f1fb",
+          "previous_parameters_sha256": "c8ba6771540a36c89962369801852e2fd6272818860feb4e9a6edfa9dd3f9ac1",
+          "optimizer_state_sha256": "5efe3609a7ee90a4007a1c229e7473062d89b10d744c1848c998cabae31a8b8e"
+        }
+      }
+    },
+    {
+      "time": 6.68,
+      "executed": true,
+      "version": 827,
+      "snapshot_available_time": 6.680000000000001,
+      "published_learner_state": {
+        "library_version": 827,
+        "cumulative_gradient_steps": 827,
+        "persistent_state_sha256": "2e84cdae01a67fd68355a4af477adbc939a35e9f0cccce9bc8a56f889b8fed57",
+        "parameters_sha256": "0ea53b09d48f44c5e29a27980754a77a978068b0fe635f2319340065fd99f1fb",
+        "previous_parameters_sha256": "c8ba6771540a36c89962369801852e2fd6272818860feb4e9a6edfa9dd3f9ac1",
+        "optimizer_state_sha256": "5efe3609a7ee90a4007a1c229e7473062d89b10d744c1848c998cabae31a8b8e"
+      },
+      "controller_started_perf_counter_ns": 2086780384068734,
+      "controller_completed_perf_counter_ns": 2086780393010856,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.68,
+        "publication_time_seconds": 6.72,
+        "training_state_sha256": "ac1b315cf6b3f8a95e095d3869d6cc06cc600004e2e54a02d3bef44645620957",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780393676752,
+        "completed_perf_counter_ns": 2086780404200194,
+        "synchronized_service_seconds": 0.010523442000000001,
+        "before": {
+          "library_version": 827,
+          "cumulative_gradient_steps": 827,
+          "persistent_state_sha256": "2e84cdae01a67fd68355a4af477adbc939a35e9f0cccce9bc8a56f889b8fed57",
+          "parameters_sha256": "0ea53b09d48f44c5e29a27980754a77a978068b0fe635f2319340065fd99f1fb",
+          "previous_parameters_sha256": "c8ba6771540a36c89962369801852e2fd6272818860feb4e9a6edfa9dd3f9ac1",
+          "optimizer_state_sha256": "5efe3609a7ee90a4007a1c229e7473062d89b10d744c1848c998cabae31a8b8e"
+        },
+        "after": {
+          "library_version": 828,
+          "cumulative_gradient_steps": 828,
+          "persistent_state_sha256": "33d4c2d67176f4c018f3a537119aa5a511df45a25dd8b865a40ce6fc81ecacf2",
+          "parameters_sha256": "1ecc244ef89165b3289c597987138885250cf3bc1a886adc09272a0d9b69d018",
+          "previous_parameters_sha256": "0ea53b09d48f44c5e29a27980754a77a978068b0fe635f2319340065fd99f1fb",
+          "optimizer_state_sha256": "0240c248af150aa78afd1790a91edd90414c7e720598488c0070cfd28876dae4"
+        }
+      }
+    },
+    {
+      "time": 6.720000000000001,
+      "executed": true,
+      "version": 828,
+      "snapshot_available_time": 6.72,
+      "published_learner_state": {
+        "library_version": 828,
+        "cumulative_gradient_steps": 828,
+        "persistent_state_sha256": "33d4c2d67176f4c018f3a537119aa5a511df45a25dd8b865a40ce6fc81ecacf2",
+        "parameters_sha256": "1ecc244ef89165b3289c597987138885250cf3bc1a886adc09272a0d9b69d018",
+        "previous_parameters_sha256": "0ea53b09d48f44c5e29a27980754a77a978068b0fe635f2319340065fd99f1fb",
+        "optimizer_state_sha256": "0240c248af150aa78afd1790a91edd90414c7e720598488c0070cfd28876dae4"
+      },
+      "controller_started_perf_counter_ns": 2086780407297534,
+      "controller_completed_perf_counter_ns": 2086780416265334,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.720000000000001,
+        "publication_time_seconds": 6.760000000000001,
+        "training_state_sha256": "2e2524d2f5e0d06afda033d36212889e40e1fd2482337bedd1415420195e6690",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780416902355,
+        "completed_perf_counter_ns": 2086780427525826,
+        "synchronized_service_seconds": 0.010623471,
+        "before": {
+          "library_version": 828,
+          "cumulative_gradient_steps": 828,
+          "persistent_state_sha256": "33d4c2d67176f4c018f3a537119aa5a511df45a25dd8b865a40ce6fc81ecacf2",
+          "parameters_sha256": "1ecc244ef89165b3289c597987138885250cf3bc1a886adc09272a0d9b69d018",
+          "previous_parameters_sha256": "0ea53b09d48f44c5e29a27980754a77a978068b0fe635f2319340065fd99f1fb",
+          "optimizer_state_sha256": "0240c248af150aa78afd1790a91edd90414c7e720598488c0070cfd28876dae4"
+        },
+        "after": {
+          "library_version": 829,
+          "cumulative_gradient_steps": 829,
+          "persistent_state_sha256": "abb52303f7977ee36c0726cc722b224b3c5cf49b97b59a4d94dfabe907ce34de",
+          "parameters_sha256": "cbbdcc381af96c2856b4f86679ec1cb1acc23c5c3575beb5f526994409affe42",
+          "previous_parameters_sha256": "1ecc244ef89165b3289c597987138885250cf3bc1a886adc09272a0d9b69d018",
+          "optimizer_state_sha256": "1b8163588ed49762b7a5b2f845ad1d06a454563d98eecab403ce151408b1aa02"
+        }
+      }
+    },
+    {
+      "time": 6.76,
+      "executed": true,
+      "version": 829,
+      "snapshot_available_time": 6.760000000000001,
+      "published_learner_state": {
+        "library_version": 829,
+        "cumulative_gradient_steps": 829,
+        "persistent_state_sha256": "abb52303f7977ee36c0726cc722b224b3c5cf49b97b59a4d94dfabe907ce34de",
+        "parameters_sha256": "cbbdcc381af96c2856b4f86679ec1cb1acc23c5c3575beb5f526994409affe42",
+        "previous_parameters_sha256": "1ecc244ef89165b3289c597987138885250cf3bc1a886adc09272a0d9b69d018",
+        "optimizer_state_sha256": "1b8163588ed49762b7a5b2f845ad1d06a454563d98eecab403ce151408b1aa02"
+      },
+      "controller_started_perf_counter_ns": 2086780430622380,
+      "controller_completed_perf_counter_ns": 2086780439500286,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.76,
+        "publication_time_seconds": 6.8,
+        "training_state_sha256": "cf07249bc24c1a337bfeb0c62b67093d5077516786e46a3857b7d232a56ddeba",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780440172958,
+        "completed_perf_counter_ns": 2086780450690551,
+        "synchronized_service_seconds": 0.010517593,
+        "before": {
+          "library_version": 829,
+          "cumulative_gradient_steps": 829,
+          "persistent_state_sha256": "abb52303f7977ee36c0726cc722b224b3c5cf49b97b59a4d94dfabe907ce34de",
+          "parameters_sha256": "cbbdcc381af96c2856b4f86679ec1cb1acc23c5c3575beb5f526994409affe42",
+          "previous_parameters_sha256": "1ecc244ef89165b3289c597987138885250cf3bc1a886adc09272a0d9b69d018",
+          "optimizer_state_sha256": "1b8163588ed49762b7a5b2f845ad1d06a454563d98eecab403ce151408b1aa02"
+        },
+        "after": {
+          "library_version": 830,
+          "cumulative_gradient_steps": 830,
+          "persistent_state_sha256": "7ca42fb65b84dc808c9cac98f64ddc08abbd56693a2d4f5030bf5269e53ffab5",
+          "parameters_sha256": "89b501210ae57e5c6cba19c4dbb7535437d995441eac7ea34bbe2415dacd1a88",
+          "previous_parameters_sha256": "cbbdcc381af96c2856b4f86679ec1cb1acc23c5c3575beb5f526994409affe42",
+          "optimizer_state_sha256": "9feb659d271d2f240ab1c46a98a76ab34f7107ac9fdef3ba451ae384c4334009"
+        }
+      }
+    },
+    {
+      "time": 6.800000000000001,
+      "executed": true,
+      "version": 830,
+      "snapshot_available_time": 6.8,
+      "published_learner_state": {
+        "library_version": 830,
+        "cumulative_gradient_steps": 830,
+        "persistent_state_sha256": "7ca42fb65b84dc808c9cac98f64ddc08abbd56693a2d4f5030bf5269e53ffab5",
+        "parameters_sha256": "89b501210ae57e5c6cba19c4dbb7535437d995441eac7ea34bbe2415dacd1a88",
+        "previous_parameters_sha256": "cbbdcc381af96c2856b4f86679ec1cb1acc23c5c3575beb5f526994409affe42",
+        "optimizer_state_sha256": "9feb659d271d2f240ab1c46a98a76ab34f7107ac9fdef3ba451ae384c4334009"
+      },
+      "controller_started_perf_counter_ns": 2086780453809827,
+      "controller_completed_perf_counter_ns": 2086780462736778,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.800000000000001,
+        "publication_time_seconds": 6.840000000000001,
+        "training_state_sha256": "4551a402a21982662d7a7582d186b573fe8778462c2796a8ed24ff6133b9f5a6",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780463439893,
+        "completed_perf_counter_ns": 2086780473958785,
+        "synchronized_service_seconds": 0.010518892,
+        "before": {
+          "library_version": 830,
+          "cumulative_gradient_steps": 830,
+          "persistent_state_sha256": "7ca42fb65b84dc808c9cac98f64ddc08abbd56693a2d4f5030bf5269e53ffab5",
+          "parameters_sha256": "89b501210ae57e5c6cba19c4dbb7535437d995441eac7ea34bbe2415dacd1a88",
+          "previous_parameters_sha256": "cbbdcc381af96c2856b4f86679ec1cb1acc23c5c3575beb5f526994409affe42",
+          "optimizer_state_sha256": "9feb659d271d2f240ab1c46a98a76ab34f7107ac9fdef3ba451ae384c4334009"
+        },
+        "after": {
+          "library_version": 831,
+          "cumulative_gradient_steps": 831,
+          "persistent_state_sha256": "621ed2538cc3c2ef78645a2aaef6f01acb1569fa4f21e3cc534a71d9f81ffc37",
+          "parameters_sha256": "3d10c38d8bc356dd14849ea11b61cdd956dba5fdbe4fbbe51eb763c94ef86d33",
+          "previous_parameters_sha256": "89b501210ae57e5c6cba19c4dbb7535437d995441eac7ea34bbe2415dacd1a88",
+          "optimizer_state_sha256": "299503f2857603915ab02b143f68a8bc0fc6a28f2bff559ef70284f87d028f7e"
+        }
+      }
+    },
+    {
+      "time": 6.84,
+      "executed": true,
+      "version": 831,
+      "snapshot_available_time": 6.840000000000001,
+      "published_learner_state": {
+        "library_version": 831,
+        "cumulative_gradient_steps": 831,
+        "persistent_state_sha256": "621ed2538cc3c2ef78645a2aaef6f01acb1569fa4f21e3cc534a71d9f81ffc37",
+        "parameters_sha256": "3d10c38d8bc356dd14849ea11b61cdd956dba5fdbe4fbbe51eb763c94ef86d33",
+        "previous_parameters_sha256": "89b501210ae57e5c6cba19c4dbb7535437d995441eac7ea34bbe2415dacd1a88",
+        "optimizer_state_sha256": "299503f2857603915ab02b143f68a8bc0fc6a28f2bff559ef70284f87d028f7e"
+      },
+      "controller_started_perf_counter_ns": 2086780477043837,
+      "controller_completed_perf_counter_ns": 2086780485910983,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.84,
+        "publication_time_seconds": 6.88,
+        "training_state_sha256": "20cf51cb6f35641742ee83b7712107423e11ea2a3fdc59ce197edcc0aacdd848",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780486564232,
+        "completed_perf_counter_ns": 2086780497155177,
+        "synchronized_service_seconds": 0.010590945000000001,
+        "before": {
+          "library_version": 831,
+          "cumulative_gradient_steps": 831,
+          "persistent_state_sha256": "621ed2538cc3c2ef78645a2aaef6f01acb1569fa4f21e3cc534a71d9f81ffc37",
+          "parameters_sha256": "3d10c38d8bc356dd14849ea11b61cdd956dba5fdbe4fbbe51eb763c94ef86d33",
+          "previous_parameters_sha256": "89b501210ae57e5c6cba19c4dbb7535437d995441eac7ea34bbe2415dacd1a88",
+          "optimizer_state_sha256": "299503f2857603915ab02b143f68a8bc0fc6a28f2bff559ef70284f87d028f7e"
+        },
+        "after": {
+          "library_version": 832,
+          "cumulative_gradient_steps": 832,
+          "persistent_state_sha256": "f14f08b4653d33d5e69204c40b5d09e83d66662fa882f34365429dc5a1ec9974",
+          "parameters_sha256": "324f49c761aae6b7d43979bc81116c261b5944f3aa242f75482250d8fb79079c",
+          "previous_parameters_sha256": "3d10c38d8bc356dd14849ea11b61cdd956dba5fdbe4fbbe51eb763c94ef86d33",
+          "optimizer_state_sha256": "4b38c3c95c55c2212ce7c8eee77c570f58c91812f4563968eb5b5093ed3d2c24"
+        }
+      }
+    },
+    {
+      "time": 6.88,
+      "executed": true,
+      "version": 832,
+      "snapshot_available_time": 6.88,
+      "published_learner_state": {
+        "library_version": 832,
+        "cumulative_gradient_steps": 832,
+        "persistent_state_sha256": "f14f08b4653d33d5e69204c40b5d09e83d66662fa882f34365429dc5a1ec9974",
+        "parameters_sha256": "324f49c761aae6b7d43979bc81116c261b5944f3aa242f75482250d8fb79079c",
+        "previous_parameters_sha256": "3d10c38d8bc356dd14849ea11b61cdd956dba5fdbe4fbbe51eb763c94ef86d33",
+        "optimizer_state_sha256": "4b38c3c95c55c2212ce7c8eee77c570f58c91812f4563968eb5b5093ed3d2c24"
+      },
+      "controller_started_perf_counter_ns": 2086780500144570,
+      "controller_completed_perf_counter_ns": 2086780509051128,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.88,
+        "publication_time_seconds": 6.92,
+        "training_state_sha256": "ece763002dfebd14c8b0d64b01137295e097c528237425f02b9864bce551fc1d",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780509722871,
+        "completed_perf_counter_ns": 2086780520263550,
+        "synchronized_service_seconds": 0.010540679,
+        "before": {
+          "library_version": 832,
+          "cumulative_gradient_steps": 832,
+          "persistent_state_sha256": "f14f08b4653d33d5e69204c40b5d09e83d66662fa882f34365429dc5a1ec9974",
+          "parameters_sha256": "324f49c761aae6b7d43979bc81116c261b5944f3aa242f75482250d8fb79079c",
+          "previous_parameters_sha256": "3d10c38d8bc356dd14849ea11b61cdd956dba5fdbe4fbbe51eb763c94ef86d33",
+          "optimizer_state_sha256": "4b38c3c95c55c2212ce7c8eee77c570f58c91812f4563968eb5b5093ed3d2c24"
+        },
+        "after": {
+          "library_version": 833,
+          "cumulative_gradient_steps": 833,
+          "persistent_state_sha256": "5d2e03a7893648cf616c03e132ab6ea61a2da77c2228d57ccd0ccf3577811c0a",
+          "parameters_sha256": "2605237d01c237552c63fd05e246d087d01f408303b35f861704f70ea156cb9b",
+          "previous_parameters_sha256": "324f49c761aae6b7d43979bc81116c261b5944f3aa242f75482250d8fb79079c",
+          "optimizer_state_sha256": "8bb8d915f480a540b5989037d9014ccb60f31c310b7b1c4912c8a7edb881b55d"
+        }
+      }
+    },
+    {
+      "time": 6.92,
+      "executed": true,
+      "version": 833,
+      "snapshot_available_time": 6.92,
+      "published_learner_state": {
+        "library_version": 833,
+        "cumulative_gradient_steps": 833,
+        "persistent_state_sha256": "5d2e03a7893648cf616c03e132ab6ea61a2da77c2228d57ccd0ccf3577811c0a",
+        "parameters_sha256": "2605237d01c237552c63fd05e246d087d01f408303b35f861704f70ea156cb9b",
+        "previous_parameters_sha256": "324f49c761aae6b7d43979bc81116c261b5944f3aa242f75482250d8fb79079c",
+        "optimizer_state_sha256": "8bb8d915f480a540b5989037d9014ccb60f31c310b7b1c4912c8a7edb881b55d"
+      },
+      "controller_started_perf_counter_ns": 2086780523284620,
+      "controller_completed_perf_counter_ns": 2086780532216246,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.92,
+        "publication_time_seconds": 6.96,
+        "training_state_sha256": "b248e01a4fcc9a5a0f9d6aa15071bd071539ea1cae39409319367033207de592",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780532876408,
+        "completed_perf_counter_ns": 2086780543401365,
+        "synchronized_service_seconds": 0.010524957000000001,
+        "before": {
+          "library_version": 833,
+          "cumulative_gradient_steps": 833,
+          "persistent_state_sha256": "5d2e03a7893648cf616c03e132ab6ea61a2da77c2228d57ccd0ccf3577811c0a",
+          "parameters_sha256": "2605237d01c237552c63fd05e246d087d01f408303b35f861704f70ea156cb9b",
+          "previous_parameters_sha256": "324f49c761aae6b7d43979bc81116c261b5944f3aa242f75482250d8fb79079c",
+          "optimizer_state_sha256": "8bb8d915f480a540b5989037d9014ccb60f31c310b7b1c4912c8a7edb881b55d"
+        },
+        "after": {
+          "library_version": 834,
+          "cumulative_gradient_steps": 834,
+          "persistent_state_sha256": "399d2b2a5badf2a0507f4d5ab1ebd2af966c6360d44f7ab2e36cab505a6c5d1f",
+          "parameters_sha256": "a54671509ef74420d34feafa4d58f8fd6d7d1f018854589f9fba600e443bded6",
+          "previous_parameters_sha256": "2605237d01c237552c63fd05e246d087d01f408303b35f861704f70ea156cb9b",
+          "optimizer_state_sha256": "00435eba190ac5e8acc1fb56849a15deb5fe68c6e4c42489e51e8a413c868621"
+        }
+      }
+    },
+    {
+      "time": 6.96,
+      "executed": true,
+      "version": 834,
+      "snapshot_available_time": 6.96,
+      "published_learner_state": {
+        "library_version": 834,
+        "cumulative_gradient_steps": 834,
+        "persistent_state_sha256": "399d2b2a5badf2a0507f4d5ab1ebd2af966c6360d44f7ab2e36cab505a6c5d1f",
+        "parameters_sha256": "a54671509ef74420d34feafa4d58f8fd6d7d1f018854589f9fba600e443bded6",
+        "previous_parameters_sha256": "2605237d01c237552c63fd05e246d087d01f408303b35f861704f70ea156cb9b",
+        "optimizer_state_sha256": "00435eba190ac5e8acc1fb56849a15deb5fe68c6e4c42489e51e8a413c868621"
+      },
+      "controller_started_perf_counter_ns": 2086780546338801,
+      "controller_completed_perf_counter_ns": 2086780555219213,
+      "completed_update": {
+        "finite_update_applied": true,
+        "training_time_seconds": 6.96,
+        "publication_time_seconds": 7.0,
+        "training_state_sha256": "2ddac9ca4c1cd9ce66ccf058569ebab512bef94f3eae3d97c260e164bf2bcb23",
+        "point_model_sha256": "1366b17dbf7225498d18fdade3d45d5393e668070e2cda8c1625173cfd659c8e",
+        "started_perf_counter_ns": 2086780555860623,
+        "completed_perf_counter_ns": 2086780566453705,
+        "synchronized_service_seconds": 0.010593082,
+        "before": {
+          "library_version": 834,
+          "cumulative_gradient_steps": 834,
+          "persistent_state_sha256": "399d2b2a5badf2a0507f4d5ab1ebd2af966c6360d44f7ab2e36cab505a6c5d1f",
+          "parameters_sha256": "a54671509ef74420d34feafa4d58f8fd6d7d1f018854589f9fba600e443bded6",
+          "previous_parameters_sha256": "2605237d01c237552c63fd05e246d087d01f408303b35f861704f70ea156cb9b",
+          "optimizer_state_sha256": "00435eba190ac5e8acc1fb56849a15deb5fe68c6e4c42489e51e8a413c868621"
+        },
+        "after": {
+          "library_version": 835,
+          "cumulative_gradient_steps": 835,
+          "persistent_state_sha256": "b5fd4c23c69f5b8f3698b96fefaa14744f22255d0d2307f6a5edf228f27e189c",
+          "parameters_sha256": "6272f8a1fb1b4e6e92de83070927ce9eed11eae5efb64384134e5540993610ee",
+          "previous_parameters_sha256": "a54671509ef74420d34feafa4d58f8fd6d7d1f018854589f9fba600e443bded6",
+          "optimizer_state_sha256": "4d72950cea31c075161dd7292d9c909600a6cccfc8045fa5df6bc8a1135f3c54"
+        }
+      }
+    },
+    {
+      "time": 7.0,
+      "executed": false,
+      "version": 835,
+      "snapshot_available_time": 7.0,
+      "published_learner_state": {
+        "library_version": 835,
+        "cumulative_gradient_steps": 835,
+        "persistent_state_sha256": "b5fd4c23c69f5b8f3698b96fefaa14744f22255d0d2307f6a5edf228f27e189c",
+        "parameters_sha256": "6272f8a1fb1b4e6e92de83070927ce9eed11eae5efb64384134e5540993610ee",
+        "previous_parameters_sha256": "a54671509ef74420d34feafa4d58f8fd6d7d1f018854589f9fba600e443bded6",
+        "optimizer_state_sha256": "4d72950cea31c075161dd7292d9c909600a6cccfc8045fa5df6bc8a1135f3c54"
+      },
+      "controller_started_perf_counter_ns": 2086780622294512,
+      "controller_completed_perf_counter_ns": 2086780633759297
+    }
+  ]
+}

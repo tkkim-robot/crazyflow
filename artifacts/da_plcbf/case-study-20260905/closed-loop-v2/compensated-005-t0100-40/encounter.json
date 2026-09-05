@@ -1,0 +1,60 @@
+{
+  "incoming": {
+    "arrival_time_seconds": 4.79635949251242,
+    "direction": [
+      -0.459290375084346,
+      -0.8042439116339075,
+      0.37715259770373094
+    ],
+    "speed_m_s": 1.325462695211172,
+    "radius_m": 0.5172299847000214,
+    "crossing_offset": [
+      0.6474474530667066,
+      0.5313729383051394,
+      -0.040290203690528825
+    ],
+    "amplitude_m": 30
+  },
+  "guards": [],
+  "seed": 0,
+  "wind_onset_seconds": 3.0,
+  "wind_velocity": [
+    1.6,
+    0.8,
+    0.0
+  ],
+  "duration_seconds": 12.0,
+  "navigation_start_seconds": 7.0,
+  "hover_position": [
+    0.0,
+    0.0,
+    1.4
+  ],
+  "waypoint_offsets": [
+    [
+      -1.5,
+      1.0,
+      0.3
+    ],
+    [
+      -2.0,
+      -1.0,
+      0.0
+    ]
+  ],
+  "arena_lower": [
+    -5.0,
+    -4.0,
+    0.15
+  ],
+  "arena_upper": [
+    5.0,
+    4.0,
+    4.0
+  ],
+  "dt": 0.02,
+  "control_interval_steps": 2,
+  "ego_radius": 0.106,
+  "obstacle_clearance": 0.15,
+  "reach_radius": 0.4
+}

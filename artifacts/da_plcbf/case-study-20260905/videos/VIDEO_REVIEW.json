@@ -1,0 +1,38 @@
+{
+  "controlled-encounter": {
+    "approved_video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/case-study-20260905/videos/controlled-encounter/comparison-v2.mp4",
+    "video_sha256": "1aa8fb9cb522c7f198ba1dfaaa2917cb50c9ca209341450bc05dfe7074415395",
+    "width": 1600,
+    "height": 900,
+    "fps": 20,
+    "frame_count": 61,
+    "duration_seconds": 3.05,
+    "complete_ffmpeg_decode_passed": true,
+    "no_black_scene_panels": true,
+    "rendered_panels_checked": 122,
+    "decoded_frames_reviewed": {
+      "frame-v2-4.8s.png": "492b5a8406956ff6b671969f45ef13bb9be26cbe280fba957bc2b6aa925c5d8c",
+      "frame-v2-5.7s.png": "1a09b0176ed67e623649a71ced1f611020329ef50264f19abe50451f3bd01e0c"
+    },
+    "visual_review": "Readable disclosure and control status; both vehicles visible at the selected encounter/navigation frames; rounded physical obstacle shadows.",
+    "source_arrays_unchanged": true
+  },
+  "paced-continuous": {
+    "approved_video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/case-study-20260905/videos/paced-continuous/comparison-v2.mp4",
+    "video_sha256": "b628d62bbbc51ebc41c79a58d1961203cce2ed34f3b4bd1df6fd6fb8a0afc637",
+    "width": 1600,
+    "height": 900,
+    "fps": 20,
+    "frame_count": 241,
+    "duration_seconds": 12.05,
+    "complete_ffmpeg_decode_passed": true,
+    "no_black_scene_panels": true,
+    "rendered_panels_checked": 464,
+    "decoded_frames_reviewed": {
+      "frame-v2-4.85s.png": "aedaa72ff37deed336fec1737e3f363ccada3f760f4c86c1efbdd90c3974f242",
+      "frame-v2-9.4s.png": "a4e3bd9874cd3e4eab4278e9f619c90477cf0c26155977eb82c8a9b4c4ea4680"
+    },
+    "visual_review": "Readable disclosure and control status; both vehicles visible at the selected encounter/navigation frames; rounded physical obstacle shadows.",
+    "source_arrays_unchanged": true
+  }
+}

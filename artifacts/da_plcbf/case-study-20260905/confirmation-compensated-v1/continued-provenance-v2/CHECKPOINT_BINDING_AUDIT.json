@@ -1,0 +1,27 @@
+{
+  "case": "compensated",
+  "bound_checkpoint_restoration": {
+    "initial": {
+      "complete_state_hash_matches_publication": true,
+      "reference_contract_binding": "verified_npz_and_manifest_sha256",
+      "persistent_state_sha256": "384f3f63ae7f8ee1886ed91d9c63ad26511b26a0b5f16ed2961b573e2ba1513c",
+      "reference_contract_npz_sha256": "d0fdc97909f7d8e150a1b929b140da60f49e21d253b9991a42f6f7939e8437ae",
+      "reference_contract_manifest_sha256": "06d328e8cee7b6704faac4a12faa30e7e3c0f6a8e4888292fb95573b0606f31a"
+    },
+    "final": {
+      "complete_state_hash_matches_publication": true,
+      "reference_contract_binding": "verified_npz_and_manifest_sha256",
+      "persistent_state_sha256": "582067bf6057e702d698d7986b53dbc15b948143f5e13cf328c421e5db68782e",
+      "reference_contract_npz_sha256": "d0fdc97909f7d8e150a1b929b140da60f49e21d253b9991a42f6f7939e8437ae",
+      "reference_contract_manifest_sha256": "06d328e8cee7b6704faac4a12faa30e7e3c0f6a8e4888292fb95573b0606f31a"
+    }
+  },
+  "recorded_source_files_still_match": {
+    "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1/protocol.json": true,
+    "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1/continued_learning_controls.json": true,
+    "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1/causal_dense_states.npz": true,
+    "artifacts/da_plcbf/case-study-20260905/confirmation-compensated-v1/causal_branches.json": true,
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_case_confirmation.py": true,
+    "benchmark/da_plcbf_case_attribution.py": true
+  }
+}

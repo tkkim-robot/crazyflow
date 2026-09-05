@@ -1,0 +1,1353 @@
+{
+  "selection": {
+    "case": "uncompensated",
+    "anchor": "t0100",
+    "index": 248,
+    "time_seconds": 4.0,
+    "arrival_delay": 1.065163240302354,
+    "direction": [
+      -0.17426111745519518,
+      -0.9499293953776757,
+      0.25935922335762457
+    ],
+    "speed": 1.7166969254612923,
+    "radius": 0.5770504259132098,
+    "crossing_offset": [
+      0.6312647216022015,
+      0.37327315993607046,
+      0.18784256055951132
+    ],
+    "initial_shell_clearance": 1.439096225751484,
+    "fixed_H": -0.2508098583740439,
+    "adaptive_H": 0.03500000000000014,
+    "fixed_asset_H": -0.005001928344511075,
+    "emergency_asset_H": -0.04178040899679342,
+    "fixed_best": 10,
+    "adaptive_best": 5,
+    "nominal_blocked": true,
+    "emergency_blocked": true,
+    "hover_blocked": true,
+    "stage_b_accepted": true,
+    "rejection": null
+  },
+  "source_hashes": {
+    "artifacts/da_plcbf/case-study-20260905/atlas-v1/uncompensated/atlas.npz": "ca16a1818eb35c7cf64e0636a897c3208c9e06898261f99e7e9c7c780b9f59ec",
+    "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-001-t0100-248/selection.json": "345ffab82bd9a2c01fdb5b5e484b8c4be513734edc584b84dad1657f7c1fe91c",
+    "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-001-t0100-248/encounter.json": "69482b473e412be3da8d7d36025037b09234cca0b58607c73cd87543c65fc7bb",
+    "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-001-t0100-248/dense_states.npz": "86f9c7775476142577d7942502a4f2b5475b21843b3f88b946de6c639b8c15a1",
+    "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-001-t0100-248/fixed_controls.json": "ca374bf41cb5bc5ee6aa4b9fb8223bdf775e1d806c5b7bc38dffd16ef4b7e273",
+    "artifacts/da_plcbf/case-study-20260905/closed-loop-v3/uncompensated-001-t0100-248/adaptive_held_controls.json": "113cb81d78349e085f434bd541b8f45ad93f1f7ae54c2b4a60880deaca80ded0"
+  },
+  "shared_committed_behaviors": {
+    "nominal": {
+      "safety_shell": {
+        "minimum_clearance_m": -0.18576174402486445,
+        "minimum_clearance_lower_bound_m": -0.18576175516261326,
+        "minimum_clearance_upper_bound_m": -0.18576173288711564,
+        "first_chord_intersection_time_seconds": 4.978989608017044
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": -0.03576174402486443,
+        "minimum_clearance_lower_bound_m": -0.035761755162613235,
+        "minimum_clearance_upper_bound_m": -0.03576173288711562,
+        "first_chord_intersection_time_seconds": 5.13900638406448
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": -0.021561736212345695,
+        "minimum_clearance_lower_bound_m": -0.021561747350988595,
+        "minimum_clearance_upper_bound_m": -0.021561725073702794,
+        "first_chord_intersection_time_seconds": 5.1617009551910416
+      }
+    },
+    "emergency": {
+      "safety_shell": {
+        "minimum_clearance_m": -0.19630640004401056,
+        "minimum_clearance_lower_bound_m": -0.19630641118175937,
+        "minimum_clearance_upper_bound_m": -0.19630638890626176,
+        "first_chord_intersection_time_seconds": 4.970633990229686
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": -0.04630640004401054,
+        "minimum_clearance_lower_bound_m": -0.04630641118175935,
+        "minimum_clearance_upper_bound_m": -0.046306388906261736,
+        "first_chord_intersection_time_seconds": 5.124298027935839
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": -0.032292585211120106,
+        "minimum_clearance_lower_bound_m": -0.03229259634932041,
+        "minimum_clearance_upper_bound_m": -0.0322925740729198,
+        "first_chord_intersection_time_seconds": 5.1454518247246215
+      }
+    },
+    "stationary": {
+      "safety_shell": {
+        "minimum_clearance_m": -0.2458326687339618,
+        "minimum_clearance_lower_bound_m": -0.24583267987171062,
+        "minimum_clearance_upper_bound_m": -0.245832657596213,
+        "first_chord_intersection_time_seconds": 4.928065020883222
+      },
+      "body_origin_envelope": {
+        "minimum_clearance_m": -0.09583266873396179,
+        "minimum_clearance_lower_bound_m": -0.0958326798717106,
+        "minimum_clearance_upper_bound_m": -0.09583265759621298,
+        "first_chord_intersection_time_seconds": 5.062758590843496
+      },
+      "actual_xml_sphere_geometry": {
+        "minimum_clearance_m": -0.08174836784395745,
+        "minimum_clearance_lower_bound_m": -0.08174837898170625,
+        "minimum_clearance_upper_bound_m": -0.08174835670620864,
+        "first_chord_intersection_time_seconds": 5.08107191955018
+      }
+    }
+  },
+  "methods": {
+    "fixed": {
+      "initial_selected_policy": 10,
+      "initial_max_hard_m2": -0.25066566467285156,
+      "initial_execution_mode": "fallback",
+      "first_eligible_certificate_time_seconds": 5.4,
+      "first_accepted_qp_time_seconds": 5.4,
+      "first_learned_positive_dual_time_seconds": null,
+      "first_command_differs_from_committed_initial_skill_time_seconds": 4.04,
+      "first_held_interval_position_max_abs_difference_m": 7.450580596923828e-09,
+      "first_held_interval_state_max_abs_difference": 3.461912274360657e-05,
+      "actual_prefix_geometry": {
+        "safety_shell": {
+          "minimum_clearance_m": -0.06683719630648555,
+          "minimum_clearance_lower_bound_m": -0.06683720858585361,
+          "minimum_clearance_upper_bound_m": -0.06683718402711748,
+          "first_chord_intersection_time_seconds": 4.972508887808151
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": 0.08316280369351448,
+          "minimum_clearance_lower_bound_m": 0.08316279141414641,
+          "minimum_clearance_upper_bound_m": 0.08316281597288254,
+          "first_chord_intersection_time_seconds": null
+        },
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": 0.09174964889964166,
+          "minimum_clearance_lower_bound_m": 0.0917496361703038,
+          "minimum_clearance_upper_bound_m": 0.09174966162897952,
+          "first_chord_intersection_time_seconds": null
+        }
+      },
+      "committed_initial_skill_geometry": {
+        "safety_shell": {
+          "minimum_clearance_m": -0.16734541811103076,
+          "minimum_clearance_lower_bound_m": -0.16734542924877957,
+          "minimum_clearance_upper_bound_m": -0.16734540697328196,
+          "first_chord_intersection_time_seconds": 4.920850259285592
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": -0.01734541811103074,
+          "minimum_clearance_lower_bound_m": -0.017345429248779548,
+          "minimum_clearance_upper_bound_m": -0.017345406973281935,
+          "first_chord_intersection_time_seconds": 5.104116944393548
+        },
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": -0.006498351514061307,
+          "minimum_clearance_lower_bound_m": -0.006498362693870019,
+          "minimum_clearance_upper_bound_m": -0.006498340334252594,
+          "first_chord_intersection_time_seconds": 5.138849239603244
+        }
+      },
+      "committed_fallback_geometry": [
+        {
+          "fallback_skill_index": 0,
+          "safety_shell": {
+            "minimum_clearance_m": -0.5379712084704869,
+            "minimum_clearance_lower_bound_m": -0.5379712196082357,
+            "minimum_clearance_upper_bound_m": -0.537971197332738,
+            "first_chord_intersection_time_seconds": 4.835435342438971
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.3879712084704868,
+            "minimum_clearance_lower_bound_m": -0.38797121960823555,
+            "minimum_clearance_upper_bound_m": -0.387971197332738,
+            "first_chord_intersection_time_seconds": 4.916231849483903
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.37705790745671247,
+            "minimum_clearance_lower_bound_m": -0.3770579185966987,
+            "minimum_clearance_upper_bound_m": -0.37705789631672626,
+            "first_chord_intersection_time_seconds": 4.927168995266082
+          }
+        },
+        {
+          "fallback_skill_index": 1,
+          "safety_shell": {
+            "minimum_clearance_m": -0.3910304572235421,
+            "minimum_clearance_lower_bound_m": -0.3910304683612909,
+            "minimum_clearance_upper_bound_m": -0.39103044608579335,
+            "first_chord_intersection_time_seconds": 4.85087036597259
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.2410304572235421,
+            "minimum_clearance_lower_bound_m": -0.2410304683612909,
+            "minimum_clearance_upper_bound_m": -0.2410304460857933,
+            "first_chord_intersection_time_seconds": 4.943526437405176
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.22049316607453145,
+            "minimum_clearance_lower_bound_m": -0.2204931772258827,
+            "minimum_clearance_upper_bound_m": -0.2204931549231802,
+            "first_chord_intersection_time_seconds": 4.959229119656545
+          }
+        },
+        {
+          "fallback_skill_index": 2,
+          "safety_shell": {
+            "minimum_clearance_m": -0.4626967437083828,
+            "minimum_clearance_lower_bound_m": -0.4626967548461316,
+            "minimum_clearance_upper_bound_m": -0.46269673257063404,
+            "first_chord_intersection_time_seconds": 4.937512580579695
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.3126967437083828,
+            "minimum_clearance_lower_bound_m": -0.3126967548461316,
+            "minimum_clearance_upper_bound_m": -0.312696732570634,
+            "first_chord_intersection_time_seconds": 5.023097024204086
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.29214916851839356,
+            "minimum_clearance_lower_bound_m": -0.2921491796969062,
+            "minimum_clearance_upper_bound_m": -0.29214915733988095,
+            "first_chord_intersection_time_seconds": 5.035435333051971
+          }
+        },
+        {
+          "fallback_skill_index": 3,
+          "safety_shell": {
+            "minimum_clearance_m": -0.5538639083398162,
+            "minimum_clearance_lower_bound_m": -0.5538639206191843,
+            "minimum_clearance_upper_bound_m": -0.5538638960604482,
+            "first_chord_intersection_time_seconds": 4.796392225861022
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.4038639083398163,
+            "minimum_clearance_lower_bound_m": -0.40386392061918436,
+            "minimum_clearance_upper_bound_m": -0.4038638960604482,
+            "first_chord_intersection_time_seconds": 4.8713011403504725
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.3930944118840642,
+            "minimum_clearance_lower_bound_m": -0.39309442416672497,
+            "minimum_clearance_upper_bound_m": -0.3930943996014034,
+            "first_chord_intersection_time_seconds": 4.881801372998357
+          }
+        },
+        {
+          "fallback_skill_index": 4,
+          "safety_shell": {
+            "minimum_clearance_m": -0.17179235749572863,
+            "minimum_clearance_lower_bound_m": -0.17179236863347744,
+            "minimum_clearance_upper_bound_m": -0.17179234635797982,
+            "first_chord_intersection_time_seconds": 5.0102375742435425
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.02179235749572861,
+            "minimum_clearance_lower_bound_m": -0.021792368633477416,
+            "minimum_clearance_upper_bound_m": -0.021792346357979803,
+            "first_chord_intersection_time_seconds": 5.167768606623191
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.003782699061593897,
+            "minimum_clearance_lower_bound_m": -0.003782710225416518,
+            "minimum_clearance_upper_bound_m": -0.0037826878977712764,
+            "first_chord_intersection_time_seconds": 5.194032883990767
+          }
+        },
+        {
+          "fallback_skill_index": 5,
+          "safety_shell": {
+            "minimum_clearance_m": -0.5766190921452129,
+            "minimum_clearance_lower_bound_m": -0.5766191032829617,
+            "minimum_clearance_upper_bound_m": -0.5766190810074641,
+            "first_chord_intersection_time_seconds": 4.845658071377333
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.4266190921452129,
+            "minimum_clearance_lower_bound_m": -0.42661910328296165,
+            "minimum_clearance_upper_bound_m": -0.4266190810074641,
+            "first_chord_intersection_time_seconds": 4.925770297124544
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.4204622583751038,
+            "minimum_clearance_lower_bound_m": -0.4204622695200648,
+            "minimum_clearance_upper_bound_m": -0.4204622472301428,
+            "first_chord_intersection_time_seconds": 4.935766695123952
+          }
+        },
+        {
+          "fallback_skill_index": 6,
+          "safety_shell": {
+            "minimum_clearance_m": -0.39207451567894547,
+            "minimum_clearance_lower_bound_m": -0.39207452681669425,
+            "minimum_clearance_upper_bound_m": -0.3920745045411967,
+            "first_chord_intersection_time_seconds": 4.799258293826208
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.24207451567894545,
+            "minimum_clearance_lower_bound_m": -0.24207452681669425,
+            "minimum_clearance_upper_bound_m": -0.24207450454119664,
+            "first_chord_intersection_time_seconds": 4.883476426883799
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.22938981839890854,
+            "minimum_clearance_lower_bound_m": -0.22938982955437678,
+            "minimum_clearance_upper_bound_m": -0.2293898072434403,
+            "first_chord_intersection_time_seconds": 4.895016629019718
+          }
+        },
+        {
+          "fallback_skill_index": 7,
+          "safety_shell": {
+            "minimum_clearance_m": -0.35084895847988345,
+            "minimum_clearance_lower_bound_m": -0.35084896961763223,
+            "minimum_clearance_upper_bound_m": -0.3508489473421347,
+            "first_chord_intersection_time_seconds": 4.936285004804355
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.20084895847988343,
+            "minimum_clearance_lower_bound_m": -0.20084896961763224,
+            "minimum_clearance_upper_bound_m": -0.20084894734213463,
+            "first_chord_intersection_time_seconds": 5.037292076570357
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.18964637774895815,
+            "minimum_clearance_lower_bound_m": -0.18964638890626312,
+            "minimum_clearance_upper_bound_m": -0.18964636659165318,
+            "first_chord_intersection_time_seconds": 5.0482110688408675
+          }
+        },
+        {
+          "fallback_skill_index": 8,
+          "safety_shell": {
+            "minimum_clearance_m": -0.5632711492485891,
+            "minimum_clearance_lower_bound_m": -0.563271160386338,
+            "minimum_clearance_upper_bound_m": -0.5632711381108403,
+            "first_chord_intersection_time_seconds": 4.776230830800488
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.41327114924858904,
+            "minimum_clearance_lower_bound_m": -0.4132711603863378,
+            "minimum_clearance_upper_bound_m": -0.41327113811084026,
+            "first_chord_intersection_time_seconds": 4.847340395136876
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.410925336972364,
+            "minimum_clearance_lower_bound_m": -0.4109253481145105,
+            "minimum_clearance_upper_bound_m": -0.4109253258302175,
+            "first_chord_intersection_time_seconds": 4.855912449615773
+          }
+        },
+        {
+          "fallback_skill_index": 9,
+          "safety_shell": {
+            "minimum_clearance_m": -0.16734541811103076,
+            "minimum_clearance_lower_bound_m": -0.16734542924877957,
+            "minimum_clearance_upper_bound_m": -0.16734540697328196,
+            "first_chord_intersection_time_seconds": 4.920850259285592
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.01734541811103074,
+            "minimum_clearance_lower_bound_m": -0.017345429248779548,
+            "minimum_clearance_upper_bound_m": -0.017345406973281935,
+            "first_chord_intersection_time_seconds": 5.104116944393548
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.006498351514061307,
+            "minimum_clearance_lower_bound_m": -0.006498362693870019,
+            "minimum_clearance_upper_bound_m": -0.006498340334252594,
+            "first_chord_intersection_time_seconds": 5.138849239603244
+          }
+        },
+        {
+          "fallback_skill_index": 10,
+          "safety_shell": {
+            "minimum_clearance_m": -0.3592747808226258,
+            "minimum_clearance_lower_bound_m": -0.3592747919603746,
+            "minimum_clearance_upper_bound_m": -0.35927476968487704,
+            "first_chord_intersection_time_seconds": 4.928603191288714
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.2092747808226258,
+            "minimum_clearance_lower_bound_m": -0.2092747919603746,
+            "minimum_clearance_upper_bound_m": -0.209274769684877,
+            "first_chord_intersection_time_seconds": 5.02838926412145
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.20379740482617487,
+            "minimum_clearance_lower_bound_m": -0.20379741599989362,
+            "minimum_clearance_upper_bound_m": -0.2037973936524561,
+            "first_chord_intersection_time_seconds": 5.036765134887585
+          }
+        },
+        {
+          "fallback_skill_index": 11,
+          "safety_shell": {
+            "minimum_clearance_m": -0.37512623024667446,
+            "minimum_clearance_lower_bound_m": -0.37512624138442324,
+            "minimum_clearance_upper_bound_m": -0.3751262191089257,
+            "first_chord_intersection_time_seconds": 4.753638753098662
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.22512623024667444,
+            "minimum_clearance_lower_bound_m": -0.22512624138442325,
+            "minimum_clearance_upper_bound_m": -0.22512621910892563,
+            "first_chord_intersection_time_seconds": 4.8316289838374455
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.21946651640044945,
+            "minimum_clearance_lower_bound_m": -0.2194665275561405,
+            "minimum_clearance_upper_bound_m": -0.21946650524475841,
+            "first_chord_intersection_time_seconds": 4.8397803424539845
+          }
+        },
+        {
+          "fallback_skill_index": 12,
+          "safety_shell": {
+            "minimum_clearance_m": -0.2843385093680064,
+            "minimum_clearance_lower_bound_m": -0.2843385205057552,
+            "minimum_clearance_upper_bound_m": -0.28433849823025764,
+            "first_chord_intersection_time_seconds": 4.920940635827397
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.1343385093680064,
+            "minimum_clearance_lower_bound_m": -0.1343385205057552,
+            "minimum_clearance_upper_bound_m": -0.1343384982302576,
+            "first_chord_intersection_time_seconds": 5.036638875695924
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.12648486762121436,
+            "minimum_clearance_lower_bound_m": -0.12648487877668216,
+            "minimum_clearance_upper_bound_m": -0.12648485646574656,
+            "first_chord_intersection_time_seconds": 5.047426709778029
+          }
+        },
+        {
+          "fallback_skill_index": 13,
+          "safety_shell": {
+            "minimum_clearance_m": -0.27421790062040186,
+            "minimum_clearance_lower_bound_m": -0.27421791289976993,
+            "minimum_clearance_upper_bound_m": -0.2742178883410338,
+            "first_chord_intersection_time_seconds": 4.853127780515736
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.12421790062040183,
+            "minimum_clearance_lower_bound_m": -0.1242179128997699,
+            "minimum_clearance_upper_bound_m": -0.12421788834103377,
+            "first_chord_intersection_time_seconds": 4.961037431316565
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.12305520613812615,
+            "minimum_clearance_lower_bound_m": -0.12305521842615327,
+            "minimum_clearance_upper_bound_m": -0.12305519385009903,
+            "first_chord_intersection_time_seconds": 4.967951373659072
+          }
+        },
+        {
+          "fallback_skill_index": 14,
+          "safety_shell": {
+            "minimum_clearance_m": -0.28477155763196726,
+            "minimum_clearance_lower_bound_m": -0.28477156991133534,
+            "minimum_clearance_upper_bound_m": -0.2847715453525992,
+            "first_chord_intersection_time_seconds": 4.845855806280457
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.13477155763196724,
+            "minimum_clearance_lower_bound_m": -0.1347715699113353,
+            "minimum_clearance_upper_bound_m": -0.1347715453525992,
+            "first_chord_intersection_time_seconds": 4.95216065352731
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.1285901571563225,
+            "minimum_clearance_lower_bound_m": -0.12859016944192683,
+            "minimum_clearance_upper_bound_m": -0.12859014487071815,
+            "first_chord_intersection_time_seconds": 4.962311018777294
+          }
+        },
+        {
+          "fallback_skill_index": 15,
+          "safety_shell": {
+            "minimum_clearance_m": -0.25147589662342495,
+            "minimum_clearance_lower_bound_m": -0.25147590776117373,
+            "minimum_clearance_upper_bound_m": -0.2514758854856762,
+            "first_chord_intersection_time_seconds": 4.909892527903442
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.10147589662342493,
+            "minimum_clearance_lower_bound_m": -0.10147590776117374,
+            "minimum_clearance_upper_bound_m": -0.10147588548567613,
+            "first_chord_intersection_time_seconds": 5.03332833083333
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.09793002212279023,
+            "minimum_clearance_lower_bound_m": -0.09793003327008458,
+            "minimum_clearance_upper_bound_m": -0.09793001097549588,
+            "first_chord_intersection_time_seconds": 5.041822727335859
+          }
+        }
+      ],
+      "committed_fallback_xml_clear_count": 0,
+      "summary": {
+        "termination": "window_end",
+        "degraded_controls": 35,
+        "fallback_controls": 24,
+        "emergency_controls": 11,
+        "qp_controls": 40,
+        "learned_constraint_positive_dual_controls": 0
+      },
+      "initial_control_chronology": [
+        {
+          "time_seconds": 4.0,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.25066566467285156,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.0,
+            -5.2677933126688e-09,
+            2.42325768340379e-08,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 4.04,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.22943085432052612,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.00017327070236206055,
+            2.570934157120064e-06,
+            3.835320967482403e-07,
+            -3.1504896469414234e-07
+          ]
+        },
+        {
+          "time_seconds": 4.08,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.20959311723709106,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.00036665797233581543,
+            4.534955223789439e-06,
+            6.511636456707492e-07,
+            -5.984165909467265e-07
+          ]
+        },
+        {
+          "time_seconds": 4.12,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.19129449129104614,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.0005995631217956543,
+            5.684238203684799e-06,
+            8.745382729102857e-07,
+            -8.195706868718844e-07
+          ]
+        },
+        {
+          "time_seconds": 4.16,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.1745678186416626,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.000873953104019165,
+            6.091478667258343e-06,
+            9.388118087372277e-07,
+            -9.65944991548895e-07
+          ]
+        },
+        {
+          "time_seconds": 4.2,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.1594853401184082,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.0011537373065948486,
+            5.648151272907853e-06,
+            9.388120361109031e-07,
+            -1.0063880040434015e-06
+          ]
+        },
+        {
+          "time_seconds": 4.24,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.14605361223220825,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.001405477523803711,
+            4.259687557350844e-06,
+            7.249188911373494e-07,
+            -9.117848094319925e-07
+          ]
+        },
+        {
+          "time_seconds": 4.28,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.13451099395751953,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.0015728473663330078,
+            2.023818524321541e-06,
+            5.816209522890858e-07,
+            -6.770906111341901e-07
+          ]
+        },
+        {
+          "time_seconds": 4.32,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.12473803758621216,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.0016251802444458008,
+            -8.545212040189654e-07,
+            1.5278101272997446e-07,
+            -3.2124444260261953e-07
+          ]
+        },
+        {
+          "time_seconds": 4.36,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.11674124002456665,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.0016333460807800293,
+            -4.413523129187524e-06,
+            -1.4045299394638278e-06,
+            1.507105480413884e-07
+          ]
+        },
+        {
+          "time_seconds": 4.4,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.11046767234802246,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.0024035274982452393,
+            -1.272401277674362e-05,
+            -1.6872275409696158e-05,
+            8.370047908101697e-07
+          ]
+        },
+        {
+          "time_seconds": 4.44,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.10569286346435547,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.0038230419158935547,
+            -1.9710310880327597e-05,
+            -3.9220428334374446e-05,
+            7.60189323045779e-07
+          ]
+        },
+        {
+          "time_seconds": 4.48,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.10221052169799805,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.0056539177894592285,
+            -2.110799505317118e-05,
+            -5.472189332067501e-05,
+            -1.5203795555862598e-07
+          ]
+        },
+        {
+          "time_seconds": 4.52,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.09980124235153198,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.00747796893119812,
+            -1.7028745787683874e-05,
+            -5.3363723509392e-05,
+            -1.0538224159972742e-06
+          ]
+        },
+        {
+          "time_seconds": 4.5600000000000005,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.09821975231170654,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.008394718170166016,
+            -9.470570148550905e-06,
+            -3.397108821445727e-05,
+            -1.2935606719111092e-06
+          ]
+        },
+        {
+          "time_seconds": 4.6,
+          "selected_policy": 10,
+          "execution_mode": "fallback",
+          "degraded": true,
+          "max_hard_m2": -0.09724950790405273,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            -0.008931010961532593,
+            -3.034017026948277e-06,
+            -1.3718668469664408e-05,
+            -1.2635603070521029e-06
+          ]
+        }
+      ]
+    },
+    "adaptive_held": {
+      "initial_selected_policy": 10,
+      "initial_max_hard_m2": 0.03532910346984863,
+      "initial_execution_mode": "qp",
+      "first_eligible_certificate_time_seconds": 4.0,
+      "first_accepted_qp_time_seconds": 4.0,
+      "first_learned_positive_dual_time_seconds": 4.0,
+      "first_command_differs_from_committed_initial_skill_time_seconds": 4.0,
+      "first_held_interval_position_max_abs_difference_m": 0.0003381967544555664,
+      "first_held_interval_state_max_abs_difference": 0.12223242968320847,
+      "actual_prefix_geometry": {
+        "safety_shell": {
+          "minimum_clearance_m": 0.006275655933577817,
+          "minimum_clearance_lower_bound_m": 0.006275643654209759,
+          "minimum_clearance_upper_bound_m": 0.006275667071326623,
+          "first_chord_intersection_time_seconds": null
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": 0.15627565593357784,
+          "minimum_clearance_lower_bound_m": 0.1562756436542098,
+          "minimum_clearance_upper_bound_m": 0.15627566707132665,
+          "first_chord_intersection_time_seconds": null
+        },
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": 0.1734743909792058,
+          "minimum_clearance_lower_bound_m": 0.173474379740149,
+          "minimum_clearance_upper_bound_m": 0.1734744022182626,
+          "first_chord_intersection_time_seconds": null
+        }
+      },
+      "committed_initial_skill_geometry": {
+        "safety_shell": {
+          "minimum_clearance_m": 0.00817652199690655,
+          "minimum_clearance_lower_bound_m": 0.008176510859157745,
+          "minimum_clearance_upper_bound_m": 0.008176533134655354,
+          "first_chord_intersection_time_seconds": null
+        },
+        "body_origin_envelope": {
+          "minimum_clearance_m": 0.15817652199690657,
+          "minimum_clearance_lower_bound_m": 0.15817651085915777,
+          "minimum_clearance_upper_bound_m": 0.15817653313465538,
+          "first_chord_intersection_time_seconds": null
+        },
+        "actual_xml_sphere_geometry": {
+          "minimum_clearance_m": 0.1695330364761467,
+          "minimum_clearance_lower_bound_m": 0.16953302527561287,
+          "minimum_clearance_upper_bound_m": 0.16953304767668054,
+          "first_chord_intersection_time_seconds": null
+        }
+      },
+      "committed_fallback_geometry": [
+        {
+          "fallback_skill_index": 0,
+          "safety_shell": {
+            "minimum_clearance_m": -0.2945846811629095,
+            "minimum_clearance_lower_bound_m": -0.29458469230065826,
+            "minimum_clearance_upper_bound_m": -0.2945846700251607,
+            "first_chord_intersection_time_seconds": 4.950313934465512
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.14458468116290946,
+            "minimum_clearance_lower_bound_m": -0.14458469230065826,
+            "minimum_clearance_upper_bound_m": -0.14458467002516065,
+            "first_chord_intersection_time_seconds": 5.061458366853017
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.12989508425618257,
+            "minimum_clearance_lower_bound_m": -0.12989509542810104,
+            "minimum_clearance_upper_bound_m": -0.1298950730842641,
+            "first_chord_intersection_time_seconds": 5.075256756478243
+          }
+        },
+        {
+          "fallback_skill_index": 1,
+          "safety_shell": {
+            "minimum_clearance_m": -0.15786787692582638,
+            "minimum_clearance_lower_bound_m": -0.15786788806357518,
+            "minimum_clearance_upper_bound_m": -0.15786786578807757,
+            "first_chord_intersection_time_seconds": 5.011776153986467
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.007867876925826356,
+            "minimum_clearance_lower_bound_m": -0.00786788806357516,
+            "minimum_clearance_upper_bound_m": -0.007867865788077551,
+            "first_chord_intersection_time_seconds": 5.186115640415504
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": 0.01134274171130345,
+            "minimum_clearance_lower_bound_m": 0.011342730551247035,
+            "minimum_clearance_upper_bound_m": 0.011342752871359866,
+            "first_chord_intersection_time_seconds": null
+          }
+        },
+        {
+          "fallback_skill_index": 2,
+          "safety_shell": {
+            "minimum_clearance_m": -0.20695619222594774,
+            "minimum_clearance_lower_bound_m": -0.20695620336369655,
+            "minimum_clearance_upper_bound_m": -0.20695618108819894,
+            "first_chord_intersection_time_seconds": 5.061858893616223
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.05695619222594772,
+            "minimum_clearance_lower_bound_m": -0.05695620336369653,
+            "minimum_clearance_upper_bound_m": -0.056956181088198915,
+            "first_chord_intersection_time_seconds": 5.1615808894888975
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.03786332462652542,
+            "minimum_clearance_lower_bound_m": -0.037863335856534446,
+            "minimum_clearance_upper_bound_m": -0.03786331339651639,
+            "first_chord_intersection_time_seconds": 5.174498163499712
+          }
+        },
+        {
+          "fallback_skill_index": 3,
+          "safety_shell": {
+            "minimum_clearance_m": -0.3706682401193952,
+            "minimum_clearance_lower_bound_m": -0.370668251257144,
+            "minimum_clearance_upper_bound_m": -0.3706682289816464,
+            "first_chord_intersection_time_seconds": 4.899316673187954
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.22066824011939518,
+            "minimum_clearance_lower_bound_m": -0.22066825125714398,
+            "minimum_clearance_upper_bound_m": -0.22066822898164637,
+            "first_chord_intersection_time_seconds": 4.997993085018152
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.20688633580016957,
+            "minimum_clearance_lower_bound_m": -0.20688634696452707,
+            "minimum_clearance_upper_bound_m": -0.20688632463581208,
+            "first_chord_intersection_time_seconds": 5.010653532436687
+          }
+        },
+        {
+          "fallback_skill_index": 4,
+          "safety_shell": {
+            "minimum_clearance_m": 0.020748737891827407,
+            "minimum_clearance_lower_bound_m": 0.0207487267540786,
+            "minimum_clearance_upper_bound_m": 0.020748749029576213,
+            "first_chord_intersection_time_seconds": null
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": 0.17074873789182743,
+            "minimum_clearance_lower_bound_m": 0.17074872675407862,
+            "minimum_clearance_upper_bound_m": 0.17074874902957624,
+            "first_chord_intersection_time_seconds": null
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": 0.18786959484314258,
+            "minimum_clearance_lower_bound_m": 0.18786958368730522,
+            "minimum_clearance_upper_bound_m": 0.18786960599897995,
+            "first_chord_intersection_time_seconds": null
+          }
+        },
+        {
+          "fallback_skill_index": 5,
+          "safety_shell": {
+            "minimum_clearance_m": -0.3273002743103026,
+            "minimum_clearance_lower_bound_m": -0.3273002854480514,
+            "minimum_clearance_upper_bound_m": -0.32730026317255384,
+            "first_chord_intersection_time_seconds": 4.96727993652587
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.1773002743103026,
+            "minimum_clearance_lower_bound_m": -0.1773002854480514,
+            "minimum_clearance_upper_bound_m": -0.1773002631725538,
+            "first_chord_intersection_time_seconds": 5.0679549256999525
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.16426427949887856,
+            "minimum_clearance_lower_bound_m": -0.16426429067529033,
+            "minimum_clearance_upper_bound_m": -0.1642642683224668,
+            "first_chord_intersection_time_seconds": 5.079002264582057
+          }
+        },
+        {
+          "fallback_skill_index": 6,
+          "safety_shell": {
+            "minimum_clearance_m": -0.2143501595675119,
+            "minimum_clearance_lower_bound_m": -0.21435017070526072,
+            "minimum_clearance_upper_bound_m": -0.2143501484297631,
+            "first_chord_intersection_time_seconds": 4.924893922866868
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.06435015956751189,
+            "minimum_clearance_lower_bound_m": -0.0643501707052607,
+            "minimum_clearance_upper_bound_m": -0.06435014842976308,
+            "first_chord_intersection_time_seconds": 5.067481659647368
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.051332240315962285,
+            "minimum_clearance_lower_bound_m": -0.05133225150922115,
+            "minimum_clearance_upper_bound_m": -0.051332229122703424,
+            "first_chord_intersection_time_seconds": 5.087244110226667
+          }
+        },
+        {
+          "fallback_skill_index": 7,
+          "safety_shell": {
+            "minimum_clearance_m": -0.048105068899738646,
+            "minimum_clearance_lower_bound_m": -0.04810508003748745,
+            "minimum_clearance_upper_bound_m": -0.04810505776198984,
+            "first_chord_intersection_time_seconds": 5.153373177348861
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": 0.10189493110026138,
+            "minimum_clearance_lower_bound_m": 0.10189491996251257,
+            "minimum_clearance_upper_bound_m": 0.10189494223801018,
+            "first_chord_intersection_time_seconds": null
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": 0.11497243376416955,
+            "minimum_clearance_lower_bound_m": 0.11497242258419346,
+            "minimum_clearance_upper_bound_m": 0.11497244494414563,
+            "first_chord_intersection_time_seconds": null
+          }
+        },
+        {
+          "fallback_skill_index": 8,
+          "safety_shell": {
+            "minimum_clearance_m": -0.42049337191578934,
+            "minimum_clearance_lower_bound_m": -0.4204933830535381,
+            "minimum_clearance_upper_bound_m": -0.42049336077804056,
+            "first_chord_intersection_time_seconds": 4.866925739885072
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.2704933719157893,
+            "minimum_clearance_lower_bound_m": -0.2704933830535381,
+            "minimum_clearance_upper_bound_m": -0.27049336077804054,
+            "first_chord_intersection_time_seconds": 4.958371520558071
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.2629539963360648,
+            "minimum_clearance_lower_bound_m": -0.2629540074834228,
+            "minimum_clearance_upper_bound_m": -0.26295398518870683,
+            "first_chord_intersection_time_seconds": 4.968444424899821
+          }
+        },
+        {
+          "fallback_skill_index": 9,
+          "safety_shell": {
+            "minimum_clearance_m": 0.00817652199690655,
+            "minimum_clearance_lower_bound_m": 0.008176510859157745,
+            "minimum_clearance_upper_bound_m": 0.008176533134655354,
+            "first_chord_intersection_time_seconds": null
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": 0.15817652199690657,
+            "minimum_clearance_lower_bound_m": 0.15817651085915777,
+            "minimum_clearance_upper_bound_m": 0.15817653313465538,
+            "first_chord_intersection_time_seconds": null
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": 0.1695330364761467,
+            "minimum_clearance_lower_bound_m": 0.16953302527561287,
+            "minimum_clearance_upper_bound_m": 0.16953304767668054,
+            "first_chord_intersection_time_seconds": null
+          }
+        },
+        {
+          "fallback_skill_index": 10,
+          "safety_shell": {
+            "minimum_clearance_m": -0.12668623484252994,
+            "minimum_clearance_lower_bound_m": -0.12668624598027875,
+            "minimum_clearance_upper_bound_m": -0.12668622370478114,
+            "first_chord_intersection_time_seconds": 5.092227809071532
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": 0.02331376515747008,
+            "minimum_clearance_lower_bound_m": 0.023313754019721272,
+            "minimum_clearance_upper_bound_m": 0.023313776295218885,
+            "first_chord_intersection_time_seconds": null
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": 0.03284199495888407,
+            "minimum_clearance_lower_bound_m": 0.03284198374893821,
+            "minimum_clearance_upper_bound_m": 0.03284200616882993,
+            "first_chord_intersection_time_seconds": null
+          }
+        },
+        {
+          "fallback_skill_index": 11,
+          "safety_shell": {
+            "minimum_clearance_m": -0.22442479810272942,
+            "minimum_clearance_lower_bound_m": -0.22442481038209747,
+            "minimum_clearance_upper_bound_m": -0.22442478582336137,
+            "first_chord_intersection_time_seconds": 4.861973490771515
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.0744247981027294,
+            "minimum_clearance_lower_bound_m": -0.07442481038209746,
+            "minimum_clearance_upper_bound_m": -0.07442478582336133,
+            "first_chord_intersection_time_seconds": 4.988844774708967
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.06682222063281007,
+            "minimum_clearance_lower_bound_m": -0.06682223294586966,
+            "minimum_clearance_upper_bound_m": -0.06682220831975048,
+            "first_chord_intersection_time_seconds": 5.0015670677236
+          }
+        },
+        {
+          "fallback_skill_index": 12,
+          "safety_shell": {
+            "minimum_clearance_m": -0.04468775177700257,
+            "minimum_clearance_lower_bound_m": -0.04468776291475138,
+            "minimum_clearance_upper_bound_m": -0.044687740639253765,
+            "first_chord_intersection_time_seconds": 5.138556081835104
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": 0.10531224822299745,
+            "minimum_clearance_lower_bound_m": 0.10531223708524864,
+            "minimum_clearance_upper_bound_m": 0.10531225936074626,
+            "first_chord_intersection_time_seconds": null
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": 0.1158222125191608,
+            "minimum_clearance_lower_bound_m": 0.11582220131402357,
+            "minimum_clearance_upper_bound_m": 0.11582222372429804,
+            "first_chord_intersection_time_seconds": null
+          }
+        },
+        {
+          "fallback_skill_index": 13,
+          "safety_shell": {
+            "minimum_clearance_m": -0.17415569776796436,
+            "minimum_clearance_lower_bound_m": -0.17415570890571316,
+            "minimum_clearance_upper_bound_m": -0.17415568663021555,
+            "first_chord_intersection_time_seconds": 4.983055345268114
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": -0.024155697767964335,
+            "minimum_clearance_lower_bound_m": -0.02415570890571314,
+            "minimum_clearance_upper_bound_m": -0.024155686630215528,
+            "first_chord_intersection_time_seconds": 5.149183936087384
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": -0.02040751142079711,
+            "minimum_clearance_lower_bound_m": -0.02040752258179402,
+            "minimum_clearance_upper_bound_m": -0.020407500259800197,
+            "first_chord_intersection_time_seconds": 5.157657683453435
+          }
+        },
+        {
+          "fallback_skill_index": 14,
+          "safety_shell": {
+            "minimum_clearance_m": -0.08105492929407976,
+            "minimum_clearance_lower_bound_m": -0.08105494043182856,
+            "minimum_clearance_upper_bound_m": -0.08105491815633095,
+            "first_chord_intersection_time_seconds": 5.042571322351484
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": 0.06894507070592026,
+            "minimum_clearance_lower_bound_m": 0.06894505956817146,
+            "minimum_clearance_upper_bound_m": 0.06894508184366907,
+            "first_chord_intersection_time_seconds": null
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": 0.07743002414227096,
+            "minimum_clearance_lower_bound_m": 0.07743001296467014,
+            "minimum_clearance_upper_bound_m": 0.07743003531987178,
+            "first_chord_intersection_time_seconds": null
+          }
+        },
+        {
+          "fallback_skill_index": 15,
+          "safety_shell": {
+            "minimum_clearance_m": -0.06090674157120979,
+            "minimum_clearance_lower_bound_m": -0.060906752708958595,
+            "minimum_clearance_upper_bound_m": -0.06090673043346098,
+            "first_chord_intersection_time_seconds": 5.111771147597789
+          },
+          "body_origin_envelope": {
+            "minimum_clearance_m": 0.08909325842879023,
+            "minimum_clearance_lower_bound_m": 0.08909324729104143,
+            "minimum_clearance_upper_bound_m": 0.08909326956653904,
+            "first_chord_intersection_time_seconds": null
+          },
+          "actual_xml_sphere_geometry": {
+            "minimum_clearance_m": 0.09613061599945105,
+            "minimum_clearance_lower_bound_m": 0.09613060479965135,
+            "minimum_clearance_upper_bound_m": 0.09613062719925075,
+            "first_chord_intersection_time_seconds": null
+          }
+        }
+      ],
+      "committed_fallback_xml_clear_count": 8,
+      "summary": {
+        "termination": "window_end",
+        "degraded_controls": 0,
+        "fallback_controls": 0,
+        "emergency_controls": 0,
+        "qp_controls": 75,
+        "learned_constraint_positive_dual_controls": 25
+      },
+      "initial_control_chronology": [
+        {
+          "time_seconds": 4.0,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.03532910346984863,
+          "executed_dual": 3.477519567240961e-05,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.012341052293777466,
+            3.354279760969803e-05,
+            8.555934618925676e-05,
+            -5.635659306335583e-06
+          ]
+        },
+        {
+          "time_seconds": 4.04,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.01961618661880493,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.01153254508972168,
+            2.1747303208030644e-05,
+            7.403550171147799e-05,
+            -4.809547391460001e-06
+          ]
+        },
+        {
+          "time_seconds": 4.08,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.026677310466766357,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.010401397943496704,
+            1.2589143523200619e-05,
+            4.749904519485426e-05,
+            -3.8303279410456526e-06
+          ]
+        },
+        {
+          "time_seconds": 4.12,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.03252297639846802,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.009193599224090576,
+            5.217993248152197e-06,
+            2.5756746822480636e-05,
+            -2.864205939090425e-06
+          ]
+        },
+        {
+          "time_seconds": 4.16,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.03433871269226074,
+          "executed_dual": 0.0,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.007987886667251587,
+            -6.0269417190284e-07,
+            8.336566907019005e-06,
+            -1.903924783164257e-06
+          ]
+        },
+        {
+          "time_seconds": 4.2,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.031458377838134766,
+          "executed_dual": 2.7956506528425962e-05,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.006743699312210083,
+            -5.093874506201246e-06,
+            -1.644731582928216e-05,
+            -8.65170505903734e-07
+          ]
+        },
+        {
+          "time_seconds": 4.24,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.02879410982131958,
+          "executed_dual": 6.58519275020808e-05,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.0055551230907440186,
+            -7.6067165082349675e-06,
+            -3.7521020203712396e-05,
+            1.778416702791219e-07
+          ]
+        },
+        {
+          "time_seconds": 4.28,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.0270843505859375,
+          "executed_dual": 0.00010407639638287947,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.004496127367019653,
+            -8.488799267070135e-06,
+            -5.067699385108426e-05,
+            1.161411432804016e-06
+          ]
+        },
+        {
+          "time_seconds": 4.32,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.026261448860168457,
+          "executed_dual": 0.00014324893709272146,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.0035409629344940186,
+            -8.190440894395579e-06,
+            -5.7151577493641526e-05,
+            2.0482436866586795e-06
+          ]
+        },
+        {
+          "time_seconds": 4.36,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.025987088680267334,
+          "executed_dual": 0.00018142769113183022,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.0026169419288635254,
+            -7.373802873189561e-06,
+            -5.8735011407407e-05,
+            2.7784679446085647e-06
+          ]
+        },
+        {
+          "time_seconds": 4.4,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.025725364685058594,
+          "executed_dual": 0.00022276282834354788,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.0014435946941375732,
+            -5.841641723236535e-06,
+            -7.550264126621187e-05,
+            3.2351753134207684e-06
+          ]
+        },
+        {
+          "time_seconds": 4.44,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.025493323802947998,
+          "executed_dual": 0.00026498938677832484,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.001633763313293457,
+            -4.1871699067996815e-06,
+            -0.00010907926116487943,
+            3.2260466014122358e-06
+          ]
+        },
+        {
+          "time_seconds": 4.48,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.025130391120910645,
+          "executed_dual": 0.0003107832744717598,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.0034482479095458984,
+            -2.6228854039800353e-06,
+            -0.00014308713434729725,
+            2.805569238262251e-06
+          ]
+        },
+        {
+          "time_seconds": 4.52,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.024557292461395264,
+          "executed_dual": 0.0003613162552937865,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.004351019859313965,
+            -1.6439962564618327e-06,
+            -0.00014350425044540316,
+            2.2796127723268e-06
+          ]
+        },
+        {
+          "time_seconds": 4.5600000000000005,
+          "selected_policy": 16,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.023942887783050537,
+          "executed_dual": 0.00026950056781060994,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.0022242963314056396,
+            -1.2198739113955526e-05,
+            -6.16202742094174e-05,
+            -1.3724115888180677e-07
+          ]
+        },
+        {
+          "time_seconds": 4.6,
+          "selected_policy": 10,
+          "execution_mode": "qp",
+          "degraded": false,
+          "max_hard_m2": 0.013993978500366211,
+          "executed_dual": 0.0005116807296872139,
+          "actual_minus_committed_initial_skill_wrench": [
+            0.0005150735378265381,
+            2.0166967260593083e-06,
+            -6.937628495506942e-05,
+            2.005056330744992e-06
+          ]
+        }
+      ]
+    }
+  }
+}

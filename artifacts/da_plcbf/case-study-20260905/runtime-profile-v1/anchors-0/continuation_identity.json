@@ -1,0 +1,40 @@
+{
+  "only_configuration_change": {
+    "learning_config.anchor_batch_size": [
+      2,
+      0
+    ]
+  },
+  "persistent_continuation_sha256": "699f846767793c312add6546958415aa13c2bdb32d989e3d1075ce92299cc441",
+  "reference_contract_manifest_sha256": "fe8e86af8499fc63566a40142ee3556b568df83c403f2e7e429039d58d19e0f7",
+  "reference_contract_npz_sha256": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd",
+  "source_and_variant_persistent_state_equal": true,
+  "source_and_variant_teacher_model_bank_equal": true,
+  "source_reference_learning_config": {
+    "anchor_batch_size": 2,
+    "reference_braking_excess": true,
+    "retention_weight": 5.0,
+    "trajectory_fractions": [
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "trajectory_weight": 5.0,
+    "velocity_weight": 1.0
+  },
+  "teacher_model_bank_sha256": "0d96da934c7e51770cdab52c05cbcc3ec47ab87db5a3be8b75bb1ceb1f66cf73",
+  "variant_reference_learning_config": {
+    "anchor_batch_size": 0,
+    "reference_braking_excess": true,
+    "retention_weight": 5.0,
+    "trajectory_fractions": [
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "trajectory_weight": 5.0,
+    "velocity_weight": 1.0
+  }
+}

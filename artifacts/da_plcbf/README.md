@@ -2,6 +2,15 @@
 
 ## Published engineering review — 2026-09-05
 
+The latest addition is `case-study-20260905`: persistent-wind case discovery, causal margin
+comparisons, negative continuous confirmation, and positive paced learning availability.
+Start with [`DA_PLCBF_SAFETY_CASE_REVIEW.md`](../../DA_PLCBF_SAFETY_CASE_REVIEW.md).
+Its [review scope](case-study-20260905/REVIEW_ONLY.md) and
+[publication manifest](case-study-20260905/publication/PUBLICATION_MANIFEST.json) identify
+every included and local-only file. The complete search ledger is published losslessly compressed;
+videos and large rollout tensors remain local. This extends the user-authorized compact
+main-branch review policy below without altering earlier run manifests or the historical index.
+
 `main` contains a compact review subset of `hover-explanation-20260905`,
 `navigation-revision-20260905`, and `learning-revision-20260905`. Generated videos and bulky
 numerical traces are kept locally. [REVIEW_ONLY.md](REVIEW_ONLY.md) states the scope, and

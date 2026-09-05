@@ -1,0 +1,27 @@
+{
+  "case": "uncompensated",
+  "bound_checkpoint_restoration": {
+    "initial": {
+      "complete_state_hash_matches_publication": true,
+      "reference_contract_binding": "verified_npz_and_manifest_sha256",
+      "persistent_state_sha256": "8f8eeec003609eb04046d5d9500432428f9e267f7f18f8a78bf9e80a34293ce2",
+      "reference_contract_npz_sha256": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd",
+      "reference_contract_manifest_sha256": "c105b8a9eec836073d55a8a931722fbdc29410a98d7e992375ec8e299972e92f"
+    },
+    "final": {
+      "complete_state_hash_matches_publication": true,
+      "reference_contract_binding": "verified_npz_and_manifest_sha256",
+      "persistent_state_sha256": "b5fd4c23c69f5b8f3698b96fefaa14744f22255d0d2307f6a5edf228f27e189c",
+      "reference_contract_npz_sha256": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd",
+      "reference_contract_manifest_sha256": "c105b8a9eec836073d55a8a931722fbdc29410a98d7e992375ec8e299972e92f"
+    }
+  },
+  "recorded_source_files_still_match": {
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/protocol.json": true,
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/continued_learning_controls.json": true,
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/causal_dense_states.npz": true,
+    "artifacts/da_plcbf/case-study-20260905/confirmation-uncompensated-v1/causal_branches.json": true,
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_case_confirmation.py": true,
+    "benchmark/da_plcbf_case_attribution.py": true
+  }
+}

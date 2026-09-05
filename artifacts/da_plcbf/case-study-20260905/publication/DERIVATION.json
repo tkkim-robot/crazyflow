@@ -1,0 +1,131 @@
+{
+  "candidate_ledger_sources": {
+    "geometry-v1/ledger.json": {
+      "sha256": "990c8800f5c790abaee9af1cf4f58323cf49fe9b32fb5aa517a0dadeb15654c8",
+      "rows": 4096
+    },
+    "geometry-v2/ledger.json": {
+      "sha256": "4f64064ee23790abc0ccb210e22ee4174aa111dfa2ac0c96adb614eb7be4b0f8",
+      "rows": 4096
+    },
+    "geometry-v3/ledger.json": {
+      "sha256": "56fa5cde286833ef1445057d3c88f6dffa9b73dd342a0221ec4170e99869f2b4",
+      "rows": 4096
+    }
+  },
+  "candidate_count": 12288,
+  "traces": {
+    "closed-loop-v3/compensated-000-t0225-34/compact_control_trace.npz": {
+      "source": "closed-loop-v3/compensated-000-t0225-34/comparison.npz",
+      "source_sha256": "cefde705f31e5c3831c890d7da71d2b3492f9e8172309009f4e7b14ef191a063",
+      "sha256": "5bb5afc1398eae973e256b895c2816dbadcec476c09ac52771cbfb9e87fee7ac",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/compensated-001-t0175-34/compact_control_trace.npz": {
+      "source": "closed-loop-v3/compensated-001-t0175-34/comparison.npz",
+      "source_sha256": "0d15d27422115d3c89767fa6a7900eb2e0791f80cbd044ff7b0ed6f78bab2819",
+      "sha256": "294414da8201a32ec6ebcf49a443f71d72d850563c4302a46dda15521314f6fe",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/compensated-002-t0100-487/compact_control_trace.npz": {
+      "source": "closed-loop-v3/compensated-002-t0100-487/comparison.npz",
+      "source_sha256": "d7821d953d1f4533187f598074b2284141b510a4248c5ed8d966f321d57dda4a",
+      "sha256": "328b3a2289f99090f5d9be4d18ef28a37d1b7a3f02c3ecb073a0fa107ebf7e8c",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/compensated-003-t0100-167/compact_control_trace.npz": {
+      "source": "closed-loop-v3/compensated-003-t0100-167/comparison.npz",
+      "source_sha256": "5a7a9377aeefb470c7f1f5d80a0dba18840cd175e0b59c5b3be915c3c1964864",
+      "sha256": "0aa6063a20470058f6a980cd5ceec1cdf342efdb53574c016c03ade76f02fb6b",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/compensated-004-t0225-452/compact_control_trace.npz": {
+      "source": "closed-loop-v3/compensated-004-t0225-452/comparison.npz",
+      "source_sha256": "a6463cd8d64e03dc8dbe200389b1657fdda89170dcf51bc956fc8746b2fda9ee",
+      "sha256": "7d75d70fa12fa5a31d22bb7e5f1e88b640064a1fda47d72cc33ed05cb02390c9",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/compensated-005-t0175-452/compact_control_trace.npz": {
+      "source": "closed-loop-v3/compensated-005-t0175-452/comparison.npz",
+      "source_sha256": "3875cafb28b0b6f1aa905a5a5496b0d6c0ff363ab5c741a6512ba75fbc4a7a6b",
+      "sha256": "4a18b46b7d467df0970ab1bf9b16bf75b756b77ba7dc2378cc652717fd608cfc",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/uncompensated-000-t0100-132/compact_control_trace.npz": {
+      "source": "closed-loop-v3/uncompensated-000-t0100-132/comparison.npz",
+      "source_sha256": "a49fcc6f95339f264e7a1f332a61f230a1b25513a5dcab7227348d847c511c77",
+      "sha256": "e70cc7d09d24de8d100b9b0a5b2a6b5af1f7d40de59725bc8ccc48793950b6da",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/uncompensated-001-t0100-248/compact_control_trace.npz": {
+      "source": "closed-loop-v3/uncompensated-001-t0100-248/comparison.npz",
+      "source_sha256": "2b771bf96e71d6f22310cf318fcae84a56c941a3c669204e709ae1a4225efb19",
+      "sha256": "4904ad1fac16b030759ab5d0b4b875f8f7d2c443bfb4e76ae29961584ff5ac29",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/uncompensated-002-t0100-50/compact_control_trace.npz": {
+      "source": "closed-loop-v3/uncompensated-002-t0100-50/comparison.npz",
+      "source_sha256": "41e169847f073deb20fd532b736bd3d425c619cc619ab701ea1caab4147df7ee",
+      "sha256": "f442881c5da37ad96acff797ed921db1409e0be54846b305c9a27a10f3d25afb",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/uncompensated-003-t0100-279/compact_control_trace.npz": {
+      "source": "closed-loop-v3/uncompensated-003-t0100-279/comparison.npz",
+      "source_sha256": "aca476aab2717f412e1016ab73d9e989742319d445057729bd0910a6b37fe699",
+      "sha256": "a5367472523e81da67c4c97b418355f8c99506226d464e9ceb796e5f6cb289ce",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/uncompensated-004-t0100-131/compact_control_trace.npz": {
+      "source": "closed-loop-v3/uncompensated-004-t0100-131/comparison.npz",
+      "source_sha256": "dc24b716298450993fcc6e8f8cb9f3765ee8f332eee73982012f658631d65a9d",
+      "sha256": "939a16e0752f14439233f8f2ab8735da920796bd3966af8c4c1cd0ce399a0c09",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "closed-loop-v3/uncompensated-005-t0100-40/compact_control_trace.npz": {
+      "source": "closed-loop-v3/uncompensated-005-t0100-40/comparison.npz",
+      "source_sha256": "30de0a005a8ebed32a11dedccf3e02cfb0ede357e7a4773fbd419042d9c18be0",
+      "sha256": "9c349fb98e25813ee84f104757e8ec0dbb4f879ee51748590ae47089a91b7492",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": null,
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "continuous-deterministic-v1/compact_control_trace.npz": {
+      "source": "continuous-deterministic-v1/navigation_comparison.npz",
+      "source_sha256": "2b507145e682fc46a8f5e39675a6b94245fd1039d2ed592fa337ffc4ec9541f5",
+      "sha256": "83dd320ddb5fbc8966194a0936d6200878c39792d6f5016c32dd83ec7145909a",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": "a553175c3f7d9c21fd46ae3a39c1cad94c5c1b975aa17fc74ed9cc38a7dbf4e3",
+      "scope": "complete control interval, no large candidate rollout tensor"
+    },
+    "continuous-paced-v1/compact_control_trace.npz": {
+      "source": "continuous-paced-v1/navigation_comparison.npz",
+      "source_sha256": "ed44fff6ffb16cb38f359adfa2b825b2702af7cf4d3067d5e207771d91b7a516",
+      "sha256": "84fc7e82b87636c30dcf67bf921570ffe98d45c7e6f03d816f8f39228cfbeca4",
+      "all_saved_arrays_verified_exact": true,
+      "raw_source_sha256": "e9ee59d366acfa1f63dd54ba2d0acb7f0a99552572a697ca336a73dc485c0e4c",
+      "scope": "complete control interval, no large candidate rollout tensor"
+    }
+  }
+}
