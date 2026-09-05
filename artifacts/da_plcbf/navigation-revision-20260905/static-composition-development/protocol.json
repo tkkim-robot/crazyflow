@@ -1,0 +1,28 @@
+{
+  "checkpoint": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/learning-revision-20260905/reference-ablation-seed7/candidate/checkpoint",
+  "source_tree": "/tmp/crazyflow-navigation-output-patched-20260905",
+  "world_seeds": [
+    0
+  ],
+  "conditions": [
+    "static"
+  ],
+  "obstacles": 8,
+  "duration": 40.0,
+  "experiment_config": {
+    "execution_mode": "deterministic",
+    "model_information": "oracle",
+    "estimator_response_rate": 2.4,
+    "learning_start_seconds": 4.0,
+    "update_every_controls": 2,
+    "enable_learning": true,
+    "learner_kind": "reference",
+    "nominal_acceleration_limit": 1.2,
+    "probe_every_controls": 25,
+    "save_periodic_snapshots_controls": 100,
+    "controller_reserve_seconds": 0.003,
+    "update_safety_factor": 1.25
+  },
+  "promotion": "Fixed before these world draws; nominal parameters and Adam shared by both methods; no per-world tuning",
+  "distribution": "world geometry and absolute-time obstacle phases; learner checkpoint fixed"
+}

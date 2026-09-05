@@ -1,0 +1,683 @@
+{
+  "source_directory": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8",
+  "reviewed_commit": "00e89a742a1271b93655bf1bb4581a667dc13a14",
+  "source_tree": "/tmp/crazyflow-review-00e89a7-source",
+  "source_trace_sha256": "d93a09a90bf5cab8cf4f48d5c20527468f1846b6577d181e6a76bbb77a8992c5",
+  "initial_checkpoint_sha256": "7210d04e14c775af79b36e220d7ecc752b82d459a1f4539bb2e88aa5ac7330d9",
+  "rows": [
+    {
+      "index": 100,
+      "time": 4.0,
+      "version": 500,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": 0.5515764951705933,
+      "augmented_max_hard": 0.5515764951705933,
+      "eligible_count": 16,
+      "mode": 0,
+      "wind_error": [
+        4.0,
+        1.600000023841858,
+        0.0
+      ],
+      "snapshot": "snapshot-0100",
+      "gradient_norm": 0.2997514307498932,
+      "parameter_update_norm": 0.04079268127679825,
+      "finite": true,
+      "completed_version": 501
+    },
+    {
+      "index": 101,
+      "time": 4.04,
+      "version": 501,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": 0.324662446975708,
+      "augmented_max_hard": 0.324662446975708,
+      "eligible_count": 8,
+      "mode": 0,
+      "wind_error": [
+        3.6338565349578857,
+        1.4535424709320068,
+        2.8707560773000296e-09
+      ],
+      "snapshot": "snapshot-0101",
+      "gradient_norm": 0.29786255955696106,
+      "parameter_update_norm": 0.05891634523868561,
+      "finite": true,
+      "completed_version": 502
+    },
+    {
+      "index": 102,
+      "time": 4.08,
+      "version": 502,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": 0.15397882461547852,
+      "augmented_max_hard": 0.15397882461547852,
+      "eligible_count": 3,
+      "mode": 0,
+      "wind_error": [
+        3.301227569580078,
+        1.3204909563064575,
+        3.2675405492454956e-08
+      ],
+      "snapshot": "snapshot-0102",
+      "gradient_norm": 0.2647815942764282,
+      "parameter_update_norm": 0.07059918344020844,
+      "finite": true,
+      "completed_version": 503
+    },
+    {
+      "index": 103,
+      "time": 4.12,
+      "version": 503,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": 0.027277648448944092,
+      "augmented_max_hard": 0.027277648448944092,
+      "eligible_count": 1,
+      "mode": 0,
+      "wind_error": [
+        2.9990463256835938,
+        1.1996185779571533,
+        1.95692368976097e-08
+      ],
+      "snapshot": "snapshot-0103",
+      "gradient_norm": 0.24429117143154144,
+      "parameter_update_norm": 0.07692992687225342,
+      "finite": true,
+      "completed_version": 504
+    },
+    {
+      "index": 104,
+      "time": 4.16,
+      "version": 504,
+      "update_opportunity": false,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.05832916498184204,
+      "augmented_max_hard": -0.05832916498184204,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        2.7245256900787354,
+        1.0898102521896362,
+        -5.614580356194665e-09
+      ],
+      "snapshot": "snapshot-0104"
+    },
+    {
+      "index": 105,
+      "time": 4.2,
+      "version": 504,
+      "update_opportunity": false,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.08256983757019043,
+      "augmented_max_hard": -0.08256983757019043,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        2.4751334190368652,
+        0.9900535345077515,
+        6.002176178299123e-08
+      ],
+      "snapshot": "snapshot-0105"
+    },
+    {
+      "index": 106,
+      "time": 4.24,
+      "version": 504,
+      "update_opportunity": false,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.09540283679962158,
+      "augmented_max_hard": -0.09540283679962158,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        2.2485694885253906,
+        0.899428129196167,
+        1.4680412618872651e-07
+      ],
+      "snapshot": "snapshot-0106"
+    },
+    {
+      "index": 107,
+      "time": 4.28,
+      "version": 504,
+      "update_opportunity": false,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.10351842641830444,
+      "augmented_max_hard": -0.10351842641830444,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        2.0427446365356445,
+        0.8170981407165527,
+        1.426630262812978e-07
+      ],
+      "snapshot": "snapshot-0107"
+    },
+    {
+      "index": 108,
+      "time": 4.32,
+      "version": 504,
+      "update_opportunity": false,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.10996803641319275,
+      "augmented_max_hard": -0.10996803641319275,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        1.855760097503662,
+        0.7423042058944702,
+        2.043947091578957e-07
+      ],
+      "snapshot": "snapshot-0108"
+    },
+    {
+      "index": 109,
+      "time": 4.36,
+      "version": 504,
+      "update_opportunity": false,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.11633485555648804,
+      "augmented_max_hard": -0.11633485555648804,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        1.6858913898468018,
+        0.6743566989898682,
+        1.7348580172438233e-07
+      ],
+      "snapshot": "snapshot-0109"
+    },
+    {
+      "index": 110,
+      "time": 4.4,
+      "version": 504,
+      "update_opportunity": false,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.12339425086975098,
+      "augmented_max_hard": -0.12339425086975098,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        1.5315723419189453,
+        0.6126287579536438,
+        1.5995188107353897e-07
+      ],
+      "snapshot": "snapshot-0110"
+    },
+    {
+      "index": 111,
+      "time": 4.44,
+      "version": 504,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.13025662302970886,
+      "augmented_max_hard": -0.13025662302970886,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        1.391378402709961,
+        0.5565510988235474,
+        2.581729177109082e-07
+      ],
+      "snapshot": "snapshot-0111",
+      "gradient_norm": 0.47939738631248474,
+      "parameter_update_norm": 0.07608174532651901,
+      "finite": true,
+      "completed_version": 505
+    },
+    {
+      "index": 112,
+      "time": 4.48,
+      "version": 505,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.14437884092330933,
+      "augmented_max_hard": -0.14437884092330933,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        1.2640175819396973,
+        0.5056066513061523,
+        2.6752820758702e-07
+      ],
+      "snapshot": "snapshot-0112",
+      "gradient_norm": 0.42622166872024536,
+      "parameter_update_norm": 0.07949260622262955,
+      "finite": true,
+      "completed_version": 506
+    },
+    {
+      "index": 113,
+      "time": 4.5200000000000005,
+      "version": 506,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.15723007917404175,
+      "augmented_max_hard": -0.15723007917404175,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        1.1483144760131836,
+        0.4593254327774048,
+        3.1656520604883553e-07
+      ],
+      "snapshot": "snapshot-0113",
+      "gradient_norm": 0.3497496247291565,
+      "parameter_update_norm": 0.08106069266796112,
+      "finite": true,
+      "completed_version": 507
+    },
+    {
+      "index": 114,
+      "time": 4.5600000000000005,
+      "version": 507,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.16785603761672974,
+      "augmented_max_hard": -0.16785603761672974,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        1.0432019233703613,
+        0.4172806739807129,
+        3.819106098035263e-07
+      ],
+      "snapshot": "snapshot-0114",
+      "gradient_norm": 0.271830290555954,
+      "parameter_update_norm": 0.07980793714523315,
+      "finite": true,
+      "completed_version": 508
+    },
+    {
+      "index": 115,
+      "time": 4.6000000000000005,
+      "version": 508,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.17650407552719116,
+      "augmented_max_hard": -0.17650407552719116,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        0.9477114677429199,
+        0.3790844678878784,
+        3.0668687145407603e-07
+      ],
+      "snapshot": "snapshot-0115",
+      "gradient_norm": 0.22475789487361908,
+      "parameter_update_norm": 0.07545579224824905,
+      "finite": true,
+      "completed_version": 509
+    },
+    {
+      "index": 116,
+      "time": 4.64,
+      "version": 509,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.18313488364219666,
+      "augmented_max_hard": -0.18313488364219666,
+      "eligible_count": 0,
+      "mode": 1,
+      "wind_error": [
+        0.8609621524810791,
+        0.3443845510482788,
+        3.435832525156002e-07
+      ],
+      "snapshot": "snapshot-0116",
+      "gradient_norm": 0.20083536207675934,
+      "parameter_update_norm": 0.0695735439658165,
+      "finite": true,
+      "completed_version": 510
+    },
+    {
+      "index": 117,
+      "time": 4.68,
+      "version": 510,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.18770697712898254,
+      "augmented_max_hard": -0.18770697712898254,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.7821528911590576,
+        0.3128608465194702,
+        3.747883567939425e-07
+      ],
+      "snapshot": "snapshot-0117",
+      "gradient_norm": 0.2008962780237198,
+      "parameter_update_norm": 0.0648583322763443,
+      "finite": true,
+      "completed_version": 511
+    },
+    {
+      "index": 118,
+      "time": 4.72,
+      "version": 511,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.1933397650718689,
+      "augmented_max_hard": -0.1933397650718689,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.7105579376220703,
+        0.28422272205352783,
+        5.065394361736253e-07
+      ],
+      "snapshot": "snapshot-0118",
+      "gradient_norm": 0.21927793323993683,
+      "parameter_update_norm": 0.06139734759926796,
+      "finite": true,
+      "completed_version": 512
+    },
+    {
+      "index": 119,
+      "time": 4.76,
+      "version": 512,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.19747748970985413,
+      "augmented_max_hard": -0.19747748970985413,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.6455168724060059,
+        0.2582061290740967,
+        3.3981422120632487e-07
+      ],
+      "snapshot": "snapshot-0119",
+      "gradient_norm": 0.2567808926105499,
+      "parameter_update_norm": 0.062042854726314545,
+      "finite": true,
+      "completed_version": 513
+    },
+    {
+      "index": 120,
+      "time": 4.8,
+      "version": 513,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.20077040791511536,
+      "augmented_max_hard": -0.20077040791511536,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.5864286422729492,
+        0.23457098007202148,
+        3.165877160427044e-07
+      ],
+      "snapshot": "snapshot-0120",
+      "gradient_norm": 0.29179832339286804,
+      "parameter_update_norm": 0.06695982068777084,
+      "finite": true,
+      "completed_version": 514
+    },
+    {
+      "index": 121,
+      "time": 4.84,
+      "version": 514,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.20365506410598755,
+      "augmented_max_hard": -0.20365506410598755,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.5327491760253906,
+        0.21309936046600342,
+        2.959888831810531e-07
+      ],
+      "snapshot": "snapshot-0121",
+      "gradient_norm": 0.3172486424446106,
+      "parameter_update_norm": 0.07432619482278824,
+      "finite": true,
+      "completed_version": 515
+    },
+    {
+      "index": 122,
+      "time": 4.88,
+      "version": 515,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.20630693435668945,
+      "augmented_max_hard": -0.20630693435668945,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.48398351669311523,
+        0.19359314441680908,
+        2.3602851229043154e-07
+      ],
+      "snapshot": "snapshot-0122",
+      "gradient_norm": 0.3265696167945862,
+      "parameter_update_norm": 0.08199813216924667,
+      "finite": true,
+      "completed_version": 516
+    },
+    {
+      "index": 123,
+      "time": 4.92,
+      "version": 516,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.20872128009796143,
+      "augmented_max_hard": -0.20872128009796143,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.4396817684173584,
+        0.1758725643157959,
+        3.0527579042427533e-07
+      ],
+      "snapshot": "snapshot-0123",
+      "gradient_norm": 0.3126823902130127,
+      "parameter_update_norm": 0.08814454078674316,
+      "finite": true,
+      "completed_version": 517
+    },
+    {
+      "index": 124,
+      "time": 4.96,
+      "version": 517,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.21079644560813904,
+      "augmented_max_hard": -0.21079644560813904,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.39943504333496094,
+        0.1597738265991211,
+        3.4190935593869654e-07
+      ],
+      "snapshot": "snapshot-0124",
+      "gradient_norm": 0.27269402146339417,
+      "parameter_update_norm": 0.0912061333656311,
+      "finite": true,
+      "completed_version": 518
+    },
+    {
+      "index": 125,
+      "time": 5.0,
+      "version": 518,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.21237999200820923,
+      "augmented_max_hard": -0.21237999200820923,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.3628723621368408,
+        0.14514875411987305,
+        3.4120890290978423e-07
+      ],
+      "snapshot": "snapshot-0125",
+      "gradient_norm": 0.21376369893550873,
+      "parameter_update_norm": 0.09008201211690903,
+      "finite": true,
+      "completed_version": 519
+    },
+    {
+      "index": 126,
+      "time": 5.04,
+      "version": 519,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.21326929330825806,
+      "augmented_max_hard": -0.21326929330825806,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.32965683937072754,
+        0.13186240196228027,
+        4.1801493466664397e-07
+      ],
+      "snapshot": "snapshot-0126",
+      "gradient_norm": 0.15662316977977753,
+      "parameter_update_norm": 0.08520091325044632,
+      "finite": true,
+      "completed_version": 520
+    },
+    {
+      "index": 127,
+      "time": 5.08,
+      "version": 520,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.21254092454910278,
+      "augmented_max_hard": -0.21254092454910278,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.2994816303253174,
+        0.11979222297668457,
+        4.404761853038508e-07
+      ],
+      "snapshot": "snapshot-0127",
+      "gradient_norm": 0.12883470952510834,
+      "parameter_update_norm": 0.07869308441877365,
+      "finite": true,
+      "completed_version": 521
+    },
+    {
+      "index": 128,
+      "time": 5.12,
+      "version": 521,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.20910751819610596,
+      "augmented_max_hard": -0.20910751819610596,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.2720680236816406,
+        0.10882699489593506,
+        3.414723721562041e-07
+      ],
+      "snapshot": "snapshot-0128",
+      "gradient_norm": 0.13682106137275696,
+      "parameter_update_norm": 0.07288952171802521,
+      "finite": true,
+      "completed_version": 522
+    },
+    {
+      "index": 129,
+      "time": 5.16,
+      "version": 522,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.20364323258399963,
+      "augmented_max_hard": -0.20364323258399963,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.24716401100158691,
+        0.09886538982391357,
+        3.857913384308631e-07
+      ],
+      "snapshot": "snapshot-0129",
+      "gradient_norm": 0.1555810123682022,
+      "parameter_update_norm": 0.06918004900217056,
+      "finite": true,
+      "completed_version": 523
+    },
+    {
+      "index": 130,
+      "time": 5.2,
+      "version": 523,
+      "update_opportunity": true,
+      "action_max_abs_replay_error": 0.0,
+      "fallback_max_hard": -0.19675785303115845,
+      "augmented_max_hard": -0.19675785303115845,
+      "eligible_count": 0,
+      "mode": 2,
+      "wind_error": [
+        0.22453975677490234,
+        0.08981561660766602,
+        3.793177540956094e-07
+      ],
+      "snapshot": "snapshot-0130",
+      "gradient_norm": 0.16882380843162537,
+      "parameter_update_norm": 0.06770594418048859,
+      "finite": true,
+      "completed_version": 524
+    }
+  ],
+  "pre_failure_closed_loop_branches": {
+    "oracle_frozen": {
+      "start_time": 4.12,
+      "start_version": 503,
+      "minimum_augmented_hard": -0.1108551025390625,
+      "negative_hard_controls": 28,
+      "emergency_controls": 11,
+      "final_position": [
+        5.582958698272705,
+        0.25880950689315796,
+        1.7803510427474976
+      ]
+    },
+    "oracle_learning": {
+      "start_time": 4.12,
+      "start_version": 503,
+      "minimum_augmented_hard": -0.1936735212802887,
+      "negative_hard_controls": 28,
+      "emergency_controls": 12,
+      "final_position": [
+        5.585435390472412,
+        0.27680501341819763,
+        1.6966041326522827
+      ]
+    },
+    "estimated_frozen": {
+      "start_time": 4.12,
+      "start_version": 503,
+      "minimum_augmented_hard": -0.17303764820098877,
+      "negative_hard_controls": 27,
+      "emergency_controls": 14,
+      "final_position": [
+        5.849048137664795,
+        0.4402790665626526,
+        1.6882551908493042
+      ]
+    },
+    "estimated_learning": {
+      "start_time": 4.12,
+      "start_version": 503,
+      "minimum_augmented_hard": -0.21326929330825806,
+      "negative_hard_controls": 27,
+      "emergency_controls": 14,
+      "final_position": [
+        5.850974082946777,
+        0.3945201635360718,
+        1.66398286819458
+      ]
+    }
+  },
+  "scope": "Archived 20 ms prediction / 40 ms execution; recorded update opportunities, no wall-clock deployment claim"
+}

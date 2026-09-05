@@ -16,6 +16,9 @@ and is published for review on `main`. The repository commit identifies the publ
 Archived source snapshots retain their original prepublication branch/status metadata; only
 the review/publication documentation was updated for publication. Artifact manifests remain unchanged.
 
+`main` publishes a compact review subset. Generated videos and bulky traces stay local; see
+[REVIEW_ONLY.md](artifacts/da_plcbf/REVIEW_ONLY.md) and the publication inventory for all omissions.
+
 The new main video holds position from 0–23 s: calm until 3 s, wind until 11 s, wind-off recovery
 until 19 s, then a centered +25% mass payload. Navigation starts at 23 s. Both fallback mappings
 omit built-in wind correction in this explicitly named mechanism test; both nominal hover

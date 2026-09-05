@@ -2,18 +2,20 @@
 
 ## Published engineering review — 2026-09-05
 
-At the user's explicit request, `main` includes the complete `hover-explanation-20260905`,
-`navigation-revision-20260905`, and `learning-revision-20260905` review directories, including
-retained failures and preliminary renderings. Each unchanged `ARTIFACT_SHA256.json` inventories
-its complete directory. No files are omitted from these three directories. Start with
-[`DA_PLCBF_HOVER_REVIEW.md`](../../DA_PLCBF_HOVER_REVIEW.md) for the supported findings and final
-video links. These are engineering and mechanism results, not a general safety guarantee or
-an entry in the historical scientific campaign index below.
+`main` contains a compact review subset of `hover-explanation-20260905`,
+`navigation-revision-20260905`, and `learning-revision-20260905`. Generated videos and bulky
+numerical traces are kept locally. [REVIEW_ONLY.md](REVIEW_ONLY.md) states the scope, and
+[REVIEW_PUBLICATION.json](REVIEW_PUBLICATION.json) identifies every included and omitted file
+with its original hash. Start with [`DA_PLCBF_HOVER_REVIEW.md`](../../DA_PLCBF_HOVER_REVIEW.md).
+This subset is incomplete for full replay and whole-directory validation; it is not a general
+safety guarantee or an entry in the historical scientific campaign index below.
 
 The main-branch publication is explicitly authorized by the user and supersedes the historical
 branch-local restriction below for these directories. Numerical artifacts and source archives
 retain their original hashes and prepublication metadata. Only current review/publication
 documentation changes status for publication; the archived source snapshots remain untouched.
+The unchanged `ARTIFACT_SHA256.json` files describe the complete original local directories,
+not this reduced checkout. Historical references to video paths refer to local outputs.
 
 ## Historical scientific campaign policy
 

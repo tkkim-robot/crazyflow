@@ -1,0 +1,307 @@
+{
+  "runs": [
+    {
+      "seed": 100,
+      "condition": "combined",
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/paced-validation/combined-seed100",
+      "methods": {
+        "fixed": {
+          "waypoints_completed": 8,
+          "waypoints_total": 8,
+          "termination": "completed",
+          "termination_time_seconds": 30.8,
+          "arrival_times_seconds": [
+            4.36,
+            8.0,
+            12.0,
+            15.52,
+            20.0,
+            23.56,
+            27.32,
+            30.8
+          ],
+          "physical_collision": false,
+          "minimum_physical_clearance_m": 0.1643465489411537,
+          "minimum_inflated_clearance_m": 0.014346548941153697,
+          "active_controls": 770,
+          "degraded_controls": 0,
+          "accepted_qp_controls": 770,
+          "executed_positive_policy_dual_controls": 54,
+          "emergency_controls": 0,
+          "finite_updates": 0,
+          "controller_service": {
+            "count": 770,
+            "median_seconds": 0.012838241993449628,
+            "p95_seconds": 0.01699073307681829,
+            "maximum_seconds": 0.02099877898581326
+          },
+          "learner_service": {
+            "count": 0,
+            "median_seconds": null,
+            "p95_seconds": null,
+            "maximum_seconds": null
+          },
+          "service_exceeds_nominal_period_count": 13,
+          "nominal_blocked_fraction": 0.01948051948051948,
+          "separate_nominal_encounter_episodes": 2,
+          "execution_audit": {
+            "scope": "actual executed integration nodes and valid applied commands; no continuous-time guarantee",
+            "actual_node_count": 1541,
+            "actual_physical_minimum_dimensionless_by_constraint": {
+              "arena_x_lower": 0.10632576179504394,
+              "arena_y_lower": 0.15499999165534972,
+              "altitude_lower": 0.264220769064767,
+              "arena_x_upper": 0.04044326972961425,
+              "arena_y_upper": 0.11645015120506286,
+              "altitude_upper": 0.2793843826690277,
+              "speed": 0.3860083222389221,
+              "angular_rate": 0.9970134496688843,
+              "tilt": 0.8676398629796264
+            },
+            "actual_physical_violating_nodes_by_constraint": {
+              "arena_x_lower": 0,
+              "arena_y_lower": 0,
+              "altitude_lower": 0,
+              "arena_x_upper": 0,
+              "arena_y_upper": 0,
+              "altitude_upper": 0,
+              "speed": 0,
+              "angular_rate": 0,
+              "tilt": 0
+            },
+            "all_actual_physical_nodes_pass": true,
+            "minimum_arena_margin_m": 0.4044326972961425,
+            "minimum_speed_margin_m_per_s": 0.7574832439422607,
+            "minimum_angular_rate_margin_rad_per_s": 11.344205856323242,
+            "minimum_tilt_margin_rad": 0.5821714401245117,
+            "minimum_applied_motor_margin_N": 0.04618862271308899,
+            "applied_motor_limit_violating_controls": 0,
+            "predicted_derivative_scope": "qp and fallback describe all evaluated proposals, including rejected or unused ones; applied describes executed commands. Minima and violation counts use finite entries only; missing finite evidence is null and nonfinite proposal counts are separate. Accepted or executed residuals must be finite.",
+            "qp_predicted_derivative_minimum_by_constraint": {
+              "arena_x_lower": 3.0399887561798096,
+              "arena_y_lower": 3.4933152198791504,
+              "altitude_lower": 4.160786151885986,
+              "arena_x_upper": 0.4657188653945923,
+              "arena_y_upper": 2.5417585372924805,
+              "altitude_upper": 4.077966690063477,
+              "speed": 6.364357948303223,
+              "angular_rate": 283.9736022949219,
+              "tilt": 5.157012939453125
+            },
+            "qp_predicted_derivative_finite_entries_by_constraint": {
+              "arena_x_lower": 1540,
+              "arena_y_lower": 1540,
+              "altitude_lower": 1540,
+              "arena_x_upper": 1540,
+              "arena_y_upper": 1540,
+              "altitude_upper": 1540,
+              "speed": 1540,
+              "angular_rate": 1540,
+              "tilt": 1540
+            },
+            "qp_predicted_derivative_nonfinite_controls": 0,
+            "qp_predicted_derivative_violating_controls": 0,
+            "qp_rejected_nonfinite_proposal_controls": 0,
+            "fallback_predicted_derivative_minimum_by_constraint": {
+              "arena_x_lower": 3.096060276031494,
+              "arena_y_lower": 3.4776058197021484,
+              "altitude_lower": 2.637146472930908,
+              "arena_x_upper": 0.46103203296661377,
+              "arena_y_upper": 2.3765931129455566,
+              "altitude_upper": 2.817720413208008,
+              "speed": 8.485074996948242,
+              "angular_rate": 277.115234375,
+              "tilt": 5.257114887237549
+            },
+            "fallback_predicted_derivative_finite_entries_by_constraint": {
+              "arena_x_lower": 1540,
+              "arena_y_lower": 1540,
+              "altitude_lower": 1540,
+              "arena_x_upper": 1540,
+              "arena_y_upper": 1540,
+              "altitude_upper": 1540,
+              "speed": 1540,
+              "angular_rate": 1540,
+              "tilt": 1540
+            },
+            "fallback_predicted_derivative_nonfinite_controls": 0,
+            "fallback_predicted_derivative_violating_controls": 0,
+            "fallback_unexecuted_nonfinite_proposal_controls": 0,
+            "applied_predicted_derivative_minimum_by_constraint": {
+              "arena_x_lower": 3.0399887561798096,
+              "arena_y_lower": 3.4933152198791504,
+              "altitude_lower": 4.160786151885986,
+              "arena_x_upper": 0.4657188653945923,
+              "arena_y_upper": 2.5417585372924805,
+              "altitude_upper": 4.077966690063477,
+              "speed": 6.364357948303223,
+              "angular_rate": 283.9736022949219,
+              "tilt": 5.157012939453125
+            },
+            "applied_predicted_derivative_finite_entries_by_constraint": {
+              "arena_x_lower": 1540,
+              "arena_y_lower": 1540,
+              "altitude_lower": 1540,
+              "arena_x_upper": 1540,
+              "arena_y_upper": 1540,
+              "altitude_upper": 1540,
+              "speed": 1540,
+              "angular_rate": 1540,
+              "tilt": 1540
+            },
+            "applied_predicted_derivative_nonfinite_controls": 0,
+            "applied_predicted_derivative_violating_controls": 0
+          }
+        },
+        "adaptive": {
+          "waypoints_completed": 8,
+          "waypoints_total": 8,
+          "termination": "completed",
+          "termination_time_seconds": 30.8,
+          "arrival_times_seconds": [
+            4.36,
+            8.0,
+            12.0,
+            15.52,
+            20.0,
+            23.56,
+            27.32,
+            30.8
+          ],
+          "physical_collision": false,
+          "minimum_physical_clearance_m": 0.1643465489411537,
+          "minimum_inflated_clearance_m": 0.014346548941153697,
+          "active_controls": 770,
+          "degraded_controls": 0,
+          "accepted_qp_controls": 770,
+          "executed_positive_policy_dual_controls": 54,
+          "emergency_controls": 0,
+          "finite_updates": 0,
+          "controller_service": {
+            "count": 770,
+            "median_seconds": 0.012822884018532932,
+            "p95_seconds": 0.016972896363586187,
+            "maximum_seconds": 0.020186963956803083
+          },
+          "learner_service": {
+            "count": 0,
+            "median_seconds": null,
+            "p95_seconds": null,
+            "maximum_seconds": null
+          },
+          "service_exceeds_nominal_period_count": 1,
+          "nominal_blocked_fraction": 0.01948051948051948,
+          "separate_nominal_encounter_episodes": 2,
+          "execution_audit": {
+            "scope": "actual executed integration nodes and valid applied commands; no continuous-time guarantee",
+            "actual_node_count": 1541,
+            "actual_physical_minimum_dimensionless_by_constraint": {
+              "arena_x_lower": 0.10632576179504394,
+              "arena_y_lower": 0.15499999165534972,
+              "altitude_lower": 0.264220769064767,
+              "arena_x_upper": 0.04044326972961425,
+              "arena_y_upper": 0.11645015120506286,
+              "altitude_upper": 0.2793843826690277,
+              "speed": 0.3860083222389221,
+              "angular_rate": 0.9970134496688843,
+              "tilt": 0.8676398629796264
+            },
+            "actual_physical_violating_nodes_by_constraint": {
+              "arena_x_lower": 0,
+              "arena_y_lower": 0,
+              "altitude_lower": 0,
+              "arena_x_upper": 0,
+              "arena_y_upper": 0,
+              "altitude_upper": 0,
+              "speed": 0,
+              "angular_rate": 0,
+              "tilt": 0
+            },
+            "all_actual_physical_nodes_pass": true,
+            "minimum_arena_margin_m": 0.4044326972961425,
+            "minimum_speed_margin_m_per_s": 0.7574832439422607,
+            "minimum_angular_rate_margin_rad_per_s": 11.344205856323242,
+            "minimum_tilt_margin_rad": 0.5821714401245117,
+            "minimum_applied_motor_margin_N": 0.04618862271308899,
+            "applied_motor_limit_violating_controls": 0,
+            "predicted_derivative_scope": "qp and fallback describe all evaluated proposals, including rejected or unused ones; applied describes executed commands. Minima and violation counts use finite entries only; missing finite evidence is null and nonfinite proposal counts are separate. Accepted or executed residuals must be finite.",
+            "qp_predicted_derivative_minimum_by_constraint": {
+              "arena_x_lower": 3.0399887561798096,
+              "arena_y_lower": 3.4933152198791504,
+              "altitude_lower": 4.160786151885986,
+              "arena_x_upper": 0.4657188653945923,
+              "arena_y_upper": 2.5417585372924805,
+              "altitude_upper": 4.077966690063477,
+              "speed": 6.364357948303223,
+              "angular_rate": 283.9736022949219,
+              "tilt": 5.157012939453125
+            },
+            "qp_predicted_derivative_finite_entries_by_constraint": {
+              "arena_x_lower": 1540,
+              "arena_y_lower": 1540,
+              "altitude_lower": 1540,
+              "arena_x_upper": 1540,
+              "arena_y_upper": 1540,
+              "altitude_upper": 1540,
+              "speed": 1540,
+              "angular_rate": 1540,
+              "tilt": 1540
+            },
+            "qp_predicted_derivative_nonfinite_controls": 0,
+            "qp_predicted_derivative_violating_controls": 0,
+            "qp_rejected_nonfinite_proposal_controls": 0,
+            "fallback_predicted_derivative_minimum_by_constraint": {
+              "arena_x_lower": 3.096060276031494,
+              "arena_y_lower": 3.4776058197021484,
+              "altitude_lower": 2.637146472930908,
+              "arena_x_upper": 0.46103203296661377,
+              "arena_y_upper": 2.3765931129455566,
+              "altitude_upper": 2.817720413208008,
+              "speed": 8.485074996948242,
+              "angular_rate": 277.115234375,
+              "tilt": 5.257114887237549
+            },
+            "fallback_predicted_derivative_finite_entries_by_constraint": {
+              "arena_x_lower": 1540,
+              "arena_y_lower": 1540,
+              "altitude_lower": 1540,
+              "arena_x_upper": 1540,
+              "arena_y_upper": 1540,
+              "altitude_upper": 1540,
+              "speed": 1540,
+              "angular_rate": 1540,
+              "tilt": 1540
+            },
+            "fallback_predicted_derivative_nonfinite_controls": 0,
+            "fallback_predicted_derivative_violating_controls": 0,
+            "fallback_unexecuted_nonfinite_proposal_controls": 0,
+            "applied_predicted_derivative_minimum_by_constraint": {
+              "arena_x_lower": 3.0399887561798096,
+              "arena_y_lower": 3.4933152198791504,
+              "altitude_lower": 4.160786151885986,
+              "arena_x_upper": 0.4657188653945923,
+              "arena_y_upper": 2.5417585372924805,
+              "altitude_upper": 4.077966690063477,
+              "speed": 6.364357948303223,
+              "angular_rate": 283.9736022949219,
+              "tilt": 5.157012939453125
+            },
+            "applied_predicted_derivative_finite_entries_by_constraint": {
+              "arena_x_lower": 1540,
+              "arena_y_lower": 1540,
+              "altitude_lower": 1540,
+              "arena_x_upper": 1540,
+              "arena_y_upper": 1540,
+              "altitude_upper": 1540,
+              "speed": 1540,
+              "angular_rate": 1540,
+              "tilt": 1540
+            },
+            "applied_predicted_derivative_nonfinite_controls": 0,
+            "applied_predicted_derivative_violating_controls": 0
+          }
+        }
+      }
+    }
+  ]
+}

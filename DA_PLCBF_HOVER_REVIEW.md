@@ -3,16 +3,17 @@
 This is the current review entry after the five visual/functionality comments, published on
 `main` after base `00e89a742a1271b93655bf1bb4581a667dc13a14` from `plcbf`. The Git commit identifies
 the published revision; archived source snapshots retain their original prepublication metadata.
-New evidence is under `artifacts/da_plcbf/hover-explanation-20260905`. Older artifact directories
-and their manifests are retained unchanged. The preceding navigation campaign is documented in
+The complete local evidence is under `artifacts/da_plcbf/hover-explanation-20260905`; `main`
+contains a [compact review subset](artifacts/da_plcbf/REVIEW_ONLY.md). Generated videos and bulky
+traces stay local. Original artifact directories and their manifests remain unchanged. The preceding navigation campaign is documented in
 [DA_PLCBF_NAVIGATION_REVIEW.md](DA_PLCBF_NAVIGATION_REVIEW.md), with a new collider-scope correction.
 
-## Videos to review
+## Local video outputs — excluded from Git
 
-- [Hover, wind learning, recovery, centered payload, then navigation](artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison_demo.mp4): 63.05 s, 1600×900, 20 fps; ordinary-speed simulation time.
-- [Compensated fallback control](artifacts/da_plcbf/hover-explanation-20260905/compensated-control-v1/navigation_comparison_demo.mp4): 19.10 s; explains the earlier similar fans. The source includes one 40 ms navigation command at release before its 19.04 s timeout; this is not a navigation trial.
-- [Recorded failed encounter, actual MuJoCo impact and ground contact](artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2/render-v2/contact_replay_demo.mp4): 7.55 s at explicitly labeled 0.5× playback, with source time shown.
-- [Safety-abort motor-cut drop](artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop/render-v1/contact_replay_demo.mp4): 9.05 s at 0.5×; measured ground contact with no obstacle impact.
+- Hover, wind learning, recovery, centered payload, then navigation — `artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison_demo.mp4`: 63.05 s, 1600×900, 20 fps; ordinary-speed simulation time.
+- Compensated fallback control — `artifacts/da_plcbf/hover-explanation-20260905/compensated-control-v1/navigation_comparison_demo.mp4`: 19.10 s; explains the earlier similar fans. The source includes one 40 ms navigation command at release before its 19.04 s timeout; this is not a navigation trial.
+- Recorded failed encounter, actual MuJoCo impact and ground contact — `artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2/render-v2/contact_replay_demo.mp4`: 7.55 s at explicitly labeled 0.5× playback, with source time shown.
+- Safety-abort motor-cut drop — `artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop/render-v1/contact_replay_demo.mp4`: 9.05 s at 0.5×; measured ground contact with no obstacle impact.
 
 The first contact camera preview hid the impact behind the obstacle. `render-v2` changes the
 camera angle while retaining the same solid geometry and exact saved poses. Its independent
@@ -179,5 +180,5 @@ Three additional contact-render source-selection tests pass. The reusable contac
 is `examples/da_plcbf/contact_replay_demo.py`; each rendered contact artifact records its exact
 command, input hashes, source snapshot, sampled frame indices and saved poses. All four final
 videos decode fully. `FINAL_ARTIFACT_INDEX.json` identifies them, and `ARTIFACT_SHA256.json`
-inventories the complete new artifact root. `current-source/SOURCE.tar.gz` captures the final
+inventories the complete original local artifact root, not the reduced Git checkout. `current-source/SOURCE.tar.gz` captures the final
 working source; earlier numerical generation snapshots remain separately identified.

@@ -1,0 +1,225 @@
+{
+  "seed": 107,
+  "condition": "combined",
+  "directory": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed107",
+  "methods": {
+    "fixed": {
+      "waypoints_completed": 8,
+      "waypoints_total": 8,
+      "termination": "completed",
+      "termination_time_seconds": 30.56,
+      "arrival_times_seconds": [
+        4.5200000000000005,
+        8.08,
+        12.24,
+        15.799999999999999,
+        19.8,
+        23.32,
+        27.04,
+        30.56
+      ],
+      "physical_collision": false,
+      "minimum_physical_clearance_m": 0.16237644510637889,
+      "minimum_inflated_clearance_m": 0.012376445106378892,
+      "active_controls": 764,
+      "degraded_controls": 0,
+      "accepted_qp_controls": 764,
+      "executed_positive_policy_dual_controls": 17,
+      "emergency_controls": 0,
+      "finite_updates": 0,
+      "controller_service": {
+        "count": 764,
+        "median_seconds": 0.041128035984002054,
+        "p95_seconds": 0.06489139836048707,
+        "maximum_seconds": 3.7779345570597798
+      },
+      "learner_service": {
+        "count": 0,
+        "median_seconds": null,
+        "p95_seconds": null,
+        "maximum_seconds": null
+      },
+      "service_exceeds_nominal_period_count": 402,
+      "nominal_blocked_fraction": 0.014397905759162303,
+      "separate_nominal_encounter_episodes": 1,
+      "execution_audit": {
+        "scope": "actual executed integration nodes and valid applied commands; no continuous-time guarantee",
+        "actual_node_count": 1529,
+        "actual_physical_minimum_dimensionless_by_constraint": {
+          "arena_x_lower": 0.05829729270935059,
+          "arena_y_lower": 0.12284271955490113,
+          "altitude_lower": 0.264220769064767,
+          "arena_x_upper": 0.06274851989746093,
+          "arena_y_upper": 0.1378249728679657,
+          "altitude_upper": 0.2851136120882901,
+          "speed": 0.35257482528686523,
+          "angular_rate": 0.9977037906646729,
+          "tilt": 0.8640141857847882
+        },
+        "actual_physical_violating_nodes_by_constraint": {
+          "arena_x_lower": 0,
+          "arena_y_lower": 0,
+          "altitude_lower": 0,
+          "arena_x_upper": 0,
+          "arena_y_upper": 0,
+          "altitude_upper": 0,
+          "speed": 0,
+          "angular_rate": 0,
+          "tilt": 0
+        },
+        "all_actual_physical_nodes_pass": true,
+        "minimum_arena_margin_m": 0.5829729270935059,
+        "minimum_speed_margin_m_per_s": 0.6838042736053467,
+        "minimum_angular_rate_margin_rad_per_s": 11.424975395202637,
+        "minimum_tilt_margin_rad": 0.5778102278709412,
+        "minimum_applied_motor_margin_N": 0.04710987210273743,
+        "applied_motor_limit_violating_controls": 0,
+        "qp_predicted_derivative_minimum_by_constraint": {
+          "arena_x_lower": 1.0997848510742188,
+          "arena_y_lower": 2.814570903778076,
+          "altitude_lower": 3.9449424743652344,
+          "arena_x_upper": 1.3540371656417847,
+          "arena_y_upper": 3.236733913421631,
+          "altitude_upper": 4.199646949768066,
+          "speed": 5.460599899291992,
+          "angular_rate": 285.0123291015625,
+          "tilt": 5.159530162811279
+        },
+        "qp_predicted_derivative_violating_controls": 0,
+        "fallback_predicted_derivative_minimum_by_constraint": {
+          "arena_x_lower": 1.149141550064087,
+          "arena_y_lower": 2.7714340686798096,
+          "altitude_lower": 2.211055278778076,
+          "arena_x_upper": 1.3614799976348877,
+          "arena_y_upper": 3.1009175777435303,
+          "altitude_upper": 2.707843780517578,
+          "speed": 4.504741668701172,
+          "angular_rate": 278.350830078125,
+          "tilt": 4.869254112243652
+        },
+        "fallback_predicted_derivative_violating_controls": 0,
+        "applied_predicted_derivative_minimum_by_constraint": {
+          "arena_x_lower": 1.0997848510742188,
+          "arena_y_lower": 2.814570903778076,
+          "altitude_lower": 3.9449424743652344,
+          "arena_x_upper": 1.3540371656417847,
+          "arena_y_upper": 3.236733913421631,
+          "altitude_upper": 4.199646949768066,
+          "speed": 5.460599899291992,
+          "angular_rate": 285.0123291015625,
+          "tilt": 5.159530162811279
+        },
+        "applied_predicted_derivative_violating_controls": 0
+      }
+    },
+    "adaptive": {
+      "waypoints_completed": 8,
+      "waypoints_total": 8,
+      "termination": "completed",
+      "termination_time_seconds": 30.56,
+      "arrival_times_seconds": [
+        4.5200000000000005,
+        8.08,
+        12.24,
+        15.799999999999999,
+        19.8,
+        23.32,
+        27.04,
+        30.56
+      ],
+      "physical_collision": false,
+      "minimum_physical_clearance_m": 0.16237644510637889,
+      "minimum_inflated_clearance_m": 0.012376445106378892,
+      "active_controls": 764,
+      "degraded_controls": 0,
+      "accepted_qp_controls": 764,
+      "executed_positive_policy_dual_controls": 17,
+      "emergency_controls": 0,
+      "finite_updates": 332,
+      "controller_service": {
+        "count": 764,
+        "median_seconds": 0.028744549956172705,
+        "p95_seconds": 0.036336169636342674,
+        "maximum_seconds": 0.04347341996617615
+      },
+      "learner_service": {
+        "count": 332,
+        "median_seconds": 0.030659321462735534,
+        "p95_seconds": 0.04631313041318206,
+        "maximum_seconds": 0.7155325671192259
+      },
+      "service_exceeds_nominal_period_count": 303,
+      "nominal_blocked_fraction": 0.014397905759162303,
+      "separate_nominal_encounter_episodes": 1,
+      "execution_audit": {
+        "scope": "actual executed integration nodes and valid applied commands; no continuous-time guarantee",
+        "actual_node_count": 1529,
+        "actual_physical_minimum_dimensionless_by_constraint": {
+          "arena_x_lower": 0.05829729270935059,
+          "arena_y_lower": 0.12284271955490113,
+          "altitude_lower": 0.264220769064767,
+          "arena_x_upper": 0.06274851989746093,
+          "arena_y_upper": 0.1378249728679657,
+          "altitude_upper": 0.2851136120882901,
+          "speed": 0.35257482528686523,
+          "angular_rate": 0.9977037906646729,
+          "tilt": 0.8640141857847882
+        },
+        "actual_physical_violating_nodes_by_constraint": {
+          "arena_x_lower": 0,
+          "arena_y_lower": 0,
+          "altitude_lower": 0,
+          "arena_x_upper": 0,
+          "arena_y_upper": 0,
+          "altitude_upper": 0,
+          "speed": 0,
+          "angular_rate": 0,
+          "tilt": 0
+        },
+        "all_actual_physical_nodes_pass": true,
+        "minimum_arena_margin_m": 0.5829729270935059,
+        "minimum_speed_margin_m_per_s": 0.6838042736053467,
+        "minimum_angular_rate_margin_rad_per_s": 11.424975395202637,
+        "minimum_tilt_margin_rad": 0.5778102278709412,
+        "minimum_applied_motor_margin_N": 0.04710987210273743,
+        "applied_motor_limit_violating_controls": 0,
+        "qp_predicted_derivative_minimum_by_constraint": {
+          "arena_x_lower": 1.0997848510742188,
+          "arena_y_lower": 2.814570903778076,
+          "altitude_lower": 3.9449424743652344,
+          "arena_x_upper": 1.3540371656417847,
+          "arena_y_upper": 3.236733913421631,
+          "altitude_upper": 4.199646949768066,
+          "speed": 5.460599899291992,
+          "angular_rate": 285.0123291015625,
+          "tilt": 5.159530162811279
+        },
+        "qp_predicted_derivative_violating_controls": 0,
+        "fallback_predicted_derivative_minimum_by_constraint": {
+          "arena_x_lower": 1.1383427381515503,
+          "arena_y_lower": 2.7728381156921387,
+          "altitude_lower": 2.20111083984375,
+          "arena_x_upper": 1.361677885055542,
+          "arena_y_upper": 3.1000959873199463,
+          "altitude_upper": 2.779566764831543,
+          "speed": 4.626386642456055,
+          "angular_rate": 278.3437194824219,
+          "tilt": 4.863935470581055
+        },
+        "fallback_predicted_derivative_violating_controls": 0,
+        "applied_predicted_derivative_minimum_by_constraint": {
+          "arena_x_lower": 1.0997848510742188,
+          "arena_y_lower": 2.814570903778076,
+          "altitude_lower": 3.9449424743652344,
+          "arena_x_upper": 1.3540371656417847,
+          "arena_y_upper": 3.236733913421631,
+          "altitude_upper": 4.199646949768066,
+          "speed": 5.460599899291992,
+          "angular_rate": 285.0123291015625,
+          "tilt": 5.159530162811279
+        },
+        "applied_predicted_derivative_violating_controls": 0
+      }
+    }
+  }
+}

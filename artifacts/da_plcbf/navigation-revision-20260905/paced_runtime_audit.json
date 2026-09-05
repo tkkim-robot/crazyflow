@@ -1,0 +1,253 @@
+{
+  "audit_helper_sha256": "f1166e243314a7b3316fedd9b7b29b30b6b43b9c6e5f7a65cf4f5698d4c0ae5a",
+  "runs": [
+    {
+      "actual_counts": {
+        "adaptive": {
+          "active_controls": 770,
+          "controller_service": {
+            "count": 770,
+            "maximum_seconds": 0.020186963956803083,
+            "median_seconds": 0.012822884018532932,
+            "p95_seconds": 0.016972896363586187
+          },
+          "deadline_misses_from_raw_trace_and_wall_times": 1,
+          "finite_updates": 0,
+          "learner_service": {
+            "count": 0,
+            "maximum_seconds": null,
+            "median_seconds": null,
+            "p95_seconds": null
+          },
+          "publication_records": 0,
+          "used_advanced_version_controls": 0
+        },
+        "fixed": {
+          "active_controls": 770,
+          "controller_service": {
+            "count": 770,
+            "maximum_seconds": 0.02099877898581326,
+            "median_seconds": 0.012838241993449628,
+            "p95_seconds": 0.01699073307681829
+          },
+          "deadline_misses_from_raw_trace_and_wall_times": 13,
+          "finite_updates": 0,
+          "learner_service": {
+            "count": 0,
+            "maximum_seconds": null,
+            "median_seconds": null,
+            "p95_seconds": null
+          },
+          "publication_records": 0,
+          "used_advanced_version_controls": 0
+        }
+      },
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/paced-validation/combined-seed100",
+      "file_sha256": {
+        "SOURCE_SHA256.json": "4a5233ca9e0f54ce3c2d3aa1e2dbf15b0c22727655b9d6d79494041568dda427",
+        "navigation_comparison.json": "902aa97aa68f7bbc86647759905753be3aa909ef9418a90205b659f7d147cade",
+        "navigation_comparison.npz": "60ba05279dfe079f22c536a2cd35b05133f9ecf507d42ae9ff556cba6af53def",
+        "raw_diagnostics.npz": "43de4171fe7ed160efd2ae1e488b565e97782a84f15f12a656a35f96a2a60001"
+      },
+      "initial_budget": {
+        "additional_reserve_seconds": 0.003,
+        "control_period_seconds": 0.04,
+        "controller_median_plus_reserved_update_and_reserve_seconds": null,
+        "controller_median_seconds": 0.012822884018532932,
+        "reserved_update_seconds": null,
+        "scope": "illustrative serialized cost sum before plant/telemetry; not an inferred update launch",
+        "warmup": null
+      },
+      "runtime_feasibility": {
+        "adaptive_online_runtime_feasible": false,
+        "adaptive_task_and_runtime_success": false,
+        "advanced_publications": 0,
+        "allowed_opportunities_during_active_controls": 335,
+        "checks": {
+          "advanced_snapshot_published": false,
+          "all_launched_updates_finite": true,
+          "allowed_opportunities_while_active": true,
+          "at_least_one_finite_completed_update": false,
+          "complete_consistent_accounting": true,
+          "learning_enabled": true,
+          "measured_paced_execution": true,
+          "published_advanced_snapshot_used_by_controller": false,
+          "zero_adaptive_deadline_misses": false
+        },
+        "controls_using_unavailable_advanced_versions": 0,
+        "deadline_misses_by_method": {
+          "adaptive": 1,
+          "fixed": 13
+        },
+        "failed_checks": [
+          "at_least_one_finite_completed_update",
+          "advanced_snapshot_published",
+          "published_advanced_snapshot_used_by_controller",
+          "zero_adaptive_deadline_misses"
+        ],
+        "finite_completed_updates": 0,
+        "finite_updates_per_allowed_opportunity": 0.0,
+        "initial_used_library_version": 460,
+        "invalid_publication_records": 0,
+        "launched_updates": 0,
+        "paired_zero_miss_online_runtime_feasible": false,
+        "scope": "minimum observed paced serialized online-learning feasibility; requires a finite published advance actually used and zero active adaptive misses; no guaranteed update frequency, continuous-time safety or OS real-time guarantee",
+        "task_checks": {
+          "adaptive": {
+            "actuator_limits_pass": true,
+            "all_waypoints_completed": true,
+            "no_physical_collision": true,
+            "physical_operational_nodes_pass": true,
+            "positive_shell_clearance": true,
+            "zero_degraded_controls": true
+          },
+          "fixed": {
+            "actuator_limits_pass": true,
+            "all_waypoints_completed": true,
+            "no_physical_collision": true,
+            "physical_operational_nodes_pass": true,
+            "positive_shell_clearance": true,
+            "zero_degraded_controls": true
+          }
+        },
+        "task_success": {
+          "adaptive": true,
+          "fixed": true
+        },
+        "verified_advanced_versions_used": [],
+        "zero_updates_are_runtime_success": false
+      }
+    },
+    {
+      "actual_counts": {
+        "adaptive": {
+          "active_controls": 770,
+          "controller_service": {
+            "count": 770,
+            "maximum_seconds": 0.021440453827381134,
+            "median_seconds": 0.013742632465437055,
+            "p95_seconds": 0.018128932919353247
+          },
+          "deadline_misses_from_raw_trace_and_wall_times": 1,
+          "finite_updates": 0,
+          "learner_service": {
+            "count": 0,
+            "maximum_seconds": null,
+            "median_seconds": null,
+            "p95_seconds": null
+          },
+          "publication_records": 0,
+          "used_advanced_version_controls": 0
+        },
+        "fixed": {
+          "active_controls": 770,
+          "controller_service": {
+            "count": 770,
+            "maximum_seconds": 0.020157857099547982,
+            "median_seconds": 0.013793283491395414,
+            "p95_seconds": 0.018016984022688122
+          },
+          "deadline_misses_from_raw_trace_and_wall_times": 4,
+          "finite_updates": 0,
+          "learner_service": {
+            "count": 0,
+            "maximum_seconds": null,
+            "median_seconds": null,
+            "p95_seconds": null
+          },
+          "publication_records": 0,
+          "used_advanced_version_controls": 0
+        }
+      },
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/paced-validation2/combined-seed100",
+      "file_sha256": {
+        "SOURCE_SHA256.json": "a531f311fde6ec20f14dbe5e4c3e9c28c7000918d5194e1ab57c690585082267",
+        "adaptive_warmup.json": "0cfdf0014bde1fddb817e8c6b0e651cf850260906bf4c494a255f512b132725d",
+        "navigation_comparison.json": "83c47f01ae0fd9bd2349f126fc3e68d9b21d7b68becefd6728b5263fa1c772b8",
+        "navigation_comparison.npz": "4b43a4905818bf77ef13293ecba04e6c064fddd8363b8ac41f92b6c4ae84c661",
+        "raw_diagnostics.npz": "43de4171fe7ed160efd2ae1e488b565e97782a84f15f12a656a35f96a2a60001"
+      },
+      "initial_budget": {
+        "additional_reserve_seconds": 0.003,
+        "control_period_seconds": 0.04,
+        "controller_median_plus_reserved_update_and_reserve_seconds": 0.044466604918241504,
+        "controller_median_seconds": 0.013742632465437055,
+        "reserved_update_seconds": 0.027723972452804446,
+        "scope": "illustrative serialized cost sum before plant/telemetry; not an inferred update launch",
+        "warmup": {
+          "event_model_preconstruction": true,
+          "initial_measured_update_seconds": 0.022179177962243557,
+          "initial_reserved_update_seconds": 0.027723972452804446,
+          "learner_call_seconds": [
+            1.1241747608873993,
+            0.022217734018340707,
+            0.021926309913396835,
+            0.022126508876681328,
+            0.022179177962243557
+          ]
+        }
+      },
+      "runtime_feasibility": {
+        "adaptive_online_runtime_feasible": false,
+        "adaptive_task_and_runtime_success": false,
+        "advanced_publications": 0,
+        "allowed_opportunities_during_active_controls": 335,
+        "checks": {
+          "advanced_snapshot_published": false,
+          "all_launched_updates_finite": true,
+          "allowed_opportunities_while_active": true,
+          "at_least_one_finite_completed_update": false,
+          "complete_consistent_accounting": true,
+          "learning_enabled": true,
+          "measured_paced_execution": true,
+          "published_advanced_snapshot_used_by_controller": false,
+          "zero_adaptive_deadline_misses": false
+        },
+        "controls_using_unavailable_advanced_versions": 0,
+        "deadline_misses_by_method": {
+          "adaptive": 1,
+          "fixed": 4
+        },
+        "failed_checks": [
+          "at_least_one_finite_completed_update",
+          "advanced_snapshot_published",
+          "published_advanced_snapshot_used_by_controller",
+          "zero_adaptive_deadline_misses"
+        ],
+        "finite_completed_updates": 0,
+        "finite_updates_per_allowed_opportunity": 0.0,
+        "initial_used_library_version": 460,
+        "invalid_publication_records": 0,
+        "launched_updates": 0,
+        "paired_zero_miss_online_runtime_feasible": false,
+        "scope": "minimum observed paced serialized online-learning feasibility; requires a finite published advance actually used and zero active adaptive misses; no guaranteed update frequency, continuous-time safety or OS real-time guarantee",
+        "task_checks": {
+          "adaptive": {
+            "actuator_limits_pass": true,
+            "all_waypoints_completed": true,
+            "no_physical_collision": true,
+            "physical_operational_nodes_pass": true,
+            "positive_shell_clearance": true,
+            "zero_degraded_controls": true
+          },
+          "fixed": {
+            "actuator_limits_pass": true,
+            "all_waypoints_completed": true,
+            "no_physical_collision": true,
+            "physical_operational_nodes_pass": true,
+            "positive_shell_clearance": true,
+            "zero_degraded_controls": true
+          }
+        },
+        "task_success": {
+          "adaptive": true,
+          "fixed": true
+        },
+        "verified_advanced_versions_used": [],
+        "zero_updates_are_runtime_success": false
+      }
+    }
+  ],
+  "scope": "read-only retrospective audit; task completion does not establish online-learning runtime feasibility",
+  "source_files_unchanged": true
+}

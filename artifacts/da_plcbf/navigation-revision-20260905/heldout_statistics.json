@@ -1,0 +1,607 @@
+{
+  "protocol": "artifacts/da_plcbf/navigation-revision-20260905/CAMPAIGN_PROTOCOL.json",
+  "paired_world_count": 20,
+  "scope": "Fixed teacher seed7; seeded route jitter and absolute-time moving-obstacle phases. Descriptive Wilson success intervals and paired bootstrap mean differences; no general safety guarantee.",
+  "conditions": {
+    "unchanged": {
+      "count": 10,
+      "world_seeds": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109
+      ],
+      "methods": {
+        "fixed": {
+          "criteria": {
+            "physical_collision_free": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "positive_shell_clearance": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "all_waypoints_completed": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "zero_degraded_controls": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            }
+          },
+          "waypoint_counts": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "minimum_shell_clearance_m": 0.008628119195152856,
+          "median_completion_or_timeout_seconds": 31.1,
+          "nominal_blocked_fractions": [
+            0.025839793281653745,
+            0.07240948813982521,
+            0.1018957345971564,
+            0.057692307692307696,
+            0.07653061224489796,
+            0.054388133498145856,
+            0.03483870967741935,
+            0.014341590612777053,
+            0.04935064935064935,
+            0.07115135834411385
+          ],
+          "nominal_encounter_episode_counts": [
+            2,
+            2,
+            2,
+            2,
+            3,
+            1,
+            1,
+            1,
+            1,
+            3
+          ],
+          "finite_update_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "degraded_control_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "positive_executed_dual_counts": [
+            48,
+            76,
+            103,
+            58,
+            70,
+            59,
+            49,
+            17,
+            38,
+            73
+          ]
+        },
+        "adaptive": {
+          "criteria": {
+            "physical_collision_free": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "positive_shell_clearance": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "all_waypoints_completed": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "zero_degraded_controls": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            }
+          },
+          "waypoint_counts": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "minimum_shell_clearance_m": 0.00852124154581782,
+          "median_completion_or_timeout_seconds": 31.1,
+          "nominal_blocked_fractions": [
+            0.02838709677419355,
+            0.07240948813982521,
+            0.1018957345971564,
+            0.057692307692307696,
+            0.0778061224489796,
+            0.054388133498145856,
+            0.03483870967741935,
+            0.014341590612777053,
+            0.04935064935064935,
+            0.07115135834411385
+          ],
+          "nominal_encounter_episode_counts": [
+            2,
+            2,
+            2,
+            2,
+            3,
+            1,
+            1,
+            1,
+            1,
+            3
+          ],
+          "finite_update_counts": [
+            337,
+            350,
+            372,
+            340,
+            342,
+            354,
+            337,
+            333,
+            335,
+            336
+          ],
+          "degraded_control_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "positive_executed_dual_counts": [
+            48,
+            76,
+            102,
+            58,
+            72,
+            58,
+            50,
+            17,
+            38,
+            72
+          ]
+        }
+      },
+      "paired_adaptive_minus_fixed_waypoints": {
+        "count": 10,
+        "mean": 0.0,
+        "median": 0.0,
+        "bootstrap_mean_95_interval": [
+          0.0,
+          0.0
+        ],
+        "individual_differences": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "paired_adaptive_minus_fixed_completion_seconds_both_complete": {
+        "count": 10,
+        "mean": 0.003999999999999915,
+        "median": 0.0,
+        "bootstrap_mean_95_interval": [
+          0.0,
+          0.011999999999999744
+        ],
+        "individual_differences": [
+          0.03999999999999915,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "paired_adaptive_minus_fixed_shell_margin_m": {
+        "count": 10,
+        "mean": 0.0003021361949982593,
+        "median": -7.898824517577063e-05,
+        "bootstrap_mean_95_interval": [
+          -9.638315311841784e-05,
+          0.0010351530224650973
+        ],
+        "individual_differences": [
+          0.003528490818647867,
+          -0.00016629323154809805,
+          -6.890569590400908e-05,
+          0.0,
+          -8.907079444753219e-05,
+          -9.811392417796716e-05,
+          0.00015734623077101606,
+          0.0,
+          -0.00013521380402364835,
+          -0.00010687764933503541
+        ]
+      }
+    },
+    "combined": {
+      "count": 10,
+      "world_seeds": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109
+      ],
+      "methods": {
+        "fixed": {
+          "criteria": {
+            "physical_collision_free": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "positive_shell_clearance": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "all_waypoints_completed": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "zero_degraded_controls": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            }
+          },
+          "waypoint_counts": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "minimum_shell_clearance_m": 0.009241154077338248,
+          "median_completion_or_timeout_seconds": 31.36,
+          "nominal_blocked_fractions": [
+            0.01948051948051948,
+            0.07518796992481203,
+            0.10177514792899409,
+            0.07604562737642585,
+            0.07958921694480103,
+            0.044359949302915085,
+            0.03372243839169909,
+            0.014397905759162303,
+            0.031413612565445025,
+            0.058301647655259824
+          ],
+          "nominal_encounter_episode_counts": [
+            2,
+            2,
+            2,
+            3,
+            3,
+            1,
+            2,
+            1,
+            2,
+            2
+          ],
+          "finite_update_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "degraded_control_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "positive_executed_dual_counts": [
+            54,
+            79,
+            113,
+            84,
+            73,
+            48,
+            53,
+            17,
+            31,
+            79
+          ]
+        },
+        "adaptive": {
+          "criteria": {
+            "physical_collision_free": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "positive_shell_clearance": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "all_waypoints_completed": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "zero_degraded_controls": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            }
+          },
+          "waypoint_counts": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "minimum_shell_clearance_m": 0.009416138231328558,
+          "median_completion_or_timeout_seconds": 31.4,
+          "nominal_blocked_fractions": [
+            0.01948051948051948,
+            0.07393483709273183,
+            0.10071090047393365,
+            0.0759493670886076,
+            0.08097686375321336,
+            0.045454545454545456,
+            0.035897435897435895,
+            0.014397905759162303,
+            0.045278137128072445,
+            0.05808080808080808
+          ],
+          "nominal_encounter_episode_counts": [
+            2,
+            2,
+            2,
+            3,
+            3,
+            1,
+            2,
+            1,
+            2,
+            2
+          ],
+          "finite_update_counts": [
+            335,
+            349,
+            372,
+            345,
+            339,
+            346,
+            340,
+            332,
+            336,
+            346
+          ],
+          "degraded_control_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "positive_executed_dual_counts": [
+            54,
+            78,
+            108,
+            88,
+            73,
+            46,
+            54,
+            17,
+            44,
+            79
+          ]
+        }
+      },
+      "paired_adaptive_minus_fixed_waypoints": {
+        "count": 10,
+        "mean": 0.0,
+        "median": 0.0,
+        "bootstrap_mean_95_interval": [
+          0.0,
+          0.0
+        ],
+        "individual_differences": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "paired_adaptive_minus_fixed_completion_seconds_both_complete": {
+        "count": 10,
+        "mean": 0.09200000000000053,
+        "median": 0.02000000000000135,
+        "bootstrap_mean_95_interval": [
+          0.012000000000000455,
+          0.1879999999999999
+        ],
+        "individual_differences": [
+          0.0,
+          0.0,
+          -0.03999999999999915,
+          0.0400000000000027,
+          -0.03999999999999915,
+          0.120000000000001,
+          0.35999999999999943,
+          0.0,
+          0.35999999999999943,
+          0.120000000000001
+        ]
+      },
+      "paired_adaptive_minus_fixed_shell_margin_m": {
+        "count": 10,
+        "mean": 3.9245946428123625e-06,
+        "median": 0.0,
+        "bootstrap_mean_95_interval": [
+          -0.0008014584045395623,
+          0.0006941899374642018
+        ],
+        "individual_differences": [
+          0.0,
+          0.0,
+          0.00039417853891932086,
+          0.0,
+          -0.0006482293740326384,
+          -0.002870094759795827,
+          0.0019194619333127716,
+          0.0,
+          0.001404679219982219,
+          -0.0001607496119577223
+        ]
+      }
+    }
+  }
+}

@@ -36,3 +36,11 @@ site/
 # Temporary files
 .DS_Store
 Thumbs.db
+
+# Generated videos stay local; commit source and compact review reports instead.
+*.mp4
+*.mov
+*.webm
+*.avi
+*.mkv
+*.m4v

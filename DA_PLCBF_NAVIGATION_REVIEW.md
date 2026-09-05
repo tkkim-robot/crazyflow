@@ -1,5 +1,8 @@
 # DA-PLCBF navigation and failure-mechanism revision
 
+> **Publication scope:** `main` contains a [compact review subset](artifacts/da_plcbf/REVIEW_ONLY.md);
+> generated videos and bulky traces remain local. The original complete-folder manifests are unchanged.
+>
 > **Later visual/physics correction:** start with `DA_PLCBF_HOVER_REVIEW.md` for the
 > hover-first revision. The campaign below used a 0.05 m body-origin sphere. The rendered
 > `cf21B_500.xml` asset actually has a 0.086 m collider offset 0.02 m above the body origin.
