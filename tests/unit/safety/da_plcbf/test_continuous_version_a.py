@@ -56,7 +56,10 @@ def test_blocking_static_nominal_collides_but_continuous_plcbf_avoids_and_resume
     model, actuator = _resources()
     scenario = blocking_static_scenario()
     config = ContinuousVersionAConfig(
-        dt=scenario.dt, horizon=scenario.horizon, obstacle_clearance=scenario.obstacle_clearance
+        dt=scenario.dt,
+        horizon=scenario.horizon,
+        obstacle_clearance=scenario.obstacle_clearance,
+        ego_radius=scenario.ego_radius,
     )
     quad_config = QuadPolicyConfig()
     nominal_rollout, fallback_rollouts = obstacle_agnostic_waypoint_callbacks(
@@ -105,7 +108,7 @@ def test_blocking_static_nominal_collides_but_continuous_plcbf_avoids_and_resume
     nominal_minimum = np.inf
     filtered_minimum = np.inf
     maximum_intervention = 0.0
-    fallback_steps = 0
+    maximum_policy_dual = 0.0
     degraded_steps = 0
     checked_augmented_library = False
     obstacle_center = scenario.obstacle_initial_centers[0]
@@ -123,7 +126,7 @@ def test_blocking_static_nominal_collides_but_continuous_plcbf_avoids_and_resume
             filtered_minimum, float(jnp.linalg.norm(filtered_state[:3] - obstacle_center))
         )
         maximum_intervention = max(maximum_intervention, float(decision.qp_intervention_norm))
-        fallback_steps += int(decision.used_fallback)
+        maximum_policy_dual = max(maximum_policy_dual, float(decision.selected_policy_dual))
         degraded_steps += int(decision.degraded)
         assert not bool(decision.used_fallback & decision.qp_valid)
         assert decision.candidates.states.shape[0] == scenario.skill_displacements.shape[0] + 1
@@ -132,14 +135,17 @@ def test_blocking_static_nominal_collides_but_continuous_plcbf_avoids_and_resume
                 decision.candidates.wrenches[0, 0], decision.nominal_action, atol=1e-7
             )
             assert int(decision.safe_candidate_count) >= 1
+            obstacle_count = scenario.obstacle_radii.shape[0]
+            assert not np.any(decision.continuous_filter.analytic_barriers.enabled[:obstacle_count])
+            assert np.all(decision.continuous_filter.analytic_barriers.enabled[obstacle_count:])
             checked_augmented_library = True
 
     physical_radius = float(scenario.obstacle_radii[0])
-    inflated_radius = physical_radius + config.obstacle_clearance
+    inflated_radius = physical_radius + config.ego_radius + config.obstacle_clearance
     assert nominal_minimum < physical_radius
     assert filtered_minimum > inflated_radius
     assert maximum_intervention > 1e-3
-    assert fallback_steps > 0
+    assert maximum_policy_dual > 1e-6
     assert degraded_steps == 0
     assert float(jnp.linalg.norm(filtered_state[:3] - scenario.goal_position)) < 0.1
 

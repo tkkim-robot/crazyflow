@@ -1,0 +1,30 @@
+{
+  "policy_count": 8,
+  "seed": 7,
+  "nominal_acceleration_limit": 0.75,
+  "nominal_model_compensation": true,
+  "waypoint_position_gain": 2.0,
+  "waypoint_velocity_gain": 2.8,
+  "fallback_acceleration_limit": 2.5,
+  "learning_rate": 0.0005,
+  "wind_detection_threshold": 0.08,
+  "estimator_response_rate": 2.4,
+  "wind_after": [
+    1.8,
+    1.0,
+    0.0
+  ],
+  "steps": 600,
+  "include_baselines": true,
+  "gradient_steps_per_boundary": 1,
+  "learning_start": "wind",
+  "initial_residual_scale": 0.01,
+  "initial_skill_scale": 1.0,
+  "residual_scale": 1.0,
+  "policy_gain": 1.8,
+  "smooth_motor_bounds": false,
+  "probe_every_steps": 10,
+  "probe_window_seconds": null,
+  "policy_alpha": 2.0,
+  "smooth_min_temperature": 0.005
+}

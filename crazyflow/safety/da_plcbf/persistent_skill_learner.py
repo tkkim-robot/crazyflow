@@ -26,6 +26,7 @@ from jax import Array
 from jax.nn import softplus
 
 from crazyflow.safety.da_plcbf.bptt import tree_all_finite
+from crazyflow.safety.da_plcbf.direct_wrench import quaternion_to_rotation_matrix
 from crazyflow.safety.da_plcbf.quad_policy import QuadPolicyConfig, acceleration_to_feasible_wrench
 from crazyflow.safety.da_plcbf.quad_rollouts import direct_wrench_symplectic_step
 
@@ -68,6 +69,10 @@ class PersistentSkillConfig:
     learning_rate: float = 1e-3
     weight_decay: float = 0.0
     max_gradient_norm: float = 10.0
+    model_compensation: bool = False
+    smooth_motor_bounds: bool = True
+    initial_residual_scale: float = 0.01
+    initial_skill_scale: float = 1.0
 
     def validate(self) -> None:
         """Reject shapes and scales that invalidate the fixed JAX computation."""
@@ -107,6 +112,7 @@ class PersistentSkillConfig:
             self.saturation_weight,
             self.trust_weight,
             self.weight_decay,
+            self.initial_residual_scale,
         )
         if not all(math.isfinite(value) and value >= 0 for value in nonnegative):
             raise ValueError("actor and objective weights must be finite and nonnegative")
@@ -114,6 +120,15 @@ class PersistentSkillConfig:
             math.isfinite(value) and value > 0 for value in self.descriptor_scales
         ):
             raise ValueError("descriptor_scales must contain nine positive finite values")
+        if not isinstance(self.model_compensation, bool) or not isinstance(
+            self.smooth_motor_bounds, bool
+        ):
+            raise TypeError("model_compensation and smooth_motor_bounds must be boolean")
+        if (
+            not math.isfinite(self.initial_skill_scale)
+            or not 0.0 <= self.initial_skill_scale <= 1.0
+        ):
+            raise ValueError("initial_skill_scale must lie in [0, 1]")
 
 
 @struct_dataclass
@@ -212,6 +227,7 @@ def build_fibonacci_skill_spec(
     maximum_speed: float = 1.25,
     minimum_duration: float = 0.35,
     maximum_duration: float = 0.9,
+    horizon_duration: float = 1.0,
     dtype: jnp.dtype = jnp.float32,
 ) -> SkillLibrarySpec:
     """Construct deterministic spherical skills without task or obstacle information."""
@@ -219,7 +235,7 @@ def build_fibonacci_skill_spec(
         raise ValueError("policy_count must be an integer of at least two")
     if isinstance(latent_size, bool) or not isinstance(latent_size, Integral) or latent_size <= 0:
         raise ValueError("latent_size must be a positive integer")
-    scales = (minimum_speed, maximum_speed, minimum_duration, maximum_duration)
+    scales = (minimum_speed, maximum_speed, minimum_duration, maximum_duration, horizon_duration)
     if not all(math.isfinite(value) and value > 0 for value in scales):
         raise ValueError("speed and duration bounds must be positive finite")
     if minimum_speed > maximum_speed or minimum_duration > maximum_duration:
@@ -248,7 +264,7 @@ def build_fibonacci_skill_spec(
     latent_codes = np.stack(features, axis=-1)
     displacement = desired_velocities * durations[:, None]
     target_descriptors = np.concatenate(
-        (displacement, desired_velocities, np.zeros_like(desired_velocities)), axis=-1
+        (displacement, displacement / horizon_duration, np.zeros_like(desired_velocities)), axis=-1
     )
     return SkillLibrarySpec(
         latent_codes=jnp.asarray(latent_codes, dtype=dtype),
@@ -298,7 +314,12 @@ def _validate_params(
 def initialize_skill_actor(
     key: Array, spec: SkillLibrarySpec, config: PersistentSkillConfig
 ) -> SkillActorParams:
-    """Initialize one deterministic shared actor with small residual output weights."""
+    """Initialize a shared actor with optional suppression of its directional scaffold.
+
+    ``initial_skill_scale=1`` retains the structured directional starting library. Zero starts
+    with velocity braking and the small random network residual; obstacle-independent descriptor
+    targets and latent identities are retained for subsequent learning.
+    """
     config.validate()
     policy_count, latent_size = _validate_spec(spec)
     input_size = _PROPRIOCEPTIVE_FEATURES + latent_size
@@ -315,13 +336,13 @@ def initialize_skill_actor(
         )
 
     params = SkillActorParams(
-        velocity_offsets=jnp.zeros((policy_count, 3), dtype=spec.latent_codes.dtype),
+        velocity_offsets=(config.initial_skill_scale - 1.0) * spec.base_desired_velocities,
         duration_offsets=jnp.zeros((policy_count,), dtype=spec.latent_codes.dtype),
         input_kernel=glorot(first_key, input_size, config.hidden_width),
         input_bias=jnp.zeros((config.hidden_width,), dtype=spec.latent_codes.dtype),
         hidden_kernel=glorot(hidden_key, config.hidden_width, config.hidden_width),
         hidden_bias=jnp.zeros((config.hidden_width,), dtype=spec.latent_codes.dtype),
-        output_kernel=0.01 * glorot(output_key, config.hidden_width, 3),
+        output_kernel=config.initial_residual_scale * glorot(output_key, config.hidden_width, 3),
         output_bias=jnp.zeros((3,), dtype=spec.latent_codes.dtype),
     )
     _validate_params(params, spec, config)
@@ -340,6 +361,8 @@ def obstacle_agnostic_skill_actions(
     skill_start_position: Array,
     phase: Array,
     config: PersistentSkillConfig,
+    *,
+    point_model: VersionAModel | None = None,
 ) -> Array:
     """Evaluate every skill from state, skill-start displacement, latent, and phase only.
 
@@ -350,6 +373,7 @@ def obstacle_agnostic_skill_actions(
         skill_start_position: Common rollout-start position with shape ``(3,)``.
         phase: Scalar elapsed fraction of the configured horizon.
         config: Static actor and rollout configuration.
+        point_model: Optional known dynamics for explicit drag/wind compensation only.
 
     This interface intentionally has no goal, waypoint, obstacle, or safety argument.
     """
@@ -385,13 +409,28 @@ def obstacle_agnostic_skill_actions(
     structured = config.policy_gain * (gate[:, None] * desired_velocity - states[:, 7:10])
     raw_action = structured + gate[:, None] * residual
     action = config.acceleration_limit * jnp.tanh(raw_action / config.acceleration_limit)
+    if config.model_compensation:
+        if point_model is None:
+            raise ValueError("model compensation requires the current point dynamics model")
+        rotation = quaternion_to_rotation_matrix(states[:, 3:7])
+        relative_body = (
+            jnp.swapaxes(rotation, -1, -2)
+            @ (states[:, 7:10] - point_model.wind_velocity)[..., None]
+        )[..., 0]
+        drag_body = (point_model.drag_matrix @ relative_body[..., None])[..., 0]
+        external_world = (rotation @ drag_body[..., None])[..., 0] + point_model.external_force
+        # Compensation is outside the behavioral acceleration saturation; the allocator still
+        # enforces the same physical motor bounds. This also preserves stationary hover.
+        action = action - external_world / jnp.reshape(point_model.mass, ())
     input_finite = tree_all_finite((params, spec, states, skill_start_position, phase))
     return jnp.where(input_finite, action, jnp.full_like(action, jnp.nan))
 
 
 def _trajectory_descriptors(states: Array) -> Array:
     displacement = states[:, -1, :3] - states[:, 0, :3]
-    mean_velocity = jnp.mean(states[:, :, 7:10], axis=1)
+    # Symplectic Euler advances p with the following velocity. These samples therefore satisfy
+    # displacement == duration * mean_velocity, matching the descriptor target construction.
+    mean_velocity = jnp.mean(states[:, 1:, 7:10], axis=1)
     terminal_velocity = states[:, -1, 7:10]
     return jnp.concatenate((displacement, mean_velocity, terminal_velocity), axis=-1)
 
@@ -417,7 +456,7 @@ def rollout_skill_library(
     def advance(state: Array, step_index: Array) -> tuple[Array, tuple[Array, ...]]:
         phase = step_index / config.horizon
         desired_acceleration = obstacle_agnostic_skill_actions(
-            params, spec, state, start_position, phase, config
+            params, spec, state, start_position, phase, config, point_model=point_model
         )
         command = acceleration_to_feasible_wrench(
             desired_acceleration,
@@ -426,7 +465,7 @@ def rollout_skill_library(
             point_model,
             actuator,
             quad_config,
-            smooth_motor_bounds=True,
+            smooth_motor_bounds=config.smooth_motor_bounds,
         )
         following = direct_wrench_symplectic_step(state, command.wrench, point_model, config.dt)
         return following, (
@@ -639,11 +678,15 @@ def build_persistent_skill_learner(
         )
         return next_state, metrics
 
+    # Inputs are explicitly placed by callers; avoid deprecated jax.jit(device=...).
+    if device is not None:
+        spec = jax.device_put(spec, device)
+        actuator = jax.device_put(actuator, device)
     return PersistentSkillFunctions(
         initialize=initialize,
-        rollout=jax.jit(rollout_bound, device=device),
-        loss=jax.jit(loss_bound, device=device),
-        step=jax.jit(update, device=device),
+        rollout=jax.jit(rollout_bound),
+        loss=jax.jit(loss_bound),
+        step=jax.jit(update),
     )
 
 

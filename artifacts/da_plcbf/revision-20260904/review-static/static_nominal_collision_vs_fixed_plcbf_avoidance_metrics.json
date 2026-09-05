@@ -1,0 +1,39 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "no_degraded_controller_steps": true,
+    "nominal_collides_with_physical_obstacle": true,
+    "plcbf_intervenes": true,
+    "plcbf_resumes_and_reaches_goal": true,
+    "plcbf_stays_outside_inflated_shell": true
+  },
+  "controller": {
+    "analytic_obstacle_hocbf": false,
+    "control_hz": 50.0,
+    "dt_seconds": 0.02,
+    "horizon": 60,
+    "obstacle_clearance": 0.15,
+    "policy_alpha": 2.0,
+    "steps": 400
+  },
+  "geometry": {
+    "drone_radius": 0.05,
+    "inflated_obstacle_radius": 0.679999989271164,
+    "physical_obstacle_radius": 0.47999998927116394
+  },
+  "purpose": "nominal collision versus fixed-library continuous PL-CBF avoidance",
+  "results": {
+    "degraded_steps": 0,
+    "fallback_execution_steps": 0,
+    "filtered_final_goal_distance": 0.0035300604067742825,
+    "filtered_minimum_obstacle_distance": 0.6958327569559367,
+    "filtered_minimum_shell_margin": 0.01583276768477271,
+    "maximum_qp_intervention_norm": 0.0028575127944350243,
+    "nominal_minimum_obstacle_distance": 0.15150954299285146,
+    "plcbf_dual_active_steps": 75,
+    "qp_intervention_steps_above_1e-3": 60
+  },
+  "scenario": "blocking_static",
+  "trace": "artifacts/da_plcbf/revision-20260904/review-static/static_trace.npz",
+  "trace_summary": "artifacts/da_plcbf/revision-20260904/review-static/static_trace.json"
+}

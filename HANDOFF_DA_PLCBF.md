@@ -1,5 +1,10 @@
 # Corrected DA-PLCBF mechanism-review handoff
 
+> **Superseded checkpoint.** Start with [DA_PLCBF_REVISION_REVIEW.md](DA_PLCBF_REVISION_REVIEW.md)
+> for the 2026-09-04 independent revision. The implementation and results below describe earlier
+> checkpoints; their completion claims do not validate the revised code. Final revision evidence
+> is tracked in the new review's numerical-results section.
+
 > **Current review path.** The corrected algorithm requested in the latest feedback supersedes the
 > admission-gated, uncertainty-sampled campaign path for this review. Start with
 > `CORRECTED_DA_PLCBF_REVIEW.md`. Everything below the explicit **Historical** heading is retained

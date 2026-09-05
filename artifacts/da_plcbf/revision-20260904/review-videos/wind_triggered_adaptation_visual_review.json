@@ -1,0 +1,91 @@
+{
+  "video": "artifacts/da_plcbf/revision-20260904/review-videos/wind_triggered_adaptation.mp4",
+  "media": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "duration": "18.050000",
+        "nb_frames": "361"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "label": "initial",
+      "video_time_seconds": 0.0,
+      "simulation_time_seconds": 0.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/wind_triggered_adaptation_frames/initial.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "wind_step",
+      "video_time_seconds": 4.0,
+      "simulation_time_seconds": 4.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/wind_triggered_adaptation_frames/wind_step.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "same_state_probe_pause",
+      "video_time_seconds": 5.65,
+      "simulation_time_seconds": 5.6,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/wind_triggered_adaptation_frames/same_state_probe_pause.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "frozen_collision",
+      "video_time_seconds": 8.4,
+      "simulation_time_seconds": 6.4,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/wind_triggered_adaptation_frames/frozen_collision.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "post_encounter",
+      "video_time_seconds": 10.0,
+      "simulation_time_seconds": 8.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/wind_triggered_adaptation_frames/post_encounter.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "final",
+      "video_time_seconds": 18.0,
+      "simulation_time_seconds": 15.98,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/wind_triggered_adaptation_frames/final.png",
+      "size": [
+        1600,
+        900
+      ]
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/revision-20260904/review-videos/wind_triggered_adaptation_contact_sheet.jpg",
+  "visual_inspection": {
+    "status": "passed",
+    "scope": "Six decoded keyframes; initial, wind-onset, probe-pause, frozen collision, and terminal frames examined at 1600x900.",
+    "observations": [
+      "Both views agree initially and at the 4.00 s wind change; both still report zero learning updates at the wind-onset frame.",
+      "The labeled 5.60 s pause shows adaptive version 79 and exact same-state H/counts: frozen -0.282512 / 0; compensated -0.080393 / 0; adaptive +0.072078 / 4.",
+      "Actual frozen H and its uncertified command status remain separate from the counterfactual probe. The adaptive QP is intervening with positive selected-row dual in the paused frame.",
+      "The frozen drone visibly collides by simulation 6.40 s; adaptive collision clearance remains positive.",
+      "Final frame shows adaptive version 598 and goal arrival; frozen collision history persists."
+    ],
+    "full_video_decode": "Passed: ffmpeg decoded all 361 frames without errors."
+  }
+}

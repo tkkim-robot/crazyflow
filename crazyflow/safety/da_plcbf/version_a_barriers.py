@@ -83,11 +83,14 @@ class VersionABarrierConfig:
     minimum_tie_tolerance: float = 1e-6
     model_tolerance: float = 2e-5
     quaternion_norm_tolerance: float = 2e-4
+    ego_radius: float = 0.0
+    include_obstacle_hocbf: bool = True
 
     def validate(self) -> None:
         """Reject nonphysical or nonfinite barrier settings."""
         finite_values = (
             self.obstacle_clearance,
+            self.ego_radius,
             self.arena_clearance,
             self.position_alpha_1,
             self.position_alpha_2,
@@ -103,7 +106,9 @@ class VersionABarrierConfig:
         )
         if not all(math.isfinite(value) for value in finite_values):
             raise ValueError("all Version-A barrier configuration values must be finite")
-        if self.obstacle_clearance < 0 or self.arena_clearance < 0:
+        if not isinstance(self.include_obstacle_hocbf, bool):
+            raise TypeError("include_obstacle_hocbf must be boolean")
+        if min(self.obstacle_clearance, self.ego_radius, self.arena_clearance) < 0:
             raise ValueError("physical clearances must be nonnegative")
         if (
             min(
@@ -350,7 +355,7 @@ def _safe_safety_data(
         jnp.all(jnp.isfinite(centers), axis=-1)
         & jnp.isfinite(radii)
         & (radii > 0)
-        & (radii + config.obstacle_clearance > 0)
+        & (radii + config.ego_radius + config.obstacle_clearance > 0)
     )
     safe_centers = jnp.where(mask[:, None] & jnp.isfinite(centers), centers, 0.0)
     safe_radii = jnp.where(mask & jnp.isfinite(radii) & (radii > 0), radii, 1.0)
@@ -415,7 +420,7 @@ def dimensionless_safety_values(
     safe_safety, safety_valid = _safe_safety_data(safety, config, state.dtype)
     pos, quat, vel, ang_vel = split_state(safe_state)
     relative = pos[None, :] - safe_safety.obstacle_centers
-    effective_radii = safe_safety.obstacle_radii + config.obstacle_clearance
+    effective_radii = safe_safety.obstacle_radii + config.ego_radius + config.obstacle_clearance
     obstacle_values = (jnp.sum(relative**2, axis=-1) - effective_radii**2) / effective_radii**2
     obstacle_values = jnp.where(safe_safety.obstacle_mask, obstacle_values, jnp.inf)
     arena_span = safe_safety.arena_upper - safe_safety.arena_lower
@@ -495,7 +500,12 @@ def _relative_degree_two(
 def continuous_safety_halfspaces(
     state: Array, model: VersionAModel, safety: RigidBodySafetySet, config: VersionABarrierConfig
 ) -> ContinuousBarrierHalfspaces:
-    """Construct every applicable analytic CBF/HOCBF wrench halfspace."""
+    """Construct operational faces plus explicitly enabled obstacle HOCBF faces.
+
+    Obstacle rows retain stable slots but are disabled independently of arena, altitude, speed,
+    angular-rate, and tilt limits when ``include_obstacle_hocbf`` is false. This separates
+    analytic collision avoidance from a rollout-value collision certificate.
+    """
     config.validate()
     split_state(state)
     safe_state, state_valid = _safe_state_and_validity(state, config.quaternion_norm_tolerance)
@@ -532,13 +542,15 @@ def continuous_safety_halfspaces(
 
     for index in range(safe_safety.obstacle_centers.shape[0]):
         center = safe_safety.obstacle_centers[index]
-        radius = safe_safety.obstacle_radii[index] + config.obstacle_clearance
+        radius = safe_safety.obstacle_radii[index] + config.ego_radius + config.obstacle_clearance
 
         def obstacle_h(z: Array, center: Array = center, radius: Array = radius) -> Array:
             relative = z[:3] - center
             return jnp.dot(relative, relative) - radius**2
 
-        add_second_order(obstacle_h, safe_safety.obstacle_mask[index])
+        add_second_order(
+            obstacle_h, safe_safety.obstacle_mask[index] & config.include_obstacle_hocbf
+        )
 
     for axis in range(3):
         lower = safe_safety.arena_lower[axis] + config.arena_clearance

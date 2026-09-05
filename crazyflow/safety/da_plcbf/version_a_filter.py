@@ -22,6 +22,7 @@ from typing import NamedTuple
 
 import jax
 import jax.numpy as jnp
+import jax.scipy.linalg as jsp_linalg
 from jax import Array
 
 from crazyflow.safety.da_plcbf.capsules import (
@@ -36,7 +37,11 @@ from crazyflow.safety.da_plcbf.direct_wrench import (
     motor_thrust_inequalities,
     wrench_to_motor_forces,
 )
-from crazyflow.safety.da_plcbf.polytope_qp import PolytopeQPResult, project_affine_polytope
+from crazyflow.safety.da_plcbf.polytope_qp import (
+    PolytopeQPResult,
+    _weight_matrix_and_validity,
+    project_affine_polytope,
+)
 from crazyflow.safety.da_plcbf.selector import PolicySelection, SelectionConfig, select_hard_policy
 from crazyflow.safety.da_plcbf.version_a_barriers import (
     ContinuousBarrierHalfspaces,
@@ -61,15 +66,17 @@ class VersionAActuator(NamedTuple):
 class PolicyLibraryCertificates(NamedTuple):
     """Hard finite-horizon values, generalized gradients, and first fallback wrenches.
 
-    ``values`` and ``gradients`` should come from
-    :func:`hard_finite_horizon_policy_certificate`.  ``gradient_valid`` must remain false for
-    nonfinite rollouts or tied active minima.  All arrays have a common leading policy dimension.
+    ``values`` are exact hard safety values used for selection and reporting. The optional
+    ``barrier_values`` may supply a conservative smooth lower bound whose matching derivative is
+    in ``gradients``. If omitted, gradients must represent unique hard minima; ambiguous hard
+    gradients must be marked invalid. All arrays have a common leading policy dimension.
     """
 
     values: Array
     gradients: Array
     gradient_valid: Array
     fallback_wrenches: Array
+    barrier_values: Array | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -79,6 +86,11 @@ class VersionAFilterConfig:
     ``selection_requires_certified_fallback`` preserves the original conservative selector by
     default.  The minimal continuous demo disables it: that path selects a positive-valued policy
     before solving the QP and checks the selected policy action separately only when the QP fails.
+    ``enforce_policy_barrier=False`` omits the PL-CBF row and its certificate prerequisite entirely
+    for an analytic-only comparator. Obstacle HOCBF faces can independently be disabled through
+    ``VersionABarrierConfig.include_obstacle_hocbf`` while operational faces remain enabled.
+    ``use_exact_qp_fast_path`` accepts an audited zero/one-active-face KKT solution when possible;
+    the complete active-set solver remains the fallback for every other QP.
     """
 
     policy_alpha: float = 2.0
@@ -91,6 +103,8 @@ class VersionAFilterConfig:
     allocation_model_tolerance: float = 2e-5
     enforce_analytic_barriers: bool = True
     selection_requires_certified_fallback: bool = True
+    enforce_policy_barrier: bool = True
+    use_exact_qp_fast_path: bool = True
 
     def validate(self) -> None:
         """Reject nonfinite rates, negative tolerances, or nonboolean switches."""
@@ -120,6 +134,10 @@ class VersionAFilterConfig:
             < 0
         ):
             raise ValueError("all Version-A filter tolerances must be nonnegative")
+        if not isinstance(self.use_exact_qp_fast_path, bool):
+            raise TypeError("use_exact_qp_fast_path must be boolean")
+        if not isinstance(self.enforce_policy_barrier, bool):
+            raise TypeError("enforce_policy_barrier must be boolean")
         if not isinstance(self.enforce_analytic_barriers, bool):
             raise TypeError("enforce_analytic_barriers must be boolean")
         if not isinstance(self.selection_requires_certified_fallback, bool):
@@ -183,6 +201,9 @@ class VersionAFilterResult(NamedTuple):
     qp_postcheck: WrenchPostcheck
     fallback_postcheck: WrenchPostcheck
     applied_postcheck: WrenchPostcheck
+    selected_policy_dual: Array
+    qp_kkt_valid: Array
+    qp_fast_path_used: Array
 
 
 def _check_actuator_shapes(actuator: VersionAActuator) -> None:
@@ -279,6 +300,11 @@ def _check_library_shapes(library: PolicyLibraryCertificates) -> int:
         raise ValueError("library.gradient_valid must be boolean shape (policy_count,)")
     if fallback.shape != (policy_count, 4):
         raise ValueError("library.fallback_wrenches must have shape (policy_count, 4)")
+    if (
+        library.barrier_values is not None
+        and jnp.asarray(library.barrier_values).shape != values.shape
+    ):
+        raise ValueError("library.barrier_values must match library.values")
     return policy_count
 
 
@@ -365,6 +391,113 @@ def motor_box_halfspace_fraction(
     return jnp.where(valid & jnp.isfinite(fraction), fraction, jnp.nan)
 
 
+def _project_with_exact_fast_path(
+    nominal: Array, weight: Array, matrix: Array, upper_bound: Array, config: VersionAFilterConfig
+) -> tuple[PolytopeQPResult, Array]:
+    """Use a zero/one-active-face KKT solution, otherwise enumerate the complete QP.
+
+    Projecting onto the selected policy face is the full QP optimum whenever that projection
+    also satisfies all motor/operational faces: its nonnegative policy multiplier and zero other
+    multipliers satisfy the complete KKT system. This is an exact shortcut, never a relaxed QP.
+    The analytic-only shortcut checks the nominal (all multipliers zero). A strict numerical
+    guard routes uncertain boundary cases to the original exhaustive solver.
+    """
+
+    def complete_projection(_: None) -> PolytopeQPResult:
+        return project_affine_polytope(
+            nominal,
+            weight,
+            matrix,
+            upper_bound,
+            tolerance=config.qp_tolerance,
+            rank_tolerance=config.qp_rank_tolerance,
+        )
+
+    if not config.use_exact_qp_fast_path:
+        return complete_projection(None), jnp.asarray(False)
+    weight_matrix, weight_valid = _weight_matrix_and_validity(
+        jnp.asarray(weight, dtype=nominal.dtype),
+        4,
+        jnp.asarray(config.qp_rank_tolerance, dtype=nominal.dtype),
+    )
+    input_valid = (
+        weight_valid
+        & jnp.all(jnp.isfinite(nominal))
+        & jnp.all(jnp.isfinite(matrix))
+        & jnp.all(jnp.isfinite(upper_bound))
+    )
+    safe_nominal = jnp.where(jnp.isfinite(nominal), nominal, 0.0)
+    safe_matrix = jnp.where(jnp.isfinite(matrix), matrix, 0.0)
+    safe_bound = jnp.where(jnp.isfinite(upper_bound), upper_bound, 0.0)
+    multipliers = jnp.zeros_like(upper_bound)
+    active_mask = jnp.zeros_like(upper_bound, dtype=bool)
+    if config.enforce_policy_barrier:
+        row = safe_matrix[-1]
+        if weight.ndim == 1:
+            weighted_normal = row / jnp.diag(weight_matrix)
+        else:
+            cholesky = jnp.linalg.cholesky(weight_matrix)
+            weighted_normal = jsp_linalg.cho_solve((cholesky, True), row)
+        denominator = jnp.dot(row, weighted_normal, precision=jax.lax.Precision.HIGHEST)
+        violation = jnp.dot(row, safe_nominal, precision=jax.lax.Precision.HIGHEST) - safe_bound[-1]
+        positive_denominator = denominator > 0.0
+        multiplier = jnp.maximum(violation, 0.0) / jnp.where(positive_denominator, denominator, 1.0)
+        action = safe_nominal - multiplier * weighted_normal
+        multipliers = multipliers.at[-1].set(multiplier)
+        active_mask = active_mask.at[-1].set(multiplier > 0.0)
+        solvable = positive_denominator | (violation <= 0.0)
+    else:
+        action = safe_nominal
+        solvable = jnp.asarray(True)
+    delta = action - safe_nominal
+    weighted_delta = jnp.matmul(weight_matrix, delta, precision=jax.lax.Precision.HIGHEST)
+    residuals = jnp.matmul(safe_matrix, action, precision=jax.lax.Precision.HIGHEST) - safe_bound
+    row_norm = jnp.linalg.norm(safe_matrix, axis=-1)
+    row_scale = jnp.where(row_norm > jnp.finfo(nominal.dtype).eps, row_norm, 1.0)
+    primal_residual = jnp.maximum(jnp.max(residuals), 0.0)
+    normalized_primal = jnp.maximum(jnp.max(residuals / row_scale), 0.0)
+    dual_residual = jnp.maximum(jnp.max(-multipliers), 0.0)
+    stationarity = weighted_delta + jnp.matmul(
+        safe_matrix.T, multipliers, precision=jax.lax.Precision.HIGHEST
+    )
+    stationarity_residual = jnp.max(jnp.abs(stationarity))
+    complementarity_residual = jnp.max(jnp.abs(multipliers * residuals))
+    finite = (
+        jnp.all(jnp.isfinite(action))
+        & jnp.all(jnp.isfinite(multipliers))
+        & jnp.isfinite(stationarity_residual)
+        & jnp.isfinite(complementarity_residual)
+    )
+    raw_primal_tolerance = min(
+        config.kkt_tolerance, config.barrier_tolerance, config.motor_tolerance
+    )
+    fast_valid = (
+        input_valid
+        & solvable
+        & finite
+        & (normalized_primal <= 0.25 * config.qp_tolerance)
+        & (primal_residual <= 0.25 * raw_primal_tolerance)
+        & (dual_residual <= 0.25 * config.kkt_tolerance)
+        & (stationarity_residual <= 0.25 * config.kkt_tolerance)
+        & (complementarity_residual <= 0.25 * config.kkt_tolerance)
+    )
+    fast_result = PolytopeQPResult(
+        action=action,
+        feasible=fast_valid,
+        input_valid=input_valid,
+        objective=0.5 * jnp.dot(delta, weighted_delta, precision=jax.lax.Precision.HIGHEST),
+        active_mask=active_mask,
+        active_count=jnp.sum(active_mask, dtype=jnp.int32),
+        multipliers=multipliers,
+        primal_residual=primal_residual,
+        dual_residual=dual_residual,
+        stationarity_residual=stationarity_residual,
+        complementarity_residual=complementarity_residual,
+    )
+    result = jax.lax.cond(fast_valid, lambda _: fast_result, complete_projection, operand=None)
+    return result, fast_valid
+
+
 def _wrench_postcheck(
     wrench: Array,
     *,
@@ -410,7 +543,7 @@ def _wrench_postcheck(
         & jnp.isfinite(roundtrip_error)
         & (roundtrip_error <= config.allocation_roundtrip_tolerance)
     )
-    policy_passed = (
+    policy_passed = (~jnp.asarray(config.enforce_policy_barrier)) | (
         has_certificate
         & jnp.isfinite(policy_residual)
         & (policy_residual >= -config.barrier_tolerance)
@@ -505,6 +638,11 @@ def version_a_plcbf_filter(
         raise ValueError("weight must have shape (4,) or (4, 4)")
     _check_library_shapes(library)
     values = jnp.asarray(library.values, dtype=state.dtype)
+    barrier_values = (
+        values
+        if library.barrier_values is None
+        else jnp.asarray(library.barrier_values, dtype=state.dtype)
+    )
     gradients = jnp.asarray(library.gradients, dtype=state.dtype)
     gradient_valid = jnp.asarray(library.gradient_valid, dtype=bool)
     fallback_wrenches = jnp.asarray(library.fallback_wrenches, dtype=state.dtype)
@@ -526,6 +664,8 @@ def version_a_plcbf_filter(
     )
     certificate_finite = (
         jnp.isfinite(values)
+        & jnp.isfinite(barrier_values)
+        & (barrier_values <= values + filter_config.barrier_tolerance)
         & jnp.all(jnp.isfinite(gradients), axis=-1)
         & jnp.all(jnp.isfinite(fallback_wrenches), axis=-1)
     )
@@ -534,7 +674,7 @@ def version_a_plcbf_filter(
     policy_control = safe_gradients @ control_terms.terms.input_matrix
     policy_rows = -policy_control
     policy_bounds = policy_drift + filter_config.policy_alpha * jnp.where(
-        jnp.isfinite(values), values, 0.0
+        jnp.isfinite(barrier_values), barrier_values, 0.0
     )
     admissible_fractions = jax.vmap(
         lambda row, bound: motor_box_halfspace_fraction(row, bound, motor_polytope)
@@ -570,6 +710,7 @@ def version_a_plcbf_filter(
         common_valid
         & certificate_finite
         & gradient_valid
+        & (barrier_values >= selection_config.minimum_hard_value)
         & (fallback_motor_margin >= -filter_config.motor_tolerance)
         & (fallback_policy_residual >= -filter_config.barrier_tolerance)
         & analytic_eligible
@@ -578,6 +719,7 @@ def version_a_plcbf_filter(
         common_valid
         & certificate_finite
         & gradient_valid
+        & (barrier_values >= selection_config.minimum_hard_value)
         & (fallback_motor_margin >= -filter_config.motor_tolerance)
     )
     selection_prerequisites = jnp.where(
@@ -598,23 +740,23 @@ def version_a_plcbf_filter(
     selected_row = policy_rows[selected_index]
     selected_bound = policy_bounds[selected_index]
 
+    qp_matrices = [motor_polytope.matrix]
+    qp_bounds = [motor_polytope.upper_bound]
     if filter_config.enforce_analytic_barriers:
-        qp_matrix = jnp.concatenate(
-            (motor_polytope.matrix, analytic.matrix, selected_row[None, :]), axis=0
+        # Disabled spherical obstacle faces are known zero rows with bound one. Keep their
+        # diagnostic slots, but do not enumerate their impossible rank-deficient active sets.
+        obstacle_rows = (
+            0 if barrier_config.include_obstacle_hocbf else safety.obstacle_centers.shape[0]
         )
-        qp_bound = jnp.concatenate(
-            (motor_polytope.upper_bound, analytic.upper_bound, selected_bound[None]), axis=0
-        )
-    else:
-        qp_matrix = jnp.concatenate((motor_polytope.matrix, selected_row[None, :]), axis=0)
-        qp_bound = jnp.concatenate((motor_polytope.upper_bound, selected_bound[None]), axis=0)
-    qp = project_affine_polytope(
-        nominal_wrench,
-        weight,
-        qp_matrix,
-        qp_bound,
-        tolerance=filter_config.qp_tolerance,
-        rank_tolerance=filter_config.qp_rank_tolerance,
+        qp_matrices.append(analytic.matrix[obstacle_rows:])
+        qp_bounds.append(analytic.upper_bound[obstacle_rows:])
+    if filter_config.enforce_policy_barrier:
+        qp_matrices.append(selected_row[None, :])
+        qp_bounds.append(selected_bound[None])
+    qp_matrix = jnp.concatenate(qp_matrices, axis=0)
+    qp_bound = jnp.concatenate(qp_bounds, axis=0)
+    qp, qp_fast_path_used = _project_with_exact_fast_path(
+        nominal_wrench, weight, qp_matrix, qp_bound, filter_config
     )
     qp_kkt_valid = (
         qp.feasible
@@ -635,7 +777,8 @@ def version_a_plcbf_filter(
         analytic_domain_valid=analytic.domain_valid,
         config=filter_config,
     )
-    qp_accepted = common_valid & has_certificate & qp_kkt_valid & qp_postcheck.passed
+    required_certificate = (~jnp.asarray(filter_config.enforce_policy_barrier)) | has_certificate
+    qp_accepted = common_valid & required_certificate & qp_kkt_valid & qp_postcheck.passed
 
     selected_fallback = fallback_wrenches[selected_index]
     fallback_postcheck = _wrench_postcheck(
@@ -650,8 +793,15 @@ def version_a_plcbf_filter(
         analytic_domain_valid=analytic.domain_valid,
         config=filter_config,
     )
-    fallback_certified = common_valid & has_certificate & fallback_postcheck.passed
-    fallback_actuator_safe = fallback_postcheck.actuator_passed
+    fallback_certified = (
+        filter_config.enforce_policy_barrier
+        & common_valid
+        & has_certificate
+        & fallback_postcheck.passed
+    )
+    fallback_actuator_safe = (
+        filter_config.enforce_policy_barrier & fallback_postcheck.actuator_passed
+    )
     best_effort_action = jnp.where(
         fallback_actuator_safe, selected_fallback, motor_polytope.midpoint_wrench
     )
@@ -670,18 +820,21 @@ def version_a_plcbf_filter(
         analytic_domain_valid=analytic.domain_valid,
         config=filter_config,
     )
-    input_valid = common_valid & certificate_finite[selected_index] & gradient_valid[selected_index]
+    input_valid = common_valid & (
+        (~jnp.asarray(filter_config.enforce_policy_barrier))
+        | (certificate_finite[selected_index] & gradient_valid[selected_index])
+    )
     return VersionAFilterResult(
         applied,
         selected_index,
         selection,
         has_certificate,
-        common_valid & has_certificate & qp.feasible,
+        common_valid & required_certificate & qp.feasible,
         qp_accepted,
         fallback_certified,
         ~qp_accepted,
         used_midpoint,
-        (~has_certificate) | ((~qp_accepted) & (~fallback_certified)),
+        (~required_certificate) | ((~qp_accepted) & (~fallback_certified)),
         input_valid,
         applied_postcheck.actuator_passed,
         values,
@@ -696,6 +849,11 @@ def version_a_plcbf_filter(
         qp_postcheck,
         fallback_postcheck,
         applied_postcheck,
+        qp.multipliers[-1]
+        if filter_config.enforce_policy_barrier
+        else jnp.asarray(0.0, state.dtype),
+        qp_kkt_valid,
+        qp_fast_path_used,
     )
 
 

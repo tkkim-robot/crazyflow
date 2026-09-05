@@ -1,0 +1,101 @@
+{
+  "video": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation.mp4",
+  "media": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "duration": "18.050000",
+        "nb_frames": "361"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "label": "initial",
+      "video_time_seconds": 0.0,
+      "simulation_time_seconds": 0.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation_frames/initial.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "wind_step",
+      "video_time_seconds": 4.0,
+      "simulation_time_seconds": 4.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation_frames/wind_step.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "same_state_probe_pause",
+      "video_time_seconds": 5.45,
+      "simulation_time_seconds": 5.4,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation_frames/same_state_probe_pause.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "encounter_comparison",
+      "video_time_seconds": 8.4,
+      "simulation_time_seconds": 6.4,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation_frames/encounter_comparison.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "post_encounter",
+      "video_time_seconds": 10.0,
+      "simulation_time_seconds": 8.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation_frames/post_encounter.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "final",
+      "video_time_seconds": 18.0,
+      "simulation_time_seconds": 15.98,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation_frames/final.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "minimum_compensated_clearance",
+      "video_time_seconds": 9.1,
+      "simulation_time_seconds": 7.1,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation_frames/minimum_compensated_clearance.png",
+      "size": [
+        1600,
+        900
+      ]
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/revision-20260904/review-videos/learned_vs_wind_compensation_contact_sheet.jpg",
+  "visual_inspection": {
+    "status": "passed",
+    "scope": "Six timeline keyframes/contact sheet plus one closest-compensation-clearance frame; paused probe, closest clearance, and terminal frame examined at 1600x900.",
+    "observations": [
+      "The compensation baseline is labeled FROZEN + WIND FEEDFORWARD and keeps version zero while the adaptive library updates.",
+      "The 5.40 s measured-probe pause separates each method's own H and execution status from exact counterfactual library H/counts.",
+      "At simulation 7.10 s, the compensated drone has positive physical-body clearance (displayed +0.05 m) but violates the inflated shell (displayed -0.10 m), with explicit UNCERTIFIED BEST EFFORT status.",
+      "The adaptive method retains a positive collision certificate and shell clearance and reaches the goal with zero recorded degraded steps.",
+      "Final cumulative status preserves the compensated method's 197 degraded steps; no physical-collision claim is made for that method."
+    ],
+    "full_video_decode": "Passed: ffmpeg decoded all 361 frames without errors."
+  }
+}

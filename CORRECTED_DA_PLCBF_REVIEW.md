@@ -1,5 +1,10 @@
 # Corrected DA-PLCBF review guide
 
+> **Superseded checkpoint.** The current entry point is
+> [DA_PLCBF_REVISION_REVIEW.md](DA_PLCBF_REVISION_REVIEW.md). This guide preserves the `938a3b2`
+> mechanism review and its artifacts; its passing results are not validation of the subsequent
+> isolation, learning, geometry, and renderer corrections.
+
 ## What this review covers
 
 This is the review entry point for the corrected algorithmic target. It supersedes the older

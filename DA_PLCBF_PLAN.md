@@ -1,5 +1,9 @@
 # Corrected DA-PLCBF mechanism implementation plan
 
+> **Superseded checkpoint.** Follow [DA_PLCBF_REVISION_REVIEW.md](DA_PLCBF_REVISION_REVIEW.md)
+> for the current independent revision, acceptance questions, and pending evidence. Completion
+> tables below apply to the prior implementation and remain as historical planning context.
+
 > **Superseding plan for the current review.** The latest corrected-algorithm feedback replaces the
 > admission-gated, uncertainty-sampled campaign workflow below. The old plan is retained after the
 > explicit **Historical** heading only as a record of prior work. It is not the acceptance plan for

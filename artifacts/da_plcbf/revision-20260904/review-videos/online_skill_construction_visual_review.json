@@ -1,0 +1,91 @@
+{
+  "video": "artifacts/da_plcbf/revision-20260904/review-videos/online_skill_construction.mp4",
+  "media": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "duration": "18.050000",
+        "nb_frames": "361"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "label": "initial",
+      "video_time_seconds": 0.0,
+      "simulation_time_seconds": 0.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/online_skill_construction_frames/initial.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "wind_step",
+      "video_time_seconds": 4.0,
+      "simulation_time_seconds": 4.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/online_skill_construction_frames/wind_step.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "same_state_probe_pause",
+      "video_time_seconds": 5.45,
+      "simulation_time_seconds": 5.4,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/online_skill_construction_frames/same_state_probe_pause.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "frozen_collision",
+      "video_time_seconds": 8.4,
+      "simulation_time_seconds": 6.4,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/online_skill_construction_frames/frozen_collision.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "post_encounter",
+      "video_time_seconds": 10.0,
+      "simulation_time_seconds": 8.0,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/online_skill_construction_frames/post_encounter.png",
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "label": "final",
+      "video_time_seconds": 18.0,
+      "simulation_time_seconds": 15.98,
+      "path": "artifacts/da_plcbf/revision-20260904/review-videos/online_skill_construction_frames/final.png",
+      "size": [
+        1600,
+        900
+      ]
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/revision-20260904/review-videos/online_skill_construction_contact_sheet.jpg",
+  "visual_inspection": {
+    "status": "passed",
+    "scope": "Six decoded keyframes and contact sheet; measured-probe pause, physical collision, and final frame examined at 1600x900.",
+    "observations": [
+      "Frozen-library body intersection is visible at simulation 6.40 s with COLLISION and UNCERTIFIED BEST EFFORT; collision history persists to the goal.",
+      "The learned library retains a positive collision certificate, remains outside the inflated shell, and reaches the goal.",
+      "At the labeled 5.40 s probe pause, same-state H/counts match the saved summary: frozen -0.319716 / 0; compensated -0.036768 / 0; adaptive +0.106960 / 5.",
+      "Probe values are explicitly counterfactual; actual per-method H, execution status, trajectories, and library versions remain separate and legible.",
+      "The video identifies the MuJoCo-rendered Version-A replay and 0.05 m drone collision radius."
+    ],
+    "full_video_decode": "Passed: ffmpeg decoded all 361 frames without errors."
+  }
+}

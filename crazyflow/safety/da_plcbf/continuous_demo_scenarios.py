@@ -37,6 +37,7 @@ class ContinuousDemoScenario:
     wind_after: Array
     wind_change_step: int
     skill_displacements: Array
+    ego_radius: float = 0.05
 
     def validate(self) -> None:
         """Validate fixed shapes, initial clearance, and one zero-to-constant wind contract."""
@@ -63,6 +64,8 @@ class ContinuousDemoScenario:
             raise ValueError("obstacle_mask must be boolean shape (obstacles,)")
         if not math.isfinite(self.obstacle_clearance) or self.obstacle_clearance < 0:
             raise ValueError("obstacle_clearance must be finite and nonnegative")
+        if not math.isfinite(self.ego_radius) or self.ego_radius < 0:
+            raise ValueError("ego_radius must be finite and nonnegative")
         if self.arena_lower.shape != (3,) or self.arena_upper.shape != (3,):
             raise ValueError("arena bounds must have shape (3,)")
         if not bool(jnp.all(self.arena_lower < self.arena_upper)):
@@ -81,7 +84,12 @@ class ContinuousDemoScenario:
         distances = jnp.linalg.norm(
             self.initial_state[None, :3] - self.obstacle_initial_centers, axis=-1
         )
-        if bool(jnp.any(active & (distances <= self.obstacle_radii + self.obstacle_clearance))):
+        if bool(
+            jnp.any(
+                active
+                & (distances <= self.obstacle_radii + self.ego_radius + self.obstacle_clearance)
+            )
+        ):
             raise ValueError("the scenario must not begin inside an inflated obstacle")
 
 
@@ -107,16 +115,21 @@ def _skill_displacements(dtype: jnp.dtype) -> Array:
 
 
 def blocking_static_scenario(*, dtype: jnp.dtype = jnp.float32) -> ContinuousDemoScenario:
-    """Return a sphere deliberately centred on the straight start-to-goal path."""
+    """Return a sphere blocking the nominal path with a small lateral offset.
+
+    The offset avoids an exactly symmetric goal-controller deadlock; the nominal centerline still
+    intersects the physical sphere. The centered safety-with-stall case remains a development
+    counterexample, since minimum intervention supplies no navigation progress guarantee.
+    """
     scenario = ContinuousDemoScenario(
         name="blocking_static",
         dt=0.02,
-        steps=300,
+        steps=400,
         horizon=60,
         initial_state=_state((-2.0, 0.0, 1.4), dtype),
         goal_position=jnp.asarray([2.0, 0.0, 1.4], dtype=dtype),
         goal_velocity=jnp.zeros(3, dtype=dtype),
-        obstacle_initial_centers=jnp.asarray([[0.0, 0.0, 1.4]], dtype=dtype),
+        obstacle_initial_centers=jnp.asarray([[0.0, 0.15, 1.4]], dtype=dtype),
         obstacle_velocities=jnp.zeros((1, 3), dtype=dtype),
         obstacle_radii=jnp.asarray([0.48], dtype=dtype),
         obstacle_mask=jnp.asarray([True]),
@@ -128,7 +141,7 @@ def blocking_static_scenario(*, dtype: jnp.dtype = jnp.float32) -> ContinuousDem
         tilt_max_radians=jnp.asarray(0.9, dtype=dtype),
         wind_before=jnp.zeros(3, dtype=dtype),
         wind_after=jnp.zeros(3, dtype=dtype),
-        wind_change_step=300,
+        wind_change_step=400,
         skill_displacements=_skill_displacements(dtype),
     )
     scenario.validate()
@@ -143,20 +156,20 @@ def constant_wind_scenario(*, dtype: jnp.dtype = jnp.float32) -> ContinuousDemoS
         steps=600,
         horizon=60,
         initial_state=_state((-3.0, 0.0, 1.4), dtype),
-        goal_position=jnp.asarray([3.0, 0.0, 1.4], dtype=dtype),
+        goal_position=jnp.asarray([10.0, 0.0, 1.4], dtype=dtype),
         goal_velocity=jnp.zeros(3, dtype=dtype),
-        obstacle_initial_centers=jnp.asarray([[1.0, 0.0, 1.4]], dtype=dtype),
-        obstacle_velocities=jnp.zeros((1, 3), dtype=dtype),
-        obstacle_radii=jnp.asarray([0.5], dtype=dtype),
-        obstacle_mask=jnp.asarray([True]),
+        obstacle_initial_centers=jnp.asarray([[5.8, 0.0, 1.2], [7.3, 0.15, 2.65]], dtype=dtype),
+        obstacle_velocities=jnp.zeros((2, 3), dtype=dtype),
+        obstacle_radii=jnp.asarray([0.55, 0.55], dtype=dtype),
+        obstacle_mask=jnp.asarray([True, True]),
         obstacle_clearance=0.15,
         arena_lower=jnp.asarray([-5.0, -3.5, 0.15], dtype=dtype),
-        arena_upper=jnp.asarray([5.0, 3.5, 3.5], dtype=dtype),
+        arena_upper=jnp.asarray([12.0, 4.0, 4.0], dtype=dtype),
         speed_max=jnp.asarray(3.5, dtype=dtype),
         angular_rate_max=jnp.asarray(12.0, dtype=dtype),
         tilt_max_radians=jnp.asarray(0.9, dtype=dtype),
         wind_before=jnp.zeros(3, dtype=dtype),
-        wind_after=jnp.asarray([1.8, 1.0, 0.0], dtype=dtype),
+        wind_after=jnp.asarray([0.9, 0.55, 0.0], dtype=dtype),
         wind_change_step=200,
         skill_displacements=_skill_displacements(dtype),
     )

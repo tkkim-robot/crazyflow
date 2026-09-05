@@ -451,3 +451,122 @@ def test_infeasible_fallback_wrench_uses_motor_midpoint_and_marks_degraded(
 def test_invalid_filter_configuration_is_rejected(config: VersionAFilterConfig) -> None:
     with pytest.raises(ValueError):
         config.validate()
+
+
+def test_analytic_only_omits_policy_row_and_matches_independent_baseline(
+    setup: tuple[dict[str, Any], VersionAModel, VersionAActuator, RigidBodySafetySet],
+) -> None:
+    from crazyflow.safety.da_plcbf.version_a_analytic_filter import version_a_analytic_filter
+
+    params, model, actuator, safety = setup
+    hover = jnp.asarray([params["mass"] * 9.81, 0.0, 0.0, 0.0], dtype=jnp.float64)
+    library = _library(hover, values=(-1.0,))._replace(gradient_valid=jnp.asarray([False]))
+    weight = jnp.asarray([1.0, 2.0e4, 2.0e4, 2.0e4], dtype=jnp.float64)
+    nominal = jnp.zeros(4, dtype=jnp.float64)
+    result = version_a_plcbf_filter(
+        _state(),
+        nominal,
+        weight,
+        library,
+        model,
+        actuator,
+        safety,
+        VersionABarrierConfig(),
+        VersionAFilterConfig(enforce_policy_barrier=False),
+    )
+    baseline = version_a_analytic_filter(
+        _state(), nominal, weight, model, actuator, safety, VersionABarrierConfig()
+    )
+    assert not bool(result.has_certificate)
+    assert bool(result.qp_accepted)
+    assert bool(result.qp_kkt_valid)
+    assert float(result.selected_policy_dual) == 0.0
+    assert result.qp.multipliers.shape == baseline.qp.multipliers.shape
+    np.testing.assert_allclose(result.action, baseline.action, atol=1e-12)
+    np.testing.assert_allclose(result.qp.multipliers, baseline.qp.multipliers, atol=1e-12)
+
+
+def test_conservative_barrier_uses_its_own_value_with_matching_gradient(
+    setup: tuple[dict[str, Any], VersionAModel, VersionAActuator, RigidBodySafetySet],
+) -> None:
+    params, model, actuator, safety = setup
+    hover = jnp.asarray([params["mass"] * 9.81, 0.0, 0.0, 0.0], dtype=jnp.float64)
+    library = _library(hover, values=(1.0,))._replace(barrier_values=jnp.asarray([0.1]))
+    result = version_a_plcbf_filter(
+        _state(),
+        hover,
+        jnp.ones(4),
+        library,
+        model,
+        actuator,
+        safety,
+        VersionABarrierConfig(),
+        VersionAFilterConfig(enforce_analytic_barriers=False),
+    )
+    np.testing.assert_allclose(result.selected_policy_bound, -9.81 + 2.0 * 0.1, atol=1e-12)
+    assert bool(result.qp_accepted)
+    np.testing.assert_allclose(result.selected_policy_dual, result.qp.multipliers[-1])
+
+
+@pytest.mark.parametrize(
+    ("case", "policy", "expected_fast"),
+    [
+        ("nominal", True, True),
+        ("single_policy", True, True),
+        ("full_weight", True, True),
+        ("multiple_faces", True, False),
+        ("invalid_weight", True, False),
+        ("nominal", False, True),
+        ("multiple_faces", False, False),
+    ],
+)
+def test_exact_fast_path_matches_exhaustive_qp(
+    case: str, policy: bool, expected_fast: bool
+) -> None:
+    """A KKT shortcut is exact only when every additional face also permits its action."""
+    from crazyflow.safety.da_plcbf.polytope_qp import project_affine_polytope
+    from crazyflow.safety.da_plcbf.version_a_filter import _project_with_exact_fast_path
+
+    dtype = jnp.float64
+    matrix = jnp.concatenate((-jnp.eye(4), jnp.eye(4)))
+    bound = jnp.ones(8)
+    if policy:
+        matrix = jnp.concatenate((matrix, jnp.asarray([[1.0, 0.5, 0.0, 0.0]])))
+        bound = jnp.concatenate((bound, jnp.asarray([0.2])))
+    nominal = jnp.asarray([0.7, 0.2, 0.0, 0.0], dtype=dtype)
+    weight = jnp.asarray([1.0, 2.0, 3.0, 4.0], dtype=dtype)
+    if case == "nominal":
+        nominal = jnp.zeros(4, dtype=dtype)
+    elif case == "multiple_faces":
+        nominal = jnp.asarray([3.0, -2.0, 0.5, 0.0], dtype=dtype)
+    elif case == "invalid_weight":
+        weight = weight.at[0].set(0.0)
+    elif case == "full_weight":
+        weight = jnp.diag(weight).at[0, 1].set(0.2).at[1, 0].set(0.2)
+    config = VersionAFilterConfig(enforce_policy_barrier=policy)
+    shortcut, used_fast = jax.jit(
+        lambda point: _project_with_exact_fast_path(point, weight, matrix, bound, config)
+    )(nominal)
+    reference = project_affine_polytope(
+        nominal,
+        weight,
+        matrix,
+        bound,
+        tolerance=config.qp_tolerance,
+        rank_tolerance=config.qp_rank_tolerance,
+    )
+    assert bool(used_fast) == expected_fast
+    assert bool(shortcut.feasible) == bool(reference.feasible)
+    assert bool(shortcut.input_valid) == bool(reference.input_valid)
+    np.testing.assert_allclose(
+        shortcut.action, reference.action, atol=2e-6, rtol=2e-6, equal_nan=True
+    )
+    np.testing.assert_allclose(shortcut.objective, reference.objective, atol=3e-6, rtol=2e-6)
+    if bool(shortcut.feasible):
+        assert float(shortcut.primal_residual) <= config.kkt_tolerance
+        assert float(shortcut.dual_residual) <= config.kkt_tolerance
+        assert float(shortcut.stationarity_residual) <= config.kkt_tolerance
+        assert float(shortcut.complementarity_residual) <= config.kkt_tolerance
+        np.testing.assert_allclose(
+            shortcut.multipliers, reference.multipliers, atol=2e-6, rtol=2e-6
+        )

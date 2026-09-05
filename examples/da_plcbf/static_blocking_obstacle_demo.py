@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Any
 
@@ -20,11 +20,13 @@ import numpy as np
 
 from crazyflow.drones import load_params
 from crazyflow.safety.da_plcbf.continuous_demo_scenarios import (
+    ContinuousDemoScenario,
     blocking_static_scenario,
     scenario_obstacle_window,
     scenario_safety_limits,
 )
 from crazyflow.safety.da_plcbf.continuous_version_a import (
+    QP_REJECTION_REASONS,
     ContinuousVersionAConfig,
     augmented_policy_rollouts,
     continuous_version_a_step,
@@ -38,6 +40,10 @@ from crazyflow.safety.da_plcbf.mujoco_comparison_video import (
     MethodVideoTrace,
     ObstacleTrack,
     render_comparison_video,
+)
+from crazyflow.safety.da_plcbf.online_constant_wind import (
+    OnlineConstantWindResult,
+    save_online_constant_wind_result,
 )
 from crazyflow.safety.da_plcbf.quad_policy import QuadPolicyConfig
 from crazyflow.safety.da_plcbf.quad_rollouts import direct_wrench_symplectic_step
@@ -93,6 +99,9 @@ def _method_trace(records: dict[str, list[np.ndarray | float | int]]) -> MethodV
         "gradient_norm",
         "parameter_update_norm",
         "minimum_library_value",
+        "maximum_library_value",
+        "selected_policy_value",
+        "selected_policy_dual",
     )
     arrays = {name: np.asarray(records[name], dtype=np.float64) for name in float_fields}
     return MethodVideoTrace(
@@ -113,6 +122,13 @@ def _method_trace(records: dict[str, list[np.ndarray | float | int]]) -> MethodV
         gradient_norm=arrays["gradient_norm"],
         parameter_update_norm=arrays["parameter_update_norm"],
         minimum_library_value=arrays["minimum_library_value"],
+        maximum_library_value=arrays["maximum_library_value"],
+        selected_policy_value=arrays["selected_policy_value"],
+        selected_policy_dual=arrays["selected_policy_dual"],
+        qp_valid=np.asarray(records["qp_valid"], dtype=bool),
+        used_fallback=np.asarray(records["used_fallback"], dtype=bool),
+        degraded=np.asarray(records["degraded"], dtype=bool),
+        qp_rejection_flags=np.asarray(records["qp_rejection_flags"], dtype=bool),
     )
 
 
@@ -137,6 +153,13 @@ def _empty_records() -> dict[str, list[np.ndarray | float | int]]:
             "gradient_norm",
             "parameter_update_norm",
             "minimum_library_value",
+            "maximum_library_value",
+            "selected_policy_value",
+            "selected_policy_dual",
+            "qp_valid",
+            "used_fallback",
+            "degraded",
+            "qp_rejection_flags",
         )
     }
 
@@ -151,6 +174,7 @@ def _append_context(
     intervention_world: np.ndarray,
     intervention_norm: float,
     descriptor_targets: np.ndarray,
+    decision: Any = None,
 ) -> None:
     states = np.asarray(candidate_states, dtype=np.float64)
     hard_values = np.asarray(values, dtype=np.float64)
@@ -176,15 +200,34 @@ def _append_context(
     records["gradient_norm"].append(0.0)
     records["parameter_update_norm"].append(0.0)
     records["minimum_library_value"].append(float(np.min(hard_values[1:])))
+    records["maximum_library_value"].append(float(np.max(hard_values)))
+    records["selected_policy_value"].append(float(hard_values[selected_augmented_index]))
+    records["selected_policy_dual"].append(
+        0.0 if decision is None else float(np.asarray(decision.selected_policy_dual))
+    )
+    records["qp_valid"].append(False if decision is None else bool(decision.qp_valid))
+    records["used_fallback"].append(False if decision is None else bool(decision.used_fallback))
+    records["degraded"].append(False if decision is None else bool(decision.degraded))
+    records["qp_rejection_flags"].append(
+        np.zeros(len(QP_REJECTION_REASONS), dtype=bool)
+        if decision is None
+        else np.asarray(decision.qp_rejection_flags)
+    )
 
 
-def run_static_demo() -> tuple[ComparisonVideoTrace, dict[str, object]]:
+def run_static_demo(
+    *, scenario: ContinuousDemoScenario | None = None
+) -> tuple[ComparisonVideoTrace, dict[str, object]]:
     """Run and validate the one blocking-obstacle comparison used for review."""
-    scenario = blocking_static_scenario()
+    if scenario is None:
+        scenario = blocking_static_scenario()
     model, actuator = _resources()
     quad_config = QuadPolicyConfig()
     controller_config = ContinuousVersionAConfig(
-        dt=scenario.dt, horizon=60, obstacle_clearance=0.15
+        dt=scenario.dt,
+        horizon=scenario.horizon,
+        obstacle_clearance=scenario.obstacle_clearance,
+        ego_radius=scenario.ego_radius,
     )
     if scenario.horizon != controller_config.horizon:
         raise RuntimeError("the review scenario must use the exact H=60 certificate horizon")
@@ -199,7 +242,9 @@ def run_static_demo() -> tuple[ComparisonVideoTrace, dict[str, object]]:
     )
     obstacles = scenario_obstacle_window(scenario, 0)
     safety_limits = scenario_safety_limits(scenario)
-    barrier_config = VersionABarrierConfig(obstacle_clearance=0.15)
+    barrier_config = VersionABarrierConfig(
+        obstacle_clearance=scenario.obstacle_clearance + scenario.ego_radius
+    )
     filter_config = VersionAFilterConfig(policy_alpha=2.0)
 
     def nominal_context(state: jax.Array) -> tuple[jax.Array, jax.Array, jax.Array]:
@@ -207,7 +252,10 @@ def run_static_demo() -> tuple[ComparisonVideoTrace, dict[str, object]]:
             state, nominal_rollout, fallback_rollouts, model, horizon=controller_config.horizon
         )
         values = runtime_policy_values(
-            candidates.states, obstacles, obstacle_clearance=controller_config.obstacle_clearance
+            candidates.states,
+            obstacles,
+            obstacle_clearance=controller_config.obstacle_clearance,
+            ego_radius=scenario.ego_radius,
         )
         return candidates.states, candidates.wrenches, values.values
 
@@ -271,6 +319,7 @@ def run_static_demo() -> tuple[ComparisonVideoTrace, dict[str, object]]:
             intervention_world=_world_force_intervention(filtered_state, delta_wrench),
             intervention_norm=intervention,
             descriptor_targets=descriptor_targets,
+            decision=decision,
         )
         nominal_minimum = min(
             nominal_minimum, float(np.linalg.norm(np.asarray(nominal_state[:3]) - obstacle_center))
@@ -290,20 +339,19 @@ def run_static_demo() -> tuple[ComparisonVideoTrace, dict[str, object]]:
             previous_index = decision.selected_index
 
     physical_radius = float(np.asarray(scenario.obstacle_radii[0]))
-    inflated_radius = physical_radius + controller_config.obstacle_clearance
+    inflated_radius = physical_radius + scenario.ego_radius + controller_config.obstacle_clearance
     final_goal_distance = float(
         np.linalg.norm(np.asarray(filtered_state[:3] - scenario.goal_position))
     )
     checks = {
-        "nominal_collides_with_physical_obstacle": nominal_minimum < physical_radius,
+        "nominal_collides_with_physical_obstacle": nominal_minimum
+        < physical_radius + scenario.ego_radius,
         "plcbf_stays_outside_inflated_shell": filtered_minimum > inflated_radius,
         "plcbf_intervenes": maximum_intervention > 1e-3,
         "no_degraded_controller_steps": degraded_steps == 0,
         "plcbf_resumes_and_reaches_goal": final_goal_distance < 0.1,
     }
     failed = [name for name, passed in checks.items() if not passed]
-    if failed:
-        raise RuntimeError("static review gate failed: " + ", ".join(failed))
 
     sample_count = scenario.steps + 1
     time_seconds = np.arange(sample_count, dtype=np.float64) * scenario.dt
@@ -323,15 +371,16 @@ def run_static_demo() -> tuple[ComparisonVideoTrace, dict[str, object]]:
         estimated_wind=np.zeros((sample_count, 3), dtype=np.float64),
         wind_change_time=float(time_seconds[-1]),
         descriptor_targets=descriptor_targets,
-        fixed=_method_trace(nominal_records),
-        adaptive=_method_trace(filtered_records),
+        fixed=replace(_method_trace(nominal_records), control_mode="nominal"),
+        adaptive=replace(_method_trace(filtered_records), control_mode="plcbf"),
         title=(
             "Static blocking obstacle: nominal collision vs continuous fixed-library "
             "PL-CBF avoidance"
         ),
-        left_label="NOMINAL ONLY — COLLIDES",
-        right_label="FIXED-LIBRARY CONTINUOUS PL-CBF — AVOIDS",
+        left_label="NOMINAL CONTROLLER",
+        right_label="FIXED PL-CBF | no obstacle HOCBF",
         show_wind_change_banner=False,
+        drone_radius=scenario.ego_radius,
     )
     trace.validate()
     metrics: dict[str, object] = {
@@ -344,9 +393,11 @@ def run_static_demo() -> tuple[ComparisonVideoTrace, dict[str, object]]:
             "horizon": controller_config.horizon,
             "obstacle_clearance": controller_config.obstacle_clearance,
             "policy_alpha": filter_config.policy_alpha,
+            "analytic_obstacle_hocbf": False,
         },
         "geometry": {
             "physical_obstacle_radius": physical_radius,
+            "drone_radius": scenario.ego_radius,
             "inflated_obstacle_radius": inflated_radius,
         },
         "results": {
@@ -358,9 +409,12 @@ def run_static_demo() -> tuple[ComparisonVideoTrace, dict[str, object]]:
             "fallback_execution_steps": fallback_execution_steps,
             "degraded_steps": degraded_steps,
             "filtered_final_goal_distance": final_goal_distance,
+            "plcbf_dual_active_steps": int(
+                np.count_nonzero(np.asarray(filtered_records["selected_policy_dual"]) > 1e-6)
+            ),
         },
         "checks": checks,
-        "all_checks_passed": True,
+        "all_checks_passed": not failed,
     }
     return trace, metrics
 
@@ -391,6 +445,11 @@ def main() -> None:
         raise FileExistsError(video_path)
 
     trace, metrics = run_static_demo()
+    trace_path, summary_path = save_online_constant_wind_result(
+        OnlineConstantWindResult(trace, metrics), args.output_dir, stem="static_trace"
+    )
+    metrics["trace"] = str(trace_path)
+    metrics["trace_summary"] = str(summary_path)
     video_result = None
     if not args.no_render:
         video_result = render_comparison_video(

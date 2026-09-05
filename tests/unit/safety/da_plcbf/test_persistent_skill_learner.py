@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+from dataclasses import replace
 from typing import Any
 
 import jax
@@ -14,6 +15,7 @@ from crazyflow.safety.da_plcbf.persistent_skill_learner import (
     build_persistent_skill_learner,
     initialize_skill_actor,
     obstacle_agnostic_skill_actions,
+    rollout_skill_library,
 )
 from crazyflow.safety.da_plcbf.version_a_barriers import VersionAModel
 from crazyflow.safety.da_plcbf.version_a_filter import VersionAActuator
@@ -112,3 +114,105 @@ def test_nan_micro_step_is_the_only_skip_and_preserves_last_finite_version() -> 
         strict=True,
     ):
         np.testing.assert_array_equal(preserved, previous)
+
+
+def test_model_compensation_cancels_known_drag_outside_behavior_saturation() -> None:
+    model, _, config, spec, params, initial_state = _problem()
+    states = jnp.broadcast_to(initial_state, (4, 13)).at[:, 7:10].set(jnp.asarray([0.4, -0.2, 0.0]))
+    point_model = model._replace(wind_velocity=jnp.asarray([1.2, 0.3, 0.0]))
+    raw = obstacle_agnostic_skill_actions(
+        params, spec, states, initial_state[:3], jnp.asarray(0.5), config
+    )
+    compensated = obstacle_agnostic_skill_actions(
+        params,
+        spec,
+        states,
+        initial_state[:3],
+        jnp.asarray(0.5),
+        replace(config, model_compensation=True),
+        point_model=point_model,
+    )
+    expected = -(model.drag_matrix @ (states[:, 7:10] - point_model.wind_velocity).T).T / model.mass
+    np.testing.assert_allclose(compensated - raw, expected, rtol=2e-6, atol=1e-6)
+
+
+def test_descriptor_targets_and_rollouts_obey_displacement_mean_velocity_identity() -> None:
+    model, actuator, config, _, params, initial_state = _problem()
+    duration = config.dt * config.horizon
+    spec = build_fibonacci_skill_spec(
+        policy_count=4,
+        latent_size=3,
+        minimum_duration=0.04,
+        maximum_duration=0.08,
+        horizon_duration=duration,
+    )
+    np.testing.assert_allclose(
+        spec.target_descriptors[:, :3], duration * spec.target_descriptors[:, 3:6], atol=1e-7
+    )
+    rollout = rollout_skill_library(
+        params, spec, initial_state, model, actuator, replace(config, smooth_motor_bounds=False)
+    )
+    np.testing.assert_allclose(
+        rollout.descriptors[:, :3], duration * rollout.descriptors[:, 3:6], atol=2e-7
+    )
+
+
+def test_hard_motor_bounds_preserve_unsaturated_hover() -> None:
+    model, actuator, config, spec, params, initial_state = _problem()
+    spec = spec.replace(base_desired_velocities=jnp.zeros_like(spec.base_desired_velocities))
+    rollout = rollout_skill_library(
+        params,
+        spec,
+        initial_state,
+        model,
+        actuator,
+        replace(config, smooth_motor_bounds=False, residual_scale=0.0),
+    )
+    np.testing.assert_allclose(
+        rollout.states[:, :, :3],
+        jnp.broadcast_to(initial_state[:3], rollout.states[:, :, :3].shape),
+        atol=1e-7,
+    )
+
+
+def test_zero_initial_skill_scale_removes_directional_scaffold_but_preserves_targets() -> None:
+    _, _, config, spec, _, initial_state = _problem()
+    config = replace(config, initial_skill_scale=0.0, initial_residual_scale=0.0)
+    params = initialize_skill_actor(jax.random.key(7), spec, config)
+    states = jnp.broadcast_to(initial_state, (4, 13))
+    action = obstacle_agnostic_skill_actions(
+        params, spec, states, initial_state[:3], jnp.asarray(0.0), config
+    )
+    np.testing.assert_array_equal(params.velocity_offsets, -spec.base_desired_velocities)
+    np.testing.assert_array_equal(action, 0.0)
+    assert np.linalg.norm(np.asarray(spec.target_descriptors)) > 0.0
+    assert np.linalg.norm(np.asarray(spec.latent_codes)) > 0.0
+    moving = states.at[:, 7].set(0.2)
+    braking_action = obstacle_agnostic_skill_actions(
+        params, spec, moving, initial_state[:3], jnp.asarray(0.0), config
+    )
+    assert np.all(np.asarray(braking_action)[:, 0] < 0.0)
+
+
+def test_nominal_model_compensation_cancels_vertical_wind_at_hover() -> None:
+    from crazyflow.safety.da_plcbf.quad_policy import QuadPolicyConfig, waypoint_nominal_wrench
+    from crazyflow.safety.da_plcbf.quad_rollouts import direct_wrench_symplectic_step
+
+    model, actuator, _, _, _, initial_state = _problem()
+    model = model._replace(wind_velocity=jnp.asarray([0.0, 0.0, 0.8]))
+    plain = waypoint_nominal_wrench(
+        initial_state, initial_state[:3], jnp.zeros(3), model, actuator, QuadPolicyConfig()
+    )
+    compensated = waypoint_nominal_wrench(
+        initial_state,
+        initial_state[:3],
+        jnp.zeros(3),
+        model,
+        actuator,
+        QuadPolicyConfig(),
+        model_compensation=True,
+    )
+    plain_next = direct_wrench_symplectic_step(initial_state, plain.wrench, model, 0.02)
+    compensated_next = direct_wrench_symplectic_step(initial_state, compensated.wrench, model, 0.02)
+    assert abs(float(plain_next[9])) > 1e-3
+    np.testing.assert_allclose(compensated_next[7:10], 0.0, atol=1e-7)

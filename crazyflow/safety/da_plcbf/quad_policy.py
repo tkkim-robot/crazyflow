@@ -244,19 +244,32 @@ def waypoint_nominal_wrench(
     *,
     position_gain: float = 2.0,
     velocity_gain: float = 1.4,
+    model_compensation: bool = False,
 ) -> QuadWrenchCommand:
-    """Separate waypoint task controller; targets never enter fallback-library observations."""
+    """Waypoint controller with optional current-point-model disturbance feedforward.
+
+    Feedforward compensates known wind/drag and external force after the behavioral acceleration
+    bound; motor limits still apply. The comparison enables this identically for every method.
+    Targets never enter fallback-library observations.
+    """
     config.validate()
     if state.shape != (13,) or target_position.shape != (3,) or target_velocity.shape != (3,):
         raise ValueError("state must be (13,) and waypoint position/velocity must be (3,)")
     if not all(math.isfinite(value) and value > 0 for value in (position_gain, velocity_gain)):
         raise ValueError("waypoint gains must be finite and positive")
+    if not isinstance(model_compensation, bool):
+        raise TypeError("model_compensation must be boolean")
     raw_acceleration = position_gain * (target_position - state[:3]) + velocity_gain * (
         target_velocity - state[7:10]
     )
     desired_acceleration = config.acceleration_limit * jnp.tanh(
         raw_acceleration / config.acceleration_limit
     )
+    if model_compensation:
+        rotation = quaternion_to_rotation_matrix(state[3:7])
+        relative_body = rotation.T @ (state[7:10] - model.wind_velocity)
+        external_world = rotation @ model.drag_matrix @ relative_body + model.external_force
+        desired_acceleration = desired_acceleration - external_world / jnp.reshape(model.mass, ())
     return acceleration_to_feasible_wrench(
         desired_acceleration,
         state[3:7],

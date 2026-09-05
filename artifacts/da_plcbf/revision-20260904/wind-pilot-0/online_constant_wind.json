@@ -1,0 +1,1909 @@
+{
+  "drone_radius": 0.05,
+  "left_label": "FIXED-LIBRARY PL-CBF",
+  "method_names": [
+    "fixed",
+    "adaptive",
+    "analytic",
+    "compensated"
+  ],
+  "obstacle_labels": [
+    "obstacle 1",
+    "obstacle 2"
+  ],
+  "right_label": "CONTINUOUSLY ADAPTIVE DA-PLCBF",
+  "show_wind_change_banner": true,
+  "summary": {
+    "acceptance_adaptive_final_goal_distance_below_0p5_m": true,
+    "acceptance_adaptive_inflated_clearance_positive": true,
+    "acceptance_adaptive_shared_probe_spread_recovery": false,
+    "acceptance_adaptive_shared_probe_target_recovery": true,
+    "acceptance_adaptive_useful_safe_coverage_recovery": true,
+    "acceptance_all_corrected_mechanism_gates": false,
+    "acceptance_every_finite_step_published_persistently": true,
+    "acceptance_exactly_one_constant_wind_step": true,
+    "acceptance_frozen_library_has_postwind_descriptor_bias": true,
+    "acceptance_point_estimator_converged_below_0p01_mps": true,
+    "acceptance_prewind_methods_identical": true,
+    "acceptance_qp_intervention_above_1e-5": true,
+    "acceptance_zero_degraded_controller_steps": true,
+    "adaptation_improved_shared_safe_coverage": true,
+    "adaptation_restored_physical_safety": false,
+    "adaptive_analytic_obstacle_hocbf_enabled": false,
+    "adaptive_closest_obstacle_time_seconds": 8.0,
+    "adaptive_control_mode": "plcbf",
+    "adaptive_controller_missed_20ms_count": 600,
+    "adaptive_controller_missed_50ms_count": 1,
+    "adaptive_controller_timing": {
+      "count": 600,
+      "maximum_seconds": 3.7749036580789834,
+      "median_seconds": 0.024793379474431276,
+      "p95_seconds": 0.02517113583162427
+    },
+    "adaptive_degraded_step_count": 0,
+    "adaptive_estimator_timing": {
+      "count": 600,
+      "maximum_seconds": 0.00042780092917382717,
+      "median_seconds": 0.00014702393673360348,
+      "p95_seconds": 0.00017879488877952098
+    },
+    "adaptive_experiment_success": true,
+    "adaptive_fallback_execution_count": 6,
+    "adaptive_final_descriptor_target_loss": 0.00967441126704216,
+    "adaptive_final_diversity_loss": 49.28366470336914,
+    "adaptive_final_goal_distance_m": 0.20985037088394165,
+    "adaptive_final_safe_fallback_count": 8,
+    "adaptive_first_negative_library_H_time_seconds": null,
+    "adaptive_gradient_steps": 398,
+    "adaptive_integrated_intervention_norm_seconds": 0.004139299970120192,
+    "adaptive_library_version": 398,
+    "adaptive_max_qp_intervention_norm": 0.005802822299301624,
+    "adaptive_maximum_policy_dual": 0.0014904895797371864,
+    "adaptive_minimum_inflated_clearance_m": 0.013972407148330285,
+    "adaptive_minimum_library_maximum_value": 0.021195173263549805,
+    "adaptive_minimum_physical_clearance_m": 0.16397240714833028,
+    "adaptive_model_compensated_fallbacks": false,
+    "adaptive_negative_library_H_duration_seconds": 0.0,
+    "adaptive_negative_library_H_step_count": 0,
+    "adaptive_parameter_delta_norm": 3.939091682434082,
+    "adaptive_parameters_updated": true,
+    "adaptive_physical_collision": false,
+    "adaptive_point_wind_final_error_mps": 5.611518076875655e-07,
+    "adaptive_point_wind_finite_updates": 600,
+    "adaptive_policy_dual_active_step_count": 102,
+    "adaptive_policy_value_constraint_enabled": true,
+    "adaptive_qp_rejection_counts": {
+      "actuator_failed": 0,
+      "analytic_barrier_failed": 0,
+      "held_interval_failed": 0,
+      "invalid_input": 0,
+      "kkt_failed": 5,
+      "no_policy_certificate": 0,
+      "policy_residual_failed": 6,
+      "qp_infeasible": 0
+    },
+    "adaptive_qp_valid_step_count": 594,
+    "adaptive_zero_degraded_controller_steps": true,
+    "all_attempted_bptt_updates_finite": true,
+    "all_checks_passed": false,
+    "analytic_analytic_obstacle_hocbf_enabled": true,
+    "analytic_closest_obstacle_time_seconds": 7.04,
+    "analytic_control_mode": "analytic",
+    "analytic_controller_missed_20ms_count": 600,
+    "analytic_controller_missed_50ms_count": 0,
+    "analytic_controller_timing": {
+      "count": 600,
+      "maximum_seconds": 0.04922147304750979,
+      "median_seconds": 0.0248520610621199,
+      "p95_seconds": 0.025258109101559966
+    },
+    "analytic_degraded_step_count": 126,
+    "analytic_estimator_timing": {
+      "count": 600,
+      "maximum_seconds": 0.00033454294316470623,
+      "median_seconds": 0.00014365301467478275,
+      "p95_seconds": 0.0001673824735917151
+    },
+    "analytic_fallback_execution_count": 0,
+    "analytic_final_descriptor_target_loss": 0.014110882766544819,
+    "analytic_final_diversity_loss": 49.066123962402344,
+    "analytic_final_goal_distance_m": 0.899748682975769,
+    "analytic_final_safe_fallback_count": 8,
+    "analytic_first_negative_library_H_time_seconds": 6.32,
+    "analytic_integrated_intervention_norm_seconds": 0.10187803953886032,
+    "analytic_library_version": 0,
+    "analytic_max_qp_intervention_norm": 0.1793871521949768,
+    "analytic_maximum_policy_dual": 0.0,
+    "analytic_minimum_inflated_clearance_m": -0.24072986448164244,
+    "analytic_minimum_library_maximum_value": -0.30313724279403687,
+    "analytic_minimum_physical_clearance_m": -0.09072986448164244,
+    "analytic_model_compensated_fallbacks": false,
+    "analytic_negative_library_H_duration_seconds": 1.4000000000000001,
+    "analytic_negative_library_H_step_count": 70,
+    "analytic_parameters_updated": false,
+    "analytic_physical_collision": true,
+    "analytic_point_wind_final_error_mps": 5.814219434796541e-07,
+    "analytic_point_wind_finite_updates": 600,
+    "analytic_policy_dual_active_step_count": 0,
+    "analytic_policy_value_constraint_enabled": false,
+    "analytic_qp_rejection_counts": {
+      "actuator_failed": 0,
+      "analytic_barrier_failed": 51,
+      "held_interval_failed": 0,
+      "invalid_input": 0,
+      "kkt_failed": 0,
+      "no_policy_certificate": 0,
+      "policy_residual_failed": 0,
+      "qp_infeasible": 75
+    },
+    "analytic_qp_valid_step_count": 474,
+    "attempted_bptt_updates": 398,
+    "bptt_median_seconds": 0.012671786127611995,
+    "bptt_p95_seconds": 0.012813766743056476,
+    "checks": {
+      "adaptive_final_goal_distance_below_0p5_m": true,
+      "adaptive_inflated_clearance_positive": true,
+      "adaptive_shared_probe_spread_recovery": false,
+      "adaptive_shared_probe_target_recovery": true,
+      "adaptive_useful_safe_coverage_recovery": true,
+      "every_finite_step_published_persistently": true,
+      "exactly_one_constant_wind_step": true,
+      "frozen_library_has_postwind_descriptor_bias": true,
+      "point_estimator_converged_below_0p01_mps": true,
+      "prewind_methods_identical": true,
+      "qp_intervention_above_1e-5": true,
+      "zero_degraded_controller_steps": true
+    },
+    "clearance_definition": "relative swept center distance minus obstacle radius minus drone radius; inflated subtracts additional safety margin",
+    "common_actual_maximum_adaptive_safe_count_advantage": 2,
+    "common_state_adaptive_descriptor_target_loss": 0.01057510216585616,
+    "common_state_adaptive_diversity_loss": 49.17371071664973,
+    "common_state_analytic_descriptor_target_loss": 0.017650516375308123,
+    "common_state_analytic_diversity_loss": 49.10123408671634,
+    "common_state_compensated_descriptor_target_loss": 0.013247095236019038,
+    "common_state_compensated_diversity_loss": 48.16044702459177,
+    "common_state_fixed_descriptor_target_loss": 0.017650516375308123,
+    "common_state_fixed_diversity_loss": 49.10123408671634,
+    "compensated_analytic_obstacle_hocbf_enabled": false,
+    "compensated_closest_obstacle_time_seconds": 7.44,
+    "compensated_control_mode": "plcbf",
+    "compensated_controller_missed_20ms_count": 600,
+    "compensated_controller_missed_50ms_count": 0,
+    "compensated_controller_timing": {
+      "count": 600,
+      "maximum_seconds": 0.04052728088572621,
+      "median_seconds": 0.024952511535957456,
+      "p95_seconds": 0.02540855596307665
+    },
+    "compensated_degraded_step_count": 0,
+    "compensated_estimator_timing": {
+      "count": 600,
+      "maximum_seconds": 0.00031102797947824,
+      "median_seconds": 0.0001420225016772747,
+      "p95_seconds": 0.0001626097597181797
+    },
+    "compensated_fallback_execution_count": 0,
+    "compensated_final_descriptor_target_loss": 0.01324166264384985,
+    "compensated_final_diversity_loss": 48.17856216430664,
+    "compensated_final_goal_distance_m": 0.27312564849853516,
+    "compensated_final_safe_fallback_count": 8,
+    "compensated_first_negative_library_H_time_seconds": null,
+    "compensated_integrated_intervention_norm_seconds": 0.005343754310160875,
+    "compensated_library_version": 0,
+    "compensated_max_qp_intervention_norm": 0.014835965819656849,
+    "compensated_maximum_policy_dual": 0.00969817116856575,
+    "compensated_minimum_inflated_clearance_m": 0.008730606353543419,
+    "compensated_minimum_library_maximum_value": 0.013174057006835938,
+    "compensated_minimum_physical_clearance_m": 0.1587306063535434,
+    "compensated_model_compensated_fallbacks": true,
+    "compensated_negative_library_H_duration_seconds": 0.0,
+    "compensated_negative_library_H_step_count": 0,
+    "compensated_parameters_updated": false,
+    "compensated_physical_collision": false,
+    "compensated_point_wind_final_error_mps": 5.182755558053032e-07,
+    "compensated_point_wind_finite_updates": 600,
+    "compensated_policy_dual_active_step_count": 100,
+    "compensated_policy_value_constraint_enabled": true,
+    "compensated_qp_rejection_counts": {
+      "actuator_failed": 0,
+      "analytic_barrier_failed": 0,
+      "held_interval_failed": 0,
+      "invalid_input": 0,
+      "kkt_failed": 0,
+      "no_policy_certificate": 0,
+      "policy_residual_failed": 0,
+      "qp_infeasible": 0
+    },
+    "compensated_qp_valid_step_count": 600,
+    "controller_median_seconds_per_method": 0.024793379474431276,
+    "controller_p95_seconds_per_method": 0.02517113583162427,
+    "device": "cuda:0",
+    "drone_collision_radius_m": 0.05,
+    "dt_seconds": 0.02,
+    "effective_config": {
+      "estimator_response_rate": 2.4,
+      "fallback_acceleration_limit": 2.5,
+      "gradient_steps_per_boundary": 1,
+      "include_baselines": true,
+      "initial_residual_scale": 0.01,
+      "learning_rate": 0.0005,
+      "learning_start": "wind",
+      "nominal_acceleration_limit": 0.75,
+      "policy_alpha": 2.0,
+      "policy_count": 8,
+      "policy_gain": 1.8,
+      "probe_every_steps": 10,
+      "probe_window_seconds": null,
+      "residual_scale": 1.0,
+      "seed": 7,
+      "smooth_min_temperature": 0.005,
+      "smooth_motor_bounds": false,
+      "steps": 600,
+      "waypoint_position_gain": 2.0,
+      "waypoint_velocity_gain": 2.8,
+      "wind_after": [
+        0.9,
+        0.55,
+        0.0
+      ],
+      "wind_detection_threshold": 0.08
+    },
+    "effective_scenario": {
+      "angular_rate_max": 12.0,
+      "arena_lower": [
+        -5.0,
+        -3.5,
+        0.15000000596046448
+      ],
+      "arena_upper": [
+        12.0,
+        4.0,
+        4.0
+      ],
+      "dt": 0.02,
+      "ego_radius": 0.05,
+      "goal_position": [
+        10.0,
+        0.0,
+        1.399999976158142
+      ],
+      "goal_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "horizon": 60,
+      "initial_state": [
+        -3.0,
+        0.0,
+        1.399999976158142,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "constant_wind",
+      "obstacle_clearance": 0.15,
+      "obstacle_initial_centers": [
+        [
+          5.800000190734863,
+          0.0,
+          1.2000000476837158
+        ],
+        [
+          7.300000190734863,
+          0.15000000596046448,
+          2.6500000953674316
+        ]
+      ],
+      "obstacle_mask": [
+        true,
+        true
+      ],
+      "obstacle_radii": [
+        0.550000011920929,
+        0.550000011920929
+      ],
+      "obstacle_velocities": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0
+        ]
+      ],
+      "skill_displacements": [
+        [
+          1.2000000476837158,
+          0.0,
+          0.0
+        ],
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.399999976158142,
+          0.0
+        ],
+        [
+          0.0,
+          -1.399999976158142,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.699999988079071
+        ],
+        [
+          0.800000011920929,
+          1.0,
+          0.5
+        ],
+        [
+          0.800000011920929,
+          -1.0,
+          0.5
+        ]
+      ],
+      "speed_max": 3.5,
+      "steps": 600,
+      "tilt_max_radians": 0.8999999761581421,
+      "wind_after": [
+        0.8999999761581421,
+        0.550000011920929,
+        0.0
+      ],
+      "wind_before": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wind_change_step": 200
+    },
+    "encounter_actual_maximum_adaptive_safe_count_advantage": 2,
+    "estimator_information_source": "each method's own measured state transition and applied wrench",
+    "fixed_analytic_obstacle_hocbf_enabled": false,
+    "fixed_closest_obstacle_time_seconds": 7.5600000000000005,
+    "fixed_collides_adaptive_does_not": false,
+    "fixed_control_mode": "plcbf",
+    "fixed_controller_missed_20ms_count": 600,
+    "fixed_controller_missed_50ms_count": 0,
+    "fixed_controller_timing": {
+      "count": 600,
+      "maximum_seconds": 0.04935264214873314,
+      "median_seconds": 0.024923908058553934,
+      "p95_seconds": 0.025788752548396587
+    },
+    "fixed_degraded_step_count": 0,
+    "fixed_estimator_timing": {
+      "count": 600,
+      "maximum_seconds": 0.0004657700192183256,
+      "median_seconds": 0.00018103455659002066,
+      "p95_seconds": 0.00023522527189925312
+    },
+    "fixed_fallback_execution_count": 0,
+    "fixed_final_descriptor_target_loss": 0.01706613041460514,
+    "fixed_final_diversity_loss": 49.11928176879883,
+    "fixed_final_goal_distance_m": 0.2547455430030823,
+    "fixed_final_safe_fallback_count": 8,
+    "fixed_first_negative_library_H_time_seconds": null,
+    "fixed_integrated_intervention_norm_seconds": 0.003948149271309376,
+    "fixed_library_version": 0,
+    "fixed_max_qp_intervention_norm": 0.005068323574960232,
+    "fixed_maximum_policy_dual": 0.0034490632824599743,
+    "fixed_minimum_inflated_clearance_m": 0.008930444961451817,
+    "fixed_minimum_library_maximum_value": 0.013490676879882812,
+    "fixed_minimum_physical_clearance_m": 0.1589304449614518,
+    "fixed_model_compensated_fallbacks": false,
+    "fixed_negative_library_H_duration_seconds": 0.0,
+    "fixed_negative_library_H_step_count": 0,
+    "fixed_parameters_updated": false,
+    "fixed_physical_collision": false,
+    "fixed_point_wind_final_error_mps": 5.249169703347434e-07,
+    "fixed_point_wind_finite_updates": 600,
+    "fixed_policy_dual_active_step_count": 99,
+    "fixed_policy_value_constraint_enabled": true,
+    "fixed_qp_rejection_counts": {
+      "actuator_failed": 0,
+      "analytic_barrier_failed": 0,
+      "held_interval_failed": 0,
+      "invalid_input": 0,
+      "kkt_failed": 0,
+      "no_policy_certificate": 0,
+      "policy_residual_failed": 0,
+      "qp_infeasible": 0
+    },
+    "fixed_qp_valid_step_count": 600,
+    "gradient_steps_per_boundary": 1,
+    "instantaneous_estimator_final_mps": [
+      0.8999995589256287,
+      0.5499998927116394,
+      4.6333298087120056e-08
+    ],
+    "jit_warmup_seconds": 19.058248757151887,
+    "learning_start": "wind",
+    "library_version_equals_finite_gradient_steps": true,
+    "mechanism_checks_passed": true,
+    "methods": {
+      "adaptive": {
+        "analytic_obstacle_hocbf_enabled": false,
+        "closest_obstacle_time_seconds": 8.0,
+        "control_mode": "plcbf",
+        "controller_missed_20ms_count": 600,
+        "controller_missed_50ms_count": 1,
+        "controller_timing": {
+          "count": 600,
+          "maximum_seconds": 3.7749036580789834,
+          "median_seconds": 0.024793379474431276,
+          "p95_seconds": 0.02517113583162427
+        },
+        "degraded_step_count": 0,
+        "estimator_timing": {
+          "count": 600,
+          "maximum_seconds": 0.00042780092917382717,
+          "median_seconds": 0.00014702393673360348,
+          "p95_seconds": 0.00017879488877952098
+        },
+        "fallback_execution_count": 6,
+        "final_descriptor_target_loss": 0.00967441126704216,
+        "final_diversity_loss": 49.28366470336914,
+        "final_goal_distance_m": 0.20985037088394165,
+        "final_safe_fallback_count": 8,
+        "first_negative_library_H_time_seconds": null,
+        "integrated_intervention_norm_seconds": 0.004139299970120192,
+        "library_version": 398,
+        "max_qp_intervention_norm": 0.005802822299301624,
+        "maximum_policy_dual": 0.0014904895797371864,
+        "minimum_inflated_clearance_m": 0.013972407148330285,
+        "minimum_library_maximum_value": 0.021195173263549805,
+        "minimum_physical_clearance_m": 0.16397240714833028,
+        "model_compensated_fallbacks": false,
+        "negative_library_H_duration_seconds": 0.0,
+        "negative_library_H_step_count": 0,
+        "parameters_updated": true,
+        "physical_collision": false,
+        "point_wind_final_error_mps": 5.611518076875655e-07,
+        "point_wind_finite_updates": 600,
+        "policy_dual_active_step_count": 102,
+        "policy_value_constraint_enabled": true,
+        "qp_rejection_counts": {
+          "actuator_failed": 0,
+          "analytic_barrier_failed": 0,
+          "held_interval_failed": 0,
+          "invalid_input": 0,
+          "kkt_failed": 5,
+          "no_policy_certificate": 0,
+          "policy_residual_failed": 6,
+          "qp_infeasible": 0
+        },
+        "qp_valid_step_count": 594
+      },
+      "analytic": {
+        "analytic_obstacle_hocbf_enabled": true,
+        "closest_obstacle_time_seconds": 7.04,
+        "control_mode": "analytic",
+        "controller_missed_20ms_count": 600,
+        "controller_missed_50ms_count": 0,
+        "controller_timing": {
+          "count": 600,
+          "maximum_seconds": 0.04922147304750979,
+          "median_seconds": 0.0248520610621199,
+          "p95_seconds": 0.025258109101559966
+        },
+        "degraded_step_count": 126,
+        "estimator_timing": {
+          "count": 600,
+          "maximum_seconds": 0.00033454294316470623,
+          "median_seconds": 0.00014365301467478275,
+          "p95_seconds": 0.0001673824735917151
+        },
+        "fallback_execution_count": 0,
+        "final_descriptor_target_loss": 0.014110882766544819,
+        "final_diversity_loss": 49.066123962402344,
+        "final_goal_distance_m": 0.899748682975769,
+        "final_safe_fallback_count": 8,
+        "first_negative_library_H_time_seconds": 6.32,
+        "integrated_intervention_norm_seconds": 0.10187803953886032,
+        "library_version": 0,
+        "max_qp_intervention_norm": 0.1793871521949768,
+        "maximum_policy_dual": 0.0,
+        "minimum_inflated_clearance_m": -0.24072986448164244,
+        "minimum_library_maximum_value": -0.30313724279403687,
+        "minimum_physical_clearance_m": -0.09072986448164244,
+        "model_compensated_fallbacks": false,
+        "negative_library_H_duration_seconds": 1.4000000000000001,
+        "negative_library_H_step_count": 70,
+        "parameters_updated": false,
+        "physical_collision": true,
+        "point_wind_final_error_mps": 5.814219434796541e-07,
+        "point_wind_finite_updates": 600,
+        "policy_dual_active_step_count": 0,
+        "policy_value_constraint_enabled": false,
+        "qp_rejection_counts": {
+          "actuator_failed": 0,
+          "analytic_barrier_failed": 51,
+          "held_interval_failed": 0,
+          "invalid_input": 0,
+          "kkt_failed": 0,
+          "no_policy_certificate": 0,
+          "policy_residual_failed": 0,
+          "qp_infeasible": 75
+        },
+        "qp_valid_step_count": 474
+      },
+      "compensated": {
+        "analytic_obstacle_hocbf_enabled": false,
+        "closest_obstacle_time_seconds": 7.44,
+        "control_mode": "plcbf",
+        "controller_missed_20ms_count": 600,
+        "controller_missed_50ms_count": 0,
+        "controller_timing": {
+          "count": 600,
+          "maximum_seconds": 0.04052728088572621,
+          "median_seconds": 0.024952511535957456,
+          "p95_seconds": 0.02540855596307665
+        },
+        "degraded_step_count": 0,
+        "estimator_timing": {
+          "count": 600,
+          "maximum_seconds": 0.00031102797947824,
+          "median_seconds": 0.0001420225016772747,
+          "p95_seconds": 0.0001626097597181797
+        },
+        "fallback_execution_count": 0,
+        "final_descriptor_target_loss": 0.01324166264384985,
+        "final_diversity_loss": 48.17856216430664,
+        "final_goal_distance_m": 0.27312564849853516,
+        "final_safe_fallback_count": 8,
+        "first_negative_library_H_time_seconds": null,
+        "integrated_intervention_norm_seconds": 0.005343754310160875,
+        "library_version": 0,
+        "max_qp_intervention_norm": 0.014835965819656849,
+        "maximum_policy_dual": 0.00969817116856575,
+        "minimum_inflated_clearance_m": 0.008730606353543419,
+        "minimum_library_maximum_value": 0.013174057006835938,
+        "minimum_physical_clearance_m": 0.1587306063535434,
+        "model_compensated_fallbacks": true,
+        "negative_library_H_duration_seconds": 0.0,
+        "negative_library_H_step_count": 0,
+        "parameters_updated": false,
+        "physical_collision": false,
+        "point_wind_final_error_mps": 5.182755558053032e-07,
+        "point_wind_finite_updates": 600,
+        "policy_dual_active_step_count": 100,
+        "policy_value_constraint_enabled": true,
+        "qp_rejection_counts": {
+          "actuator_failed": 0,
+          "analytic_barrier_failed": 0,
+          "held_interval_failed": 0,
+          "invalid_input": 0,
+          "kkt_failed": 0,
+          "no_policy_certificate": 0,
+          "policy_residual_failed": 0,
+          "qp_infeasible": 0
+        },
+        "qp_valid_step_count": 600
+      },
+      "fixed": {
+        "analytic_obstacle_hocbf_enabled": false,
+        "closest_obstacle_time_seconds": 7.5600000000000005,
+        "control_mode": "plcbf",
+        "controller_missed_20ms_count": 600,
+        "controller_missed_50ms_count": 0,
+        "controller_timing": {
+          "count": 600,
+          "maximum_seconds": 0.04935264214873314,
+          "median_seconds": 0.024923908058553934,
+          "p95_seconds": 0.025788752548396587
+        },
+        "degraded_step_count": 0,
+        "estimator_timing": {
+          "count": 600,
+          "maximum_seconds": 0.0004657700192183256,
+          "median_seconds": 0.00018103455659002066,
+          "p95_seconds": 0.00023522527189925312
+        },
+        "fallback_execution_count": 0,
+        "final_descriptor_target_loss": 0.01706613041460514,
+        "final_diversity_loss": 49.11928176879883,
+        "final_goal_distance_m": 0.2547455430030823,
+        "final_safe_fallback_count": 8,
+        "first_negative_library_H_time_seconds": null,
+        "integrated_intervention_norm_seconds": 0.003948149271309376,
+        "library_version": 0,
+        "max_qp_intervention_norm": 0.005068323574960232,
+        "maximum_policy_dual": 0.0034490632824599743,
+        "minimum_inflated_clearance_m": 0.008930444961451817,
+        "minimum_library_maximum_value": 0.013490676879882812,
+        "minimum_physical_clearance_m": 0.1589304449614518,
+        "model_compensated_fallbacks": false,
+        "negative_library_H_duration_seconds": 0.0,
+        "negative_library_H_step_count": 0,
+        "parameters_updated": false,
+        "physical_collision": false,
+        "point_wind_final_error_mps": 5.249169703347434e-07,
+        "point_wind_finite_updates": 600,
+        "policy_dual_active_step_count": 99,
+        "policy_value_constraint_enabled": true,
+        "qp_rejection_counts": {
+          "actuator_failed": 0,
+          "analytic_barrier_failed": 0,
+          "held_interval_failed": 0,
+          "invalid_input": 0,
+          "kkt_failed": 0,
+          "no_policy_certificate": 0,
+          "policy_residual_failed": 0,
+          "qp_infeasible": 0
+        },
+        "qp_valid_step_count": 600
+      }
+    },
+    "point_wind_final_error_mps": 5.611518076875655e-07,
+    "point_wind_finite_updates": 600,
+    "policy_count": 8,
+    "policy_value_scope": "collision-only sphere/ego geometry; operational limits enforced by instantaneous analytic barriers",
+    "prewind_max_full_state_component_difference": 0.0,
+    "prewind_max_position_difference_m": 0.0,
+    "scenario": "constant_wind",
+    "shared_probe_reference": "same frozen wind-onset state for descriptors; same current fixed-method state/model for coverage",
+    "shared_probes": [
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.08248842971124273,
+            "diversity_loss": 50.26595114742116,
+            "maximum_fallback_value": 14.513415336608887,
+            "pairwise_spread": 0.5446169164821478,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.08702004073358514,
+            "diversity_loss": 50.235758204772544,
+            "maximum_fallback_value": 14.439676284790039,
+            "pairwise_spread": 0.5372287904306228,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.09876719257834424,
+            "diversity_loss": 49.38945783775725,
+            "maximum_fallback_value": 13.66263484954834,
+            "pairwise_spread": 0.6287029256858158,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.08702004073358514,
+            "diversity_loss": 50.235758204772544,
+            "maximum_fallback_value": 14.439676284790039,
+            "pairwise_spread": 0.5372287904306228,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 4.6000000000000005
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.08363845680239479,
+            "diversity_loss": 50.2900104773194,
+            "maximum_fallback_value": 11.59186840057373,
+            "pairwise_spread": 0.5504181208611507,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09071821052567931,
+            "diversity_loss": 50.25716010683896,
+            "maximum_fallback_value": 11.472528457641602,
+            "pairwise_spread": 0.5365191028814172,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.100143206897964,
+            "diversity_loss": 49.40239233016602,
+            "maximum_fallback_value": 10.758794784545898,
+            "pairwise_spread": 0.6282432068452789,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09071821052567931,
+            "diversity_loss": 50.25716010683896,
+            "maximum_fallback_value": 11.472528457641602,
+            "pairwise_spread": 0.5365191028814172,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 4.8
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.08322529242440763,
+            "diversity_loss": 50.32208771427795,
+            "maximum_fallback_value": 8.955395698547363,
+            "pairwise_spread": 0.5559581461600208,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09308316735924033,
+            "diversity_loss": 50.270463878413324,
+            "maximum_fallback_value": 8.808785438537598,
+            "pairwise_spread": 0.5360826237876585,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10100337343483784,
+            "diversity_loss": 49.410427971579935,
+            "maximum_fallback_value": 8.155621528625488,
+            "pairwise_spread": 0.6279607681140496,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09308316735924033,
+            "diversity_loss": 50.270463878413324,
+            "maximum_fallback_value": 8.808785438537598,
+            "pairwise_spread": 0.5360826237876585,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 5.0
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.08204622717303685,
+            "diversity_loss": 50.380807836106555,
+            "maximum_fallback_value": 6.609325408935547,
+            "pairwise_spread": 0.5584313864285866,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09457605466212425,
+            "diversity_loss": 50.278722534785935,
+            "maximum_fallback_value": 6.45985221862793,
+            "pairwise_spread": 0.5358132448809381,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10153898944682914,
+            "diversity_loss": 49.415405894420026,
+            "maximum_fallback_value": 5.902814865112305,
+            "pairwise_spread": 0.6277872209879861,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09457605466212425,
+            "diversity_loss": 50.278722534785935,
+            "maximum_fallback_value": 6.45985221862793,
+            "pairwise_spread": 0.5358132448809381,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 5.2
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.08069608409578241,
+            "diversity_loss": 50.45469980164155,
+            "maximum_fallback_value": 4.568366050720215,
+            "pairwise_spread": 0.5579482787207178,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09551124782903422,
+            "diversity_loss": 50.28384718906745,
+            "maximum_fallback_value": 4.475274085998535,
+            "pairwise_spread": 0.5356465611696664,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10187171554413613,
+            "diversity_loss": 49.418489173760136,
+            "maximum_fallback_value": 4.014383316040039,
+            "pairwise_spread": 0.6276800388709416,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09551124782903422,
+            "diversity_loss": 50.28384718906745,
+            "maximum_fallback_value": 4.475274085998535,
+            "pairwise_spread": 0.5356465611696664,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 5.4
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.0795264796426999,
+            "diversity_loss": 50.51063568993156,
+            "maximum_fallback_value": 3.040457248687744,
+            "pairwise_spread": 0.5571896826148116,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09609426120908908,
+            "diversity_loss": 50.2870193393025,
+            "maximum_fallback_value": 2.986272096633911,
+            "pairwise_spread": 0.5355437716395904,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10207808484187547,
+            "diversity_loss": 49.420402197046805,
+            "maximum_fallback_value": 2.6102423667907715,
+            "pairwise_spread": 0.6276135157097834,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09609426120908908,
+            "diversity_loss": 50.2870193393025,
+            "maximum_fallback_value": 2.986272096633911,
+            "pairwise_spread": 0.5355437716395904,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 5.6000000000000005
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07852609026489953,
+            "diversity_loss": 50.53379358543906,
+            "maximum_fallback_value": 2.051173448562622,
+            "pairwise_spread": 0.5581411298612707,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09645668524388461,
+            "diversity_loss": 50.28897876505516,
+            "maximum_fallback_value": 2.00014591217041,
+            "pairwise_spread": 0.5354804360097788,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10220596422299069,
+            "diversity_loss": 49.42158402668921,
+            "maximum_fallback_value": 1.728691816329956,
+            "pairwise_spread": 0.6275726961878095,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09645668524388461,
+            "diversity_loss": 50.28897876505516,
+            "maximum_fallback_value": 2.00014591217041,
+            "pairwise_spread": 0.5354804360097788,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 5.8
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07766231340366078,
+            "diversity_loss": 50.514340815485276,
+            "maximum_fallback_value": 1.38162100315094,
+            "pairwise_spread": 0.5620960777185539,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09668157672113872,
+            "diversity_loss": 50.29019536051319,
+            "maximum_fallback_value": 1.3432515859603882,
+            "pairwise_spread": 0.5354410748277129,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.1022852074785292,
+            "diversity_loss": 49.42231627178317,
+            "maximum_fallback_value": 1.1799079179763794,
+            "pairwise_spread": 0.6275474111514353,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09668157672113872,
+            "diversity_loss": 50.29019536051319,
+            "maximum_fallback_value": 1.3432515859603882,
+            "pairwise_spread": 0.5354410748277129,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 6.0
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07700880732771902,
+            "diversity_loss": 50.476190572593325,
+            "maximum_fallback_value": 0.928422212600708,
+            "pairwise_spread": 0.567222345887818,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09682102044892983,
+            "diversity_loss": 50.29095139491492,
+            "maximum_fallback_value": 0.900326132774353,
+            "pairwise_spread": 0.5354165550768706,
+            "safe_fallback_count": 7
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10233425473452797,
+            "diversity_loss": 49.422772024685784,
+            "maximum_fallback_value": 0.8264822959899902,
+            "pairwise_spread": 0.6275315734320046,
+            "safe_fallback_count": 7
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09682102044892983,
+            "diversity_loss": 50.29095139491492,
+            "maximum_fallback_value": 0.900326132774353,
+            "pairwise_spread": 0.5354165550768706,
+            "safe_fallback_count": 7
+          }
+        },
+        "time_seconds": 6.2
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07658144082395718,
+            "diversity_loss": 50.45845302304078,
+            "maximum_fallback_value": 0.6238116025924683,
+            "pairwise_spread": 0.570596925771327,
+            "safe_fallback_count": 7
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09690743763922884,
+            "diversity_loss": 50.29141631584365,
+            "maximum_fallback_value": 0.6069905757904053,
+            "pairwise_spread": 0.5354015304535865,
+            "safe_fallback_count": 7
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10236460076229965,
+            "diversity_loss": 49.42304738602003,
+            "maximum_fallback_value": 0.5819312334060669,
+            "pairwise_spread": 0.6275223616399985,
+            "safe_fallback_count": 7
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09690743763922884,
+            "diversity_loss": 50.29141631584365,
+            "maximum_fallback_value": 0.6069905757904053,
+            "pairwise_spread": 0.5354015304535865,
+            "safe_fallback_count": 7
+          }
+        },
+        "time_seconds": 6.4
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07644027962966611,
+            "diversity_loss": 50.46888246866347,
+            "maximum_fallback_value": 0.4233395457267761,
+            "pairwise_spread": 0.5716323999289791,
+            "safe_fallback_count": 7
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09696088889932085,
+            "diversity_loss": 50.29170296974894,
+            "maximum_fallback_value": 0.4116142988204956,
+            "pairwise_spread": 0.5353922752023312,
+            "safe_fallback_count": 5
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10238339844565462,
+            "diversity_loss": 49.423223333263,
+            "maximum_fallback_value": 0.40745460987091064,
+            "pairwise_spread": 0.6275161495929,
+            "safe_fallback_count": 6
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09696088889932085,
+            "diversity_loss": 50.29170296974894,
+            "maximum_fallback_value": 0.4116142988204956,
+            "pairwise_spread": 0.5353922752023312,
+            "safe_fallback_count": 5
+          }
+        },
+        "time_seconds": 6.6000000000000005
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07658887227694988,
+            "diversity_loss": 50.48661890776057,
+            "maximum_fallback_value": 0.2599269151687622,
+            "pairwise_spread": 0.5717688224676986,
+            "safe_fallback_count": 7
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.0969939751715305,
+            "diversity_loss": 50.291878839839555,
+            "maximum_fallback_value": 0.2531617283821106,
+            "pairwise_spread": 0.5353866647150776,
+            "safe_fallback_count": 5
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10239501746162606,
+            "diversity_loss": 49.4233273925235,
+            "maximum_fallback_value": 0.2544959783554077,
+            "pairwise_spread": 0.6275123894369019,
+            "safe_fallback_count": 5
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.0969939751715305,
+            "diversity_loss": 50.291878839839555,
+            "maximum_fallback_value": 0.2531617283821106,
+            "pairwise_spread": 0.5353866647150776,
+            "safe_fallback_count": 5
+          }
+        },
+        "time_seconds": 6.8
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07689565000155346,
+            "diversity_loss": 50.494586868688266,
+            "maximum_fallback_value": 0.12785571813583374,
+            "pairwise_spread": 0.5725311877588506,
+            "safe_fallback_count": 4
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09701446165417353,
+            "diversity_loss": 50.291991202019936,
+            "maximum_fallback_value": 0.12588924169540405,
+            "pairwise_spread": 0.5353831765629345,
+            "safe_fallback_count": 5
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10240219258844939,
+            "diversity_loss": 49.42339285308789,
+            "maximum_fallback_value": 0.1275724172592163,
+            "pairwise_spread": 0.62751022502634,
+            "safe_fallback_count": 5
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09701446165417353,
+            "diversity_loss": 50.291991202019936,
+            "maximum_fallback_value": 0.12588924169540405,
+            "pairwise_spread": 0.5353831765629345,
+            "safe_fallback_count": 5
+          }
+        },
+        "time_seconds": 7.0
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07716075676775705,
+            "diversity_loss": 50.50708663507267,
+            "maximum_fallback_value": 0.048500120639801025,
+            "pairwise_spread": 0.5732260405174342,
+            "safe_fallback_count": 3
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09702711943796821,
+            "diversity_loss": 50.29205781773978,
+            "maximum_fallback_value": 0.048099637031555176,
+            "pairwise_spread": 0.5353808411408679,
+            "safe_fallback_count": 5
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10240667885682196,
+            "diversity_loss": 49.423439620706525,
+            "maximum_fallback_value": 0.0487900972366333,
+            "pairwise_spread": 0.6275085931787997,
+            "safe_fallback_count": 5
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09702711943796821,
+            "diversity_loss": 50.29205781773978,
+            "maximum_fallback_value": 0.048099637031555176,
+            "pairwise_spread": 0.5353808411408679,
+            "safe_fallback_count": 5
+          }
+        },
+        "time_seconds": 7.2
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07718599703896019,
+            "diversity_loss": 50.5158721538224,
+            "maximum_fallback_value": 0.02022993564605713,
+            "pairwise_spread": 0.574721662282409,
+            "safe_fallback_count": 4
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09703497377263297,
+            "diversity_loss": 50.29210280197576,
+            "maximum_fallback_value": 0.019863903522491455,
+            "pairwise_spread": 0.5353793963207708,
+            "safe_fallback_count": 7
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10240941349839838,
+            "diversity_loss": 49.42346318230153,
+            "maximum_fallback_value": 0.01994788646697998,
+            "pairwise_spread": 0.6275078142212601,
+            "safe_fallback_count": 7
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09703497377263297,
+            "diversity_loss": 50.29210280197576,
+            "maximum_fallback_value": 0.019863903522491455,
+            "pairwise_spread": 0.5353793963207708,
+            "safe_fallback_count": 7
+          }
+        },
+        "time_seconds": 7.4
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07705416047348328,
+            "diversity_loss": 50.52851130028051,
+            "maximum_fallback_value": 0.01467519998550415,
+            "pairwise_spread": 0.5758701832646541,
+            "safe_fallback_count": 4
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09703982692644399,
+            "diversity_loss": 50.29212576183885,
+            "maximum_fallback_value": 0.01467519998550415,
+            "pairwise_spread": 0.5353787667055258,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241110789976557,
+            "diversity_loss": 49.42347819763164,
+            "maximum_fallback_value": 0.01467519998550415,
+            "pairwise_spread": 0.6275074527767097,
+            "safe_fallback_count": 7
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09703982692644399,
+            "diversity_loss": 50.29212576183885,
+            "maximum_fallback_value": 0.01467519998550415,
+            "pairwise_spread": 0.5353787667055258,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 7.6000000000000005
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07678632097571635,
+            "diversity_loss": 50.55212081291994,
+            "maximum_fallback_value": 0.0552525520324707,
+            "pairwise_spread": 0.5757658806609207,
+            "safe_fallback_count": 7
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704284621339146,
+            "diversity_loss": 50.292142577087176,
+            "maximum_fallback_value": 0.0552525520324707,
+            "pairwise_spread": 0.5353781803151645,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241217595182912,
+            "diversity_loss": 49.42348976090381,
+            "maximum_fallback_value": 0.0552525520324707,
+            "pairwise_spread": 0.6275069501524264,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704284621339146,
+            "diversity_loss": 50.292142577087176,
+            "maximum_fallback_value": 0.0552525520324707,
+            "pairwise_spread": 0.5353781803151645,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 7.8
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07634228172155083,
+            "diversity_loss": 50.57339549914187,
+            "maximum_fallback_value": 0.1478203535079956,
+            "pairwise_spread": 0.5757788527557527,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704472109347233,
+            "diversity_loss": 50.29215490681648,
+            "maximum_fallback_value": 0.1478203535079956,
+            "pairwise_spread": 0.5353778218854973,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241286121347454,
+            "diversity_loss": 49.423494541446,
+            "maximum_fallback_value": 0.1478203535079956,
+            "pairwise_spread": 0.6275068215257343,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704472109347233,
+            "diversity_loss": 50.29215490681648,
+            "maximum_fallback_value": 0.1478203535079956,
+            "pairwise_spread": 0.5353778218854973,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 8.0
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07577269341792475,
+            "diversity_loss": 50.594682824269775,
+            "maximum_fallback_value": 0.3045124411582947,
+            "pairwise_spread": 0.5759329901540514,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704588002892511,
+            "diversity_loss": 50.29216342553703,
+            "maximum_fallback_value": 0.3045124411582947,
+            "pairwise_spread": 0.5353774705601223,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241324696226167,
+            "diversity_loss": 49.423493742825485,
+            "maximum_fallback_value": 0.3045124411582947,
+            "pairwise_spread": 0.6275067953387309,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704588002892511,
+            "diversity_loss": 50.29216342553703,
+            "maximum_fallback_value": 0.3045124411582947,
+            "pairwise_spread": 0.5353774705601223,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 8.2
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07506831246301143,
+            "diversity_loss": 50.61724936216037,
+            "maximum_fallback_value": 0.5537599325180054,
+            "pairwise_spread": 0.5765136758913425,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704654363657407,
+            "diversity_loss": 50.292163979595514,
+            "maximum_fallback_value": 0.5537599325180054,
+            "pairwise_spread": 0.535377515598135,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241347886463045,
+            "diversity_loss": 49.42349678365836,
+            "maximum_fallback_value": 0.5537599325180054,
+            "pairwise_spread": 0.6275067365887173,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704654363657407,
+            "diversity_loss": 50.292163979595514,
+            "maximum_fallback_value": 0.5537599325180054,
+            "pairwise_spread": 0.535377515598135,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 8.4
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07425213160301167,
+            "diversity_loss": 50.6531567294124,
+            "maximum_fallback_value": 0.9295423030853271,
+            "pairwise_spread": 0.5770421986511141,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.0970469624041271,
+            "diversity_loss": 50.29216562260961,
+            "maximum_fallback_value": 0.9295423030853271,
+            "pairwise_spread": 0.5353773843228222,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241363768534106,
+            "diversity_loss": 49.423501046349536,
+            "maximum_fallback_value": 0.9295423030853271,
+            "pairwise_spread": 0.6275065666007704,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.0970469624041271,
+            "diversity_loss": 50.29216562260961,
+            "maximum_fallback_value": 0.9295423030853271,
+            "pairwise_spread": 0.5353773843228222,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 8.6
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07360914205622543,
+            "diversity_loss": 50.71040727332449,
+            "maximum_fallback_value": 1.4663267135620117,
+            "pairwise_spread": 0.5771898592695813,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704727607951,
+            "diversity_loss": 50.29216536321634,
+            "maximum_fallback_value": 1.4663267135620117,
+            "pairwise_spread": 0.5353775293518402,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241377742342311,
+            "diversity_loss": 49.42349939660001,
+            "maximum_fallback_value": 1.4663267135620117,
+            "pairwise_spread": 0.6275066546003075,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704727607951,
+            "diversity_loss": 50.29216536321634,
+            "maximum_fallback_value": 1.4663267135620117,
+            "pairwise_spread": 0.5353775293518402,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 8.8
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07373154890296225,
+            "diversity_loss": 50.75374818992004,
+            "maximum_fallback_value": 1.5848608016967773,
+            "pairwise_spread": 0.5775332751852444,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704738582428384,
+            "diversity_loss": 50.29216818933791,
+            "maximum_fallback_value": 1.5797793865203857,
+            "pairwise_spread": 0.5353774605901022,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241379918850323,
+            "diversity_loss": 49.42349969187196,
+            "maximum_fallback_value": 1.5792789459228516,
+            "pairwise_spread": 0.6275065725970251,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704738582428384,
+            "diversity_loss": 50.29216818933791,
+            "maximum_fallback_value": 1.5797793865203857,
+            "pairwise_spread": 0.5353774605901022,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 9.0
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07428698312695113,
+            "diversity_loss": 50.74007124361587,
+            "maximum_fallback_value": 1.5776574611663818,
+            "pairwise_spread": 0.5785620367967633,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704743226203681,
+            "diversity_loss": 50.29217062404747,
+            "maximum_fallback_value": 1.5776574611663818,
+            "pairwise_spread": 0.535377354285467,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241382039596461,
+            "diversity_loss": 49.42350096415059,
+            "maximum_fallback_value": 1.5776574611663818,
+            "pairwise_spread": 0.6275065827025451,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704743226203681,
+            "diversity_loss": 50.29217062404747,
+            "maximum_fallback_value": 1.5776574611663818,
+            "pairwise_spread": 0.535377354285467,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 9.200000000000001
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07417209524282019,
+            "diversity_loss": 50.699889071764716,
+            "maximum_fallback_value": 1.7687311172485352,
+            "pairwise_spread": 0.5802444672936536,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704758442109261,
+            "diversity_loss": 50.29216748250442,
+            "maximum_fallback_value": 1.7687311172485352,
+            "pairwise_spread": 0.5353774501774019,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241384996340197,
+            "diversity_loss": 49.42350367717148,
+            "maximum_fallback_value": 1.7687311172485352,
+            "pairwise_spread": 0.6275064279037357,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704758442109261,
+            "diversity_loss": 50.29216748250442,
+            "maximum_fallback_value": 1.7687311172485352,
+            "pairwise_spread": 0.5353774501774019,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 9.4
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07346723117517578,
+            "diversity_loss": 50.66299098370595,
+            "maximum_fallback_value": 2.1811280250549316,
+            "pairwise_spread": 0.5817882847145344,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704763839083325,
+            "diversity_loss": 50.29216902667465,
+            "maximum_fallback_value": 2.1811280250549316,
+            "pairwise_spread": 0.5353773701744983,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241388895309006,
+            "diversity_loss": 49.42350285857141,
+            "maximum_fallback_value": 2.1811280250549316,
+            "pairwise_spread": 0.6275064035712364,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704763839083325,
+            "diversity_loss": 50.29216902667465,
+            "maximum_fallback_value": 2.1811280250549316,
+            "pairwise_spread": 0.5353773701744983,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 9.6
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07262628691310097,
+            "diversity_loss": 50.6315677262735,
+            "maximum_fallback_value": 2.7685954570770264,
+            "pairwise_spread": 0.5824439451358219,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704763712061844,
+            "diversity_loss": 50.29217054809937,
+            "maximum_fallback_value": 2.7685954570770264,
+            "pairwise_spread": 0.5353773357889857,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.1024138869210878,
+            "diversity_loss": 49.423503907849685,
+            "maximum_fallback_value": 2.7685954570770264,
+            "pairwise_spread": 0.6275063952676471,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704763712061844,
+            "diversity_loss": 50.29217054809937,
+            "maximum_fallback_value": 2.7685954570770264,
+            "pairwise_spread": 0.5353773357889857,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 9.8
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.0719213630468379,
+            "diversity_loss": 50.589002926436315,
+            "maximum_fallback_value": 3.4611215591430664,
+            "pairwise_spread": 0.5842348753246414,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704762264823268,
+            "diversity_loss": 50.292169307418014,
+            "maximum_fallback_value": 3.4611215591430664,
+            "pairwise_spread": 0.5353773997660278,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241387209133547,
+            "diversity_loss": 49.423504420307054,
+            "maximum_fallback_value": 3.4611215591430664,
+            "pairwise_spread": 0.6275065063386853,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704762264823268,
+            "diversity_loss": 50.292169307418014,
+            "maximum_fallback_value": 3.4611215591430664,
+            "pairwise_spread": 0.5353773997660278,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 10.0
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07131940674609111,
+            "diversity_loss": 50.546200182346254,
+            "maximum_fallback_value": 4.196304798126221,
+            "pairwise_spread": 0.5869777406815099,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704765422499574,
+            "diversity_loss": 50.29216876779435,
+            "maximum_fallback_value": 4.196304798126221,
+            "pairwise_spread": 0.5353773770073587,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241388349589037,
+            "diversity_loss": 49.423501916764046,
+            "maximum_fallback_value": 4.196304798126221,
+            "pairwise_spread": 0.6275064352015712,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704765422499574,
+            "diversity_loss": 50.29216876779435,
+            "maximum_fallback_value": 4.196304798126221,
+            "pairwise_spread": 0.5353773770073587,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 10.200000000000001
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07081605704639121,
+            "diversity_loss": 50.521861061545636,
+            "maximum_fallback_value": 4.9303131103515625,
+            "pairwise_spread": 0.588072260767615,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704764888002279,
+            "diversity_loss": 50.29216829581649,
+            "maximum_fallback_value": 4.9303131103515625,
+            "pairwise_spread": 0.5353773785167376,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241388908095085,
+            "diversity_loss": 49.42350270351249,
+            "maximum_fallback_value": 4.9303131103515625,
+            "pairwise_spread": 0.6275064424538451,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704764888002279,
+            "diversity_loss": 50.29216829581649,
+            "maximum_fallback_value": 4.9303131103515625,
+            "pairwise_spread": 0.5353773785167376,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 10.4
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07044325476953654,
+            "diversity_loss": 50.52153190805637,
+            "maximum_fallback_value": 5.634349822998047,
+            "pairwise_spread": 0.5868228520837739,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704766790372807,
+            "diversity_loss": 50.29217120411023,
+            "maximum_fallback_value": 5.634349822998047,
+            "pairwise_spread": 0.5353773318579262,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241388654229427,
+            "diversity_loss": 49.42350198342403,
+            "maximum_fallback_value": 5.634349822998047,
+            "pairwise_spread": 0.6275065276312599,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704766790372807,
+            "diversity_loss": 50.29217120411023,
+            "maximum_fallback_value": 5.634349822998047,
+            "pairwise_spread": 0.5353773318579262,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 10.6
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07018449828836819,
+            "diversity_loss": 50.5414671824095,
+            "maximum_fallback_value": 6.288898468017578,
+            "pairwise_spread": 0.5841283454268348,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.0970476844522589,
+            "diversity_loss": 50.29217129537491,
+            "maximum_fallback_value": 6.288898468017578,
+            "pairwise_spread": 0.5353773204866512,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241389985182235,
+            "diversity_loss": 49.42350196750786,
+            "maximum_fallback_value": 6.288898468017578,
+            "pairwise_spread": 0.6275064876941772,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.0970476844522589,
+            "diversity_loss": 50.29217129537491,
+            "maximum_fallback_value": 6.288898468017578,
+            "pairwise_spread": 0.5353773204866512,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 10.8
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.07001406174541712,
+            "diversity_loss": 50.57221189091207,
+            "maximum_fallback_value": 6.880785942077637,
+            "pairwise_spread": 0.5814664814952779,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704769364258066,
+            "diversity_loss": 50.29217023624747,
+            "maximum_fallback_value": 6.880785942077637,
+            "pairwise_spread": 0.5353772964839963,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241390522086653,
+            "diversity_loss": 49.42350230451633,
+            "maximum_fallback_value": 6.880785942077637,
+            "pairwise_spread": 0.6275064484495366,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704769364258066,
+            "diversity_loss": 50.29217023624747,
+            "maximum_fallback_value": 6.880785942077637,
+            "pairwise_spread": 0.5353772964839963,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 11.0
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.06990537698737714,
+            "diversity_loss": 50.6103034334194,
+            "maximum_fallback_value": 7.40223503112793,
+            "pairwise_spread": 0.5788963273985396,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704770454512678,
+            "diversity_loss": 50.2921725041043,
+            "maximum_fallback_value": 7.40223503112793,
+            "pairwise_spread": 0.5353772400569782,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241390588871635,
+            "diversity_loss": 49.423504166265595,
+            "maximum_fallback_value": 7.40223503112793,
+            "pairwise_spread": 0.6275064538326599,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704770454512678,
+            "diversity_loss": 50.2921725041043,
+            "maximum_fallback_value": 7.40223503112793,
+            "pairwise_spread": 0.5353772400569782,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 11.200000000000001
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.0698444747669665,
+            "diversity_loss": 50.65605485899237,
+            "maximum_fallback_value": 7.850377082824707,
+            "pairwise_spread": 0.5760053248117466,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.0970477004337055,
+            "diversity_loss": 50.29217212265493,
+            "maximum_fallback_value": 7.850377082824707,
+            "pairwise_spread": 0.5353772089012676,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241390520372749,
+            "diversity_loss": 49.423502842939506,
+            "maximum_fallback_value": 7.850377082824707,
+            "pairwise_spread": 0.6275064835769023,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.0970477004337055,
+            "diversity_loss": 50.29217212265493,
+            "maximum_fallback_value": 7.850377082824707,
+            "pairwise_spread": 0.5353772089012676,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 11.4
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.0698245466506308,
+            "diversity_loss": 50.70786903405207,
+            "maximum_fallback_value": 8.226461410522461,
+            "pairwise_spread": 0.5727432640649569,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704770779565024,
+            "diversity_loss": 50.29217109330503,
+            "maximum_fallback_value": 8.226461410522461,
+            "pairwise_spread": 0.5353772791681642,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241390639573476,
+            "diversity_loss": 49.42350375303006,
+            "maximum_fallback_value": 8.226461410522461,
+            "pairwise_spread": 0.6275064751853315,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704770779565024,
+            "diversity_loss": 50.29217109330503,
+            "maximum_fallback_value": 8.226461410522461,
+            "pairwise_spread": 0.5353772791681642,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 11.6
+      },
+      {
+        "methods": {
+          "adaptive": {
+            "descriptor_target_loss": 0.06984398463820066,
+            "diversity_loss": 50.76216476145112,
+            "maximum_fallback_value": 8.534895896911621,
+            "pairwise_spread": 0.5693238519074132,
+            "safe_fallback_count": 8
+          },
+          "analytic": {
+            "descriptor_target_loss": 0.09704769737421148,
+            "diversity_loss": 50.29217207025371,
+            "maximum_fallback_value": 8.534895896911621,
+            "pairwise_spread": 0.535377205268562,
+            "safe_fallback_count": 8
+          },
+          "compensated": {
+            "descriptor_target_loss": 0.10241390459066735,
+            "diversity_loss": 49.42350229690035,
+            "maximum_fallback_value": 8.534895896911621,
+            "pairwise_spread": 0.6275064850813763,
+            "safe_fallback_count": 8
+          },
+          "fixed": {
+            "descriptor_target_loss": 0.09704769737421148,
+            "diversity_loss": 50.29217207025371,
+            "maximum_fallback_value": 8.534895896911621,
+            "pairwise_spread": 0.535377205268562,
+            "safe_fallback_count": 8
+          }
+        },
+        "time_seconds": 11.8
+      }
+    ],
+    "shared_t4_probe_postwindow_adaptive_pairwise_spread": 0.5726982728972302,
+    "shared_t4_probe_postwindow_adaptive_target_loss": 0.07532317270655241,
+    "shared_t4_probe_postwindow_fixed_pairwise_spread": 0.535508127631596,
+    "shared_t4_probe_postwindow_fixed_target_loss": 0.09632242263809142,
+    "shared_t4_zero_wind_descriptor_target_loss": 0.06170088128244133,
+    "shared_t4_zero_wind_pairwise_spread": 0.5434159419227642,
+    "smooth_motor_bounds": false,
+    "steps": 600,
+    "timing_includes_diagnostic_rollout_outputs": true,
+    "timing_methodology": "each complete controller/estimator/BPTT output synchronized separately; explicit discarded JIT warm-up; no batch elapsed-time division",
+    "total_wall_seconds_excluding_jit": 85.93840055400506,
+    "total_wall_seconds_including_jit": 104.99664931115694,
+    "true_wind_change_count": 1,
+    "wind_change_time_seconds": 4.0,
+    "wind_detected_time_seconds": 4.04
+  },
+  "title": "Constant-wind adaptation: fixed PL-CBF vs continuously adaptive DA-PLCBF",
+  "wind_change_time": 4.0
+}

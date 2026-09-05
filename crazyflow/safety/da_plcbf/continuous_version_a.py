@@ -4,7 +4,8 @@ This module deliberately has no policy-learning protocol.  A caller supplies two
 rollout functions: one for the nominal policy and one for an immutable snapshot of the fallback
 library.  Neither function receives obstacle data.  The controller then augments the two sets,
 scores every rollout against the *current* point prediction of static and moving obstacles,
-differentiate the hard values with JAX, and invokes the existing audited direct-wrench QP.
+differentiates a conservative smooth lower bound with JAX, and invokes the audited direct-wrench
+QP. Exact hard swept values remain independent certification and postcheck diagnostics.
 
 Only one :class:`~crazyflow.safety.da_plcbf.version_a_barriers.VersionAModel` is accepted.  It is
 the current point estimate and is shared by the rollouts, value gradient, and QP.  Model particles,
@@ -41,6 +42,18 @@ if TYPE_CHECKING:
         VersionABarrierConfig,
     )
     from crazyflow.safety.da_plcbf.version_a_filter import VersionAActuator, VersionAFilterConfig
+
+
+QP_REJECTION_REASONS = (
+    "invalid_input",
+    "no_policy_certificate",
+    "qp_infeasible",
+    "kkt_failed",
+    "actuator_failed",
+    "policy_residual_failed",
+    "analytic_barrier_failed",
+    "held_interval_failed",
+)
 
 
 class PolicyRollouts(NamedTuple):
@@ -106,17 +119,31 @@ class ContinuousVersionAStep(NamedTuple):
     used_midpoint: Array
     degraded: Array
     qp_intervention_norm: Array
+    smooth_values: Array
+    selected_policy_dual: Array
+    qp_rejection_flags: Array
 
 
 @dataclass(frozen=True, slots=True)
 class ContinuousVersionAConfig:
-    """Small set of demo-specific certificate and held-step settings."""
+    """Collision-only finite-horizon values with independent operational constraints.
+
+    The corrected defaults use a conservative smooth collision-value QP face and disable analytic
+    obstacle HOCBF faces. Arena, altitude, speed, angular-rate, tilt, and actuators remain enforced
+    by the instantaneous filter. They are not part of the horizon collision value. Set
+    ``use_policy_constraint=False, analytic_obstacle_hocbf=True`` for the matched analytic-only
+    baseline; that mode has no PL-CBF row and never executes a library fallback.
+    """
 
     dt: float = 0.02
     horizon: int = 50
     obstacle_clearance: float = 0.12
     interval_tolerance: float = 2e-6
     prefer_nominal_when_safe: bool = True
+    ego_radius: float = 0.0
+    analytic_obstacle_hocbf: bool = False
+    use_policy_constraint: bool = True
+    smooth_min_temperature: float = 0.005
 
     def validate(self) -> None:
         """Reject non-finite geometry or invalid fixed rollout shapes."""
@@ -128,6 +155,14 @@ class ContinuousVersionAConfig:
             raise ValueError("obstacle_clearance must be finite and nonnegative")
         if not math.isfinite(self.interval_tolerance) or self.interval_tolerance < 0:
             raise ValueError("interval_tolerance must be finite and nonnegative")
+        if not math.isfinite(self.ego_radius) or self.ego_radius < 0:
+            raise ValueError("ego_radius must be finite and nonnegative")
+        if not math.isfinite(self.smooth_min_temperature) or self.smooth_min_temperature <= 0:
+            raise ValueError("smooth_min_temperature must be finite and positive")
+        if not isinstance(self.analytic_obstacle_hocbf, bool):
+            raise TypeError("analytic_obstacle_hocbf must be boolean")
+        if not isinstance(self.use_policy_constraint, bool):
+            raise TypeError("use_policy_constraint must be boolean")
         if not isinstance(self.prefer_nominal_when_safe, bool):
             raise TypeError("prefer_nominal_when_safe must be boolean")
 
@@ -194,7 +229,11 @@ def _validate_obstacle_shapes(obstacles: RuntimeObstacleTrajectories, *, horizon
 
 
 def runtime_policy_values(
-    rollout_states: Array, obstacles: RuntimeObstacleTrajectories, *, obstacle_clearance: float
+    rollout_states: Array,
+    obstacles: RuntimeObstacleTrajectories,
+    *,
+    obstacle_clearance: float,
+    ego_radius: float = 0.0,
 ) -> RuntimePolicyValues:
     """Return exact hard spherical values using relative swept motion.
 
@@ -212,18 +251,26 @@ def runtime_policy_values(
     if not math.isfinite(obstacle_clearance) or obstacle_clearance < 0:
         raise ValueError("obstacle_clearance must be finite and nonnegative")
 
+    if not math.isfinite(ego_radius) or ego_radius < 0:
+        raise ValueError("ego_radius must be finite and nonnegative")
     centers = jnp.asarray(obstacles.centers, dtype=rollout_states.dtype)
     radii = jnp.asarray(obstacles.radii, dtype=rollout_states.dtype)
     mask = jnp.asarray(obstacles.mask, dtype=bool)
-    relative = rollout_states[:, :, None, :3] - centers[None, ...]
-    inflated_radius_squared = (radii + obstacle_clearance) ** 2
+    # Sanitise masked padding before differentiation: where(mask, NaN, inf) still risks NaN
+    # cotangents even when the padded obstacle has no physical role.
+    safe_centers = jnp.where(mask[..., None], centers, 0.0)
+    safe_radii = jnp.where(jnp.any(mask, axis=0), radii, 0.0)
+    relative = rollout_states[:, :, None, :3] - safe_centers[None, ...]
+    inflated_radius_squared = (safe_radii + ego_radius + obstacle_clearance) ** 2
     node_values = jnp.sum(relative * relative, axis=-1) - inflated_radius_squared[None, None, :]
     node_values = jnp.where(mask[None, ...], node_values, jnp.inf)
 
     start = relative[:, :-1]
     delta = relative[:, 1:] - start
     denominator = jnp.sum(delta * delta, axis=-1)
-    moving = denominator > 32.0 * jnp.finfo(rollout_states.dtype).eps
+    # Only a zero-length segment is stationary. An epsilon-sized distance threshold can
+    # otherwise miss a collision between two very close, individually safe endpoints.
+    moving = denominator > 0.0
     safe_denominator = jnp.where(moving, denominator, 1.0)
     fraction = jnp.clip(-jnp.sum(start * delta, axis=-1) / safe_denominator, 0.0, 1.0)
     fraction = jnp.where(moving, fraction, 0.0)
@@ -254,11 +301,39 @@ def runtime_policy_values(
     input_valid = (
         jnp.all(jnp.isfinite(rollout_states), axis=(1, 2))
         & jnp.all(active_obstacles_valid)
+        & jnp.all(jnp.where(mask[None, ...], jnp.isfinite(node_values), True), axis=(1, 2))
+        & jnp.all(
+            jnp.where(segment_mask[None, ...], jnp.isfinite(segment_values), True), axis=(1, 2)
+        )
         & (finite_count > 0)
         & jnp.isfinite(values)
     )
     values = jnp.where(input_valid, values, -jnp.inf)
     return RuntimePolicyValues(values, flattened, active, gaps, input_valid)
+
+
+def conservative_smooth_policy_values(values: RuntimePolicyValues, *, temperature: float) -> Array:
+    """Smooth lower bound on the exact hard obstacle minimum, in squared metres.
+
+    The unnormalised log-sum-exp obeys ``soft <= hard <= soft + temperature * log(N)``
+    for N enabled node/segment constraints. Duplicate endpoint minima therefore have a single
+    smooth, permutation-invariant derivative rather than causing every rollout to be rejected.
+    Both this value and its derivative must be used together in the QP. Hard values are retained
+    for collision diagnostics and held-interval postchecks. This regularises the outer minimum;
+    it does not eliminate policy-selection switches or all piecewise rollout nonsmoothness.
+    """
+    if not math.isfinite(temperature) or temperature <= 0:
+        raise ValueError("temperature must be finite and positive")
+    constraints = values.constraint_values
+    finite = jnp.isfinite(constraints)
+    # A dummy finite row keeps an invalid/all-masked candidate's derivative well-defined; the
+    # input-valid flag still rejects it. +inf padding contributes exactly zero exponential mass.
+    safe_constraints = jnp.where(finite, constraints, jnp.inf)
+    safe_constraints = safe_constraints.at[:, 0].set(
+        jnp.where(jnp.any(finite, axis=-1), safe_constraints[:, 0], 0.0)
+    )
+    smooth = -temperature * jax.scipy.special.logsumexp(-safe_constraints / temperature, axis=-1)
+    return jnp.where(values.input_valid, smooth, -jnp.inf)
 
 
 def rollout_waypoint_library(
@@ -273,6 +348,7 @@ def rollout_waypoint_library(
     horizon: int,
     position_gain: float = 2.0,
     velocity_gain: float = 1.4,
+    model_compensation: bool = False,
 ) -> PolicyRollouts:
     """Roll out a deterministic set of waypoint policies through one point model."""
     if state.shape != (13,):
@@ -302,6 +378,7 @@ def rollout_waypoint_library(
                 quad_config,
                 position_gain=position_gain,
                 velocity_gain=velocity_gain,
+                model_compensation=model_compensation,
             )
         )(carry, target_positions, target_velocities)
         following = direct_wrench_symplectic_step(carry, command.wrench, model, dt)
@@ -381,7 +458,10 @@ def _held_margin(
         obstacles.centers[:2], obstacles.radii, obstacles.mask[:2]
     )
     margin = runtime_policy_values(
-        pair, interval_obstacles, obstacle_clearance=config.obstacle_clearance
+        pair,
+        interval_obstacles,
+        obstacle_clearance=config.obstacle_clearance,
+        ego_radius=config.ego_radius,
     ).values[0]
     return next_state, margin
 
@@ -408,7 +488,8 @@ def continuous_version_a_step(
     callback closures are evaluated wholly inside this call.  A publisher may replace its active
     parameters only between calls.  The QP action is used only after its exact actuator/barrier
     postcheck and an independent held-interval obstacle check.  The selected policy's first action
-    is considered only when that QP proposal is invalid.
+    is considered only when that QP proposal is invalid. An executable held-safe fallback whose
+    horizon value is negative may be returned only as explicitly degraded best effort.
     """
     config.validate()
     barrier_config.validate()
@@ -432,24 +513,41 @@ def continuous_version_a_step(
             estimated_model,
             horizon=config.horizon,
         )
-        values = runtime_policy_values(
-            candidates.states, obstacles, obstacle_clearance=config.obstacle_clearance
-        ).values
-        return values, candidates
+        hard_values = runtime_policy_values(
+            candidates.states,
+            obstacles,
+            obstacle_clearance=config.obstacle_clearance,
+            ego_radius=config.ego_radius,
+        )
+        smooth_values = conservative_smooth_policy_values(
+            hard_values, temperature=config.smooth_min_temperature
+        )
+        return smooth_values, candidates
 
-    values_array, candidates = rollouts_and_values(state)
-    gradients = jax.jacfwd(lambda candidate_state: rollouts_and_values(candidate_state)[0])(state)
+    # Reuse the primal rollout already evaluated by forward differentiation. A separate
+    # rollout here duplicates a full horizon scan without changing the candidate snapshot.
+    gradients, candidates = jax.jacfwd(rollouts_and_values, has_aux=True)(state)
     values = runtime_policy_values(
-        candidates.states, obstacles, obstacle_clearance=config.obstacle_clearance
+        candidates.states,
+        obstacles,
+        obstacle_clearance=config.obstacle_clearance,
+        ego_radius=config.ego_radius,
+    )
+    smooth_values = conservative_smooth_policy_values(
+        values, temperature=config.smooth_min_temperature
     )
     gradient_valid = (
-        candidates.valid & values.input_valid & jnp.all(jnp.isfinite(gradients), axis=-1)
+        candidates.valid
+        & values.input_valid
+        & jnp.isfinite(smooth_values)
+        & jnp.all(jnp.isfinite(gradients), axis=-1)
     )
     certificates = PolicyLibraryCertificates(
-        values=values_array,
+        values=values.values,
         gradients=gradients,
         gradient_valid=gradient_valid,
         fallback_wrenches=candidates.wrenches[:, 0],
+        barrier_values=smooth_values,
     )
     current_safety = safety_limits._replace(
         obstacle_centers=jnp.asarray(obstacles.centers[0], dtype=state.dtype),
@@ -457,7 +555,17 @@ def continuous_version_a_step(
         obstacle_mask=jnp.asarray(obstacles.mask[0], dtype=bool),
     )
     nominal_action = candidates.wrenches[0, 0]
-    demo_filter_config = replace(filter_config, selection_requires_certified_fallback=False)
+    demo_filter_config = replace(
+        filter_config,
+        selection_requires_certified_fallback=False,
+        enforce_policy_barrier=config.use_policy_constraint,
+    )
+    demo_barrier_config = replace(
+        barrier_config,
+        include_obstacle_hocbf=config.analytic_obstacle_hocbf,
+        obstacle_clearance=config.obstacle_clearance,
+        ego_radius=config.ego_radius,
+    )
     demo_selection_config = replace(
         selection_config, prefer_first_eligible=config.prefer_nominal_when_safe
     )
@@ -469,7 +577,7 @@ def continuous_version_a_step(
         estimated_model,
         actuator,
         current_safety,
-        barrier_config,
+        demo_barrier_config,
         demo_filter_config,
         previous_policy_index=previous_policy_index,
         selection_config=demo_selection_config,
@@ -483,16 +591,24 @@ def continuous_version_a_step(
         filtered.qp_accepted & jnp.isfinite(qp_margin) & (qp_margin >= -config.interval_tolerance)
     )
     selected_value = values.values[filtered.selected_index]
-    fallback_valid = (
-        filtered.has_certificate
+    fallback_executable = (
+        config.use_policy_constraint
+        & candidates.valid[filtered.selected_index]
+        & values.input_valid[filtered.selected_index]
         & filtered.fallback_postcheck.actuator_passed
-        & jnp.isfinite(selected_value)
-        & (selected_value >= selection_config.minimum_hard_value)
+        & filtered.fallback_postcheck.analytic_barriers_passed
         & jnp.isfinite(fallback_margin)
         & (fallback_margin >= -config.interval_tolerance)
     )
-    use_fallback = (~qp_valid) & fallback_valid
-    use_midpoint = (~qp_valid) & (~fallback_valid)
+    fallback_valid = (
+        fallback_executable
+        & jnp.isfinite(selected_value)
+        & (selected_value >= selection_config.minimum_hard_value)
+    )
+    # Without a horizon certificate, execute the best-valued held-safe fallback as explicitly
+    # degraded best effort. An arbitrary midpoint must not manufacture an ablation failure.
+    use_fallback = (~qp_valid) & fallback_executable
+    use_midpoint = (~qp_valid) & (~fallback_executable)
     midpoint = filtered.motor_polytope.midpoint_wrench
     midpoint_next, midpoint_margin = _held_margin(
         state, midpoint, estimated_model, obstacles, config
@@ -506,9 +622,7 @@ def continuous_version_a_step(
     )
     applied_postcheck = postcheck_version_a_action(action, actuator, filtered, demo_filter_config)
     execution_valid = jnp.where(
-        qp_valid,
-        applied_postcheck.passed,
-        jnp.where(use_fallback, filtered.fallback_postcheck.actuator_passed, False),
+        qp_valid, applied_postcheck.passed, jnp.where(use_fallback, fallback_valid, False)
     )
     degraded = (
         use_midpoint
@@ -517,6 +631,21 @@ def continuous_version_a_step(
         | (applied_margin < -config.interval_tolerance)
     )
     safe = values.input_valid & (values.values >= selection_config.minimum_hard_value)
+    qp_rejection_flags = jnp.stack(
+        (
+            ~filtered.input_valid,
+            config.use_policy_constraint & ~filtered.has_certificate,
+            ~filtered.qp.feasible,
+            filtered.qp.feasible & ~filtered.qp_kkt_valid,
+            filtered.qp.feasible & ~filtered.qp_postcheck.actuator_passed,
+            filtered.qp.feasible
+            & config.use_policy_constraint
+            & ~filtered.qp_postcheck.policy_barrier_passed,
+            filtered.qp.feasible & ~filtered.qp_postcheck.analytic_barriers_passed,
+            filtered.qp_accepted
+            & (~jnp.isfinite(qp_margin) | (qp_margin < -config.interval_tolerance)),
+        )
+    )
     return ContinuousVersionAStep(
         action=action,
         nominal_action=nominal_action,
@@ -541,6 +670,9 @@ def continuous_version_a_step(
         used_midpoint=use_midpoint,
         degraded=degraded,
         qp_intervention_norm=jnp.linalg.norm(action - nominal_action),
+        smooth_values=smooth_values,
+        selected_policy_dual=filtered.selected_policy_dual,
+        qp_rejection_flags=qp_rejection_flags,
     )
 
 
@@ -548,10 +680,12 @@ __all__ = [
     "ContinuousVersionAConfig",
     "ContinuousVersionAStep",
     "PolicyRollouts",
+    "QP_REJECTION_REASONS",
     "RuntimeObstacleTrajectories",
     "RuntimePolicyValues",
     "augmented_policy_rollouts",
     "continuous_version_a_step",
+    "conservative_smooth_policy_values",
     "obstacle_agnostic_waypoint_callbacks",
     "rollout_waypoint_library",
     "runtime_policy_values",
