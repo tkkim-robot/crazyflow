@@ -1,0 +1,34 @@
+{
+  "seed": 0,
+  "obstacle_count": 16,
+  "duration_seconds": 40.0,
+  "wind_events": [
+    {
+      "time_seconds": 8.0,
+      "velocity": [
+        2.0,
+        0.8,
+        0.0
+      ]
+    },
+    {
+      "time_seconds": 24.0,
+      "velocity": [
+        -1.6,
+        1.0,
+        0.0
+      ]
+    }
+  ],
+  "payload_events": [
+    {
+      "time_seconds": 16.0,
+      "mass_fraction": 0.25,
+      "half_extents": [
+        0.025,
+        0.025,
+        0.025
+      ]
+    }
+  ]
+}

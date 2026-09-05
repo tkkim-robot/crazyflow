@@ -1,0 +1,267 @@
+{
+  "scope": "Read-only derivation from saved dense plant nodes and archived absolute-time constant-velocity obstacle scenarios. Relative swept chords, not a continuous-time flight guarantee. Raw minima and raw emergency counts include explicitly disclosed diagnostic continuation after collision; censored counts are separate.",
+  "script": "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_branch_clearance_audit.py",
+  "script_sha256": "a57a46b15ceaa5ccc3dda7311c8e32184e6c71ad993e7d98187fc07eb555baba",
+  "replays": [
+    {
+      "replay_directory": "artifacts/da_plcbf/navigation-revision-20260905/legacy-estimated-replay",
+      "source_directory": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8",
+      "branches": [
+        {
+          "branch": "oracle_frozen",
+          "start_time_seconds": 4.12,
+          "end_time_seconds": 5.24,
+          "start_library_version": 503,
+          "integration_dt_seconds": 0.02,
+          "control_interval_steps": 2,
+          "raw_control_count": 28,
+          "raw_dense_node_count": 57,
+          "raw_emergency_controls": 11,
+          "controls_through_first_physical_collision_interval": 28,
+          "emergency_controls_through_first_physical_collision_interval": 11,
+          "post_collision_control_continuation_count": 0,
+          "physical": {
+            "minimum_clearance_m": 0.07148837054000556,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.24,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          },
+          "inflated_shell": {
+            "minimum_clearance_m": -0.07851162945999446,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.24,
+            "first_violating_interval_index": 35,
+            "first_violating_interval_start_seconds": 4.82,
+            "first_violating_interval_end_seconds": 4.84
+          }
+        },
+        {
+          "branch": "oracle_learning",
+          "start_time_seconds": 4.12,
+          "end_time_seconds": 5.24,
+          "start_library_version": 503,
+          "integration_dt_seconds": 0.02,
+          "control_interval_steps": 2,
+          "raw_control_count": 28,
+          "raw_dense_node_count": 57,
+          "raw_emergency_controls": 12,
+          "controls_through_first_physical_collision_interval": 28,
+          "emergency_controls_through_first_physical_collision_interval": 12,
+          "post_collision_control_continuation_count": 0,
+          "physical": {
+            "minimum_clearance_m": 0.0076797443426656065,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.24,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          },
+          "inflated_shell": {
+            "minimum_clearance_m": -0.14232025565733442,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.24,
+            "first_violating_interval_index": 33,
+            "first_violating_interval_start_seconds": 4.78,
+            "first_violating_interval_end_seconds": 4.8
+          }
+        },
+        {
+          "branch": "estimated_frozen",
+          "start_time_seconds": 4.12,
+          "end_time_seconds": 5.24,
+          "start_library_version": 503,
+          "integration_dt_seconds": 0.02,
+          "control_interval_steps": 2,
+          "raw_control_count": 28,
+          "raw_dense_node_count": 57,
+          "raw_emergency_controls": 14,
+          "controls_through_first_physical_collision_interval": 28,
+          "emergency_controls_through_first_physical_collision_interval": 14,
+          "post_collision_control_continuation_count": 0,
+          "physical": {
+            "minimum_clearance_m": 0.02403377567084808,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.005480954745365,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          },
+          "inflated_shell": {
+            "minimum_clearance_m": -0.12596622432915194,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.005480954745365,
+            "first_violating_interval_index": 29,
+            "first_violating_interval_start_seconds": 4.7,
+            "first_violating_interval_end_seconds": 4.72
+          }
+        },
+        {
+          "branch": "estimated_learning",
+          "start_time_seconds": 4.12,
+          "end_time_seconds": 5.24,
+          "start_library_version": 503,
+          "integration_dt_seconds": 0.02,
+          "control_interval_steps": 2,
+          "raw_control_count": 28,
+          "raw_dense_node_count": 57,
+          "raw_emergency_controls": 14,
+          "controls_through_first_physical_collision_interval": 21,
+          "emergency_controls_through_first_physical_collision_interval": 7,
+          "post_collision_control_continuation_count": 7,
+          "physical": {
+            "minimum_clearance_m": -0.009144223592309153,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.050667712720933,
+            "first_violating_interval_index": 41,
+            "first_violating_interval_start_seconds": 4.94,
+            "first_violating_interval_end_seconds": 4.96
+          },
+          "inflated_shell": {
+            "minimum_clearance_m": -0.15914422359230918,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.050667712720933,
+            "first_violating_interval_index": 29,
+            "first_violating_interval_start_seconds": 4.7,
+            "first_violating_interval_end_seconds": 4.72
+          }
+        }
+      ],
+      "replay_npz_sha256": "8ffa2752f2647b89d9a0aa7fae85d642cdbcb6c194b7f0c02e9f288e5b445f10",
+      "replay_json_sha256": "e42f4847b703cd251b471630cfb1fd2ad3229e8608c4bdf355636dc698e1cc81",
+      "source_trace_sha256": "d93a09a90bf5cab8cf4f48d5c20527468f1846b6577d181e6a76bbb77a8992c5",
+      "source_scenario_sha256": "34307b1ed44cd2506b71d3592e639aca0fbb86b0db71b568ef80cb0ec6476920"
+    },
+    {
+      "replay_directory": "artifacts/da_plcbf/navigation-revision-20260905/legacy-oracle-replay-2",
+      "source_directory": "artifacts/da_plcbf/competent-revision-20260904/wind-oracle-compensated-3",
+      "branches": [
+        {
+          "branch": "oracle_frozen",
+          "start_time_seconds": 4.12,
+          "end_time_seconds": 5.24,
+          "start_library_version": 503,
+          "integration_dt_seconds": 0.02,
+          "control_interval_steps": 2,
+          "raw_control_count": 28,
+          "raw_dense_node_count": 57,
+          "raw_emergency_controls": 0,
+          "controls_through_first_physical_collision_interval": 28,
+          "emergency_controls_through_first_physical_collision_interval": 0,
+          "post_collision_control_continuation_count": 0,
+          "physical": {
+            "minimum_clearance_m": 0.1572859067462441,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 4.86,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          },
+          "inflated_shell": {
+            "minimum_clearance_m": 0.007285906746244075,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 4.86,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          }
+        },
+        {
+          "branch": "oracle_learning",
+          "start_time_seconds": 4.12,
+          "end_time_seconds": 5.24,
+          "start_library_version": 503,
+          "integration_dt_seconds": 0.02,
+          "control_interval_steps": 2,
+          "raw_control_count": 28,
+          "raw_dense_node_count": 57,
+          "raw_emergency_controls": 0,
+          "controls_through_first_physical_collision_interval": 28,
+          "emergency_controls_through_first_physical_collision_interval": 0,
+          "post_collision_control_continuation_count": 0,
+          "physical": {
+            "minimum_clearance_m": 0.1558627423079486,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.0,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          },
+          "inflated_shell": {
+            "minimum_clearance_m": 0.005862742307948587,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.0,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          }
+        },
+        {
+          "branch": "estimated_frozen",
+          "start_time_seconds": 4.12,
+          "end_time_seconds": 5.24,
+          "start_library_version": 503,
+          "integration_dt_seconds": 0.02,
+          "control_interval_steps": 2,
+          "raw_control_count": 28,
+          "raw_dense_node_count": 57,
+          "raw_emergency_controls": 12,
+          "controls_through_first_physical_collision_interval": 28,
+          "emergency_controls_through_first_physical_collision_interval": 12,
+          "post_collision_control_continuation_count": 0,
+          "physical": {
+            "minimum_clearance_m": 0.05611165871322954,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.0777560402284445,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          },
+          "inflated_shell": {
+            "minimum_clearance_m": -0.09388834128677048,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.0777560402284445,
+            "first_violating_interval_index": 32,
+            "first_violating_interval_start_seconds": 4.76,
+            "first_violating_interval_end_seconds": 4.78
+          }
+        },
+        {
+          "branch": "estimated_learning",
+          "start_time_seconds": 4.12,
+          "end_time_seconds": 5.24,
+          "start_library_version": 503,
+          "integration_dt_seconds": 0.02,
+          "control_interval_steps": 2,
+          "raw_control_count": 28,
+          "raw_dense_node_count": 57,
+          "raw_emergency_controls": 12,
+          "controls_through_first_physical_collision_interval": 28,
+          "emergency_controls_through_first_physical_collision_interval": 12,
+          "post_collision_control_continuation_count": 0,
+          "physical": {
+            "minimum_clearance_m": 0.008633024465675043,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.24,
+            "first_violating_interval_index": null,
+            "first_violating_interval_start_seconds": null,
+            "first_violating_interval_end_seconds": null
+          },
+          "inflated_shell": {
+            "minimum_clearance_m": -0.14136697553432498,
+            "minimum_clearance_obstacle_index": 0,
+            "minimum_clearance_chord_time_seconds": 5.24,
+            "first_violating_interval_index": 32,
+            "first_violating_interval_start_seconds": 4.76,
+            "first_violating_interval_end_seconds": 4.78
+          }
+        }
+      ],
+      "replay_npz_sha256": "578689c62bc50be0e82e0388f765852eee8fb8561def7028d1aed22641fea13d",
+      "replay_json_sha256": "fe45265df90b39e0b766f185b521d4d5286c71ada1133fdf686f6f23d039c474",
+      "source_trace_sha256": "469d78e6969829315a2c764546f6dfb2c9e6e66b3bac9f5e1107c0876ab9c76a",
+      "source_scenario_sha256": "fc18c0b50364a31a0099ac9388a7aa73e0168a6c8c5c6aa39b678bd89370b277"
+    }
+  ]
+}

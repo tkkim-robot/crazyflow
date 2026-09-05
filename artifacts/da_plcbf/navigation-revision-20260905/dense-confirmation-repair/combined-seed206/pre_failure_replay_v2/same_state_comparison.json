@@ -1,0 +1,293 @@
+{
+  "reconstruction": {
+    "start_index": 400,
+    "verification_index": 500,
+    "updates_replayed": 50,
+    "full_parameter_optimizer_model_state_bitwise_equal": true,
+    "maximum_leaf_abs_error": 0.0,
+    "device": "cuda:0",
+    "leaf_differences": []
+  },
+  "chronology": "Libraries are queried at the same recorded fixed-controller states. Adaptive parameters are reconstructed from their original training path. Event order alone does not establish disturbance-recovery necessity.",
+  "world_events": {
+    "wind_events": [
+      {
+        "time_seconds": 8.0,
+        "velocity": [
+          2.0,
+          0.8,
+          0.0
+        ]
+      },
+      {
+        "time_seconds": 24.0,
+        "velocity": [
+          -1.6,
+          1.0,
+          0.0
+        ]
+      }
+    ],
+    "payload_events": [
+      {
+        "half_extents": [
+          0.025,
+          0.025,
+          0.025
+        ],
+        "mass_fraction": 0.25,
+        "time_seconds": 16.0
+      }
+    ]
+  },
+  "queried_time_seconds": [
+    19.0,
+    19.32,
+    19.36,
+    19.48
+  ],
+  "rows": [
+    {
+      "control_index": 475,
+      "simulation_time": 19.0,
+      "library": "fixed",
+      "library_version": 460,
+      "anchor": "fixed physical state/model/goal/selection history",
+      "fallback_max_hard": 0.049024224281311035,
+      "augmented_max_hard": 0.049024224281311035,
+      "eligible_count": 2,
+      "accepted_qp": true,
+      "used_fallback": false,
+      "degraded": false,
+      "applied_wrench": [
+        0.5434610247612,
+        9.034785762196407e-05,
+        -0.00013916318130213767,
+        1.0080503670906182e-05
+      ],
+      "qp_rejection_reasons": [],
+      "minimum_qp_held_operational_residual": 0.7353584170341492,
+      "minimum_held_operational_constraint": "arena_y_lower",
+      "minimum_held_operational_substep": 0,
+      "nonfinite_qp_held_operational_entries": 0,
+      "qp_minimum_scope": "finite proposal entries only; raw NaN/inf retained in NPZ",
+      "held_operational_constraint_caused_rejection": false,
+      "applied_held_operational_residual": 0.7353584170341492,
+      "recorded_fixed_wrench_max_abs_error": 0.0,
+      "recorded_anchor_wrench_max_abs_error": 0.0
+    },
+    {
+      "control_index": 475,
+      "simulation_time": 19.0,
+      "library": "adaptive",
+      "library_version": 648,
+      "anchor": "fixed physical state/model/goal/selection history",
+      "fallback_max_hard": 0.050130799412727356,
+      "augmented_max_hard": 0.050130799412727356,
+      "eligible_count": 2,
+      "accepted_qp": true,
+      "used_fallback": false,
+      "degraded": false,
+      "applied_wrench": [
+        0.5337997078895569,
+        -2.2548348965756304e-07,
+        -9.090988896787167e-06,
+        1.800029281184834e-06
+      ],
+      "qp_rejection_reasons": [],
+      "minimum_qp_held_operational_residual": 0.7440522909164429,
+      "minimum_held_operational_constraint": "arena_y_lower",
+      "minimum_held_operational_substep": 0,
+      "nonfinite_qp_held_operational_entries": 0,
+      "qp_minimum_scope": "finite proposal entries only; raw NaN/inf retained in NPZ",
+      "held_operational_constraint_caused_rejection": false,
+      "applied_held_operational_residual": 0.7440522909164429,
+      "recorded_fixed_wrench_max_abs_error": null,
+      "recorded_anchor_wrench_max_abs_error": null
+    },
+    {
+      "control_index": 483,
+      "simulation_time": 19.32,
+      "library": "fixed",
+      "library_version": 460,
+      "anchor": "fixed physical state/model/goal/selection history",
+      "fallback_max_hard": 0.03194358944892883,
+      "augmented_max_hard": 0.03194358944892883,
+      "eligible_count": 1,
+      "accepted_qp": true,
+      "used_fallback": false,
+      "degraded": false,
+      "applied_wrench": [
+        0.524294376373291,
+        -0.00020032502652611583,
+        -0.0004777515132445842,
+        1.7831636796472594e-05
+      ],
+      "qp_rejection_reasons": [],
+      "minimum_qp_held_operational_residual": -4.172325134277344e-07,
+      "minimum_held_operational_constraint": "arena_y_lower",
+      "minimum_held_operational_substep": 1,
+      "nonfinite_qp_held_operational_entries": 0,
+      "qp_minimum_scope": "finite proposal entries only; raw NaN/inf retained in NPZ",
+      "held_operational_constraint_caused_rejection": false,
+      "applied_held_operational_residual": -4.172325134277344e-07,
+      "recorded_fixed_wrench_max_abs_error": 0.0,
+      "recorded_anchor_wrench_max_abs_error": 0.0
+    },
+    {
+      "control_index": 483,
+      "simulation_time": 19.32,
+      "library": "adaptive",
+      "library_version": 652,
+      "anchor": "fixed physical state/model/goal/selection history",
+      "fallback_max_hard": 0.036976903676986694,
+      "augmented_max_hard": 0.036976903676986694,
+      "eligible_count": 1,
+      "accepted_qp": true,
+      "used_fallback": false,
+      "degraded": false,
+      "applied_wrench": [
+        0.5233195424079895,
+        -0.00019170787709299475,
+        -0.0004946725093759596,
+        1.5574019926134497e-05
+      ],
+      "qp_rejection_reasons": [],
+      "minimum_qp_held_operational_residual": -7.152557373046875e-07,
+      "minimum_held_operational_constraint": "arena_y_lower",
+      "minimum_held_operational_substep": 1,
+      "nonfinite_qp_held_operational_entries": 0,
+      "qp_minimum_scope": "finite proposal entries only; raw NaN/inf retained in NPZ",
+      "held_operational_constraint_caused_rejection": false,
+      "applied_held_operational_residual": -7.152557373046875e-07,
+      "recorded_fixed_wrench_max_abs_error": null,
+      "recorded_anchor_wrench_max_abs_error": null
+    },
+    {
+      "control_index": 484,
+      "simulation_time": 19.36,
+      "library": "fixed",
+      "library_version": 460,
+      "anchor": "fixed physical state/model/goal/selection history",
+      "fallback_max_hard": 0.030110925436019897,
+      "augmented_max_hard": 0.030110925436019897,
+      "eligible_count": 1,
+      "accepted_qp": false,
+      "used_fallback": false,
+      "degraded": true,
+      "applied_wrench": [
+        0.5271157026290894,
+        -0.00010853289131773636,
+        0.00010232735803583637,
+        1.568786501593422e-05
+      ],
+      "qp_rejection_reasons": [
+        "qp_infeasible"
+      ],
+      "minimum_qp_held_operational_residual": null,
+      "minimum_held_operational_constraint": null,
+      "minimum_held_operational_substep": null,
+      "nonfinite_qp_held_operational_entries": 18,
+      "qp_minimum_scope": "finite proposal entries only; raw NaN/inf retained in NPZ",
+      "held_operational_constraint_caused_rejection": false,
+      "applied_held_operational_residual": -0.09715509414672852,
+      "recorded_fixed_wrench_max_abs_error": 0.0,
+      "recorded_anchor_wrench_max_abs_error": 0.0
+    },
+    {
+      "control_index": 484,
+      "simulation_time": 19.36,
+      "library": "adaptive",
+      "library_version": 652,
+      "anchor": "fixed physical state/model/goal/selection history",
+      "fallback_max_hard": 0.03443622589111328,
+      "augmented_max_hard": 0.03443622589111328,
+      "eligible_count": 1,
+      "accepted_qp": false,
+      "used_fallback": false,
+      "degraded": true,
+      "applied_wrench": [
+        0.5271157026290894,
+        -0.00010853289131773636,
+        0.00010232735803583637,
+        1.568786501593422e-05
+      ],
+      "qp_rejection_reasons": [
+        "qp_infeasible"
+      ],
+      "minimum_qp_held_operational_residual": null,
+      "minimum_held_operational_constraint": null,
+      "minimum_held_operational_substep": null,
+      "nonfinite_qp_held_operational_entries": 18,
+      "qp_minimum_scope": "finite proposal entries only; raw NaN/inf retained in NPZ",
+      "held_operational_constraint_caused_rejection": false,
+      "applied_held_operational_residual": -0.09715509414672852,
+      "recorded_fixed_wrench_max_abs_error": null,
+      "recorded_anchor_wrench_max_abs_error": null
+    },
+    {
+      "control_index": 487,
+      "simulation_time": 19.48,
+      "library": "fixed",
+      "library_version": 460,
+      "anchor": "fixed physical state/model/goal/selection history",
+      "fallback_max_hard": -0.0063660889863967896,
+      "augmented_max_hard": -0.0063660889863967896,
+      "eligible_count": 0,
+      "accepted_qp": false,
+      "used_fallback": false,
+      "degraded": true,
+      "applied_wrench": [
+        0.5397640466690063,
+        -2.614396726130508e-05,
+        0.0001288121857214719,
+        9.907595085678622e-06
+      ],
+      "qp_rejection_reasons": [
+        "no_policy_certificate",
+        "policy_residual_failed"
+      ],
+      "minimum_qp_held_operational_residual": -155.42315673828125,
+      "minimum_held_operational_constraint": "angular_rate",
+      "minimum_held_operational_substep": 1,
+      "nonfinite_qp_held_operational_entries": 0,
+      "qp_minimum_scope": "finite proposal entries only; raw NaN/inf retained in NPZ",
+      "held_operational_constraint_caused_rejection": false,
+      "applied_held_operational_residual": -0.11772486567497253,
+      "recorded_fixed_wrench_max_abs_error": 0.0,
+      "recorded_anchor_wrench_max_abs_error": 0.0
+    },
+    {
+      "control_index": 487,
+      "simulation_time": 19.48,
+      "library": "adaptive",
+      "library_version": 654,
+      "anchor": "fixed physical state/model/goal/selection history",
+      "fallback_max_hard": -0.006748944520950317,
+      "augmented_max_hard": -0.006748944520950317,
+      "eligible_count": 0,
+      "accepted_qp": false,
+      "used_fallback": false,
+      "degraded": true,
+      "applied_wrench": [
+        0.5397640466690063,
+        -2.614396726130508e-05,
+        0.0001288121857214719,
+        9.907595085678622e-06
+      ],
+      "qp_rejection_reasons": [
+        "no_policy_certificate",
+        "policy_residual_failed"
+      ],
+      "minimum_qp_held_operational_residual": -127.00088500976562,
+      "minimum_held_operational_constraint": "angular_rate",
+      "minimum_held_operational_substep": 1,
+      "nonfinite_qp_held_operational_entries": 0,
+      "qp_minimum_scope": "finite proposal entries only; raw NaN/inf retained in NPZ",
+      "held_operational_constraint_caused_rejection": false,
+      "applied_held_operational_residual": -0.11772486567497253,
+      "recorded_fixed_wrench_max_abs_error": null,
+      "recorded_anchor_wrench_max_abs_error": null
+    }
+  ]
+}

@@ -1,0 +1,413 @@
+{
+  "scope": "Output-only patch replay; all stored dense physical states and complete final checkpoint numeric leaves compared exactly. Timing and save metadata may differ.",
+  "comparisons": {
+    "dense_plant_states.npz": {
+      "old_sha256": "60fd4a2b64cc48ca369d258ef40c11791f10329723120edabe22d38ed4d762cb",
+      "new_sha256": "60fd4a2b64cc48ca369d258ef40c11791f10329723120edabe22d38ed4d762cb",
+      "array_count": 2,
+      "arrays": {
+        "fixed": {
+          "shape": [
+            1743,
+            13
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "adaptive": {
+          "shape": [
+            1687,
+            13
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        }
+      }
+    },
+    "final_adaptive_checkpoint.npz": {
+      "old_sha256": "3d729f38bd1412fd84a87fb263a9cfe4b2afe119f8666d4ac1a4b4c4df3382b0",
+      "new_sha256": "3d729f38bd1412fd84a87fb263a9cfe4b2afe119f8666d4ac1a4b4c4df3382b0",
+      "array_count": 53,
+      "arrays": {
+        "array_00000": {
+          "shape": [
+            16,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00001": {
+          "shape": [
+            16
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00002": {
+          "shape": [
+            22,
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00003": {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00004": {
+          "shape": [
+            32,
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00005": {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00006": {
+          "shape": [
+            32,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00007": {
+          "shape": [
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00008": {
+          "shape": [
+            16,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00009": {
+          "shape": [
+            16
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00010": {
+          "shape": [
+            22,
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00011": {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00012": {
+          "shape": [
+            32,
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00013": {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00014": {
+          "shape": [
+            32,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00015": {
+          "shape": [
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00016": {
+          "shape": [],
+          "dtype": "int32",
+          "exact_equal": true
+        },
+        "array_00017": {
+          "shape": [
+            16,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00018": {
+          "shape": [
+            16
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00019": {
+          "shape": [
+            22,
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00020": {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00021": {
+          "shape": [
+            32,
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00022": {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00023": {
+          "shape": [
+            32,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00024": {
+          "shape": [
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00025": {
+          "shape": [
+            16,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00026": {
+          "shape": [
+            16
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00027": {
+          "shape": [
+            22,
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00028": {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00029": {
+          "shape": [
+            32,
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00030": {
+          "shape": [
+            32
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00031": {
+          "shape": [
+            32,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00032": {
+          "shape": [
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00033": {
+          "shape": [],
+          "dtype": "int32",
+          "exact_equal": true
+        },
+        "array_00034": {
+          "shape": [],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00035": {
+          "shape": [
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00036": {
+          "shape": [
+            3,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00037": {
+          "shape": [
+            3,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00038": {
+          "shape": [
+            3,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00039": {
+          "shape": [
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00040": {
+          "shape": [
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00041": {
+          "shape": [
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00042": {
+          "shape": [],
+          "dtype": "int32",
+          "exact_equal": true
+        },
+        "array_00043": {
+          "shape": [
+            16,
+            8
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00044": {
+          "shape": [
+            16,
+            3
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00045": {
+          "shape": [
+            16
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00046": {
+          "shape": [
+            16,
+            9
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00047": {
+          "shape": [],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00048": {
+          "shape": [],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00049": {
+          "shape": [
+            3,
+            4
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00050": {
+          "shape": [],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00051": {
+          "shape": [],
+          "dtype": "float32",
+          "exact_equal": true
+        },
+        "array_00052": {
+          "shape": [
+            13
+          ],
+          "dtype": "float32",
+          "exact_equal": true
+        }
+      }
+    }
+  }
+}

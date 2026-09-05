@@ -1,0 +1,29 @@
+{
+  "fixed": {
+    "recorded_boundary_count": 1001,
+    "valid_control_count": 872,
+    "first_passive_boundary": 872,
+    "terminal_time_seconds": 34.88,
+    "final_pose_matches_dense": true,
+    "stationary_after_terminal": true,
+    "no_new_finite_updates_after_terminal": true,
+    "zero_post_terminal_service": true,
+    "full_raw_control_mask_matches_video": true
+  },
+  "adaptive": {
+    "recorded_boundary_count": 1001,
+    "valid_control_count": 952,
+    "first_passive_boundary": 952,
+    "terminal_time_seconds": 38.08,
+    "final_pose_matches_dense": true,
+    "stationary_after_terminal": true,
+    "no_new_finite_updates_after_terminal": true,
+    "zero_post_terminal_service": true,
+    "full_raw_control_mask_matches_video": true
+  },
+  "matched_prepublication_prefix": {
+    "through_seconds": 4.04,
+    "state_max_abs_delta": 0.0,
+    "wrench_max_abs_delta": 0.0
+  }
+}

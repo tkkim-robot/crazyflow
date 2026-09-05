@@ -1,0 +1,216 @@
+--- a/crazyflow/safety/da_plcbf/mujoco_comparison_video.py
++++ b/crazyflow/safety/da_plcbf/mujoco_comparison_video.py
+@@ -119,6 +119,8 @@
+     physical_collision_recorded: np.ndarray | None = None
+     # Nine operational columns follow version_a_barriers.safety_constraint_names(0).
+     # Residuals are [T,N,9] at integration-substep starts; physical margins are [T,N+1,9].
++    # Rejected/nonexecuted proposal diagnostics retain NaN/inf. Accepted/executed rows must
++    # remain finite; qp_valid / used_fallback / recorded_control_valid supply explicit masks.
+     qp_held_operational_residuals: np.ndarray | None = None
+     fallback_held_operational_residuals: np.ndarray | None = None
+     applied_held_operational_residuals: np.ndarray | None = None
+@@ -655,6 +657,20 @@
+         if residuals.shape[0] != steps:
+             raise ValueError(f"{prefix}.operational_residuals must have shape [T,B]")
+     hold_steps = None
++    qp_required = np.ones(steps, dtype=bool) if method.qp_valid is None else method.qp_valid
++    fallback_required = (
++        np.ones(steps, dtype=bool) if method.used_fallback is None else method.used_fallback
++    )
++    applied_required = (
++        np.ones(steps, dtype=bool)
++        if method.recorded_control_valid is None
++        else method.recorded_control_valid
++    )
++    required_rows = {
++        "qp_held_operational_residuals": qp_required,
++        "fallback_held_operational_residuals": fallback_required,
++        "applied_held_operational_residuals": applied_required,
++    }
+     for name in (
+         "qp_held_operational_residuals",
+         "fallback_held_operational_residuals",
+@@ -662,15 +678,20 @@
+     ):
+         value = getattr(method, name)
+         if value is not None:
+-            residuals = _finite_array(value, f"{prefix}.{name}", ndim=3)
++            residuals = _masked_finite_diagnostic(
++                value, required_rows[name], f"{prefix}.{name}", ndim=3
++            )
+             if residuals.shape[0] != steps or residuals.shape[2] != 9 or residuals.shape[1] < 1:
+                 raise ValueError(f"{prefix}.{name} must have shape [T,N,9] with N positive")
+             if hold_steps is not None and hold_steps != residuals.shape[1]:
+                 raise ValueError(f"{prefix} held operational traces must share N")
+             hold_steps = residuals.shape[1]
+     if method.applied_held_physical_margins is not None:
+-        margins = _finite_array(
+-            method.applied_held_physical_margins, f"{prefix}.applied_held_physical_margins", ndim=3
++        margins = _masked_finite_diagnostic(
++            method.applied_held_physical_margins,
++            applied_required,
++            f"{prefix}.applied_held_physical_margins",
++            ndim=3,
+         )
+         if margins.shape[0] != steps or margins.shape[2] != 9 or margins.shape[1] < 2:
+             raise ValueError(f"{prefix}.applied_held_physical_margins must have shape [T,N+1,9]")
+@@ -686,9 +707,11 @@
+             raise ValueError(f"{prefix}.predictive_operational_iterations must lie in [0,4]")
+     if method.initial_qp_held_operational_residual is not None:
+         _shape(
+-            _finite_array(
++            _masked_finite_diagnostic(
+                 method.initial_qp_held_operational_residual,
++                qp_required,
+                 f"{prefix}.initial_qp_held_operational_residual",
++                ndim=1,
+             ),
+             (steps,),
+             f"{prefix}.initial_qp_held_operational_residual",
+@@ -735,6 +758,51 @@
+             if value is not None and np.any(np.asarray(value) & np.asarray(method.qp_valid)):
+                 raise ValueError(f"{prefix}: valid QP cannot also use {name}")
+     return policy_count, horizon
++
++
++def _masked_finite_diagnostic(
++    value: object, required_rows: np.ndarray, name: str, *, ndim: int
++) -> np.ndarray:
++    """Preserve rejected proposals without admitting a nonfinite executed diagnostic row."""
++    values = np.asarray(value)
++    if not np.issubdtype(values.dtype, np.floating):
++        raise ValueError(f"{name} must use a floating dtype")
++    if values.ndim != ndim:
++        raise ValueError(f"{name} must have ndim={ndim}")
++    required = np.asarray(required_rows, dtype=bool)
++    if values.shape[0] != len(required):
++        raise ValueError(f"{name} must match recorded control rows")
++    if not np.all(np.isfinite(values[required])):
++        raise ValueError(f"{name} must be finite on accepted/executed control rows")
++    return values
++
++
++def held_diagnostic_validity(method: MethodVideoTrace) -> dict[str, object]:
++    """Export explicit finite masks/counts alongside untouched proposed and applied arrays."""
++    steps = len(method.position)
++    masks = {
++        "qp_held_operational_residuals": method.qp_valid,
++        "initial_qp_held_operational_residual": method.qp_valid,
++        "fallback_held_operational_residuals": method.used_fallback,
++        "applied_held_operational_residuals": method.recorded_control_valid,
++        "applied_held_physical_margins": method.recorded_control_valid,
++    }
++    result = {}
++    for name, mask in masks.items():
++        value = getattr(method, name)
++        if value is None:
++            continue
++        finite = np.isfinite(value)
++        rows = finite.reshape(steps, -1).all(axis=1)
++        required = np.ones(steps, dtype=bool) if mask is None else np.asarray(mask, dtype=bool)
++        result[name] = {
++            "finite_rows": rows.tolist(),
++            "required_finite_rows": required.tolist(),
++            "nonfinite_element_count": int(np.count_nonzero(~finite)),
++            "nonfinite_row_count": int(np.count_nonzero(~rows)),
++            "nonfinite_required_row_count": int(np.count_nonzero(required & ~rows)),
++        }
++    return result
+ 
+ 
+ def _collision_value_array(value: object, active: object, steps: int, name: str) -> np.ndarray:
+--- a/crazyflow/safety/da_plcbf/online_constant_wind.py
++++ b/crazyflow/safety/da_plcbf/online_constant_wind.py
+@@ -46,6 +46,7 @@
+     ComparisonVideoTrace,
+     MethodVideoTrace,
+     ObstacleTrack,
++    held_diagnostic_validity,
+ )
+ from crazyflow.safety.da_plcbf.persistent_skill_learner import (
+     PersistentSkillConfig,
+@@ -1349,12 +1350,19 @@
+         "drone_model": getattr(result.trace, "drone_model", "cf2x_T350"),
+         "physical_model_name": getattr(result.trace, "physical_model_name", None),
+         "held_operational_constraint_names": list(safety_constraint_names(0)),
++        "held_diagnostic_validity": {
++            name: held_diagnostic_validity(method)
++            for name, method in (
++                result.methods or {"fixed": result.trace.fixed, "adaptive": result.trace.adaptive}
++            ).items()
++        },
+         "payload_attachment_time_seconds": result.trace.payload_attachment_time_seconds,
+         "payload_mass_delta_kg": result.trace.payload_mass_delta_kg,
+         "payload_base_mass_kg": result.trace.payload_base_mass_kg,
+         "wind_event_times_seconds": (
+             np.asarray(result.trace.wind_event_times_seconds).tolist()
+-            if result.trace.wind_event_times_seconds is not None else None
++            if result.trace.wind_event_times_seconds is not None
++            else None
+         ),
+         "repertoire_probe_fields": list(
+             (getattr(result.trace, "repertoire_probes", None) or {}).keys()
+@@ -1402,7 +1410,8 @@
+         wind_change_time=float(metadata["wind_change_time"]),
+         wind_event_times_seconds=(
+             np.asarray(metadata["wind_event_times_seconds"])
+-            if metadata.get("wind_event_times_seconds") is not None else None
++            if metadata.get("wind_event_times_seconds") is not None
++            else None
+         ),
+         descriptor_targets=arrays["descriptor_targets"],
+         fixed=methods["fixed"],
+--- a/crazyflow/safety/da_plcbf/navigation_audit.py
++++ b/crazyflow/safety/da_plcbf/navigation_audit.py
+@@ -93,15 +93,49 @@
+         "applied_motor_limit_violating_controls": int(
+             np.sum(np.any(motors < -motor_tolerance, axis=1))
+         ),
++        "predicted_derivative_scope": (
++            "qp and fallback describe all evaluated proposals, including rejected or unused "
++            "ones; applied describes executed commands. Minima and violation counts use "
++            "finite entries only; missing finite evidence is null and nonfinite proposal "
++            "counts are separate. Accepted or executed residuals must be finite."
++        ),
+     }
+     for prefix in ("qp", "fallback", "applied"):
+         residuals = np.asarray(getattr(trace, f"{prefix}_held_operational_residuals"))[active]
+         if residuals.shape != (int(np.sum(active)), cfg.control_interval_steps, 9):
+             raise ValueError("held residuals must cover the same valid controls and substeps")
++        finite = np.isfinite(residuals)
++        nonfinite_controls = ~np.all(finite, axis=(1, 2))
++        if prefix == "applied":
++            protected = np.ones(int(np.sum(active)), dtype=bool)
++        else:
++            mask_name = "qp_valid" if prefix == "qp" else "used_fallback"
++            mask = np.asarray(getattr(trace, mask_name))
++            if mask.shape != active.shape or mask.dtype != np.dtype(bool):
++                raise ValueError(f"{mask_name} must identify accepted or executed proposal rows")
++            protected = mask[active]
++        if np.any(nonfinite_controls & protected):
++            raise ValueError(f"accepted or executed {prefix} held residuals must be finite")
++        columns = residuals.reshape(-1, 9)
++        finite_minima = [
++            float(np.min(column[np.isfinite(column)])) if np.any(np.isfinite(column)) else None
++            for column in columns.T
++        ]
+         summary[f"{prefix}_predicted_derivative_minimum_by_constraint"] = dict(
+-            zip(names, np.min(residuals, axis=(0, 1)).tolist(), strict=True)
++            zip(names, finite_minima, strict=True)
++        )
++        summary[f"{prefix}_predicted_derivative_finite_entries_by_constraint"] = dict(
++            zip(names, np.sum(finite, axis=(0, 1)).tolist(), strict=True)
++        )
++        summary[f"{prefix}_predicted_derivative_nonfinite_controls"] = int(
++            np.sum(nonfinite_controls)
+         )
+         summary[f"{prefix}_predicted_derivative_violating_controls"] = int(
+-            np.sum(np.any(residuals < -barrier_tolerance, axis=(1, 2)))
++            np.sum(np.any(finite & (residuals < -barrier_tolerance), axis=(1, 2)))
+         )
++        if prefix != "applied":
++            proposal_status = "rejected" if prefix == "qp" else "unexecuted"
++            summary[f"{prefix}_{proposal_status}_nonfinite_proposal_controls"] = int(
++                np.sum(nonfinite_controls & ~protected)
++            )
+     return summary, values

@@ -1,0 +1,1028 @@
+{
+  "scope": "Complete predeclared campaigns only; source JSON and saved statistics, no simulation rerun.",
+  "command": "/home/tk/Desktop/mycode/crazyflow/.pixi/envs/gpu-tests/bin/python /home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_navigation_figures.py /home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905 --main-summary /home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout_statistics.json --dense-summary /home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense_confirmation_statistics.json --output /home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/campaign-comparison-figures",
+  "script_sha256": "7d14800e3af570bc2e63c43bc553ea35213a5d18275bee246e34999fb8598027",
+  "software": {
+    "python": "3.14.7 | packaged by conda-forge | (main, Aug 19 2026, 15:32:49) [GCC 15.3.0]",
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2"
+  },
+  "inputs": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/CAMPAIGN_PROTOCOL.json": "b64dc9e39fbd82ec44710e7e90790238a49f53b534feab4b388790dedab00a1b",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout_statistics.json": "fd00c698def65d7333692f4f0c0e03743a02ef6f7726df9d1cc0efa5bdcfb664",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed100/navigation_comparison.json": "4bd9e383fab66a8eff91728f9a0b11b32e9c18c83a3ac07e7a5d3492159ce219",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed101/navigation_comparison.json": "f9b4f7dc838083a12e387761b39f7154bfb2f7a61d20a32b4d4276592867cc45",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed102/navigation_comparison.json": "280ae78753edc86dd53ad7ec154938927347a9c5f4c60cf7fe7415f78eb90b31",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed103/navigation_comparison.json": "568d880f2e73966b4e5b49dd64d2a319fbc14606f80d68eb399f03ce458c9603",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed104/navigation_comparison.json": "11e8c8d7d54b94251c4701da35aaf3c43535059936e4521c875301dc6f7f6d72",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed105/navigation_comparison.json": "faa361ebea009baf74c010284791d95d2a577ee81d7ec0f2438f58081a56ea6c",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed106/navigation_comparison.json": "2499449f7aa5749210c50e9b2ac3af49b68e5946b4413df967a6f92166b7b7b0",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed107/navigation_comparison.json": "0d867437d267e43227c5a077cd9247aff9a4ac0bac87a40efbe0560475b5fc6c",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed108/navigation_comparison.json": "eb73a43d90ffa417b9efe3b37cfc9b9f0216589513d04b4d8f738b538909d221",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed109/navigation_comparison.json": "07d6188eec4570e00ba296ef61ec8b1d40dd516a583548c4e0174175634b2117",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed100/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed101/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed102/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed103/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed104/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed105/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed106/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed107/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed108/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed109/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed100/navigation_comparison.json": "f00f7d5b68de08791567a9398f790ac2a0610c22f87261116f0cb07f17ca1ad0",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed101/navigation_comparison.json": "4a58b978f74a0bfa9b60fd52ca41b32fc7bb75a49e2cf1ce8b0df751f6f8895e",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed102/navigation_comparison.json": "b073e66b3d5f20c4136bf5bf7565665e2aa448a746a393f740ca5b322640b59c",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed103/navigation_comparison.json": "61e374a2d7b990f3373e4a09209cb42ef8b71eb90aebf1690de1727fbd1dfadf",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed104/navigation_comparison.json": "1f3219f8499de6d9e5639a2f6ded5bea40f5299d6b5aeed8d359fab849386e54",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed105/navigation_comparison.json": "8f5f86872fad948990e040ba0318e378bbe88dbce07b97fa986bd8b8c0f6cc2b",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed106/navigation_comparison.json": "dc9465c1c6380d9c84b9209d11615b92708b5f052f9d33f794dd8dd458ef8e8e",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed107/navigation_comparison.json": "72081549735a007d71795f6c8f0f1f9b6620601573c2675fedb7f4890aab9770",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed108/navigation_comparison.json": "30e4dbd50d7f9325f554730021a640c6f08322633489f9b7b2bd2b355dda13a6",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed109/navigation_comparison.json": "62ac536fa22c0242e7c55aff704a4ca289fee95bc660f5ea8632fd265e19b204",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed100/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed101/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed102/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed103/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed104/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed105/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed106/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed107/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed108/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed109/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/DENSE_CONFIRMATION_PROTOCOL.json": "49942f4a7c9a0a007b098e3517adc30109e320960bea3d2ffc78b1b8c0e26529",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense_confirmation_statistics.json": "2bf04a094ff90f13b9927af59d5e0051d4da22e9e87ef45ee7f7e6ded40793eb",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed200/navigation_comparison.json": "bef02f38e893e31ecde2bc4a406aa4011d0cc64cfe02b8e2eeffd7b803a2462c",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed201/navigation_comparison.json": "ada34b63f94b2d5ee18adba36f7c0bfe0ba9af4bb47f4fbbd6b0ba7fecd5f686",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed202/navigation_comparison.json": "982deb23278b99071325acb0c4755a7be4d0a74f679d1da8d1f52963b4a3fb91",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed203/navigation_comparison.json": "d5ad7be91a033356040036f685a544df6a5b5fa757ba785238297e137ad1dc00",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed204/navigation_comparison.json": "682f85b44a2453cc9d08e7ca421627621dde48abbd15f12e6d64a22bdad41d2a",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed205/navigation_comparison.json": "f8053fd9c95a057bb542d20d52b67cc5d6a4bc7279be8d9ad74a77d4089f5542",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed206/navigation_comparison.json": "8ec1ae6065729f83bf430555dc1e03e208771976155eb2853c8f26fe08565a33",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed207/navigation_comparison.json": "d6d71c9df5273d3602d0fda55f53a87334a78ce36e63563532d3fc19b056cd10",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed208/navigation_comparison.json": "0c552e54f73301ab7671d286aa77e9482a246c3f634cc2bf701dd32085b065da",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed209/navigation_comparison.json": "6d5dd84e4013ef03bb7c2c45a3fb6847b330ea2fc24e774a9d958450d1046b70",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed200/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed201/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed202/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed203/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed204/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed205/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed206/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed207/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed208/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed209/SOURCE_SHA256.json": "fdc84958fad1c8eb57f4b82eebdea29f5e2ceee72b31d04b7d6a2c45eaf9b002",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/CAMPAIGN_OUTPUT_PATCH.json": "175f351a95591b5374dafa2657bca275a69a9a8302d3f54bdbb17de41de190d8"
+  },
+  "outputs": {
+    "navigation_paired_worlds.png": "7687fb1bef8158bf23aeaf13d918613cc624f48e4f413ab63b55eedb2d971364",
+    "navigation_paired_worlds.pdf": "f499db52ee6a392b40f017bf632803892fe81d3400c2f502952b2e1f7d7aa6da",
+    "navigation_paired_uncertainty.png": "9fcf4c5a6c495379b8f2da6fc1cd57bd122ea7b8aea60f8e64226e2d4c400c94",
+    "navigation_paired_uncertainty.pdf": "d522a4280dffdb43e0873e4971984ab0d823960653c93c433d6838f804132126"
+  },
+  "groups": [
+    {
+      "title": "8 obstacles \u00b7 unchanged dynamics",
+      "world_seeds": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109
+      ],
+      "statistics": {
+        "count": 10,
+        "world_seeds": [
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109
+        ],
+        "methods": {
+          "fixed": {
+            "criteria": {
+              "physical_collision_free": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "positive_shell_clearance": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "all_waypoints_completed": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "zero_degraded_controls": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              }
+            },
+            "waypoint_counts": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "minimum_shell_clearance_m": 0.008628119195152856,
+            "median_completion_or_timeout_seconds": 31.1,
+            "nominal_blocked_fractions": [
+              0.025839793281653745,
+              0.07240948813982521,
+              0.1018957345971564,
+              0.057692307692307696,
+              0.07653061224489796,
+              0.054388133498145856,
+              0.03483870967741935,
+              0.014341590612777053,
+              0.04935064935064935,
+              0.07115135834411385
+            ],
+            "nominal_encounter_episode_counts": [
+              2,
+              2,
+              2,
+              2,
+              3,
+              1,
+              1,
+              1,
+              1,
+              3
+            ],
+            "finite_update_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "degraded_control_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "positive_executed_dual_counts": [
+              48,
+              76,
+              103,
+              58,
+              70,
+              59,
+              49,
+              17,
+              38,
+              73
+            ]
+          },
+          "adaptive": {
+            "criteria": {
+              "physical_collision_free": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "positive_shell_clearance": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "all_waypoints_completed": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "zero_degraded_controls": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              }
+            },
+            "waypoint_counts": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "minimum_shell_clearance_m": 0.00852124154581782,
+            "median_completion_or_timeout_seconds": 31.1,
+            "nominal_blocked_fractions": [
+              0.02838709677419355,
+              0.07240948813982521,
+              0.1018957345971564,
+              0.057692307692307696,
+              0.0778061224489796,
+              0.054388133498145856,
+              0.03483870967741935,
+              0.014341590612777053,
+              0.04935064935064935,
+              0.07115135834411385
+            ],
+            "nominal_encounter_episode_counts": [
+              2,
+              2,
+              2,
+              2,
+              3,
+              1,
+              1,
+              1,
+              1,
+              3
+            ],
+            "finite_update_counts": [
+              337,
+              350,
+              372,
+              340,
+              342,
+              354,
+              337,
+              333,
+              335,
+              336
+            ],
+            "degraded_control_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "positive_executed_dual_counts": [
+              48,
+              76,
+              102,
+              58,
+              72,
+              58,
+              50,
+              17,
+              38,
+              72
+            ]
+          }
+        },
+        "paired_adaptive_minus_fixed_waypoints": {
+          "count": 10,
+          "mean": 0.0,
+          "median": 0.0,
+          "bootstrap_mean_95_interval": [
+            0.0,
+            0.0
+          ],
+          "individual_differences": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "paired_adaptive_minus_fixed_completion_seconds_both_complete": {
+          "count": 10,
+          "mean": 0.003999999999999915,
+          "median": 0.0,
+          "bootstrap_mean_95_interval": [
+            0.0,
+            0.011999999999999744
+          ],
+          "individual_differences": [
+            0.03999999999999915,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "paired_adaptive_minus_fixed_shell_margin_m": {
+          "count": 10,
+          "mean": 0.0003021361949982593,
+          "median": -7.898824517577063e-05,
+          "bootstrap_mean_95_interval": [
+            -9.638315311841784e-05,
+            0.0010351530224650973
+          ],
+          "individual_differences": [
+            0.003528490818647867,
+            -0.00016629323154809805,
+            -6.890569590400908e-05,
+            0.0,
+            -8.907079444753219e-05,
+            -9.811392417796716e-05,
+            0.00015734623077101606,
+            0.0,
+            -0.00013521380402364835,
+            -0.00010687764933503541
+          ]
+        }
+      }
+    },
+    {
+      "title": "8 obstacles \u00b7 wind + payload",
+      "world_seeds": [
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109
+      ],
+      "statistics": {
+        "count": 10,
+        "world_seeds": [
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109
+        ],
+        "methods": {
+          "fixed": {
+            "criteria": {
+              "physical_collision_free": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "positive_shell_clearance": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "all_waypoints_completed": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "zero_degraded_controls": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              }
+            },
+            "waypoint_counts": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "minimum_shell_clearance_m": 0.009241154077338248,
+            "median_completion_or_timeout_seconds": 31.36,
+            "nominal_blocked_fractions": [
+              0.01948051948051948,
+              0.07518796992481203,
+              0.10177514792899409,
+              0.07604562737642585,
+              0.07958921694480103,
+              0.044359949302915085,
+              0.03372243839169909,
+              0.014397905759162303,
+              0.031413612565445025,
+              0.058301647655259824
+            ],
+            "nominal_encounter_episode_counts": [
+              2,
+              2,
+              2,
+              3,
+              3,
+              1,
+              2,
+              1,
+              2,
+              2
+            ],
+            "finite_update_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "degraded_control_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "positive_executed_dual_counts": [
+              54,
+              79,
+              113,
+              84,
+              73,
+              48,
+              53,
+              17,
+              31,
+              79
+            ]
+          },
+          "adaptive": {
+            "criteria": {
+              "physical_collision_free": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "positive_shell_clearance": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "all_waypoints_completed": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "zero_degraded_controls": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              }
+            },
+            "waypoint_counts": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "minimum_shell_clearance_m": 0.009416138231328558,
+            "median_completion_or_timeout_seconds": 31.4,
+            "nominal_blocked_fractions": [
+              0.01948051948051948,
+              0.07393483709273183,
+              0.10071090047393365,
+              0.0759493670886076,
+              0.08097686375321336,
+              0.045454545454545456,
+              0.035897435897435895,
+              0.014397905759162303,
+              0.045278137128072445,
+              0.05808080808080808
+            ],
+            "nominal_encounter_episode_counts": [
+              2,
+              2,
+              2,
+              3,
+              3,
+              1,
+              2,
+              1,
+              2,
+              2
+            ],
+            "finite_update_counts": [
+              335,
+              349,
+              372,
+              345,
+              339,
+              346,
+              340,
+              332,
+              336,
+              346
+            ],
+            "degraded_control_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "positive_executed_dual_counts": [
+              54,
+              78,
+              108,
+              88,
+              73,
+              46,
+              54,
+              17,
+              44,
+              79
+            ]
+          }
+        },
+        "paired_adaptive_minus_fixed_waypoints": {
+          "count": 10,
+          "mean": 0.0,
+          "median": 0.0,
+          "bootstrap_mean_95_interval": [
+            0.0,
+            0.0
+          ],
+          "individual_differences": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "paired_adaptive_minus_fixed_completion_seconds_both_complete": {
+          "count": 10,
+          "mean": 0.09200000000000053,
+          "median": 0.02000000000000135,
+          "bootstrap_mean_95_interval": [
+            0.012000000000000455,
+            0.1879999999999999
+          ],
+          "individual_differences": [
+            0.0,
+            0.0,
+            -0.03999999999999915,
+            0.0400000000000027,
+            -0.03999999999999915,
+            0.120000000000001,
+            0.35999999999999943,
+            0.0,
+            0.35999999999999943,
+            0.120000000000001
+          ]
+        },
+        "paired_adaptive_minus_fixed_shell_margin_m": {
+          "count": 10,
+          "mean": 3.9245946428123625e-06,
+          "median": 0.0,
+          "bootstrap_mean_95_interval": [
+            -0.0008014584045395623,
+            0.0006941899374642018
+          ],
+          "individual_differences": [
+            0.0,
+            0.0,
+            0.00039417853891932086,
+            0.0,
+            -0.0006482293740326384,
+            -0.002870094759795827,
+            0.0019194619333127716,
+            0.0,
+            0.001404679219982219,
+            -0.0001607496119577223
+          ]
+        }
+      }
+    },
+    {
+      "title": "16 obstacles \u00b7 wind + payload",
+      "world_seeds": [
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209
+      ],
+      "statistics": {
+        "count": 10,
+        "world_seeds": [
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209
+        ],
+        "methods": {
+          "fixed": {
+            "criteria": {
+              "physical_collision_free": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "positive_shell_clearance": {
+                "count": 9,
+                "fraction": 0.9,
+                "wilson_95_interval": [
+                  0.5958499732047615,
+                  0.9821237869049271
+                ]
+              },
+              "all_waypoints_completed": {
+                "count": 9,
+                "fraction": 0.9,
+                "wilson_95_interval": [
+                  0.5958499732047615,
+                  0.9821237869049271
+                ]
+              },
+              "zero_degraded_controls": {
+                "count": 7,
+                "fraction": 0.7,
+                "wilson_95_interval": [
+                  0.39677814746114537,
+                  0.8922087325936989
+                ]
+              }
+            },
+            "waypoint_counts": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              7,
+              8,
+              8,
+              8,
+              8
+            ],
+            "minimum_shell_clearance_m": -0.03834529288564567,
+            "median_completion_or_timeout_seconds": 35.1,
+            "nominal_blocked_fractions": [
+              0.10709987966305656,
+              0.14268585131894485,
+              0.19796380090497737,
+              0.08680142687277051,
+              0.16587677725118483,
+              0.271,
+              0.22043628013777267,
+              0.161217587373168,
+              0.20044543429844097,
+              0.20890774125132555
+            ],
+            "nominal_encounter_episode_counts": [
+              3,
+              5,
+              7,
+              3,
+              5,
+              7,
+              7,
+              6,
+              7,
+              5
+            ],
+            "finite_update_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "degraded_control_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              18,
+              1,
+              0,
+              5
+            ],
+            "positive_executed_dual_counts": [
+              92,
+              88,
+              149,
+              107,
+              157,
+              240,
+              158,
+              115,
+              149,
+              213
+            ]
+          },
+          "adaptive": {
+            "criteria": {
+              "physical_collision_free": {
+                "count": 10,
+                "fraction": 1.0,
+                "wilson_95_interval": [
+                  0.7224672001371107,
+                  0.9999999999999999
+                ]
+              },
+              "positive_shell_clearance": {
+                "count": 9,
+                "fraction": 0.9,
+                "wilson_95_interval": [
+                  0.5958499732047615,
+                  0.9821237869049271
+                ]
+              },
+              "all_waypoints_completed": {
+                "count": 9,
+                "fraction": 0.9,
+                "wilson_95_interval": [
+                  0.5958499732047615,
+                  0.9821237869049271
+                ]
+              },
+              "zero_degraded_controls": {
+                "count": 9,
+                "fraction": 0.9,
+                "wilson_95_interval": [
+                  0.5958499732047615,
+                  0.9821237869049271
+                ]
+              }
+            },
+            "waypoint_counts": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              8,
+              7
+            ],
+            "minimum_shell_clearance_m": -0.026075441592740806,
+            "median_completion_or_timeout_seconds": 33.980000000000004,
+            "nominal_blocked_fractions": [
+              0.10494571773220748,
+              0.14028776978417265,
+              0.1617161716171617,
+              0.08669833729216152,
+              0.20759193357058126,
+              0.2536082474226804,
+              0.1387900355871886,
+              0.17990654205607476,
+              0.19074492099322798,
+              0.299
+            ],
+            "nominal_encounter_episode_counts": [
+              3,
+              5,
+              6,
+              3,
+              6,
+              7,
+              4,
+              4,
+              7,
+              8
+            ],
+            "finite_update_counts": [
+              364,
+              367,
+              404,
+              371,
+              371,
+              435,
+              371,
+              378,
+              393,
+              450
+            ],
+            "degraded_control_counts": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              20
+            ],
+            "positive_executed_dual_counts": [
+              85,
+              92,
+              136,
+              111,
+              157,
+              201,
+              141,
+              139,
+              143,
+              258
+            ]
+          }
+        },
+        "paired_adaptive_minus_fixed_waypoints": {
+          "count": 10,
+          "mean": 0.0,
+          "median": 0.0,
+          "bootstrap_mean_95_interval": [
+            -0.3,
+            0.3
+          ],
+          "individual_differences": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            -1
+          ]
+        },
+        "paired_adaptive_minus_fixed_completion_seconds_both_complete": {
+          "count": 8,
+          "mean": -0.2400000000000011,
+          "median": -0.060000000000002274,
+          "bootstrap_mean_95_interval": [
+            -0.6951250000000019,
+            0.22012499999999874
+          ],
+          "individual_differences": [
+            -0.0800000000000054,
+            0.0,
+            1.0,
+            0.03999999999999915,
+            -0.03999999999999915,
+            -1.1200000000000045,
+            -1.2399999999999949,
+            -0.480000000000004
+          ]
+        },
+        "paired_adaptive_minus_fixed_shell_margin_m": {
+          "count": 10,
+          "mean": 0.0012775824867007402,
+          "median": 0.00013939588149247673,
+          "bootstrap_mean_95_interval": [
+            -0.009975612836978707,
+            0.013830841950424534
+          ],
+          "individual_differences": [
+            -0.00030715758742827504,
+            -1.6151652163787222e-05,
+            0.0009111862567302009,
+            0.00020544466317573562,
+            7.334709980921783e-05,
+            0.0004343156790726499,
+            0.04599926252381714,
+            -0.0010361270070403106,
+            0.00021506797243880937,
+            -0.03370336308140398
+          ]
+        }
+      }
+    }
+  ]
+}

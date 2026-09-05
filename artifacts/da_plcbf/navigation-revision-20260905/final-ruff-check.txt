@@ -1,0 +1,23 @@
+E501 Line too long (118 > 100)
+  --> benchmark/da_plcbf_runtime_feasibility_audit.py:88:101
+   |
+86 |                         None if reserved is None else controller_median + reserved + reserve
+87 |                     ),
+88 |                     "scope": "illustrative serialized cost sum before plant/telemetry; not an inferred update launch",
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^
+89 |                 },
+90 |             }
+   |
+
+E501 Line too long (121 > 100)
+  --> benchmark/da_plcbf_runtime_feasibility_audit.py:93:101
+   |
+91 |         )
+92 |     output = {
+93 |         "scope": "read-only retrospective audit; task completion does not establish online-learning runtime feasibility",
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^
+94 |         "source_files_unchanged": True,
+95 |         "audit_helper_sha256": hashlib.sha256(
+   |
+
+Found 2 errors.

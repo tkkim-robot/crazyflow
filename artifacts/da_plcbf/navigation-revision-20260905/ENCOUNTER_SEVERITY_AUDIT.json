@@ -1,0 +1,725 @@
+{
+  "scope": "Nominal rollout encounters use actual saved moving-obstacle predictions at each control boundary, not object counts. Executed dual threshold is 1e-7. Descriptive distributions over full predeclared paired sets.",
+  "groups": {
+    "primary8/combined/adaptive": {
+      "count": 10,
+      "rows": [
+        {
+          "seed": 100,
+          "episodes": 2,
+          "blocked_fraction": 0.01948051948051948,
+          "positive_executed_dual_fraction": 0.07012987012987013,
+          "active_controls": 770,
+          "positive_dual_controls": 54,
+          "input_sha256": "f00f7d5b68de08791567a9398f790ac2a0610c22f87261116f0cb07f17ca1ad0",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed100/navigation_comparison.json"
+        },
+        {
+          "seed": 101,
+          "episodes": 2,
+          "blocked_fraction": 0.07393483709273183,
+          "positive_executed_dual_fraction": 0.09774436090225563,
+          "active_controls": 798,
+          "positive_dual_controls": 78,
+          "input_sha256": "4a58b978f74a0bfa9b60fd52ca41b32fc7bb75a49e2cf1ce8b0df751f6f8895e",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed101/navigation_comparison.json"
+        },
+        {
+          "seed": 102,
+          "episodes": 2,
+          "blocked_fraction": 0.10071090047393365,
+          "positive_executed_dual_fraction": 0.12796208530805686,
+          "active_controls": 844,
+          "positive_dual_controls": 108,
+          "input_sha256": "b073e66b3d5f20c4136bf5bf7565665e2aa448a746a393f740ca5b322640b59c",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed102/navigation_comparison.json"
+        },
+        {
+          "seed": 103,
+          "episodes": 3,
+          "blocked_fraction": 0.0759493670886076,
+          "positive_executed_dual_fraction": 0.11139240506329114,
+          "active_controls": 790,
+          "positive_dual_controls": 88,
+          "input_sha256": "61e374a2d7b990f3373e4a09209cb42ef8b71eb90aebf1690de1727fbd1dfadf",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed103/navigation_comparison.json"
+        },
+        {
+          "seed": 104,
+          "episodes": 3,
+          "blocked_fraction": 0.08097686375321336,
+          "positive_executed_dual_fraction": 0.09383033419023136,
+          "active_controls": 778,
+          "positive_dual_controls": 73,
+          "input_sha256": "1f3219f8499de6d9e5639a2f6ded5bea40f5299d6b5aeed8d359fab849386e54",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed104/navigation_comparison.json"
+        },
+        {
+          "seed": 105,
+          "episodes": 1,
+          "blocked_fraction": 0.045454545454545456,
+          "positive_executed_dual_fraction": 0.05808080808080808,
+          "active_controls": 792,
+          "positive_dual_controls": 46,
+          "input_sha256": "8f5f86872fad948990e040ba0318e378bbe88dbce07b97fa986bd8b8c0f6cc2b",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed105/navigation_comparison.json"
+        },
+        {
+          "seed": 106,
+          "episodes": 2,
+          "blocked_fraction": 0.035897435897435895,
+          "positive_executed_dual_fraction": 0.06923076923076923,
+          "active_controls": 780,
+          "positive_dual_controls": 54,
+          "input_sha256": "dc9465c1c6380d9c84b9209d11615b92708b5f052f9d33f794dd8dd458ef8e8e",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed106/navigation_comparison.json"
+        },
+        {
+          "seed": 107,
+          "episodes": 1,
+          "blocked_fraction": 0.014397905759162303,
+          "positive_executed_dual_fraction": 0.02225130890052356,
+          "active_controls": 764,
+          "positive_dual_controls": 17,
+          "input_sha256": "72081549735a007d71795f6c8f0f1f9b6620601573c2675fedb7f4890aab9770",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed107/navigation_comparison.json"
+        },
+        {
+          "seed": 108,
+          "episodes": 2,
+          "blocked_fraction": 0.045278137128072445,
+          "positive_executed_dual_fraction": 0.056921086675291076,
+          "active_controls": 773,
+          "positive_dual_controls": 44,
+          "input_sha256": "30e4dbd50d7f9325f554730021a640c6f08322633489f9b7b2bd2b355dda13a6",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed108/navigation_comparison.json"
+        },
+        {
+          "seed": 109,
+          "episodes": 2,
+          "blocked_fraction": 0.05808080808080808,
+          "positive_executed_dual_fraction": 0.09974747474747475,
+          "active_controls": 792,
+          "positive_dual_controls": 79,
+          "input_sha256": "62ac536fa22c0242e7c55aff704a4ca289fee95bc660f5ea8632fd265e19b204",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed109/navigation_comparison.json"
+        }
+      ],
+      "episodes": {
+        "min": 1.0,
+        "median": 2.0,
+        "max": 3.0
+      },
+      "blocked_fraction": {
+        "min": 0.014397905759162303,
+        "median": 0.05176767676767677,
+        "max": 0.10071090047393365
+      },
+      "positive_executed_dual_fraction": {
+        "min": 0.02225130890052356,
+        "median": 0.08198010216005075,
+        "max": 0.12796208530805686
+      }
+    },
+    "primary8/combined/fixed": {
+      "count": 10,
+      "rows": [
+        {
+          "seed": 100,
+          "episodes": 2,
+          "blocked_fraction": 0.01948051948051948,
+          "positive_executed_dual_fraction": 0.07012987012987013,
+          "active_controls": 770,
+          "positive_dual_controls": 54,
+          "input_sha256": "f00f7d5b68de08791567a9398f790ac2a0610c22f87261116f0cb07f17ca1ad0",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed100/navigation_comparison.json"
+        },
+        {
+          "seed": 101,
+          "episodes": 2,
+          "blocked_fraction": 0.07518796992481203,
+          "positive_executed_dual_fraction": 0.09899749373433583,
+          "active_controls": 798,
+          "positive_dual_controls": 79,
+          "input_sha256": "4a58b978f74a0bfa9b60fd52ca41b32fc7bb75a49e2cf1ce8b0df751f6f8895e",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed101/navigation_comparison.json"
+        },
+        {
+          "seed": 102,
+          "episodes": 2,
+          "blocked_fraction": 0.10177514792899409,
+          "positive_executed_dual_fraction": 0.13372781065088757,
+          "active_controls": 845,
+          "positive_dual_controls": 113,
+          "input_sha256": "b073e66b3d5f20c4136bf5bf7565665e2aa448a746a393f740ca5b322640b59c",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed102/navigation_comparison.json"
+        },
+        {
+          "seed": 103,
+          "episodes": 3,
+          "blocked_fraction": 0.07604562737642585,
+          "positive_executed_dual_fraction": 0.10646387832699619,
+          "active_controls": 789,
+          "positive_dual_controls": 84,
+          "input_sha256": "61e374a2d7b990f3373e4a09209cb42ef8b71eb90aebf1690de1727fbd1dfadf",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed103/navigation_comparison.json"
+        },
+        {
+          "seed": 104,
+          "episodes": 3,
+          "blocked_fraction": 0.07958921694480103,
+          "positive_executed_dual_fraction": 0.09370988446726572,
+          "active_controls": 779,
+          "positive_dual_controls": 73,
+          "input_sha256": "1f3219f8499de6d9e5639a2f6ded5bea40f5299d6b5aeed8d359fab849386e54",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed104/navigation_comparison.json"
+        },
+        {
+          "seed": 105,
+          "episodes": 1,
+          "blocked_fraction": 0.044359949302915085,
+          "positive_executed_dual_fraction": 0.060836501901140684,
+          "active_controls": 789,
+          "positive_dual_controls": 48,
+          "input_sha256": "8f5f86872fad948990e040ba0318e378bbe88dbce07b97fa986bd8b8c0f6cc2b",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed105/navigation_comparison.json"
+        },
+        {
+          "seed": 106,
+          "episodes": 2,
+          "blocked_fraction": 0.03372243839169909,
+          "positive_executed_dual_fraction": 0.06874189364461739,
+          "active_controls": 771,
+          "positive_dual_controls": 53,
+          "input_sha256": "dc9465c1c6380d9c84b9209d11615b92708b5f052f9d33f794dd8dd458ef8e8e",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed106/navigation_comparison.json"
+        },
+        {
+          "seed": 107,
+          "episodes": 1,
+          "blocked_fraction": 0.014397905759162303,
+          "positive_executed_dual_fraction": 0.02225130890052356,
+          "active_controls": 764,
+          "positive_dual_controls": 17,
+          "input_sha256": "72081549735a007d71795f6c8f0f1f9b6620601573c2675fedb7f4890aab9770",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed107/navigation_comparison.json"
+        },
+        {
+          "seed": 108,
+          "episodes": 2,
+          "blocked_fraction": 0.031413612565445025,
+          "positive_executed_dual_fraction": 0.04057591623036649,
+          "active_controls": 764,
+          "positive_dual_controls": 31,
+          "input_sha256": "30e4dbd50d7f9325f554730021a640c6f08322633489f9b7b2bd2b355dda13a6",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed108/navigation_comparison.json"
+        },
+        {
+          "seed": 109,
+          "episodes": 2,
+          "blocked_fraction": 0.058301647655259824,
+          "positive_executed_dual_fraction": 0.10012674271229405,
+          "active_controls": 789,
+          "positive_dual_controls": 79,
+          "input_sha256": "62ac536fa22c0242e7c55aff704a4ca289fee95bc660f5ea8632fd265e19b204",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/combined-seed109/navigation_comparison.json"
+        }
+      ],
+      "episodes": {
+        "min": 1.0,
+        "median": 2.0,
+        "max": 3.0
+      },
+      "blocked_fraction": {
+        "min": 0.014397905759162303,
+        "median": 0.051330798479087454,
+        "max": 0.10177514792899409
+      },
+      "positive_executed_dual_fraction": {
+        "min": 0.02225130890052356,
+        "median": 0.08191987729856792,
+        "max": 0.13372781065088757
+      }
+    },
+    "primary8/unchanged/adaptive": {
+      "count": 10,
+      "rows": [
+        {
+          "seed": 100,
+          "episodes": 2,
+          "blocked_fraction": 0.02838709677419355,
+          "positive_executed_dual_fraction": 0.06193548387096774,
+          "active_controls": 775,
+          "positive_dual_controls": 48,
+          "input_sha256": "4bd9e383fab66a8eff91728f9a0b11b32e9c18c83a3ac07e7a5d3492159ce219",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed100/navigation_comparison.json"
+        },
+        {
+          "seed": 101,
+          "episodes": 2,
+          "blocked_fraction": 0.07240948813982521,
+          "positive_executed_dual_fraction": 0.09488139825218476,
+          "active_controls": 801,
+          "positive_dual_controls": 76,
+          "input_sha256": "f9b4f7dc838083a12e387761b39f7154bfb2f7a61d20a32b4d4276592867cc45",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed101/navigation_comparison.json"
+        },
+        {
+          "seed": 102,
+          "episodes": 2,
+          "blocked_fraction": 0.1018957345971564,
+          "positive_executed_dual_fraction": 0.12085308056872038,
+          "active_controls": 844,
+          "positive_dual_controls": 102,
+          "input_sha256": "280ae78753edc86dd53ad7ec154938927347a9c5f4c60cf7fe7415f78eb90b31",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed102/navigation_comparison.json"
+        },
+        {
+          "seed": 103,
+          "episodes": 2,
+          "blocked_fraction": 0.057692307692307696,
+          "positive_executed_dual_fraction": 0.07435897435897436,
+          "active_controls": 780,
+          "positive_dual_controls": 58,
+          "input_sha256": "568d880f2e73966b4e5b49dd64d2a319fbc14606f80d68eb399f03ce458c9603",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed103/navigation_comparison.json"
+        },
+        {
+          "seed": 104,
+          "episodes": 3,
+          "blocked_fraction": 0.0778061224489796,
+          "positive_executed_dual_fraction": 0.09183673469387756,
+          "active_controls": 784,
+          "positive_dual_controls": 72,
+          "input_sha256": "11e8c8d7d54b94251c4701da35aaf3c43535059936e4521c875301dc6f7f6d72",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed104/navigation_comparison.json"
+        },
+        {
+          "seed": 105,
+          "episodes": 1,
+          "blocked_fraction": 0.054388133498145856,
+          "positive_executed_dual_fraction": 0.07169344870210136,
+          "active_controls": 809,
+          "positive_dual_controls": 58,
+          "input_sha256": "faa361ebea009baf74c010284791d95d2a577ee81d7ec0f2438f58081a56ea6c",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed105/navigation_comparison.json"
+        },
+        {
+          "seed": 106,
+          "episodes": 1,
+          "blocked_fraction": 0.03483870967741935,
+          "positive_executed_dual_fraction": 0.06451612903225806,
+          "active_controls": 775,
+          "positive_dual_controls": 50,
+          "input_sha256": "2499449f7aa5749210c50e9b2ac3af49b68e5946b4413df967a6f92166b7b7b0",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed106/navigation_comparison.json"
+        },
+        {
+          "seed": 107,
+          "episodes": 1,
+          "blocked_fraction": 0.014341590612777053,
+          "positive_executed_dual_fraction": 0.02216427640156454,
+          "active_controls": 767,
+          "positive_dual_controls": 17,
+          "input_sha256": "0d867437d267e43227c5a077cd9247aff9a4ac0bac87a40efbe0560475b5fc6c",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed107/navigation_comparison.json"
+        },
+        {
+          "seed": 108,
+          "episodes": 1,
+          "blocked_fraction": 0.04935064935064935,
+          "positive_executed_dual_fraction": 0.04935064935064935,
+          "active_controls": 770,
+          "positive_dual_controls": 38,
+          "input_sha256": "eb73a43d90ffa417b9efe3b37cfc9b9f0216589513d04b4d8f738b538909d221",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed108/navigation_comparison.json"
+        },
+        {
+          "seed": 109,
+          "episodes": 3,
+          "blocked_fraction": 0.07115135834411385,
+          "positive_executed_dual_fraction": 0.09314359637774904,
+          "active_controls": 773,
+          "positive_dual_controls": 72,
+          "input_sha256": "07d6188eec4570e00ba296ef61ec8b1d40dd516a583548c4e0174175634b2117",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed109/navigation_comparison.json"
+        }
+      ],
+      "episodes": {
+        "min": 1.0,
+        "median": 2.0,
+        "max": 3.0
+      },
+      "blocked_fraction": {
+        "min": 0.014341590612777053,
+        "median": 0.05604022059522677,
+        "max": 0.1018957345971564
+      },
+      "positive_executed_dual_fraction": {
+        "min": 0.02216427640156454,
+        "median": 0.07302621153053786,
+        "max": 0.12085308056872038
+      }
+    },
+    "primary8/unchanged/fixed": {
+      "count": 10,
+      "rows": [
+        {
+          "seed": 100,
+          "episodes": 2,
+          "blocked_fraction": 0.025839793281653745,
+          "positive_executed_dual_fraction": 0.06201550387596899,
+          "active_controls": 774,
+          "positive_dual_controls": 48,
+          "input_sha256": "4bd9e383fab66a8eff91728f9a0b11b32e9c18c83a3ac07e7a5d3492159ce219",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed100/navigation_comparison.json"
+        },
+        {
+          "seed": 101,
+          "episodes": 2,
+          "blocked_fraction": 0.07240948813982521,
+          "positive_executed_dual_fraction": 0.09488139825218476,
+          "active_controls": 801,
+          "positive_dual_controls": 76,
+          "input_sha256": "f9b4f7dc838083a12e387761b39f7154bfb2f7a61d20a32b4d4276592867cc45",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed101/navigation_comparison.json"
+        },
+        {
+          "seed": 102,
+          "episodes": 2,
+          "blocked_fraction": 0.1018957345971564,
+          "positive_executed_dual_fraction": 0.12203791469194313,
+          "active_controls": 844,
+          "positive_dual_controls": 103,
+          "input_sha256": "280ae78753edc86dd53ad7ec154938927347a9c5f4c60cf7fe7415f78eb90b31",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed102/navigation_comparison.json"
+        },
+        {
+          "seed": 103,
+          "episodes": 2,
+          "blocked_fraction": 0.057692307692307696,
+          "positive_executed_dual_fraction": 0.07435897435897436,
+          "active_controls": 780,
+          "positive_dual_controls": 58,
+          "input_sha256": "568d880f2e73966b4e5b49dd64d2a319fbc14606f80d68eb399f03ce458c9603",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed103/navigation_comparison.json"
+        },
+        {
+          "seed": 104,
+          "episodes": 3,
+          "blocked_fraction": 0.07653061224489796,
+          "positive_executed_dual_fraction": 0.08928571428571429,
+          "active_controls": 784,
+          "positive_dual_controls": 70,
+          "input_sha256": "11e8c8d7d54b94251c4701da35aaf3c43535059936e4521c875301dc6f7f6d72",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed104/navigation_comparison.json"
+        },
+        {
+          "seed": 105,
+          "episodes": 1,
+          "blocked_fraction": 0.054388133498145856,
+          "positive_executed_dual_fraction": 0.07292954264524104,
+          "active_controls": 809,
+          "positive_dual_controls": 59,
+          "input_sha256": "faa361ebea009baf74c010284791d95d2a577ee81d7ec0f2438f58081a56ea6c",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed105/navigation_comparison.json"
+        },
+        {
+          "seed": 106,
+          "episodes": 1,
+          "blocked_fraction": 0.03483870967741935,
+          "positive_executed_dual_fraction": 0.06322580645161291,
+          "active_controls": 775,
+          "positive_dual_controls": 49,
+          "input_sha256": "2499449f7aa5749210c50e9b2ac3af49b68e5946b4413df967a6f92166b7b7b0",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed106/navigation_comparison.json"
+        },
+        {
+          "seed": 107,
+          "episodes": 1,
+          "blocked_fraction": 0.014341590612777053,
+          "positive_executed_dual_fraction": 0.02216427640156454,
+          "active_controls": 767,
+          "positive_dual_controls": 17,
+          "input_sha256": "0d867437d267e43227c5a077cd9247aff9a4ac0bac87a40efbe0560475b5fc6c",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed107/navigation_comparison.json"
+        },
+        {
+          "seed": 108,
+          "episodes": 1,
+          "blocked_fraction": 0.04935064935064935,
+          "positive_executed_dual_fraction": 0.04935064935064935,
+          "active_controls": 770,
+          "positive_dual_controls": 38,
+          "input_sha256": "eb73a43d90ffa417b9efe3b37cfc9b9f0216589513d04b4d8f738b538909d221",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed108/navigation_comparison.json"
+        },
+        {
+          "seed": 109,
+          "episodes": 3,
+          "blocked_fraction": 0.07115135834411385,
+          "positive_executed_dual_fraction": 0.0944372574385511,
+          "active_controls": 773,
+          "positive_dual_controls": 73,
+          "input_sha256": "07d6188eec4570e00ba296ef61ec8b1d40dd516a583548c4e0174175634b2117",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed109/navigation_comparison.json"
+        }
+      ],
+      "episodes": {
+        "min": 1.0,
+        "median": 2.0,
+        "max": 3.0
+      },
+      "blocked_fraction": {
+        "min": 0.014341590612777053,
+        "median": 0.05604022059522677,
+        "max": 0.1018957345971564
+      },
+      "positive_executed_dual_fraction": {
+        "min": 0.02216427640156454,
+        "median": 0.0736442585021077,
+        "max": 0.12203791469194313
+      }
+    },
+    "dense16/combined/adaptive": {
+      "count": 10,
+      "rows": [
+        {
+          "seed": 200,
+          "episodes": 3,
+          "blocked_fraction": 0.10494571773220748,
+          "positive_executed_dual_fraction": 0.10253317249698432,
+          "active_controls": 829,
+          "positive_dual_controls": 85,
+          "input_sha256": "bef02f38e893e31ecde2bc4a406aa4011d0cc64cfe02b8e2eeffd7b803a2462c",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed200/navigation_comparison.json"
+        },
+        {
+          "seed": 201,
+          "episodes": 5,
+          "blocked_fraction": 0.14028776978417265,
+          "positive_executed_dual_fraction": 0.11031175059952038,
+          "active_controls": 834,
+          "positive_dual_controls": 92,
+          "input_sha256": "ada34b63f94b2d5ee18adba36f7c0bfe0ba9af4bb47f4fbbd6b0ba7fecd5f686",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed201/navigation_comparison.json"
+        },
+        {
+          "seed": 202,
+          "episodes": 6,
+          "blocked_fraction": 0.1617161716171617,
+          "positive_executed_dual_fraction": 0.1496149614961496,
+          "active_controls": 909,
+          "positive_dual_controls": 136,
+          "input_sha256": "982deb23278b99071325acb0c4755a7be4d0a74f679d1da8d1f52963b4a3fb91",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed202/navigation_comparison.json"
+        },
+        {
+          "seed": 203,
+          "episodes": 3,
+          "blocked_fraction": 0.08669833729216152,
+          "positive_executed_dual_fraction": 0.13182897862232779,
+          "active_controls": 842,
+          "positive_dual_controls": 111,
+          "input_sha256": "d5ad7be91a033356040036f685a544df6a5b5fa757ba785238297e137ad1dc00",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed203/navigation_comparison.json"
+        },
+        {
+          "seed": 204,
+          "episodes": 6,
+          "blocked_fraction": 0.20759193357058126,
+          "positive_executed_dual_fraction": 0.18623962040332148,
+          "active_controls": 843,
+          "positive_dual_controls": 157,
+          "input_sha256": "682f85b44a2453cc9d08e7ca421627621dde48abbd15f12e6d64a22bdad41d2a",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed204/navigation_comparison.json"
+        },
+        {
+          "seed": 205,
+          "episodes": 7,
+          "blocked_fraction": 0.2536082474226804,
+          "positive_executed_dual_fraction": 0.20721649484536084,
+          "active_controls": 970,
+          "positive_dual_controls": 201,
+          "input_sha256": "f8053fd9c95a057bb542d20d52b67cc5d6a4bc7279be8d9ad74a77d4089f5542",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed205/navigation_comparison.json"
+        },
+        {
+          "seed": 206,
+          "episodes": 4,
+          "blocked_fraction": 0.1387900355871886,
+          "positive_executed_dual_fraction": 0.16725978647686832,
+          "active_controls": 843,
+          "positive_dual_controls": 141,
+          "input_sha256": "8ec1ae6065729f83bf430555dc1e03e208771976155eb2853c8f26fe08565a33",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed206/navigation_comparison.json"
+        },
+        {
+          "seed": 207,
+          "episodes": 4,
+          "blocked_fraction": 0.17990654205607476,
+          "positive_executed_dual_fraction": 0.16238317757009346,
+          "active_controls": 856,
+          "positive_dual_controls": 139,
+          "input_sha256": "d6d71c9df5273d3602d0fda55f53a87334a78ce36e63563532d3fc19b056cd10",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed207/navigation_comparison.json"
+        },
+        {
+          "seed": 208,
+          "episodes": 7,
+          "blocked_fraction": 0.19074492099322798,
+          "positive_executed_dual_fraction": 0.1613995485327314,
+          "active_controls": 886,
+          "positive_dual_controls": 143,
+          "input_sha256": "0c552e54f73301ab7671d286aa77e9482a246c3f634cc2bf701dd32085b065da",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed208/navigation_comparison.json"
+        },
+        {
+          "seed": 209,
+          "episodes": 8,
+          "blocked_fraction": 0.299,
+          "positive_executed_dual_fraction": 0.258,
+          "active_controls": 1000,
+          "positive_dual_controls": 258,
+          "input_sha256": "6d5dd84e4013ef03bb7c2c45a3fb6847b330ea2fc24e774a9d958450d1046b70",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed209/navigation_comparison.json"
+        }
+      ],
+      "episodes": {
+        "min": 3.0,
+        "median": 5.5,
+        "max": 8.0
+      },
+      "blocked_fraction": {
+        "min": 0.08669833729216152,
+        "median": 0.17081135683661824,
+        "max": 0.299
+      },
+      "positive_executed_dual_fraction": {
+        "min": 0.10253317249698432,
+        "median": 0.16189136305141244,
+        "max": 0.258
+      }
+    },
+    "dense16/combined/fixed": {
+      "count": 10,
+      "rows": [
+        {
+          "seed": 200,
+          "episodes": 3,
+          "blocked_fraction": 0.10709987966305656,
+          "positive_executed_dual_fraction": 0.11070998796630566,
+          "active_controls": 831,
+          "positive_dual_controls": 92,
+          "input_sha256": "bef02f38e893e31ecde2bc4a406aa4011d0cc64cfe02b8e2eeffd7b803a2462c",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed200/navigation_comparison.json"
+        },
+        {
+          "seed": 201,
+          "episodes": 5,
+          "blocked_fraction": 0.14268585131894485,
+          "positive_executed_dual_fraction": 0.10551558752997602,
+          "active_controls": 834,
+          "positive_dual_controls": 88,
+          "input_sha256": "ada34b63f94b2d5ee18adba36f7c0bfe0ba9af4bb47f4fbbd6b0ba7fecd5f686",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed201/navigation_comparison.json"
+        },
+        {
+          "seed": 202,
+          "episodes": 7,
+          "blocked_fraction": 0.19796380090497737,
+          "positive_executed_dual_fraction": 0.16855203619909503,
+          "active_controls": 884,
+          "positive_dual_controls": 149,
+          "input_sha256": "982deb23278b99071325acb0c4755a7be4d0a74f679d1da8d1f52963b4a3fb91",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed202/navigation_comparison.json"
+        },
+        {
+          "seed": 203,
+          "episodes": 3,
+          "blocked_fraction": 0.08680142687277051,
+          "positive_executed_dual_fraction": 0.1272294887039239,
+          "active_controls": 841,
+          "positive_dual_controls": 107,
+          "input_sha256": "d5ad7be91a033356040036f685a544df6a5b5fa757ba785238297e137ad1dc00",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed203/navigation_comparison.json"
+        },
+        {
+          "seed": 204,
+          "episodes": 5,
+          "blocked_fraction": 0.16587677725118483,
+          "positive_executed_dual_fraction": 0.18601895734597157,
+          "active_controls": 844,
+          "positive_dual_controls": 157,
+          "input_sha256": "682f85b44a2453cc9d08e7ca421627621dde48abbd15f12e6d64a22bdad41d2a",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed204/navigation_comparison.json"
+        },
+        {
+          "seed": 205,
+          "episodes": 7,
+          "blocked_fraction": 0.271,
+          "positive_executed_dual_fraction": 0.24,
+          "active_controls": 1000,
+          "positive_dual_controls": 240,
+          "input_sha256": "f8053fd9c95a057bb542d20d52b67cc5d6a4bc7279be8d9ad74a77d4089f5542",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation/combined-seed205/navigation_comparison.json"
+        },
+        {
+          "seed": 206,
+          "episodes": 7,
+          "blocked_fraction": 0.22043628013777267,
+          "positive_executed_dual_fraction": 0.18140068886337543,
+          "active_controls": 871,
+          "positive_dual_controls": 158,
+          "input_sha256": "8ec1ae6065729f83bf430555dc1e03e208771976155eb2853c8f26fe08565a33",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed206/navigation_comparison.json"
+        },
+        {
+          "seed": 207,
+          "episodes": 6,
+          "blocked_fraction": 0.161217587373168,
+          "positive_executed_dual_fraction": 0.12965050732807215,
+          "active_controls": 887,
+          "positive_dual_controls": 115,
+          "input_sha256": "d6d71c9df5273d3602d0fda55f53a87334a78ce36e63563532d3fc19b056cd10",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed207/navigation_comparison.json"
+        },
+        {
+          "seed": 208,
+          "episodes": 7,
+          "blocked_fraction": 0.20044543429844097,
+          "positive_executed_dual_fraction": 0.16592427616926503,
+          "active_controls": 898,
+          "positive_dual_controls": 149,
+          "input_sha256": "0c552e54f73301ab7671d286aa77e9482a246c3f634cc2bf701dd32085b065da",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed208/navigation_comparison.json"
+        },
+        {
+          "seed": 209,
+          "episodes": 5,
+          "blocked_fraction": 0.20890774125132555,
+          "positive_executed_dual_fraction": 0.2258748674443266,
+          "active_controls": 943,
+          "positive_dual_controls": 213,
+          "input_sha256": "6d5dd84e4013ef03bb7c2c45a3fb6847b330ea2fc24e774a9d958450d1046b70",
+          "path": "artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed209/navigation_comparison.json"
+        }
+      ],
+      "episodes": {
+        "min": 3.0,
+        "median": 5.5,
+        "max": 7.0
+      },
+      "blocked_fraction": {
+        "min": 0.08680142687277051,
+        "median": 0.1819202890780811,
+        "max": 0.271
+      },
+      "positive_executed_dual_fraction": {
+        "min": 0.10551558752997602,
+        "median": 0.16723815618418003,
+        "max": 0.24
+      }
+    }
+  }
+}

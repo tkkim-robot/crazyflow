@@ -1,0 +1,11 @@
+{
+  "model_information": "oracle",
+  "estimator_response_rate": 2.4,
+  "learning_start_seconds": 4.0,
+  "update_every_controls": 2,
+  "enable_learning": true,
+  "learner_kind": "reference",
+  "nominal_acceleration_limit": 1.2,
+  "probe_every_controls": 25,
+  "save_periodic_snapshots_controls": 100
+}

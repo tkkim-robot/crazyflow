@@ -1,0 +1,23 @@
+{
+  "purpose": "Preserve nonfinite rejected/unused proposal diagnostics; accepted/executed safety rows must be finite. Reporting and export only. No solver, learner, limits, timing, controller or world changes.",
+  "original_source": "/tmp/crazyflow-navigation-frozen-20260905",
+  "patched_source": "/tmp/crazyflow-navigation-output-patched-20260905",
+  "changed_files": {
+    "crazyflow/safety/da_plcbf/mujoco_comparison_video.py": {
+      "before": "01cc30752d3c06134e9e4f1ab84da562485f45badde45d47b7d6423f3081edc8",
+      "after": "fd316c8c55f4423d9527c29fe7a07c77a742123f62d6bd096ff49209c49cf0ec"
+    },
+    "crazyflow/safety/da_plcbf/online_constant_wind.py": {
+      "before": "48dbc0303dbd96eb8a39918a2e4a1c2214a45e67ef6be7881de79aba18ecaacd",
+      "after": "0c2456dd79ccbda0b669c4f739f1210ff86841ca76f4745f0617da2e3e7ad9f0"
+    },
+    "crazyflow/safety/da_plcbf/navigation_audit.py": {
+      "before": "ebf8c68af08ee8b5f0864f24680d32e38156f3f5d6f8cdd66bc7d399ae0c29c5",
+      "after": "2b76b0c9ff60794af438202de0241490b890ece54de69c30bbb1d90bfc96b4e8"
+    }
+  },
+  "patch_sha256": "1cd55ef724cfff7659a15a1c84fe5fef23e3dc60693c93fa691016995d5925a0",
+  "runner_unchanged_sha256": "c6ac141be4b7d02796b2f33298552ab30c44b2f9f30c8664fa91984f4748e61f",
+  "failed_artifact_preserved": "dense-confirmation/combined-seed206",
+  "reruns": "dense-confirmation-repair/combined-seed206 through seed209; compare original partial seed206 actual states and final full checkpoint exactly"
+}

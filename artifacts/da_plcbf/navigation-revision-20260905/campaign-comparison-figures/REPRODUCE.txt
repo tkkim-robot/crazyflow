@@ -1,0 +1,3 @@
+/home/tk/Desktop/mycode/crazyflow/.pixi/envs/gpu-tests/bin/python /home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_navigation_figures.py /home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905 --main-summary /home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout_statistics.json --dense-summary /home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense_confirmation_statistics.json --output /home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/campaign-comparison-figures
+
+Use a fresh --output directory when reproducing; existing artifacts are kept.

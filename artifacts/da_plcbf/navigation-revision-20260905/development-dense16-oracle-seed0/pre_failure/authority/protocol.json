@@ -1,0 +1,109 @@
+{
+  "indices": [
+    165,
+    176
+  ],
+  "maximum_local_seconds": 4.0,
+  "route_offsets": [
+    [
+      "direct",
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      "lateral_-1_0.2",
+      0.2,
+      -1.0,
+      0.0
+    ],
+    [
+      "lateral_-0.6_0.2",
+      0.2,
+      -0.6,
+      0.0
+    ],
+    [
+      "lateral_+0.6_0.2",
+      0.2,
+      0.6,
+      0.0
+    ],
+    [
+      "lateral_+1_0.2",
+      0.2,
+      1.0,
+      0.0
+    ],
+    [
+      "lateral_-1_0.6",
+      0.6,
+      -1.0,
+      0.0
+    ],
+    [
+      "lateral_-0.6_0.6",
+      0.6,
+      -0.6,
+      0.0
+    ],
+    [
+      "lateral_+0.6_0.6",
+      0.6,
+      0.6,
+      0.0
+    ],
+    [
+      "lateral_+1_0.6",
+      0.6,
+      1.0,
+      0.0
+    ],
+    [
+      "vertical_-0.6",
+      0.6,
+      0.0,
+      -0.6
+    ],
+    [
+      "vertical_+0.6",
+      0.6,
+      0.0,
+      0.6
+    ],
+    [
+      "combined_-0.7_-0.5",
+      0.4,
+      -0.7,
+      -0.5
+    ],
+    [
+      "combined_-0.7_+0.5",
+      0.4,
+      -0.7,
+      0.5
+    ],
+    [
+      "combined_+0.7_-0.5",
+      0.4,
+      0.7,
+      -0.5
+    ],
+    [
+      "combined_+0.7_+0.5",
+      0.4,
+      0.7,
+      0.5
+    ]
+  ],
+  "frame": "horizontal forward velocity and perpendicular lateral axis",
+  "acceleration_limit_mps2": 1.2,
+  "position_gain": 2.0,
+  "velocity_gain": 2.8,
+  "intermediate_arrival_radius_m": 0.35,
+  "final_goal_radius_m": 0.25,
+  "final_speed_limit_mps": 0.3,
+  "command_hold_steps": 2,
+  "integration_dt": 0.02,
+  "scope": "Oracle numerical authority diagnostic only; no PL-CBF certificate or impossibility claim"
+}

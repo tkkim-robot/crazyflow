@@ -1,0 +1,22 @@
+{
+  "fixed": {
+    "minimum_valid_fallback_max_hard_m2": 0.010105803608894348,
+    "controls_without_collision_clear_fallback": 0,
+    "minimum_collision_clear_fallback_count": 2,
+    "selected_fallback_certificate_controls": 667
+  },
+  "adaptive": {
+    "minimum_valid_fallback_max_hard_m2": 0.010007724165916443,
+    "controls_without_collision_clear_fallback": 0,
+    "minimum_collision_clear_fallback_count": 2,
+    "selected_fallback_certificate_controls": 712
+  },
+  "same_adaptive_state_probes": {
+    "count": 30,
+    "adaptive_minus_frozen_fallback_hard_median_m2": 4.3958425521850586e-07,
+    "adaptive_higher_count": 14,
+    "adaptive_lower_count": 6,
+    "both_accepted_qp_count": 30,
+    "scope": "Both libraries at saved adaptive states; selection histories held equal, oracle point model, no timing claim"
+  }
+}

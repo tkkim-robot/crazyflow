@@ -1,0 +1,3420 @@
+{
+  "protocol": "artifacts/da_plcbf/navigation-revision-20260905/ISOLATED_DISTURBANCE_EXECUTION_PROTOCOL.json",
+  "protocol_sha256": "fbe877bd655435457d99c1f39453dc5a9c0bd2ad0d380d96fa971ef58a151d6b",
+  "script_sha256": "d254a7c8872c53a55a707860b52fbfca218497cf3b3415d0905213bb58e1b8ed",
+  "scope": "Exact recorded prefix comparison before each first event; physical clearance uses the experiment's relative linear segment convention at 20 ms integration nodes. Event intervals are scheduled windows with actual observed control counts; a window may extend past route completion, and terminal padding is excluded. No continuous-time certificate and no deployment timing claim.",
+  "all_geometry_and_settings_exact": true,
+  "all_pre_event_prefixes_bitwise_equal": true,
+  "strict_success_counts": {
+    "wind": {
+      "fixed": 10,
+      "adaptive": 10
+    },
+    "payload": {
+      "fixed": 10,
+      "adaptive": 10
+    }
+  },
+  "runs": [
+    {
+      "condition": "wind",
+      "seed": 100,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed100",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed100",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1643465489411537,
+              "minimum_shell_clearance_m": 0.014346548941153697
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16113148131880195,
+              "minimum_shell_clearance_m": 0.011131481318801956
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 167,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.3394925921163961,
+              "minimum_shell_clearance_m": 0.1894925921163961
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1643465489411537,
+              "minimum_shell_clearance_m": 0.014346548941153697
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1599066586867519,
+              "minimum_shell_clearance_m": 0.009906658686751918
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 167,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.3469572869407435,
+              "minimum_shell_clearance_m": 0.19695728694074352
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 101,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed101",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed101",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16125689811219795,
+              "minimum_shell_clearance_m": 0.01125689811219796
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16813121434854178,
+              "minimum_shell_clearance_m": 0.018131214348541785
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 202,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2073973775326749,
+              "minimum_shell_clearance_m": 0.057397377532674904
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16125689811219795,
+              "minimum_shell_clearance_m": 0.01125689811219796
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16308982187121118,
+              "minimum_shell_clearance_m": 0.013089821871211188
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 197,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.3057572324427355,
+              "minimum_shell_clearance_m": 0.1557572324427355
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 102,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed102",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed102",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1622755954793187,
+              "minimum_shell_clearance_m": 0.012275595479318696
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16049555082543043,
+              "minimum_shell_clearance_m": 0.010495550825430439
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 248,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.3498360448274029,
+              "minimum_shell_clearance_m": 0.1998360448274029
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1622755954793187,
+              "minimum_shell_clearance_m": 0.012275595479318696
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16088972936434975,
+              "minimum_shell_clearance_m": 0.01088972936434976
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 248,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.3498342675880321,
+              "minimum_shell_clearance_m": 0.1998342675880321
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 103,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed103",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed103",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.159572055787146,
+              "minimum_shell_clearance_m": 0.009572055787146011
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2941879316658542,
+              "minimum_shell_clearance_m": 0.14418793166585422
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 184,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1627988452610697,
+              "minimum_shell_clearance_m": 0.012798845261069697
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.159572055787146,
+              "minimum_shell_clearance_m": 0.009572055787146011
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2941879316658542,
+              "minimum_shell_clearance_m": 0.14418793166585422
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 184,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.15981211239960402,
+              "minimum_shell_clearance_m": 0.009812112399604028
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 104,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed104",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed104",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16647292258384344,
+              "minimum_shell_clearance_m": 0.016472922583843447
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1609241182003131,
+              "minimum_shell_clearance_m": 0.01092411820031311
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 180,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.38324953417388685,
+              "minimum_shell_clearance_m": 0.23324953417388686
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16937400197140057,
+              "minimum_shell_clearance_m": 0.019374001971400573
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16027588882628047,
+              "minimum_shell_clearance_m": 0.010275888826280472
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 178,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.33519064510875474,
+              "minimum_shell_clearance_m": 0.18519064510875474
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 105,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed105",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed105",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.280543841733985,
+              "minimum_shell_clearance_m": 0.130543841733985
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16068658245919376,
+              "minimum_shell_clearance_m": 0.010686582459193766
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 213,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2900288152309447,
+              "minimum_shell_clearance_m": 0.1400288152309447
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.280543841733985,
+              "minimum_shell_clearance_m": 0.130543841733985
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16096093973517472,
+              "minimum_shell_clearance_m": 0.01096093973517473
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 213,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.29070234517585125,
+              "minimum_shell_clearance_m": 0.14070234517585126
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 106,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed106",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed106",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.5904350077237065,
+              "minimum_shell_clearance_m": 0.4404350077237065
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16115086462781486,
+              "minimum_shell_clearance_m": 0.011150864627814866
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 161,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2384995945809648,
+              "minimum_shell_clearance_m": 0.08849959458096482
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.5904350077237065,
+              "minimum_shell_clearance_m": 0.4404350077237065
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1625435985652418,
+              "minimum_shell_clearance_m": 0.012543598565241815
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 161,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2360889393726906,
+              "minimum_shell_clearance_m": 0.0860889393726906
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 107,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed107",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed107",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16237644510637889,
+              "minimum_shell_clearance_m": 0.012376445106378892
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.23379737795035516,
+              "minimum_shell_clearance_m": 0.08379737795035516
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 166,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.4368902648320709,
+              "minimum_shell_clearance_m": 0.2868902648320709
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16237644510637889,
+              "minimum_shell_clearance_m": 0.012376445106378892
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.23379737795035516,
+              "minimum_shell_clearance_m": 0.08379737795035516
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 166,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.4368902648320709,
+              "minimum_shell_clearance_m": 0.2868902648320709
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 108,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed108",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed108",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.5260353688758348,
+              "minimum_shell_clearance_m": 0.3760353688758348
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2823652255077089,
+              "minimum_shell_clearance_m": 0.13236522550770888
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 164,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16044655096145455,
+              "minimum_shell_clearance_m": 0.010446550961454554
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.5260353688758348,
+              "minimum_shell_clearance_m": 0.3760353688758348
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2823652255077089,
+              "minimum_shell_clearance_m": 0.13236522550770888
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 164,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.161909475357708,
+              "minimum_shell_clearance_m": 0.011909475357708005
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "wind",
+      "seed": 109,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-wind/wind-seed109",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed109",
+      "first_event_seconds": 8.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.5015798878668893,
+              "minimum_shell_clearance_m": 0.3515798878668893
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.15957688784328627,
+              "minimum_shell_clearance_m": 0.00957688784328628
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 170,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1634359574714805,
+              "minimum_shell_clearance_m": 0.013435957471480492
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 8.0,
+              "executed_controls": 200,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.5015798878668893,
+              "minimum_shell_clearance_m": 0.3515798878668893
+            },
+            {
+              "start_seconds": 8.0,
+              "stop_seconds": 24.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.15941613823132855,
+              "minimum_shell_clearance_m": 0.009416138231328558
+            },
+            {
+              "start_seconds": 24.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 170,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16387580431390142,
+              "minimum_shell_clearance_m": 0.013875804313901424
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 100,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed100",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed100",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1643465489411537,
+              "minimum_shell_clearance_m": 0.014346548941153697
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 373,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16468791663347093,
+              "minimum_shell_clearance_m": 0.014687916633470938
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1643465489411537,
+              "minimum_shell_clearance_m": 0.014346548941153697
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 372,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1603721066861734,
+              "minimum_shell_clearance_m": 0.010372106686173416
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 101,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed101",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed101",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16125689811219795,
+              "minimum_shell_clearance_m": 0.01125689811219796
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1635643107789203,
+              "minimum_shell_clearance_m": 0.013564310778920313
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16125689811219795,
+              "minimum_shell_clearance_m": 0.01125689811219796
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16161439903497887,
+              "minimum_shell_clearance_m": 0.011614399034978878
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 102,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed102",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed102",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1613804055543776,
+              "minimum_shell_clearance_m": 0.01138040555437761
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 445,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.28503354542729303,
+              "minimum_shell_clearance_m": 0.13503354542729304
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1613114998584736,
+              "minimum_shell_clearance_m": 0.0113114998584736
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 444,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.27914744274714337,
+              "minimum_shell_clearance_m": 0.12914744274714338
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 103,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed103",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed103",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.159572055787146,
+              "minimum_shell_clearance_m": 0.009572055787146011
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 380,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.17396089855196717,
+              "minimum_shell_clearance_m": 0.023960898551967175
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.159572055787146,
+              "minimum_shell_clearance_m": 0.009572055787146011
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 379,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1742477022135367,
+              "minimum_shell_clearance_m": 0.024247702213536698
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 104,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed104",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/unchanged-seed104",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16086040659121015,
+              "minimum_shell_clearance_m": 0.010860406591210153
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 382,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.3272250472239795,
+              "minimum_shell_clearance_m": 0.1772250472239795
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16077133579676262,
+              "minimum_shell_clearance_m": 0.010771335796762621
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 382,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.32765927926191807,
+              "minimum_shell_clearance_m": 0.17765927926191807
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 105,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed105",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed105",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.20457099421857855,
+              "minimum_shell_clearance_m": 0.054570994218578556
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 387,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.17371273486985206,
+              "minimum_shell_clearance_m": 0.023712734869852065
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.20452671095700686,
+              "minimum_shell_clearance_m": 0.05452671095700687
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 387,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1763840074092437,
+              "minimum_shell_clearance_m": 0.02638400740924371
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 106,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed106",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed106",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1791837815357743,
+              "minimum_shell_clearance_m": 0.029183781535774306
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 364,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16052176770994425,
+              "minimum_shell_clearance_m": 0.010521767709944257
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.18153531648973176,
+              "minimum_shell_clearance_m": 0.03153531648973176
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 364,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16005898805705304,
+              "minimum_shell_clearance_m": 0.010058988057053048
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 107,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed107",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed107",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16237644510637889,
+              "minimum_shell_clearance_m": 0.012376445106378892
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 363,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.24650868634208623,
+              "minimum_shell_clearance_m": 0.09650868634208623
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16237644510637889,
+              "minimum_shell_clearance_m": 0.012376445106378892
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 363,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.24653348723890478,
+              "minimum_shell_clearance_m": 0.09653348723890479
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 108,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed108",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed108",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.2124956594739042,
+              "minimum_shell_clearance_m": 0.0624956594739042
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 377,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.1612001786794885,
+              "minimum_shell_clearance_m": 0.011200178679488498
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.21248819888229148,
+              "minimum_shell_clearance_m": 0.062488198882291485
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 376,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16124017153758996,
+              "minimum_shell_clearance_m": 0.011240171537589966
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    },
+    {
+      "condition": "payload",
+      "seed": 109,
+      "directory": "artifacts/da_plcbf/navigation-revision-20260905/isolated-payload/payload-seed109",
+      "unchanged_baseline": "artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-b/unchanged-seed109",
+      "first_event_seconds": 16.0,
+      "geometry_and_settings_exact": true,
+      "methods": {
+        "fixed": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.15862811919515285,
+              "minimum_shell_clearance_m": 0.008628119195152856
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 372,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.15905948445754087,
+              "minimum_shell_clearance_m": 0.009059484457540873
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        },
+        "adaptive": {
+          "pre_event_bitwise_equal": true,
+          "pre_event_arrays": {
+            "full_state": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "applied_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "nominal_wrench": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "goal_position": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "selected_policy": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "library_version": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "cumulative_gradient_steps": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "parameter_update_norm": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "descriptors": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "estimated_wind": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "recorded_control_valid": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            },
+            "dense_plant_states_through_event_boundary": {
+              "bitwise_equal": true,
+              "max_absolute_finite_difference": 0.0
+            }
+          },
+          "recorded_plant_events_match": true,
+          "plant_event_check_scope": "Actual active rows: exact prescribed wind; centered rigid payload mass and inertia formula with 2e-7 relative float32 bookkeeping tolerance. Payload remains inside the bare ego radius. This does not change any controller safety tolerance.",
+          "event_intervals": [
+            {
+              "start_seconds": 0.0,
+              "stop_seconds": 16.0,
+              "executed_controls": 400,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.15852124154581781,
+              "minimum_shell_clearance_m": 0.00852124154581782
+            },
+            {
+              "start_seconds": 16.0,
+              "stop_seconds": 40.0,
+              "executed_controls": 372,
+              "degraded_controls": 0,
+              "minimum_physical_clearance_m": 0.16963937167736787,
+              "minimum_shell_clearance_m": 0.019639371677367873
+            }
+          ],
+          "first_degraded_control_time_seconds": null,
+          "first_nonpositive_shell_interval_start_seconds": null,
+          "strict_success": true
+        }
+      }
+    }
+  ]
+}

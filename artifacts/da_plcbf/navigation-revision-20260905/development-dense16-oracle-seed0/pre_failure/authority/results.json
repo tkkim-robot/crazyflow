@@ -1,0 +1,1259 @@
+{
+  "protocol": {
+    "indices": [
+      165,
+      176
+    ],
+    "maximum_local_seconds": 4.0,
+    "route_offsets": [
+      [
+        "direct",
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        "lateral_-1_0.2",
+        0.2,
+        -1.0,
+        0.0
+      ],
+      [
+        "lateral_-0.6_0.2",
+        0.2,
+        -0.6,
+        0.0
+      ],
+      [
+        "lateral_+0.6_0.2",
+        0.2,
+        0.6,
+        0.0
+      ],
+      [
+        "lateral_+1_0.2",
+        0.2,
+        1.0,
+        0.0
+      ],
+      [
+        "lateral_-1_0.6",
+        0.6,
+        -1.0,
+        0.0
+      ],
+      [
+        "lateral_-0.6_0.6",
+        0.6,
+        -0.6,
+        0.0
+      ],
+      [
+        "lateral_+0.6_0.6",
+        0.6,
+        0.6,
+        0.0
+      ],
+      [
+        "lateral_+1_0.6",
+        0.6,
+        1.0,
+        0.0
+      ],
+      [
+        "vertical_-0.6",
+        0.6,
+        0.0,
+        -0.6
+      ],
+      [
+        "vertical_+0.6",
+        0.6,
+        0.0,
+        0.6
+      ],
+      [
+        "combined_-0.7_-0.5",
+        0.4,
+        -0.7,
+        -0.5
+      ],
+      [
+        "combined_-0.7_+0.5",
+        0.4,
+        -0.7,
+        0.5
+      ],
+      [
+        "combined_+0.7_-0.5",
+        0.4,
+        0.7,
+        -0.5
+      ],
+      [
+        "combined_+0.7_+0.5",
+        0.4,
+        0.7,
+        0.5
+      ]
+    ],
+    "frame": "horizontal forward velocity and perpendicular lateral axis",
+    "acceleration_limit_mps2": 1.2,
+    "position_gain": 2.0,
+    "velocity_gain": 2.8,
+    "intermediate_arrival_radius_m": 0.35,
+    "final_goal_radius_m": 0.25,
+    "final_speed_limit_mps": 0.3,
+    "command_hold_steps": 2,
+    "integration_dt": 0.02,
+    "scope": "Oracle numerical authority diagnostic only; no PL-CBF certificate or impossibility claim"
+  },
+  "world": {
+    "schema": "exogenous_navigation_world_v1",
+    "config": {
+      "seed": 0,
+      "obstacle_count": 16,
+      "dt": 0.02,
+      "control_interval_steps": 2,
+      "duration_seconds": 40.0,
+      "waypoint_count": 8,
+      "reach_radius": 0.4,
+      "moving_obstacles": true,
+      "wind_events": [
+        {
+          "time_seconds": 8.0,
+          "velocity": [
+            2.0,
+            0.8,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 24.0,
+          "velocity": [
+            -1.6,
+            1.0,
+            0.0
+          ]
+        }
+      ],
+      "payload_events": [
+        {
+          "time_seconds": 16.0,
+          "mass_fraction": 0.25,
+          "half_extents": [
+            0.025,
+            0.025,
+            0.025
+          ]
+        }
+      ],
+      "ego_radius": 0.05,
+      "obstacle_clearance": 0.15,
+      "arena_lower": [
+        -5.0,
+        -4.0,
+        0.15
+      ],
+      "arena_upper": [
+        5.0,
+        4.0,
+        4.0
+      ],
+      "speed_max": 3.5,
+      "angular_rate_max": 12.0,
+      "tilt_max_radians": 0.9
+    },
+    "trajectory": "center(t) = mean + amplitude * sin(omega*t + phase)",
+    "event_semantics": "right-continuous prescribed changes at command boundaries",
+    "obstacle_masks": "all obstacles active at all prediction nodes; no teleports",
+    "initial_state": [
+      -3.7,
+      -2.68,
+      1.2472500000000002,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "waypoint_positions": [
+      [
+        3.5438277399428655,
+        -2.4736682515955613,
+        2.6596115276595826
+      ],
+      [
+        2.995288843369129,
+        2.580246476544087,
+        1.494831784728871
+      ],
+      [
+        -3.2158765517545023,
+        2.353438899514879,
+        2.7627099972689355
+      ],
+      [
+        -3.310776824387914,
+        -2.4189268626811096,
+        1.1843763200544475
+      ],
+      [
+        3.6143693685080223,
+        -2.5492526159022515,
+        2.8799897428575822
+      ],
+      [
+        3.0462097985928187,
+        2.5962172551519638,
+        1.3760175904797094
+      ],
+      [
+        -3.314092195028037,
+        2.2552599107832503,
+        2.5978122947665483
+      ],
+      [
+        -3.570229351520139,
+        -2.4654001872980382,
+        1.3906006437037601
+      ]
+    ],
+    "obstacle_mean_centers": [
+      [
+        -0.30097284992033746,
+        -2.583182786790617,
+        1.9099735421090749
+      ],
+      [
+        3.2848972262882885,
+        -0.08803480846611089,
+        2.1097926925408337
+      ],
+      [
+        0.12555437038201633,
+        2.4754549469148164,
+        2.080627457942156
+      ],
+      [
+        -3.2584510551977046,
+        0.21244291566036022,
+        2.05463223615793
+      ],
+      [
+        -0.1852539169257561,
+        -2.4777467223315526,
+        1.949656712345388
+      ],
+      [
+        3.3378963698777833,
+        -0.045407640054666576,
+        2.148139549985986
+      ],
+      [
+        0.20385848044977584,
+        2.4438470440882507,
+        1.9220246498477933
+      ],
+      [
+        -3.4227357678052526,
+        0.2529366791743062,
+        2.085759343660305
+      ],
+      [
+        1.254022574980481,
+        -2.5388906064269765,
+        2.213157962371656
+      ],
+      [
+        3.1771626070642642,
+        0.9045686007501419,
+        1.8810265961558559
+      ],
+      [
+        -1.352475163743978,
+        2.421483063043247,
+        2.382335965862478
+      ],
+      [
+        -3.2820034044240827,
+        -0.9719627972867464,
+        1.6629213913945433
+      ],
+      [
+        1.4895438530456007,
+        -2.5092650866786497,
+        2.3597288610254212
+      ],
+      [
+        3.206248299133607,
+        1.1468475246302674,
+        1.799654647508565
+      ],
+      [
+        -1.650845258754135,
+        2.344421755455111,
+        2.278307607615069
+      ],
+      [
+        -3.499993957813657,
+        -1.1709475390215167,
+        1.7216302637739807
+      ]
+    ],
+    "obstacle_amplitudes": [
+      [
+        -0.026816272201271408,
+        0.9414569398824012,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.7221116826427351
+      ],
+      [
+        0.03302947870784203,
+        -0.9045180846965358,
+        0.0
+      ],
+      [
+        1.0355601908258008,
+        -0.02059250051958624,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.7725685880011981
+      ],
+      [
+        -1.1366409346174766,
+        -0.12550718219014056,
+        0.0
+      ],
+      [
+        0.044169927625399744,
+        -0.8239566719234971,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.6511379599553822
+      ],
+      [
+        -0.03092079413234191,
+        1.0855571573884955,
+        0.0
+      ],
+      [
+        -1.0583385163999974,
+        -0.11486933856544053,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.6563071562122689
+      ],
+      [
+        1.1286412964937755,
+        -0.022443453012558102,
+        0.0
+      ],
+      [
+        0.021021881139417106,
+        1.0996206255223755,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.78185598215614
+      ],
+      [
+        0.06576752481689087,
+        -1.2268435513036677,
+        0.0
+      ],
+      [
+        0.9885398942253208,
+        -0.053636947444869215,
+        0.0
+      ]
+    ],
+    "obstacle_angular_frequencies": [
+      0.791083480989782,
+      1.1624142036546274,
+      0.8193538776944057,
+      0.9263272675780534,
+      0.9146414028745143,
+      0.8235433864623174,
+      0.8503462481203374,
+      1.19174440103959,
+      0.8028255664656567,
+      0.9939969359626529,
+      0.7868450223152736,
+      0.9537410273598421,
+      0.805931374709655,
+      1.2456457536368368,
+      0.7935432458682723,
+      0.8484322535486132
+    ],
+    "obstacle_phases": [
+      1.1657946707540434,
+      1.391652284819048,
+      2.7271758421328762,
+      -1.0184338063523257,
+      -2.613708681215308,
+      -2.7735988378314134,
+      -1.6924249148248358,
+      0.5047432673232595,
+      -0.8475378089720196,
+      2.856276310741155,
+      2.8207963021201756,
+      1.7956445157270178,
+      -2.41944962084375,
+      2.2848180721324605,
+      2.4500373544500818,
+      2.661118477098918
+    ],
+    "obstacle_radii": [
+      0.2997209935789211,
+      0.23889214239791037,
+      0.2485835358831789,
+      0.23218693910759422,
+      0.22271575935333798,
+      0.22393694429929523,
+      0.2450339366649287,
+      0.21985130445092554,
+      0.21995154439682135,
+      0.2927154553067867,
+      0.26202134520153775,
+      0.24974226954876189,
+      0.27111428779897495,
+      0.2967926189924646,
+      0.2148764012232498,
+      0.22323729196393038
+    ]
+  },
+  "source_sha256": "aec78880a4d66a72eff209ee9e617f6ca02ecd7bef69cba24ca95e6cfa7ee907",
+  "rows": [
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "direct",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": true,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": 0.06742205093464847,
+      "minimum_inflated_clearance_m": -0.08257794906535153,
+      "closest_interval_start_seconds": 7.5200000000000005,
+      "minimum_motor_margin_N": 0.08340276777744293,
+      "minimum_arena_margin_m": 1.0047291946411132,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.18575824797153473,
+      "maximum_angular_rate_rps": 0.5816393494606018,
+      "final_goal_distance_m": 0.020517423748970032,
+      "final_speed_mps": 0.017665695399045944
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "lateral_-1_0.2",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.1953896407740749,
+      "minimum_inflated_clearance_m": -0.34538964077407486,
+      "closest_interval_start_seconds": 8.040000000000001,
+      "minimum_motor_margin_N": 0.08143056184053421,
+      "minimum_arena_margin_m": 0.36233465194702147,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.24554945528507233,
+      "maximum_angular_rate_rps": 0.6378321647644043,
+      "final_goal_distance_m": 2.38047456741333,
+      "final_speed_mps": 0.5708380341529846
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "lateral_-0.6_0.2",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.1981315513977271,
+      "minimum_inflated_clearance_m": -0.3481315513977271,
+      "closest_interval_start_seconds": 8.06,
+      "minimum_motor_margin_N": 0.08145418018102646,
+      "minimum_arena_margin_m": 0.6722258758544922,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.2411614954471588,
+      "maximum_angular_rate_rps": 0.6371728181838989,
+      "final_goal_distance_m": 2.351233959197998,
+      "final_speed_mps": 0.53118896484375
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "lateral_+0.6_0.2",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.2046077955648124,
+      "minimum_inflated_clearance_m": -0.35460779556481237,
+      "closest_interval_start_seconds": 8.08,
+      "minimum_motor_margin_N": 0.08095218986272812,
+      "minimum_arena_margin_m": 1.0047291946411132,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.23072190582752228,
+      "maximum_angular_rate_rps": 0.6007863283157349,
+      "final_goal_distance_m": 2.616429567337036,
+      "final_speed_mps": 0.20727822184562683
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "lateral_+1_0.2",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.11983564391391414,
+      "minimum_inflated_clearance_m": -0.2698356439139141,
+      "closest_interval_start_seconds": 8.06,
+      "minimum_motor_margin_N": 0.08070754259824753,
+      "minimum_arena_margin_m": 1.0047291946411132,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.22785159945487976,
+      "maximum_angular_rate_rps": 0.5706225037574768,
+      "final_goal_distance_m": 2.7498607635498047,
+      "final_speed_mps": 0.3162843585014343
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "lateral_-1_0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.18824018402706583,
+      "minimum_inflated_clearance_m": -0.3382401840270658,
+      "closest_interval_start_seconds": 8.040000000000001,
+      "minimum_motor_margin_N": 0.08134542405605316,
+      "minimum_arena_margin_m": 0.5641960334777832,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.2426687628030777,
+      "maximum_angular_rate_rps": 0.6367612481117249,
+      "final_goal_distance_m": 1.7500579357147217,
+      "final_speed_mps": 0.9996845722198486
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "lateral_-0.6_0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.19509047622716752,
+      "minimum_inflated_clearance_m": -0.3450904762271675,
+      "closest_interval_start_seconds": 8.06,
+      "minimum_motor_margin_N": 0.08157483488321304,
+      "minimum_arena_margin_m": 0.8638385963439942,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.2339736372232437,
+      "maximum_angular_rate_rps": 0.6357887387275696,
+      "final_goal_distance_m": 1.672005534172058,
+      "final_speed_mps": 0.9825592637062073
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "lateral_+0.6_0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.17482107064004704,
+      "minimum_inflated_clearance_m": -0.32482107064004706,
+      "closest_interval_start_seconds": 8.08,
+      "minimum_motor_margin_N": 0.0808284655213356,
+      "minimum_arena_margin_m": 1.0047291946411132,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.2223062366247177,
+      "maximum_angular_rate_rps": 0.5749727487564087,
+      "final_goal_distance_m": 2.2402474880218506,
+      "final_speed_mps": 0.20448137819766998
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "lateral_+1_0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.042123983470470264,
+      "minimum_inflated_clearance_m": -0.19212398347047027,
+      "closest_interval_start_seconds": 8.0,
+      "minimum_motor_margin_N": 0.08028682321310043,
+      "minimum_arena_margin_m": 1.0047291946411132,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.22122742235660553,
+      "maximum_angular_rate_rps": 0.5706225037574768,
+      "final_goal_distance_m": 2.4454030990600586,
+      "final_speed_mps": 0.13141103088855743
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "vertical_-0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.3159801726332069,
+      "minimum_inflated_clearance_m": -0.4659801726332069,
+      "closest_interval_start_seconds": 7.74,
+      "minimum_motor_margin_N": 0.07534772157669067,
+      "minimum_arena_margin_m": 0.9011097145080567,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.21427156031131744,
+      "maximum_angular_rate_rps": 0.6429443955421448,
+      "final_goal_distance_m": 1.9447038173675537,
+      "final_speed_mps": 0.6389409899711609
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "vertical_+0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.09318632945239454,
+      "minimum_inflated_clearance_m": -0.24318632945239455,
+      "closest_interval_start_seconds": 8.46,
+      "minimum_motor_margin_N": 0.07417186349630356,
+      "minimum_arena_margin_m": 1.0047291946411132,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.21818818151950836,
+      "maximum_angular_rate_rps": 0.6194660067558289,
+      "final_goal_distance_m": 2.0105140209198,
+      "final_speed_mps": 0.7475254535675049
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "combined_-0.7_-0.5",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.2887869944235264,
+      "minimum_inflated_clearance_m": -0.4387869944235264,
+      "closest_interval_start_seconds": 7.78,
+      "minimum_motor_margin_N": 0.077071912586689,
+      "minimum_arena_margin_m": 0.692547721862793,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.2337130606174469,
+      "maximum_angular_rate_rps": 0.6531106233596802,
+      "final_goal_distance_m": 2.01047682762146,
+      "final_speed_mps": 0.8288089036941528
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "combined_-0.7_+0.5",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.0804662060867178,
+      "minimum_inflated_clearance_m": -0.2304662060867178,
+      "closest_interval_start_seconds": 9.0,
+      "minimum_motor_margin_N": 0.07513747364282608,
+      "minimum_arena_margin_m": 0.6955098342895508,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.24935086071491241,
+      "maximum_angular_rate_rps": 0.6304721236228943,
+      "final_goal_distance_m": 2.076631784439087,
+      "final_speed_mps": 0.8707327246665955
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "combined_+0.7_-0.5",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.26680269412582247,
+      "minimum_inflated_clearance_m": -0.4168026941258225,
+      "closest_interval_start_seconds": 7.78,
+      "minimum_motor_margin_N": 0.07794356346130371,
+      "minimum_arena_margin_m": 0.9847133350372316,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.22539860010147095,
+      "maximum_angular_rate_rps": 0.5829651355743408,
+      "final_goal_distance_m": 2.484264850616455,
+      "final_speed_mps": 0.16534213721752167
+    },
+    {
+      "control_index": 165,
+      "start_time_seconds": 6.6000000000000005,
+      "route": "combined_+0.7_+0.5",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.21568796833122678,
+      "minimum_inflated_clearance_m": -0.36568796833122674,
+      "closest_interval_start_seconds": 8.56,
+      "minimum_motor_margin_N": 0.07446199655532837,
+      "minimum_arena_margin_m": 1.0047291946411132,
+      "maximum_speed_mps": 2.0124964714050293,
+      "maximum_tilt_radians": 0.22790805995464325,
+      "maximum_angular_rate_rps": 0.5714727640151978,
+      "final_goal_distance_m": 2.551258087158203,
+      "final_speed_mps": 0.30037784576416016
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "direct",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.1315351307331447,
+      "minimum_inflated_clearance_m": -0.28153513073314473,
+      "closest_interval_start_seconds": 7.9,
+      "minimum_motor_margin_N": 0.07342767715454102,
+      "minimum_arena_margin_m": 1.2663009357452393,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.17586907744407654,
+      "maximum_angular_rate_rps": 0.8216890096664429,
+      "final_goal_distance_m": 0.02503000944852829,
+      "final_speed_mps": 0.031329087913036346
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "lateral_-1_0.2",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.1456507763889774,
+      "minimum_inflated_clearance_m": -0.2956507763889774,
+      "closest_interval_start_seconds": 8.120000000000001,
+      "minimum_motor_margin_N": 0.08019496500492096,
+      "minimum_arena_margin_m": 0.8924345207214356,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.23093631863594055,
+      "maximum_angular_rate_rps": 0.5092849135398865,
+      "final_goal_distance_m": 0.38138172030448914,
+      "final_speed_mps": 0.49917376041412354
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "lateral_-0.6_0.2",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.10184902324048774,
+      "minimum_inflated_clearance_m": -0.25184902324048775,
+      "closest_interval_start_seconds": 8.120000000000001,
+      "minimum_motor_margin_N": 0.08015482872724533,
+      "minimum_arena_margin_m": 1.1601061058044433,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.22831159830093384,
+      "maximum_angular_rate_rps": 0.5222822427749634,
+      "final_goal_distance_m": 0.23122110962867737,
+      "final_speed_mps": 0.2680818438529968
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "lateral_+0.6_0.2",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.029747595544505692,
+      "minimum_inflated_clearance_m": -0.1797475955445057,
+      "closest_interval_start_seconds": 8.1,
+      "minimum_motor_margin_N": 0.08053087443113327,
+      "minimum_arena_margin_m": 1.2998614501953125,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.17280422151088715,
+      "maximum_angular_rate_rps": 0.3243030905723572,
+      "final_goal_distance_m": 0.8412697911262512,
+      "final_speed_mps": 1.035217523574829
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "lateral_+1_0.2",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.05999924069516695,
+      "minimum_inflated_clearance_m": -0.20999924069516696,
+      "closest_interval_start_seconds": 11.02,
+      "minimum_motor_margin_N": 0.0801381766796112,
+      "minimum_arena_margin_m": 1.319271821975708,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.17172907292842865,
+      "maximum_angular_rate_rps": 0.3449056148529053,
+      "final_goal_distance_m": 1.410591721534729,
+      "final_speed_mps": 1.2625375986099243
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "lateral_-1_0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.20900341579318055,
+      "minimum_inflated_clearance_m": -0.3590034157931805,
+      "closest_interval_start_seconds": 8.1,
+      "minimum_motor_margin_N": 0.07977158576250076,
+      "minimum_arena_margin_m": 1.0804819297790527,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.2208332121372223,
+      "maximum_angular_rate_rps": 0.5509478449821472,
+      "final_goal_distance_m": 0.21745215356349945,
+      "final_speed_mps": 0.2365424633026123
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "lateral_-0.6_0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.1986552351623202,
+      "minimum_inflated_clearance_m": -0.3486552351623202,
+      "closest_interval_start_seconds": 8.14,
+      "minimum_motor_margin_N": 0.07959339022636414,
+      "minimum_arena_margin_m": 1.2764359903335571,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.22368454933166504,
+      "maximum_angular_rate_rps": 0.5755470395088196,
+      "final_goal_distance_m": 0.13598307967185974,
+      "final_speed_mps": 0.13062916696071625
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "lateral_+0.6_0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.012438433331438195,
+      "minimum_inflated_clearance_m": -0.1624384333314382,
+      "closest_interval_start_seconds": 8.08,
+      "minimum_motor_margin_N": 0.07935646176338196,
+      "minimum_arena_margin_m": 1.2888339948654175,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.17192672193050385,
+      "maximum_angular_rate_rps": 0.4065203368663788,
+      "final_goal_distance_m": 0.3462263345718384,
+      "final_speed_mps": 0.4926898181438446
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "lateral_+1_0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.05069544775317526,
+      "minimum_inflated_clearance_m": -0.20069544775317527,
+      "closest_interval_start_seconds": 10.2,
+      "minimum_motor_margin_N": 0.07940465956926346,
+      "minimum_arena_margin_m": 1.3042296361923218,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.17088957130908966,
+      "maximum_angular_rate_rps": 0.4501279890537262,
+      "final_goal_distance_m": 0.8300641775131226,
+      "final_speed_mps": 1.0208297967910767
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "vertical_-0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.12878324937781233,
+      "minimum_inflated_clearance_m": -0.2787832493778123,
+      "closest_interval_start_seconds": 7.96,
+      "minimum_motor_margin_N": 0.07353245466947556,
+      "minimum_arena_margin_m": 1.1486219358444214,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.18626618385314941,
+      "maximum_angular_rate_rps": 0.4988168179988861,
+      "final_goal_distance_m": 0.13819611072540283,
+      "final_speed_mps": 0.14544281363487244
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "vertical_+0.6",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.19360718564399854,
+      "minimum_inflated_clearance_m": -0.3436071856439985,
+      "closest_interval_start_seconds": 8.5,
+      "minimum_motor_margin_N": 0.07313213497400284,
+      "minimum_arena_margin_m": 1.3120944690704346,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.2094881236553192,
+      "maximum_angular_rate_rps": 0.582179069519043,
+      "final_goal_distance_m": 0.12458014488220215,
+      "final_speed_mps": 0.12904414534568787
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "combined_-0.7_-0.5",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.16522816785675454,
+      "minimum_inflated_clearance_m": -0.31522816785675456,
+      "closest_interval_start_seconds": 7.98,
+      "minimum_motor_margin_N": 0.07429857552051544,
+      "minimum_arena_margin_m": 1.134084243774414,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.21636413037776947,
+      "maximum_angular_rate_rps": 0.5355111956596375,
+      "final_goal_distance_m": 0.21802563965320587,
+      "final_speed_mps": 0.2401489019393921
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "combined_-0.7_+0.5",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": true
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.06668628748782164,
+      "minimum_inflated_clearance_m": -0.21668628748782165,
+      "closest_interval_start_seconds": 8.3,
+      "minimum_motor_margin_N": 0.0740363672375679,
+      "minimum_arena_margin_m": 1.1697625350952148,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.23828637599945068,
+      "maximum_angular_rate_rps": 0.5316390991210938,
+      "final_goal_distance_m": 0.21341072022914886,
+      "final_speed_mps": 0.22973206639289856
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "combined_+0.7_-0.5",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.05473112990131719,
+      "minimum_inflated_clearance_m": -0.2047311299013172,
+      "closest_interval_start_seconds": 7.92,
+      "minimum_motor_margin_N": 0.07358302921056747,
+      "minimum_arena_margin_m": 1.0828595352172852,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.17226573824882507,
+      "maximum_angular_rate_rps": 0.35423868894577026,
+      "final_goal_distance_m": 0.7949801087379456,
+      "final_speed_mps": 0.9896373152732849
+    },
+    {
+      "control_index": 176,
+      "start_time_seconds": 7.04,
+      "route": "combined_+0.7_+0.5",
+      "checks": {
+        "finite_valid_execution": true,
+        "physical_collision_clear": false,
+        "inflated_shell_clear": false,
+        "motor_limits": true,
+        "arena_limits": true,
+        "speed_limit": true,
+        "tilt_limit": true,
+        "angular_rate_limit": true,
+        "goal_reached_and_slow": false
+      },
+      "feasible_witness_found": false,
+      "minimum_physical_clearance_m": -0.28657336955476514,
+      "minimum_inflated_clearance_m": -0.4365733695547651,
+      "closest_interval_start_seconds": 10.04,
+      "minimum_motor_margin_N": 0.0737994834780693,
+      "minimum_arena_margin_m": 1.3938367557525635,
+      "maximum_speed_mps": 1.3400895595550537,
+      "maximum_tilt_radians": 0.17185284197330475,
+      "maximum_angular_rate_rps": 0.37571829557418823,
+      "final_goal_distance_m": 0.7366077899932861,
+      "final_speed_mps": 0.9468575716018677
+    }
+  ]
+}

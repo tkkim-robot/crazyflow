@@ -1,0 +1,35 @@
+fixed: 0/1000 controls; 0 waypoints reached
+fixed: 100/1000 controls; 0 waypoints reached
+fixed: 200/1000 controls; 2 waypoints reached
+fixed: 300/1000 controls; 3 waypoints reached
+fixed: 400/1000 controls; 3 waypoints reached
+fixed: 500/1000 controls; 4 waypoints reached
+fixed: 600/1000 controls; 5 waypoints reached
+fixed: 700/1000 controls; 6 waypoints reached
+fixed: 800/1000 controls; 7 waypoints reached
+adaptive: 0/1000 controls; 0 waypoints reached
+adaptive: 100/1000 controls; 0 waypoints reached
+adaptive: 200/1000 controls; 2 waypoints reached
+adaptive: 300/1000 controls; 3 waypoints reached
+adaptive: 400/1000 controls; 3 waypoints reached
+adaptive: 500/1000 controls; 4 waypoints reached
+adaptive: 600/1000 controls; 5 waypoints reached
+adaptive: 700/1000 controls; 6 waypoints reached
+adaptive: 800/1000 controls; 7 waypoints reached
+{
+  "directory": "artifacts/da_plcbf/navigation-revision-20260905/development-unchanged-seed0",
+  "methods": {
+    "fixed": {
+      "waypoints_completed": 8,
+      "termination": "completed",
+      "physical_collision": false,
+      "nominal_blocked_fraction": 0.142692750287687
+    },
+    "adaptive": {
+      "waypoints_completed": 8,
+      "termination": "completed",
+      "physical_collision": false,
+      "nominal_blocked_fraction": 0.14514285714285713
+    }
+  }
+}

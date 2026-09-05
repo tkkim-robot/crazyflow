@@ -1,0 +1,31 @@
+{
+  "scope": "Read-only consistency audit; no model inference or simulation rerun.",
+  "failure_diagnosis_sha256": "ce0190920ecd6b6c89dd2d927ec5d9291c5e72f9581679ba0110cfe0caae8b76",
+  "legacy_replays": [
+    {
+      "replay": "legacy-estimated-replay",
+      "boundary_count": 31,
+      "maximum_absolute_wrench_difference": 0.0,
+      "rejection_flag_differences": 0,
+      "replay_npz_sha256": "8ffa2752f2647b89d9a0aa7fae85d642cdbcb6c194b7f0c02e9f288e5b445f10",
+      "source_npz_sha256": "d93a09a90bf5cab8cf4f48d5c20527468f1846b6577d181e6a76bbb77a8992c5"
+    },
+    {
+      "replay": "legacy-oracle-replay-2",
+      "boundary_count": 31,
+      "maximum_absolute_wrench_difference": 0.0,
+      "rejection_flag_differences": 0,
+      "replay_npz_sha256": "578689c62bc50be0e82e0388f765852eee8fb8561def7028d1aed22641fea13d",
+      "source_npz_sha256": "469d78e6969829315a2c764546f6dfb2c9e6e66b3bac9f5e1107c0876ab9c76a"
+    }
+  ],
+  "factorial_cells_checked_against_raw_hard_vectors": 144,
+  "factorial_json_sha256": "d4fa4baa2a9280bbc74789613695ecf900a95c86c3b2dcd5c2727353b692d2a8",
+  "branch_clearance_audit_sha256": "d5580fbfbcf90d7a8b5f7eb6ed540ff30569bec61fb6ad47df105dab3b1a5785",
+  "interpretation_corrections": [
+    "The three-update snapshot is already negative at the fixed recorded 4.16 s state; the fourth update worsens it.",
+    "The oracle secondary branch starts at its first recorded certificate loss, not before it.",
+    "Raw estimated-learning emergency counts include seven commands after the first colliding control interval; censored counts are separate.",
+    "Original-code replay and revised-code factorial current-snapshot values differ by roughly 2.009e-5 m^2; each comparison consistently uses its own implementation."
+  ]
+}

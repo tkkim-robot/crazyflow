@@ -1,0 +1,19 @@
+{
+  "scope": "Persistent compiled JAX cache used for exact dense206/209 continuation replay; device and software specific, not a portable control policy.",
+  "source_directory": "/tmp/crazyflow-navigation-jax-cache",
+  "archive": "REPLAY_JAX_CACHE.tar.gz",
+  "archive_sha256": "b52bc13fc99bef4a3581734760a5f3c0dc102561fa3756e301f02a9b95d4026b",
+  "files_sha256": {
+    "jit_controller-3364b9ae471086f07bea85612235cb26ad6514561d991b1f7b56074015fe6ae8-cache": "245262f5e1e465d4728fe6b7adbbbdd0a3a33abe720354cbee49cef2debc88a0",
+    "jit_controller-36bf3e26ba80115e92eca5567c345da58c4bb6b33b955e6e3772b5f0cdb67c93-cache": "f2f73449ff76e1962a8273960970d51117e9ba5e41e3ef8a86794ccfe65c018d",
+    "jit_controller-509831875ac9fffb4473d9f0015973bff9470b3e420420bed52f1924f0f2f75f-cache": "6f17331ccecae55544ab162cd1a2d07c3f0663be4ca64cd8890422ea415e557b",
+    "jit_controller-e4e1d4e6108e09e0afcf3cb9e708831250d1ac02267e069cea7e861488017533-cache": "4586c69b2e0257b9a2e6772b299e5ea999f180cb7e31e1bf612f57e3d5a8c0ac",
+    "jit_update-19d90b7827d9e374d79a83ae55d75c979429c361379be26a0b6e2564ad96f70b-cache": "b927b8f710614744f439286af8e806bdc47344e538c34fd943143fd8d3eaa29e",
+    "jit_update-366d4f38f9c52544f2e2491a99c0e1123be1e7e1388fbdc9b0fcf496e08cdf45-cache": "98966947694df2c195ff4a6cf9114daf6a8f11784898ce1a895a048be916871f",
+    "jit_update-b6088a82ff85c26571e72c8a88ab4ac3f77599a1fa053b073d2772bd8982f22d-cache": "52d0103506cecd6a4e42294f30a77c33bde3af77631746a03161c58a76a1a9de",
+    "jit_update-cb4cc896d776ae0db2434af59fc58e4d8b86501eb1ed535d07b84b5809a8189d-cache": "598e7ecd16d3c725088cd5bcd6b514f7fbd3df724a0327dcbc79183d67f3b722"
+  },
+  "file_count": 8,
+  "uncompressed_bytes": 21195310,
+  "restoration": "Extract to a fresh directory and set JAX_COMPILATION_CACHE_DIR to it; preserve the recorded JAX/GPU environment and XLA_PYTHON_CLIENT_PREALLOCATE=false. A mismatching cache can be ignored by JAX and recompiled, so require the exact replay parity gate again."
+}

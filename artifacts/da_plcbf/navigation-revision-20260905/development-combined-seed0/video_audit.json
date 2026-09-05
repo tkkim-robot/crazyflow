@@ -1,0 +1,27 @@
+{
+  "video_properties": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "duration": "40.050000",
+        "nb_frames": "801"
+      }
+    ]
+  },
+  "sha256": {
+    "navigation_comparison_demo.mp4": "9bc6a75d97cfc31957c219047e6f6c38d3e4712cad65158f8e06ebf5abb4c300",
+    "navigation_comparison.npz": "78b7e8afc0ff38d6032f56a237533efdf918c1078499eec36f2b355579de6035",
+    "navigation_comparison.json": "70cf1a1d055a1217d67cb7d64d86c53533f7e055cec7e25b99590cc6fc574274",
+    "review_frame_16.40s.png": "8e8a4190f72f76af5ef4a8fd12964de7d1ddfdf18e1d2fb7884bcf40ce363abc",
+    "review_frame_27.00s.png": "f09e7426d7ae2e5ef0c8676d9d9adc0f054e664224028896471b6799abacad5b",
+    "review_frame_5.00s.png": "85261b122fb52df63ff5b330e6400ad41a7f1bcf0ad19a201d13c95453f804f7"
+  },
+  "renderer_sha256": "01cc30752d3c06134e9e4f1ab84da562485f45badde45d47b7d6423f3081edc8",
+  "numerical_checkpoint": "reference-ablation-seed7/provisional/checkpoint",
+  "visual_inspection": "Actual sampled frames at5.0,16.4,27.0seconds inspected. Full colored repertoires, white executed paths, dynamic goal rings/waypoint labels and moving spherical shells visible. Combined event uses exact rotated centered5cm box with thin edges plus3second metric inset; actual prescribed wind vectors drive world tracers. Terminal poses and telemetry freeze at recorded final physical state.",
+  "scope": "Development pilot; no adaptive performance advantage or real-time claim."
+}

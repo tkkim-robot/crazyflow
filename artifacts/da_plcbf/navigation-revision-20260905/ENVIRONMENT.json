@@ -1,0 +1,21 @@
+{
+  "python": "3.14.7",
+  "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+  "packages": {
+    "jax": "0.11.1",
+    "jaxlib": "0.11.1",
+    "numpy": "2.5.2",
+    "optax": "0.2.8",
+    "mujoco": "3.12.0",
+    "matplotlib": "3.11.1",
+    "pytest": "9.1.1"
+  },
+  "gpu": "NVIDIA GeForce RTX 4090, 555.42.06",
+  "numerical_launch": {
+    "PYTHONPATH": ". or explicitly frozen source tree before repo",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "JAX_COMPILATION_CACHE_DIR": "/tmp/crazyflow-navigation-jax-cache"
+  },
+  "timing_scope": "Paced attempts run with no other task numerical/render jobs. Deterministic campaigns may run concurrently; their costs are not deployment evidence.",
+  "replay_scope": "Exact local comparisons use same GPU, software and declared cache settings. Cross-hardware/compiler bitwise equality is not promised."
+}

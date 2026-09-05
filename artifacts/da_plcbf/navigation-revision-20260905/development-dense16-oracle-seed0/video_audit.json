@@ -1,0 +1,27 @@
+{
+  "video_properties": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "duration": "40.050000",
+        "nb_read_frames": "801"
+      }
+    ]
+  },
+  "sha256": {
+    "navigation_comparison_demo.mp4": "6d22f778503221809e7a500f70969e17de23b0f90ae4de88de0eca77e3b9fe36",
+    "navigation_comparison.npz": "7ce12d19e1300c3a82433a7eccd22f724b85cfb3d20915bb44dba34d0bf0611d",
+    "navigation_comparison.json": "32a40cc6a6e13a59ef1739fb4fbab7057a0974824f5077eb54ed67ccc0940b80",
+    "review_frame_16.40s.png": "5fbd72c21e9532c865e389702496cb2c9d01d482032077bec0d99fa34f62d569",
+    "review_frame_6.60s.png": "8e9ba48bd31de913c6a535a1791acad0bd9f6f331208ece1f3e44ec003194cd7",
+    "review_frame_7.12s.png": "f49abfb86ce024f504b3446fee7d5338994858752a7ff95877228ae6abbc4b0f"
+  },
+  "renderer_sha256": "01cc30752d3c06134e9e4f1ab84da562485f45badde45d47b7d6423f3081edc8",
+  "checkpoint": "reference-ablation-seed7/candidate/checkpoint",
+  "visual_inspection": "Actual sampled frames inspected; full recorded colored fallback paths, white executed path, active goals and count, actual moving spheres/wind, prescribed centered5cm payload geometry with metric inset. In dense16case the pre8s shell breach is persistently labeled and remains distinct fromphysicalcollision. Frozen/adaptive panes depict their actualdifferent states, not a matched-state causal probe.",
+  "scope": "Development seed0 selected to inspect certificate exhaustion before wind8s; not an independent confirmation claim"
+}

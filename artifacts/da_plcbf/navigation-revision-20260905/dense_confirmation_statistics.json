@@ -1,0 +1,305 @@
+{
+  "protocol": "artifacts/da_plcbf/navigation-revision-20260905/DENSE_CONFIRMATION_PROTOCOL.json",
+  "paired_world_count": 10,
+  "scope": "Fixed teacher seed7; seeded route jitter and absolute-time moving-obstacle phases. Descriptive Wilson success intervals and paired bootstrap mean differences; no general safety guarantee.",
+  "conditions": {
+    "combined": {
+      "count": 10,
+      "world_seeds": [
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209
+      ],
+      "methods": {
+        "fixed": {
+          "criteria": {
+            "physical_collision_free": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "positive_shell_clearance": {
+              "count": 9,
+              "fraction": 0.9,
+              "wilson_95_interval": [
+                0.5958499732047615,
+                0.9821237869049271
+              ]
+            },
+            "all_waypoints_completed": {
+              "count": 9,
+              "fraction": 0.9,
+              "wilson_95_interval": [
+                0.5958499732047615,
+                0.9821237869049271
+              ]
+            },
+            "zero_degraded_controls": {
+              "count": 7,
+              "fraction": 0.7,
+              "wilson_95_interval": [
+                0.39677814746114537,
+                0.8922087325936989
+              ]
+            }
+          },
+          "waypoint_counts": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            7,
+            8,
+            8,
+            8,
+            8
+          ],
+          "minimum_shell_clearance_m": -0.03834529288564567,
+          "median_completion_or_timeout_seconds": 35.1,
+          "nominal_blocked_fractions": [
+            0.10709987966305656,
+            0.14268585131894485,
+            0.19796380090497737,
+            0.08680142687277051,
+            0.16587677725118483,
+            0.271,
+            0.22043628013777267,
+            0.161217587373168,
+            0.20044543429844097,
+            0.20890774125132555
+          ],
+          "nominal_encounter_episode_counts": [
+            3,
+            5,
+            7,
+            3,
+            5,
+            7,
+            7,
+            6,
+            7,
+            5
+          ],
+          "finite_update_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "degraded_control_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            18,
+            1,
+            0,
+            5
+          ],
+          "positive_executed_dual_counts": [
+            92,
+            88,
+            149,
+            107,
+            157,
+            240,
+            158,
+            115,
+            149,
+            213
+          ]
+        },
+        "adaptive": {
+          "criteria": {
+            "physical_collision_free": {
+              "count": 10,
+              "fraction": 1.0,
+              "wilson_95_interval": [
+                0.7224672001371107,
+                0.9999999999999999
+              ]
+            },
+            "positive_shell_clearance": {
+              "count": 9,
+              "fraction": 0.9,
+              "wilson_95_interval": [
+                0.5958499732047615,
+                0.9821237869049271
+              ]
+            },
+            "all_waypoints_completed": {
+              "count": 9,
+              "fraction": 0.9,
+              "wilson_95_interval": [
+                0.5958499732047615,
+                0.9821237869049271
+              ]
+            },
+            "zero_degraded_controls": {
+              "count": 9,
+              "fraction": 0.9,
+              "wilson_95_interval": [
+                0.5958499732047615,
+                0.9821237869049271
+              ]
+            }
+          },
+          "waypoint_counts": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            7
+          ],
+          "minimum_shell_clearance_m": -0.026075441592740806,
+          "median_completion_or_timeout_seconds": 33.980000000000004,
+          "nominal_blocked_fractions": [
+            0.10494571773220748,
+            0.14028776978417265,
+            0.1617161716171617,
+            0.08669833729216152,
+            0.20759193357058126,
+            0.2536082474226804,
+            0.1387900355871886,
+            0.17990654205607476,
+            0.19074492099322798,
+            0.299
+          ],
+          "nominal_encounter_episode_counts": [
+            3,
+            5,
+            6,
+            3,
+            6,
+            7,
+            4,
+            4,
+            7,
+            8
+          ],
+          "finite_update_counts": [
+            364,
+            367,
+            404,
+            371,
+            371,
+            435,
+            371,
+            378,
+            393,
+            450
+          ],
+          "degraded_control_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            20
+          ],
+          "positive_executed_dual_counts": [
+            85,
+            92,
+            136,
+            111,
+            157,
+            201,
+            141,
+            139,
+            143,
+            258
+          ]
+        }
+      },
+      "paired_adaptive_minus_fixed_waypoints": {
+        "count": 10,
+        "mean": 0.0,
+        "median": 0.0,
+        "bootstrap_mean_95_interval": [
+          -0.3,
+          0.3
+        ],
+        "individual_differences": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ]
+      },
+      "paired_adaptive_minus_fixed_completion_seconds_both_complete": {
+        "count": 8,
+        "mean": -0.2400000000000011,
+        "median": -0.060000000000002274,
+        "bootstrap_mean_95_interval": [
+          -0.6951250000000019,
+          0.22012499999999874
+        ],
+        "individual_differences": [
+          -0.0800000000000054,
+          0.0,
+          1.0,
+          0.03999999999999915,
+          -0.03999999999999915,
+          -1.1200000000000045,
+          -1.2399999999999949,
+          -0.480000000000004
+        ]
+      },
+      "paired_adaptive_minus_fixed_shell_margin_m": {
+        "count": 10,
+        "mean": 0.0012775824867007402,
+        "median": 0.00013939588149247673,
+        "bootstrap_mean_95_interval": [
+          -0.009975612836978707,
+          0.013830841950424534
+        ],
+        "individual_differences": [
+          -0.00030715758742827504,
+          -1.6151652163787222e-05,
+          0.0009111862567302009,
+          0.00020544466317573562,
+          7.334709980921783e-05,
+          0.0004343156790726499,
+          0.04599926252381714,
+          -0.0010361270070403106,
+          0.00021506797243880937,
+          -0.03370336308140398
+        ]
+      }
+    }
+  }
+}
