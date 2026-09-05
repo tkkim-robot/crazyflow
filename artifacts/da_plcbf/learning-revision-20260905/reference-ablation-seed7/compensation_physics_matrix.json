@@ -1,0 +1,2168 @@
+[
+  {
+    "behavior": {
+      "all_finite_and_actuator_valid": true,
+      "maximum_angular_rate_rps": 0.6820257902145386,
+      "maximum_realized_horizontal_acceleration_mps2": 3.01629900932312,
+      "maximum_tilt_rad": 0.2514026463031769,
+      "minimum_motor_lower_reserve_N": 0.06801667809486389,
+      "minimum_motor_upper_reserve_N": 0.0775107592344284,
+      "per_state_mean_forward_braking_travel_m": [
+        0.0,
+        0.9568771123886108
+      ],
+      "per_state_terminal_speed_mean_mps": [
+        0.10680387914180756,
+        0.12294092774391174
+      ],
+      "per_state_trajectory_position_rmse_m": [
+        0.01029883697628975,
+        0.06896934658288956
+      ],
+      "raw_motor_saturation_fraction": 0.0,
+      "terminal_speed_mean_mps": 0.11487241089344025,
+      "terminal_speed_p95_mps": 0.17512738704681396,
+      "trajectory_position_rmse_m": 0.04930941388010979
+    },
+    "competency": [
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 16,
+        "aligned_direction_fraction": 1.0,
+        "angular_rate_rps": {
+          "maximum": 0.6442360320064585,
+          "mean": 0.2072825435701422,
+          "p95": 0.5042223786455151
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": true,
+          "endpoint_spread": true,
+          "intended_direction_alignment": true,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": true,
+        "direction_bin_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "direction_bin_for_skill": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "displacement_norm_m": [
+          0.10354038721527753,
+          0.30939612127378746,
+          0.35299224571834636,
+          0.1654154208660331,
+          0.4008271696803035,
+          0.19527354209679162,
+          0.24089614714122753,
+          0.20997248703141466,
+          0.2822280750115741,
+          0.31891950053068047,
+          0.32199778382641114,
+          0.3821218265755966,
+          0.18586748821508844,
+          0.43246310511032404,
+          0.20539671012243144,
+          0.2646985984163436
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.3980080105621699,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 16,
+        "occupied_direction_fraction": 1.0,
+        "own_target_direction_cosines": [
+          0.9983915413561765,
+          0.9999896603403382,
+          0.9999850158318633,
+          0.9997347968061016,
+          0.9998203259466696,
+          0.9997353591735983,
+          0.9996736990698926,
+          0.9999320173970232,
+          0.9999913162611745,
+          0.9998167367641466,
+          0.9999783433808812,
+          0.9998886332508792,
+          0.9999928915205565,
+          0.9998645908028396,
+          0.99995578801315,
+          0.9996039739463216
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.03468867128694686,
+        "terminal_speed_mps": {
+          "maximum": 0.21644436631692837,
+          "mean": 0.1068038832556629,
+          "p95": 0.18793981687809044
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.16116724665925078,
+          "mean": 0.04835442288241282,
+          "p95": 0.11964210824531701
+        },
+        "trajectory_pairwise_rms_mean_m": 0.2301959882671494
+      },
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 3,
+        "aligned_direction_fraction": 0.1875,
+        "angular_rate_rps": {
+          "maximum": 0.6820257659303554,
+          "mean": 0.3643200392173909,
+          "p95": 0.5709983064441972
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": false,
+          "endpoint_spread": true,
+          "intended_direction_alignment": false,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": false,
+        "direction_bin_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          15,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "direction_bin_for_skill": [
+          8,
+          8,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "displacement_norm_m": [
+          0.959019152903489,
+          0.9655939608688299,
+          1.0088548969778537,
+          1.0076239945374605,
+          0.8972414600381406,
+          0.9824067290051899,
+          1.0042591453859586,
+          0.9212754689408867,
+          1.026619171973051,
+          0.935039333903553,
+          0.9835399155710371,
+          1.0391493398225988,
+          0.9196104922071305,
+          1.0110238046227515,
+          0.9376300667017394,
+          0.9508828539737628
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.30631120373969123,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 2,
+        "occupied_direction_fraction": 0.125,
+        "own_target_direction_cosines": [
+          0.4138835039300673,
+          -0.15543889588382073,
+          0.305288717772758,
+          0.6730815886085139,
+          -0.797055916983009,
+          0.8314295196442484,
+          0.07258731305484128,
+          -0.32643677176011543,
+          0.98829750116589,
+          -0.7547967173501214,
+          0.5897009337323426,
+          0.618213062215651,
+          -0.6186061215517452,
+          0.8684710052317277,
+          -0.11128521117714346,
+          0.22368748316135084
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.559403948098443,
+        "terminal_speed_mps": {
+          "maximum": 0.17241846559968863,
+          "mean": 0.12294092902693744,
+          "p95": 0.16542158567041082
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.25140262033064104,
+          "mean": 0.1453926319750945,
+          "p95": 0.24012014138523002
+        },
+        "trajectory_pairwise_rms_mean_m": 0.17826182658260456
+      }
+    ],
+    "hover_authority": {
+      "collective_reserve_fraction": 0.4680527388858985,
+      "hover_feasible": true,
+      "maximum_collective_N": 0.800000011920929,
+      "minimum_collective_N": 0.08545052260160446,
+      "required_hover_thrust_N": 0.42555781523258673,
+      "scope": "upright collective vertical authority only; excludes horizontal trim and evasion"
+    },
+    "key": "nominal__compensation_0",
+    "model": {
+      "drag_matrix": [
+        [
+          -0.021491630002856255,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.021491630002856255,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.023597359657287598
+        ]
+      ],
+      "external_force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gravity_vec": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "inertia": [
+        [
+          2.499999936844688e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.8000000384054147e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          4.8999998398358e-05
+        ]
+      ],
+      "inertia_inv": [
+        [
+          40000.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          35714.28515625,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          20408.1640625
+        ]
+      ],
+      "mass": 0.043379999697208405,
+      "wind_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "behavior": {
+      "all_finite_and_actuator_valid": true,
+      "maximum_angular_rate_rps": 0.6029856204986572,
+      "maximum_realized_horizontal_acceleration_mps2": 2.3708856105804443,
+      "maximum_tilt_rad": 0.19732284545898438,
+      "minimum_motor_lower_reserve_N": 0.06801667809486389,
+      "minimum_motor_upper_reserve_N": 0.0775107592344284,
+      "per_state_mean_forward_braking_travel_m": [
+        0.0,
+        1.1921687126159668
+      ],
+      "per_state_terminal_speed_mean_mps": [
+        0.1765502393245697,
+        0.22751197218894958
+      ],
+      "per_state_trajectory_position_rmse_m": [
+        0.000553268997464329,
+        0.0003324479912407696
+      ],
+      "raw_motor_saturation_fraction": 0.0,
+      "terminal_speed_mean_mps": 0.20203110575675964,
+      "terminal_speed_p95_mps": 0.2913312017917633,
+      "trajectory_position_rmse_m": 0.0004564144182950258
+    },
+    "competency": [
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 16,
+        "aligned_direction_fraction": 1.0,
+        "angular_rate_rps": {
+          "maximum": 0.6029856074939481,
+          "mean": 0.19845391819951452,
+          "p95": 0.4831220308498121
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": true,
+          "endpoint_spread": true,
+          "intended_direction_alignment": true,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": true,
+        "direction_bin_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "direction_bin_for_skill": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "displacement_norm_m": [
+          0.1231154453228554,
+          0.3593181106999641,
+          0.40984504733190597,
+          0.18882710175979275,
+          0.44709957389069577,
+          0.21864030604652962,
+          0.2676557465998494,
+          0.23273788070036394,
+          0.3104516129155042,
+          0.35102237782337326,
+          0.358755283990533,
+          0.42990919238345654,
+          0.21045365452709444,
+          0.4949343149749639,
+          0.2396590266055761,
+          0.3151276518950683
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.45105960994062705,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 16,
+        "occupied_direction_fraction": 1.0,
+        "own_target_direction_cosines": [
+          0.9979199447373222,
+          0.9990077924998856,
+          0.9993230864769539,
+          0.9981924028769351,
+          0.9983306419935887,
+          0.9990965160463423,
+          0.9995762978727283,
+          0.9997833255527753,
+          0.9999837727210791,
+          0.9996704394235087,
+          0.9995933937346769,
+          0.9991829476587291,
+          0.9990947598628085,
+          0.9982262510703818,
+          0.9989227440032017,
+          0.9996206841239255
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.015953232606938005,
+        "terminal_speed_mps": {
+          "maximum": 0.3201089661573256,
+          "mean": 0.1765502349190843,
+          "p95": 0.2918255244104307
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.1648716809087055,
+          "mean": 0.045995268158691656,
+          "p95": 0.12339218138693035
+        },
+        "trajectory_pairwise_rms_mean_m": 0.2520037729364674
+      },
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 3,
+        "aligned_direction_fraction": 0.1875,
+        "angular_rate_rps": {
+          "maximum": 0.5513228628242918,
+          "mean": 0.23594592466264955,
+          "p95": 0.4184702012655664
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": false,
+          "endpoint_spread": true,
+          "intended_direction_alignment": false,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": false,
+        "direction_bin_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          15,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "direction_bin_for_skill": [
+          8,
+          8,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "displacement_norm_m": [
+          1.2007542519293117,
+          1.2078150130255025,
+          1.242907999502991,
+          1.2502962711808345,
+          1.142092956074765,
+          1.2266497759268193,
+          1.245613001063601,
+          1.1662395815805768,
+          1.2775613883553372,
+          1.182567293155804,
+          1.2305306743607456,
+          1.293883319926274,
+          1.165883211604181,
+          1.2748058395426296,
+          1.1907336035861011,
+          1.209565592872801
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.3474784090180678,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 2,
+        "occupied_direction_fraction": 0.125,
+        "own_target_direction_cosines": [
+          0.4151242244588168,
+          -0.1706450890546981,
+          0.289972040080578,
+          0.6638783330529595,
+          -0.801691787819716,
+          0.8272138446413861,
+          0.044102729235911436,
+          -0.3501612531560541,
+          0.9855651135205197,
+          -0.7747142950920685,
+          0.564632973379034,
+          0.5892414134256537,
+          -0.6358119410703189,
+          0.8568911374758803,
+          -0.1356302747632121,
+          0.19530904635677848
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.6986765169413428,
+        "terminal_speed_mps": {
+          "maximum": 0.3022499082732024,
+          "mean": 0.22751197124114042,
+          "p95": 0.277978436594759
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.19732271398473203,
+          "mean": 0.11531909761539498,
+          "p95": 0.17406827918308992
+        },
+        "trajectory_pairwise_rms_mean_m": 0.19561839998257596
+      }
+    ],
+    "hover_authority": {
+      "collective_reserve_fraction": 0.4680527388858985,
+      "hover_feasible": true,
+      "maximum_collective_N": 0.800000011920929,
+      "minimum_collective_N": 0.08545052260160446,
+      "required_hover_thrust_N": 0.42555781523258673,
+      "scope": "upright collective vertical authority only; excludes horizontal trim and evasion"
+    },
+    "key": "nominal__compensation_1",
+    "model": {
+      "drag_matrix": [
+        [
+          -0.021491630002856255,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.021491630002856255,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.023597359657287598
+        ]
+      ],
+      "external_force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gravity_vec": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "inertia": [
+        [
+          2.499999936844688e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.8000000384054147e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          4.8999998398358e-05
+        ]
+      ],
+      "inertia_inv": [
+        [
+          40000.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          35714.28515625,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          20408.1640625
+        ]
+      ],
+      "mass": 0.043379999697208405,
+      "wind_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "behavior": {
+      "all_finite_and_actuator_valid": true,
+      "maximum_angular_rate_rps": 0.696007251739502,
+      "maximum_realized_horizontal_acceleration_mps2": 2.3681771755218506,
+      "maximum_tilt_rad": 0.27313077449798584,
+      "minimum_motor_lower_reserve_N": 0.06801667809486389,
+      "minimum_motor_upper_reserve_N": 0.0775107592344284,
+      "per_state_mean_forward_braking_travel_m": [
+        0.0,
+        2.0177736282348633
+      ],
+      "per_state_terminal_speed_mean_mps": [
+        0.9319989085197449,
+        1.227906584739685
+      ],
+      "per_state_trajectory_position_rmse_m": [
+        0.24422937631607056,
+        0.25350484251976013
+      ],
+      "raw_motor_saturation_fraction": 0.0,
+      "terminal_speed_mean_mps": 1.0799527168273926,
+      "terminal_speed_p95_mps": 1.2818835973739624,
+      "trajectory_position_rmse_m": 0.2489103227853775
+    },
+    "competency": [
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 2,
+        "aligned_direction_fraction": 0.125,
+        "angular_rate_rps": {
+          "maximum": 0.6845534926426804,
+          "mean": 0.25761670169983175,
+          "p95": 0.5179273290482984
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": false,
+          "endpoint_spread": true,
+          "intended_direction_alignment": false,
+          "terminal_braking_mean": false,
+          "terminal_braking_p95": false,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": false,
+        "direction_bin_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          16,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "direction_bin_for_skill": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "displacement_norm_m": [
+          0.833635118259308,
+          0.7997683650984869,
+          0.8327688324463514,
+          0.9542528003863064,
+          0.5659137467081266,
+          0.9164781534371075,
+          0.8964284042338073,
+          0.6616046084241896,
+          1.0887154837950577,
+          0.6878761163751714,
+          0.8748508354533735,
+          1.1003614200507363,
+          0.6724864104100122,
+          1.0711105225157351,
+          0.7882278897847519,
+          0.786759672200245
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.3838708737058528,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 1,
+        "occupied_direction_fraction": 0.0625,
+        "own_target_direction_cosines": [
+          0.4255287892917855,
+          0.0923297009006663,
+          0.19407522351938783,
+          0.7894539076625966,
+          -0.7222730504902887,
+          0.7091999181662303,
+          0.3744981098234885,
+          -0.5546735641035794,
+          0.9986534251991765,
+          -0.46599879833377184,
+          0.41213363061198327,
+          0.7877508437680444,
+          -0.6965999601565305,
+          0.8367755157415039,
+          0.10892002402208895,
+          0.19718873035612078
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.4741808577735256,
+        "terminal_speed_mps": {
+          "maximum": 1.1064772843995825,
+          "mean": 0.9319989029809759,
+          "p95": 1.0802091851069915
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.2238320077661829,
+          "mean": 0.11762863230523878,
+          "p95": 0.19169482700148865
+        },
+        "trajectory_pairwise_rms_mean_m": 0.22015704998515467
+      },
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 1,
+        "aligned_direction_fraction": 0.0625,
+        "angular_rate_rps": {
+          "maximum": 0.6960072318308914,
+          "mean": 0.28348443577496946,
+          "p95": 0.5984920180279701
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": false,
+          "endpoint_spread": true,
+          "intended_direction_alignment": false,
+          "terminal_braking_mean": false,
+          "terminal_braking_p95": false,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": false,
+        "direction_bin_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          16,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "direction_bin_for_skill": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "displacement_norm_m": [
+          2.04115949883594,
+          2.087036308450817,
+          2.053781290941407,
+          2.1079235117961157,
+          2.0127773672450004,
+          2.0496829879264924,
+          2.1187643905377,
+          1.9966601748088484,
+          2.112749157277658,
+          2.0594436959113565,
+          2.016776541416998,
+          2.133609823843655,
+          1.9938110226440882,
+          2.043777702987493,
+          2.0418406036757264,
+          1.9988376386507747
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.30590169586660515,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 1,
+        "occupied_direction_fraction": 0.0625,
+        "own_target_direction_cosines": [
+          0.37707969378448947,
+          -0.2263654100957157,
+          0.059168860554253216,
+          0.6815897027764318,
+          -0.8621061079939729,
+          0.7243092759896596,
+          0.06756614857973105,
+          -0.5495992105271557,
+          0.9948501435793745,
+          -0.7518290972475624,
+          0.3473660292471679,
+          0.5731813922125286,
+          -0.739808937413435,
+          0.7596417824136947,
+          -0.15076066430084634,
+          0.02204529740364633
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 1.1871696277792327,
+        "terminal_speed_mps": {
+          "maximum": 1.2853422167980921,
+          "mean": 1.2279066578016868,
+          "p95": 1.2851313414760381
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.2731308144326122,
+          "mean": 0.2008095807004758,
+          "p95": 0.2586049990858492
+        },
+        "trajectory_pairwise_rms_mean_m": 0.17693517893837285
+      }
+    ],
+    "hover_authority": {
+      "collective_reserve_fraction": 0.4680527388858985,
+      "hover_feasible": true,
+      "maximum_collective_N": 0.800000011920929,
+      "minimum_collective_N": 0.08545052260160446,
+      "required_hover_thrust_N": 0.42555781523258673,
+      "scope": "upright collective vertical authority only; excludes horizontal trim and evasion"
+    },
+    "key": "wind__compensation_0",
+    "model": {
+      "drag_matrix": [
+        [
+          -0.021491630002856255,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.021491630002856255,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.023597359657287598
+        ]
+      ],
+      "external_force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gravity_vec": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "inertia": [
+        [
+          2.499999936844688e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.8000000384054147e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          4.8999998398358e-05
+        ]
+      ],
+      "inertia_inv": [
+        [
+          40000.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          35714.28515625,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          20408.1640625
+        ]
+      ],
+      "mass": 0.043379999697208405,
+      "wind_velocity": [
+        4.0,
+        1.600000023841858,
+        0.0
+      ]
+    }
+  },
+  {
+    "behavior": {
+      "all_finite_and_actuator_valid": true,
+      "maximum_angular_rate_rps": 1.0330675840377808,
+      "maximum_realized_horizontal_acceleration_mps2": 2.605144739151001,
+      "maximum_tilt_rad": 0.3883762061595917,
+      "minimum_motor_lower_reserve_N": 0.0672028511762619,
+      "minimum_motor_upper_reserve_N": 0.07565230876207352,
+      "per_state_mean_forward_braking_travel_m": [
+        0.0,
+        1.6040436029434204
+      ],
+      "per_state_terminal_speed_mean_mps": [
+        0.1914808601140976,
+        0.41687172651290894
+      ],
+      "per_state_trajectory_position_rmse_m": [
+        0.08506059646606445,
+        0.14748336374759674
+      ],
+      "raw_motor_saturation_fraction": 0.0,
+      "terminal_speed_mean_mps": 0.30417633056640625,
+      "terminal_speed_p95_mps": 0.4534035921096802,
+      "trajectory_position_rmse_m": 0.1203882247209549
+    },
+    "competency": [
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 12,
+        "aligned_direction_fraction": 0.75,
+        "angular_rate_rps": {
+          "maximum": 1.0330675655924026,
+          "mean": 0.40795593703033645,
+          "p95": 0.9183115306164845
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": false,
+          "endpoint_spread": true,
+          "intended_direction_alignment": true,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": false,
+        "direction_bin_counts": [
+          0,
+          1,
+          0,
+          4,
+          0,
+          2,
+          1,
+          0,
+          1,
+          0,
+          2,
+          1,
+          0,
+          1,
+          1,
+          2
+        ],
+        "direction_bin_for_skill": [
+          3,
+          3,
+          5,
+          3,
+          1,
+          5,
+          3,
+          10,
+          8,
+          6,
+          10,
+          11,
+          15,
+          13,
+          14,
+          15
+        ],
+        "displacement_norm_m": [
+          0.21974784705209893,
+          0.36232810579003344,
+          0.41070263555739495,
+          0.34448548527517325,
+          0.23550541185530277,
+          0.3102243056703498,
+          0.35060137548423437,
+          0.16215900862470314,
+          0.431051449489979,
+          0.23309093219169125,
+          0.3581985632767567,
+          0.5288607782504302,
+          0.1449276617842605,
+          0.5012840960690351,
+          0.2522925993731098,
+          0.3381677715294146
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.4231580373996477,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 10,
+        "occupied_direction_fraction": 0.625,
+        "own_target_direction_cosines": [
+          0.7828867797220497,
+          0.8379754770076839,
+          0.8460658520759878,
+          0.9492854389584636,
+          0.8118364023767575,
+          0.9394627750632906,
+          0.8440036701599245,
+          0.7332065205745696,
+          0.996677339357928,
+          0.7258289728635641,
+          0.9346804422859322,
+          0.9826958038503756,
+          0.6190086556056975,
+          0.9998213158829266,
+          0.8798577269952441,
+          0.9516371086111766
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.10254343308378112,
+        "terminal_speed_mps": {
+          "maximum": 0.32903004496031624,
+          "mean": 0.19148086191186967,
+          "p95": 0.2863659394469762
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.38371168473857076,
+          "mean": 0.2191191108015458,
+          "p95": 0.3480980406731804
+        },
+        "trajectory_pairwise_rms_mean_m": 0.237637071946116
+      },
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 2,
+        "aligned_direction_fraction": 0.125,
+        "angular_rate_rps": {
+          "maximum": 0.9897442115098675,
+          "mean": 0.37583151025848666,
+          "p95": 0.8251245554766825
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": false,
+          "endpoint_spread": true,
+          "intended_direction_alignment": false,
+          "terminal_braking_mean": false,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": false,
+        "direction_bin_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          16,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "direction_bin_for_skill": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "displacement_norm_m": [
+          1.6230638068446506,
+          1.6606035317973513,
+          1.671406570993215,
+          1.6722057142998235,
+          1.5948376377899904,
+          1.6339963444280456,
+          1.6754814576343444,
+          1.58477928360985,
+          1.6714260113121975,
+          1.605703497083921,
+          1.6157521918703877,
+          1.6746740645551863,
+          1.576653892849074,
+          1.6249305928693694,
+          1.5917746065174796,
+          1.579817461377747
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.34876516118210954,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 1,
+        "occupied_direction_fraction": 0.0625,
+        "own_target_direction_cosines": [
+          0.4137742220851811,
+          -0.1921688472484659,
+          0.18873373384406647,
+          0.6748438130062293,
+          -0.825489441991364,
+          0.7914497620730472,
+          0.04215829704104112,
+          -0.4431294193540582,
+          0.9876070659304548,
+          -0.7801539364832041,
+          0.4638496973345803,
+          0.5597005794941112,
+          -0.6950571142110185,
+          0.8118214056259385,
+          -0.1699024284814984,
+          0.10793896355272123
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.9380153765991539,
+        "terminal_speed_mps": {
+          "maximum": 0.4616149715120725,
+          "mean": 0.416871740492843,
+          "p95": 0.4563671097541441
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.38837615176097007,
+          "mean": 0.2826792438267164,
+          "p95": 0.371320305360491
+        },
+        "trajectory_pairwise_rms_mean_m": 0.19525917046764493
+      }
+    ],
+    "hover_authority": {
+      "collective_reserve_fraction": 0.4680527388858985,
+      "hover_feasible": true,
+      "maximum_collective_N": 0.800000011920929,
+      "minimum_collective_N": 0.08545052260160446,
+      "required_hover_thrust_N": 0.42555781523258673,
+      "scope": "upright collective vertical authority only; excludes horizontal trim and evasion"
+    },
+    "key": "wind__compensation_1",
+    "model": {
+      "drag_matrix": [
+        [
+          -0.021491630002856255,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.021491630002856255,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.023597359657287598
+        ]
+      ],
+      "external_force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gravity_vec": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "inertia": [
+        [
+          2.499999936844688e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.8000000384054147e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          4.8999998398358e-05
+        ]
+      ],
+      "inertia_inv": [
+        [
+          40000.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          35714.28515625,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          20408.1640625
+        ]
+      ],
+      "mass": 0.043379999697208405,
+      "wind_velocity": [
+        4.0,
+        1.600000023841858,
+        0.0
+      ]
+    }
+  },
+  {
+    "behavior": {
+      "all_finite_and_actuator_valid": true,
+      "maximum_angular_rate_rps": 0.650560736656189,
+      "maximum_realized_horizontal_acceleration_mps2": 2.9970216751098633,
+      "maximum_tilt_rad": 0.25543633103370667,
+      "minimum_motor_lower_reserve_N": 0.09076139330863953,
+      "minimum_motor_upper_reserve_N": 0.04708954691886902,
+      "per_state_mean_forward_braking_travel_m": [
+        0.0,
+        1.0107378959655762
+      ],
+      "per_state_terminal_speed_mean_mps": [
+        0.13077357411384583,
+        0.13985711336135864
+      ],
+      "per_state_trajectory_position_rmse_m": [
+        0.0075048161670565605,
+        0.04912228137254715
+      ],
+      "raw_motor_saturation_fraction": 0.0,
+      "terminal_speed_mean_mps": 0.13531532883644104,
+      "terminal_speed_p95_mps": 0.20619206130504608,
+      "trajectory_position_rmse_m": 0.035137731581926346
+    },
+    "competency": [
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 16,
+        "aligned_direction_fraction": 1.0,
+        "angular_rate_rps": {
+          "maximum": 0.6288810834062308,
+          "mean": 0.21224819012310595,
+          "p95": 0.5024160643521097
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": true,
+          "endpoint_spread": true,
+          "intended_direction_alignment": true,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": true,
+        "direction_bin_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "direction_bin_for_skill": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "displacement_norm_m": [
+          0.10752448489845619,
+          0.32310366127096757,
+          0.3697415865868279,
+          0.17433492823694702,
+          0.4211325998729839,
+          0.20807320645962557,
+          0.25614351376957495,
+          0.22578438297238196,
+          0.30013809124430996,
+          0.33824681824547503,
+          0.34489345111303843,
+          0.4066681769842905,
+          0.19645951039975207,
+          0.45780644861675535,
+          0.21516345149611826,
+          0.2764041491514092
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.4207156486603326,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 16,
+        "occupied_direction_fraction": 1.0,
+        "own_target_direction_cosines": [
+          0.9987925389936457,
+          0.9999057964009648,
+          0.9998275790358699,
+          0.9998628306629596,
+          0.9999281854319734,
+          0.9995884610316648,
+          0.9996680895546627,
+          0.9999104840412887,
+          0.9999781906844831,
+          0.9998579602691816,
+          0.9999970088533813,
+          0.9999257029094875,
+          0.9999740407146647,
+          0.9999286141617165,
+          0.9999407862515375,
+          0.9993031764801026
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.02536004349113926,
+        "terminal_speed_mps": {
+          "maximum": 0.2625711515456806,
+          "mean": 0.13077355869193058,
+          "p95": 0.22986187371402172
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.16042118049130968,
+          "mean": 0.050160941044602114,
+          "p95": 0.1209526390244687
+        },
+        "trajectory_pairwise_rms_mean_m": 0.23802530812125786
+      },
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 3,
+        "aligned_direction_fraction": 0.1875,
+        "angular_rate_rps": {
+          "maximum": 0.6505607204389813,
+          "mean": 0.3692648856011175,
+          "p95": 0.551233096321899
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": false,
+          "endpoint_spread": true,
+          "intended_direction_alignment": false,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": false,
+        "direction_bin_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          15,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "direction_bin_for_skill": [
+          8,
+          8,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "displacement_norm_m": [
+          1.014508790288301,
+          1.0249957563117658,
+          1.0661648811136148,
+          1.064413252071038,
+          0.956425821960366,
+          1.037302454851067,
+          1.0627764607627965,
+          0.9782046099795966,
+          1.0821249415792829,
+          0.9925603493897008,
+          1.0389345803772922,
+          1.0969439496090072,
+          0.9750739701185551,
+          1.0633819273936969,
+          0.9927016734946953,
+          1.0038930260481922
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.32102154183167414,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 2,
+        "occupied_direction_fraction": 0.125,
+        "own_target_direction_cosines": [
+          0.410728144631914,
+          -0.16234249604292592,
+          0.29972254930082,
+          0.6719775147240833,
+          -0.8014878941044049,
+          0.8306789558718295,
+          0.07238226767000848,
+          -0.3278265338629983,
+          0.9885919971439404,
+          -0.7542776072461892,
+          0.5903031473581453,
+          0.6196079020753947,
+          -0.6177316161792562,
+          0.8675542851758203,
+          -0.11190781570466078,
+          0.22265315686429443
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.5905622233447302,
+        "terminal_speed_mps": {
+          "maximum": 0.19574657181913252,
+          "mean": 0.13985711130721723,
+          "p95": 0.17744743862513201
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.2554362432317925,
+          "mean": 0.15230374401897012,
+          "p95": 0.24478957420505756
+        },
+        "trajectory_pairwise_rms_mean_m": 0.183393024368971
+      }
+    ],
+    "hover_authority": {
+      "collective_reserve_fraction": 0.33506594644805987,
+      "hover_feasible": true,
+      "maximum_collective_N": 0.800000011920929,
+      "minimum_collective_N": 0.08545052260160446,
+      "required_hover_thrust_N": 0.5319472507681837,
+      "scope": "upright collective vertical authority only; excludes horizontal trim and evasion"
+    },
+    "key": "payload25__compensation_0",
+    "model": {
+      "drag_matrix": [
+        [
+          -0.021491630002856255,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.021491630002856255,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.023597359657287598
+        ]
+      ],
+      "external_force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gravity_vec": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "inertia": [
+        [
+          2.9518749215640128e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          3.2518750231247395e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.3518750064540654e-05
+        ]
+      ],
+      "inertia_inv": [
+        [
+          33876.7734375,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          30751.490234375,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          18685.041015625
+        ]
+      ],
+      "mass": 0.054224997758865356,
+      "wind_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "behavior": {
+      "all_finite_and_actuator_valid": true,
+      "maximum_angular_rate_rps": 0.5930467844009399,
+      "maximum_realized_horizontal_acceleration_mps2": 2.4157333374023438,
+      "maximum_tilt_rad": 0.20774869620800018,
+      "minimum_motor_lower_reserve_N": 0.09076139330863953,
+      "minimum_motor_upper_reserve_N": 0.04708954691886902,
+      "per_state_mean_forward_braking_travel_m": [
+        0.0,
+        1.208983063697815
+      ],
+      "per_state_terminal_speed_mean_mps": [
+        0.1901940554380417,
+        0.21599812805652618
+      ],
+      "per_state_trajectory_position_rmse_m": [
+        0.0025033322162926197,
+        0.009656749665737152
+      ],
+      "raw_motor_saturation_fraction": 0.0,
+      "terminal_speed_mean_mps": 0.20309609174728394,
+      "terminal_speed_p95_mps": 0.30030494928359985,
+      "trajectory_position_rmse_m": 0.0070540583692491055
+    },
+    "competency": [
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 16,
+        "aligned_direction_fraction": 1.0,
+        "angular_rate_rps": {
+          "maximum": 0.5930467500007154,
+          "mean": 0.2053770712444791,
+          "p95": 0.47970089493602863
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": true,
+          "endpoint_spread": true,
+          "intended_direction_alignment": true,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": true,
+        "direction_bin_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "direction_bin_for_skill": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "displacement_norm_m": [
+          0.1235698656369715,
+          0.3636437280617798,
+          0.4157047210122914,
+          0.19314801642127777,
+          0.45780219789310406,
+          0.2266881036226573,
+          0.27740800144236105,
+          0.24405508832347533,
+          0.32241490871091627,
+          0.36360861695555907,
+          0.3744236873242178,
+          0.44516094363141107,
+          0.21624879992807453,
+          0.5083717031807053,
+          0.24306928698045663,
+          0.3177807208824634
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.46341954971479377,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 16,
+        "occupied_direction_fraction": 1.0,
+        "own_target_direction_cosines": [
+          0.9984888586056045,
+          0.9996628137706645,
+          0.9998411474424079,
+          0.9990991395765253,
+          0.9991364769157376,
+          0.9993434841333959,
+          0.9997448195103098,
+          0.9998200913276339,
+          0.9999677354908733,
+          0.9997443132066811,
+          0.9997749780060758,
+          0.9995487556183168,
+          0.9996251896922245,
+          0.9991684487870239,
+          0.9995835962011631,
+          0.9997244665664766
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.01038473866724969,
+        "terminal_speed_mps": {
+          "maximum": 0.34902510295075834,
+          "mean": 0.190194061056725,
+          "p95": 0.3176068056235079
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.16336613162327104,
+          "mean": 0.04814690011632879,
+          "p95": 0.12450683584797946
+        },
+        "trajectory_pairwise_rms_mean_m": 0.2554520824211203
+      },
+      {
+        "active_direction_count": 16,
+        "aligned_direction_count": 3,
+        "aligned_direction_fraction": 0.1875,
+        "angular_rate_rps": {
+          "maximum": 0.5434011727105065,
+          "mean": 0.2596174427686128,
+          "p95": 0.43320486874620634
+        },
+        "competency_checks": {
+          "all_rollouts_finite_and_actuator_valid": true,
+          "angular_rate": true,
+          "direction_occupancy": false,
+          "endpoint_spread": true,
+          "intended_direction_alignment": false,
+          "terminal_braking_mean": true,
+          "terminal_braking_p95": true,
+          "tilt": true,
+          "trajectory_spread": true
+        },
+        "competent_under_declared_criteria": false,
+        "direction_bin_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          15,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "direction_bin_for_skill": [
+          8,
+          8,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "displacement_norm_m": [
+          1.2187017615489633,
+          1.2289813009440131,
+          1.2634172408464446,
+          1.2692967539769018,
+          1.1626747536831237,
+          1.2436230267620747,
+          1.266322798865353,
+          1.184808402474043,
+          1.2940334268872136,
+          1.2013493075535262,
+          1.2472739638156158,
+          1.3116449020282415,
+          1.1829370864265913,
+          1.286150980315882,
+          1.2064392687123455,
+          1.222183700560836
+        ],
+        "diversity_descriptor": "independent final displacement (3D)",
+        "endpoint_pairwise_mean_m": 0.35413917085369173,
+        "finite_policy_fraction": 1.0,
+        "occupied_direction_count": 2,
+        "occupied_direction_fraction": 0.125,
+        "own_target_direction_cosines": [
+          0.4131366973043146,
+          -0.17363322417542215,
+          0.28730224771855084,
+          0.6646691970706482,
+          -0.804098819661732,
+          0.8273321680714478,
+          0.047986675957121944,
+          -0.3481409575142412,
+          0.9861816976454965,
+          -0.7718341494361095,
+          0.5680732398192275,
+          0.5939864062333357,
+          -0.6336730104366587,
+          0.8567372810286726,
+          -0.1340654722462225,
+          0.19659532183888104
+        ],
+        "policy_count": 16,
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "spatial_target_rmse_m": 0.7084659391889474,
+        "terminal_speed_mps": {
+          "maximum": 0.2947175239182057,
+          "mean": 0.2159981305278651,
+          "p95": 0.2733806879793958
+        },
+        "thresholds": {
+          "maximum_angular_rate_rps": 12.0,
+          "maximum_terminal_speed_mean_mps": 0.3,
+          "maximum_terminal_speed_p95_mps": 0.5,
+          "maximum_tilt_radians": 0.9,
+          "minimum_aligned_fraction": 0.75,
+          "minimum_direction_cosine": 0.8,
+          "minimum_displacement_m": 0.1,
+          "minimum_endpoint_pairwise_mean_m": 0.3,
+          "minimum_occupied_fraction": 0.75,
+          "minimum_trajectory_pairwise_rms_mean_m": 0.15
+        },
+        "tilt_radians": {
+          "maximum": 0.20774883175574682,
+          "mean": 0.1269468376297696,
+          "p95": 0.18967390730815603
+        },
+        "trajectory_pairwise_rms_mean_m": 0.1972695110603148
+      }
+    ],
+    "hover_authority": {
+      "collective_reserve_fraction": 0.33506594644805987,
+      "hover_feasible": true,
+      "maximum_collective_N": 0.800000011920929,
+      "minimum_collective_N": 0.08545052260160446,
+      "required_hover_thrust_N": 0.5319472507681837,
+      "scope": "upright collective vertical authority only; excludes horizontal trim and evasion"
+    },
+    "key": "payload25__compensation_1",
+    "model": {
+      "drag_matrix": [
+        [
+          -0.021491630002856255,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.021491630002856255,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.023597359657287598
+        ]
+      ],
+      "external_force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gravity_vec": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "inertia": [
+        [
+          2.9518749215640128e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          3.2518750231247395e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.3518750064540654e-05
+        ]
+      ],
+      "inertia_inv": [
+        [
+          33876.7734375,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          30751.490234375,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          18685.041015625
+        ]
+      ],
+      "mass": 0.054224997758865356,
+      "wind_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  }
+]

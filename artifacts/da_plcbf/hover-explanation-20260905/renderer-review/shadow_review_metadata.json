@@ -1,0 +1,37 @@
+{
+  "source": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed100",
+  "source_npz_sha256": "7a4a1e8a7add8936a99cca45dd6cb41e95edcbcc6aae1948fad2073c6f4b6a43",
+  "source_json_sha256": "f00f7d5b68de08791567a9398f790ac2a0610c22f87261116f0cb07f17ca1ad0",
+  "time_seconds": [
+    6.6000000000000005,
+    16.4,
+    27.0
+  ],
+  "scope": "Same recorded poses, obstacle centers, predictions, camera, current labels and illumination. Before uses original default shadow volume; after only enables the new scene-bound shadow volume. No numerical replay or invented obstacle/payload change.",
+  "outputs": [
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/before_shadow_fix_6.60s.png",
+      "sha256": "8d78135c612954d632a539ca99db520581195952957016179cca04005edff0a5"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/before_shadow_fix_16.40s.png",
+      "sha256": "7d8aacccc042d009a943b482a5727b0a4856889e640aee8d3bd84b12bcce265f"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/before_shadow_fix_27.00s.png",
+      "sha256": "c37c10c9c32898d3e95ba90525d512453d891504532916c7a1e4646fd1836e10"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/after_shadow_fix_6.60s.png",
+      "sha256": "aaa94317d0ebee097622f9d3b4a1823c5b92600822f2d3086a5d0485e02fc450"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/after_shadow_fix_16.40s.png",
+      "sha256": "2c6a66e81196cbf8ef156620d47d86b9c8162980c5456a32a45a0e8531825a48"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/after_shadow_fix_27.00s.png",
+      "sha256": "24ee58b50aad8bf418ea0fef99f0e6587e9d8cc3974fa749d1877fa7f48e9a08"
+    }
+  ]
+}

@@ -910,6 +910,99 @@ def version_a_plcbf_filter(
     )
 
 
+def reproject_with_predictive_operational_faces(
+    filtered: VersionAFilterResult,
+    nominal_wrench: Array,
+    weight: Array,
+    actuator: VersionAActuator,
+    config: VersionAFilterConfig,
+    matrix: Array,
+    upper_bound: Array,
+    *,
+    omitted_obstacle_rows: int,
+    selected_fallback_wrench: Array,
+) -> VersionAFilterResult:
+    """Refine the same selected QP with local predicted operational faces.
+
+    These affine faces approximate later held-substep residuals. They supplement all original
+    faces and do not change policy eligibility or physical limits. The caller must independently
+    replay and postcheck the resulting held wrench; satisfying the linearization is insufficient.
+    The extra rows precede the policy row, preserving its last-multiplier diagnostic convention.
+    """
+    matrices = [filtered.motor_polytope.matrix]
+    bounds = [filtered.motor_polytope.upper_bound]
+    if config.enforce_analytic_barriers:
+        matrices.append(filtered.analytic_barriers.matrix[omitted_obstacle_rows:])
+        bounds.append(filtered.analytic_barriers.upper_bound[omitted_obstacle_rows:])
+    matrices.append(matrix)
+    bounds.append(upper_bound)
+    base_matrix = jnp.concatenate(matrices)
+    base_bound = jnp.concatenate(bounds)
+
+    def solve(include_policy: bool) -> tuple[PolytopeQPResult, Array]:
+        qp_matrix = base_matrix
+        qp_bound = base_bound
+        if include_policy:
+            qp_matrix = jnp.concatenate((qp_matrix, filtered.selected_policy_row[None]))
+            qp_bound = jnp.concatenate((qp_bound, filtered.selected_policy_bound[None]))
+        result, fast = _project_with_exact_fast_path(
+            nominal_wrench,
+            weight,
+            qp_matrix,
+            qp_bound,
+            replace(config, enforce_policy_barrier=include_policy),
+        )
+        if config.enforce_policy_barrier and not include_policy:
+            result = result._replace(
+                multipliers=jnp.concatenate(
+                    (result.multipliers, jnp.zeros(1, nominal_wrench.dtype))
+                ),
+                active_mask=jnp.concatenate((result.active_mask, jnp.zeros(1, dtype=bool))),
+            )
+        return result, fast
+
+    if config.enforce_policy_barrier:
+        qp, fast = jax.lax.cond(
+            filtered.policy_constraint_active, lambda _: solve(True), lambda _: solve(False), None
+        )
+    else:
+        qp, fast = solve(False)
+    kkt_valid = (
+        qp.feasible
+        & (qp.primal_residual <= config.kkt_tolerance)
+        & (qp.dual_residual <= config.kkt_tolerance)
+        & (qp.stationarity_residual <= config.kkt_tolerance)
+        & (qp.complementarity_residual <= config.kkt_tolerance)
+    )
+    checked = postcheck_version_a_action(qp.action, actuator, filtered, config)
+    accepted = filtered.input_valid & kkt_valid & checked.passed
+    fallback_safe = filtered.policy_constraint_active & filtered.fallback_postcheck.actuator_passed
+    best_effort = jnp.where(
+        fallback_safe, selected_fallback_wrench, filtered.motor_polytope.midpoint_wrench
+    )
+    action = jnp.where(accepted, qp.action, best_effort)
+    action = jnp.where(filtered.motor_polytope.input_valid, action, jnp.full_like(action, jnp.nan))
+    applied = postcheck_version_a_action(action, actuator, filtered, config)
+    return filtered._replace(
+        action=action,
+        qp_feasible=filtered.input_valid & qp.feasible,
+        qp_accepted=accepted,
+        used_fallback=~accepted,
+        used_midpoint=(~accepted) & (~fallback_safe),
+        degraded=(filtered.policy_constraint_active & ~filtered.has_certificate)
+        | ((~accepted) & (~filtered.fallback_certified)),
+        action_executable=applied.actuator_passed,
+        qp=qp,
+        qp_postcheck=checked,
+        applied_postcheck=applied,
+        selected_policy_dual=qp.multipliers[-1]
+        if config.enforce_policy_barrier
+        else jnp.asarray(0.0, nominal_wrench.dtype),
+        qp_kkt_valid=kkt_valid,
+        qp_fast_path_used=fast,
+    )
+
+
 __all__ = [
     "PolicyLibraryCertificates",
     "ValidatedMotorPolytope",
@@ -919,6 +1012,7 @@ __all__ = [
     "WrenchPostcheck",
     "motor_box_halfspace_fraction",
     "postcheck_version_a_action",
+    "reproject_with_predictive_operational_faces",
     "validated_motor_polytope",
     "version_a_plcbf_filter",
 ]

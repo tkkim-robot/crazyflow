@@ -1,0 +1,51 @@
+.........F.........                                                      [100%]
+=================================== FAILURES ===================================
+_____ test_hover_wind_on_off_then_navigation_preserves_the_matched_mapping _____
+
+tmp_path = PosixPath('/tmp/pytest-of-tk/pytest-213/test_hover_wind_on_off_then_na0')
+
+    def test_hover_wind_on_off_then_navigation_preserves_the_matched_mapping(tmp_path: Path) -> None:
+        world = build_navigation_world(
+            NavigationWorldConfig(
+                obstacle_count=0,
+                waypoint_count=2,
+                duration_seconds=0.16,
+                wind_events=(WindEvent(0.04, (1.0, 0.0, 0.0)), WindEvent(0.08, (0.0, 0.0, 0.0))),
+            )
+        )
+        config = NavigationExperimentConfig(
+            enable_learning=False,
+            learner_kind="original",
+            navigation_start_seconds=0.12,
+            fallback_mapping="matched_uncompensated",
+        )
+        checkpoint, cpu, persistent = _tiny_checkpoint(world, tmp_path, model_compensation=False)
+        result = run_navigation_experiment(world, config, checkpoint, tmp_path / "hover", device=cpu)
+        np.testing.assert_array_equal(result.trace.task_phase, ["hover"] * 3 + ["navigation"] * 2)
+        for method in result.methods.values():
+>           np.testing.assert_array_equal(
+                method.goal_position[:3], np.tile(world.initial_state[:3], (3, 1))
+            )
+E           AssertionError: 
+E           Arrays are not equal
+E           
+E           Mismatched elements: 9 / 9 (100%)
+E           First 5 mismatches are at indices:
+E            [0, 0]: -3.700000047683716 (ACTUAL), -3.7 (DESIRED)
+E            [0, 1]: -2.680000066757202 (ACTUAL), -2.68 (DESIRED)
+E            [0, 2]: 1.247249960899353 (ACTUAL), 1.2472500000000002 (DESIRED)
+E            [1, 0]: -3.700000047683716 (ACTUAL), -3.7 (DESIRED)
+E            [1, 1]: -2.680000066757202 (ACTUAL), -2.68 (DESIRED)
+E           Max absolute difference among violations: 6.6757202e-08
+E           Max relative difference among violations: 3.13494866e-08
+E            ACTUAL: array([[-3.7    , -2.68   ,  1.24725],
+E                  [-3.7    , -2.68   ,  1.24725],
+E                  [-3.7    , -2.68   ,  1.24725]], dtype=float32)
+E            DESIRED: array([[-3.7    , -2.68   ,  1.24725],
+E                  [-3.7    , -2.68   ,  1.24725],
+E                  [-3.7    , -2.68   ,  1.24725]])
+
+tests/unit/safety/da_plcbf/test_navigation_experiment.py:100: AssertionError
+=========================== short test summary info ============================
+FAILED tests/unit/safety/da_plcbf/test_navigation_experiment.py::test_hover_wind_on_off_then_navigation_preserves_the_matched_mapping
+1 failed, 18 passed in 38.23s

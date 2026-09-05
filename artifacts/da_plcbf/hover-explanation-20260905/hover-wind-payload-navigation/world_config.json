@@ -1,0 +1,54 @@
+{
+  "seed": 0,
+  "obstacle_count": 8,
+  "dt": 0.02,
+  "control_interval_steps": 2,
+  "duration_seconds": 63.0,
+  "waypoint_count": 8,
+  "reach_radius": 0.4,
+  "moving_obstacles": true,
+  "wind_events": [
+    {
+      "time_seconds": 3.0,
+      "velocity": [
+        1.6,
+        0.8,
+        0.0
+      ]
+    },
+    {
+      "time_seconds": 11.0,
+      "velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "payload_events": [
+    {
+      "time_seconds": 19.0,
+      "mass_fraction": 0.25,
+      "half_extents": [
+        0.025,
+        0.025,
+        0.025
+      ]
+    }
+  ],
+  "ego_radius": 0.106,
+  "obstacle_clearance": 0.15,
+  "arena_lower": [
+    -5.0,
+    -4.0,
+    0.15
+  ],
+  "arena_upper": [
+    5.0,
+    4.0,
+    4.0
+  ],
+  "speed_max": 3.5,
+  "angular_rate_max": 12.0,
+  "tilt_max_radians": 0.9
+}

@@ -1,0 +1,40 @@
+{
+  "cases": [
+    "restoration_compensated",
+    "restoration_uncompensated_gated",
+    "restoration_uncompensated_full_residual"
+  ],
+  "checkpoint": "artifacts/da_plcbf/learning-revision-20260905/reference-ablation-seed7/candidate/checkpoint",
+  "checkpoint_sha256": "4229a61af03e574c1137129c243b72de374688b5f3f0fda3bc9212c1ed5ec74a",
+  "hover_state": [
+    0.0,
+    0.0,
+    1.399999976158142,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "nominal_semantics": "a separate model-aware nominal may hold the physical vehicle while both fallback actors omit feedforward",
+  "nominal_settle_updates": 200,
+  "physics_scope": "identical known point model/actuator limits for fixed and adaptive at each probe",
+  "scope": "fixed-proprioception behavior probes; not a closed-loop hover or navigation run",
+  "source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_hover_mechanism_probe.py": "729f8ae248c10e4f073ce790c6af72e0e4fecd6147b9eda1a542a1b9166bac36",
+    "crazyflow/safety/da_plcbf/persistent_skill_learner.py": "27a6811db1183a8929d60304f7399fc2cd8bb3d569f04da6c96bf250920540e5",
+    "crazyflow/safety/da_plcbf/state_conditioned_learning.py": "e48bccd71a69113f131f49bc83b99cdd2d0fda2c87d2941de64444e5be00cb06"
+  },
+  "updates_off": 200,
+  "updates_on": 200,
+  "wind": [
+    1.6,
+    0.8,
+    0.0
+  ]
+}

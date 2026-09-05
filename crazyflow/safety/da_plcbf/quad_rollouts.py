@@ -13,6 +13,8 @@ from crazyflow.safety.da_plcbf.direct_wrench import direct_wrench_dynamics
 from crazyflow.safety.da_plcbf.quad_policy import shared_quad_fallback_wrenches
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from crazyflow.safety.da_plcbf.actor import (
         SharedActorConfig,
         SharedActorParams,
@@ -105,6 +107,57 @@ def direct_wrench_symplectic_step(
     )
 
 
+def zero_order_hold_rollout(
+    initial_states: Array,
+    command_function: Callable[[Array, Array], tuple[Array, ...]],
+    model: VersionAModel,
+    *,
+    dt: float,
+    horizon: int,
+    command_hold_steps: int = 1,
+) -> tuple[Array, tuple[Array, ...]]:
+    """Integrate H steps while evaluating feedback only at declared command boundaries.
+
+    The command callback receives the current state and the integration-step index, and returns
+    a tuple whose first element is the wrench. Remaining elements are command diagnostics. The
+    returned future states and command traces have a leading time axis of exactly ``horizon``.
+    A partial final hold is truncated without extending the physical rollout horizon. The caller
+    retains the original skill anchor; the step index advances rather than restarting its phase.
+    """
+    if not math.isfinite(dt) or dt <= 0:
+        raise ValueError("dt must be finite and positive")
+    if isinstance(horizon, bool) or not isinstance(horizon, int) or horizon < 1:
+        raise ValueError("horizon must be a positive integer")
+    if (
+        isinstance(command_hold_steps, bool)
+        or not isinstance(command_hold_steps, int)
+        or not 1 <= command_hold_steps <= horizon
+    ):
+        raise ValueError("command_hold_steps must be an integer in [1, horizon]")
+
+    def hold(state: Array, boundary: Array) -> tuple[Array, tuple[Array, tuple[Array, ...]]]:
+        command = command_function(state, boundary * command_hold_steps)
+
+        def integrate(current: Array, _: None) -> tuple[Array, Array]:
+            following = direct_wrench_symplectic_step(current, command[0], model, dt)
+            return following, following
+
+        final, future = jax.lax.scan(integrate, state, None, length=command_hold_steps)
+        repeated = tuple(
+            jnp.broadcast_to(value, (command_hold_steps, *value.shape)) for value in command
+        )
+        return final, (future, repeated)
+
+    _, (future, commands) = jax.lax.scan(
+        hold, initial_states, jnp.arange(math.ceil(horizon / command_hold_steps))
+    )
+
+    def truncate(value: Array) -> Array:
+        return value.reshape((-1, *value.shape[2:]))[:horizon]
+
+    return truncate(future), tuple(truncate(value) for value in commands)
+
+
 def rollout_shared_quad_library(
     params: SharedActorParams,
     spec: SharedActorSpec,
@@ -118,6 +171,7 @@ def rollout_shared_quad_library(
     policy_gain: float,
     actor_config: SharedActorConfig,
     quad_config: QuadPolicyConfig,
+    command_hold_steps: int = 1,
 ) -> QuadRolloutBatch:
     """Roll out every policy/scenario through the differentiable direct-wrench plant."""
     if initial_states.ndim != 2 or initial_states.shape[-1] != 13:
@@ -134,7 +188,7 @@ def rollout_shared_quad_library(
     current = jnp.broadcast_to(initial_states[None, ...], (policy_count, *initial_states.shape))
     horizon_duration = horizon * dt
 
-    def advance(state: Array, step_index: Array) -> tuple[Array, tuple[Array, ...]]:
+    def command_at_boundary(state: Array, step_index: Array) -> tuple[Array, ...]:
         command = shared_quad_fallback_wrenches(
             params,
             spec,
@@ -148,9 +202,7 @@ def rollout_shared_quad_library(
             actor_config=actor_config,
             quad_config=quad_config,
         )
-        following = direct_wrench_symplectic_step(state, command.wrench, model, dt)
-        return following, (
-            following,
+        return (
             command.wrench,
             command.desired_acceleration,
             command.raw_motor_forces,
@@ -158,12 +210,24 @@ def rollout_shared_quad_library(
             command.input_valid,
         )
 
-    _, outputs = jax.lax.scan(advance, current, jnp.arange(horizon, dtype=current.dtype))
+    future, outputs = zero_order_hold_rollout(
+        current,
+        command_at_boundary,
+        model,
+        dt=dt,
+        horizon=horizon,
+        command_hold_steps=command_hold_steps,
+    )
     future, wrench, acceleration, raw_motor, bounded_motor, valid = (
-        jnp.moveaxis(value, 0, 2) for value in outputs
+        jnp.moveaxis(value, 0, 2) for value in (future, *outputs)
     )
     states = jnp.concatenate((current[:, :, None, :], future), axis=2)
     return QuadRolloutBatch(states, wrench, acceleration, raw_motor, bounded_motor, valid)
 
 
-__all__ = ["QuadRolloutBatch", "direct_wrench_symplectic_step", "rollout_shared_quad_library"]
+__all__ = [
+    "QuadRolloutBatch",
+    "direct_wrench_symplectic_step",
+    "rollout_shared_quad_library",
+    "zero_order_hold_rollout",
+]

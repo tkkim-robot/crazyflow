@@ -1,0 +1,79 @@
+{
+  "initial_checkpoint_sha256": "4229a61af03e574c1137129c243b72de374688b5f3f0fda3bc9212c1ed5ec74a",
+  "initial_library_version": 460,
+  "scope": "development extension after reference-bank early certificate loss; same fixed state/model/initial params/Adam; no obstacle input or update admission; no promotion into already frozen held-out navigation campaign",
+  "snapshots": [
+    0,
+    1,
+    4,
+    8,
+    20,
+    80
+  ],
+  "source_directory": "artifacts/da_plcbf/learning-revision-20260905/reference-ablation-seed7",
+  "state": [
+    3.781717300415039,
+    0.04223717376589775,
+    1.433638095855713,
+    -0.008113495074212551,
+    -0.02711835503578186,
+    0.002711216453462839,
+    0.9995956420898438,
+    2.0615010261535645,
+    0.0966787189245224,
+    -0.010387827642261982,
+    0.00043135552550666034,
+    -0.14045190811157227,
+    -0.0024180817417800426
+  ],
+  "updates": 80,
+  "variants_declared_before_execution": [
+    [
+      "reference_network_lr0.25",
+      "network",
+      0.25,
+      null
+    ],
+    [
+      "reference_network_lr0.5",
+      "network",
+      0.5,
+      null
+    ],
+    [
+      "reference_network_lr1.0",
+      "network",
+      1.0,
+      null
+    ],
+    [
+      "reference_offsets_lr0.25",
+      "offsets",
+      0.25,
+      null
+    ],
+    [
+      "reference_offsets_lr0.5",
+      "offsets",
+      0.5,
+      null
+    ],
+    [
+      "reference_offsets_lr1.0",
+      "offsets",
+      1.0,
+      null
+    ],
+    [
+      "reference_all_lr1.0_stepcap0.002",
+      "all",
+      1.0,
+      0.002
+    ]
+  ],
+  "wind": [
+    4.0,
+    1.600000023841858,
+    0.0
+  ]
+}

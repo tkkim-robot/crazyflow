@@ -1,5 +1,22 @@
 # DA-PLCBF artifact policy
 
+## Published engineering review — 2026-09-05
+
+At the user's explicit request, `main` includes the complete `hover-explanation-20260905`,
+`navigation-revision-20260905`, and `learning-revision-20260905` review directories, including
+retained failures and preliminary renderings. Each unchanged `ARTIFACT_SHA256.json` inventories
+its complete directory. No files are omitted from these three directories. Start with
+[`DA_PLCBF_HOVER_REVIEW.md`](../../DA_PLCBF_HOVER_REVIEW.md) for the supported findings and final
+video links. These are engineering and mechanism results, not a general safety guarantee or
+an entry in the historical scientific campaign index below.
+
+The main-branch publication is explicitly authorized by the user and supersedes the historical
+branch-local restriction below for these directories. Numerical artifacts and source archives
+retain their original hashes and prepublication metadata. Only current review/publication
+documentation changes status for publication; the archived source snapshots remain untouched.
+
+## Historical scientific campaign policy
+
 Scientific run directories are intentionally ignored by git because traces, checkpoints, plots,
 and videos are bulk products. Every complete run must validate against its own `manifest.json` and
 `SHA256SUMS` before it is used as evidence. The manifest binds the configuration, provenance,

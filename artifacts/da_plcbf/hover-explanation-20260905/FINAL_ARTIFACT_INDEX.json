@@ -1,0 +1,52 @@
+{
+  "base_commit": "00e89a742a1271b93655bf1bb4581a667dc13a14",
+  "branch": "plcbf",
+  "review": "DA_PLCBF_HOVER_REVIEW.md",
+  "videos": [
+    {
+      "role": "main_hover_navigation",
+      "file": "hover-wind-payload-navigation/navigation_comparison_demo.mp4",
+      "sha256": "7174f16b1bb4c5ffd0866a89ea318f7bf1d42d0921edcf1000213dd7ba42a3f5",
+      "playback_rate": 1.0,
+      "width": 1600,
+      "height": 900,
+      "avg_frame_rate": "20/1",
+      "duration": "63.050000",
+      "nb_frames": "1261"
+    },
+    {
+      "role": "compensated_control",
+      "file": "compensated-control-v1/navigation_comparison_demo.mp4",
+      "sha256": "078b3e0efa74faa2afca89c9d7a8c9baf2aeb4a8154ade27a05d929cd0aa5626",
+      "playback_rate": 1.0,
+      "width": 1600,
+      "height": 900,
+      "avg_frame_rate": "20/1",
+      "duration": "19.100000",
+      "nb_frames": "382"
+    },
+    {
+      "role": "obstacle_impact_and_fall",
+      "file": "contact/legacy-estimated-physical-contact-v2/render-v2/contact_replay_demo.mp4",
+      "sha256": "f2003e92882ca8f5d596c229d9549400c54f2d93613d94102ef488e2bcd89ffd",
+      "playback_rate": 0.5,
+      "width": 1600,
+      "height": 900,
+      "avg_frame_rate": "20/1",
+      "duration": "7.550000",
+      "nb_frames": "151"
+    },
+    {
+      "role": "safety_abort_ground_only",
+      "file": "contact/seed209-adaptive-safety-abort-drop/render-v1/contact_replay_demo.mp4",
+      "sha256": "ff08c7c7a72e19a6d691895b1923e931edd3eed22c3869ecb0ff78568d5b7936",
+      "playback_rate": 0.5,
+      "width": 1600,
+      "height": 900,
+      "avg_frame_rate": "20/1",
+      "duration": "9.050000",
+      "nb_frames": "181"
+    }
+  ],
+  "scope": "Main deterministic behavior experiment, separate compensated control, separate motor-cut contact continuations. No general safety superiority or real-time learning deadline claim."
+}

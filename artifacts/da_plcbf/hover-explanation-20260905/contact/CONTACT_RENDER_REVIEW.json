@@ -1,0 +1,29 @@
+{
+  "scope": "Independent read-only source, saved-array, hash, video-decode and representative-frame review. No simulation or source modification.",
+  "render_directory": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2/render-v2",
+  "video_sha256": "f2003e92882ca8f5d596c229d9549400c54f2d93613d94102ef488e2bcd89ffd",
+  "renderer_sha256": "688db780dc50c80491c049235643414fffb3ecc31a0a46089f66469a2054fb18",
+  "all_bound_input_source_video_and_keyframe_hashes_verified": true,
+  "every_displayed_before_and_after_full_state_exactly_equals_its_saved_source_sample": true,
+  "every_contact_obstacle_center_exactly_equals_saved_physics": true,
+  "handoff_contact_source_index": 0,
+  "quaternion_policy": "Saved xyzw quaternions selected unchanged; no interpolation across handoff or resimulation.",
+  "timing": "Requested source-time interval 0.025 s at 20 fps gives 0.5\u00d7 playback; displayed timestamps use actual selected source time.",
+  "maximum_source_time_quantization_seconds": 0.009261083248184754,
+  "ffprobe": {
+    "codec": "h264",
+    "width": 1600,
+    "height": 900,
+    "fps": 20,
+    "frames": 151,
+    "duration_seconds": 7.55
+  },
+  "complete_ffmpeg_decode_exit_code": 0,
+  "visual_review": {
+    "handoff": "Drone visible against obstacle in corrected -45-degree view; previous v1 occlusion resolved.",
+    "post_ground_and_tail": "Ground and robot remain visible; actual saved attitude and ground sliding/rolling preserved.",
+    "claims": "Explicit MUJOCO CONTACT REPLAY / MOTORS OFF phase and separate motor-cut handoff caption; no post-handoff controller guarantee.",
+    "physical_scope": "Existing sphere collider is larger than visual mesh; ground support is collider contact, not blade or mesh contact."
+  },
+  "original_focused_validation": "CONTACT_VALIDATION.json"
+}

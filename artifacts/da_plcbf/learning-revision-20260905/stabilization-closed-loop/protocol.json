@@ -1,0 +1,257 @@
+{
+  "capped_config": {
+    "acceleration_limit": 2.5,
+    "action_rate_weight": 0.001,
+    "action_weight": 0.001,
+    "angular_rate_weight": 0.01,
+    "angular_velocity_scale": 8.0,
+    "attitude_weight": 0.02,
+    "control_interval_steps": 2,
+    "covariance_epsilon": 0.001,
+    "descriptor_scales": [
+      1.5,
+      1.5,
+      1.0,
+      1.5,
+      1.5,
+      1.0,
+      1.5,
+      1.5,
+      1.0
+    ],
+    "diversity_weight": 0.001,
+    "dt": 0.02,
+    "duration_transition": 0.1,
+    "hidden_width": 32,
+    "horizon": 60,
+    "initial_residual_scale": 0.01,
+    "initial_skill_scale": 1.0,
+    "learn_durations": false,
+    "learning_rate": 0.001,
+    "max_gradient_norm": 10.0,
+    "max_parameter_update_norm": 0.002,
+    "model_compensation": true,
+    "pairwise_sigma": 1.0,
+    "pairwise_weight": 0.005,
+    "policy_gain": 1.8,
+    "position_scale": 1.0,
+    "residual_scale": 1.0,
+    "saturation_temperature": 0.05,
+    "saturation_weight": 0.001,
+    "smooth_motor_bounds": false,
+    "target_weight": 10.0,
+    "terminal_braking_weight": 2.0,
+    "trainable_parameters": "all",
+    "trust_weight": 0.001,
+    "velocity_offset_limit": 0.35,
+    "velocity_scale": 1.5,
+    "weight_decay": 0.0
+  },
+  "censor": "stop at first integration segment with physical swept clearance <=0; no subsequent commands or updates",
+  "config": {
+    "acceleration_limit": 2.5,
+    "action_rate_weight": 0.001,
+    "action_weight": 0.001,
+    "angular_rate_weight": 0.01,
+    "angular_velocity_scale": 8.0,
+    "attitude_weight": 0.02,
+    "control_interval_steps": 2,
+    "covariance_epsilon": 0.001,
+    "descriptor_scales": [
+      1.5,
+      1.5,
+      1.0,
+      1.5,
+      1.5,
+      1.0,
+      1.5,
+      1.5,
+      1.0
+    ],
+    "diversity_weight": 0.001,
+    "dt": 0.02,
+    "duration_transition": 0.1,
+    "hidden_width": 32,
+    "horizon": 60,
+    "initial_residual_scale": 0.01,
+    "initial_skill_scale": 1.0,
+    "learn_durations": false,
+    "learning_rate": 0.001,
+    "max_gradient_norm": 10.0,
+    "max_parameter_update_norm": null,
+    "model_compensation": true,
+    "pairwise_sigma": 1.0,
+    "pairwise_weight": 0.005,
+    "policy_gain": 1.8,
+    "position_scale": 1.0,
+    "residual_scale": 1.0,
+    "saturation_temperature": 0.05,
+    "saturation_weight": 0.001,
+    "smooth_motor_bounds": false,
+    "target_weight": 10.0,
+    "terminal_braking_weight": 2.0,
+    "trainable_parameters": "all",
+    "trust_weight": 0.001,
+    "velocity_offset_limit": 0.35,
+    "velocity_scale": 1.5,
+    "weight_decay": 0.0
+  },
+  "estimator_config": {
+    "component_limit": 5.0,
+    "minimum_drag_singular_value": 1e-05,
+    "response_rate": 2.4
+  },
+  "nominal_controller": {
+    "acceleration_limit": 1.2,
+    "position_gain": 2.0,
+    "velocity_gain": 2.8
+  },
+  "prefix": "one calm known-nominal-model physical prefix; estimator observes its transitions and is cloned",
+  "reference_binding": {
+    "reference_contract_manifest_sha256": "0de8484dedad67d58a6279d039606f8e4199aca02f51ceea1a50e2cd75699bb5",
+    "reference_contract_npz_sha256": "aa4f74010e12e61b666b987575dc2bac2f729215c45757ae6902b282ac3efbed"
+  },
+  "scenario": {
+    "angular_rate_max": 12.0,
+    "arena_lower": [
+      -5.0,
+      -3.5,
+      0.15000000596046448
+    ],
+    "arena_upper": [
+      12.0,
+      4.0,
+      4.0
+    ],
+    "dt": 0.02,
+    "ego_radius": 0.05,
+    "goal_position": [
+      10.0,
+      0.0,
+      1.399999976158142
+    ],
+    "goal_velocity": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "horizon": 60,
+    "initial_state": [
+      -3.0,
+      0.0,
+      1.399999976158142,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "name": "declared_stabilization_closed_loop",
+    "obstacle_clearance": 0.15,
+    "obstacle_initial_centers": [
+      [
+        5.800000190734863,
+        0.0,
+        1.2000000476837158
+      ],
+      [
+        7.300000190734863,
+        0.15000000596046448,
+        2.6500000953674316
+      ]
+    ],
+    "obstacle_mask": [
+      true,
+      true
+    ],
+    "obstacle_radii": [
+      0.550000011920929,
+      0.550000011920929
+    ],
+    "obstacle_velocities": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "skill_displacements": [
+      [
+        1.2000000476837158,
+        0.0,
+        0.0
+      ],
+      [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.399999976158142,
+        0.0
+      ],
+      [
+        0.0,
+        -1.399999976158142,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        -0.699999988079071
+      ],
+      [
+        0.800000011920929,
+        1.0,
+        0.5
+      ],
+      [
+        0.800000011920929,
+        -1.0,
+        0.5
+      ]
+    ],
+    "speed_max": 3.5,
+    "steps": 400,
+    "tilt_max_radians": 0.8999999761581421,
+    "wind_after": [
+      4.0,
+      1.600000023841858,
+      0.0
+    ],
+    "wind_before": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "wind_change_step": 200
+  },
+  "schedule": "post-event opportunities 0,2,4,...; update uses pre-action state/model and publishes next boundary",
+  "scope": "one bounded deterministic mechanism experiment; no timing or guaranteed-winner claim",
+  "source_binding_status": "legacy_unbound",
+  "source_checkpoint": "artifacts/da_plcbf/learning-revision-20260905/reference-ablation-seed7/candidate/checkpoint",
+  "source_checkpoint_sha256": "4229a61af03e574c1137129c243b72de374688b5f3f0fda3bc9212c1ed5ec74a",
+  "source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_stabilization_closed_loop.py": "1cf006c1c2082bd346cff3e40b4c46e27bc2857eb0553ad5a2961a0e2e1e7a67",
+    "crazyflow/safety/da_plcbf/continuous_version_a.py": "59edb8d8f3a9731f0cf34f5c9a62ed1938fab6cfe41caa20f723385c305fd8ad",
+    "crazyflow/safety/da_plcbf/online_constant_wind.py": "48dbc0303dbd96eb8a39918a2e4a1c2214a45e67ef6be7881de79aba18ecaacd",
+    "crazyflow/safety/da_plcbf/persistent_skill_learner.py": "f3ee47aae494205f17da4592a09b864c94651010b712b5552f86978b52d2c6f7",
+    "crazyflow/safety/da_plcbf/state_conditioned_learning.py": "093c317df1588bd4c5a1081e3a38b41b39cff0e9b152d67348b5b912576cc309"
+  }
+}

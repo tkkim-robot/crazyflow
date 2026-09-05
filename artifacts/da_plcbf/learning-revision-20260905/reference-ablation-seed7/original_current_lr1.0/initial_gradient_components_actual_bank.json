@@ -1,0 +1,122 @@
+{
+  "components": {
+    "action": {
+      "cosine_with_total_gradient": -0.11354483700532186,
+      "cosine_with_trainable_total_gradient": -0.11354483700532186,
+      "raw_gradient_norm": 0.10499203205108643,
+      "raw_loss": 0.6022569537162781,
+      "trainable_gradient_norm": 0.10499203205108643,
+      "weight": 0.001,
+      "weighted_gradient_norm": 0.00010499203205108642,
+      "weighted_trainable_gradient_norm": 0.00010499203205108642
+    },
+    "action_rate": {
+      "cosine_with_total_gradient": -0.316553305943914,
+      "cosine_with_trainable_total_gradient": -0.316553305943914,
+      "raw_gradient_norm": 0.00034717112430371344,
+      "raw_loss": 0.0004312110540922731,
+      "trainable_gradient_norm": 0.00034717112430371344,
+      "weight": 0.001,
+      "weighted_gradient_norm": 3.4717112430371346e-07,
+      "weighted_trainable_gradient_norm": 3.4717112430371346e-07
+    },
+    "descriptor_target": {
+      "cosine_with_total_gradient": 0.9999104240279293,
+      "cosine_with_trainable_total_gradient": 0.9999104240279293,
+      "raw_gradient_norm": 0.10775792598724365,
+      "raw_loss": 0.3914000391960144,
+      "trainable_gradient_norm": 0.10775792598724365,
+      "weight": 10.0,
+      "weighted_gradient_norm": 1.0775792598724365,
+      "weighted_trainable_gradient_norm": 1.0775792598724365
+    },
+    "diversity": {
+      "cosine_with_total_gradient": -0.018325430226777763,
+      "cosine_with_trainable_total_gradient": -0.018325430226777763,
+      "raw_gradient_norm": 2.8374381065368652,
+      "raw_loss": 14.23862075805664,
+      "trainable_gradient_norm": 2.8374381065368652,
+      "weight": 0.001,
+      "weighted_gradient_norm": 0.002837438106536865,
+      "weighted_trainable_gradient_norm": 0.002837438106536865
+    },
+    "pairwise": {
+      "cosine_with_total_gradient": -0.04748195467740161,
+      "cosine_with_trainable_total_gradient": -0.04748195467740161,
+      "raw_gradient_norm": 0.11964213103055954,
+      "raw_loss": 0.9112032651901245,
+      "trainable_gradient_norm": 0.11964213103055954,
+      "weight": 0.005,
+      "weighted_gradient_norm": 0.0005982106551527977,
+      "weighted_trainable_gradient_norm": 0.0005982106551527977
+    },
+    "reference_retention": {
+      "cosine_with_total_gradient": 0.0,
+      "cosine_with_trainable_total_gradient": 0.0,
+      "raw_gradient_norm": 0.0,
+      "raw_loss": 0.0,
+      "trainable_gradient_norm": 0.0,
+      "weight": 0.0,
+      "weighted_gradient_norm": 0.0,
+      "weighted_trainable_gradient_norm": 0.0
+    },
+    "saturation": {
+      "cosine_with_total_gradient": -0.8990262935039461,
+      "cosine_with_trainable_total_gradient": -0.8990262935039461,
+      "raw_gradient_norm": 3.553795799786565e-18,
+      "raw_loss": 3.0797800531606293e-19,
+      "trainable_gradient_norm": 3.553795799786565e-18,
+      "weight": 0.001,
+      "weighted_gradient_norm": 3.553795799786565e-21,
+      "weighted_trainable_gradient_norm": 3.553795799786565e-21
+    },
+    "terminal_braking": {
+      "cosine_with_total_gradient": 0.8860820066476154,
+      "cosine_with_trainable_total_gradient": 0.8860820066476154,
+      "raw_gradient_norm": 0.017526570707559586,
+      "raw_loss": 0.025899766013026237,
+      "trainable_gradient_norm": 0.017526570707559586,
+      "weight": 2.0,
+      "weighted_gradient_norm": 0.03505314141511917,
+      "weighted_trainable_gradient_norm": 0.03505314141511917
+    },
+    "total": {
+      "cosine_with_total_gradient": 1.0,
+      "raw_gradient_norm": 1.1082651615142822,
+      "raw_loss": 3.9860823154449463,
+      "trainable_gradient_norm": 1.1082651615142822
+    },
+    "trajectory_tracking": {
+      "cosine_with_total_gradient": 0.0,
+      "cosine_with_trainable_total_gradient": 0.0,
+      "raw_gradient_norm": 0.0,
+      "raw_loss": 0.0,
+      "trainable_gradient_norm": 0.0,
+      "weight": 0.0,
+      "weighted_gradient_norm": 0.0,
+      "weighted_trainable_gradient_norm": 0.0
+    },
+    "trust": {
+      "cosine_with_total_gradient": -0.02585811795440964,
+      "cosine_with_trainable_total_gradient": -0.02585811795440964,
+      "raw_gradient_norm": 1.3948130799690261e-05,
+      "raw_loss": 4.459000280121472e-09,
+      "trainable_gradient_norm": 1.3948130799690261e-05,
+      "weight": 0.001,
+      "weighted_gradient_norm": 1.3948130799690261e-08,
+      "weighted_trainable_gradient_norm": 1.3948130799690261e-08
+    },
+    "velocity_tracking": {
+      "cosine_with_total_gradient": 0.0,
+      "cosine_with_trainable_total_gradient": 0.0,
+      "raw_gradient_norm": 0.0,
+      "raw_loss": 0.0,
+      "trainable_gradient_norm": 0.0,
+      "weight": 0.0,
+      "weighted_gradient_norm": 0.0,
+      "weighted_trainable_gradient_norm": 0.0
+    }
+  },
+  "initial_library_version": 460,
+  "scope": "actual persisted-version anchor selection; includes trainable-coordinate masks; supersedes iteration-zero gradient diagnostic"
+}

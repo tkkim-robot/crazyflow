@@ -24,7 +24,10 @@ import jax.numpy as jnp
 from jax import Array
 
 from crazyflow.safety.da_plcbf.quad_policy import QuadPolicyConfig, waypoint_nominal_wrench
-from crazyflow.safety.da_plcbf.quad_rollouts import direct_wrench_symplectic_step
+from crazyflow.safety.da_plcbf.quad_rollouts import (
+    direct_wrench_symplectic_step,
+    zero_order_hold_rollout,
+)
 from crazyflow.safety.da_plcbf.selector import SelectionConfig
 from crazyflow.safety.da_plcbf.version_a_barriers import (
     VersionAModel,
@@ -37,6 +40,7 @@ from crazyflow.safety.da_plcbf.version_a_filter import (
     VersionAFilterResult,
     WrenchPostcheck,
     postcheck_version_a_action,
+    reproject_with_predictive_operational_faces,
     version_a_plcbf_filter,
 )
 
@@ -149,6 +153,12 @@ class ContinuousVersionAStep(NamedTuple):
     applied_held_operational_residual: Array
     applied_held_operational_passed: Array
     emergency_postcheck: WrenchPostcheck
+    qp_held_operational_residuals: Array
+    fallback_held_operational_residuals: Array
+    applied_held_operational_residuals: Array
+    applied_held_physical_margins: Array
+    predictive_operational_iterations: Array
+    initial_qp_held_operational_residual: Array
 
 
 @dataclass(frozen=True, slots=True)
@@ -175,6 +185,7 @@ class ContinuousVersionAConfig:
     control_interval_steps: int = 1
     emergency_braking_gain: float = 2.0
     emergency_acceleration_limit: float = 4.0
+    predictive_operational_iterations: int = 3
 
     def validate(self) -> None:
         """Reject non-finite geometry or invalid fixed rollout shapes."""
@@ -213,6 +224,17 @@ class ContinuousVersionAConfig:
             raise TypeError("use_policy_constraint must be boolean")
         if not isinstance(self.prefer_nominal_when_safe, bool):
             raise TypeError("prefer_nominal_when_safe must be boolean")
+        if (
+            isinstance(self.predictive_operational_iterations, bool)
+            or not isinstance(self.predictive_operational_iterations, int)
+            or not 0 <= self.predictive_operational_iterations <= 4
+        ):
+            raise ValueError("predictive_operational_iterations must be an integer in [0, 4]")
+        if self.predictive_operational_iterations > 0 and self.control_interval_steps > 2:
+            raise ValueError(
+                "predictive operational refinement supports at most two integration substeps; "
+                "set predictive_operational_iterations=0 for longer holds with unchanged postchecks"
+            )
 
 
 RolloutFunction = Callable[[Array, VersionAModel], PolicyRollouts]
@@ -471,6 +493,7 @@ def rollout_waypoint_library(
     position_gain: float = 2.0,
     velocity_gain: float = 1.4,
     model_compensation: bool = False,
+    command_hold_steps: int = 1,
 ) -> PolicyRollouts:
     """Roll out a deterministic set of waypoint policies through one point model."""
     if state.shape != (13,):
@@ -489,7 +512,7 @@ def rollout_waypoint_library(
         raise ValueError("waypoint gains must be finite and positive")
     current = jnp.broadcast_to(state, (target_positions.shape[0], 13))
 
-    def advance(carry: Array, _: None) -> tuple[Array, tuple[Array, Array]]:
+    def command_at_boundary(carry: Array, _: Array) -> tuple[Array]:
         command = jax.vmap(
             lambda candidate_state, target_position, target_velocity: waypoint_nominal_wrench(
                 candidate_state,
@@ -503,10 +526,16 @@ def rollout_waypoint_library(
                 model_compensation=model_compensation,
             )
         )(carry, target_positions, target_velocities)
-        following = direct_wrench_symplectic_step(carry, command.wrench, model, dt)
-        return following, (following, command.wrench)
+        return (command.wrench,)
 
-    _, (future, wrenches) = jax.lax.scan(advance, current, xs=None, length=horizon)
+    future, (wrenches,) = zero_order_hold_rollout(
+        current,
+        command_at_boundary,
+        model,
+        dt=dt,
+        horizon=horizon,
+        command_hold_steps=command_hold_steps,
+    )
     future = jnp.moveaxis(future, 0, 1)
     wrenches = jnp.moveaxis(wrenches, 0, 1)
     states = jnp.concatenate((current[:, None, :], future), axis=1)
@@ -525,6 +554,7 @@ def obstacle_agnostic_waypoint_callbacks(
     *,
     dt: float,
     horizon: int,
+    command_hold_steps: int = 1,
 ) -> tuple[RolloutFunction, RolloutFunction]:
     """Build a nominal callback and local, goal-free fallback skill callbacks.
 
@@ -550,6 +580,7 @@ def obstacle_agnostic_waypoint_callbacks(
             quad_config,
             dt=dt,
             horizon=horizon,
+            command_hold_steps=command_hold_steps,
         )
 
     def fallbacks(candidate_state: Array, point_model: VersionAModel) -> PolicyRollouts:
@@ -562,6 +593,7 @@ def obstacle_agnostic_waypoint_callbacks(
             quad_config,
             dt=dt,
             horizon=horizon,
+            command_hold_steps=command_hold_steps,
         )
 
     return nominal, fallbacks
@@ -575,6 +607,8 @@ class HeldActionCheck(NamedTuple):
     operational_margin: Array
     operational_residual: Array
     operational_passed: Array
+    operational_residuals: Array
+    physical_margins: Array
 
 
 def _held_action_check(
@@ -626,7 +660,53 @@ def _held_action_check(
         & (operational_margin >= -barrier_config.domain_tolerance)
         & (operational_residual >= -filter_config.barrier_tolerance)
     )
-    return HeldActionCheck(next_state, margin, operational_margin, operational_residual, passed)
+    return HeldActionCheck(
+        next_state,
+        margin,
+        operational_margin,
+        operational_residual,
+        passed,
+        residuals[:, obstacle_count:],
+        physical.values[:, obstacle_count:],
+    )
+
+
+def predictive_operational_halfspaces(
+    state: Array,
+    reference_wrench: Array,
+    model: VersionAModel,
+    safety: RigidBodySafetySet,
+    barrier_config: VersionABarrierConfig,
+    *,
+    dt: float,
+    hold_steps: int,
+) -> tuple[Array, Array]:
+    """Linearize later substep CBF residuals through the actual held-wrench integrator.
+
+    For each residual r_j(u), the affine face is -Dr_j(u0) u <= r_j(u0)-Dr_j(u0)u0.
+    This includes the command's effect on the predicted state, including attitude and velocity.
+    It is a local predictive correction, not a global sampled-data invariance bound. Independent
+    nonlinear held-action postchecks retain the original limits and tolerances.
+    """
+    operational_config = replace(barrier_config, include_obstacle_hocbf=False)
+    operational_safety = safety._replace(obstacle_mask=jnp.zeros_like(safety.obstacle_mask))
+    obstacle_count = safety.obstacle_radii.shape[0]
+
+    def residual(wrench: Array) -> Array:
+        def advance(current: Array, _: None) -> tuple[Array, Array]:
+            following = direct_wrench_symplectic_step(current, wrench, model, dt)
+            halfspaces = continuous_safety_halfspaces(
+                following, model, operational_safety, operational_config
+            )
+            values = halfspaces.upper_bound - halfspaces.matrix @ wrench
+            return following, values[obstacle_count:]
+
+        _, values = jax.lax.scan(advance, state, None, length=hold_steps - 1)
+        return values.reshape(-1)
+
+    value = residual(reference_wrench)
+    derivative = jax.jacfwd(residual)(reference_wrench)
+    return -derivative, value - derivative @ reference_wrench
 
 
 def obstacle_agnostic_emergency_wrench(
@@ -824,6 +904,64 @@ def continuous_version_a_step(
         )
 
     qp_check = held(filtered.qp.action)
+    initial_qp_held_operational_residual = qp_check.operational_residual
+    refinement_count = jnp.asarray(0, jnp.int32)
+    if config.control_interval_steps > 1 and config.predictive_operational_iterations > 0:
+        extra_count = 9 * (config.control_interval_steps - 1)
+
+        def pad_rows(value: Array) -> Array:
+            extra = jnp.zeros(extra_count, value.dtype)
+            if demo_filter_config.enforce_policy_barrier:
+                return jnp.concatenate((value[:-1], extra, value[-1:]))
+            return jnp.concatenate((value, extra))
+
+        filtered = filtered._replace(
+            qp=filtered.qp._replace(
+                multipliers=pad_rows(filtered.qp.multipliers),
+                active_mask=pad_rows(filtered.qp.active_mask),
+            )
+        )
+
+        def refine(
+            _: int, carry: tuple[VersionAFilterResult, HeldActionCheck, Array]
+        ) -> tuple[VersionAFilterResult, HeldActionCheck, Array]:
+            prior, prior_check, count = carry
+
+            def repair(_: None) -> tuple[VersionAFilterResult, HeldActionCheck, Array]:
+                matrix, bound = predictive_operational_halfspaces(
+                    state,
+                    prior.qp.action,
+                    estimated_model,
+                    current_safety,
+                    demo_barrier_config,
+                    dt=config.dt,
+                    hold_steps=config.control_interval_steps,
+                )
+                revised = reproject_with_predictive_operational_faces(
+                    prior,
+                    nominal_action,
+                    wrench_weight,
+                    actuator,
+                    demo_filter_config,
+                    matrix,
+                    bound,
+                    omitted_obstacle_rows=(
+                        0 if demo_barrier_config.include_obstacle_hocbf else obstacles.radii.size
+                    ),
+                    selected_fallback_wrench=selected_fallback,
+                )
+                return revised, held(revised.qp.action), count + 1
+
+            return jax.lax.cond(
+                prior.qp_accepted & ~prior_check.operational_passed, repair, lambda _: carry, None
+            )
+
+        filtered, qp_check, refinement_count = jax.lax.fori_loop(
+            0,
+            config.predictive_operational_iterations,
+            refine,
+            (filtered, qp_check, refinement_count),
+        )
     fallback_check = held(selected_fallback)
     qp_valid = (
         filtered.qp_accepted
@@ -939,6 +1077,12 @@ def continuous_version_a_step(
         applied_held_operational_residual=applied_check.operational_residual,
         applied_held_operational_passed=applied_check.operational_passed,
         emergency_postcheck=emergency_postcheck,
+        qp_held_operational_residuals=qp_check.operational_residuals,
+        fallback_held_operational_residuals=fallback_check.operational_residuals,
+        applied_held_operational_residuals=applied_check.operational_residuals,
+        applied_held_physical_margins=applied_check.physical_margins,
+        predictive_operational_iterations=refinement_count,
+        initial_qp_held_operational_residual=initial_qp_held_operational_residual,
     )
 
 

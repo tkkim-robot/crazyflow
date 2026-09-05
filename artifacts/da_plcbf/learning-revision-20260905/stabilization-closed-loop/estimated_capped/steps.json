@@ -1,0 +1,2452 @@
+[
+  {
+    "completed_library_version": 461,
+    "degraded": false,
+    "eligible_count": 16,
+    "estimator_before": {
+      "finite_update_count": 200,
+      "update_count": 200,
+      "wind_velocity": [
+        -3.592882080738491e-07,
+        3.603980758271064e-08,
+        -5.538020104722818e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.6952528953552246,
+    "fallback_max_smooth": 0.6878939867019653,
+    "finite_update": true,
+    "gradient_norm": 0.013548888266086578,
+    "loss": 0.0188805740326643,
+    "parameter_update_norm": 0.0020000124350190163,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.0,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 16,
+    "estimator_before": {
+      "finite_update_count": 202,
+      "update_count": 202,
+      "wind_velocity": [
+        0.3661433458328247,
+        0.14645755290985107,
+        -5.493449748428247e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.45822620391845703,
+    "fallback_max_smooth": 0.4507935643196106,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.04,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 461
+  },
+  {
+    "completed_library_version": 462,
+    "degraded": false,
+    "eligible_count": 9,
+    "estimator_before": {
+      "finite_update_count": 204,
+      "update_count": 204,
+      "wind_velocity": [
+        0.6987718939781189,
+        0.2795090079307556,
+        -4.807350251212483e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.29130321741104126,
+    "fallback_max_smooth": 0.2831796109676361,
+    "finite_update": true,
+    "gradient_norm": 0.10899370908737183,
+    "loss": 0.03648530691862106,
+    "parameter_update_norm": 0.0020000068470835686,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.08,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 461
+  },
+  {
+    "degraded": false,
+    "eligible_count": 5,
+    "estimator_before": {
+      "finite_update_count": 206,
+      "update_count": 206,
+      "wind_velocity": [
+        1.0009522438049316,
+        0.40038150548934937,
+        -5.139565359968401e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.17485719919204712,
+    "fallback_max_smooth": 0.16535860300064087,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.12,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 462
+  },
+  {
+    "completed_library_version": 463,
+    "degraded": false,
+    "eligible_count": 3,
+    "estimator_before": {
+      "finite_update_count": 208,
+      "update_count": 208,
+      "wind_velocity": [
+        1.27547287940979,
+        0.5101897716522217,
+        -4.903446324533434e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.09859299659729004,
+    "fallback_max_smooth": 0.08640234917402267,
+    "finite_update": true,
+    "gradient_norm": 0.22138601541519165,
+    "loss": 0.07899174094200134,
+    "parameter_update_norm": 0.002000005915760994,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.16,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 462
+  },
+  {
+    "degraded": false,
+    "eligible_count": 2,
+    "estimator_before": {
+      "finite_update_count": 210,
+      "update_count": 210,
+      "wind_velocity": [
+        1.5248652696609497,
+        0.609946608543396,
+        -5.019529680794221e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.04942506551742554,
+    "fallback_max_smooth": 0.03393689543008804,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.2,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 463
+  },
+  {
+    "completed_library_version": 464,
+    "degraded": false,
+    "eligible_count": 1,
+    "estimator_before": {
+      "finite_update_count": 212,
+      "update_count": 212,
+      "wind_velocity": [
+        1.751429796218872,
+        0.70057213306427,
+        -5.42904274425382e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.01677727699279785,
+    "fallback_max_smooth": 0.0019572412129491568,
+    "finite_update": true,
+    "gradient_norm": 0.3403090536594391,
+    "loss": 0.1378362476825714,
+    "parameter_update_norm": 0.001999997766688466,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.24,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 463
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 214,
+      "update_count": 214,
+      "wind_velocity": [
+        1.95725417137146,
+        0.7829021215438843,
+        -4.782398264069343e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.00626295804977417,
+    "fallback_max_smooth": -0.01972927339375019,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.28,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 464
+  },
+  {
+    "completed_library_version": 465,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 216,
+      "update_count": 216,
+      "wind_velocity": [
+        2.1442391872406006,
+        0.8576960563659668,
+        -4.820780077352538e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.01613086462020874,
+    "fallback_max_smooth": -0.028955187648534775,
+    "finite_update": true,
+    "gradient_norm": 0.3224639296531677,
+    "loss": 0.17022669315338135,
+    "parameter_update_norm": 0.001999999862164259,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.32,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 464
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 218,
+      "update_count": 218,
+      "wind_velocity": [
+        2.31410813331604,
+        0.9256435632705688,
+        -4.641665896087943e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.025429189205169678,
+    "fallback_max_smooth": -0.037806712090969086,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.36,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 465
+  },
+  {
+    "completed_library_version": 466,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 220,
+      "update_count": 220,
+      "wind_velocity": [
+        2.468427896499634,
+        0.9873714447021484,
+        -5.03502008086798e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.03328120708465576,
+    "fallback_max_smooth": -0.045202117413282394,
+    "finite_update": true,
+    "gradient_norm": 0.3446739614009857,
+    "loss": 0.2439524531364441,
+    "parameter_update_norm": 0.001999992411583662,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.4,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 465
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 222,
+      "update_count": 222,
+      "wind_velocity": [
+        2.60862135887146,
+        1.0434490442276,
+        -5.437101435745717e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.04088127613067627,
+    "fallback_max_smooth": -0.05240849405527115,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.44,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 466
+  },
+  {
+    "completed_library_version": 467,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 224,
+      "update_count": 224,
+      "wind_velocity": [
+        2.735983371734619,
+        1.0943934917449951,
+        -5.717324143006408e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.046719908714294434,
+    "fallback_max_smooth": -0.05796317383646965,
+    "finite_update": true,
+    "gradient_norm": 0.40934526920318604,
+    "loss": 0.3095584511756897,
+    "parameter_update_norm": 0.0019999875221401453,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.48,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 466
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 226,
+      "update_count": 226,
+      "wind_velocity": [
+        2.851686477661133,
+        1.1406745910644531,
+        -5.982038828733494e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05151098966598511,
+    "fallback_max_smooth": -0.06259339302778244,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.52,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 467
+  },
+  {
+    "completed_library_version": 468,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 228,
+      "update_count": 228,
+      "wind_velocity": [
+        2.9567983150482178,
+        1.1827192306518555,
+        -5.555479560825916e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.054804086685180664,
+    "fallback_max_smooth": -0.065826416015625,
+    "finite_update": true,
+    "gradient_norm": 0.5008333325386047,
+    "loss": 0.32737821340560913,
+    "parameter_update_norm": 0.00199998845346272,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.5600000000000005,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 467
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 230,
+      "update_count": 230,
+      "wind_velocity": [
+        3.05228853225708,
+        1.22091543674469,
+        -5.415992632151756e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05742180347442627,
+    "fallback_max_smooth": -0.06837312877178192,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.6,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 468
+  },
+  {
+    "completed_library_version": 469,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 232,
+      "update_count": 232,
+      "wind_velocity": [
+        3.1390380859375,
+        1.2556153535842896,
+        -3.084850277446094e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.056470394134521484,
+    "fallback_max_smooth": -0.067779541015625,
+    "finite_update": true,
+    "gradient_norm": 0.37241676449775696,
+    "loss": 0.3079313635826111,
+    "parameter_update_norm": 0.0019999982323497534,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.64,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 468
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 234,
+      "update_count": 234,
+      "wind_velocity": [
+        3.2178473472595215,
+        1.287138819694519,
+        -2.3542153826383583e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05777692794799805,
+    "fallback_max_smooth": -0.0689842700958252,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.68,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 469
+  },
+  {
+    "completed_library_version": 470,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 236,
+      "update_count": 236,
+      "wind_velocity": [
+        3.289442539215088,
+        1.3157768249511719,
+        -2.812648176586663e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05870932340621948,
+    "fallback_max_smooth": -0.06983999162912369,
+    "finite_update": true,
+    "gradient_norm": 0.3849063813686371,
+    "loss": 0.29903894662857056,
+    "parameter_update_norm": 0.0020000094082206488,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.72,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 469
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 238,
+      "update_count": 238,
+      "wind_velocity": [
+        3.3544845581054688,
+        1.341793417930603,
+        -3.7635709304595366e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05944633483886719,
+    "fallback_max_smooth": -0.07051466405391693,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.76,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 470
+  },
+  {
+    "completed_library_version": 471,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 240,
+      "update_count": 240,
+      "wind_velocity": [
+        3.4135727882385254,
+        1.3654285669326782,
+        -4.947182219439128e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.05996096134185791,
+    "fallback_max_smooth": -0.07097553461790085,
+    "finite_update": true,
+    "gradient_norm": 0.4627351462841034,
+    "loss": 0.3422200679779053,
+    "parameter_update_norm": 0.0020000063814222813,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.8,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 470
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 242,
+      "update_count": 242,
+      "wind_velocity": [
+        3.467251777648926,
+        1.3869004249572754,
+        -5.231326554167026e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.06528472900390625,
+    "fallback_max_smooth": -0.07627318054437637,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.84,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 471
+  },
+  {
+    "completed_library_version": 472,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 244,
+      "update_count": 244,
+      "wind_velocity": [
+        3.5160179138183594,
+        1.4064065217971802,
+        -6.552287459271611e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.06943857669830322,
+    "fallback_max_smooth": -0.08037158101797104,
+    "finite_update": true,
+    "gradient_norm": 0.5057417750358582,
+    "loss": 0.3655882775783539,
+    "parameter_update_norm": 0.0020000021904706955,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.88,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 471
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 246,
+      "update_count": 246,
+      "wind_velocity": [
+        3.560319662094116,
+        1.424127459526062,
+        -6.912115395607543e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.07235157489776611,
+    "fallback_max_smooth": -0.08296657353639603,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.92,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 472
+  },
+  {
+    "completed_library_version": 473,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 248,
+      "update_count": 248,
+      "wind_velocity": [
+        3.6005663871765137,
+        1.4402260780334473,
+        -6.879998295516998e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.0739656388759613,
+    "fallback_max_smooth": -0.08315138518810272,
+    "finite_update": true,
+    "gradient_norm": 0.3577616512775421,
+    "loss": 0.29142823815345764,
+    "parameter_update_norm": 0.0020000040531158447,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.96,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 472
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 250,
+      "update_count": 250,
+      "wind_velocity": [
+        3.6371288299560547,
+        1.4548511505126953,
+        -7.649145459254214e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.07335662841796875,
+    "fallback_max_smooth": -0.08006954193115234,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 5.0,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 473
+  },
+  {
+    "completed_library_version": 474,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 252,
+      "update_count": 252,
+      "wind_velocity": [
+        3.670344829559326,
+        1.468137502670288,
+        -7.120073632904678e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.06744423508644104,
+    "fallback_max_smooth": -0.07287570089101791,
+    "finite_update": true,
+    "gradient_norm": 0.33926042914390564,
+    "loss": 0.35705411434173584,
+    "parameter_update_norm": 0.0020000021904706955,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.04,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 473
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 254,
+      "update_count": 254,
+      "wind_velocity": [
+        3.7005202770233154,
+        1.4802076816558838,
+        -7.419852181556053e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.05701494216918945,
+    "fallback_max_smooth": -0.06181694194674492,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.08,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 474
+  },
+  {
+    "completed_library_version": 475,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 256,
+      "update_count": 256,
+      "wind_velocity": [
+        3.727933406829834,
+        1.4911730289459229,
+        -7.795418355271977e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.04313308000564575,
+    "fallback_max_smooth": -0.04760880768299103,
+    "finite_update": true,
+    "gradient_norm": 0.3859318494796753,
+    "loss": 0.38106250762939453,
+    "parameter_update_norm": 0.0020000035874545574,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.12,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 474
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 258,
+      "update_count": 258,
+      "wind_velocity": [
+        3.7528371810913086,
+        1.5011346340179443,
+        -6.961715826037107e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.026772618293762207,
+    "fallback_max_smooth": -0.031077321618795395,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.16,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 475
+  },
+  {
+    "completed_library_version": 476,
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 260,
+      "update_count": 260,
+      "wind_velocity": [
+        3.775461196899414,
+        1.510184407234192,
+        -6.052978847037593e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.008804619312286377,
+    "fallback_max_smooth": -0.013026914559304714,
+    "finite_update": true,
+    "gradient_norm": 0.4906841516494751,
+    "loss": 0.3259163498878479,
+    "parameter_update_norm": 0.0019999954383820295,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.2,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 475
+  },
+  {
+    "degraded": false,
+    "eligible_count": 12,
+    "estimator_before": {
+      "finite_update_count": 262,
+      "update_count": 262,
+      "wind_velocity": [
+        3.7960147857666016,
+        1.518405795097351,
+        -6.339134870358976e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.01001042127609253,
+    "fallback_max_smooth": 0.0058126747608184814,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.24,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 476
+  },
+  {
+    "completed_library_version": 477,
+    "degraded": false,
+    "eligible_count": 12,
+    "estimator_before": {
+      "finite_update_count": 264,
+      "update_count": 264,
+      "wind_velocity": [
+        3.8146867752075195,
+        1.5258746147155762,
+        -5.479957394527446e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.027940034866333008,
+    "fallback_max_smooth": 0.023606397211551666,
+    "finite_update": true,
+    "gradient_norm": 0.36551743745803833,
+    "loss": 0.25631216168403625,
+    "parameter_update_norm": 0.001999995205551386,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.28,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 476
+  },
+  {
+    "degraded": false,
+    "eligible_count": 12,
+    "estimator_before": {
+      "finite_update_count": 266,
+      "update_count": 266,
+      "wind_velocity": [
+        3.8316495418548584,
+        1.5326597690582275,
+        -4.922802645523916e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.04428601264953613,
+    "fallback_max_smooth": 0.03976834565401077,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.32,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 477
+  },
+  {
+    "completed_library_version": 478,
+    "degraded": false,
+    "eligible_count": 13,
+    "estimator_before": {
+      "finite_update_count": 268,
+      "update_count": 268,
+      "wind_velocity": [
+        3.847059726715088,
+        1.5388237237930298,
+        -5.592708021140425e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.05893898010253906,
+    "fallback_max_smooth": 0.0541955940425396,
+    "finite_update": true,
+    "gradient_norm": 0.380891889333725,
+    "loss": 0.26452943682670593,
+    "parameter_update_norm": 0.0019999933429062366,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.36,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 477
+  },
+  {
+    "degraded": false,
+    "eligible_count": 13,
+    "estimator_before": {
+      "finite_update_count": 270,
+      "update_count": 270,
+      "wind_velocity": [
+        3.8610591888427734,
+        1.5444235801696777,
+        -5.131225861987332e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.07195186614990234,
+    "fallback_max_smooth": 0.06695505231618881,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.4,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 478
+  },
+  {
+    "completed_library_version": 479,
+    "degraded": false,
+    "eligible_count": 13,
+    "estimator_before": {
+      "finite_update_count": 272,
+      "update_count": 272,
+      "wind_velocity": [
+        3.873776912689209,
+        1.5495108366012573,
+        -5.859910743311048e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.08349895477294922,
+    "fallback_max_smooth": 0.07824636995792389,
+    "finite_update": true,
+    "gradient_norm": 0.4570792317390442,
+    "loss": 0.3550827205181122,
+    "parameter_update_norm": 0.0019999975338578224,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.4399999999999995,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 478
+  },
+  {
+    "degraded": false,
+    "eligible_count": 14,
+    "estimator_before": {
+      "finite_update_count": 274,
+      "update_count": 274,
+      "wind_velocity": [
+        3.88533091545105,
+        1.554132342338562,
+        -5.906702540414699e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.09383881092071533,
+    "fallback_max_smooth": 0.08836118131875992,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.48,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 479
+  },
+  {
+    "completed_library_version": 480,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 276,
+      "update_count": 276,
+      "wind_velocity": [
+        3.895827293395996,
+        1.5583308935165405,
+        -6.46283979222062e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.10328876972198486,
+    "fallback_max_smooth": 0.09765373170375824,
+    "finite_update": true,
+    "gradient_norm": 0.5128495693206787,
+    "loss": 0.4212857186794281,
+    "parameter_update_norm": 0.0020000028889626265,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.52,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 479
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 278,
+      "update_count": 278,
+      "wind_velocity": [
+        3.905362606048584,
+        1.5621451139450073,
+        -6.257761242522974e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.11220985651016235,
+    "fallback_max_smooth": 0.10651585459709167,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.5600000000000005,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 480
+  },
+  {
+    "completed_library_version": 481,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 280,
+      "update_count": 280,
+      "wind_velocity": [
+        3.9140255451202393,
+        1.5656101703643799,
+        -6.053118681847991e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.12100052833557129,
+    "fallback_max_smooth": 0.1153615266084671,
+    "finite_update": true,
+    "gradient_norm": 0.40939095616340637,
+    "loss": 0.3682670295238495,
+    "parameter_update_norm": 0.0019999942742288113,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.6,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 480
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 282,
+      "update_count": 282,
+      "wind_velocity": [
+        3.9218952655792236,
+        1.5687581300735474,
+        -6.339475362437952e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.13009464740753174,
+    "fallback_max_smooth": 0.12461987137794495,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.640000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 481
+  },
+  {
+    "completed_library_version": 482,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 284,
+      "update_count": 284,
+      "wind_velocity": [
+        3.9290449619293213,
+        1.5716179609298706,
+        -5.879870172975643e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.13995987176895142,
+    "fallback_max_smooth": 0.13473543524742126,
+    "finite_update": true,
+    "gradient_norm": 0.3972117006778717,
+    "loss": 0.48299822211265564,
+    "parameter_update_norm": 0.0019999975338578224,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.68,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 481
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 286,
+      "update_count": 286,
+      "wind_velocity": [
+        3.935539960861206,
+        1.5742158889770508,
+        -6.211328695826523e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.15109920501708984,
+    "fallback_max_smooth": 0.1461762934923172,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.72,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 482
+  },
+  {
+    "completed_library_version": 483,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 288,
+      "update_count": 288,
+      "wind_velocity": [
+        3.9414405822753906,
+        1.5765761137008667,
+        -6.588616088265553e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.1640501618385315,
+    "fallback_max_smooth": 0.15944257378578186,
+    "finite_update": true,
+    "gradient_norm": 0.45906975865364075,
+    "loss": 0.5508196353912354,
+    "parameter_update_norm": 0.0020000117365270853,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.76,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 482
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 290,
+      "update_count": 290,
+      "wind_velocity": [
+        3.946800947189331,
+        1.578720211982727,
+        -6.052632102182542e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.17938315868377686,
+    "fallback_max_smooth": 0.17507213354110718,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.8,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 483
+  },
+  {
+    "completed_library_version": 484,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 292,
+      "update_count": 292,
+      "wind_velocity": [
+        3.9516704082489014,
+        1.5806680917739868,
+        -7.047220833555912e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.1977001428604126,
+    "fallback_max_smooth": 0.19362615048885345,
+    "finite_update": true,
+    "gradient_norm": 0.5944680571556091,
+    "loss": 0.5329596996307373,
+    "parameter_update_norm": 0.0020000033546239138,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.84,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 483
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 294,
+      "update_count": 294,
+      "wind_velocity": [
+        3.9560940265655518,
+        1.5824377536773682,
+        -6.90486388066347e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.21962881088256836,
+    "fallback_max_smooth": 0.21576417982578278,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.88,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 484
+  },
+  {
+    "completed_library_version": 485,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 296,
+      "update_count": 296,
+      "wind_velocity": [
+        3.960113048553467,
+        1.58404541015625,
+        -6.156279823699151e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.24582195281982422,
+    "fallback_max_smooth": 0.24211055040359497,
+    "finite_update": true,
+    "gradient_norm": 0.4495609700679779,
+    "loss": 0.47292089462280273,
+    "parameter_update_norm": 0.0020000007934868336,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.92,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 484
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 298,
+      "update_count": 298,
+      "wind_velocity": [
+        3.96376371383667,
+        1.5855058431625366,
+        -5.450251023830788e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.27695202827453613,
+    "fallback_max_smooth": 0.2733445167541504,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.96,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 485
+  },
+  {
+    "completed_library_version": 486,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 300,
+      "update_count": 300,
+      "wind_velocity": [
+        3.96708083152771,
+        1.5868326425552368,
+        -5.317347699929087e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.3137058615684509,
+    "fallback_max_smooth": 0.310162216424942,
+    "finite_update": true,
+    "gradient_norm": 0.47382763028144836,
+    "loss": 0.45869243144989014,
+    "parameter_update_norm": 0.001999996369704604,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.0,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 485
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 302,
+      "update_count": 302,
+      "wind_velocity": [
+        3.9700942039489746,
+        1.5880379676818848,
+        -5.35275717084005e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.35678303241729736,
+    "fallback_max_smooth": 0.3532780706882477,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.04,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 486
+  },
+  {
+    "completed_library_version": 487,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 304,
+      "update_count": 304,
+      "wind_velocity": [
+        3.9728314876556396,
+        1.5891330242156982,
+        -6.225470770004904e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.4068886637687683,
+    "fallback_max_smooth": 0.4034045338630676,
+    "finite_update": true,
+    "gradient_norm": 0.5614486336708069,
+    "loss": 0.5197931528091431,
+    "parameter_update_norm": 0.0020000075455754995,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.08,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 486
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 306,
+      "update_count": 306,
+      "wind_velocity": [
+        3.975318431854248,
+        1.590127944946289,
+        -6.000759071866923e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.46473240852355957,
+    "fallback_max_smooth": 0.4612586200237274,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.12,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 487
+  },
+  {
+    "completed_library_version": 488,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 308,
+      "update_count": 308,
+      "wind_velocity": [
+        3.9775774478912354,
+        1.591031551361084,
+        -6.178861440275796e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.5310227870941162,
+    "fallback_max_smooth": 0.5275537967681885,
+    "finite_update": true,
+    "gradient_norm": 0.6304780840873718,
+    "loss": 0.5587900280952454,
+    "parameter_update_norm": 0.0020000096410512924,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.16,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 487
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 310,
+      "update_count": 310,
+      "wind_velocity": [
+        3.9796299934387207,
+        1.5918524265289307,
+        -6.278250452851353e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.6064629554748535,
+    "fallback_max_smooth": 0.6029959321022034,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.2,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 488
+  },
+  {
+    "completed_library_version": 489,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 312,
+      "update_count": 312,
+      "wind_velocity": [
+        3.981494665145874,
+        1.59259831905365,
+        -5.367586481952458e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.6917508840560913,
+    "fallback_max_smooth": 0.688284695148468,
+    "finite_update": true,
+    "gradient_norm": 0.514584481716156,
+    "loss": 0.4827762842178345,
+    "parameter_update_norm": 0.0019999968353658915,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.24,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 488
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 314,
+      "update_count": 314,
+      "wind_velocity": [
+        3.9831883907318115,
+        1.5932759046554565,
+        -5.7420140819886e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7875765562057495,
+    "fallback_max_smooth": 0.7841094136238098,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.28,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 489
+  },
+  {
+    "completed_library_version": 490,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 316,
+      "update_count": 316,
+      "wind_velocity": [
+        3.984727144241333,
+        1.5938912630081177,
+        -6.309460331976879e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.8187803030014038,
+    "fallback_max_smooth": 0.808600902557373,
+    "finite_update": true,
+    "gradient_norm": 0.5122627019882202,
+    "loss": 0.5872187614440918,
+    "parameter_update_norm": 0.0020000021904706955,
+    "previous_policy_index": 12,
+    "qp_accepted": true,
+    "time_seconds": 6.32,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 489
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 318,
+      "update_count": 318,
+      "wind_velocity": [
+        3.9861252307891846,
+        1.5944503545761108,
+        -5.749702154389524e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.8042623996734619,
+    "fallback_max_smooth": 0.7941180467605591,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.359999999999999,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 490
+  },
+  {
+    "completed_library_version": 491,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 320,
+      "update_count": 320,
+      "wind_velocity": [
+        3.9873952865600586,
+        1.5949583053588867,
+        -5.426904294836277e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7920068502426147,
+    "fallback_max_smooth": 0.782025158405304,
+    "finite_update": true,
+    "gradient_norm": 0.5848624110221863,
+    "loss": 0.6466172933578491,
+    "parameter_update_norm": 0.001999989151954651,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.4,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 490
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 322,
+      "update_count": 322,
+      "wind_velocity": [
+        3.988548755645752,
+        1.5954197645187378,
+        -5.435258003672061e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.782474160194397,
+    "fallback_max_smooth": 0.7725085020065308,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.4399999999999995,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 491
+  },
+  {
+    "completed_library_version": 492,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 324,
+      "update_count": 324,
+      "wind_velocity": [
+        3.9895968437194824,
+        1.595839023590088,
+        -4.836255129703204e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7754307985305786,
+    "fallback_max_smooth": 0.7657701969146729,
+    "finite_update": true,
+    "gradient_norm": 0.7274371981620789,
+    "loss": 0.6196887493133545,
+    "parameter_update_norm": 0.001999994507059455,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.48,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 491
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 326,
+      "update_count": 326,
+      "wind_velocity": [
+        3.9905495643615723,
+        1.5962198972702026,
+        -4.177616119704908e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7712348699569702,
+    "fallback_max_smooth": 0.7627658843994141,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.52,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 492
+  },
+  {
+    "completed_library_version": 493,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 328,
+      "update_count": 328,
+      "wind_velocity": [
+        3.991414785385132,
+        1.596565842628479,
+        -3.562136612345057e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7705496549606323,
+    "fallback_max_smooth": 0.7648450136184692,
+    "finite_update": true,
+    "gradient_norm": 0.5609347224235535,
+    "loss": 0.5512455105781555,
+    "parameter_update_norm": 0.0019999893847852945,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.5600000000000005,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 492
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 330,
+      "update_count": 330,
+      "wind_velocity": [
+        3.9922008514404297,
+        1.596880316734314,
+        -4.724242330667039e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7788645029067993,
+    "fallback_max_smooth": 0.7746038436889648,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.6,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 493
+  },
+  {
+    "completed_library_version": 494,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 332,
+      "update_count": 332,
+      "wind_velocity": [
+        3.992914915084839,
+        1.5971659421920776,
+        -4.551672532215889e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7977544069290161,
+    "fallback_max_smooth": 0.7940226793289185,
+    "finite_update": true,
+    "gradient_norm": 0.5664640665054321,
+    "loss": 0.5258945822715759,
+    "parameter_update_norm": 0.001999997068196535,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.640000000000001,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 493
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 334,
+      "update_count": 334,
+      "wind_velocity": [
+        3.993563413619995,
+        1.5974252223968506,
+        -4.889536739938194e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.827750563621521,
+    "fallback_max_smooth": 0.8242000341415405,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.68,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 494
+  },
+  {
+    "completed_library_version": 495,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 336,
+      "update_count": 336,
+      "wind_velocity": [
+        3.994152545928955,
+        1.5976608991622925,
+        -4.071071657563152e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.8693091869354248,
+    "fallback_max_smooth": 0.8658174872398376,
+    "finite_update": true,
+    "gradient_norm": 0.6140665411949158,
+    "loss": 0.5709803104400635,
+    "parameter_update_norm": 0.0019999907817691565,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.720000000000001,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 494
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 338,
+      "update_count": 338,
+      "wind_velocity": [
+        3.994687795639038,
+        1.5978749990463257,
+        -4.2609852357600175e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.9227864742279053,
+    "fallback_max_smooth": 0.9193129539489746,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.76,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 495
+  },
+  {
+    "completed_library_version": 496,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 340,
+      "update_count": 340,
+      "wind_velocity": [
+        3.995173692703247,
+        1.5980695486068726,
+        -4.1345859358443704e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.988418698310852,
+    "fallback_max_smooth": 0.9849507212638855,
+    "finite_update": true,
+    "gradient_norm": 0.635798454284668,
+    "loss": 0.5890602469444275,
+    "parameter_update_norm": 0.001999995904043317,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.800000000000001,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 495
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 342,
+      "update_count": 342,
+      "wind_velocity": [
+        3.9956157207489014,
+        1.5982462167739868,
+        -3.9973824073058495e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.066304087638855,
+    "fallback_max_smooth": 1.0628376007080078,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.84,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 496
+  },
+  {
+    "completed_library_version": 497,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 344,
+      "update_count": 344,
+      "wind_velocity": [
+        3.9960172176361084,
+        1.5984067916870117,
+        -4.208936843497213e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.1563982963562012,
+    "fallback_max_smooth": 1.1529322862625122,
+    "finite_update": true,
+    "gradient_norm": 0.4777216613292694,
+    "loss": 0.48941341042518616,
+    "parameter_update_norm": 0.0019999968353658915,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.88,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 496
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 346,
+      "update_count": 346,
+      "wind_velocity": [
+        3.9963815212249756,
+        1.5985525846481323,
+        -5.175329533813056e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.258514404296875,
+    "fallback_max_smooth": 1.2550485134124756,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.92,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 497
+  },
+  {
+    "completed_library_version": 498,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 348,
+      "update_count": 348,
+      "wind_velocity": [
+        3.9967126846313477,
+        1.5986851453781128,
+        -5.597086101261084e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.372330665588379,
+    "fallback_max_smooth": 1.368864893913269,
+    "finite_update": true,
+    "gradient_norm": 0.4208517372608185,
+    "loss": 0.5704340934753418,
+    "parameter_update_norm": 0.002000007778406143,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.96,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 497
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 350,
+      "update_count": 350,
+      "wind_velocity": [
+        3.9970130920410156,
+        1.598805546760559,
+        -5.70820418488438e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.4973998069763184,
+    "fallback_max_smooth": 1.4939340353012085,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.0,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 498
+  },
+  {
+    "completed_library_version": 499,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 352,
+      "update_count": 352,
+      "wind_velocity": [
+        3.997286558151245,
+        1.5989148616790771,
+        -4.942144187225495e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.6331708431243896,
+    "fallback_max_smooth": 1.6297049522399902,
+    "finite_update": true,
+    "gradient_norm": 0.44161662459373474,
+    "loss": 0.6061184406280518,
+    "parameter_update_norm": 0.002000002423301339,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.04,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 498
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 354,
+      "update_count": 354,
+      "wind_velocity": [
+        3.99753475189209,
+        1.5990142822265625,
+        -4.2403129896229075e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.779000997543335,
+    "fallback_max_smooth": 1.775535225868225,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.08,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 499
+  },
+  {
+    "completed_library_version": 500,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 356,
+      "update_count": 356,
+      "wind_velocity": [
+        3.997760057449341,
+        1.5991045236587524,
+        -3.7530367080762517e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.9341826438903809,
+    "fallback_max_smooth": 1.930716872215271,
+    "finite_update": true,
+    "gradient_norm": 0.5596743226051331,
+    "loss": 0.5565930008888245,
+    "parameter_update_norm": 0.0020000010263174772,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.12,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 499
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 358,
+      "update_count": 358,
+      "wind_velocity": [
+        3.997964859008789,
+        1.5991865396499634,
+        -3.5468502801450086e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.0979528427124023,
+    "fallback_max_smooth": 2.094487190246582,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.16,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 500
+  },
+  {
+    "completed_library_version": 501,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 360,
+      "update_count": 360,
+      "wind_velocity": [
+        3.9981513023376465,
+        1.5992610454559326,
+        -3.761367111110303e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.2695207595825195,
+    "fallback_max_smooth": 2.26605486869812,
+    "finite_update": true,
+    "gradient_norm": 0.3958324193954468,
+    "loss": 0.4709915518760681,
+    "parameter_update_norm": 0.002000008011236787,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.2,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 500
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 362,
+      "update_count": 362,
+      "wind_velocity": [
+        3.9983205795288086,
+        1.5993287563323975,
+        -4.523918448740005e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.448077440261841,
+    "fallback_max_smooth": 2.4446115493774414,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.24,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 501
+  },
+  {
+    "completed_library_version": 502,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 364,
+      "update_count": 364,
+      "wind_velocity": [
+        3.99847412109375,
+        1.5993902683258057,
+        -3.942346324947721e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.632814645767212,
+    "fallback_max_smooth": 2.6293487548828125,
+    "finite_update": true,
+    "gradient_norm": 0.3869031071662903,
+    "loss": 0.4333847165107727,
+    "parameter_update_norm": 0.0019999989308416843,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.28,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 501
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 366,
+      "update_count": 366,
+      "wind_velocity": [
+        3.9986135959625244,
+        1.5994460582733154,
+        -4.858750912717369e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.822932720184326,
+    "fallback_max_smooth": 2.8194668292999268,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.32,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 502
+  },
+  {
+    "completed_library_version": 503,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 368,
+      "update_count": 368,
+      "wind_velocity": [
+        3.9987404346466064,
+        1.599496841430664,
+        -4.639769031200558e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.0176448822021484,
+    "fallback_max_smooth": 3.014178991317749,
+    "finite_update": true,
+    "gradient_norm": 0.4178067743778229,
+    "loss": 0.47290319204330444,
+    "parameter_update_norm": 0.0020000049844384193,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.359999999999999,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 502
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 370,
+      "update_count": 370,
+      "wind_velocity": [
+        3.9988555908203125,
+        1.5995429754257202,
+        -4.869534109275264e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.216200351715088,
+    "fallback_max_smooth": 3.2127342224121094,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.4,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 503
+  },
+  {
+    "completed_library_version": 504,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 372,
+      "update_count": 372,
+      "wind_velocity": [
+        3.998960494995117,
+        1.5995848178863525,
+        -5.358129442356585e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.417868137359619,
+    "fallback_max_smooth": 3.4144020080566406,
+    "finite_update": true,
+    "gradient_norm": 0.44041329622268677,
+    "loss": 0.49104106426239014,
+    "parameter_update_norm": 0.0020000021904706955,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.4399999999999995,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 503
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 374,
+      "update_count": 374,
+      "wind_velocity": [
+        3.999056100845337,
+        1.5996228456497192,
+        -4.926235988023109e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.6219582557678223,
+    "fallback_max_smooth": 3.618492364883423,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.48,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 504
+  },
+  {
+    "completed_library_version": 505,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 376,
+      "update_count": 376,
+      "wind_velocity": [
+        3.999142646789551,
+        1.5996572971343994,
+        -4.4474575133790495e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.8278026580810547,
+    "fallback_max_smooth": 3.8243367671966553,
+    "finite_update": true,
+    "gradient_norm": 0.32024332880973816,
+    "loss": 0.395391583442688,
+    "parameter_update_norm": 0.0020000021904706955,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.52,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 504
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 378,
+      "update_count": 378,
+      "wind_velocity": [
+        3.999220848083496,
+        1.5996886491775513,
+        -5.052765459367947e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.034778118133545,
+    "fallback_max_smooth": 4.031311988830566,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.5600000000000005,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 505
+  },
+  {
+    "completed_library_version": 506,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 380,
+      "update_count": 380,
+      "wind_velocity": [
+        3.9992921352386475,
+        1.599717140197754,
+        -4.3691949258573004e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.242283344268799,
+    "fallback_max_smooth": 4.23881721496582,
+    "finite_update": true,
+    "gradient_norm": 0.2706712484359741,
+    "loss": 0.4816555678844452,
+    "parameter_update_norm": 0.0020000014919787645,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.6,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 505
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 382,
+      "update_count": 382,
+      "wind_velocity": [
+        3.999356985092163,
+        1.5997430086135864,
+        -3.8723163697795826e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.449751853942871,
+    "fallback_max_smooth": 4.446285724639893,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.640000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 506
+  },
+  {
+    "completed_library_version": 507,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 384,
+      "update_count": 384,
+      "wind_velocity": [
+        3.9994161128997803,
+        1.599766492843628,
+        -4.406048219607328e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.656642913818359,
+    "fallback_max_smooth": 4.653177261352539,
+    "finite_update": true,
+    "gradient_norm": 0.283905953168869,
+    "loss": 0.5213679075241089,
+    "parameter_update_norm": 0.002000006614252925,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.68,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 506
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 386,
+      "update_count": 386,
+      "wind_velocity": [
+        3.999469757080078,
+        1.599787950515747,
+        -4.652095526580524e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.862444877624512,
+    "fallback_max_smooth": 4.858978748321533,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.720000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 507
+  },
+  {
+    "completed_library_version": 508,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 388,
+      "update_count": 388,
+      "wind_velocity": [
+        3.999518632888794,
+        1.5998073816299438,
+        -4.195325118416804e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.066662311553955,
+    "fallback_max_smooth": 5.063196182250977,
+    "finite_update": true,
+    "gradient_norm": 0.3899133503437042,
+    "loss": 0.4734140932559967,
+    "parameter_update_norm": 0.0019999919459223747,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.76,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 507
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 390,
+      "update_count": 390,
+      "wind_velocity": [
+        3.9995627403259277,
+        1.5998250246047974,
+        -4.11067134109544e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.268826484680176,
+    "fallback_max_smooth": 5.2653608322143555,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.800000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 508
+  },
+  {
+    "completed_library_version": 509,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 392,
+      "update_count": 392,
+      "wind_velocity": [
+        3.9996025562286377,
+        1.5998411178588867,
+        -4.306916423502116e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.4684882164001465,
+    "fallback_max_smooth": 5.465022563934326,
+    "finite_update": true,
+    "gradient_norm": 0.2768462002277374,
+    "loss": 0.38869452476501465,
+    "parameter_update_norm": 0.002000009873881936,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.84,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 508
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 394,
+      "update_count": 394,
+      "wind_velocity": [
+        3.9996390342712402,
+        1.599855661392212,
+        -3.8262709267655737e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.665219306945801,
+    "fallback_max_smooth": 5.661753177642822,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.88,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 509
+  },
+  {
+    "completed_library_version": 510,
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 396,
+      "update_count": 396,
+      "wind_velocity": [
+        3.9996721744537354,
+        1.599868893623352,
+        -4.065415168952313e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.858607292175293,
+    "fallback_max_smooth": 5.855141639709473,
+    "finite_update": true,
+    "gradient_norm": 0.2707471251487732,
+    "loss": 0.34789299964904785,
+    "parameter_update_norm": 0.001999995671212673,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.92,
+    "update_completed": true,
+    "update_opportunity": true,
+    "used_library_version": 509
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 398,
+      "update_count": 398,
+      "wind_velocity": [
+        3.999701976776123,
+        1.5998809337615967,
+        -4.729986926577112e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 6.048251628875732,
+    "fallback_max_smooth": 6.044785499572754,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.96,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 510
+  }
+]

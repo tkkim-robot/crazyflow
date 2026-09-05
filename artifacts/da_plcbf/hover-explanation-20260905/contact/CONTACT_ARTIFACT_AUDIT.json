@@ -1,0 +1,39 @@
+{
+  "scope": "Saved-array and hash audit; no simulation or controller rerun.",
+  "audit_source_sha256": "eb2a4aabd0bfe264a15782478506f65d12f798ef4e08b5fbe2a92ff898302de1",
+  "results": [
+    {
+      "artifact": "legacy-estimated-physical-contact-v2",
+      "trigger_seconds": 4.885738916751816,
+      "trigger_kind": "swept_collider_contact",
+      "first_obstacle_contact_seconds": 4.886738916751816,
+      "first_ground_contact_seconds": 5.574738916751816,
+      "minimum_contact_distance_m": -0.008269029669161862,
+      "maximum_contact_force_norm_N": 76.3930293689537,
+      "all_bound_hashes_verified": true,
+      "warning_counts": {}
+    },
+    {
+      "artifact": "static-impact-drop-fixture",
+      "trigger_seconds": 0,
+      "trigger_kind": "synthetic_impact_fixture_motor_cut",
+      "first_obstacle_contact_seconds": 0.176,
+      "first_ground_contact_seconds": 0.512,
+      "minimum_contact_distance_m": -0.008275047476250949,
+      "maximum_contact_force_norm_N": 64.72612502262196,
+      "all_bound_hashes_verified": true,
+      "warning_counts": {}
+    },
+    {
+      "artifact": "seed209-adaptive-safety-abort-drop",
+      "trigger_seconds": 13.84,
+      "trigger_kind": "safety_abort_degraded_control",
+      "first_obstacle_contact_seconds": null,
+      "first_ground_contact_seconds": 14.596,
+      "minimum_contact_distance_m": -0.009769774563444938,
+      "maximum_contact_force_norm_N": 89.65055556921332,
+      "all_bound_hashes_verified": true,
+      "warning_counts": {}
+    }
+  ]
+}

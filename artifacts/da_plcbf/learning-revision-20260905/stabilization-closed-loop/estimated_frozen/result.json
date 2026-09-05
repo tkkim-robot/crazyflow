@@ -1,0 +1,19 @@
+{
+  "censor_time_seconds": 8.0,
+  "controls": 100,
+  "degraded_controls": 24,
+  "finite_updates": 0,
+  "first_collision_integration_interval": null,
+  "goal_distance_at_censor_or_end_m": 0.40165507793426514,
+  "initial_state_exactly_shared": true,
+  "maximum_angular_rate_rps": 0.8369150757789612,
+  "maximum_speed_mps": 2.199497699737549,
+  "maximum_tilt_rad": 0.3835822343826294,
+  "method": "frozen",
+  "minimum_arena_margin_m": 1.2037831544876099,
+  "minimum_physical_clearance_m": 0.10143615305423737,
+  "minimum_shell_clearance_m": -0.04856384694576263,
+  "model_information": "estimated",
+  "negative_fallback_hard_controls": 24,
+  "physical_collision": false
+}

@@ -350,10 +350,16 @@ def _payload_trace() -> ComparisonVideoTrace:
 
 
 @pytest.mark.unit
-def test_prescribed_payload_box_uses_recorded_event_com_size_and_orientation() -> None:
+def test_prescribed_payload_box_uses_recorded_event_com_size_and_orientation(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     trace = _payload_trace()
     trace.validate()
     boxes = []
+    edges = []
+    monkeypatch.setattr(
+        renderer, "_add_polyline", lambda sim, points, color, **style: edges.append(points)
+    )
     sim = SimpleNamespace(
         viewer=SimpleNamespace(
             viewer=SimpleNamespace(add_marker=lambda **marker: boxes.append(marker))
@@ -363,7 +369,8 @@ def test_prescribed_payload_box_uses_recorded_event_com_size_and_orientation() -
     method = replace(trace.fixed, quaternion_xyzw=quaternion)
     renderer._draw_payload_marker(sim, trace, method, 0)
     assert not boxes
-    assert "scheduled at t=0.1 s" in renderer._payload_caption(trace, 0)
+    assert "attaches at t = 0.1 s" in renderer._payload_caption(trace, 0)
+    assert "mass 34.00 g" in renderer._payload_caption(trace, 0)
     renderer._draw_payload_marker(sim, trace, method, 1)
     assert len(boxes) == 1
     np.testing.assert_array_equal(boxes[0]["pos"], method.position[1])
@@ -373,13 +380,64 @@ def test_prescribed_payload_box_uses_recorded_event_com_size_and_orientation() -
         np.asarray(((0, -1, 0), (1, 0, 0), (0, 0, 1))),
         atol=1e-12,
     )
-    assert renderer._payload_caption(trace, 1) == "+25% mass · prescribed attachment"
+    assert "mass 34.00 → 42.50 g (+25%)" in renderer._payload_caption(trace, 1)
+    assert "center of mass unchanged" in renderer._payload_caption(trace, 1)
+    assert len(edges) == 12
+    np.testing.assert_allclose(
+        np.linalg.norm(np.asarray(edges)[:, 1] - np.asarray(edges)[:, 0], axis=1), 0.05
+    )
+    np.testing.assert_allclose(
+        np.mean(np.asarray(edges).reshape(-1, 3), axis=0), method.position[1], atol=1e-14
+    )
     renderer._draw_payload_marker(sim, trace, method, 2)
     np.testing.assert_array_equal(boxes[1]["pos"], method.position[2])
     with pytest.raises(ValueError, match="collision enclosure"):
         replace(trace, payload_half_extents=np.full(3, 0.03)).validate()
     with pytest.raises(ValueError, match="requires attachment time"):
         replace(trace, payload_base_mass_kg=None).validate()
+
+
+@pytest.mark.unit
+def test_payload_detail_is_a_metric_projection_of_the_recorded_box() -> None:
+    trace = _payload_trace()
+    figure = Figure(figsize=(16, 9))
+    renderer._draw_payload_detail(figure, (0.1, 0.1, 0.2, 0.2), trace, trace.fixed, 1, label_size=7)
+    axis = figure.axes[0]
+    assert axis.get_xlim() == (-6.5, 6.5)
+    assert axis.get_ylim() == (-6.5, 6.5)
+    assert "5 × 5 × 5 cm" in axis.get_title()
+    assert len(axis.lines) == 12
+    assert axis.patches[0].radius == 5.0
+    # Projection cannot enlarge any true 5 cm box edge.
+    for line in axis.lines:
+        assert np.linalg.norm((np.diff(line.get_xdata()), np.diff(line.get_ydata()))) <= 5 + 1e-10
+
+
+@pytest.mark.unit
+def test_navigation_goals_and_multiple_wind_changes_replay_saved_events() -> None:
+    trace = _trace_for_positions(np.tile((0.0, 0.0, 0.8), (4, 1)))
+    goals = np.asarray(((1.0, 0.0, 1.6), (1.0, 0.0, 1.6), (-1.0, 0.0, 0.8), (-1.0, 0.0, 0.8)))
+    fixed = replace(trace.fixed, goal_position=goals, waypoint_index=np.asarray((0, 0, 1, 1)))
+    adaptive = replace(
+        trace.adaptive, goal_position=goals[[0, 0, 0, 3]], waypoint_index=np.asarray((0, 0, 0, 1))
+    )
+    trace = replace(
+        trace,
+        fixed=fixed,
+        adaptive=adaptive,
+        wind_change_time=0.1,
+        wind_event_times_seconds=np.asarray((0.1, 0.3)),
+        true_wind=np.asarray(((0.0, 0, 0), (1.0, 0, 0), (1.0, 0, 0), (0.0, 1, 0))),
+    )
+    trace.validate()
+    np.testing.assert_array_equal(renderer._active_goal(trace, fixed, 2), goals[2])
+    np.testing.assert_array_equal(renderer._active_goal(trace, adaptive, 2), goals[0])
+    assert renderer._method_camera_lookat(trace, fixed, 2)[0] < 0
+    assert renderer._method_camera_lookat(trace, adaptive, 2)[0] > 0
+    with pytest.raises(ValueError, match="declared event boundaries"):
+        replace(trace, wind_event_times_seconds=np.asarray((0.1,))).validate()
+    with pytest.raises(ValueError, match="monotone"):
+        replace(trace, fixed=replace(fixed, waypoint_index=np.asarray((0, 1, 0, 1)))).validate()
 
 
 @pytest.mark.unit
@@ -399,7 +457,7 @@ def test_payload_replay_metadata_round_trip_preserves_numerical_trajectories(
         restored.adaptive.fallback_rollouts, trace.adaptive.fallback_rollouts
     )
     assert renderer._payload_caption(restored, 0) == renderer._payload_caption(trace, 0)
-    assert renderer._payload_caption(restored, 1) == "+25% mass · prescribed attachment"
+    assert renderer._payload_caption(restored, 1) == renderer._payload_caption(trace, 1)
 
 
 @pytest.mark.unit
@@ -454,3 +512,358 @@ def test_demo_goal_is_a_thin_horizontal_ring_with_an_open_physical_center(
     renderer._draw_goal_marker(sim, goal, ComparisonRenderConfig(mode="diagnostic"))
     assert len(markers) == 1
     np.testing.assert_array_equal(markers[0]["pos"], goal)
+
+
+@pytest.mark.unit
+def test_terminal_endpoint_and_dense_collision_flags_take_precedence_over_playback_padding() -> (
+    None
+):
+    trace = _trace_for_positions(np.asarray(((-1.0, 0, 0.8), (1.0, 0, 0.8), (1.0, 0, 0.8))))
+    method = replace(
+        trace.fixed,
+        recorded_control_valid=np.asarray((True, False, False)),
+        physical_collision_recorded=np.asarray((False, True, True)),
+    )
+    trace = replace(trace, fixed=method)
+    trace.validate()
+    assert renderer._first_recorded_collision_index(trace, method) == 1
+    assert renderer._has_recorded_collision(trace, method, 2)
+    assert renderer._demo_execution_status(method, 1)[0] == "TERMINATED · NO FURTHER CONTROL"
+    assert renderer._demo_coverage(method, 1) == "last recorded skill predictions"
+    # A moving obstacle that reaches a padded stationary pose after timeout creates no new
+    # physical event. The dense recorded collision flag remains authoritative.
+    timed_out = replace(method, physical_collision_recorded=np.zeros(3, dtype=bool))
+    trace = replace(
+        trace,
+        fixed=timed_out,
+        obstacles=(
+            ObstacleTrack(np.asarray(((0, 2.0, 0.8), (1.0, 2.0, 0.8), (1.0, 0, 0.8))), 0.1, 0.2),
+        ),
+    )
+    assert renderer._first_recorded_collision_index(trace, timed_out) is None
+    assert renderer._first_recorded_terminal_index(trace, timed_out, include_collision=False) == 1
+    assert not renderer._has_recorded_collision(trace, timed_out, 2)
+    assert not renderer._has_recorded_margin_violation(trace, timed_out, 2)
+    with pytest.raises(ValueError, match="resume after termination"):
+        replace(
+            trace, fixed=replace(method, recorded_control_valid=np.asarray((True, False, True)))
+        ).validate()
+
+
+@pytest.mark.unit
+def test_named_held_telemetry_round_trip_and_legacy_absence(tmp_path: Path) -> None:
+    trace = _payload_trace()
+    steps = len(trace.time_seconds)
+    residuals = np.ones((steps, 2, 9), dtype=np.float32)
+    residuals[:, 1, 3] = -0.047247
+    fields = {
+        "qp_held_operational_residuals": residuals,
+        "fallback_held_operational_residuals": residuals * 2,
+        "applied_held_operational_residuals": np.abs(residuals),
+        "applied_held_physical_margins": np.ones((steps, 3, 9), dtype=np.float32),
+        "predictive_operational_iterations": np.ones(steps, dtype=np.int32),
+        "initial_qp_held_operational_residual": np.full(steps, -0.047247, dtype=np.float32),
+    }
+    trace = replace(trace, fixed=replace(trace.fixed, **fields))
+    trace.validate()
+    paths = save_online_constant_wind_result(
+        OnlineConstantWindResult(trace, {"experiment": "competent_checkpoint"}), tmp_path
+    )
+    restored = load_online_constant_wind_result(*paths).trace
+    for name, expected in fields.items():
+        np.testing.assert_array_equal(getattr(restored.fixed, name), expected)
+        assert getattr(restored.adaptive, name) is None
+    with pytest.raises(ValueError, match="N\\+1"):
+        replace(
+            trace, fixed=replace(trace.fixed, applied_held_physical_margins=np.ones((steps, 2, 9)))
+        ).validate()
+    with pytest.raises(ValueError, match="share N"):
+        replace(
+            trace,
+            fixed=replace(trace.fixed, fallback_held_operational_residuals=np.ones((steps, 3, 9))),
+        ).validate()
+
+
+@pytest.mark.unit
+def test_rejected_nonfinite_held_diagnostics_round_trip_with_explicit_validity(
+    tmp_path: Path,
+) -> None:
+    trace = _payload_trace()
+    steps = len(trace.time_seconds)
+    residuals = np.ones((steps, 2, 9), dtype=np.float32)
+    residuals[1, 0, 3], residuals[1, 1, 8] = np.nan, -np.inf
+    method = replace(
+        trace.fixed,
+        qp_valid=np.asarray((True, False, True)),
+        qp_held_operational_residuals=residuals,
+        fallback_held_operational_residuals=residuals.copy(),
+        initial_qp_held_operational_residual=np.asarray((1.0, np.nan, 1.0)),
+        applied_held_operational_residuals=np.ones_like(residuals),
+        applied_held_physical_margins=np.ones((steps, 3, 9)),
+    )
+    trace = replace(trace, fixed=method)
+    trace.validate()
+    paths = save_online_constant_wind_result(
+        OnlineConstantWindResult(trace, {"experiment": "navigation"}), tmp_path
+    )
+    restored = load_online_constant_wind_result(*paths).trace
+    np.testing.assert_array_equal(restored.fixed.qp_held_operational_residuals, residuals)
+    np.testing.assert_array_equal(restored.fixed.fallback_held_operational_residuals, residuals)
+    import json
+
+    metadata = json.loads(paths[1].read_text())["held_diagnostic_validity"]["fixed"]
+    qp = metadata["qp_held_operational_residuals"]
+    assert qp["finite_rows"] == [True, False, True]
+    assert qp["required_finite_rows"] == [True, False, True]
+    assert qp["nonfinite_element_count"] == 2
+    assert qp["nonfinite_required_row_count"] == 0
+    assert (
+        metadata["fallback_held_operational_residuals"]["required_finite_rows"] == [False] * steps
+    )
+    assert metadata["applied_held_operational_residuals"]["nonfinite_element_count"] == 0
+    # A missing rejection/execution mask never grants permission to omit finite diagnostics.
+    for changes in (
+        {"qp_valid": np.ones(steps, dtype=bool)},
+        {"qp_valid": None},
+        {"used_fallback": np.asarray((False, True, False))},
+        {"used_fallback": None},
+    ):
+        with pytest.raises(ValueError, match="finite on accepted/executed"):
+            replace(trace, fixed=replace(method, **changes)).validate()
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "field", ("applied_held_operational_residuals", "applied_held_physical_margins")
+)
+def test_applied_held_diagnostics_must_be_finite_for_every_actual_control(field: str) -> None:
+    trace = _payload_trace()
+    values = np.ones((3, 3 if field.endswith("physical_margins") else 2, 9))
+    values[1, 0, 0] = np.nan
+    method = replace(trace.fixed, qp_valid=np.asarray((True, False, True)), **{field: values})
+    # Rejected QP diagnostics may be nonfinite; the actually executed command still may not.
+    with pytest.raises(ValueError, match="finite on accepted/executed"):
+        replace(trace, fixed=method).validate()
+    padded = replace(method, recorded_control_valid=np.asarray((True, False, False)))
+    replace(trace, fixed=padded).validate()
+    counts = renderer.held_diagnostic_validity(padded)[field]
+    assert counts["required_finite_rows"] == [True, False, False]
+    assert counts["nonfinite_element_count"] == 1
+    assert counts["nonfinite_required_row_count"] == 0
+
+
+@pytest.mark.unit
+def test_shadow_volume_covers_recorded_obstacles_without_disabling_lighting() -> None:
+    trace = _trace_for_positions(np.asarray(((3.0, -2.0, 1.0), (-3.0, 2.0, 1.0))))
+    trace = replace(
+        trace,
+        obstacles=(ObstacleTrack(np.asarray(((4.0, 3.0, 2.0), (-4.0, -3.0, 2.0))), 0.4, 0.6),),
+    )
+    model = SimpleNamespace(
+        stat=SimpleNamespace(center=np.asarray((0.0, 0.0, 2.0)), extent=2.5),
+        vis=SimpleNamespace(
+            map=SimpleNamespace(shadowclip=1.0), quality=SimpleNamespace(shadowsize=1024)
+        ),
+        light_castshadow=np.asarray((True,)),
+    )
+    renderer._configure_scene_shadows(
+        SimpleNamespace(mj_model=model), trace, ComparisonRenderConfig()
+    )
+    assert model.vis.map.shadowclip * model.stat.extent >= 5.0 + 0.6 + 3.8
+    assert model.vis.quality.shadowsize == 4096
+    assert model.light_castshadow[0]
+    assert model.stat.extent == 2.5
+
+
+@pytest.mark.unit
+def test_marker_adapter_preserves_physical_shadows_and_marks_visual_guides_as_decor() -> None:
+    scene = SimpleNamespace(ngeom=0, geoms=[SimpleNamespace(category=0) for _ in range(2)])
+
+    def add_dropping_category(marker: dict[str, object]) -> None:
+        scene.ngeom += 1
+
+    viewer = SimpleNamespace(scn=scene, _add_marker_to_scene=add_dropping_category)
+    renderer._install_marker_shadow_categories(
+        SimpleNamespace(viewer=SimpleNamespace(viewer=viewer))
+    )
+    viewer._add_marker_to_scene({})
+    viewer._add_marker_to_scene({"category": int(renderer.mujoco.mjtCatBit.mjCAT_DYNAMIC)})
+    assert scene.geoms[0].category == renderer.mujoco.mjtCatBit.mjCAT_DECOR
+    assert scene.geoms[1].category == renderer.mujoco.mjtCatBit.mjCAT_DYNAMIC
+
+
+@pytest.mark.unit
+def test_explicit_hover_phases_and_wind_removal_do_not_get_hidden_by_payload() -> None:
+    trace = replace(
+        _payload_trace(),
+        task_phase=np.asarray(("hover", "hover", "navigation")),
+        phase_caption=np.asarray(("Hold position", "Wind applied", "Wind removed; begin route")),
+        wind_event_times_seconds=np.asarray((0.1, 0.2)),
+        true_wind=np.asarray(((0.0, 0, 0), (2.0, 0, 0), (0.0, 0, 0))),
+    )
+    trace.validate()
+    assert renderer._task_label(trace, trace.fixed, 0) == "HOVER · hold the green target"
+    assert renderer._wind_caption(trace, 1).startswith("WIND ON")
+    assert renderer._wind_caption(trace, 2) == "WIND OFF · still air"
+    assert "center of mass unchanged" in renderer._payload_caption(trace, 2)
+    with pytest.raises(ValueError, match="recorded together"):
+        replace(trace, phase_caption=None).validate()
+    with pytest.raises(ValueError, match="hover, navigation, or contact"):
+        replace(trace, task_phase=np.asarray(("hover", "flying", "navigation"))).validate()
+    with pytest.raises(ValueError, match="nonempty strings"):
+        replace(trace, phase_caption=np.asarray(("", "wind", "route"))).validate()
+
+
+@pytest.mark.unit
+def test_contact_replay_is_inactive_per_method_and_omits_stale_policy_fans(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    trace = _trace_for_positions(np.tile((0.0, 0.0, 0.8), (3, 1)))
+    method = replace(
+        trace.fixed,
+        contact_replay=np.asarray((False, True, True)),
+        recorded_control_valid=np.asarray((True, False, False)),
+    )
+    trace = replace(trace, fixed=method)
+    trace.validate()
+    assert renderer._demo_execution_status(method, 1)[0] == "CONTACT REPLAY · MOTORS OFF"
+    assert renderer._task_label(trace, method, 1) == "CONTACT · motors off"
+    assert renderer._demo_execution_status(trace.adaptive, 1)[0] == "QP CONTROL"
+    lines, markers = [], []
+    monkeypatch.setattr(renderer, "_add_polyline", lambda sim, path, *a, **kw: lines.append(path))
+    sim = SimpleNamespace(
+        viewer=SimpleNamespace(viewer=SimpleNamespace(add_marker=lambda **m: markers.append(m)))
+    )
+    renderer._draw_scene_markers(sim, trace, method, 1, ComparisonRenderConfig(mode="demo"))
+    assert len(lines) == 2  # target ring and actual body history; no predicted trajectories
+    assert not markers
+    with pytest.raises(ValueError, match="controls inactive"):
+        replace(
+            trace, fixed=replace(method, recorded_control_valid=np.ones(3, dtype=bool))
+        ).validate()
+    assert ComparisonRenderConfig().freeze_after_termination
+    ComparisonRenderConfig(freeze_after_termination=False).validate()
+
+
+@pytest.mark.unit
+def test_normal_demo_has_no_automatic_payload_or_reference_insets(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    trace = _payload_trace()
+    monkeypatch.setattr(
+        renderer, "_draw_payload_detail", lambda *a, **kw: pytest.fail("unexplained payload inset")
+    )
+    image = np.zeros((500, 480, 3), dtype=np.uint8)
+    frame = renderer._compose_demo_frame(
+        trace, ComparisonRenderConfig(mode="demo", width=960, height=540), 1, image, image
+    )
+    assert frame.shape == (540, 960, 3)
+
+
+@pytest.mark.unit
+def test_default_pair_only_round_trip_keeps_phases_and_per_method_contact(tmp_path: Path) -> None:
+    trace = _payload_trace()
+    trace = replace(
+        trace,
+        task_phase=np.asarray(("hover", "hover", "navigation")),
+        phase_caption=np.asarray(("Hold target", "Wind applied", "Start route")),
+        fixed=replace(
+            trace.fixed,
+            contact_replay=np.asarray((False, True, True)),
+            recorded_control_valid=np.asarray((True, False, False)),
+        ),
+    )
+    trace.validate()
+    paths = save_online_constant_wind_result(
+        OnlineConstantWindResult(trace, {"experiment": "navigation"}), tmp_path
+    )
+    restored = load_online_constant_wind_result(*paths).trace
+    np.testing.assert_array_equal(restored.task_phase, trace.task_phase)
+    np.testing.assert_array_equal(restored.phase_caption, trace.phase_caption)
+    np.testing.assert_array_equal(restored.fixed.contact_replay, trace.fixed.contact_replay)
+    assert restored.adaptive.contact_replay is None
+
+
+@pytest.mark.unit
+def test_camera_scale_is_equal_and_widens_smoothly_at_recorded_navigation_release() -> None:
+    trace = replace(
+        _trace_for_positions(np.tile((0.0, 0.0, 0.8), (5, 1))),
+        time_seconds=np.asarray((0.0, 2.0, 3.0, 4.0, 5.0)),
+        wind_change_time=5.0,
+        task_phase=np.asarray(("hover", "hover", "navigation", "navigation", "navigation")),
+        phase_caption=np.asarray(("Hold", "Hold", "Start route", "Route", "Route")),
+    )
+    trace.validate()
+    config = ComparisonRenderConfig(
+        hover_camera_distance=2.8, camera_distance=3.8, camera_transition_seconds=2.0
+    )
+    np.testing.assert_allclose(
+        [renderer._camera_distance_at(trace, config, index) for index in range(5)],
+        (2.8, 2.8, 2.8, 3.3, 3.8),
+    )
+    assert (
+        renderer._camera_distance_at(trace, ComparisonRenderConfig(camera_distance=3.8), 0) == 3.8
+    )
+    displaced = replace(trace.fixed, position=trace.fixed.position + np.asarray((1e-5, -1e-5, 0)))
+    np.testing.assert_array_equal(
+        renderer._method_camera_lookat(trace, displaced, 1, config), trace.goal_position
+    )
+    np.testing.assert_array_equal(
+        renderer._method_camera_lookat(trace, displaced, 2, config), trace.goal_position
+    )
+
+
+@pytest.mark.unit
+def test_hover_direction_bins_measure_geometry_separately_from_collision_safety() -> None:
+    trace = _payload_trace()
+    paths = trace.fixed.fallback_rollouts.copy()
+    paths[:, 0] = trace.fixed.position[:, None] + np.asarray(((0, 0, 0), (0.1, 0, 0), (0.2, 0, 0)))
+    paths[:, 1] = trace.fixed.position[:, None] + np.asarray(
+        ((0, 0, 0), (-0.1, 0, 0), (-0.2, 0, 0))
+    )
+    method = replace(
+        trace.fixed,
+        fallback_rollouts=paths,
+        fallback_safe=np.tile((True, False), (3, 1)),
+        quaternion_xyzw=np.tile((np.sin(0.1), 0, 0, np.cos(0.1)), (3, 1)),
+    )
+    trace = replace(trace, descriptor_targets=np.asarray(((1.0, 0, 0), (-1.0, 0, 0))))
+    assert renderer._predicted_direction_count(trace, method, 0) == (2, 2)
+    assert renderer._body_tilt_degrees(method, 0) == pytest.approx(np.rad2deg(0.2))
+    paths[:, 1, -1] = trace.fixed.position + np.asarray((-0.09, 0, 0))
+    assert renderer._predicted_direction_count(trace, method, 0) == (1, 2)
+
+
+@pytest.mark.unit
+@pytest.mark.render
+def test_explicit_contact_continuation_replays_later_poses_in_only_its_pane(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    trace = _trace_for_positions(np.asarray(((0.0, 0, 0.8), (0.0, 0, 0.4), (0.0, 0, 0.1))))
+    trace = replace(
+        trace,
+        fixed=replace(
+            trace.fixed,
+            recorded_control_valid=np.asarray((True, False, False)),
+            contact_replay=np.asarray((False, True, True)),
+        ),
+    )
+    seen = []
+    set_poses = renderer._set_two_world_poses
+
+    def record_poses(*args: object, **kwargs: object) -> None:
+        seen.append(kwargs["display_indices"])
+        return set_poses(*args, **kwargs)
+
+    monkeypatch.setattr(renderer, "_set_two_world_poses", record_poses)
+    frames = list(
+        comparison_video_frames(
+            trace,
+            ComparisonRenderConfig(
+                mode="demo", fps=10, width=960, height=540, freeze_after_termination=False
+            ),
+        )
+    )
+    assert len(frames) == 3
+    assert seen == [(0, 0), (1, 1), (2, 2)]
+    assert not np.array_equal(frames[1], frames[2])

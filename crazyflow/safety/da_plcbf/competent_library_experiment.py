@@ -93,6 +93,7 @@ class CompetentExperimentConfig:
     disturbance: str = "wind"
     model_mode: str = "oracle"
     adaptive_model_compensation: bool = True
+    checkpoint_model_compensation: bool = True
     schedule: str = "budgeted"
     probe_every_controls: int = 10
     nominal_acceleration_limit: float = 1.2
@@ -155,8 +156,10 @@ class CompetentExperimentConfig:
             )
         if len(self.wind_after) != 3 or not np.all(np.isfinite(self.wind_after)):
             raise ValueError("wind must contain three finite components")
-        if not isinstance(self.adaptive_model_compensation, bool):
-            raise TypeError("adaptive_model_compensation must be boolean")
+        if not isinstance(self.adaptive_model_compensation, bool) or not isinstance(
+            self.checkpoint_model_compensation, bool
+        ):
+            raise TypeError("compensation settings must be boolean")
         if not math.isfinite(self.payload_mass_fraction) or self.payload_mass_fraction < 0:
             raise ValueError("payload_mass_fraction must be nonnegative finite")
         if (
@@ -191,6 +194,7 @@ _PREFIX_CONFIG_FIELDS = (
     "maximum_skill_speed",
     "maximum_skill_duration",
     "terminal_braking_weight",
+    "checkpoint_model_compensation",
 )
 
 
@@ -340,6 +344,8 @@ def prepare_competent_checkpoint(
     learner_config = PersistentSkillConfig(
         dt=config.dt,
         horizon=config.horizon,
+        control_interval_steps=config.control_interval_steps,
+        model_compensation=config.checkpoint_model_compensation,
         learning_rate=config.learning_rate,
         acceleration_limit=config.fallback_acceleration_limit,
         target_weight=10.0,
@@ -621,14 +627,16 @@ def run_competent_experiment(
     comp_learner = build_persistent_skill_learner(
         bundle.spec, bundle.actuator, comp_config, device=device
     )
-    adaptive_config = comp_config if config.adaptive_model_compensation else bundle.config
-    learner = comp_learner if config.adaptive_model_compensation else fixed_learner
+    adaptive_config = replace(bundle.config, model_compensation=config.adaptive_model_compensation)
+    learner = build_persistent_skill_learner(
+        bundle.spec, bundle.actuator, adaptive_config, device=device
+    )
     controllers = {
         "fixed": _controller(scenario, resources, bundle.spec, bundle.config, config, device),
         "compensated": _controller(scenario, resources, bundle.spec, comp_config, config, device),
     }
-    controllers["adaptive"] = (
-        controllers["compensated"] if config.adaptive_model_compensation else controllers["fixed"]
+    controllers["adaptive"] = _controller(
+        scenario, resources, bundle.spec, adaptive_config, config, device
     )
     estimator_config = PointWindEstimatorConfig(response_rate=2.4)
     plant = jax.jit(
@@ -705,7 +713,7 @@ def run_competent_experiment(
         # Estimator-produced arrays can have different JAX placement signatures from a
         # checkpoint or prescribed oracle model. Warm the exact live dataflow, including
         # the next optimizer snapshot, before starting any measured deadline clock.
-        for controller in (controllers["fixed"], controllers["compensated"]):
+        for controller in controllers.values():
             warm_state, warm_previous = bundle.physical_state, previous_initial
             warm_estimator = initialize_point_wind_estimator()
             warm_learning = bundle.state

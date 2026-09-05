@@ -1,0 +1,73 @@
+{
+  "scope": "Render a recorded approach and a separately simulated motors-off contact continuation.\n\nThe renderer never steps a controller, learner, or contact simulation. Every displayed vehicle\npose is selected from a saved source array; the exact handoff pose comes from contact_replay.npz.\nThe cf21B mesh is a visual asset, while contact_model.xml owns the archived collision geometry.\n",
+  "input_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2/contact_replay.json": "1f80eb58580abc50c1bfd82faa1db0958d2a83e1724347796a2dfc452ffed8cb",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2/contact_replay.npz": "9b7bd95bb20a3736d75f742a32d7a1b559e06aefcfc9a8f70eaf3338c22c971a",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2/contact_model.xml": "02fa6c20f3c8fee2ab36d7c187f49bcaa4581b8f9059dc4711bedc8e5cdacb2e",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/legacy-estimated-replay/replay.json": "e42f4847b703cd251b471630cfb1fd2ad3229e8608c4bdf355636dc698e1cc81",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/legacy-estimated-replay/replay.npz": "8ffa2752f2647b89d9a0aa7fae85d642cdbcb6c194b7f0c02e9f288e5b445f10",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/feasibility_reference.json": "34307b1ed44cd2506b71d3592e639aca0fbb86b0db71b568ef80cb0ec6476920"
+  },
+  "render_config": {
+    "input_dir": "artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2",
+    "output_dir": "artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2/render-v2",
+    "prelude_seconds": 1.5,
+    "fps": 20,
+    "playback_rate": 0.5,
+    "width": 1600,
+    "height": 900,
+    "camera_distance": 3.4,
+    "camera_azimuth": -45.0,
+    "camera_elevation": -22
+  },
+  "command": "/home/tk/Desktop/mycode/crazyflow/.pixi/envs/gpu-tests/bin/python /home/tk/Desktop/mycode/crazyflow/examples/da_plcbf/contact_replay_demo.py --input-dir artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2 --output-dir artifacts/da_plcbf/hover-explanation-20260905/contact/legacy-estimated-physical-contact-v2/render-v2 --camera-azimuth -45",
+  "renderer_sha256": "688db780dc50c80491c049235643414fffb3ecc31a0a46089f66469a2054fb18",
+  "common_renderer_sha256": "becffc579c2adc90f407c7498ecd89d0490795dbfcbe3179284c3d46009d07e3",
+  "video_sha256": "f2003e92882ca8f5d596c229d9549400c54f2d93613d94102ef488e2bcd89ffd",
+  "source_samples_sha256": "e404c45d40df5e9cf6b9ff05aa2db9d7bd50d381e7b6527239bb7c2171d28e5a",
+  "frame_count": 151,
+  "duration_seconds": 7.55,
+  "actual_prelude_seconds": 0.745738916751816,
+  "maximum_source_time_quantization_seconds": 0.009261083248184754,
+  "contact_trigger": {
+    "time_seconds": 4.885738916751816,
+    "kind": "swept_collider_contact",
+    "source_interval": 38,
+    "obstacle_index": 0,
+    "source_swept_event_time_seconds": 4.885738916751816,
+    "handoff_backoff_seconds": 0.0,
+    "shell_ego_radius_m": 0.05,
+    "shell_clearance_m": 0.15
+  },
+  "first_obstacle_contact_seconds": 4.886738916751816,
+  "first_ground_contact_seconds": 5.574738916751816,
+  "representative_frames": [
+    {
+      "path": "frame_0000_4.140s.png",
+      "sha256": "4d27bf78167033f8c7f74d7bd53f676da455d4a1122a1205ea2c7d93ab99b61a",
+      "frame_index": 0,
+      "source_time_seconds": 4.14
+    },
+    {
+      "path": "frame_0030_4.886s.png",
+      "sha256": "713cb0741297956fe5c4e28263d95933768697827455308216dbae4e2512171f",
+      "frame_index": 30,
+      "source_time_seconds": 4.885738916751816
+    },
+    {
+      "path": "frame_0062_5.686s.png",
+      "sha256": "051f23dd3f633a715cb26e394913d63569bc77535288386f64582038febfcd15",
+      "frame_index": 62,
+      "source_time_seconds": 5.6857389167518155
+    },
+    {
+      "path": "frame_0150_7.886s.png",
+      "sha256": "1c66071df3e619f5371aa9bfa1a6864a25f52c7714d13d8baf549d58467fd678",
+      "frame_index": 150,
+      "source_time_seconds": 7.885738916751816
+    }
+  ],
+  "visual_model": "cf21B_500 mesh, unchanged physical scale, actual saved xyzw attitude",
+  "physics_model": "Archived contact_model.xml; mesh playback does not rerun physics or change inertia/colliders",
+  "source_selection": "Nearest saved samples within each source; frame grid anchored at handoff; no interpolation across handoff or trajectory extrapolation"
+}

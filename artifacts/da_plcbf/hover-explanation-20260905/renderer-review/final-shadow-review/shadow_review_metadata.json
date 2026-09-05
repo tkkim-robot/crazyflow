@@ -1,0 +1,37 @@
+{
+  "source": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/heldout-shard-a/combined-seed100",
+  "source_npz_sha256": "7a4a1e8a7add8936a99cca45dd6cb41e95edcbcc6aae1948fad2073c6f4b6a43",
+  "source_json_sha256": "f00f7d5b68de08791567a9398f790ac2a0610c22f87261116f0cb07f17ca1ad0",
+  "time_seconds": [
+    6.6000000000000005,
+    16.4,
+    27.0
+  ],
+  "scope": "Same recorded poses, obstacle centers, predictions, camera, current labels and illumination. Before uses original shadow volume and original marker categories. After covers the recorded room and excludes decorative trajectories/wind/goal/safety shells from casting fake physical shadows. Real obstacle, vehicle and payload shadows and lighting remain enabled. No numerical replay or invented obstacle/payload change.",
+  "outputs": [
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/final-shadow-review/before_shadow_fix_6.60s.png",
+      "sha256": "500e1ff31c122defd88fe35e2013a397176e881309323558a55f3286335d7fc8"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/final-shadow-review/before_shadow_fix_16.40s.png",
+      "sha256": "63aa0c77402c8e1964c7eba008a7b0f3242c298f57e04e489ddda111353a1acb"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/final-shadow-review/before_shadow_fix_27.00s.png",
+      "sha256": "0a7cde55fd70f21cd8b52bbc7cde4aed560a07f05ae95969284546a085584300"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/final-shadow-review/after_shadow_fix_6.60s.png",
+      "sha256": "b85e448dcab60f4a65922d77a686565a88a52f8aff986e246c19d70b130a066b"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/final-shadow-review/after_shadow_fix_16.40s.png",
+      "sha256": "368e625c5be7608c938d95f61d0c2fcd03efd6a75f2bb74dbe38a64e51f179fb"
+    },
+    {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/final-shadow-review/after_shadow_fix_27.00s.png",
+      "sha256": "9fd2e5a240e9993818a2a1fe18aa284041a5c5290e5f052807d82db3530b5300"
+    }
+  ]
+}

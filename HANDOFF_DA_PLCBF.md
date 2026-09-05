@@ -1,3 +1,48 @@
+# DA-PLCBF current handoff — 2026-09-05
+
+Start with [DA_PLCBF_HOVER_REVIEW.md](DA_PLCBF_HOVER_REVIEW.md), followed by
+[DA_PLCBF_NAVIGATION_REVIEW.md](DA_PLCBF_NAVIGATION_REVIEW.md). The newest revision addresses
+the user's five visual/functionality comments: clipped shadows, unclear payload/CoM behavior,
+similar fallback fans, a hover-first wind-on/off experiment before navigation, and actual
+MuJoCo impact/falling continuations.
+
+The active architecture is a persistent obstacle/goal-agnostic learner. Every finite update
+publishes; no safety admission, rollback, hidden extra model information, or adaptive-only actuator
+authority is introduced. Frozen comparisons are strong baselines. The new evidence separates
+behavior restoration from collision coverage, QP acceptance, physical execution, and progress.
+
+This revision follows exact base commit `00e89a742a1271b93655bf1bb4581a667dc13a14` from `plcbf`
+and is published for review on `main`. The repository commit identifies the published revision.
+Archived source snapshots retain their original prepublication branch/status metadata; only
+the review/publication documentation was updated for publication. Artifact manifests remain unchanged.
+
+The new main video holds position from 0–23 s: calm until 3 s, wind until 11 s, wind-off recovery
+until 19 s, then a centered +25% mass payload. Navigation starts at 23 s. Both fallback mappings
+omit built-in wind correction in this explicitly named mechanism test; both nominal hover
+controllers remain wind-aware. At the same 10 s state, endpoint fan-center error falls from
+29.5 cm fixed to 2.0 cm adaptive, with direction bins 7 versus 15. The wind-off transient recovers
+without optimizer/parameter resets. The payload leaves CoM fixed and has only a mild behavior
+effect. Both methods complete 8/8 waypoints with positive shell clearance and no degraded controls.
+The compensated principal baseline is preserved and has its own control video; this does not
+establish superiority over that baseline or a real-time online-learning deadline.
+
+**Geometry correction:** the old campaign used a 0.05 m point-model sphere, smaller than the
+actual XML collider (0.086 m radius, 0.02 m offset). New missions use a conservative 0.106 m
+enclosure. Historical “physical collision-free” claims apply only to their smaller configured
+envelope. Contact continuations use recorded mass/inertia, the actual collider geometry, actual
+MuJoCo contacts, and an explicitly declared motor-cut response. Unsafe aborts and measured
+obstacle impacts are labeled separately.
+
+Newest evidence lives under `hover-explanation-20260905`. Earlier evidence remains under
+`navigation-revision-20260905` and `learning-revision-20260905`, unchanged. The earlier campaign
+found no overall adaptive safety superiority; the final paced attempt launched zero of 335
+allowed learner updates despite zero deadline misses. Those limitations remain in force.
+
+## Historical handoff material
+
+Everything below is retained history. Its “current” labels, branch/commit status, completion claims
+and next steps refer to earlier revisions and do not describe the 2026-09-05 working revision.
+
 # Corrected DA-PLCBF mechanism-review handoff
 
 > **Current entry point:** [DA_PLCBF_COMPETENT_REVIEW.md](DA_PLCBF_COMPETENT_REVIEW.md),

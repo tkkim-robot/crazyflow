@@ -1,0 +1,74 @@
+{
+  "scope": "Render a recorded approach and a separately simulated motors-off contact continuation.\n\nThe renderer never steps a controller, learner, or contact simulation. Every displayed vehicle\npose is selected from a saved source array; the exact handoff pose comes from contact_replay.npz.\nThe cf21B mesh is a visual asset, while contact_model.xml owns the archived collision geometry.\n",
+  "input_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop/contact_replay.json": "75753512732d4fb9c79fb17e9d8a7e2e7f8558f7fbe64e7a07d8abda15bf9839",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop/contact_replay.npz": "bb2ffdd4cb2e447143cdb398bbd13521a68e37c7cf3a099880a8b9eb8622cf6a",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop/contact_model.xml": "e652657816aae48c4efc0af370dab5d7f4c68ac32a5ad2a5ce378a569504d08f",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed209/navigation_comparison.json": "6d5dd84e4013ef03bb7c2c45a3fb6847b330ea2fc24e774a9d958450d1046b70",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed209/navigation_comparison.npz": "8d22058412dc1c1c4cadafd7136abfe0ac28d836a2cf2d9ce88c6d3e8316f76c",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed209/dense_plant_states.npz": "bfb25fb5461981a20e13b2df909cd766cc5d3c6b1db1ca441a065d6afa4a85ae",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/navigation-revision-20260905/dense-confirmation-repair/combined-seed209/raw_diagnostics.npz": "95ab4d8961f3e2432e7df9bf603acceedd2b3722f1a3c178a43c6ef7d562f12d"
+  },
+  "render_config": {
+    "input_dir": "artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop",
+    "output_dir": "artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop/render-v1",
+    "prelude_seconds": 1.5,
+    "fps": 20,
+    "playback_rate": 0.5,
+    "width": 1600,
+    "height": 900,
+    "camera_distance": 3.4,
+    "camera_azimuth": -45.0,
+    "camera_elevation": -22
+  },
+  "command": "/home/tk/Desktop/mycode/crazyflow/.pixi/envs/gpu-tests/bin/python /home/tk/Desktop/mycode/crazyflow/examples/da_plcbf/contact_replay_demo.py --input-dir artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop --output-dir artifacts/da_plcbf/hover-explanation-20260905/contact/seed209-adaptive-safety-abort-drop/render-v1 --camera-azimuth -45",
+  "renderer_sha256": "8eba85d69bbd9f11210e6a7b0d4568db6334a700f1906bdfb23237e0dbc33feb",
+  "common_renderer_sha256": "becffc579c2adc90f407c7498ecd89d0490795dbfcbe3179284c3d46009d07e3",
+  "video_sha256": "ff08c7c7a72e19a6d691895b1923e931edd3eed22c3869ecb0ff78568d5b7936",
+  "source_samples_sha256": "335be6270c046700e687b19927a789c22aa29c67429e6b0669b20e1b1f2e3db2",
+  "frame_count": 181,
+  "duration_seconds": 9.05,
+  "actual_prelude_seconds": 1.5,
+  "maximum_source_time_quantization_seconds": 0.009999999999999787,
+  "contact_trigger": {
+    "time_seconds": 13.84,
+    "kind": "safety_abort_degraded_control",
+    "source_interval": 692,
+    "obstacle_index": null,
+    "source_swept_event_time_seconds": 13.84,
+    "handoff_backoff_seconds": 0.0,
+    "shell_ego_radius_m": 0.05,
+    "shell_clearance_m": 0.15
+  },
+  "first_obstacle_contact_seconds": null,
+  "first_ground_contact_seconds": 14.596,
+  "representative_frames": [
+    {
+      "path": "frame_0000_12.340s.png",
+      "sha256": "98475769fc61e7d8429f95bb94838e31924df6c971391630ece14b6ae1455254",
+      "frame_index": 0,
+      "source_time_seconds": 12.34
+    },
+    {
+      "path": "frame_0060_13.840s.png",
+      "sha256": "f790ea7c4c64989114c2f42c652b46f032ab0ab7d66508f0b489aecf572ec0f3",
+      "frame_index": 60,
+      "source_time_seconds": 13.84
+    },
+    {
+      "path": "frame_0094_14.690s.png",
+      "sha256": "9a6e926a4ff6f875deab92b9228426a8e5670f0845d6c529a93198e247fa642b",
+      "frame_index": 94,
+      "source_time_seconds": 14.69
+    },
+    {
+      "path": "frame_0180_16.840s.png",
+      "sha256": "dff9c51dfc027265d491fbb5f69f96dbcb43e062610a7bb69f630447ed73bfbf",
+      "frame_index": 180,
+      "source_time_seconds": 16.84
+    }
+  ],
+  "visual_model": "cf21B_500 mesh, unchanged physical scale, actual saved xyzw attitude",
+  "physics_model": "Archived contact_model.xml; mesh playback does not rerun physics or change inertia/colliders",
+  "source_selection": "Nearest saved samples within each source; frame grid anchored at handoff; no interpolation across handoff or trajectory extrapolation"
+}

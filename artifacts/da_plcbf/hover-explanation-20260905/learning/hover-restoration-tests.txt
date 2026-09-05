@@ -1,0 +1,64 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_rebased_tracking_zero_gradient_does_not_reset_existing_adam _______
+
+    def test_rebased_tracking_zero_gradient_does_not_reset_existing_adam() -> None:
+        resources = build_cf21b_version_a_resources()
+        config = PersistentSkillConfig(
+            horizon=8,
+            hidden_width=8,
+            control_interval_steps=2,
+            model_compensation=False,
+            smooth_motor_bounds=False,
+        )
+        spec = build_fibonacci_skill_spec(
+            policy_count=4,
+            latent_size=3,
+            minimum_duration=0.04,
+            maximum_duration=0.12,
+            horizon_duration=0.16,
+        )
+        params = initialize_skill_actor(jax.random.key(12), spec, config)
+        bank = proprioceptive_state_bank()[0]
+        original = build_persistent_skill_learner(spec, resources.actuator, config)
+        initial = original.initialize(params, resources.model)
+        persistent, metric = original.step(initial, bank[0], resources.model)
+        assert bool(metric.finite_update_applied)
+        restored_config = replace(
+            config,
+            diversity_weight=0.0,
+            pairwise_weight=0.0,
+            action_weight=0.0,
+            action_rate_weight=0.0,
+            saturation_weight=0.0,
+            trust_weight=0.0,
+            attitude_weight=0.0,
+            angular_rate_weight=0.0,
+            learn_durations=False,
+        )
+        contract = ReferenceContract(
+            persistent.params,
+            resources.model,
+            bank,
+            restored_config,
+            ReferenceLearningConfig(),
+            spec,
+            resources.actuator,
+        )
+        learner = build_reference_skill_learner(contract)
+        gradient = jax.grad(
+            lambda value: learner.loss(
+                value, bank[0], resources.model, persistent.previous_params, persistent.library_version
+            )[0]
+        )(persistent.params)
+>       assert float(optax.tree.norm(gradient)) == pytest.approx(0.0, abs=1e-8)
+E       assert 0.0012249252758920193 == 0.0 ± 1.0e-08
+E         
+E         comparison failed
+E         Obtained: 0.0012249252758920193
+E         Expected: 0.0 ± 1.0e-08
+
+tests/unit/safety/da_plcbf/test_hover_restoration.py:103: AssertionError
+=========================== short test summary info ============================
+FAILED tests/unit/safety/da_plcbf/test_hover_restoration.py::test_rebased_tracking_zero_gradient_does_not_reset_existing_adam
+1 failed, 1 passed in 5.87s

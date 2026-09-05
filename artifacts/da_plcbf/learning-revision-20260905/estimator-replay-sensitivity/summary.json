@@ -1,0 +1,152 @@
+{
+  "consecutive_samples": 3,
+  "late_window_seconds": [
+    7.0,
+    8.0
+  ],
+  "observation_model": "iid Gaussian velocity error per sample, shared across response rates; all other state coordinates and actions exact; identical noisy sample reused in adjacent transitions",
+  "results": [
+    {
+      "config": {
+        "component_limit": 5.0,
+        "minimum_drag_singular_value": 1e-05,
+        "response_rate": 1.2
+      },
+      "finite_measurements": 400,
+      "first_below_0_1_confirmation_seconds": 7.18,
+      "first_below_0_1_sustained_three_start_seconds": 7.140000000000001,
+      "key": "rate_1.2__velocity_std_0.0",
+      "late_component_rmse_mps": [
+        0.06756937625107289,
+        0.02702781291013581,
+        4.8807847673618e-07
+      ],
+      "late_vector_rmse_mps": 0.07277446858550446,
+      "noise_seed": 20260905,
+      "post_event_clipped_measurement_fraction": 0.0,
+      "post_event_peak_error_mps": 4.308131750543181,
+      "recorded_rate2_4_noiseless_max_abs_replay_error": null,
+      "settling_delay_seconds": 3.1400000000000006,
+      "velocity_noise_std_mps": 0.0
+    },
+    {
+      "config": {
+        "component_limit": 5.0,
+        "minimum_drag_singular_value": 1e-05,
+        "response_rate": 1.2
+      },
+      "finite_measurements": 400,
+      "first_below_0_1_confirmation_seconds": null,
+      "first_below_0_1_sustained_three_start_seconds": null,
+      "key": "rate_1.2__velocity_std_0.01",
+      "late_component_rmse_mps": [
+        0.2576306386289062,
+        0.035728322897064874,
+        0.02208131311980523
+      ],
+      "late_vector_rmse_mps": 0.26103188197319854,
+      "noise_seed": 20260905,
+      "post_event_clipped_measurement_fraction": 0.26,
+      "post_event_peak_error_mps": 4.286691516263122,
+      "recorded_rate2_4_noiseless_max_abs_replay_error": null,
+      "settling_delay_seconds": null,
+      "velocity_noise_std_mps": 0.01
+    },
+    {
+      "config": {
+        "component_limit": 5.0,
+        "minimum_drag_singular_value": 1e-05,
+        "response_rate": 2.4
+      },
+      "finite_measurements": 400,
+      "first_below_0_1_confirmation_seconds": 5.62,
+      "first_below_0_1_sustained_three_start_seconds": 5.58,
+      "key": "rate_2.4__velocity_std_0.0",
+      "late_component_rmse_mps": [
+        0.0013774130090851832,
+        0.0005508287279760051,
+        4.905661296841377e-07
+      ],
+      "late_vector_rmse_mps": 0.0014834686130201376,
+      "noise_seed": 20260905,
+      "post_event_clipped_measurement_fraction": 0.0,
+      "post_event_peak_error_mps": 4.308132080715678,
+      "recorded_rate2_4_noiseless_max_abs_replay_error": 7.152557373046875e-07,
+      "settling_delay_seconds": 1.58,
+      "velocity_noise_std_mps": 0.0
+    },
+    {
+      "config": {
+        "component_limit": 5.0,
+        "minimum_drag_singular_value": 1e-05,
+        "response_rate": 2.4
+      },
+      "finite_measurements": 400,
+      "first_below_0_1_confirmation_seconds": null,
+      "first_below_0_1_sustained_three_start_seconds": null,
+      "key": "rate_2.4__velocity_std_0.01",
+      "late_component_rmse_mps": [
+        0.20952255029140682,
+        0.03924379667655063,
+        0.04383217366259584
+      ],
+      "late_vector_rmse_mps": 0.21762590403302984,
+      "noise_seed": 20260905,
+      "post_event_clipped_measurement_fraction": 0.26,
+      "post_event_peak_error_mps": 4.272985903897437,
+      "recorded_rate2_4_noiseless_max_abs_replay_error": null,
+      "settling_delay_seconds": null,
+      "velocity_noise_std_mps": 0.01
+    },
+    {
+      "config": {
+        "component_limit": 5.0,
+        "minimum_drag_singular_value": 1e-05,
+        "response_rate": 6.0
+      },
+      "finite_measurements": 400,
+      "first_below_0_1_confirmation_seconds": 4.68,
+      "first_below_0_1_sustained_three_start_seconds": 4.64,
+      "key": "rate_6.0__velocity_std_0.0",
+      "late_component_rmse_mps": [
+        8.680172487432541e-07,
+        1.2225577879547452e-07,
+        4.933707370523637e-07
+      ],
+      "late_vector_rmse_mps": 1.00589020461693e-06,
+      "noise_seed": 20260905,
+      "post_event_clipped_measurement_fraction": 0.0,
+      "post_event_peak_error_mps": 4.308132647400869,
+      "recorded_rate2_4_noiseless_max_abs_replay_error": null,
+      "settling_delay_seconds": 0.6399999999999997,
+      "velocity_noise_std_mps": 0.0
+    },
+    {
+      "config": {
+        "component_limit": 5.0,
+        "minimum_drag_singular_value": 1e-05,
+        "response_rate": 6.0
+      },
+      "finite_measurements": 400,
+      "first_below_0_1_confirmation_seconds": null,
+      "first_below_0_1_sustained_three_start_seconds": null,
+      "key": "rate_6.0__velocity_std_0.01",
+      "late_component_rmse_mps": [
+        0.24035737344954805,
+        0.09709992321006593,
+        0.10619884097285497
+      ],
+      "late_vector_rmse_mps": 0.2801397077940647,
+      "noise_seed": 20260905,
+      "post_event_clipped_measurement_fraction": 0.26,
+      "post_event_peak_error_mps": 4.24632815173417,
+      "recorded_rate2_4_noiseless_max_abs_replay_error": null,
+      "settling_delay_seconds": null,
+      "velocity_noise_std_mps": 0.01
+    }
+  ],
+  "scope": "estimator-only offline replay; states/actions fixed; no controller or BPTT rerun",
+  "source_directory": "artifacts/da_plcbf/learning-revision-20260905/stabilization-closed-loop",
+  "source_trace_sha256": "fe5d26f6ae6f928d162788781a9c677f735f2a4d21c89e3d247ebada91c02b12",
+  "threshold_mps": 0.1
+}

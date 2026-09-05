@@ -1,0 +1,84 @@
+{
+  "action": {
+    "cosine_with_total_gradient": -0.113544834754233,
+    "raw_gradient_norm": 0.10499203205108643,
+    "raw_loss": 0.6022569537162781,
+    "weight": 0.001,
+    "weighted_gradient_norm": 0.00010499203205108642
+  },
+  "action_rate": {
+    "cosine_with_total_gradient": -0.31655295010891893,
+    "raw_gradient_norm": 0.0003471706004347652,
+    "raw_loss": 0.0004312109958846122,
+    "weight": 0.001,
+    "weighted_gradient_norm": 3.4717060043476524e-07
+  },
+  "descriptor_target": {
+    "cosine_with_total_gradient": 0.9999104225657235,
+    "raw_gradient_norm": 0.10775792598724365,
+    "raw_loss": 0.3914000391960144,
+    "weight": 10.0,
+    "weighted_gradient_norm": 1.0775792598724365
+  },
+  "diversity": {
+    "cosine_with_total_gradient": -0.018325424192467046,
+    "raw_gradient_norm": 2.8374381065368652,
+    "raw_loss": 14.23862075805664,
+    "weight": 0.001,
+    "weighted_gradient_norm": 0.002837438106536865
+  },
+  "pairwise": {
+    "cosine_with_total_gradient": -0.047481952921450916,
+    "raw_gradient_norm": 0.11964213103055954,
+    "raw_loss": 0.9112032651901245,
+    "weight": 0.005,
+    "weighted_gradient_norm": 0.0005982106551527977
+  },
+  "reference_retention": {
+    "cosine_with_total_gradient": 0.0,
+    "raw_gradient_norm": 0.0,
+    "raw_loss": 0.0,
+    "weight": 0.0,
+    "weighted_gradient_norm": 0.0
+  },
+  "saturation": {
+    "cosine_with_total_gradient": -0.8990262961702374,
+    "raw_gradient_norm": 3.553795799786565e-18,
+    "raw_loss": 3.0797800531606293e-19,
+    "weight": 0.001,
+    "weighted_gradient_norm": 3.553795799786565e-21
+  },
+  "terminal_braking": {
+    "cosine_with_total_gradient": 0.8860819980790002,
+    "raw_gradient_norm": 0.017526570707559586,
+    "raw_loss": 0.025899767875671387,
+    "weight": 2.0,
+    "weighted_gradient_norm": 0.03505314141511917
+  },
+  "total": {
+    "cosine_with_total_gradient": 1.0,
+    "raw_gradient_norm": 1.1082651615142822,
+    "raw_loss": 3.9860823154449463
+  },
+  "trajectory_tracking": {
+    "cosine_with_total_gradient": 0.0,
+    "raw_gradient_norm": 0.0,
+    "raw_loss": 0.0,
+    "weight": 0.0,
+    "weighted_gradient_norm": 0.0
+  },
+  "trust": {
+    "cosine_with_total_gradient": -0.02585811814114385,
+    "raw_gradient_norm": 1.3948130799690261e-05,
+    "raw_loss": 4.459000280121472e-09,
+    "weight": 0.001,
+    "weighted_gradient_norm": 1.3948130799690261e-08
+  },
+  "velocity_tracking": {
+    "cosine_with_total_gradient": 0.0,
+    "raw_gradient_norm": 0.0,
+    "raw_loss": 0.0,
+    "weight": 0.0,
+    "weighted_gradient_norm": 0.0
+  }
+}

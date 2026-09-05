@@ -1,0 +1,38 @@
+{
+  "source": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation",
+  "source_npz_sha256": "8ba3bf4a594b7314091ec1e61e94467f9fa0fd6cc72551532ab47093b7313707",
+  "source_json_sha256": "89c196335bb2fe5b89ee71a2407fdc90b36e6f18e0e80d0752c7ef2b80a68fc6",
+  "render_config": {
+    "fps": 20.0,
+    "width": 1600,
+    "height": 900,
+    "camera_azimuth": 135.0,
+    "camera_elevation": -22.0,
+    "camera_distance": 3.8,
+    "wind_arrow_scale": 0.18,
+    "intervention_arrow_scale": 0.18,
+    "probe_pause_time": null,
+    "probe_pause_seconds": 0.0,
+    "mode": "demo",
+    "repertoire_extent_m": 1.5,
+    "wind_streak_spacing_m": 1.2,
+    "wind_streak_exposure_seconds": 0.25,
+    "freeze_after_collision": true,
+    "freeze_after_termination": true,
+    "comparison_note": "Shared wind-aware hover control \u00b7 both fallback maps start without wind correction",
+    "hover_camera_distance": 2.8,
+    "camera_transition_seconds": 2.0
+  },
+  "sample_times_seconds": [
+    2.8000000000000003,
+    3.2,
+    10.8,
+    11.200000000000001,
+    18.8,
+    19.400000000000002,
+    23.0,
+    25.0,
+    35.0
+  ],
+  "scope": "Actual recorded states and predictions; equal metric camera distances, with2s smooth widening at recorded navigation release. No controller/learner replay or invented trajectory separation."
+}

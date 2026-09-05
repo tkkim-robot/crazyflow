@@ -46,6 +46,7 @@ from crazyflow.safety.da_plcbf.mujoco_comparison_video import (
     ComparisonVideoTrace,
     MethodVideoTrace,
     ObstacleTrack,
+    held_diagnostic_validity,
 )
 from crazyflow.safety.da_plcbf.persistent_skill_learner import (
     PersistentSkillConfig,
@@ -65,7 +66,11 @@ from crazyflow.safety.da_plcbf.point_wind_estimator import (
 from crazyflow.safety.da_plcbf.quad_policy import QuadPolicyConfig
 from crazyflow.safety.da_plcbf.quad_rollouts import direct_wrench_symplectic_step
 from crazyflow.safety.da_plcbf.selector import SelectionConfig
-from crazyflow.safety.da_plcbf.version_a_barriers import VersionABarrierConfig, VersionAModel
+from crazyflow.safety.da_plcbf.version_a_barriers import (
+    VersionABarrierConfig,
+    VersionAModel,
+    safety_constraint_names,
+)
 from crazyflow.safety.da_plcbf.version_a_filter import VersionAActuator, VersionAFilterConfig
 
 
@@ -274,6 +279,12 @@ def _empty_method_records() -> dict[str, list[np.ndarray | float | int]]:
         "executed_policy_dual": [],
         "actuator_margins": [],
         "operational_residuals": [],
+        "qp_held_operational_residuals": [],
+        "fallback_held_operational_residuals": [],
+        "applied_held_operational_residuals": [],
+        "applied_held_physical_margins": [],
+        "predictive_operational_iterations": [],
+        "initial_qp_held_operational_residual": [],
         "collision_constraint_active": [],
         "snapshot_age_seconds": [],
         "controller_seconds": [],
@@ -370,6 +381,15 @@ def _append_method_record(
         )
     )
     records["operational_residuals"].append(np.asarray(check.analytic_barrier_residuals))
+    for name in (
+        "qp_held_operational_residuals",
+        "fallback_held_operational_residuals",
+        "applied_held_operational_residuals",
+        "applied_held_physical_margins",
+        "predictive_operational_iterations",
+        "initial_qp_held_operational_residual",
+    ):
+        records[name].append(np.asarray(getattr(decision, name)))
     records["collision_constraint_active"].append(
         bool(np.asarray(getattr(decision, "collision_constraint_active", True)))
     )
@@ -388,6 +408,7 @@ def _method_trace(
         "cumulative_gradient_steps",
         "execution_mode",
         "eligible_candidate_count",
+        "predictive_operational_iterations",
     }
     boolean_names = {
         "fallback_safe",
@@ -424,6 +445,8 @@ def _make_controller(
     control_interval_steps: int = 1,
 ) -> Any:
     actuator = resources.actuator
+    if learner_config.control_interval_steps != control_interval_steps:
+        raise ValueError("learner policy cadence must match the executed command hold")
     nominal_config = QuadPolicyConfig(acceleration_limit=nominal_acceleration_limit)
     safety_limits = scenario_safety_limits(scenario)
     barrier_config = VersionABarrierConfig(
@@ -469,6 +492,7 @@ def _make_controller(
                 position_gain=waypoint_position_gain,
                 velocity_gain=waypoint_velocity_gain,
                 model_compensation=nominal_model_compensation,
+                command_hold_steps=control_interval_steps,
             )
 
         def fallbacks(candidate_state: Array, model: VersionAModel) -> PolicyRollouts:
@@ -1290,6 +1314,10 @@ def _trace_arrays(trace: ComparisonVideoTrace) -> dict[str, np.ndarray]:
             arrays[f"repertoire_{name}"] = np.asarray(value)
     if trace.payload_half_extents is not None:
         arrays["payload_half_extents"] = np.asarray(trace.payload_half_extents)
+    for name in ("task_phase", "phase_caption"):
+        value = getattr(trace, name, None)
+        if value is not None:
+            arrays[name] = np.asarray(value)
     return arrays
 
 
@@ -1325,9 +1353,21 @@ def save_online_constant_wind_result(
         "summary": result.summary,
         "drone_model": getattr(result.trace, "drone_model", "cf2x_T350"),
         "physical_model_name": getattr(result.trace, "physical_model_name", None),
+        "held_operational_constraint_names": list(safety_constraint_names(0)),
+        "held_diagnostic_validity": {
+            name: held_diagnostic_validity(method)
+            for name, method in (
+                result.methods or {"fixed": result.trace.fixed, "adaptive": result.trace.adaptive}
+            ).items()
+        },
         "payload_attachment_time_seconds": result.trace.payload_attachment_time_seconds,
         "payload_mass_delta_kg": result.trace.payload_mass_delta_kg,
         "payload_base_mass_kg": result.trace.payload_base_mass_kg,
+        "wind_event_times_seconds": (
+            np.asarray(result.trace.wind_event_times_seconds).tolist()
+            if result.trace.wind_event_times_seconds is not None
+            else None
+        ),
         "repertoire_probe_fields": list(
             (getattr(result.trace, "repertoire_probes", None) or {}).keys()
         ),
@@ -1372,6 +1412,11 @@ def load_online_constant_wind_result(
         true_wind=arrays["true_wind"],
         estimated_wind=arrays["estimated_wind"],
         wind_change_time=float(metadata["wind_change_time"]),
+        wind_event_times_seconds=(
+            np.asarray(metadata["wind_event_times_seconds"])
+            if metadata.get("wind_event_times_seconds") is not None
+            else None
+        ),
         descriptor_targets=arrays["descriptor_targets"],
         fixed=methods["fixed"],
         adaptive=methods["adaptive"],
@@ -1387,6 +1432,8 @@ def load_online_constant_wind_result(
         payload_half_extents=arrays.get("payload_half_extents"),
         payload_mass_delta_kg=metadata.get("payload_mass_delta_kg"),
         payload_base_mass_kg=metadata.get("payload_base_mass_kg"),
+        task_phase=arrays.get("task_phase"),
+        phase_caption=arrays.get("phase_caption"),
         repertoire_probes=(
             {
                 name: metadata.get("repertoire_probe_source")
@@ -1399,7 +1446,7 @@ def load_online_constant_wind_result(
     )
     trace.validate()
     summary = metadata["summary"]
-    if summary.get("experiment") != "competent_checkpoint":
+    if summary.get("experiment") not in {"competent_checkpoint", "navigation"}:
         summary = _current_outcome_checks(summary)
     return OnlineConstantWindResult(trace, summary, methods)
 

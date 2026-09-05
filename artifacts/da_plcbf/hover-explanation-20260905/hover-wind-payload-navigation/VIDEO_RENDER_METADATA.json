@@ -1,0 +1,81 @@
+{
+  "scope": "Saved-trace presentation only: no controller, learner, plant, or world rerun. Both hover flight histories are identical; visible difference concerns reusable fallback predictions.",
+  "render_config": {
+    "fps": 20.0,
+    "width": 1600,
+    "height": 900,
+    "camera_azimuth": 135.0,
+    "camera_elevation": -22.0,
+    "camera_distance": 3.8,
+    "wind_arrow_scale": 0.18,
+    "intervention_arrow_scale": 0.18,
+    "probe_pause_time": null,
+    "probe_pause_seconds": 0.0,
+    "mode": "demo",
+    "repertoire_extent_m": 1.5,
+    "wind_streak_spacing_m": 1.2,
+    "wind_streak_exposure_seconds": 0.25,
+    "freeze_after_collision": true,
+    "freeze_after_termination": true,
+    "comparison_note": "Shared wind-aware hover control \u00b7 both fallback maps start without wind correction",
+    "hover_camera_distance": 2.8,
+    "camera_transition_seconds": 2.0
+  },
+  "input_sha256": {
+    "navigation_comparison.npz": "8ba3bf4a594b7314091ec1e61e94467f9fa0fd6cc72551532ab47093b7313707",
+    "navigation_comparison.json": "89c196335bb2fe5b89ee71a2407fdc90b36e6f18e0e80d0752c7ef2b80a68fc6"
+  },
+  "source_sha256": {
+    "crazyflow/safety/da_plcbf/mujoco_comparison_video.py": "becffc579c2adc90f407c7498ecd89d0490795dbfcbe3179284c3d46009d07e3",
+    "examples/da_plcbf/navigation_demo.py": "3512867eea78cb995e2bde49227c73b8bab2257559b8913940a690b0f799fb97"
+  },
+  "video_sha256": "7174f16b1bb4c5ffd0866a89ea318f7bf1d42d0921edcf1000213dd7ba42a3f5",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "duration": "63.050000",
+        "nb_frames": "1261"
+      }
+    ],
+    "format": {
+      "duration": "63.050000",
+      "size": "20575718"
+    }
+  },
+  "full_video_decode": "passed: ffmpeg -v error -threads 1 -i VIDEO -f null -",
+  "decoded_representative_frames": [
+    {
+      "path": "video_frames/video_10.80s.png",
+      "video_time_seconds": 10.8,
+      "sha256": "3173c5be5d3365f4e1abd2716de7e6964695a396a07750d4df572c9a5cfb0f64"
+    },
+    {
+      "path": "video_frames/video_19.40s.png",
+      "video_time_seconds": 19.4,
+      "sha256": "85e48c76b5e0a8549e7b6f08245b267af363f2c7120bc74620dd0992a40c1143"
+    },
+    {
+      "path": "video_frames/video_25.00s.png",
+      "video_time_seconds": 25.0,
+      "sha256": "e532f0558058b8203c3f6dab6a83fbb34ae4c1c84ba3ecfa86f109e4b3d1f20e"
+    }
+  ],
+  "keyframe_review_directory": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/renderer-review/hover-main-keyframes-final",
+  "review_frames_sha256": {
+    "review_3.20s.png": "56fe9e01b3606da31ca76d97d683e4ba3a7dadff410800b870c68e952aaab7a6",
+    "review_18.80s.png": "2927cd5acfb032cda0d45332090c0eccfbada36e9f52c0a50316c326797aaf46",
+    "review_11.20s.png": "52740333bd2be64990cd6832d55fcf36c16c1c0c19e373418a6f5518cff62bed",
+    "review_35.00s.png": "059bb1aec5a0a23fd18a4eb31ba0891adafc2d8fbdabbea8ce5f83473da36f50",
+    "review_10.80s.png": "2ac6efde1c959bb885a2d5f033b7958a94da313ffced9428ec21b5e2d0615394",
+    "review_23.00s.png": "dd97ed674c3cc11fe6b92afff50636c48e2be6e7b14fd2dc46a8921909d0110c",
+    "review_2.80s.png": "04b03329604bbd8e89a77240598584d17451e338df1fb5f5958d3aaa6b543a06",
+    "review_19.40s.png": "f552e1d1fbcd9deb70387ee0456869831880b37c7b8af3784a617039a5f0faa9",
+    "review_25.00s.png": "2fa08f998bef681f5ba372594a454001d793ead4b4e6376023517e30528cc288"
+  },
+  "command": "JAX_PLATFORMS=cpu CUDA_VISIBLE_DEVICES='' MUJOCO_GL=egl PYTHONPATH=. .pixi/envs/gpu-tests/bin/python examples/da_plcbf/navigation_demo.py render --input-dir artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation --output-dir FRESH_OUTPUT_DIRECTORY --mode demo --fps 20 --width 1600 --height 900 --hover-camera-distance 2.8 --camera-distance 3.8 --camera-transition-seconds 2 --comparison-note 'Shared wind-aware hover control \u00b7 both fallback maps start without wind correction'"
+}

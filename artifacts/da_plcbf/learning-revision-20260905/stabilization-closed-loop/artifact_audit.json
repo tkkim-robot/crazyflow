@@ -1,0 +1,52 @@
+{
+  "all_checkpoint_npz_and_dual_reference_hashes_valid": true,
+  "all_frozen_parameters_exactly_constant": true,
+  "all_initial_states_exactly_shared": true,
+  "all_trace_arrays_numeric_no_pickle": true,
+  "checked_checkpoint_pairs": 207,
+  "initial_actions_exactly_matched_per_information_mode": true,
+  "methods": {
+    "estimated_capped": {
+      "actuator_postcheck_failures": 0,
+      "archive_bytes": 7362202,
+      "emergency_controls": 11,
+      "numerical_arrays": 182,
+      "operational_held_failures": 0
+    },
+    "estimated_frozen": {
+      "actuator_postcheck_failures": 0,
+      "archive_bytes": 7007805,
+      "emergency_controls": 11,
+      "numerical_arrays": 182,
+      "operational_held_failures": 0
+    },
+    "estimated_unrestricted": {
+      "actuator_postcheck_failures": 0,
+      "archive_bytes": 7435775,
+      "emergency_controls": 25,
+      "numerical_arrays": 182,
+      "operational_held_failures": 0
+    },
+    "oracle_capped": {
+      "actuator_postcheck_failures": 0,
+      "archive_bytes": 7215568,
+      "emergency_controls": 0,
+      "numerical_arrays": 182,
+      "operational_held_failures": 0
+    },
+    "oracle_frozen": {
+      "actuator_postcheck_failures": 0,
+      "archive_bytes": 6859573,
+      "emergency_controls": 0,
+      "numerical_arrays": 182,
+      "operational_held_failures": 0
+    },
+    "oracle_unrestricted": {
+      "actuator_postcheck_failures": 0,
+      "archive_bytes": 7247521,
+      "emergency_controls": 0,
+      "numerical_arrays": 182,
+      "operational_held_failures": 0
+    }
+  }
+}

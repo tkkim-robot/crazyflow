@@ -1,0 +1,2202 @@
+[
+  {
+    "degraded": false,
+    "eligible_count": 16,
+    "estimator_before": {
+      "finite_update_count": 200,
+      "update_count": 200,
+      "wind_velocity": [
+        -3.592882080738491e-07,
+        3.603980758271064e-08,
+        -5.538020104722818e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.6952528953552246,
+    "fallback_max_smooth": 0.6878939867019653,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.0,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 16,
+    "estimator_before": {
+      "finite_update_count": 202,
+      "update_count": 202,
+      "wind_velocity": [
+        0.3661433458328247,
+        0.14645755290985107,
+        -5.493449748428247e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.4583115577697754,
+    "fallback_max_smooth": 0.4508785605430603,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.04,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 9,
+    "estimator_before": {
+      "finite_update_count": 204,
+      "update_count": 204,
+      "wind_velocity": [
+        0.6987716555595398,
+        0.2795090079307556,
+        -4.872903787145333e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.2913548946380615,
+    "fallback_max_smooth": 0.2832304835319519,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.08,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 5,
+    "estimator_before": {
+      "finite_update_count": 206,
+      "update_count": 206,
+      "wind_velocity": [
+        1.0009526014328003,
+        0.4003813862800598,
+        -4.4559024559021054e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.17614126205444336,
+    "fallback_max_smooth": 0.16659627854824066,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.12,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 3,
+    "estimator_before": {
+      "finite_update_count": 208,
+      "update_count": 208,
+      "wind_velocity": [
+        1.2754731178283691,
+        0.5101896524429321,
+        -4.254487748767133e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.09996354579925537,
+    "fallback_max_smooth": 0.08768173307180405,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.16,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 2,
+    "estimator_before": {
+      "finite_update_count": 210,
+      "update_count": 210,
+      "wind_velocity": [
+        1.5248652696609497,
+        0.6099464893341064,
+        -3.613918693190499e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.05213630199432373,
+    "fallback_max_smooth": 0.03661711513996124,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.2,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 1,
+    "estimator_before": {
+      "finite_update_count": 212,
+      "update_count": 212,
+      "wind_velocity": [
+        1.751429557800293,
+        0.7005718946456909,
+        -4.068805594670266e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.01902681589126587,
+    "fallback_max_smooth": 0.004290112294256687,
+    "previous_policy_index": 2,
+    "qp_accepted": true,
+    "time_seconds": 4.24,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 214,
+      "update_count": 214,
+      "wind_velocity": [
+        1.9572550058364868,
+        0.78290194272995,
+        -4.1908461412276665e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.0031710267066955566,
+    "fallback_max_smooth": -0.016560843214392662,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.28,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 216,
+      "update_count": 216,
+      "wind_velocity": [
+        2.144240140914917,
+        0.8576958179473877,
+        -4.54530550086929e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.013235688209533691,
+    "fallback_max_smooth": -0.026002109050750732,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.32,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 218,
+      "update_count": 218,
+      "wind_velocity": [
+        2.3141090869903564,
+        0.9256433844566345,
+        -4.5028716044726025e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.02198624610900879,
+    "fallback_max_smooth": -0.03430023416876793,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.36,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 220,
+      "update_count": 220,
+      "wind_velocity": [
+        2.4684293270111084,
+        0.9873712658882141,
+        -3.993687585079897e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.03005892038345337,
+    "fallback_max_smooth": -0.04190823808312416,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.4,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 222,
+      "update_count": 222,
+      "wind_velocity": [
+        2.6086220741271973,
+        1.043448805809021,
+        -3.493413771593623e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.03727877140045166,
+    "fallback_max_smooth": -0.048751045018434525,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.44,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 224,
+      "update_count": 224,
+      "wind_velocity": [
+        2.735983371734619,
+        1.094393253326416,
+        -4.215077638036746e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.04328656196594238,
+    "fallback_max_smooth": -0.054457709193229675,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.48,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 226,
+      "update_count": 226,
+      "wind_velocity": [
+        2.8516860008239746,
+        1.1406744718551636,
+        -4.245755178544641e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.047804415225982666,
+    "fallback_max_smooth": -0.058865275233983994,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.52,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 228,
+      "update_count": 228,
+      "wind_velocity": [
+        2.9567983150482178,
+        1.1827194690704346,
+        -4.3130179960826354e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.0511820912361145,
+    "fallback_max_smooth": -0.062166761606931686,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.5600000000000005,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 230,
+      "update_count": 230,
+      "wind_velocity": [
+        3.0522890090942383,
+        1.2209157943725586,
+        -4.849230208492372e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05370616912841797,
+    "fallback_max_smooth": -0.06460310518741608,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.6,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 232,
+      "update_count": 232,
+      "wind_velocity": [
+        3.139038324356079,
+        1.2556155920028687,
+        -4.391163201944437e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05275791883468628,
+    "fallback_max_smooth": -0.0640062540769577,
+    "previous_policy_index": 2,
+    "qp_accepted": false,
+    "time_seconds": 4.64,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 234,
+      "update_count": 234,
+      "wind_velocity": [
+        3.2178471088409424,
+        1.2871390581130981,
+        -5.127766939949652e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05403047800064087,
+    "fallback_max_smooth": -0.06517864763736725,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.68,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 236,
+      "update_count": 236,
+      "wind_velocity": [
+        3.289442539215088,
+        1.3157771825790405,
+        -4.6789048724349414e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.0549963116645813,
+    "fallback_max_smooth": -0.06606849282979965,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.72,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 238,
+      "update_count": 238,
+      "wind_velocity": [
+        3.3544843196868896,
+        1.3417936563491821,
+        -5.55001747670758e-07
+      ]
+    },
+    "execution_mode": 1,
+    "fallback_max_hard": -0.05572617053985596,
+    "fallback_max_smooth": -0.06673496961593628,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.76,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 240,
+      "update_count": 240,
+      "wind_velocity": [
+        3.413572311401367,
+        1.3654288053512573,
+        -5.818706085847225e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.05625879764556885,
+    "fallback_max_smooth": -0.06721483170986176,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.8,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 242,
+      "update_count": 242,
+      "wind_velocity": [
+        3.4672513008117676,
+        1.386900544166565,
+        -5.162556817595032e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.06162595748901367,
+    "fallback_max_smooth": -0.07256313413381577,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.84,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 244,
+      "update_count": 244,
+      "wind_velocity": [
+        3.516017198562622,
+        1.4064068794250488,
+        -5.466924903885229e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.06579279899597168,
+    "fallback_max_smooth": -0.07667989283800125,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.88,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 246,
+      "update_count": 246,
+      "wind_velocity": [
+        3.560319185256958,
+        1.4241276979446411,
+        -4.799331918547978e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.06869441270828247,
+    "fallback_max_smooth": -0.0791969746351242,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.92,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 248,
+      "update_count": 248,
+      "wind_velocity": [
+        3.6005654335021973,
+        1.4402263164520264,
+        -4.2952081003022613e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.0702245831489563,
+    "fallback_max_smooth": -0.07917743176221848,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 4.96,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 250,
+      "update_count": 250,
+      "wind_velocity": [
+        3.6371283531188965,
+        1.4548513889312744,
+        -3.8501005406033073e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.06923657655715942,
+    "fallback_max_smooth": -0.07575192302465439,
+    "previous_policy_index": 3,
+    "qp_accepted": false,
+    "time_seconds": 5.0,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 252,
+      "update_count": 252,
+      "wind_velocity": [
+        3.670344114303589,
+        1.4681377410888672,
+        -3.2842419273038104e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.06278285384178162,
+    "fallback_max_smooth": -0.06809551268815994,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.04,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 254,
+      "update_count": 254,
+      "wind_velocity": [
+        3.70051908493042,
+        1.480207920074463,
+        -2.99758283972551e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.05180472135543823,
+    "fallback_max_smooth": -0.05652707442641258,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.08,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 256,
+      "update_count": 256,
+      "wind_velocity": [
+        3.727932929992676,
+        1.491173267364502,
+        -2.502993652342411e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.03737449645996094,
+    "fallback_max_smooth": -0.041791342198848724,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.12,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 258,
+      "update_count": 258,
+      "wind_velocity": [
+        3.7528369426727295,
+        1.5011348724365234,
+        -2.3465548792955815e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.020474016666412354,
+    "fallback_max_smooth": -0.02473122999072075,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.16,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": true,
+    "eligible_count": 0,
+    "estimator_before": {
+      "finite_update_count": 260,
+      "update_count": 260,
+      "wind_velocity": [
+        3.775461435317993,
+        1.5101845264434814,
+        -3.0040612841730763e-07
+      ]
+    },
+    "execution_mode": 2,
+    "fallback_max_hard": -0.0019816160202026367,
+    "fallback_max_smooth": -0.0061628008261322975,
+    "previous_policy_index": 0,
+    "qp_accepted": false,
+    "time_seconds": 5.2,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 12,
+    "estimator_before": {
+      "finite_update_count": 262,
+      "update_count": 262,
+      "wind_velocity": [
+        3.7960147857666016,
+        1.5184059143066406,
+        -2.8337294111224764e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.01733541488647461,
+    "fallback_max_smooth": 0.013175547122955322,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.24,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 12,
+    "estimator_before": {
+      "finite_update_count": 264,
+      "update_count": 264,
+      "wind_velocity": [
+        3.8146870136260986,
+        1.5258747339248657,
+        -2.627922981446318e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.035729169845581055,
+    "fallback_max_smooth": 0.03143704682588577,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.28,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 12,
+    "estimator_before": {
+      "finite_update_count": 266,
+      "update_count": 266,
+      "wind_velocity": [
+        3.8316497802734375,
+        1.532659888267517,
+        -3.8924576983845327e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.052494049072265625,
+    "fallback_max_smooth": 0.04802236333489418,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.32,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 13,
+    "estimator_before": {
+      "finite_update_count": 268,
+      "update_count": 268,
+      "wind_velocity": [
+        3.847059726715088,
+        1.5388240814208984,
+        -3.808927715454047e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.06751757860183716,
+    "fallback_max_smooth": 0.06282415986061096,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.36,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 13,
+    "estimator_before": {
+      "finite_update_count": 270,
+      "update_count": 270,
+      "wind_velocity": [
+        3.8610591888427734,
+        1.5444239377975464,
+        -3.7728327129116224e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.08085227012634277,
+    "fallback_max_smooth": 0.07590853422880173,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.4,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 13,
+    "estimator_before": {
+      "finite_update_count": 272,
+      "update_count": 272,
+      "wind_velocity": [
+        3.873777389526367,
+        1.5495110750198364,
+        -4.6997595859465946e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.09267359972000122,
+    "fallback_max_smooth": 0.08747442811727524,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.4399999999999995,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 15,
+    "estimator_before": {
+      "finite_update_count": 274,
+      "update_count": 274,
+      "wind_velocity": [
+        3.885331392288208,
+        1.5541325807571411,
+        -4.338527332947706e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.10324239730834961,
+    "fallback_max_smooth": 0.09781552106142044,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.48,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 276,
+      "update_count": 276,
+      "wind_velocity": [
+        3.8958277702331543,
+        1.55833101272583,
+        -4.206228823022684e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.11287850141525269,
+    "fallback_max_smooth": 0.10728810727596283,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.52,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 278,
+      "update_count": 278,
+      "wind_velocity": [
+        3.905363082885742,
+        1.5621452331542969,
+        -4.597480653956154e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.12194597721099854,
+    "fallback_max_smooth": 0.11628758907318115,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.5600000000000005,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 280,
+      "update_count": 280,
+      "wind_velocity": [
+        3.9140257835388184,
+        1.5656102895736694,
+        -4.1918156057363376e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.1308457851409912,
+    "fallback_max_smooth": 0.12523210048675537,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.6,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 282,
+      "update_count": 282,
+      "wind_velocity": [
+        3.9218955039978027,
+        1.5687581300735474,
+        -4.58263968994288e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.14001411199569702,
+    "fallback_max_smooth": 0.1345546543598175,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.640000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 284,
+      "update_count": 284,
+      "wind_velocity": [
+        3.929044723510742,
+        1.5716179609298706,
+        -4.5281680627340393e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.14992183446884155,
+    "fallback_max_smooth": 0.14470447599887848,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.68,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 286,
+      "update_count": 286,
+      "wind_velocity": [
+        3.935539722442627,
+        1.5742158889770508,
+        -4.2247609144396847e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.1610734462738037,
+    "fallback_max_smooth": 0.15615162253379822,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.72,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 288,
+      "update_count": 288,
+      "wind_velocity": [
+        3.9414401054382324,
+        1.5765761137008667,
+        -4.347298840912117e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.17400896549224854,
+    "fallback_max_smooth": 0.1693989485502243,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.76,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 290,
+      "update_count": 290,
+      "wind_velocity": [
+        3.946800470352173,
+        1.5787203311920166,
+        -3.983411147601146e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.18930017948150635,
+    "fallback_max_smooth": 0.18498142063617706,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.8,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 292,
+      "update_count": 292,
+      "wind_velocity": [
+        3.9516701698303223,
+        1.5806682109832764,
+        -4.0716318494560255e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.2075502872467041,
+    "fallback_max_smooth": 0.20347203314304352,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.84,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 294,
+      "update_count": 294,
+      "wind_velocity": [
+        3.9560940265655518,
+        1.5824378728866577,
+        -3.8424241211032495e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.22939002513885498,
+    "fallback_max_smooth": 0.2255217730998993,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.88,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 296,
+      "update_count": 296,
+      "wind_velocity": [
+        3.960113048553467,
+        1.58404541015625,
+        -4.1198836697731167e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.2554737329483032,
+    "fallback_max_smooth": 0.2517596483230591,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.92,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 298,
+      "update_count": 298,
+      "wind_velocity": [
+        3.963763952255249,
+        1.5855059623718262,
+        -3.9775943605491193e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.28647518157958984,
+    "fallback_max_smooth": 0.28286463022232056,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 5.96,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 300,
+      "update_count": 300,
+      "wind_velocity": [
+        3.967081308364868,
+        1.5868327617645264,
+        -4.111305429432832e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.3230844736099243,
+    "fallback_max_smooth": 0.31953978538513184,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.0,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 302,
+      "update_count": 302,
+      "wind_velocity": [
+        3.9700944423675537,
+        1.5880380868911743,
+        -3.394629572994745e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.36600422859191895,
+    "fallback_max_smooth": 0.3624987006187439,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.04,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 304,
+      "update_count": 304,
+      "wind_velocity": [
+        3.9728317260742188,
+        1.5891330242156982,
+        -3.05279797885305e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.41594207286834717,
+    "fallback_max_smooth": 0.4124576449394226,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.08,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 306,
+      "update_count": 306,
+      "wind_velocity": [
+        3.975318193435669,
+        1.59012770652771,
+        -2.8893495596094e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.47360992431640625,
+    "fallback_max_smooth": 0.47013601660728455,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.12,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 308,
+      "update_count": 308,
+      "wind_velocity": [
+        3.9775776863098145,
+        1.5910314321517944,
+        -3.0759656510781497e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.539720892906189,
+    "fallback_max_smooth": 0.5362517833709717,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.16,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 310,
+      "update_count": 310,
+      "wind_velocity": [
+        3.9796299934387207,
+        1.5918524265289307,
+        -3.85264371516314e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.6149835586547852,
+    "fallback_max_smooth": 0.611516535282135,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.2,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 312,
+      "update_count": 312,
+      "wind_velocity": [
+        3.981494665145874,
+        1.5925980806350708,
+        -4.5086881073075347e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7000974416732788,
+    "fallback_max_smooth": 0.6966312527656555,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.24,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 314,
+      "update_count": 314,
+      "wind_velocity": [
+        3.9831886291503906,
+        1.593275547027588,
+        -3.8900728327462275e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7957568168640137,
+    "fallback_max_smooth": 0.792265772819519,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.28,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 316,
+      "update_count": 316,
+      "wind_velocity": [
+        3.984727621078491,
+        1.5938911437988281,
+        -4.292590176646627e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.8126295804977417,
+    "fallback_max_smooth": 0.8024027347564697,
+    "previous_policy_index": 12,
+    "qp_accepted": true,
+    "time_seconds": 6.32,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 318,
+      "update_count": 318,
+      "wind_velocity": [
+        3.9861257076263428,
+        1.5944503545761108,
+        -3.984231966569496e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7986267805099487,
+    "fallback_max_smooth": 0.7884577512741089,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.359999999999999,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 320,
+      "update_count": 320,
+      "wind_velocity": [
+        3.9873952865600586,
+        1.5949584245681763,
+        -3.6077449294680264e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.786887526512146,
+    "fallback_max_smooth": 0.7768616080284119,
+    "previous_policy_index": 0,
+    "qp_accepted": true,
+    "time_seconds": 6.4,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 322,
+      "update_count": 322,
+      "wind_velocity": [
+        3.98854923248291,
+        1.5954198837280273,
+        -3.900250362676161e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7777086496353149,
+    "fallback_max_smooth": 0.7677191495895386,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.4399999999999995,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 324,
+      "update_count": 324,
+      "wind_velocity": [
+        3.989597797393799,
+        1.5958391427993774,
+        -4.1301876763100154e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7709754705429077,
+    "fallback_max_smooth": 0.761281430721283,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.48,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 326,
+      "update_count": 326,
+      "wind_velocity": [
+        3.9905502796173096,
+        1.5962200164794922,
+        -4.066389180934493e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7669730186462402,
+    "fallback_max_smooth": 0.7584921717643738,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.52,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 328,
+      "update_count": 328,
+      "wind_velocity": [
+        3.99141526222229,
+        1.5965659618377686,
+        -4.5457389319381036e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7664427757263184,
+    "fallback_max_smooth": 0.7607534527778625,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.5600000000000005,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 330,
+      "update_count": 330,
+      "wind_velocity": [
+        3.9922008514404297,
+        1.5968801975250244,
+        -4.924028758068744e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7749669551849365,
+    "fallback_max_smooth": 0.7707140445709229,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.6,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 332,
+      "update_count": 332,
+      "wind_velocity": [
+        3.9929146766662598,
+        1.5971657037734985,
+        -4.593660776208708e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.7940880060195923,
+    "fallback_max_smooth": 0.790359377861023,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.640000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 334,
+      "update_count": 334,
+      "wind_velocity": [
+        3.993563175201416,
+        1.597425103187561,
+        -4.2844757786042464e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.8243361711502075,
+    "fallback_max_smooth": 0.8207868933677673,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.68,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 336,
+      "update_count": 336,
+      "wind_velocity": [
+        3.994152069091797,
+        1.597660779953003,
+        -4.368382349184685e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.8661655187606812,
+    "fallback_max_smooth": 0.8626742362976074,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.720000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 338,
+      "update_count": 338,
+      "wind_velocity": [
+        3.99468731880188,
+        1.5978749990463257,
+        -4.492839025260764e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.919929027557373,
+    "fallback_max_smooth": 0.9164556860923767,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.76,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 340,
+      "update_count": 340,
+      "wind_velocity": [
+        3.995173692703247,
+        1.598069429397583,
+        -4.733570051485003e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 0.9858595132827759,
+    "fallback_max_smooth": 0.9823915362358093,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.800000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 342,
+      "update_count": 342,
+      "wind_velocity": [
+        3.9956157207489014,
+        1.5982460975646973,
+        -4.986580393051554e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.0640513896942139,
+    "fallback_max_smooth": 1.0605849027633667,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.84,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 344,
+      "update_count": 344,
+      "wind_velocity": [
+        3.9960172176361084,
+        1.5984066724777222,
+        -4.286956425403332e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.1544573307037354,
+    "fallback_max_smooth": 1.1509913206100464,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.88,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 346,
+      "update_count": 346,
+      "wind_velocity": [
+        3.9963817596435547,
+        1.5985524654388428,
+        -4.3025426066378714e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.2568862438201904,
+    "fallback_max_smooth": 1.253420352935791,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.92,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 348,
+      "update_count": 348,
+      "wind_velocity": [
+        3.9967129230499268,
+        1.5986850261688232,
+        -4.439786778220878e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.3710126876831055,
+    "fallback_max_smooth": 1.3675469160079956,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 6.96,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 350,
+      "update_count": 350,
+      "wind_velocity": [
+        3.997013568878174,
+        1.5988054275512695,
+        -5.217441980676085e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.4963858127593994,
+    "fallback_max_smooth": 1.4929200410842896,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.0,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 352,
+      "update_count": 352,
+      "wind_velocity": [
+        3.997286558151245,
+        1.5989148616790771,
+        -4.912591862193949e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.632453203201294,
+    "fallback_max_smooth": 1.628987431526184,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.04,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 354,
+      "update_count": 354,
+      "wind_velocity": [
+        3.99753475189209,
+        1.5990142822265625,
+        -4.917723117614514e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.7785704135894775,
+    "fallback_max_smooth": 1.7751046419143677,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.08,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 356,
+      "update_count": 356,
+      "wind_velocity": [
+        3.997760534286499,
+        1.5991045236587524,
+        -5.238309199739888e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 1.9340252876281738,
+    "fallback_max_smooth": 1.930559515953064,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.12,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 358,
+      "update_count": 358,
+      "wind_velocity": [
+        3.997965097427368,
+        1.5991865396499634,
+        -4.6617549287475413e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.098052501678467,
+    "fallback_max_smooth": 2.0945868492126465,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.16,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 360,
+      "update_count": 360,
+      "wind_velocity": [
+        3.9981510639190674,
+        1.5992610454559326,
+        -5.089826800031005e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.2698616981506348,
+    "fallback_max_smooth": 2.2663960456848145,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.2,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 362,
+      "update_count": 362,
+      "wind_velocity": [
+        3.9983201026916504,
+        1.599328637123108,
+        -4.7172233053061063e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.448646068572998,
+    "fallback_max_smooth": 2.4451804161071777,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.24,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 364,
+      "update_count": 364,
+      "wind_velocity": [
+        3.998473882675171,
+        1.5993901491165161,
+        -5.476575779539417e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.6335906982421875,
+    "fallback_max_smooth": 2.630124807357788,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.28,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 366,
+      "update_count": 366,
+      "wind_velocity": [
+        3.9986138343811035,
+        1.5994459390640259,
+        -6.044559768270119e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 2.823899984359741,
+    "fallback_max_smooth": 2.8204338550567627,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.32,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 368,
+      "update_count": 368,
+      "wind_velocity": [
+        3.9987409114837646,
+        1.5994967222213745,
+        -4.926163228446967e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.0187883377075195,
+    "fallback_max_smooth": 3.01532244682312,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.359999999999999,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 370,
+      "update_count": 370,
+      "wind_velocity": [
+        3.9988560676574707,
+        1.5995428562164307,
+        -5.1519151611501e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.2174999713897705,
+    "fallback_max_smooth": 3.214034080505371,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.4,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 372,
+      "update_count": 372,
+      "wind_velocity": [
+        3.9989609718322754,
+        1.599584698677063,
+        -4.482031386032759e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.41930890083313,
+    "fallback_max_smooth": 3.4158427715301514,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.4399999999999995,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 374,
+      "update_count": 374,
+      "wind_velocity": [
+        3.999056100845337,
+        1.5996227264404297,
+        -4.3923063230977277e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.6235251426696777,
+    "fallback_max_smooth": 3.620059013366699,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.48,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 376,
+      "update_count": 376,
+      "wind_velocity": [
+        3.999142646789551,
+        1.5996571779251099,
+        -4.6619129534519743e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 3.829481601715088,
+    "fallback_max_smooth": 3.8260154724121094,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.52,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 378,
+      "update_count": 378,
+      "wind_velocity": [
+        3.999221086502075,
+        1.5996885299682617,
+        -4.0852208371688903e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.036554336547852,
+    "fallback_max_smooth": 4.033088207244873,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.5600000000000005,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 380,
+      "update_count": 380,
+      "wind_velocity": [
+        3.9992926120758057,
+        1.5997170209884644,
+        -4.382146414627641e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.244142055511475,
+    "fallback_max_smooth": 4.240676403045654,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.6,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 382,
+      "update_count": 382,
+      "wind_velocity": [
+        3.9993574619293213,
+        1.5997428894042969,
+        -4.49910743327564e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.451679229736328,
+    "fallback_max_smooth": 4.44821310043335,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.640000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 384,
+      "update_count": 384,
+      "wind_velocity": [
+        3.999415874481201,
+        1.599766492843628,
+        -4.223172709316714e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.658628940582275,
+    "fallback_max_smooth": 4.655162811279297,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.68,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 386,
+      "update_count": 386,
+      "wind_velocity": [
+        3.999469518661499,
+        1.5997878313064575,
+        -4.3713947661672137e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 4.864473342895508,
+    "fallback_max_smooth": 4.861007213592529,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.720000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 388,
+      "update_count": 388,
+      "wind_velocity": [
+        3.9995181560516357,
+        1.5998072624206543,
+        -4.1014453699972364e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.068724632263184,
+    "fallback_max_smooth": 5.065258502960205,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.76,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 390,
+      "update_count": 390,
+      "wind_velocity": [
+        3.9995625019073486,
+        1.5998249053955078,
+        -4.5677495563722914e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.270910739898682,
+    "fallback_max_smooth": 5.267445087432861,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.800000000000001,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 392,
+      "update_count": 392,
+      "wind_velocity": [
+        3.9996025562286377,
+        1.5998409986495972,
+        -3.8847070982228615e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.470582962036133,
+    "fallback_max_smooth": 5.4671173095703125,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.84,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 394,
+      "update_count": 394,
+      "wind_velocity": [
+        3.999638795852661,
+        1.599855661392212,
+        -4.381871576697449e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.6673126220703125,
+    "fallback_max_smooth": 5.663846969604492,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.88,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 396,
+      "update_count": 396,
+      "wind_velocity": [
+        3.9996721744537354,
+        1.599868893623352,
+        -5.271300551612512e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 5.860684871673584,
+    "fallback_max_smooth": 5.857219219207764,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.92,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  },
+  {
+    "degraded": false,
+    "eligible_count": 17,
+    "estimator_before": {
+      "finite_update_count": 398,
+      "update_count": 398,
+      "wind_velocity": [
+        3.999702215194702,
+        1.5998808145523071,
+        -5.220775278758083e-07
+      ]
+    },
+    "execution_mode": 0,
+    "fallback_max_hard": 6.050307750701904,
+    "fallback_max_smooth": 6.046842098236084,
+    "previous_policy_index": 14,
+    "qp_accepted": true,
+    "time_seconds": 7.96,
+    "update_completed": false,
+    "update_opportunity": false,
+    "used_library_version": 460
+  }
+]

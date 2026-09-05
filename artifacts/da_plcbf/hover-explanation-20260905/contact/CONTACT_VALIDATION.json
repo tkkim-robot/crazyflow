@@ -1,0 +1,15 @@
+{
+  "scope": "Recorded output of the already completed focused run; no repeat run performed to create this record.",
+  "command": "JAX_PLATFORMS=cpu .pixi/envs/gpu-tests/bin/python -m pytest tests/unit/safety/da_plcbf/test_contact_replay.py -q",
+  "result": "8 passed in 0.95s",
+  "exit_code": 0,
+  "ruff": "All checks passed!",
+  "git_diff_check": "passed",
+  "source_sha256": {
+    "crazyflow/safety/da_plcbf/contact_replay.py": "7521977d3b01e3fd1338cf0d2f1918f7b34130029ba4aa02365cd9f277da8d4c",
+    "tests/unit/safety/da_plcbf/test_contact_replay.py": "c1e9a6d74ce14998a0fa125327badc44089ede5e0b29f5127f2beedc02bad4e9",
+    "benchmark/da_plcbf_contact_replay.py": "9e3e7381fb29e2c1d2f4d9064e1e0cc323919f032259caebd98cf0658bd6a071",
+    "benchmark/da_plcbf_contact_artifact_audit.py": "eb2a4aabd0bfe264a15782478506f65d12f798ef4e08b5fbe2a92ff898302de1"
+  },
+  "mujoco_version": "3.12.0"
+}

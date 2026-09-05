@@ -1,0 +1,276 @@
+{
+  "after_20_metrics": {
+    "centered_shape_rmse_m": 0.0005016887444071472,
+    "competency": {
+      "active_direction_count": 16,
+      "aligned_direction_count": 16,
+      "aligned_direction_fraction": 1.0,
+      "angular_rate_rps": {
+        "maximum": 0.8296544487847505,
+        "mean": 0.28749447685925705,
+        "p95": 0.6674508137771312
+      },
+      "competency_checks": {
+        "all_rollouts_finite_and_actuator_valid": true,
+        "angular_rate": true,
+        "direction_occupancy": true,
+        "endpoint_spread": true,
+        "intended_direction_alignment": true,
+        "terminal_braking_mean": true,
+        "terminal_braking_p95": true,
+        "tilt": true,
+        "trajectory_spread": true
+      },
+      "competent_under_declared_criteria": true,
+      "direction_bin_counts": [
+        1,
+        2,
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        1,
+        2,
+        1
+      ],
+      "direction_bin_for_skill": [
+        1,
+        1,
+        2,
+        0,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14,
+        13,
+        14,
+        15
+      ],
+      "displacement_norm_m": [
+        0.135743363657597,
+        0.3106515639052954,
+        0.35830678309050407,
+        0.1494369672839206,
+        0.3685185182489962,
+        0.13692154350340946,
+        0.15111238731233478,
+        0.14438929863300318,
+        0.20616048868625894,
+        0.23218783284323533,
+        0.21921700581732545,
+        0.3504867613137141,
+        0.16597168112605612,
+        0.41319817789161084,
+        0.24319520610591597,
+        0.27300108766745135
+      ],
+      "diversity_descriptor": "independent final displacement (3D)",
+      "endpoint_pairwise_mean_m": 0.3493570830734973,
+      "finite_policy_fraction": 1.0,
+      "occupied_direction_count": 14,
+      "occupied_direction_fraction": 0.875,
+      "own_target_direction_cosines": [
+        0.839643361279256,
+        0.976560996466996,
+        0.9584788322202147,
+        0.8693098307893968,
+        0.9873133961854381,
+        0.9040279593762315,
+        0.9924950092035121,
+        0.9831504428642732,
+        0.9996810703444955,
+        0.9892848540701558,
+        0.985201709479998,
+        0.9600423018014392,
+        0.8164326695435046,
+        0.9718444874521351,
+        0.9642894018419901,
+        0.937027182512324
+      ],
+      "policy_count": 16,
+      "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+      "spatial_target_rmse_m": 0.07459512342562874,
+      "terminal_speed_mps": {
+        "maximum": 0.3128165029314752,
+        "mean": 0.21402381802959694,
+        "p95": 0.2978130958695604
+      },
+      "thresholds": {
+        "maximum_angular_rate_rps": 12.0,
+        "maximum_terminal_speed_mean_mps": 0.3,
+        "maximum_terminal_speed_p95_mps": 0.5,
+        "maximum_tilt_radians": 0.9,
+        "minimum_aligned_fraction": 0.75,
+        "minimum_direction_cosine": 0.8,
+        "minimum_displacement_m": 0.1,
+        "minimum_endpoint_pairwise_mean_m": 0.3,
+        "minimum_occupied_fraction": 0.75,
+        "minimum_trajectory_pairwise_rms_mean_m": 0.15
+      },
+      "tilt_radians": {
+        "maximum": 0.16167751033684138,
+        "mean": 0.06807234081795538,
+        "p95": 0.13926401058138735
+      },
+      "trajectory_pairwise_rms_mean_m": 0.21912927340282196
+    },
+    "endpoint_centroid_error_m": 0.0005922014825046062,
+    "endpoint_centroid_m": [
+      -0.009833071380853653,
+      0.015787091106176376,
+      -0.010983802378177643
+    ],
+    "maximum_reference_point_error_m": 0.003481523599475622,
+    "mean_endpoint_error_m": 0.0016867355443537235,
+    "terminal_velocity_tracking_rmse_mps": 0.0022136406041681767,
+    "tracking_position_rmse_m": 0.0005205278866924345,
+    "trajectory_centroid_error_rms_m": 0.0002403599937679246
+  },
+  "initial_loss_gradient_norm": 0.025762027129530907,
+  "parameter_delta": {
+    "duration_offsets": 0.0,
+    "hidden_bias": 0.0013857600279152393,
+    "hidden_kernel": 0.03383512794971466,
+    "input_bias": 0.0009041977464221418,
+    "input_kernel": 0.10087903589010239,
+    "network": 0.10665364425734412,
+    "output_bias": 0.0013961702352389693,
+    "output_kernel": 0.0069940597750246525,
+    "velocity_offsets": 0.01163611188530922
+  },
+  "scope": "discarded 20-update copy; full initial Adam retained; does not train wind initial state",
+  "updates": [
+    {
+      "gradient_norm": 0.025762027129530907,
+      "loss": 7.193211217781936e-07,
+      "parameter_update_norm": 0.010155688971281052,
+      "update": 1
+    },
+    {
+      "gradient_norm": 0.019938955083489418,
+      "loss": 3.0838979000691324e-05,
+      "parameter_update_norm": 0.012807482853531837,
+      "update": 2
+    },
+    {
+      "gradient_norm": 0.021321753039956093,
+      "loss": 3.540521356626414e-05,
+      "parameter_update_norm": 0.012548906728625298,
+      "update": 3
+    },
+    {
+      "gradient_norm": 0.01290438137948513,
+      "loss": 3.3310021535726264e-05,
+      "parameter_update_norm": 0.010595346800982952,
+      "update": 4
+    },
+    {
+      "gradient_norm": 0.013452828861773014,
+      "loss": 4.664739026338793e-05,
+      "parameter_update_norm": 0.010288316756486893,
+      "update": 5
+    },
+    {
+      "gradient_norm": 0.009107416495680809,
+      "loss": 3.0226829039747827e-05,
+      "parameter_update_norm": 0.010085169225931168,
+      "update": 6
+    },
+    {
+      "gradient_norm": 0.006531143095344305,
+      "loss": 1.8405109585728496e-05,
+      "parameter_update_norm": 0.009467530995607376,
+      "update": 7
+    },
+    {
+      "gradient_norm": 0.020494231954216957,
+      "loss": 2.4777209546300583e-05,
+      "parameter_update_norm": 0.008708040229976177,
+      "update": 8
+    },
+    {
+      "gradient_norm": 0.004938298370689154,
+      "loss": 1.4379160347743891e-05,
+      "parameter_update_norm": 0.008038627915084362,
+      "update": 9
+    },
+    {
+      "gradient_norm": 0.005132423248142004,
+      "loss": 1.63974218594376e-05,
+      "parameter_update_norm": 0.007128361612558365,
+      "update": 10
+    },
+    {
+      "gradient_norm": 0.005410931073129177,
+      "loss": 1.5691119187977165e-05,
+      "parameter_update_norm": 0.006144553888589144,
+      "update": 11
+    },
+    {
+      "gradient_norm": 0.013986554928123951,
+      "loss": 3.394483428564854e-05,
+      "parameter_update_norm": 0.005721567664295435,
+      "update": 12
+    },
+    {
+      "gradient_norm": 0.006865806877613068,
+      "loss": 1.700333450571634e-05,
+      "parameter_update_norm": 0.005841103848069906,
+      "update": 13
+    },
+    {
+      "gradient_norm": 0.0057573458179831505,
+      "loss": 1.3652952475240454e-05,
+      "parameter_update_norm": 0.006045926827937365,
+      "update": 14
+    },
+    {
+      "gradient_norm": 0.01612713187932968,
+      "loss": 2.5344761525047943e-05,
+      "parameter_update_norm": 0.007315253838896751,
+      "update": 15
+    },
+    {
+      "gradient_norm": 0.02249838598072529,
+      "loss": 3.2055904739536345e-05,
+      "parameter_update_norm": 0.006736895069479942,
+      "update": 16
+    },
+    {
+      "gradient_norm": 0.005196110345423222,
+      "loss": 1.8904906028183177e-05,
+      "parameter_update_norm": 0.005711687263101339,
+      "update": 17
+    },
+    {
+      "gradient_norm": 0.004884923342615366,
+      "loss": 2.337590922252275e-05,
+      "parameter_update_norm": 0.005366893019527197,
+      "update": 18
+    },
+    {
+      "gradient_norm": 0.006567941512912512,
+      "loss": 2.1557822037721053e-05,
+      "parameter_update_norm": 0.004848194308578968,
+      "update": 19
+    },
+    {
+      "gradient_norm": 0.01766384206712246,
+      "loss": 4.3907100916840136e-05,
+      "parameter_update_norm": 0.005010125692933798,
+      "update": 20
+    }
+  ]
+}
