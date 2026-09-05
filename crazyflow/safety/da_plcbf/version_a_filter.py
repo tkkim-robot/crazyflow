@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import itertools
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from typing import NamedTuple
 
 import jax
@@ -77,6 +77,7 @@ class PolicyLibraryCertificates(NamedTuple):
     gradient_valid: Array
     fallback_wrenches: Array
     barrier_values: Array | None = None
+    time_derivatives: Array | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -204,6 +205,7 @@ class VersionAFilterResult(NamedTuple):
     selected_policy_dual: Array
     qp_kkt_valid: Array
     qp_fast_path_used: Array
+    policy_constraint_active: Array
 
 
 def _check_actuator_shapes(actuator: VersionAActuator) -> None:
@@ -305,6 +307,11 @@ def _check_library_shapes(library: PolicyLibraryCertificates) -> int:
         and jnp.asarray(library.barrier_values).shape != values.shape
     ):
         raise ValueError("library.barrier_values must match library.values")
+    if (
+        library.time_derivatives is not None
+        and jnp.asarray(library.time_derivatives).shape != values.shape
+    ):
+        raise ValueError("library.time_derivatives must match library.values")
     return policy_count
 
 
@@ -510,6 +517,7 @@ def _wrench_postcheck(
     has_certificate: Array,
     analytic_domain_valid: Array,
     config: VersionAFilterConfig,
+    policy_constraint_active: Array | bool = True,
 ) -> WrenchPostcheck:
     finite = jnp.all(jnp.isfinite(wrench))
     safe_wrench = jnp.where(jnp.isfinite(wrench), wrench, motor_polytope.midpoint_wrench)
@@ -543,10 +551,14 @@ def _wrench_postcheck(
         & jnp.isfinite(roundtrip_error)
         & (roundtrip_error <= config.allocation_roundtrip_tolerance)
     )
-    policy_passed = (~jnp.asarray(config.enforce_policy_barrier)) | (
-        has_certificate
-        & jnp.isfinite(policy_residual)
-        & (policy_residual >= -config.barrier_tolerance)
+    policy_passed = (
+        (~jnp.asarray(config.enforce_policy_barrier))
+        | (~jnp.asarray(policy_constraint_active))
+        | (
+            has_certificate
+            & jnp.isfinite(policy_residual)
+            & (policy_residual >= -config.barrier_tolerance)
+        )
     )
     analytic_passed = (~jnp.asarray(config.enforce_analytic_barriers)) | (
         analytic_domain_valid
@@ -596,6 +608,7 @@ def postcheck_version_a_action(
         has_certificate=filtered.has_certificate,
         analytic_domain_valid=filtered.analytic_barriers.domain_valid,
         config=config,
+        policy_constraint_active=filtered.policy_constraint_active,
     )
 
 
@@ -614,6 +627,8 @@ def version_a_plcbf_filter(
     selection_config: SelectionConfig = SelectionConfig(),
     capsules: CapsuleObstacleSet | None = None,
     capsule_config: CapsuleBarrierConfig = CapsuleBarrierConfig(),
+    collision_enabled: Array | bool = True,
+    obstacle_velocities: Array | None = None,
 ) -> VersionAFilterResult:
     """Project one nominal direct wrench and apply a postchecked fallback on rejection.
 
@@ -643,6 +658,14 @@ def version_a_plcbf_filter(
         if library.barrier_values is None
         else jnp.asarray(library.barrier_values, dtype=state.dtype)
     )
+    time_derivatives = (
+        jnp.zeros_like(values)
+        if library.time_derivatives is None
+        else jnp.asarray(library.time_derivatives, dtype=state.dtype)
+    )
+    policy_required = jnp.asarray(filter_config.enforce_policy_barrier) & jnp.asarray(
+        collision_enabled
+    )
     gradients = jnp.asarray(library.gradients, dtype=state.dtype)
     gradient_valid = jnp.asarray(library.gradient_valid, dtype=bool)
     fallback_wrenches = jnp.asarray(library.fallback_wrenches, dtype=state.dtype)
@@ -653,7 +676,9 @@ def version_a_plcbf_filter(
         model_tolerance=barrier_config.model_tolerance,
         quaternion_norm_tolerance=barrier_config.quaternion_norm_tolerance,
     )
-    analytic = continuous_safety_halfspaces(state, model, safety, barrier_config)
+    analytic = continuous_safety_halfspaces(
+        state, model, safety, barrier_config, obstacle_velocities=obstacle_velocities
+    )
     if capsules is not None:
         capsule_barriers = continuous_capsule_halfspaces(
             state, model, capsules, barrier_config, capsule_config
@@ -665,12 +690,15 @@ def version_a_plcbf_filter(
     certificate_finite = (
         jnp.isfinite(values)
         & jnp.isfinite(barrier_values)
+        & jnp.isfinite(time_derivatives)
         & (barrier_values <= values + filter_config.barrier_tolerance)
         & jnp.all(jnp.isfinite(gradients), axis=-1)
         & jnp.all(jnp.isfinite(fallback_wrenches), axis=-1)
     )
     safe_gradients = jnp.where(jnp.isfinite(gradients), gradients, 0.0)
-    policy_drift = safe_gradients @ control_terms.terms.drift
+    policy_drift = safe_gradients @ control_terms.terms.drift + jnp.where(
+        jnp.isfinite(time_derivatives), time_derivatives, 0.0
+    )
     policy_control = safe_gradients @ control_terms.terms.input_matrix
     policy_rows = -policy_control
     policy_bounds = policy_drift + filter_config.policy_alpha * jnp.where(
@@ -750,14 +778,41 @@ def version_a_plcbf_filter(
         )
         qp_matrices.append(analytic.matrix[obstacle_rows:])
         qp_bounds.append(analytic.upper_bound[obstacle_rows:])
+    base_matrix = jnp.concatenate(qp_matrices, axis=0)
+    base_bound = jnp.concatenate(qp_bounds, axis=0)
     if filter_config.enforce_policy_barrier:
-        qp_matrices.append(selected_row[None, :])
-        qp_bounds.append(selected_bound[None])
-    qp_matrix = jnp.concatenate(qp_matrices, axis=0)
-    qp_bound = jnp.concatenate(qp_bounds, axis=0)
-    qp, qp_fast_path_used = _project_with_exact_fast_path(
-        nominal_wrench, weight, qp_matrix, qp_bound, filter_config
-    )
+
+        def with_collision(_: None) -> tuple[PolytopeQPResult, Array]:
+            return _project_with_exact_fast_path(
+                nominal_wrench,
+                weight,
+                jnp.concatenate((base_matrix, selected_row[None, :]), axis=0),
+                jnp.concatenate((base_bound, selected_bound[None]), axis=0),
+                filter_config,
+            )
+
+        def without_collision(_: None) -> tuple[PolytopeQPResult, Array]:
+            result, used_fast = _project_with_exact_fast_path(
+                nominal_wrench,
+                weight,
+                base_matrix,
+                base_bound,
+                replace(filter_config, enforce_policy_barrier=False),
+            )
+            # The inactive collision row is absent from the solved QP. Pad diagnostics only so
+            # appearance/disappearance can share a fixed JIT result shape.
+            return result._replace(
+                multipliers=jnp.concatenate((result.multipliers, jnp.zeros(1, state.dtype))),
+                active_mask=jnp.concatenate((result.active_mask, jnp.zeros(1, dtype=bool))),
+            ), used_fast
+
+        qp, qp_fast_path_used = jax.lax.cond(
+            policy_required, with_collision, without_collision, None
+        )
+    else:
+        qp, qp_fast_path_used = _project_with_exact_fast_path(
+            nominal_wrench, weight, base_matrix, base_bound, filter_config
+        )
     qp_kkt_valid = (
         qp.feasible
         & (qp.primal_residual <= filter_config.kkt_tolerance)
@@ -776,8 +831,9 @@ def version_a_plcbf_filter(
         has_certificate=has_certificate,
         analytic_domain_valid=analytic.domain_valid,
         config=filter_config,
+        policy_constraint_active=policy_required,
     )
-    required_certificate = (~jnp.asarray(filter_config.enforce_policy_barrier)) | has_certificate
+    required_certificate = ~policy_required | has_certificate
     qp_accepted = common_valid & required_certificate & qp_kkt_valid & qp_postcheck.passed
 
     selected_fallback = fallback_wrenches[selected_index]
@@ -792,16 +848,12 @@ def version_a_plcbf_filter(
         has_certificate=has_certificate,
         analytic_domain_valid=analytic.domain_valid,
         config=filter_config,
+        policy_constraint_active=policy_required,
     )
     fallback_certified = (
-        filter_config.enforce_policy_barrier
-        & common_valid
-        & has_certificate
-        & fallback_postcheck.passed
+        policy_required & common_valid & has_certificate & fallback_postcheck.passed
     )
-    fallback_actuator_safe = (
-        filter_config.enforce_policy_barrier & fallback_postcheck.actuator_passed
-    )
+    fallback_actuator_safe = policy_required & fallback_postcheck.actuator_passed
     best_effort_action = jnp.where(
         fallback_actuator_safe, selected_fallback, motor_polytope.midpoint_wrench
     )
@@ -819,10 +871,10 @@ def version_a_plcbf_filter(
         has_certificate=has_certificate,
         analytic_domain_valid=analytic.domain_valid,
         config=filter_config,
+        policy_constraint_active=policy_required,
     )
     input_valid = common_valid & (
-        (~jnp.asarray(filter_config.enforce_policy_barrier))
-        | (certificate_finite[selected_index] & gradient_valid[selected_index])
+        (~policy_required) | (certificate_finite[selected_index] & gradient_valid[selected_index])
     )
     return VersionAFilterResult(
         applied,
@@ -854,6 +906,7 @@ def version_a_plcbf_filter(
         else jnp.asarray(0.0, state.dtype),
         qp_kkt_valid,
         qp_fast_path_used,
+        policy_required,
     )
 
 

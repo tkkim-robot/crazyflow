@@ -13,9 +13,9 @@ to skip a step.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from numbers import Integral
-from typing import TYPE_CHECKING, NamedTuple
+from typing import TYPE_CHECKING, Any, NamedTuple
 
 import jax
 import jax.numpy as jnp
@@ -39,6 +39,7 @@ if TYPE_CHECKING:
 
 _PROPRIOCEPTIVE_FEATURES = 14  # displacement(3), attitude(4), v(3), omega(3), phase(1)
 _DESCRIPTOR_SIZE = 9  # final displacement, mean velocity, terminal velocity
+_SPATIAL_DESCRIPTOR_SIZE = 3  # only independent displacement coordinates enter diversity
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,6 +64,9 @@ class PersistentSkillConfig:
     action_rate_weight: float = 1e-3
     saturation_weight: float = 1e-3
     trust_weight: float = 1e-4
+    terminal_braking_weight: float = 1.0
+    attitude_weight: float = 0.02
+    angular_rate_weight: float = 0.01
     covariance_epsilon: float = 1e-3
     pairwise_sigma: float = 1.0
     saturation_temperature: float = 0.05
@@ -111,6 +115,9 @@ class PersistentSkillConfig:
             self.action_rate_weight,
             self.saturation_weight,
             self.trust_weight,
+            self.terminal_braking_weight,
+            self.attitude_weight,
+            self.angular_rate_weight,
             self.weight_decay,
             self.initial_residual_scale,
         )
@@ -192,6 +199,9 @@ class SkillLossMetrics(NamedTuple):
     trust: Array
     rollout_valid_fraction: Array
     descriptors: Array
+    terminal_braking: Array
+    attitude: Array
+    angular_rate: Array
 
 
 class PersistentStepMetrics(NamedTuple):
@@ -500,6 +510,47 @@ def _parameter_distance(params: SkillActorParams, reference: SkillActorParams) -
     return jnp.mean(jnp.stack(terms))
 
 
+class SpatialDescriptorLosses(NamedTuple):
+    """Tracking and diversity losses on three independent displacement coordinates only."""
+
+    target: Array
+    diversity: Array
+    pairwise: Array
+
+
+def spatial_descriptor_losses(
+    descriptors: Array, targets: Array, config: PersistentSkillConfig
+) -> SpatialDescriptorLosses:
+    """Evaluate displacement coverage while leaving braking and body motion separate.
+
+    Nine-dimensional diagnostic descriptors remain accepted for saved-trace compatibility, but
+    mean and terminal velocity columns never enter these losses. In particular, increasing
+    terminal velocity cannot be rewarded as repertoire diversity.
+    """
+    if descriptors.ndim != 2 or descriptors.shape[0] < 2 or descriptors.shape[1] not in (3, 9):
+        raise ValueError("descriptors must have shape (K, 3) or (K, 9), with K >= 2")
+    if targets.shape != descriptors.shape:
+        raise ValueError("targets must match descriptor shapes")
+    scales = jnp.asarray(config.descriptor_scales[:3], dtype=descriptors.dtype)
+    spatial = descriptors[:, :3] / scales
+    spatial_targets = targets[:, :3] / scales
+    target = jnp.mean((spatial - spatial_targets) ** 2)
+    centered = spatial - jnp.mean(spatial, axis=0, keepdims=True)
+    covariance = centered.T @ centered / spatial.shape[0]
+    sign, logdet = jnp.linalg.slogdet(
+        covariance
+        + config.covariance_epsilon * jnp.eye(_SPATIAL_DESCRIPTOR_SIZE, dtype=spatial.dtype)
+    )
+    diversity = jnp.where(sign > 0, -logdet, jnp.inf)
+    differences = spatial[:, None, :] - spatial[None, :, :]
+    squared_distances = jnp.sum(differences**2, axis=-1)
+    off_diagonal = 1.0 - jnp.eye(spatial.shape[0], dtype=spatial.dtype)
+    pairwise = jnp.sum(
+        off_diagonal * jnp.exp(-squared_distances / (config.pairwise_sigma**2))
+    ) / jnp.sum(off_diagonal)
+    return SpatialDescriptorLosses(target, diversity, pairwise)
+
+
 def obstacle_agnostic_skill_loss(
     params: SkillActorParams,
     spec: SkillLibrarySpec,
@@ -509,27 +560,16 @@ def obstacle_agnostic_skill_loss(
     previous_params: SkillActorParams,
     config: PersistentSkillConfig,
 ) -> tuple[Array, SkillLossMetrics]:
-    """Return target, diversity, effort, saturation, and trust losses with no safety term."""
+    """Learn spatial repertoire coverage with separate obstacle-free motion regularization."""
     rollout = rollout_skill_library(params, spec, initial_state, point_model, actuator, config)
-    scales = jnp.asarray(config.descriptor_scales, dtype=initial_state.dtype)
-    descriptors = rollout.descriptors / scales
-    targets = spec.target_descriptors / scales
-    descriptor_target = jnp.mean((descriptors - targets) ** 2)
-
-    centered = descriptors - jnp.mean(descriptors, axis=0, keepdims=True)
-    covariance = centered.T @ centered / descriptors.shape[0]
-    sign, logdet = jnp.linalg.slogdet(
-        covariance
-        + config.covariance_epsilon * jnp.eye(_DESCRIPTOR_SIZE, dtype=initial_state.dtype)
+    descriptor_target, diversity, pairwise = spatial_descriptor_losses(
+        rollout.descriptors, spec.target_descriptors, config
     )
-    diversity = jnp.where(sign > 0, -logdet, jnp.inf)
-
-    differences = descriptors[:, None, :] - descriptors[None, :, :]
-    squared_distances = jnp.sum(differences**2, axis=-1)
-    off_diagonal = 1.0 - jnp.eye(descriptors.shape[0], dtype=initial_state.dtype)
-    pairwise = jnp.sum(
-        off_diagonal * jnp.exp(-squared_distances / (config.pairwise_sigma**2))
-    ) / jnp.sum(off_diagonal)
+    terminal_braking = jnp.mean((rollout.states[:, -1, 7:10] / config.velocity_scale) ** 2)
+    rotation = quaternion_to_rotation_matrix(rollout.states[:, :, 3:7])
+    # 1-cos(tilt) is smooth at upright hover, unlike differentiating arccos at one.
+    attitude = jnp.mean(1.0 - rotation[:, :, 2, 2])
+    angular_rate = jnp.mean((rollout.states[:, :, 10:13] / config.angular_velocity_scale) ** 2)
 
     action = jnp.mean((rollout.desired_accelerations / config.acceleration_limit) ** 2)
     action_rate = (
@@ -556,6 +596,9 @@ def obstacle_agnostic_skill_loss(
         + config.action_rate_weight * action_rate
         + config.saturation_weight * saturation
         + config.trust_weight * trust
+        + config.terminal_braking_weight * terminal_braking
+        + config.attitude_weight * attitude
+        + config.angular_rate_weight * angular_rate
     )
     rollout_valid = jnp.all(rollout.policy_valid, axis=1) & jnp.all(
         jnp.isfinite(rollout.states), axis=(1, 2)
@@ -573,7 +616,157 @@ def obstacle_agnostic_skill_loss(
         trust,
         jnp.mean(rollout_valid),
         rollout.descriptors,
+        terminal_braking,
+        attitude,
+        angular_rate,
     )
+
+
+@dataclass(frozen=True, slots=True)
+class SkillCompetencyThresholds:
+    """Declared nominal-model diagnostics; these never gate learner updates or publication."""
+
+    minimum_displacement_m: float = 0.10
+    minimum_direction_cosine: float = 0.8
+    minimum_occupied_fraction: float = 0.75
+    minimum_aligned_fraction: float = 0.75
+    minimum_endpoint_pairwise_mean_m: float = 0.30
+    minimum_trajectory_pairwise_rms_mean_m: float = 0.15
+    maximum_terminal_speed_mean_mps: float = 0.30
+    maximum_terminal_speed_p95_mps: float = 0.50
+    maximum_tilt_radians: float = 0.90
+    maximum_angular_rate_rps: float = 12.0
+
+    def validate(self) -> None:
+        """Reject malformed thresholds rather than silently relabeling a repertoire."""
+        if not all(math.isfinite(value) and value > 0.0 for value in asdict(self).values()):
+            raise ValueError("competency thresholds must be positive and finite")
+        for value in (
+            self.minimum_direction_cosine,
+            self.minimum_occupied_fraction,
+            self.minimum_aligned_fraction,
+        ):
+            if value > 1.0:
+                raise ValueError("direction cosine and occupancy/alignment fractions must be <= 1")
+        if self.maximum_tilt_radians > math.pi:
+            raise ValueError("maximum_tilt_radians must not exceed pi")
+
+
+def skill_library_competency(
+    rollout: SkillRollout,
+    spec: SkillLibrarySpec,
+    config: PersistentSkillConfig,
+    *,
+    thresholds: SkillCompetencyThresholds = SkillCompetencyThresholds(),
+) -> dict[str, Any]:
+    """Measure actual spatial motions and braking, never latent identities alone.
+
+    Direction bins are nearest target-displacement directions on the unit sphere. A trajectory
+    must travel the declared minimum distance before it occupies a bin. Pairwise trajectory
+    spread compares synchronized relative positions on the same fixed metric scale. These
+    obstacle-independent diagnostic criteria describe a checkpoint; they do not reject updates.
+    """
+    config.validate()
+    thresholds.validate()
+    policy_count, _ = _validate_spec(spec)
+    states = np.asarray(rollout.states, dtype=np.float64)
+    if states.shape != (policy_count, config.horizon + 1, 13):
+        raise ValueError("rollout states must match the skill count and configured horizon")
+    finite = np.all(np.isfinite(states), axis=(1, 2)) & np.all(
+        np.asarray(rollout.policy_valid), axis=1
+    )
+    relative = states[:, :, :3] - states[:, :1, :3]
+    displacement = relative[:, -1]
+    norms = np.linalg.norm(displacement, axis=1)
+    directions = displacement / np.maximum(norms[:, None], 1e-12)
+    targets = np.asarray(spec.target_descriptors[:, :3], dtype=np.float64)
+    target_norms = np.linalg.norm(targets, axis=1)
+    target_directions = targets / np.maximum(target_norms[:, None], 1e-12)
+    similarity = directions @ target_directions.T
+    similarity[:, target_norms <= 1e-12] = -np.inf
+    active = finite & (norms >= thresholds.minimum_displacement_m)
+    if not np.any(target_norms > 1e-12):
+        active[:] = False
+    assigned = np.where(active, np.argmax(similarity, axis=1), -1)
+    counts = np.bincount(assigned[active], minlength=policy_count)
+    occupied = int(np.count_nonzero(counts))
+    own_cosine = np.sum(directions * target_directions, axis=1)
+    aligned = active & (own_cosine >= thresholds.minimum_direction_cosine)
+    pair_mask = ~np.eye(policy_count, dtype=bool) & finite[:, None] & finite[None, :]
+    endpoint_distances = np.linalg.norm(displacement[:, None] - displacement[None, :], axis=-1)
+    trajectory_distances = np.sqrt(
+        np.mean(np.sum((relative[:, None] - relative[None, :]) ** 2, axis=-1), axis=-1)
+    )
+    endpoint_mean = float(np.mean(endpoint_distances[pair_mask])) if np.any(pair_mask) else None
+    trajectory_mean = float(np.mean(trajectory_distances[pair_mask])) if np.any(pair_mask) else None
+    terminal_speed = np.linalg.norm(states[:, -1, 7:10], axis=1)
+    quaternion = states[:, :, 3:7]
+    quaternion = quaternion / np.maximum(np.linalg.norm(quaternion, axis=-1, keepdims=True), 1e-12)
+    body_z_world_z = 1.0 - 2.0 * (quaternion[:, :, 0] ** 2 + quaternion[:, :, 1] ** 2)
+    tilt = np.arccos(np.clip(body_z_world_z, -1.0, 1.0))
+    rate = np.linalg.norm(states[:, :, 10:13], axis=-1)
+
+    def statistics(values: np.ndarray) -> dict[str, float | None]:
+        available = values[np.isfinite(values)]
+        if not available.size:
+            return {"mean": None, "p95": None, "maximum": None}
+        return {
+            "mean": float(np.mean(available)),
+            "p95": float(np.percentile(available, 95)),
+            "maximum": float(np.max(available)),
+        }
+
+    speed_stats = statistics(terminal_speed[finite])
+    tilt_stats = statistics(tilt[finite])
+    rate_stats = statistics(rate[finite])
+    checks = {
+        "all_rollouts_finite_and_actuator_valid": bool(np.all(finite)),
+        "direction_occupancy": occupied / policy_count >= thresholds.minimum_occupied_fraction,
+        "intended_direction_alignment": np.count_nonzero(aligned) / policy_count
+        >= thresholds.minimum_aligned_fraction,
+        "endpoint_spread": endpoint_mean is not None
+        and endpoint_mean >= thresholds.minimum_endpoint_pairwise_mean_m,
+        "trajectory_spread": trajectory_mean is not None
+        and trajectory_mean >= thresholds.minimum_trajectory_pairwise_rms_mean_m,
+        "terminal_braking_mean": speed_stats["mean"] is not None
+        and speed_stats["mean"] <= thresholds.maximum_terminal_speed_mean_mps,
+        "terminal_braking_p95": speed_stats["p95"] is not None
+        and speed_stats["p95"] <= thresholds.maximum_terminal_speed_p95_mps,
+        "tilt": tilt_stats["maximum"] is not None
+        and tilt_stats["maximum"] <= thresholds.maximum_tilt_radians,
+        "angular_rate": rate_stats["maximum"] is not None
+        and rate_stats["maximum"] <= thresholds.maximum_angular_rate_rps,
+    }
+    # Native Python values make this diagnostic directly usable in JSON checkpoint metadata.
+    checks = {name: bool(value) for name, value in checks.items()}
+    return {
+        "scope": "nominal point-model motion competence; no obstacle or task safety guarantee",
+        "diversity_descriptor": "independent final displacement (3D)",
+        "policy_count": policy_count,
+        "thresholds": asdict(thresholds),
+        "competency_checks": checks,
+        "competent_under_declared_criteria": all(checks.values()),
+        "finite_policy_fraction": float(np.mean(finite)),
+        "active_direction_count": int(np.count_nonzero(active)),
+        "occupied_direction_count": occupied,
+        "occupied_direction_fraction": occupied / policy_count,
+        "direction_bin_counts": counts.tolist(),
+        "direction_bin_for_skill": assigned.tolist(),
+        "aligned_direction_count": int(np.count_nonzero(aligned)),
+        "aligned_direction_fraction": float(np.mean(aligned)),
+        "own_target_direction_cosines": [float(v) if np.isfinite(v) else None for v in own_cosine],
+        "displacement_norm_m": [float(v) if np.isfinite(v) else None for v in norms],
+        "endpoint_pairwise_mean_m": endpoint_mean,
+        "trajectory_pairwise_rms_mean_m": trajectory_mean,
+        "terminal_speed_mps": speed_stats,
+        "tilt_radians": tilt_stats,
+        "angular_rate_rps": rate_stats,
+        "spatial_target_rmse_m": (
+            float(np.sqrt(np.mean((displacement[finite] - targets[finite]) ** 2)))
+            if np.any(finite)
+            else None
+        ),
+    }
 
 
 def build_persistent_skill_learner(
@@ -696,13 +889,17 @@ __all__ = [
     "PersistentSkillFunctions",
     "PersistentStepMetrics",
     "SkillActorParams",
+    "SkillCompetencyThresholds",
     "SkillLibrarySpec",
     "SkillLossMetrics",
     "SkillRollout",
+    "SpatialDescriptorLosses",
     "build_fibonacci_skill_spec",
     "build_persistent_skill_learner",
     "initialize_skill_actor",
     "obstacle_agnostic_skill_actions",
     "obstacle_agnostic_skill_loss",
     "rollout_skill_library",
+    "skill_library_competency",
+    "spatial_descriptor_losses",
 ]

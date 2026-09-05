@@ -1,9 +1,12 @@
 # Corrected DA-PLCBF mechanism-review handoff
 
-> **Superseded checkpoint.** Start with [DA_PLCBF_REVISION_REVIEW.md](DA_PLCBF_REVISION_REVIEW.md)
-> for the 2026-09-04 independent revision. The implementation and results below describe earlier
-> checkpoints; their completion claims do not validate the revised code. Final revision evidence
-> is tracked in the new review's numerical-results section.
+> **Current entry point:** [DA_PLCBF_COMPETENT_REVIEW.md](DA_PLCBF_COMPETENT_REVIEW.md),
+> followed by [the numerical revision](docs/da_plcbf_numerics_revision.md) and
+> [the learning protocol](docs/da_plcbf_learning_protocol.md). These describe the changes
+> following review of `cbaa4ba`, including competent shared checkpoints, explicit failures,
+> measured scheduling, and updated replays. The material below describes older checkpoints;
+> its completion claims do not validate this revision. The new review states which results
+> pass, which fail, and what research claim remains unproven.
 
 > **Current review path.** The corrected algorithm requested in the latest feedback supersedes the
 > admission-gated, uncertainty-sampled campaign path for this review. Start with

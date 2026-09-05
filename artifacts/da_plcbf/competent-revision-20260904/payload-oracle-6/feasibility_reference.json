@@ -1,0 +1,300 @@
+{
+  "arena_scope": "center position with the same explicit arena clearance as the safety filter",
+  "checks": {
+    "angular_rate_limit": true,
+    "arena_limits": true,
+    "finite_execution": true,
+    "goal_reached_and_settled": true,
+    "inflated_shell_clear": true,
+    "motor_limits": true,
+    "physical_collision_clear": true,
+    "speed_limit": true,
+    "tilt_limit": true
+  },
+  "closest_obstacle_time_seconds": 4.94,
+  "commanded_waypoints": [
+    [
+      4.0,
+      1.7999999523162842,
+      2.200000047683716
+    ],
+    [
+      8.5,
+      1.7999999523162842,
+      2.200000047683716
+    ],
+    [
+      10.0,
+      0.0,
+      1.399999976158142
+    ]
+  ],
+  "config": {
+    "acceleration_limit": 1.2,
+    "arena_clearance_m": 0.08,
+    "goal_hold_steps": 10,
+    "goal_speed_tolerance_mps": 0.2,
+    "goal_tolerance_m": 0.25,
+    "motor_tolerance_N": 3e-06,
+    "position_gain": 2.0,
+    "state_limit_tolerance": 2e-05,
+    "velocity_gain": 2.8,
+    "waypoint_speed_tolerance_mps": 0.35,
+    "waypoint_tolerance_m": 0.12
+  },
+  "device": "cuda:0",
+  "executed_steps": 601,
+  "failure_at_absolute_step": null,
+  "feasible_witness_found": true,
+  "final_goal_distance_m": 0.15999628603458405,
+  "final_speed_mps": 0.16036294400691986,
+  "final_waypoint_index": 2,
+  "integration_dt_seconds": 0.02,
+  "interpretation": "success proves one sampled numerical route; failure does not prove impossibility",
+  "maximum_angular_rate_rps": 0.6328640580177307,
+  "maximum_speed_mps": 2.0637929439544678,
+  "maximum_tilt_radians": 0.1991671323776245,
+  "minimum_arena_center_margin_m": 1.2036380767822266,
+  "minimum_inflated_clearance_m": 0.18047250625162956,
+  "minimum_motor_margin_N": 0.051942259073257446,
+  "minimum_physical_clearance_m": 0.33047250625162955,
+  "nominal_model_compensation": true,
+  "physical_configuration": {
+    "actuator": {
+      "arm_length": 0.03535500168800354,
+      "mixing_matrix": [
+        [
+          -1.0,
+          -1.0,
+          1.0,
+          1.0
+        ],
+        [
+          -1.0,
+          1.0,
+          1.0,
+          -1.0
+        ],
+        [
+          -1.0,
+          1.0,
+          -1.0,
+          1.0
+        ]
+      ],
+      "thrust_max": 0.20000000298023224,
+      "thrust_min": 0.021362630650401115,
+      "thrust_to_torque": 0.005938934162259102
+    },
+    "ego_radius_final_m": 0.05,
+    "ego_radius_initial_m": 0.05,
+    "initial_model": {
+      "drag_matrix": [
+        [
+          -0.021491630002856255,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.021491630002856255,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.023597359657287598
+        ]
+      ],
+      "external_force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_torque": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gravity_vec": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "inertia": [
+        [
+          2.9518749215640128e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          3.2518750231247395e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          5.3518750064540654e-05
+        ]
+      ],
+      "inertia_inv": [
+        [
+          33876.7734375,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          30751.490234375,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          18685.041015625
+        ]
+      ],
+      "mass": 0.054224997758865356,
+      "wind_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "purpose": "known-model physically achievable detour witness; not a PL-CBF certificate",
+  "requested_max_steps": 800,
+  "scenario": {
+    "angular_rate_max": 12.0,
+    "arena_lower": [
+      -5.0,
+      -3.5,
+      0.15000000596046448
+    ],
+    "arena_upper": [
+      12.0,
+      4.0,
+      4.0
+    ],
+    "dt": 0.02,
+    "ego_radius": 0.05,
+    "goal_position": [
+      10.0,
+      0.0,
+      1.399999976158142
+    ],
+    "goal_velocity": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "horizon": 60,
+    "initial_state": [
+      -3.0,
+      0.0,
+      1.399999976158142,
+      0.0,
+      0.0,
+      0.0,
+      1.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "name": "competent_payload_oracle",
+    "obstacle_clearance": 0.15,
+    "obstacle_initial_centers": [
+      [
+        5.800000190734863,
+        0.0,
+        1.2000000476837158
+      ],
+      [
+        7.300000190734863,
+        0.15000000596046448,
+        2.6500000953674316
+      ]
+    ],
+    "obstacle_mask": [
+      true,
+      true
+    ],
+    "obstacle_radii": [
+      0.550000011920929,
+      0.550000011920929
+    ],
+    "obstacle_velocities": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "skill_displacements": [
+      [
+        1.2000000476837158,
+        0.0,
+        0.0
+      ],
+      [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.399999976158142,
+        0.0
+      ],
+      [
+        0.0,
+        -1.399999976158142,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0
+      ],
+      [
+        0.0,
+        0.0,
+        -0.699999988079071
+      ],
+      [
+        0.800000011920929,
+        1.0,
+        0.5
+      ],
+      [
+        0.800000011920929,
+        -1.0,
+        0.5
+      ]
+    ],
+    "speed_max": 3.5,
+    "steps": 1000,
+    "tilt_max_radians": 0.8999999761581421,
+    "wind_after": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "wind_before": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "wind_change_step": 200
+  },
+  "start_step": 200
+}

@@ -1,0 +1,59 @@
+{
+  "path_convention": "All paths are relative to repository root.",
+  "video": "artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/compensated_vs_adaptive_demo.goal-sphere.mp4",
+  "sha256": "80d1d2e4ae874a590974f231181b81df19ee9007c5d3026db3274273ad118b8e",
+  "source_npz": "artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/competent_comparison.npz",
+  "source_npz_sha256": "c11f613a141290da60dfa93d44de56c01393d532d3dfd35b1b62df081aca53d9",
+  "source_json": "artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/competent_comparison.json",
+  "source_json_sha256": "d3ebe1819753ce55fe62893e63370c46b66a98c7741794bf19cb291519db5eb4",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "nb_read_frames": "400"
+      }
+    ],
+    "format": {
+      "duration": "20.000000"
+    }
+  },
+  "mode": "demo",
+  "left_method": "compensated",
+  "right_method": "adaptive",
+  "pause": null,
+  "collision_behavior": "Freeze failed scene and its visible telemetry at first recorded collision segment end sample; source trace is preserved.",
+  "decoded_frames": [
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/compensated_vs_adaptive_demo_frame_1.goal-sphere.png",
+      "playback_seconds": 3.4,
+      "description": "recorded shared-prefix emergency"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/compensated_vs_adaptive_demo_frame_2.goal-sphere.png",
+      "playback_seconds": 6.2,
+      "description": "moving-obstacle encounter"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/compensated_vs_adaptive_demo_frame_3.goal-sphere.png",
+      "playback_seconds": 19.0,
+      "description": "late goal hold"
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/compensated_vs_adaptive_demo_contact_sheet.goal-sphere.jpg",
+  "visual_review_pending": false,
+  "visual_review": {
+    "frames_inspected": 3,
+    "notes": [
+      "Inspected decoded frames at playback 3.40 s, 6.20 s, and 19.00 s.",
+      "Both emergency samples explicitly say EMERGENCY POLICY \u00b7 UNCERTIFIED while the collision-clear skill count remains separately visible.",
+      "The moving obstacle follows its recorded centers and no fictitious wind field is displayed."
+    ],
+    "limitations": [
+      "Some forward skill endpoints can reach the main camera boundary during fast flight; the fixed-scale neutral-reference insets preserve the complete recorded fan."
+    ]
+  },
+  "superseded_reason": "The opaque goal sphere could obscure the drone on arrival; the final demo uses an open horizontal ring."
+}

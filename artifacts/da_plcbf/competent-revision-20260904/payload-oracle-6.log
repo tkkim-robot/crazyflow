@@ -1,0 +1,40 @@
+fixed: 0/400
+fixed: 50/400
+fixed: 100/400
+fixed: 150/400
+fixed: 200/400
+fixed: 250/400
+fixed: 300/400
+fixed: 350/400
+{"method": "fixed", "result": {"minimum_physical_clearance_m": 0.1593432298138449, "minimum_inflated_clearance_m": 0.009343229813844917, "physical_collision": false, "final_goal_distance_m": 4.901451587677002, "negative_hard_H_intervals": 0, "zero_selectable_intervals": 0, "qp_execution_count": 500, "fallback_execution_count": 0, "emergency_execution_count": 0, "midpoint_execution_count": 0, "degraded_step_count": 0, "positive_dual_on_executed_QP_count": 410, "minimum_motor_margin_N": 0.06197011470794678, "minimum_operational_residual": 1.0, "first_negative_hard_H_time": null, "first_zero_selectable_time": null, "first_emergency_time": null, "first_shell_violation_time": null, "first_physical_collision_time": null, "failure_sequence": "Recorded events are chronology, not proof that every safe control was impossible.", "controller_timing": {"count": 400, "median_seconds": 0.01843060739338398, "p95_seconds": 0.02054012492299079, "maximum_seconds": 0.02241694089025259}, "learner_timing": {"count": 0, "median_seconds": null, "p95_seconds": null, "maximum_seconds": null}, "attempted_updates": 0, "finite_updates": 0, "initial_library_version": 500, "final_library_version": 500, "last_controller_used_library_version": 500, "deadline_misses": 0, "maximum_snapshot_age_seconds": 19.959999084472656, "safe_goal_success": false}}
+compensated: 0/400
+compensated: 50/400
+compensated: 100/400
+compensated: 150/400
+compensated: 200/400
+compensated: 250/400
+compensated: 300/400
+compensated: 350/400
+{"method": "compensated", "result": {"minimum_physical_clearance_m": 0.1594150105079996, "minimum_inflated_clearance_m": 0.009415010507999616, "physical_collision": false, "final_goal_distance_m": 2.5832174287643284e-05, "negative_hard_H_intervals": 0, "zero_selectable_intervals": 0, "qp_execution_count": 500, "fallback_execution_count": 0, "emergency_execution_count": 0, "midpoint_execution_count": 0, "degraded_step_count": 0, "positive_dual_on_executed_QP_count": 73, "minimum_motor_margin_N": 0.06237088143825531, "minimum_operational_residual": 1.0, "first_negative_hard_H_time": null, "first_zero_selectable_time": null, "first_emergency_time": null, "first_shell_violation_time": null, "first_physical_collision_time": null, "failure_sequence": "Recorded events are chronology, not proof that every safe control was impossible.", "controller_timing": {"count": 400, "median_seconds": 0.018561346572823822, "p95_seconds": 0.02064379365183413, "maximum_seconds": 0.024565986124798656}, "learner_timing": {"count": 0, "median_seconds": null, "p95_seconds": null, "maximum_seconds": null}, "attempted_updates": 0, "finite_updates": 0, "initial_library_version": 500, "final_library_version": 500, "last_controller_used_library_version": 500, "deadline_misses": 0, "maximum_snapshot_age_seconds": 19.959999084472656, "safe_goal_success": true}}
+adaptive: 0/400
+adaptive: 50/400
+adaptive: 100/400
+adaptive: 150/400
+adaptive: 200/400
+adaptive: 250/400
+adaptive: 300/400
+adaptive: 350/400
+{"method": "adaptive", "result": {"minimum_physical_clearance_m": 0.16269427407134757, "minimum_inflated_clearance_m": 0.012694274071347572, "physical_collision": false, "final_goal_distance_m": 1.6559672076255083e-05, "negative_hard_H_intervals": 0, "zero_selectable_intervals": 0, "qp_execution_count": 500, "fallback_execution_count": 0, "emergency_execution_count": 0, "midpoint_execution_count": 0, "degraded_step_count": 0, "positive_dual_on_executed_QP_count": 62, "minimum_motor_margin_N": 0.06308205425739288, "minimum_operational_residual": 1.0, "first_negative_hard_H_time": null, "first_zero_selectable_time": null, "first_emergency_time": null, "first_shell_violation_time": null, "first_physical_collision_time": null, "failure_sequence": "Recorded events are chronology, not proof that every safe control was impossible.", "controller_timing": {"count": 400, "median_seconds": 0.01591976941563189, "p95_seconds": 0.019375556928571312, "maximum_seconds": 0.021481401985511184}, "learner_timing": {"count": 386, "median_seconds": 0.01134336506947875, "p95_seconds": 0.01147531863534823, "maximum_seconds": 0.012233595829457045}, "attempted_updates": 386, "finite_updates": 386, "initial_library_version": 500, "final_library_version": 886, "last_controller_used_library_version": 885, "deadline_misses": 0, "maximum_snapshot_age_seconds": 4.0, "safe_goal_success": true}}
+{
+  "directory": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6",
+  "checks": {
+    "same_event_checkpoint": true,
+    "nominal_repertoire_competent": true,
+    "hover_remains_feasible": true,
+    "no_midpoint_execution": true,
+    "adaptive_safe_goal": true,
+    "adaptive_zero_degraded": true,
+    "adaptive_updates_finite": true,
+    "adaptive_budget_met": true
+  }
+}

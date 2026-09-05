@@ -41,6 +41,8 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--fps", type=float, default=20.0)
     run.add_argument("--width", type=int, default=1600)
     run.add_argument("--height", type=int, default=900)
+    run.add_argument("--mode", choices=("demo", "diagnostic"), default="diagnostic")
+    run.add_argument("--repertoire-extent-m", type=float, default=1.5)
     run.add_argument("--config", type=Path, help="JSON overrides for OnlineConstantWindConfig")
     run.add_argument("--scenario", type=Path, help="JSON overrides for the wind scenario")
     run.add_argument("--policy-count", type=int)
@@ -58,6 +60,8 @@ def _parser() -> argparse.ArgumentParser:
     render.add_argument("--fps", type=float, default=20.0)
     render.add_argument("--width", type=int, default=1600)
     render.add_argument("--height", type=int, default=900)
+    render.add_argument("--mode", choices=("demo", "diagnostic"), default="diagnostic")
+    render.add_argument("--repertoire-extent-m", type=float, default=1.5)
     render.add_argument("--left-method", default="fixed")
     render.add_argument("--right-method", default="adaptive")
     render.add_argument("--probe-pause-time", type=float)
@@ -71,6 +75,8 @@ def main() -> None:
         fps=args.fps,
         width=args.width,
         height=args.height,
+        mode=args.mode,
+        repertoire_extent_m=args.repertoire_extent_m,
         probe_pause_time=args.probe_pause_time,
         probe_pause_seconds=args.probe_pause_seconds,
     )

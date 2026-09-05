@@ -23,10 +23,15 @@ import jax
 import jax.numpy as jnp
 from jax import Array
 
-from crazyflow.safety.da_plcbf.quad_policy import waypoint_nominal_wrench
+from crazyflow.safety.da_plcbf.quad_policy import QuadPolicyConfig, waypoint_nominal_wrench
 from crazyflow.safety.da_plcbf.quad_rollouts import direct_wrench_symplectic_step
 from crazyflow.safety.da_plcbf.selector import SelectionConfig
-from crazyflow.safety.da_plcbf.version_a_barriers import VersionAModel
+from crazyflow.safety.da_plcbf.version_a_barriers import (
+    VersionAModel,
+    continuous_safety_halfspaces,
+    dimensionless_safety_values,
+    validated_control_affine_terms,
+)
 from crazyflow.safety.da_plcbf.version_a_filter import (
     PolicyLibraryCertificates,
     VersionAFilterResult,
@@ -36,7 +41,6 @@ from crazyflow.safety.da_plcbf.version_a_filter import (
 )
 
 if TYPE_CHECKING:
-    from crazyflow.safety.da_plcbf.quad_policy import QuadPolicyConfig
     from crazyflow.safety.da_plcbf.version_a_barriers import (
         RigidBodySafetySet,
         VersionABarrierConfig,
@@ -53,7 +57,10 @@ QP_REJECTION_REASONS = (
     "policy_residual_failed",
     "analytic_barrier_failed",
     "held_interval_failed",
+    "held_operational_failed",
 )
+
+EXECUTION_MODES = ("qp", "fallback", "emergency", "midpoint")
 
 
 class PolicyRollouts(NamedTuple):
@@ -75,16 +82,23 @@ class RuntimeObstacleTrajectories(NamedTuple):
     ``centers`` has shape ``(horizon + 1, obstacle_count, 3)``.  ``mask`` has shape
     ``(horizon + 1, obstacle_count)`` so an observed moving obstacle can enter or leave the
     prediction window without introducing a particle/sample axis.  Radii are constant over the
-    short rollout and have shape ``(obstacle_count,)``.
+    short rollout and have shape ``(obstacle_count,)``. Optional velocities have shape
+    ``(obstacle_count, 3)`` or match centers; they define the local absolute-time shift.
+    Without them, adjacent prediction-node slopes define that shift.
     """
 
     centers: Array
     radii: Array
     mask: Array
+    velocities: Array | None = None
 
 
 class RuntimePolicyValues(NamedTuple):
-    """Hard node/swept values and active-minimum diagnostics for every candidate."""
+    """Hard node/swept values and active-minimum diagnostics for every candidate.
+
+    A valid empty/all-masked collision horizon has value +inf (vacuous), active index -1,
+    and input_valid=True. Invalid inputs have value -inf. Solver placeholders are separate.
+    """
 
     values: Array
     constraint_values: Array
@@ -122,6 +136,19 @@ class ContinuousVersionAStep(NamedTuple):
     smooth_values: Array
     selected_policy_dual: Array
     qp_rejection_flags: Array
+    time_derivatives: Array
+    selected_smooth_value: Array
+    selected_time_derivative: Array
+    collision_constraint_active: Array
+    effective_smooth_temperature: Array
+    smooth_gap_bound: Array
+    used_emergency: Array
+    execution_mode: Array
+    executed_policy_dual: Array
+    applied_held_operational_margin: Array
+    applied_held_operational_residual: Array
+    applied_held_operational_passed: Array
+    emergency_postcheck: WrenchPostcheck
 
 
 @dataclass(frozen=True, slots=True)
@@ -144,6 +171,10 @@ class ContinuousVersionAConfig:
     analytic_obstacle_hocbf: bool = False
     use_policy_constraint: bool = True
     smooth_min_temperature: float = 0.005
+    smooth_min_gap_budget: float | None = 0.03
+    control_interval_steps: int = 1
+    emergency_braking_gain: float = 2.0
+    emergency_acceleration_limit: float = 4.0
 
     def validate(self) -> None:
         """Reject non-finite geometry or invalid fixed rollout shapes."""
@@ -159,6 +190,23 @@ class ContinuousVersionAConfig:
             raise ValueError("ego_radius must be finite and nonnegative")
         if not math.isfinite(self.smooth_min_temperature) or self.smooth_min_temperature <= 0:
             raise ValueError("smooth_min_temperature must be finite and positive")
+        if self.smooth_min_gap_budget is not None and (
+            not math.isfinite(self.smooth_min_gap_budget) or self.smooth_min_gap_budget <= 0
+        ):
+            raise ValueError("smooth_min_gap_budget must be positive finite or None")
+        if (
+            isinstance(self.control_interval_steps, bool)
+            or not isinstance(self.control_interval_steps, int)
+            or not 1 <= self.control_interval_steps <= self.horizon
+        ):
+            raise ValueError("control_interval_steps must be an integer in [1, horizon]")
+        if not all(
+            math.isfinite(x) and x > 0
+            for x in (self.emergency_braking_gain, self.emergency_acceleration_limit)
+        ):
+            raise ValueError(
+                "emergency braking gain and acceleration limit must be positive finite"
+            )
         if not isinstance(self.analytic_obstacle_hocbf, bool):
             raise TypeError("analytic_obstacle_hocbf must be boolean")
         if not isinstance(self.use_policy_constraint, bool):
@@ -220,12 +268,44 @@ def _validate_obstacle_shapes(obstacles: RuntimeObstacleTrajectories, *, horizon
     if centers.ndim != 3 or centers.shape[0] != horizon + 1 or centers.shape[-1] != 3:
         raise ValueError("obstacle centers must have shape (horizon + 1, obstacles, 3)")
     obstacle_count = centers.shape[1]
-    if obstacle_count < 1:
-        raise ValueError("the demo runtime requires at least one obstacle slot")
     if radii.shape != (obstacle_count,):
         raise ValueError("obstacle radii must have shape (obstacles,)")
     if mask.shape != (horizon + 1, obstacle_count) or not jnp.issubdtype(mask.dtype, jnp.bool_):
         raise ValueError("obstacle mask must be boolean shape (horizon + 1, obstacles)")
+    if obstacles.velocities is not None and obstacles.velocities.shape not in (
+        centers.shape,
+        (obstacle_count, 3),
+    ):
+        raise ValueError("obstacle velocities must match centers or have shape (obstacles, 3)")
+
+
+def obstacle_prediction_velocities(obstacles: RuntimeObstacleTrajectories, *, dt: float) -> Array:
+    """Local absolute-time shift derivative, with prediction masks held fixed.
+
+    Explicit velocities are preferred. Otherwise each node uses the following segment slope and
+    the terminal node repeats the last slope. Shifting every node by that derivative defines a
+    local affine prediction update; it is exact for constant-velocity predictions. Discrete mask
+    changes and arbitrary perception replacements are not covered by this temporal derivative.
+    """
+    if not math.isfinite(dt) or dt <= 0:
+        raise ValueError("dt must be positive finite")
+    _validate_obstacle_shapes(obstacles, horizon=obstacles.centers.shape[0] - 1)
+    if obstacles.velocities is not None:
+        return jnp.broadcast_to(obstacles.velocities, obstacles.centers.shape)
+    slope = jnp.diff(obstacles.centers, axis=0) / dt
+    valid_segments = obstacles.mask[:-1] & obstacles.mask[1:]
+    slope = jnp.where(valid_segments[..., None], slope, 0.0)
+    return jnp.concatenate((slope, slope[-1:]), axis=0)
+
+
+def shift_obstacle_prediction(
+    obstacles: RuntimeObstacleTrajectories, absolute_time_delta: Array, *, dt: float
+) -> RuntimeObstacleTrajectories:
+    """Advance the prediction's absolute time under its declared local velocity field."""
+    velocities = obstacle_prediction_velocities(obstacles, dt=dt)
+    return obstacles._replace(
+        centers=obstacles.centers + absolute_time_delta * velocities, velocities=velocities
+    )
 
 
 def runtime_policy_values(
@@ -256,6 +336,16 @@ def runtime_policy_values(
     centers = jnp.asarray(obstacles.centers, dtype=rollout_states.dtype)
     radii = jnp.asarray(obstacles.radii, dtype=rollout_states.dtype)
     mask = jnp.asarray(obstacles.mask, dtype=bool)
+    if centers.shape[1] == 0:
+        valid = jnp.all(jnp.isfinite(rollout_states), axis=(1, 2))
+        shape = (rollout_states.shape[0],)
+        return RuntimePolicyValues(
+            jnp.where(valid, jnp.inf, -jnp.inf),
+            jnp.empty((*shape, 0), rollout_states.dtype),
+            jnp.full(shape, -1, dtype=jnp.int32),
+            jnp.full(shape, jnp.inf),
+            valid,
+        )
     # Sanitise masked padding before differentiation: where(mask, NaN, inf) still risks NaN
     # cotangents even when the padded obstacle has no physical role.
     safe_centers = jnp.where(mask[..., None], centers, 0.0)
@@ -291,8 +381,8 @@ def runtime_policy_values(
     finite_count = jnp.sum(jnp.isfinite(flattened), axis=-1)
     values = ordered[:, 0]
     second = jnp.where(finite_count > 1, ordered[:, 1], jnp.inf)
-    gaps = second - values
-    active = jnp.argmin(finite_constraints, axis=-1)
+    gaps = jnp.where(finite_count > 1, second - values, jnp.inf)
+    active = jnp.where(finite_count > 0, jnp.argmin(finite_constraints, axis=-1), -1)
     active_obstacles_valid = (~mask) | (
         jnp.all(jnp.isfinite(centers), axis=-1)
         & jnp.isfinite(radii)[None, :]
@@ -305,14 +395,38 @@ def runtime_policy_values(
         & jnp.all(
             jnp.where(segment_mask[None, ...], jnp.isfinite(segment_values), True), axis=(1, 2)
         )
-        & (finite_count > 0)
-        & jnp.isfinite(values)
+        & (((finite_count > 0) & jnp.isfinite(values)) | ~jnp.any(mask))
     )
     values = jnp.where(input_valid, values, -jnp.inf)
     return RuntimePolicyValues(values, flattened, active, gaps, input_valid)
 
 
-def conservative_smooth_policy_values(values: RuntimePolicyValues, *, temperature: float) -> Array:
+def smooth_min_conservatism(
+    values: RuntimePolicyValues, *, temperature: float, max_gap_budget: float | None = None
+) -> tuple[Array, Array]:
+    """Return the effective temperature and worst-case hard/soft gap in square metres.
+
+    No normalisation is applied to log-sum-exp. With a gap budget, temperature is capped by
+    budget/log(N), keeping conservatism bounded when resolution or duplicate counts change.
+    This does not claim duplicate invariance: report N/temperature/bound with every experiment.
+    """
+    if not math.isfinite(temperature) or temperature <= 0:
+        raise ValueError("temperature must be positive finite")
+    if max_gap_budget is not None and (not math.isfinite(max_gap_budget) or max_gap_budget <= 0):
+        raise ValueError("max_gap_budget must be positive finite or None")
+    count = jnp.sum(jnp.isfinite(values.constraint_values), axis=-1)
+    log_count = jnp.log(jnp.maximum(count, 1).astype(values.values.dtype))
+    effective = jnp.full_like(values.values, temperature)
+    if max_gap_budget is not None:
+        effective = jnp.minimum(
+            effective, max_gap_budget / jnp.where(log_count > 0, log_count, 1.0)
+        )
+    return effective, effective * log_count
+
+
+def conservative_smooth_policy_values(
+    values: RuntimePolicyValues, *, temperature: float, max_gap_budget: float | None = None
+) -> Array:
     """Smooth lower bound on the exact hard obstacle minimum, in squared metres.
 
     The unnormalised log-sum-exp obeys ``soft <= hard <= soft + temperature * log(N)``
@@ -325,14 +439,22 @@ def conservative_smooth_policy_values(values: RuntimePolicyValues, *, temperatur
     if not math.isfinite(temperature) or temperature <= 0:
         raise ValueError("temperature must be finite and positive")
     constraints = values.constraint_values
+    if constraints.shape[-1] == 0:
+        return jnp.where(values.input_valid, jnp.inf, -jnp.inf)
     finite = jnp.isfinite(constraints)
-    # A dummy finite row keeps an invalid/all-masked candidate's derivative well-defined; the
-    # input-valid flag still rejects it. +inf padding contributes exactly zero exponential mass.
+    temperature, _ = smooth_min_conservatism(
+        values, temperature=temperature, max_gap_budget=max_gap_budget
+    )
+    # A dummy finite row keeps invalid/all-masked derivatives well-defined. Invalid inputs are
+    # rejected; valid empty horizons retain +inf. Padding contributes zero exponential mass.
     safe_constraints = jnp.where(finite, constraints, jnp.inf)
     safe_constraints = safe_constraints.at[:, 0].set(
         jnp.where(jnp.any(finite, axis=-1), safe_constraints[:, 0], 0.0)
     )
-    smooth = -temperature * jax.scipy.special.logsumexp(-safe_constraints / temperature, axis=-1)
+    smooth = -temperature * jax.scipy.special.logsumexp(
+        -safe_constraints / temperature[:, None], axis=-1
+    )
+    smooth = jnp.where(jnp.any(finite, axis=-1), smooth, jnp.inf)
     return jnp.where(values.input_valid, smooth, -jnp.inf)
 
 
@@ -445,25 +567,90 @@ def obstacle_agnostic_waypoint_callbacks(
     return nominal, fallbacks
 
 
-def _held_margin(
+class HeldActionCheck(NamedTuple):
+    """Checks for one constant wrench over every integration substep in a control hold."""
+
+    next_state: Array
+    collision_margin: Array
+    operational_margin: Array
+    operational_residual: Array
+    operational_passed: Array
+
+
+def _held_action_check(
     state: Array,
     wrench: Array,
     model: VersionAModel,
     obstacles: RuntimeObstacleTrajectories,
+    safety_limits: RigidBodySafetySet,
+    barrier_config: VersionABarrierConfig,
+    filter_config: VersionAFilterConfig,
     config: ContinuousVersionAConfig,
-) -> tuple[Array, Array]:
-    next_state = direct_wrench_symplectic_step(state, wrench, model, config.dt)
-    pair = jnp.stack((state, next_state))[None, ...]
+) -> HeldActionCheck:
+    def advance(current: Array, _: None) -> tuple[Array, Array]:
+        following = direct_wrench_symplectic_step(current, wrench, model, config.dt)
+        return following, following
+
+    next_state, future = jax.lax.scan(advance, state, None, length=config.control_interval_steps)
+    nodes = jnp.concatenate((state[None, :], future), axis=0)
     interval_obstacles = RuntimeObstacleTrajectories(
-        obstacles.centers[:2], obstacles.radii, obstacles.mask[:2]
+        obstacles.centers[: config.control_interval_steps + 1],
+        obstacles.radii,
+        obstacles.mask[: config.control_interval_steps + 1],
     )
     margin = runtime_policy_values(
-        pair,
+        nodes[None, ...],
         interval_obstacles,
         obstacle_clearance=config.obstacle_clearance,
         ego_radius=config.ego_radius,
     ).values[0]
-    return next_state, margin
+    # Collision is checked independently above. These diagnostics cover all operational limits
+    # at every held node and their continuous analytic residual at every substep start.
+    operational_safety = safety_limits._replace(
+        obstacle_mask=jnp.zeros_like(safety_limits.obstacle_mask)
+    )
+    operational_config = replace(barrier_config, include_obstacle_hocbf=False)
+    physical = jax.vmap(
+        lambda x: dimensionless_safety_values(x, operational_safety, operational_config)
+    )(nodes)
+    obstacle_count = operational_safety.obstacle_radii.shape[0]
+    operational_margin = jnp.min(physical.values[:, obstacle_count:])
+    halfspaces = jax.vmap(
+        lambda x: continuous_safety_halfspaces(x, model, operational_safety, operational_config)
+    )(nodes[:-1])
+    residuals = halfspaces.upper_bound - jnp.einsum("nmd,d->nm", halfspaces.matrix, wrench)
+    operational_residual = jnp.min(jnp.where(halfspaces.enabled, residuals, jnp.inf))
+    passed = (
+        jnp.all(physical.input_valid)
+        & jnp.all(halfspaces.domain_valid)
+        & (operational_margin >= -barrier_config.domain_tolerance)
+        & (operational_residual >= -filter_config.barrier_tolerance)
+    )
+    return HeldActionCheck(next_state, margin, operational_margin, operational_residual, passed)
+
+
+def obstacle_agnostic_emergency_wrench(
+    state: Array, model: VersionAModel, actuator: VersionAActuator, config: ContinuousVersionAConfig
+) -> tuple[Array, Array]:
+    """Predeclared wind-aware velocity brake with attitude/rate stabilization.
+
+    It receives no obstacle, goal, policy library, or safety value. Known drag/wind feedforward
+    compensates external force; hard motor limits bound the stabilizing command. This is an
+    emergency best effort, not a collision-avoidance certificate or proof of recoverability.
+    """
+    command = waypoint_nominal_wrench(
+        state,
+        state[:3],
+        jnp.zeros(3, state.dtype),
+        model,
+        actuator,
+        QuadPolicyConfig(acceleration_limit=config.emergency_acceleration_limit),
+        position_gain=1.0,
+        velocity_gain=config.emergency_braking_gain,
+        model_compensation=True,
+    )
+    valid_model = validated_control_affine_terms(state, model).input_valid
+    return command.wrench, command.input_valid & valid_model
 
 
 def continuous_version_a_step(
@@ -489,7 +676,9 @@ def continuous_version_a_step(
     parameters only between calls.  The QP action is used only after its exact actuator/barrier
     postcheck and an independent held-interval obstacle check.  The selected policy's first action
     is considered only when that QP proposal is invalid. An executable held-safe fallback whose
-    horizon value is negative may be returned only as explicitly degraded best effort.
+    horizon value is negative may be returned only as explicitly degraded best effort. If no
+    selected fallback is executable, every method uses the same wind-aware stabilizing emergency
+    controller; motor midpoint is reserved for invalid emergency resources.
     """
     config.validate()
     barrier_config.validate()
@@ -520,7 +709,9 @@ def continuous_version_a_step(
             ego_radius=config.ego_radius,
         )
         smooth_values = conservative_smooth_policy_values(
-            hard_values, temperature=config.smooth_min_temperature
+            hard_values,
+            temperature=config.smooth_min_temperature,
+            max_gap_budget=config.smooth_min_gap_budget,
         )
         return smooth_values, candidates
 
@@ -534,12 +725,45 @@ def continuous_version_a_step(
         ego_radius=config.ego_radius,
     )
     smooth_values = conservative_smooth_policy_values(
-        values, temperature=config.smooth_min_temperature
+        values,
+        temperature=config.smooth_min_temperature,
+        max_gap_budget=config.smooth_min_gap_budget,
+    )
+
+    def time_shifted_values(time_delta: Array) -> Array:
+        shifted = shift_obstacle_prediction(obstacles, time_delta, dt=config.dt)
+        shifted_values = runtime_policy_values(
+            candidates.states,
+            shifted,
+            obstacle_clearance=config.obstacle_clearance,
+            ego_radius=config.ego_radius,
+        )
+        return conservative_smooth_policy_values(
+            shifted_values,
+            temperature=config.smooth_min_temperature,
+            max_gap_budget=config.smooth_min_gap_budget,
+        )
+
+    time_derivatives = jax.jacfwd(time_shifted_values)(jnp.asarray(0.0, state.dtype))
+    collision_active = jnp.any(obstacles.mask)
+    prediction_velocities = obstacle_prediction_velocities(obstacles, dt=config.dt)
+    # An invalid shifted prediction can take a constant -inf branch with a numerical zero AD
+    # derivative. Validate the declared motion itself, including future active nodes, instead
+    # of mistaking that zero for a valid temporal certificate. Masked padding remains harmless.
+    prediction_motion_valid = jnp.all(
+        (~obstacles.mask[..., None]) | jnp.isfinite(prediction_velocities)
+    )
+    effective_temperature, gap_bound = smooth_min_conservatism(
+        values,
+        temperature=config.smooth_min_temperature,
+        max_gap_budget=config.smooth_min_gap_budget,
     )
     gradient_valid = (
         candidates.valid
         & values.input_valid
+        & prediction_motion_valid
         & jnp.isfinite(smooth_values)
+        & jnp.isfinite(time_derivatives)
         & jnp.all(jnp.isfinite(gradients), axis=-1)
     )
     certificates = PolicyLibraryCertificates(
@@ -548,6 +772,7 @@ def continuous_version_a_step(
         gradient_valid=gradient_valid,
         fallback_wrenches=candidates.wrenches[:, 0],
         barrier_values=smooth_values,
+        time_derivatives=time_derivatives,
     )
     current_safety = safety_limits._replace(
         obstacle_centers=jnp.asarray(obstacles.centers[0], dtype=state.dtype),
@@ -581,75 +806,101 @@ def continuous_version_a_step(
         demo_filter_config,
         previous_policy_index=previous_policy_index,
         selection_config=demo_selection_config,
+        collision_enabled=collision_active,
+        obstacle_velocities=prediction_velocities[0],
     )
     selected_fallback = candidates.wrenches[filtered.selected_index, 0]
-    qp_next, qp_margin = _held_margin(state, filtered.qp.action, estimated_model, obstacles, config)
-    fallback_next, fallback_margin = _held_margin(
-        state, selected_fallback, estimated_model, obstacles, config
-    )
+
+    def held(wrench: Array) -> HeldActionCheck:
+        return _held_action_check(
+            state,
+            wrench,
+            estimated_model,
+            obstacles,
+            current_safety,
+            demo_barrier_config,
+            demo_filter_config,
+            config,
+        )
+
+    qp_check = held(filtered.qp.action)
+    fallback_check = held(selected_fallback)
     qp_valid = (
-        filtered.qp_accepted & jnp.isfinite(qp_margin) & (qp_margin >= -config.interval_tolerance)
+        filtered.qp_accepted
+        & (qp_check.collision_margin >= -config.interval_tolerance)
+        & qp_check.operational_passed
     )
     selected_value = values.values[filtered.selected_index]
     fallback_executable = (
         config.use_policy_constraint
+        & collision_active
         & candidates.valid[filtered.selected_index]
         & values.input_valid[filtered.selected_index]
         & filtered.fallback_postcheck.actuator_passed
         & filtered.fallback_postcheck.analytic_barriers_passed
-        & jnp.isfinite(fallback_margin)
-        & (fallback_margin >= -config.interval_tolerance)
+        & fallback_check.operational_passed
+        & (fallback_check.collision_margin >= -config.interval_tolerance)
     )
-    fallback_valid = (
-        fallback_executable
-        & jnp.isfinite(selected_value)
-        & (selected_value >= selection_config.minimum_hard_value)
-    )
-    # Without a horizon certificate, execute the best-valued held-safe fallback as explicitly
-    # degraded best effort. An arbitrary midpoint must not manufacture an ablation failure.
+    fallback_valid = fallback_executable & (selected_value >= selection_config.minimum_hard_value)
     use_fallback = (~qp_valid) & fallback_executable
-    use_midpoint = (~qp_valid) & (~fallback_executable)
+    emergency, emergency_resources_valid = obstacle_agnostic_emergency_wrench(
+        state, estimated_model, actuator, config
+    )
+    emergency_postcheck = postcheck_version_a_action(
+        emergency, actuator, filtered, demo_filter_config
+    )
+    emergency_executable = emergency_resources_valid & emergency_postcheck.actuator_passed
+    use_emergency = (~qp_valid) & (~use_fallback) & emergency_executable
+    use_midpoint = (~qp_valid) & (~use_fallback) & (~emergency_executable)
     midpoint = filtered.motor_polytope.midpoint_wrench
-    midpoint_next, midpoint_margin = _held_margin(
-        state, midpoint, estimated_model, obstacles, config
-    )
     action = jnp.where(
-        qp_valid, filtered.qp.action, jnp.where(use_fallback, selected_fallback, midpoint)
+        qp_valid,
+        filtered.qp.action,
+        jnp.where(use_fallback, selected_fallback, jnp.where(use_emergency, emergency, midpoint)),
     )
-    next_state = jnp.where(qp_valid, qp_next, jnp.where(use_fallback, fallback_next, midpoint_next))
-    applied_margin = jnp.where(
-        qp_valid, qp_margin, jnp.where(use_fallback, fallback_margin, midpoint_margin)
+    action = jnp.where(filtered.motor_polytope.input_valid, action, jnp.full_like(action, jnp.nan))
+    applied_check = jax.lax.cond(
+        qp_valid,
+        lambda _: qp_check,
+        lambda _: jax.lax.cond(
+            use_fallback,
+            lambda _: fallback_check,
+            lambda _: held(jnp.where(use_emergency, emergency, midpoint)),
+            None,
+        ),
+        None,
     )
     applied_postcheck = postcheck_version_a_action(action, actuator, filtered, demo_filter_config)
-    execution_valid = jnp.where(
-        qp_valid, applied_postcheck.passed, jnp.where(use_fallback, fallback_valid, False)
-    )
+    execution_valid = jnp.where(qp_valid, applied_postcheck.passed, use_fallback & fallback_valid)
     degraded = (
-        use_midpoint
+        use_emergency
+        | use_midpoint
         | ~execution_valid
-        | ~jnp.isfinite(applied_margin)
-        | (applied_margin < -config.interval_tolerance)
+        | ~applied_check.operational_passed
+        | ~(applied_check.collision_margin >= -config.interval_tolerance)
     )
     safe = values.input_valid & (values.values >= selection_config.minimum_hard_value)
     qp_rejection_flags = jnp.stack(
         (
             ~filtered.input_valid,
-            config.use_policy_constraint & ~filtered.has_certificate,
+            filtered.policy_constraint_active & ~filtered.has_certificate,
             ~filtered.qp.feasible,
             filtered.qp.feasible & ~filtered.qp_kkt_valid,
             filtered.qp.feasible & ~filtered.qp_postcheck.actuator_passed,
             filtered.qp.feasible
-            & config.use_policy_constraint
+            & filtered.policy_constraint_active
             & ~filtered.qp_postcheck.policy_barrier_passed,
             filtered.qp.feasible & ~filtered.qp_postcheck.analytic_barriers_passed,
-            filtered.qp_accepted
-            & (~jnp.isfinite(qp_margin) | (qp_margin < -config.interval_tolerance)),
+            filtered.qp_accepted & ~(qp_check.collision_margin >= -config.interval_tolerance),
+            filtered.qp_accepted & ~qp_check.operational_passed,
         )
     )
     return ContinuousVersionAStep(
         action=action,
         nominal_action=nominal_action,
-        next_estimated_state=next_state,
+        next_estimated_state=jnp.where(
+            jnp.all(jnp.isfinite(action)), applied_check.next_state, jnp.full_like(state, jnp.nan)
+        ),
         candidates=candidates,
         values=values,
         gradients=gradients,
@@ -661,9 +912,9 @@ def continuous_version_a_step(
         selected_is_nominal=filtered.selected_index == 0,
         safe_candidate_count=jnp.sum(safe, dtype=jnp.int32),
         eligible_candidate_count=jnp.sum(filtered.policy_eligible, dtype=jnp.int32),
-        qp_held_margin=qp_margin,
-        fallback_held_margin=fallback_margin,
-        applied_held_margin=applied_margin,
+        qp_held_margin=qp_check.collision_margin,
+        fallback_held_margin=fallback_check.collision_margin,
+        applied_held_margin=applied_check.collision_margin,
         qp_valid=qp_valid,
         fallback_valid=fallback_valid,
         used_fallback=use_fallback,
@@ -673,6 +924,21 @@ def continuous_version_a_step(
         smooth_values=smooth_values,
         selected_policy_dual=filtered.selected_policy_dual,
         qp_rejection_flags=qp_rejection_flags,
+        time_derivatives=time_derivatives,
+        selected_smooth_value=smooth_values[filtered.selected_index],
+        selected_time_derivative=time_derivatives[filtered.selected_index],
+        collision_constraint_active=collision_active,
+        effective_smooth_temperature=effective_temperature,
+        smooth_gap_bound=gap_bound,
+        used_emergency=use_emergency,
+        execution_mode=jnp.where(
+            qp_valid, 0, jnp.where(use_fallback, 1, jnp.where(use_emergency, 2, 3))
+        ),
+        executed_policy_dual=jnp.where(qp_valid, filtered.selected_policy_dual, 0.0),
+        applied_held_operational_margin=applied_check.operational_margin,
+        applied_held_operational_residual=applied_check.operational_residual,
+        applied_held_operational_passed=applied_check.operational_passed,
+        emergency_postcheck=emergency_postcheck,
     )
 
 
@@ -680,6 +946,8 @@ __all__ = [
     "ContinuousVersionAConfig",
     "ContinuousVersionAStep",
     "PolicyRollouts",
+    "HeldActionCheck",
+    "EXECUTION_MODES",
     "QP_REJECTION_REASONS",
     "RuntimeObstacleTrajectories",
     "RuntimePolicyValues",
@@ -687,6 +955,10 @@ __all__ = [
     "continuous_version_a_step",
     "conservative_smooth_policy_values",
     "obstacle_agnostic_waypoint_callbacks",
+    "obstacle_agnostic_emergency_wrench",
+    "obstacle_prediction_velocities",
+    "shift_obstacle_prediction",
+    "smooth_min_conservatism",
     "rollout_waypoint_library",
     "runtime_policy_values",
 ]

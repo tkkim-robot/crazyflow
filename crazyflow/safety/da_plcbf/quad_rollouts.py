@@ -43,23 +43,18 @@ def _integrate_body_rate_xyzw(quaternion: Array, body_rate: Array, dt: float) ->
     zero-rate limit without a divide-by-zero branch.
     """
     quaternion = quaternion / jnp.linalg.norm(quaternion, axis=-1, keepdims=True)
-    rate_norm = jnp.linalg.norm(body_rate, axis=-1, keepdims=True)
-    angle = rate_norm * dt
-    half_angle = 0.5 * angle
-    # Spell out sin(x)/x instead of ``jnp.sinc``: its custom derivative in JAX 0.11.1 corrupts a
-    # scalar constant shape under reverse-mode differentiation of a batched CUDA ``lax.scan``.
-    # The fourth-order zero-angle branch is the analytic series and keeps both branches finite.
-    angle_squared = angle * angle
+    # Differentiate squared angle directly at zero rate. Taking norm(omega) first creates a
+    # NaN norm derivative at omega=0 even if a later where chooses the analytic small-angle limit.
+    angle_squared = dt**2 * jnp.sum(body_rate * body_rate, axis=-1, keepdims=True)
+    small = angle_squared <= (32.0 * jnp.finfo(body_rate.dtype).eps) ** 2
+    safe_angle = jnp.sqrt(jnp.where(small, 1.0, angle_squared))
+    half_angle = 0.5 * safe_angle
     small_sinc = 1.0 - angle_squared / 24.0 + angle_squared * angle_squared / 1920.0
-    safe_angle = jnp.where(angle > 32.0 * jnp.finfo(body_rate.dtype).eps, angle, 1.0)
-    half_sinc = jnp.where(
-        angle > 32.0 * jnp.finfo(body_rate.dtype).eps,
-        2.0 * jnp.sin(half_angle) / safe_angle,
-        small_sinc,
-    )
+    half_sinc = jnp.where(small, small_sinc, 2.0 * jnp.sin(half_angle) / safe_angle)
     vector_scale = 0.5 * dt * half_sinc
     delta_vector = body_rate * vector_scale
-    delta_scalar = jnp.cos(half_angle)
+    small_cosine = 1.0 - angle_squared / 8.0 + angle_squared * angle_squared / 384.0
+    delta_scalar = jnp.where(small, small_cosine, jnp.cos(half_angle))
     vector = quaternion[..., :3]
     scalar = quaternion[..., 3:4]
     composed_vector = (
@@ -96,10 +91,13 @@ def direct_wrench_symplectic_step(
     next_velocity = state[..., 7:10] + derivative.vel_dot * dt
     next_angular_velocity = state[..., 10:13] + derivative.ang_vel_dot * dt
     next_position = state[..., :3] + next_velocity * dt
-    safe_angular_velocity = jnp.where(
-        jnp.abs(next_angular_velocity) < jnp.finfo(state.dtype).smallest_normal,
-        0.0,
-        next_angular_velocity,
+    # Flush subnormal values for the backend while retaining the physical derivative at zero.
+    safe_angular_velocity = next_angular_velocity + jax.lax.stop_gradient(
+        jnp.where(
+            jnp.abs(next_angular_velocity) < jnp.finfo(state.dtype).smallest_normal,
+            -next_angular_velocity,
+            0.0,
+        )
     )
     next_quaternion = _integrate_body_rate_xyzw(state[..., 3:7], safe_angular_velocity, dt)
     return jnp.concatenate(

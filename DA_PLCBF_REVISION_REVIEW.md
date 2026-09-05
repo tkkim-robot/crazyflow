@@ -1,6 +1,10 @@
 # DA-PLCBF independent revision review — 2026-09-04
 
-This is the current review entry point. It supersedes the implementation conclusions and
+> **Historical revision at `cbaa4ba`.** The subsequent review response starts at
+> [DA_PLCBF_COMPETENT_REVIEW.md](DA_PLCBF_COMPETENT_REVIEW.md). Numbers below remain evidence
+> for this earlier revision; they do not validate the newer controller or matched protocol.
+
+This was the review entry point for `cbaa4ba`. It supersedes the implementation conclusions and
 acceptance results for commit `938a3b2` in the earlier handoff, review guide, and plan. Those
 documents retain the prior checkpoints and reproduction history; their passing numbers do not
 validate this revision. The numerical results below come from this revision's saved traces.

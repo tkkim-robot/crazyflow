@@ -498,13 +498,20 @@ def _relative_degree_two(
 
 
 def continuous_safety_halfspaces(
-    state: Array, model: VersionAModel, safety: RigidBodySafetySet, config: VersionABarrierConfig
+    state: Array,
+    model: VersionAModel,
+    safety: RigidBodySafetySet,
+    config: VersionABarrierConfig,
+    *,
+    obstacle_velocities: Array | None = None,
 ) -> ContinuousBarrierHalfspaces:
     """Construct operational faces plus explicitly enabled obstacle HOCBF faces.
 
     Obstacle rows retain stable slots but are disabled independently of arena, altitude, speed,
     angular-rate, and tilt limits when ``include_obstacle_hocbf`` is false. This separates
-    analytic collision avoidance from a rollout-value collision certificate.
+    analytic collision avoidance from a rollout-value collision certificate. Optional obstacle
+    velocities implement the explicit time terms for a constant-velocity spherical prediction;
+    obstacle acceleration is assumed zero over this local analytic model.
     """
     config.validate()
     split_state(state)
@@ -512,7 +519,19 @@ def continuous_safety_halfspaces(
     safe_model, model_valid = _safe_model_and_validity(model, state.dtype, config.model_tolerance)
     safe_safety, safety_valid = _safe_safety_data(safety, config, state.dtype)
     terms = _terms_for_safe_state(safe_state, safe_model)
-    position, _, _, _ = split_state(safe_state)
+    position, _, velocity, _ = split_state(safe_state)
+    if obstacle_velocities is None:
+        obstacle_velocities = jnp.zeros_like(safe_safety.obstacle_centers)
+    if obstacle_velocities.shape != safe_safety.obstacle_centers.shape:
+        raise ValueError("obstacle_velocities must match obstacle_centers")
+    velocity_valid = jnp.all(
+        jnp.where(safe_safety.obstacle_mask[:, None], jnp.isfinite(obstacle_velocities), True)
+    )
+    obstacle_velocities = jnp.where(
+        safe_safety.obstacle_mask[:, None] & jnp.isfinite(obstacle_velocities),
+        obstacle_velocities,
+        0.0,
+    )
 
     rows: list[Array] = []
     bounds: list[Array] = []
@@ -544,13 +563,26 @@ def continuous_safety_halfspaces(
         center = safe_safety.obstacle_centers[index]
         radius = safe_safety.obstacle_radii[index] + config.ego_radius + config.obstacle_clearance
 
-        def obstacle_h(z: Array, center: Array = center, radius: Array = radius) -> Array:
-            relative = z[:3] - center
-            return jnp.dot(relative, relative) - radius**2
-
-        add_second_order(
-            obstacle_h, safe_safety.obstacle_mask[index] & config.include_obstacle_hocbf
+        relative = position - center
+        relative_velocity = velocity - obstacle_velocities[index]
+        raw = jnp.dot(relative, relative) - radius**2
+        h_dot = 2.0 * jnp.dot(relative, relative_velocity)
+        first = h_dot + config.position_alpha_1 * raw
+        row = -2.0 * relative @ terms.input_matrix[7:10]
+        bound = (
+            2.0 * jnp.dot(relative_velocity, relative_velocity)
+            + 2.0 * jnp.dot(relative, terms.drift[7:10])
+            + (config.position_alpha_1 + config.position_alpha_2) * h_dot
+            + config.position_alpha_1 * config.position_alpha_2 * raw
         )
+        is_enabled = safe_safety.obstacle_mask[index] & config.include_obstacle_hocbf
+        rows.append(jnp.where(is_enabled, row, jnp.zeros_like(row)))
+        bounds.append(jnp.where(is_enabled, bound, jnp.asarray(1.0, state.dtype)))
+        raw_values.append(jnp.where(is_enabled, raw, jnp.inf))
+        first_values.append(jnp.where(is_enabled, first, jnp.inf))
+        relative_degrees.append(2)
+        degree_validity.append(jnp.asarray(True))
+        enabled.append(is_enabled)
 
     for axis in range(3):
         lower = safe_safety.arena_lower[axis] + config.arena_clearance
@@ -636,6 +668,7 @@ def continuous_safety_halfspaces(
         state_valid
         & model_valid
         & safety_valid
+        & velocity_valid
         & finite
         & jnp.all(jnp.where(enabled_array, degree_valid, True))
     )

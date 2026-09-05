@@ -1,0 +1,62 @@
+{
+  "path_convention": "All paths are relative to repository root.",
+  "video": "artifacts/da_plcbf/competent-revision-20260904/wind-oracle-compensated-3/compensated_vs_adaptive_demo.goal-sphere.mp4",
+  "sha256": "8b295f1f36273ab1a006c9e3ef2e5644d20c6436616fe0e3e188e067065808a4",
+  "source_npz": "artifacts/da_plcbf/competent-revision-20260904/wind-oracle-compensated-3/competent_comparison.npz",
+  "source_npz_sha256": "469d78e6969829315a2c764546f6dfb2c9e6e66b3bac9f5e1107c0876ab9c76a",
+  "source_json": "artifacts/da_plcbf/competent-revision-20260904/wind-oracle-compensated-3/competent_comparison.json",
+  "source_json_sha256": "f2ad5dd848c2347cb19df4c756b354bc3ec7cbb17f2e498259104189023e2122",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "nb_read_frames": "440"
+      }
+    ],
+    "format": {
+      "duration": "22.000000"
+    }
+  },
+  "mode": "demo",
+  "left_method": "compensated",
+  "right_method": "adaptive",
+  "pause": {
+    "simulation_seconds": 12.0,
+    "duration_seconds": 2.0
+  },
+  "collision_behavior": "Freeze failed scene and its visible telemetry at first recorded collision segment end sample; source trace is preserved.",
+  "decoded_frames": [
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-oracle-compensated-3/compensated_vs_adaptive_demo_frame_1.goal-sphere.png",
+      "playback_seconds": 1.0,
+      "description": "shared competent repertoire"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-oracle-compensated-3/compensated_vs_adaptive_demo_frame_2.goal-sphere.png",
+      "playback_seconds": 12.5,
+      "description": "recorded probe pause at simulation 12.00 s"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-oracle-compensated-3/compensated_vs_adaptive_demo_frame_3.goal-sphere.png",
+      "playback_seconds": 21.0,
+      "description": "late goal approach; both methods succeed"
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/competent-revision-20260904/wind-oracle-compensated-3/compensated_vs_adaptive_demo_contact_sheet.goal-sphere.jpg",
+  "visual_review_pending": false,
+  "visual_review": {
+    "frames_inspected": 3,
+    "notes": [
+      "Inspected initial, exact 12.00 s probe pause, and late-goal decoded frames.",
+      "The 2 s pause is explicitly labeled; enlarged XY/XZ insets use the measured 12.00 s neutral-reference trajectories.",
+      "Both panels show their own recorded paths; the title describes an oracle-model comparison without claiming adaptive necessity."
+    ],
+    "limitations": [
+      "Some forward skill endpoints can reach the main camera boundary during fast flight; the fixed-scale neutral-reference insets preserve the complete recorded fan."
+    ]
+  },
+  "superseded_reason": "The opaque goal sphere could obscure the drone on arrival; the final demo uses an open horizontal ring."
+}

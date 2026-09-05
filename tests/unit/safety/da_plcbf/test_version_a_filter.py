@@ -570,3 +570,24 @@ def test_exact_fast_path_matches_exhaustive_qp(
         np.testing.assert_allclose(
             shortcut.multipliers, reference.multipliers, atol=2e-6, rtol=2e-6
         )
+
+
+def test_explicit_time_derivative_enters_selected_policy_constraint(
+    setup: tuple[dict[str, Any], VersionAModel, VersionAActuator, RigidBodySafetySet],
+) -> None:
+    params, model, actuator, safety = setup
+    hover = jnp.asarray([params["mass"] * 9.81, 0.0, 0.0, 0.0], dtype=jnp.float64)
+    library = _library(hover)._replace(time_derivatives=jnp.asarray([-0.7]))
+    result = version_a_plcbf_filter(
+        _state(),
+        hover,
+        jnp.ones(4),
+        library,
+        model,
+        actuator,
+        safety,
+        VersionABarrierConfig(),
+        VersionAFilterConfig(enforce_analytic_barriers=False),
+    )
+    np.testing.assert_allclose(result.selected_policy_bound, -9.81 - 0.7 + 2.0, atol=1e-12)
+    assert bool(result.qp_accepted)

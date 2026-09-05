@@ -1,0 +1,29 @@
+{
+  "policy_count": 16,
+  "seed": 7,
+  "warmup_steps": 500,
+  "learning_rate": 0.001,
+  "dt": 0.02,
+  "horizon": 60,
+  "control_interval_steps": 2,
+  "duration_seconds": 20.0,
+  "event_time_seconds": 4.0,
+  "wind_after": [
+    2.0,
+    0.8,
+    0.0
+  ],
+  "disturbance": "crossing",
+  "model_mode": "oracle",
+  "adaptive_model_compensation": true,
+  "schedule": "budgeted",
+  "probe_every_controls": 10,
+  "nominal_acceleration_limit": 1.2,
+  "fallback_acceleration_limit": 2.5,
+  "maximum_skill_speed": 0.9,
+  "maximum_skill_duration": 0.7,
+  "terminal_braking_weight": 2.0,
+  "payload_mass_fraction": 0.25,
+  "controller_reserve_seconds": 0.003,
+  "update_safety_factor": 1.25
+}

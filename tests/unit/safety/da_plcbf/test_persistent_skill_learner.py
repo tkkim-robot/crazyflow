@@ -2,23 +2,30 @@ from __future__ import annotations
 
 import inspect
 from dataclasses import replace
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import jax
 import jax.numpy as jnp
 import numpy as np
+import pytest
 
 from crazyflow.drones import load_params
 from crazyflow.safety.da_plcbf.persistent_skill_learner import (
     PersistentSkillConfig,
+    SkillCompetencyThresholds,
     build_fibonacci_skill_spec,
     build_persistent_skill_learner,
     initialize_skill_actor,
     obstacle_agnostic_skill_actions,
     rollout_skill_library,
+    skill_library_competency,
+    spatial_descriptor_losses,
 )
 from crazyflow.safety.da_plcbf.version_a_barriers import VersionAModel
 from crazyflow.safety.da_plcbf.version_a_filter import VersionAActuator
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def _problem() -> tuple[object, ...]:
@@ -216,3 +223,102 @@ def test_nominal_model_compensation_cancels_vertical_wind_at_hover() -> None:
     compensated_next = direct_wrench_symplectic_step(initial_state, compensated.wrench, model, 0.02)
     assert abs(float(plain_next[9])) > 1e-3
     np.testing.assert_allclose(compensated_next[7:10], 0.0, atol=1e-7)
+
+
+def test_diversity_cannot_reward_redundant_mean_velocity_or_nonzero_terminal_velocity() -> None:
+    config = PersistentSkillConfig()
+    spatial = jnp.asarray([[1.0, 0.0, 0.0], [-1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])
+    observations = jnp.concatenate((spatial, jnp.zeros((4, 6))), axis=1)
+    targets = observations
+    stationary = spatial_descriptor_losses(observations, targets, config)
+    velocity_spread = observations.at[:, 3:].set(jnp.arange(24).reshape(4, 6))
+    moving = spatial_descriptor_losses(velocity_spread, targets, config)
+    np.testing.assert_array_equal(np.asarray(stationary), np.asarray(moving))
+    gradients = jax.grad(
+        lambda descriptors: spatial_descriptor_losses(descriptors, targets, config).diversity
+    )(velocity_spread)
+    np.testing.assert_array_equal(gradients[:, 3:], 0.0)
+    assert np.linalg.norm(np.asarray(gradients[:, :3])) > 0.0
+
+
+def test_competency_counts_actual_directions_not_latent_identities() -> None:
+    model, actuator, config, spec, params, initial_state = _problem()
+    config = replace(config, smooth_motor_bounds=False)
+    rollout = rollout_skill_library(params, spec, initial_state, model, actuator, config)
+    collapsed = rollout._replace(states=jnp.repeat(rollout.states[:1], 4, axis=0))
+    diagnostics = skill_library_competency(
+        collapsed, spec, config, thresholds=SkillCompetencyThresholds(minimum_displacement_m=1e-6)
+    )
+    assert diagnostics["policy_count"] == 4
+    assert diagnostics["occupied_direction_count"] == 1
+    assert diagnostics["endpoint_pairwise_mean_m"] == 0.0
+    assert diagnostics["trajectory_pairwise_rms_mean_m"] == 0.0
+    assert diagnostics["competent_under_declared_criteria"] is False
+    assert diagnostics["terminal_speed_mps"]["maximum"] >= 0.0
+
+
+def test_complete_checkpoint_resume_preserves_the_next_persistent_update(tmp_path: Path) -> None:
+    from crazyflow.safety.da_plcbf.learner_checkpoint import (
+        load_learner_checkpoint,
+        save_learner_checkpoint,
+    )
+
+    model, actuator, config, spec, params, initial_state = _problem()
+    model, actuator, spec, params, initial_state = jax.device_put(
+        (model, actuator, spec, params, initial_state), jax.devices()[0]
+    )
+    functions = build_persistent_skill_learner(spec, actuator, config)
+    persistent = functions.initialize(params, model)
+    for _ in range(2):
+        persistent, _ = functions.step(persistent, initial_state, model)
+    stem = tmp_path / "shared_nominal_library"
+    paths = save_learner_checkpoint(
+        persistent,
+        spec,
+        config,
+        actuator,
+        initial_state,
+        stem,
+        metadata={"purpose": "common nominal-dynamics initialization"},
+    )
+    with np.load(paths[0], allow_pickle=False) as archive:
+        assert all(archive[key].dtype.kind in "biuf" for key in archive.files)
+    loaded = load_learner_checkpoint(stem, device=jax.devices()[0])
+    assert loaded.config == config
+    assert loaded.metadata["purpose"] == "common nominal-dynamics initialization"
+    for before, restored in zip(
+        jax.tree.leaves(persistent), jax.tree.leaves(loaded.state), strict=True
+    ):
+        np.testing.assert_array_equal(before, restored)
+    resumed_functions = build_persistent_skill_learner(loaded.spec, loaded.actuator, loaded.config)
+    expected, expected_metrics = functions.step(persistent, initial_state, model)
+    actual, actual_metrics = resumed_functions.step(
+        loaded.state, loaded.physical_state, loaded.point_model
+    )
+    jax.block_until_ready((expected, actual, expected_metrics, actual_metrics))
+    for before, restored in zip(
+        jax.tree.leaves((expected, expected_metrics)),
+        jax.tree.leaves((actual, actual_metrics)),
+        strict=True,
+    ):
+        np.testing.assert_array_equal(before, restored)
+    assert int(actual.library_version) == 3
+    with pytest.raises(FileExistsError):
+        save_learner_checkpoint(persistent, spec, config, actuator, initial_state, stem)
+
+
+def test_checkpoint_integrity_error_is_detected_before_deserialization(tmp_path: Path) -> None:
+    from crazyflow.safety.da_plcbf.learner_checkpoint import (
+        load_learner_checkpoint,
+        save_learner_checkpoint,
+    )
+
+    model, actuator, config, spec, params, initial_state = _problem()
+    state = build_persistent_skill_learner(spec, actuator, config).initialize(params, model)
+    stem = tmp_path / "corrupted"
+    npz_path, _ = save_learner_checkpoint(state, spec, config, actuator, initial_state, stem)
+    damaged = bytearray(npz_path.read_bytes())
+    damaged[len(damaged) // 2] ^= 1
+    npz_path.write_bytes(damaged)
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        load_learner_checkpoint(stem)

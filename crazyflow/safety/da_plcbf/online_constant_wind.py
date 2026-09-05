@@ -42,7 +42,6 @@ from crazyflow.safety.da_plcbf.continuous_version_a import (
     rollout_waypoint_library,
     runtime_policy_values,
 )
-from crazyflow.safety.da_plcbf.direct_wrench import quaternion_to_rotation_matrix
 from crazyflow.safety.da_plcbf.mujoco_comparison_video import (
     ComparisonVideoTrace,
     MethodVideoTrace,
@@ -202,8 +201,10 @@ def build_cf21b_version_a_resources(*, dtype: jnp.dtype = jnp.float32) -> Versio
 def _descriptor_metrics(
     descriptors: np.ndarray, targets: np.ndarray, scales: np.ndarray, epsilon: float
 ) -> tuple[float, float]:
-    normalized = descriptors / scales
-    normalized_targets = targets / scales
+    # Diversity is spatial behavior. Mean velocity duplicates displacement and terminal
+    # braking is a separate quality objective, not a direction to spread the repertoire in.
+    normalized = descriptors[..., :3] / scales[:3]
+    normalized_targets = targets[..., :3] / scales[:3]
     target_loss = float(np.mean(np.square(normalized - normalized_targets)))
     centered = normalized - normalized.mean(axis=0, keepdims=True)
     covariance = centered.T @ centered / normalized.shape[0]
@@ -213,7 +214,7 @@ def _descriptor_metrics(
 
 
 def _pairwise_descriptor_spread(descriptors: np.ndarray, scales: np.ndarray) -> float:
-    normalized = descriptors / scales
+    normalized = descriptors[..., :3] / scales[:3]
     differences = normalized[:, None, :] - normalized[None, :, :]
     distances = np.linalg.norm(differences, axis=-1)
     mask = ~np.eye(normalized.shape[0], dtype=bool)
@@ -228,8 +229,11 @@ def _trajectory_descriptors(states: np.ndarray) -> np.ndarray:
 
 
 def _world_intervention(state: np.ndarray, action: np.ndarray, nominal: np.ndarray) -> np.ndarray:
-    rotation = np.asarray(quaternion_to_rotation_matrix(jnp.asarray(state[3:7])))
-    return float(action[0] - nominal[0]) * rotation[:, 2]
+    # Rendering telemetry is already on the host. Avoid launching a chain of tiny GPU kernels
+    # merely to draw the explicitly thrust-only cue; torque interventions remain separate data.
+    x, y, z, w = state[3:7] / np.linalg.norm(state[3:7])
+    body_z = np.asarray((2 * (x * z + w * y), 2 * (y * z - w * x), 1 - 2 * (x * x + y * y)))
+    return float(action[0] - nominal[0]) * body_z
 
 
 def _empty_method_records() -> dict[str, list[np.ndarray | float | int]]:
@@ -259,6 +263,22 @@ def _empty_method_records() -> dict[str, list[np.ndarray | float | int]]:
         "degraded": [],
         "qp_rejection_flags": [],
         "estimated_wind": [],
+        "full_state": [],
+        "applied_wrench": [],
+        "nominal_wrench": [],
+        "used_midpoint": [],
+        "used_emergency": [],
+        "execution_mode": [],
+        "selected_smooth_value": [],
+        "eligible_candidate_count": [],
+        "executed_policy_dual": [],
+        "actuator_margins": [],
+        "operational_residuals": [],
+        "collision_constraint_active": [],
+        "snapshot_age_seconds": [],
+        "controller_seconds": [],
+        "learner_seconds": [],
+        "missed_deadline": [],
     }
 
 
@@ -274,6 +294,10 @@ def _append_method_record(
     gradient_norm: float,
     parameter_update_norm: float,
     estimated_wind: Array,
+    snapshot_age_seconds: float = 0.0,
+    controller_seconds: float = 0.0,
+    learner_seconds: float = 0.0,
+    missed_deadline: bool = False,
 ) -> None:
     state_np = np.asarray(state)
     candidates = np.asarray(decision.candidates.states)
@@ -314,13 +338,68 @@ def _append_method_record(
     ):
         records[name].append(np.asarray(getattr(decision, name)))
     records["estimated_wind"].append(np.asarray(estimated_wind))
+    records["full_state"].append(state_np)
+    records["applied_wrench"].append(action)
+    records["nominal_wrench"].append(nominal)
+    records["used_midpoint"].append(bool(np.asarray(decision.used_midpoint)))
+    records["used_emergency"].append(bool(np.asarray(getattr(decision, "used_emergency", False))))
+    records["execution_mode"].append(
+        int(
+            np.asarray(
+                getattr(
+                    decision,
+                    "execution_mode",
+                    0 if decision.qp_valid else 1 if decision.used_fallback else 3,
+                )
+            )
+        )
+    )
+    records["selected_smooth_value"].append(float(np.asarray(decision.smooth_values)[selected]))
+    records["eligible_candidate_count"].append(int(np.asarray(decision.eligible_candidate_count)))
+    records["executed_policy_dual"].append(
+        float(np.asarray(decision.selected_policy_dual))
+        if bool(np.asarray(decision.qp_valid))
+        else 0.0
+    )
+    check = decision.applied_postcheck
+    motors = np.asarray(check.motor_forces)
+    polytope = decision.continuous_filter.motor_polytope
+    records["actuator_margins"].append(
+        np.concatenate(
+            (motors - np.asarray(polytope.thrust_min), np.asarray(polytope.thrust_max) - motors)
+        )
+    )
+    records["operational_residuals"].append(np.asarray(check.analytic_barrier_residuals))
+    records["collision_constraint_active"].append(
+        bool(np.asarray(getattr(decision, "collision_constraint_active", True)))
+    )
+    records["snapshot_age_seconds"].append(snapshot_age_seconds)
+    records["controller_seconds"].append(controller_seconds)
+    records["learner_seconds"].append(learner_seconds)
+    records["missed_deadline"].append(missed_deadline)
 
 
 def _method_trace(
     records: dict[str, list[np.ndarray | float | int]], *, control_mode: str = "plcbf"
 ) -> MethodVideoTrace:
-    integer_names = {"selected_policy", "library_version", "cumulative_gradient_steps"}
-    boolean_names = {"fallback_safe", "qp_valid", "used_fallback", "degraded", "qp_rejection_flags"}
+    integer_names = {
+        "selected_policy",
+        "library_version",
+        "cumulative_gradient_steps",
+        "execution_mode",
+        "eligible_candidate_count",
+    }
+    boolean_names = {
+        "fallback_safe",
+        "qp_valid",
+        "used_fallback",
+        "degraded",
+        "qp_rejection_flags",
+        "used_midpoint",
+        "used_emergency",
+        "missed_deadline",
+        "collision_constraint_active",
+    }
     arrays: dict[str, np.ndarray] = {}
     for name, values in records.items():
         dtype = np.int32 if name in integer_names else bool if name in boolean_names else np.float32
@@ -342,6 +421,7 @@ def _make_controller(
     policy_alpha: float = 2.0,
     smooth_min_temperature: float = 0.005,
     nominal_model_compensation: bool = False,
+    control_interval_steps: int = 1,
 ) -> Any:
     actuator = resources.actuator
     nominal_config = QuadPolicyConfig(acceleration_limit=nominal_acceleration_limit)
@@ -361,6 +441,7 @@ def _make_controller(
         analytic_obstacle_hocbf=analytic_only,
         use_policy_constraint=not analytic_only,
         smooth_min_temperature=smooth_min_temperature,
+        control_interval_steps=control_interval_steps,
     )
     # Candidate zero is the explicit task nominal.  With zero hysteresis the runtime selector uses
     # the largest admissible-set score at each boundary, so a fallback may define the certificate
@@ -1204,6 +1285,11 @@ def _trace_arrays(trace: ComparisonVideoTrace) -> dict[str, np.ndarray]:
             value = getattr(method, name)
             if value is not None:
                 arrays[f"{prefix}_{name}"] = np.asarray(value)
+    for name, value in (getattr(trace, "repertoire_probes", None) or {}).items():
+        if name != "source":
+            arrays[f"repertoire_{name}"] = np.asarray(value)
+    if trace.payload_half_extents is not None:
+        arrays["payload_half_extents"] = np.asarray(trace.payload_half_extents)
     return arrays
 
 
@@ -1237,6 +1323,17 @@ def save_online_constant_wind_result(
         "wind_change_time": result.trace.wind_change_time,
         "obstacle_labels": [obstacle.label for obstacle in result.trace.obstacles],
         "summary": result.summary,
+        "drone_model": getattr(result.trace, "drone_model", "cf2x_T350"),
+        "physical_model_name": getattr(result.trace, "physical_model_name", None),
+        "payload_attachment_time_seconds": result.trace.payload_attachment_time_seconds,
+        "payload_mass_delta_kg": result.trace.payload_mass_delta_kg,
+        "payload_base_mass_kg": result.trace.payload_base_mass_kg,
+        "repertoire_probe_fields": list(
+            (getattr(result.trace, "repertoire_probes", None) or {}).keys()
+        ),
+        "repertoire_probe_source": (getattr(result.trace, "repertoire_probes", None) or {}).get(
+            "source"
+        ),
     }
     summary_path.write_text(json.dumps(metadata, indent=2, sort_keys=True) + "\n")
     return trace_path, summary_path
@@ -1284,9 +1381,27 @@ def load_online_constant_wind_result(
         show_wind_change_banner=metadata.get("show_wind_change_banner", True),
         drone_radius=float(metadata.get("drone_radius", 0.0)),
         coverage_probes=_coverage_probes_from_summary(metadata["summary"]),
+        drone_model=metadata.get("drone_model", "cf2x_T350"),
+        physical_model_name=metadata.get("physical_model_name"),
+        payload_attachment_time_seconds=metadata.get("payload_attachment_time_seconds"),
+        payload_half_extents=arrays.get("payload_half_extents"),
+        payload_mass_delta_kg=metadata.get("payload_mass_delta_kg"),
+        payload_base_mass_kg=metadata.get("payload_base_mass_kg"),
+        repertoire_probes=(
+            {
+                name: metadata.get("repertoire_probe_source")
+                if name == "source"
+                else arrays[f"repertoire_{name}"]
+                for name in metadata.get("repertoire_probe_fields", [])
+            }
+            or None
+        ),
     )
     trace.validate()
-    return OnlineConstantWindResult(trace, _current_outcome_checks(metadata["summary"]), methods)
+    summary = metadata["summary"]
+    if summary.get("experiment") != "competent_checkpoint":
+        summary = _current_outcome_checks(summary)
+    return OnlineConstantWindResult(trace, summary, methods)
 
 
 def load_online_constant_wind_trace(
@@ -1343,9 +1458,42 @@ def comparison_trace_for_methods(
             compensated="FROZEN + WIND FEEDFORWARD",
             adaptive="ONLINE-LEARNED DA-PLCBF",
         )
+    competent = result.summary.get("experiment") == "competent_checkpoint"
+    competent_title = ""
+    if competent:
+        labels.update(
+            fixed="FROZEN SKILLS",
+            compensated="FROZEN + POINT-MODEL COMPENSATION",
+            adaptive="ADAPTIVE SKILLS",
+        )
+        config = result.summary.get("config", {})
+        disturbance = config.get("disturbance", "wind")
+        event_label = {
+            "wind": "Permanent wind change",
+            "payload": "Centered rigid payload addition",
+            "crossing": "Moving obstacle crossing",
+            "unchanged": "Unchanged dynamics control",
+        }.get(disturbance, disturbance)
+        model_mode = config.get(
+            "model_mode", result.summary.get("point_model_information", "estimated")
+        )
+        model_label = (
+            "supplied point models (oracle)"
+            if model_mode == "oracle"
+            else "independent point estimates"
+        )
+        competent_title = f"{event_label} · {model_label}"
     if left not in methods or right not in methods:
         raise ValueError(f"available recorded methods are {tuple(methods)}")
     coverage_probes = _coverage_probes_from_summary(result.summary)
+    repertoire = getattr(result.trace, "repertoire_probes", None)
+    if repertoire is not None:
+        repertoire = dict(repertoire)
+        for side, name in (("left", left), ("right", right)):
+            for quantity in ("rollouts", "safe"):
+                key = f"{name}_{quantity}"
+                if key in repertoire:
+                    repertoire[f"{side}_{quantity}"] = repertoire[key]
     trace = replace(
         result.trace,
         fixed=methods[left],
@@ -1353,11 +1501,14 @@ def comparison_trace_for_methods(
         left_label=labels.get(left, left),
         right_label=labels.get(right, right),
         title=(
-            "Online construction of a safety fallback library"
+            competent_title
+            if competent
+            else "Online construction of a safety fallback library"
             if cold_start
             else f"Matched wind comparison: {labels.get(left, left)} vs {labels.get(right, right)}"
         ),
         coverage_probes=coverage_probes,
+        repertoire_probes=repertoire,
     )
     trace.validate()
     return trace

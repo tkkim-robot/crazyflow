@@ -1,0 +1,59 @@
+{
+  "path_convention": "All paths are relative to repository root.",
+  "video": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo.goal-sphere.mp4",
+  "sha256": "1f7c9fd6d3c322ade57381966add1fdf51a601862ae7c93ff558ad5c4b65e1f7",
+  "source_npz": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/competent_comparison.npz",
+  "source_npz_sha256": "aaf136e2d10215db7380381ad65826e4323cfd96f56d44077a177865581308d2",
+  "source_json": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/competent_comparison.json",
+  "source_json_sha256": "8e91c3b945fc8b2df06e39e3d259d43fdbdc6e6d4f133e803eb41982f8793535",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "nb_read_frames": "400"
+      }
+    ],
+    "format": {
+      "duration": "20.000000"
+    }
+  },
+  "mode": "demo",
+  "left_method": "compensated",
+  "right_method": "adaptive",
+  "pause": null,
+  "collision_behavior": "Freeze failed scene and its visible telemetry at first recorded collision segment end sample; source trace is preserved.",
+  "decoded_frames": [
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_frame_1.goal-sphere.png",
+      "playback_seconds": 3.9,
+      "description": "before prescribed mass attachment"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_frame_2.goal-sphere.png",
+      "playback_seconds": 4.3,
+      "description": "after prescribed mass attachment"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_frame_3.goal-sphere.png",
+      "playback_seconds": 19.0,
+      "description": "late goal hold; both methods succeed"
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_contact_sheet.goal-sphere.jpg",
+  "visual_review_pending": false,
+  "visual_review": {
+    "frames_inspected": 3,
+    "notes": [
+      "Inspected decoded frames before attachment, after attachment, and at late goal hold.",
+      "The centered rigid box appears after the recorded 4.00 s event; its displayed half-extents are the recorded 0.025 m on each axis.",
+      "The caption changes from scheduled attachment to +25% mass \u00b7 prescribed attachment; it makes no contact-pickup claim."
+    ],
+    "limitations": [
+      "Some forward skill endpoints can reach the main camera boundary during fast flight; the fixed-scale neutral-reference insets preserve the complete recorded fan."
+    ]
+  },
+  "superseded_reason": "The opaque goal sphere could obscure the drone on arrival; the final demo uses an open horizontal ring."
+}

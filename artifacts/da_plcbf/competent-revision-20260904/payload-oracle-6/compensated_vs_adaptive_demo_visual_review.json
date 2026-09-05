@@ -1,0 +1,70 @@
+{
+  "path_convention": "All paths are relative to repository root.",
+  "video": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo.mp4",
+  "sha256": "7b4e4df49dc4a1c236f567a8bdd8c841abf847020d8ebf026565cdd4eedba396",
+  "source_npz": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/competent_comparison.npz",
+  "source_npz_sha256": "aaf136e2d10215db7380381ad65826e4323cfd96f56d44077a177865581308d2",
+  "source_json": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/competent_comparison.json",
+  "source_json_sha256": "8e91c3b945fc8b2df06e39e3d259d43fdbdc6e6d4f133e803eb41982f8793535",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "nb_read_frames": "400"
+      }
+    ],
+    "format": {
+      "duration": "20.000000"
+    }
+  },
+  "mode": "demo",
+  "left_method": "compensated",
+  "right_method": "adaptive",
+  "pause": null,
+  "collision_behavior": "Freeze failed scene and its visible telemetry at first recorded collision segment end sample; source trace is preserved.",
+  "decoded_frames": [
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_frame_1.png",
+      "playback_seconds": 3.9,
+      "description": "before prescribed mass attachment"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_frame_2.png",
+      "playback_seconds": 4.3,
+      "description": "after prescribed mass attachment"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_frame_3.png",
+      "playback_seconds": 19.0,
+      "description": "late goal hold; both methods succeed"
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_contact_sheet.jpg",
+  "visual_review_pending": false,
+  "goal_marker": {
+    "type": "open horizontal ring",
+    "center": "recorded goal position",
+    "radius_m": 0.14,
+    "tube_radius_m": 0.006
+  },
+  "supersedes": "artifacts/da_plcbf/competent-revision-20260904/payload-oracle-6/compensated_vs_adaptive_demo_visual_review.goal-sphere.json",
+  "visual_review": {
+    "frames_inspected": 3,
+    "notes": [
+      "Inspected decoded frames before attachment, after attachment, and at late goal hold.",
+      "The centered rigid box appears after the recorded 4.00 s event; its displayed half-extents are the recorded 0.025 m on each axis.",
+      "The caption changes from scheduled attachment to +25% mass \u00b7 prescribed attachment; it makes no contact-pickup claim.",
+      "Reinspected the final three-frame contact sheet and a native-resolution arrival/probe frame: the open horizontal goal ring leaves the physical drone visible at arrival."
+    ],
+    "limitations": [
+      "Some forward skill endpoints can reach the main camera boundary during fast flight; the fixed-scale neutral-reference insets preserve the complete recorded fan."
+    ]
+  },
+  "renderer_validation": {
+    "passed": 13,
+    "scope": "Focused renderer suite, including both actual MuJoCo modes, payload geometry, collision freeze, and open goal center."
+  }
+}

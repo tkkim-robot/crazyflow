@@ -8,6 +8,7 @@ silently re-running controllers, inventing rollouts, or changing the timing of t
 from __future__ import annotations
 
 import os
+from colorsys import hsv_to_rgb
 from dataclasses import dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -34,9 +35,6 @@ _PANEL = "#0e1b25"
 _TEXT = "#f5f7fa"
 _MUTED = "#a9bac7"
 _YELLOW = np.asarray((1.0, 0.82, 0.15, 0.95))
-_SAFE = np.asarray((0.10, 0.95, 0.82, 0.34))
-_UNSAFE = np.asarray((1.0, 0.18, 0.20, 0.27))
-_SELECTED = np.asarray((0.12, 0.45, 1.0, 0.98))
 _HISTORY = np.asarray((0.94, 1.0, 1.0, 0.96))
 _PHYSICAL_OBSTACLE = np.asarray((0.72, 0.08, 0.06, 0.95))
 _INFLATED_OBSTACLE = np.asarray((1.0, 0.34, 0.05, 0.16))
@@ -98,11 +96,35 @@ class MethodVideoTrace:
     qp_rejection_flags: np.ndarray | None = None
     estimated_wind: np.ndarray | None = None
     control_mode: str = "plcbf"
+    full_state: np.ndarray | None = None
+    applied_wrench: np.ndarray | None = None
+    nominal_wrench: np.ndarray | None = None
+    used_midpoint: np.ndarray | None = None
+    used_emergency: np.ndarray | None = None
+    execution_mode: np.ndarray | None = None
+    selected_smooth_value: np.ndarray | None = None
+    eligible_candidate_count: np.ndarray | None = None
+    executed_policy_dual: np.ndarray | None = None
+    actuator_margins: np.ndarray | None = None
+    operational_residuals: np.ndarray | None = None
+    snapshot_age_seconds: np.ndarray | None = None
+    controller_seconds: np.ndarray | None = None
+    learner_seconds: np.ndarray | None = None
+    missed_deadline: np.ndarray | None = None
+    collision_constraint_active: np.ndarray | None = None
 
 
 @dataclass(frozen=True, slots=True)
 class ComparisonVideoTrace:
-    """Complete renderer input for a synchronized fixed/adaptive comparison."""
+    """Complete renderer input for a synchronized fixed/adaptive comparison.
+
+    Optional ``repertoire_probes`` records ``time_seconds[P]``, ``reference_position[P,3]``,
+    ``left_rollouts/right_rollouts[P,K,H,3]`` (absolute world positions), boolean
+    ``left_safe/right_safe[P,K]``, and a descriptive ``source``. Both methods must be evaluated at
+    the same recorded reference state/model. Insets subtract only the reference position and use
+    fixed metre limits; they never extrapolate, recenter on an endpoint, or separate coincident
+    paths. Additional named-method arrays may be retained for selecting a comparison pair.
+    """
 
     time_seconds: np.ndarray
     goal_position: np.ndarray
@@ -119,6 +141,13 @@ class ComparisonVideoTrace:
     show_wind_change_banner: bool = True
     drone_radius: float = 0.0
     coverage_probes: dict[str, object] | None = None
+    repertoire_probes: dict[str, object] | None = None
+    drone_model: str = "cf2x_T350"
+    physical_model_name: str | None = None
+    payload_attachment_time_seconds: float | None = None
+    payload_half_extents: np.ndarray | None = None
+    payload_mass_delta_kg: float | None = None
+    payload_base_mass_kg: float | None = None
 
     def validate(self) -> None:
         """Reject malformed records before opening a MuJoCo render context."""
@@ -160,6 +189,38 @@ class ComparisonVideoTrace:
         if not np.isfinite(self.drone_radius) or self.drone_radius < 0.0:
             raise ValueError("drone_radius must be nonnegative and finite")
         _validate_coverage_probes(self.coverage_probes, time, policy_count)
+        _validate_repertoire_probes(self.repertoire_probes, time, policy_count)
+        if not isinstance(self.drone_model, str) or not self.drone_model.strip():
+            raise ValueError("drone_model must identify the rendered drone asset")
+        if self.physical_model_name is not None and (
+            not isinstance(self.physical_model_name, str) or not self.physical_model_name.strip()
+        ):
+            raise ValueError("physical_model_name must be a nonempty string when recorded")
+        payload = (
+            self.payload_attachment_time_seconds,
+            self.payload_half_extents,
+            self.payload_mass_delta_kg,
+            self.payload_base_mass_kg,
+        )
+        if any(value is not None for value in payload):
+            if any(value is None for value in payload):
+                raise ValueError(
+                    "payload replay requires attachment time, extents, added mass, and base mass"
+                )
+            when = float(self.payload_attachment_time_seconds)
+            if not np.isfinite(when) or not time[0] <= when <= time[-1]:
+                raise ValueError("payload attachment time must lie inside the recorded interval")
+            extents = _shape(
+                _finite_array(self.payload_half_extents, "payload_half_extents"),
+                (3,),
+                "payload_half_extents",
+            )
+            if np.any(extents <= 0.0) or np.linalg.norm(extents) > self.drone_radius + 1e-9:
+                raise ValueError(
+                    "positive payload half extents must fit inside the drone collision enclosure"
+                )
+            _positive_finite(self.payload_mass_delta_kg, "payload_mass_delta_kg")
+            _positive_finite(self.payload_base_mass_kg, "payload_base_mass_kg")
 
         for index, obstacle in enumerate(self.obstacles):
             prefix = f"obstacles[{index}]"
@@ -194,6 +255,11 @@ class ComparisonRenderConfig:
     intervention_arrow_scale: float = 0.18
     probe_pause_time: float | None = None
     probe_pause_seconds: float = 0.0
+    mode: str = "diagnostic"
+    repertoire_extent_m: float = 1.5
+    wind_streak_spacing_m: float = 1.2
+    wind_streak_exposure_seconds: float = 0.25
+    freeze_after_collision: bool = True
 
     def validate(self) -> None:
         """Validate render settings."""
@@ -217,6 +283,16 @@ class ComparisonRenderConfig:
                 raise ValueError("probe_pause_time needs a finite time and positive pause duration")
         elif self.probe_pause_seconds != 0.0:
             raise ValueError("probe_pause_seconds requires an explicit probe_pause_time")
+        if self.mode not in ("demo", "diagnostic"):
+            raise ValueError("mode must be demo or diagnostic")
+        if not isinstance(self.freeze_after_collision, bool):
+            raise TypeError("freeze_after_collision must be boolean")
+        for name in (
+            "repertoire_extent_m",
+            "wind_streak_spacing_m",
+            "wind_streak_exposure_seconds",
+        ):
+            _positive_finite(getattr(self, name), name)
 
 
 @dataclass(frozen=True, slots=True)
@@ -242,10 +318,18 @@ def comparison_video_frames(
     config.validate()
     frame_indices = _frame_indices(trace.time_seconds, config.fps)
     pause_index = _probe_pause_index(trace, config, frame_indices)
+    collision_stops = (
+        tuple(
+            _first_recorded_collision_index(trace, method)
+            for method in (trace.fixed, trace.adaptive)
+        )
+        if config.mode == "demo" and config.freeze_after_collision
+        else (None, None)
+    )
     lookat = _method_camera_lookat(trace, trace.fixed, int(frame_indices[0]))
     distance = _camera_distance(trace, config)
     panel_width = max(480, config.width // 2)
-    panel_height = max(270, int(config.height * 0.49))
+    panel_height = max(270, int(config.height * (0.885 if config.mode == "demo" else 0.49)))
     camera = {
         "lookat": lookat,
         "distance": distance,
@@ -255,7 +339,7 @@ def comparison_video_frames(
     sim = Sim(
         n_worlds=2,
         n_drones=1,
-        drone="cf2x_T350",
+        drone=trace.drone_model,
         device="cpu",
         fused_mjx_model=False,
         enable_contacts=False,
@@ -280,8 +364,13 @@ def comparison_video_frames(
     try:
         initialized = False
         pause_inserted = False
+        previous_indices = (None, None)
+        left, right = None, None
         for index in frame_indices:
-            _set_two_world_poses(sim, trace, index)
+            display_indices = tuple(
+                int(index) if stop is None else min(int(index), stop) for stop in collision_stops
+            )
+            _set_two_world_poses(sim, trace, index, display_indices=display_indices)
             if not initialized:
                 sim.render(
                     mode="rgb_array",
@@ -292,16 +381,43 @@ def comparison_video_frames(
                     height=panel_height,
                 )
                 initialized = True
-            left = _render_world(
-                sim, trace, trace.fixed, index, 0, camera, panel_width, panel_height, config
-            )
-            right = _render_world(
-                sim, trace, trace.adaptive, index, 1, camera, panel_width, panel_height, config
-            )
-            yield _compose_frame(trace, config, index, left, right)
+            if previous_indices[0] != display_indices[0]:
+                left = _render_world(
+                    sim,
+                    trace,
+                    trace.fixed,
+                    display_indices[0],
+                    0,
+                    camera,
+                    panel_width,
+                    panel_height,
+                    config,
+                )
+            if previous_indices[1] != display_indices[1]:
+                right = _render_world(
+                    sim,
+                    trace,
+                    trace.adaptive,
+                    display_indices[1],
+                    1,
+                    camera,
+                    panel_width,
+                    panel_height,
+                    config,
+                )
+            previous_indices = display_indices
+            yield _compose_frame(trace, config, index, left, right, display_indices=display_indices)
             if not pause_inserted and pause_index is not None and index == pause_index:
                 pause_inserted = True
-                paused_frame = _compose_frame(trace, config, index, left, right, probe_pause=True)
+                paused_frame = _compose_frame(
+                    trace,
+                    config,
+                    index,
+                    left,
+                    right,
+                    probe_pause=True,
+                    display_indices=display_indices,
+                )
                 for _ in range(max(1, round(config.probe_pause_seconds * config.fps))):
                     yield paused_frame
     finally:
@@ -429,7 +545,6 @@ def _validate_method(method: MethodVideoTrace, steps: int, prefix: str) -> tuple
         "descriptor_target_loss",
         "gradient_norm",
         "parameter_update_norm",
-        "minimum_library_value",
     ):
         _shape(
             _finite_array(getattr(method, name), f"{prefix}.{name}"), (steps,), f"{prefix}.{name}"
@@ -438,19 +553,83 @@ def _validate_method(method: MethodVideoTrace, steps: int, prefix: str) -> tuple
         values = _integer_vector(getattr(method, name), steps, f"{prefix}.{name}")
         if np.any(values < 0) or np.any(np.diff(values) < 0):
             raise ValueError(f"{prefix}.{name} must be nonnegative and monotone")
-    for name in ("maximum_library_value", "selected_policy_value", "selected_policy_dual"):
+    for name in (
+        "minimum_library_value",
+        "maximum_library_value",
+        "selected_policy_value",
+        "selected_smooth_value",
+    ):
         value = getattr(method, name)
         if value is not None:
-            _shape(_finite_array(value, f"{prefix}.{name}"), (steps,), f"{prefix}.{name}")
-    for name in ("qp_valid", "used_fallback", "degraded"):
+            _collision_value_array(
+                value, method.collision_constraint_active, steps, f"{prefix}.{name}"
+            )
+    for name in (
+        "selected_policy_dual",
+        "executed_policy_dual",
+        "snapshot_age_seconds",
+        "controller_seconds",
+        "learner_seconds",
+    ):
+        value = getattr(method, name)
+        if value is not None:
+            values = _shape(_finite_array(value, f"{prefix}.{name}"), (steps,), f"{prefix}.{name}")
+            if np.any(values < 0.0):
+                raise ValueError(f"{prefix}.{name} must be nonnegative")
+    for name in (
+        "qp_valid",
+        "used_fallback",
+        "degraded",
+        "used_midpoint",
+        "used_emergency",
+        "missed_deadline",
+        "collision_constraint_active",
+    ):
         value = getattr(method, name)
         if value is not None:
             value = np.asarray(value)
             if value.dtype != np.bool_ or value.shape != (steps,):
                 raise ValueError(f"{prefix}.{name} must be boolean with shape [T]")
+    for name, width in (
+        ("full_state", 13),
+        ("applied_wrench", 4),
+        ("nominal_wrench", 4),
+        ("actuator_margins", 8),
+    ):
+        value = getattr(method, name)
+        if value is not None:
+            _shape(_finite_array(value, f"{prefix}.{name}"), (steps, width), f"{prefix}.{name}")
+    if method.operational_residuals is not None:
+        residuals = _finite_array(
+            method.operational_residuals, f"{prefix}.operational_residuals", ndim=2
+        )
+        if residuals.shape[0] != steps:
+            raise ValueError(f"{prefix}.operational_residuals must have shape [T,B]")
+    if method.eligible_candidate_count is not None:
+        eligible = _integer_vector(
+            method.eligible_candidate_count, steps, f"{prefix}.eligible_candidate_count"
+        )
+        if np.any(eligible < 0) or np.any(eligible > policy_count + 1):
+            raise ValueError(f"{prefix}.eligible_candidate_count must lie in [0,K+1]")
+    if method.execution_mode is not None:
+        modes = _integer_vector(method.execution_mode, steps, f"{prefix}.execution_mode")
+        if np.any(modes < 0) or np.any(modes > 3):
+            raise ValueError(f"{prefix}.execution_mode must lie in [0,3]")
+        for name, mode in (
+            ("used_fallback", 1),
+            ("used_emergency", 2),
+            ("used_midpoint", 3),
+            ("qp_valid", 0),
+        ):
+            values = getattr(method, name)
+            if values is not None and np.any(np.asarray(values) != (modes == mode)):
+                raise ValueError(f"{prefix}.{name} must agree with execution_mode")
     if method.qp_rejection_flags is not None:
         flags = np.asarray(method.qp_rejection_flags)
-        if flags.dtype != np.bool_ or flags.shape != (steps, len(QP_REJECTION_REASONS)):
+        if flags.dtype != np.bool_ or flags.shape not in (
+            (steps, len(QP_REJECTION_REASONS)),
+            (steps, 8),
+        ):
             raise ValueError(
                 f"{prefix}.qp_rejection_flags must be boolean [T,{len(QP_REJECTION_REASONS)}]"
             )
@@ -463,11 +642,72 @@ def _validate_method(method: MethodVideoTrace, steps: int, prefix: str) -> tuple
     if method.control_mode not in ("nominal", "analytic", "plcbf"):
         raise ValueError(f"{prefix}.control_mode must be nominal, analytic, or plcbf")
     if method.qp_valid is not None:
-        for name in ("used_fallback", "degraded"):
+        for name in ("used_fallback", "degraded", "used_emergency", "used_midpoint"):
             value = getattr(method, name)
             if value is not None and np.any(np.asarray(value) & np.asarray(method.qp_valid)):
                 raise ValueError(f"{prefix}: valid QP cannot also use {name}")
     return policy_count, horizon
+
+
+def _collision_value_array(value: object, active: object, steps: int, name: str) -> np.ndarray:
+    """An empty collision set has +inf H, but no active constraint may contain a nonfinite H."""
+    values = np.asarray(value)
+    _shape(values, (steps,), name)
+    if not np.issubdtype(values.dtype, np.floating):
+        raise ValueError(f"{name} must use a floating dtype")
+    inactive = np.zeros(steps, dtype=bool) if active is None else ~np.asarray(active, dtype=bool)
+    if inactive.shape != (steps,) or np.any(
+        ~np.isfinite(values) & ~(np.isposinf(values) & inactive)
+    ):
+        raise ValueError(f"{name}: only inactive collision constraints may have +inf values")
+    return values
+
+
+def _validate_repertoire_probes(
+    probes: dict[str, object] | None, time: np.ndarray, policy_count: int
+) -> None:
+    """Validate recorded common-reference paths; the renderer never synthesizes a skill fan."""
+    if probes is None:
+        return
+    if not isinstance(probes, dict):
+        raise TypeError("repertoire_probes must be a dictionary")
+    times = _finite_array(probes.get("time_seconds"), "repertoire_probes.time_seconds", ndim=1)
+    if len(times) == 0 or np.any(np.diff(times) <= 0.0):
+        raise ValueError("repertoire probe times must be nonempty and strictly increasing")
+    if times[0] < time[0] - 1e-9 or times[-1] > time[-1] + 1e-9:
+        raise ValueError("repertoire probe times must lie in the recorded interval")
+    _shape(
+        _finite_array(probes.get("reference_position"), "repertoire_probes.reference_position"),
+        (len(times), 3),
+        "repertoire_probes.reference_position",
+    )
+    if not isinstance(probes.get("source"), str) or not probes["source"].strip():
+        raise ValueError("repertoire_probes.source must identify the common reference")
+    shape = None
+    for side in ("left", "right"):
+        rollouts = _finite_array(
+            probes.get(f"{side}_rollouts"), f"repertoire_probes.{side}_rollouts", ndim=4
+        )
+        if (
+            rollouts.shape[:2] != (len(times), policy_count)
+            or rollouts.shape[2] < 2
+            or rollouts.shape[3] != 3
+        ):
+            raise ValueError("repertoire probe rollouts must have shape [P,K,H,3] with H >= 2")
+        if shape is not None and shape != rollouts.shape:
+            raise ValueError("left and right repertoire probes must have identical shapes")
+        shape = rollouts.shape
+        safe = np.asarray(probes.get(f"{side}_safe"))
+        if safe.dtype != np.bool_ or safe.shape != (len(times), policy_count):
+            raise ValueError("repertoire probe safe masks must be boolean [P,K]")
+
+
+def _latest_repertoire_probe(trace: ComparisonVideoTrace, index: int) -> int | None:
+    if trace.repertoire_probes is None:
+        return None
+    times = np.asarray(trace.repertoire_probes["time_seconds"])
+    latest = int(np.searchsorted(times, trace.time_seconds[index] + 1e-9, side="right")) - 1
+    return latest if latest >= 0 else None
 
 
 def _frame_indices(time_seconds: np.ndarray, fps: float) -> np.ndarray:
@@ -568,14 +808,23 @@ def _method_camera_lookat(
     return lookat
 
 
-def _set_two_world_poses(sim: Sim, trace: ComparisonVideoTrace, index: int) -> None:
+def _set_two_world_poses(
+    sim: Sim,
+    trace: ComparisonVideoTrace,
+    index: int,
+    *,
+    display_indices: tuple[int, int] | None = None,
+) -> None:
+    left_index, right_index = display_indices or (index, index)
     position = jnp.asarray(
-        np.stack((trace.fixed.position[index], trace.adaptive.position[index]))[:, None, :]
-    )
-    quaternion = jnp.asarray(
-        np.stack((trace.fixed.quaternion_xyzw[index], trace.adaptive.quaternion_xyzw[index]))[
+        np.stack((trace.fixed.position[left_index], trace.adaptive.position[right_index]))[
             :, None, :
         ]
+    )
+    quaternion = jnp.asarray(
+        np.stack(
+            (trace.fixed.quaternion_xyzw[left_index], trace.adaptive.quaternion_xyzw[right_index])
+        )[:, None, :]
     )
     states = sim.data.states.replace(pos=position, quat=quaternion)
     core = sim.data.core.replace(
@@ -631,21 +880,30 @@ def _draw_scene_markers(
             rgba=_PHYSICAL_OBSTACLE,
             label="",
         )
-    viewer.add_marker(
-        type=mujoco.mjtGeom.mjGEOM_SPHERE,
-        pos=np.asarray(trace.goal_position, dtype=np.float64),
-        size=np.full(3, 0.09),
-        rgba=_GOAL,
-        label="",
-    )
-    _add_polyline(sim, method.position[: index + 1], _HISTORY, radius=0.012)
+    _draw_goal_marker(sim, trace.goal_position, config)
+    _add_polyline(sim, method.position[: index + 1], _HISTORY, radius=0.016)
     _add_polyline(sim, method.nominal_rollout[index], _YELLOW, radius=0.009, dashed=True)
     for policy, rollout in enumerate(method.fallback_rollouts[index]):
-        color = _SAFE if bool(method.fallback_safe[index, policy]) else _UNSAFE
-        _add_polyline(sim, rollout, color, radius=0.006)
-    _add_polyline(sim, method.selected_rollout[index], _SELECTED, radius=0.016)
+        clear = bool(method.fallback_safe[index, policy])
+        color = _skill_color(policy, clear)
+        _add_polyline(sim, rollout, color, radius=0.008, dashed=not clear)
+        viewer.add_marker(
+            type=mujoco.mjtGeom.mjGEOM_SPHERE,
+            pos=np.asarray(rollout[-1], dtype=np.float64),
+            size=np.full(3, 0.025),
+            rgba=color,
+            label="",
+        )
+    # A white endpoint ring identifies selection without painting over any library trajectory.
+    # In particular, identical paths remain identical: no artificial jitter or fan-out is added.
+    _add_endpoint_ring(sim, method.selected_rollout[index, -1], _HISTORY, radius=0.052)
+
+    streak_origins, streak_vector = _wind_streak_geometry(trace, index, config)
+    for origin in streak_origins:
+        _add_arrow(sim, origin, streak_vector, np.asarray((0.92, 0.50, 0.89, 0.42)), radius=0.004)
 
     position = np.asarray(method.position[index], dtype=np.float64)
+    _draw_payload_marker(sim, trace, method, index)
     if trace.drone_radius > 0.0:
         viewer.add_marker(
             type=mujoco.mjtGeom.mjGEOM_SPHERE,
@@ -654,40 +912,140 @@ def _draw_scene_markers(
             rgba=np.asarray((0.72, 0.93, 1.0, 0.15)),
             label="",
         )
-    rotation = Rotation.from_quat(method.quaternion_xyzw[index]).as_matrix()
-    for axis, color in zip(
-        rotation.T,
-        (
-            np.asarray((1.0, 0.12, 0.12, 0.95)),
-            np.asarray((0.12, 1.0, 0.18, 0.95)),
-            np.asarray((0.18, 0.38, 1.0, 0.95)),
-        ),
-        strict=True,
-    ):
-        _add_arrow(sim, position, 0.16 * axis, color, radius=0.008)
+    if config.mode == "diagnostic":
+        rotation = Rotation.from_quat(method.quaternion_xyzw[index]).as_matrix()
+        for axis, color in zip(
+            rotation.T,
+            (
+                np.asarray((1.0, 0.12, 0.12, 0.95)),
+                np.asarray((0.12, 1.0, 0.18, 0.95)),
+                np.asarray((0.18, 0.38, 1.0, 0.95)),
+            ),
+            strict=True,
+        ):
+            _add_arrow(sim, position, 0.16 * axis, color, radius=0.008)
+        wind_base = position + np.asarray((0.0, 0.0, 0.42))
+        _add_arrow(
+            sim,
+            wind_base,
+            config.wind_arrow_scale * trace.true_wind[index],
+            _TRUE_WIND,
+            radius=0.018,
+        )
+        _add_arrow(
+            sim,
+            wind_base - np.asarray((0.0, 0.0, 0.10)),
+            config.wind_arrow_scale * _estimated_wind(trace, method, index),
+            _ESTIMATED_WIND,
+            radius=0.014,
+        )
+        # This vector records only collective-thrust change along body z; torque is not a vector
+        # displacement and is deliberately absent. The diagnostic legend says this explicitly.
+        _add_arrow(
+            sim,
+            position,
+            config.intervention_arrow_scale * method.intervention_world[index],
+            _INTERVENTION,
+            radius=0.015,
+        )
 
-    wind_base = position + np.asarray((0.0, 0.0, 0.42))
-    _add_arrow(
-        sim,
-        wind_base + np.asarray((0.0, 0.0, 0.06)),
-        config.wind_arrow_scale * trace.true_wind[index],
-        _TRUE_WIND,
-        radius=0.018,
+
+def _skill_color(policy: int, clear: bool = True) -> np.ndarray:
+    """Identity hue is stable across time, method, library size, and collision status."""
+    rgb = hsv_to_rgb((0.07 + policy * 0.6180339887498949) % 1.0, 0.72, 1.0 if clear else 0.68)
+    return np.asarray((*rgb, 0.95 if clear else 0.65))
+
+
+def _draw_goal_marker(sim: Sim, goal_position: np.ndarray, config: ComparisonRenderConfig) -> None:
+    """Keep the demo goal center open so the actual drone remains visible on arrival."""
+    goal = np.asarray(goal_position, dtype=np.float64)
+    if config.mode == "demo":
+        phase = np.linspace(0.0, 2.0 * np.pi, 49)
+        ring = np.tile(goal, (len(phase), 1))
+        ring[:, 0] += 0.14 * np.cos(phase)
+        ring[:, 1] += 0.14 * np.sin(phase)
+        _add_polyline(sim, ring, _GOAL, radius=0.006)
+    else:
+        sim.viewer.viewer.add_marker(
+            type=mujoco.mjtGeom.mjGEOM_SPHERE, pos=goal, size=np.full(3, 0.09), rgba=_GOAL, label=""
+        )
+
+
+def _payload_is_attached(trace: ComparisonVideoTrace, index: int) -> bool:
+    return (
+        trace.payload_attachment_time_seconds is not None
+        and trace.time_seconds[index] >= trace.payload_attachment_time_seconds - 1e-9
     )
-    _add_arrow(
-        sim,
-        wind_base - np.asarray((0.0, 0.0, 0.06)),
-        config.wind_arrow_scale * _estimated_wind(trace, method, index),
-        _ESTIMATED_WIND,
-        radius=0.014,
+
+
+def _payload_caption(trace: ComparisonVideoTrace, index: int) -> str:
+    if trace.payload_attachment_time_seconds is None:
+        return ""
+    percent = 100.0 * trace.payload_mass_delta_kg / trace.payload_base_mass_kg
+    if _payload_is_attached(trace, index):
+        return f"+{percent:g}% mass · prescribed attachment"
+    return f"Payload +{percent:g}% mass scheduled at t={trace.payload_attachment_time_seconds:g} s"
+
+
+def _draw_payload_marker(
+    sim: Sim, trace: ComparisonVideoTrace, method: MethodVideoTrace, index: int
+) -> None:
+    """Replay only the supplied centered rigid box; no pickup/contact dynamics are invented."""
+    if not _payload_is_attached(trace, index):
+        return
+    sim.viewer.viewer.add_marker(
+        type=mujoco.mjtGeom.mjGEOM_BOX,
+        pos=np.asarray(method.position[index], dtype=np.float64),
+        size=np.asarray(trace.payload_half_extents, dtype=np.float64),
+        mat=Rotation.from_quat(method.quaternion_xyzw[index]).as_matrix().flatten(),
+        rgba=np.asarray((0.96, 0.65, 0.12, 1.0)),
+        label="",
     )
-    _add_arrow(
-        sim,
-        position,
-        config.intervention_arrow_scale * method.intervention_world[index],
-        _INTERVENTION,
-        radius=0.015,
+
+
+def _add_endpoint_ring(sim: Sim, endpoint: np.ndarray, rgba: np.ndarray, *, radius: float) -> None:
+    phase = np.linspace(0, 2 * np.pi, 17)
+    for axes in ((0, 1), (0, 2)):
+        ring = np.tile(np.asarray(endpoint, dtype=float), (len(phase), 1))
+        ring[:, axes[0]] += radius * np.cos(phase)
+        ring[:, axes[1]] += radius * np.sin(phase)
+        _add_polyline(sim, ring, rgba, radius=0.003)
+
+
+def _wind_streak_geometry(
+    trace: ComparisonVideoTrace, index: int, config: ComparisonRenderConfig
+) -> tuple[np.ndarray, np.ndarray]:
+    """One prescribed uniform field, advected in world coordinates for both panels.
+
+    Seeds lie on a deterministic world grid. Their displacement is the time integral of recorded
+    true wind, with no body-following motion, estimated-wind feedback, or invented turbulence.
+    The union of both camera neighborhoods is used only to cull invisible geometry.
+    """
+    wind = np.asarray(trace.true_wind[index], dtype=float)
+    vector = wind * config.wind_streak_exposure_seconds
+    if np.linalg.norm(vector) < 1e-9:
+        return np.empty((0, 3)), vector
+    displacement = np.sum(
+        np.diff(trace.time_seconds[: index + 1])[:, None] * trace.true_wind[:index], axis=0
     )
+    spacing = config.wind_streak_spacing_m
+    half_cells = max(2, int(np.ceil(_camera_distance(trace, config) / spacing / 2)))
+    cells: set[tuple[int, int, int]] = set()
+    for method in (trace.fixed, trace.adaptive):
+        center = np.floor((method.position[index] - displacement) / spacing).astype(int)
+        for x in range(center[0] - half_cells, center[0] + half_cells + 1):
+            for y in range(center[1] - half_cells, center[1] + half_cells + 1):
+                for z in range(center[2] - 1, center[2] + 2):
+                    if (x + 2 * y + z) % 3 == 0:
+                        cells.add((x, y, z))
+    points = (
+        np.asarray(sorted(cells), dtype=float) * spacing
+        + displacement
+        + np.asarray((0.0, 0.0, 0.45))
+    )
+    # Do not put atmospheric tracers underneath the floor.
+    points = points[points[:, 2] > 0.15]
+    return points, vector
 
 
 def _add_polyline(
@@ -714,14 +1072,15 @@ def _add_arrow(
         return
     stop = start + vector
     draw_capsule(sim, start, stop, radius=radius, rgba=rgba)
-    viewer = sim.viewer.viewer
-    viewer.add_marker(
-        type=mujoco.mjtGeom.mjGEOM_SPHERE,
-        pos=stop,
-        size=np.full(3, 1.8 * radius),
-        rgba=rgba,
-        label="",
-    )
+    direction = vector / length
+    transverse = np.cross(direction, np.asarray((0.0, 0.0, 1.0)))
+    if np.linalg.norm(transverse) < 1e-8:
+        transverse = np.cross(direction, np.asarray((0.0, 1.0, 0.0)))
+    transverse /= np.linalg.norm(transverse)
+    head_length = min(length * 0.3, max(0.07, radius * 6))
+    for sign in (-1, 1):
+        wing = stop - head_length * direction + sign * 0.5 * head_length * transverse
+        draw_capsule(sim, stop, wing, radius=radius, rgba=rgba)
 
 
 def _compose_frame(
@@ -732,7 +1091,18 @@ def _compose_frame(
     right: np.ndarray,
     *,
     probe_pause: bool = False,
+    display_indices: tuple[int, int] | None = None,
 ) -> np.ndarray:
+    if config.mode == "demo":
+        return _compose_demo_frame(
+            trace,
+            config,
+            index,
+            left,
+            right,
+            probe_pause=probe_pause,
+            display_indices=display_indices,
+        )
     figure = Figure(
         figsize=(config.width / 100.0, config.height / 100.0), dpi=100, facecolor=_BACKGROUND
     )
@@ -756,6 +1126,9 @@ def _compose_frame(
         elif _has_recorded_collision(trace, method, index):
             clearance = f"COLLISION EARLIER  |  shell {shell_margin:+.2f} m now"
             status_color = "#ff6470"
+        elif _has_recorded_margin_violation(trace, method, index):
+            clearance = f"MARGIN VIOLATION EARLIER  |  shell {shell_margin:+.2f} m now"
+            status_color = "#ffc17b"
         else:
             clearance = f"body clearance {physical_margin:+.2f} m  |  shell {shell_margin:+.2f} m"
         figure.text(
@@ -783,10 +1156,11 @@ def _compose_frame(
         axis.text(
             0.016,
             0.968,
-            f"wind estimate {_vector_label(estimate)} m/s\n"
+            f"point-model wind {_vector_label(estimate)} m/s\n"
             f"library v{int(method.library_version[index])}  |  "
             f"{int(method.cumulative_gradient_steps[index])} learning updates\n"
-            f"skill target loss {float(method.descriptor_target_loss[index]):.3f}",
+            f"skill target loss {float(method.descriptor_target_loss[index]):.3f}\n"
+            "orange arrow: collective thrust only; torque omitted",
             transform=axis.transAxes,
             color=_TEXT,
             fontsize=9 * scale,
@@ -826,8 +1200,8 @@ def _compose_frame(
     figure.text(
         0.5,
         0.944,
-        "MuJoCo-rendered replay of the differentiable Version-A simulation  |  "
-        "finite-horizon collision values under each estimated model",
+        _model_caption(trace)
+        + "  |  finite-horizon collision values under each recorded point model",
         color=_MUTED,
         fontsize=9 * scale,
         ha="center",
@@ -841,6 +1215,8 @@ def _compose_frame(
         )
     else:
         banner = f"t = {time:5.2f} s   |   same start, goal, obstacle geometry and actuator limits"
+    if payload_caption := _payload_caption(trace, index):
+        banner = f"t = {time:5.2f} s   |   {payload_caption}"
     if probe_pause:
         banner = (
             f"PROBE PAUSE  |  simulation t = {time:.2f} s  |  recorded state held for inspection"
@@ -862,8 +1238,8 @@ def _compose_frame(
             0.5,
             0.048,
             "white: executed path  |  yellow dashed: nominal prediction  |  "
-            "teal / red: collision-clear / blocked skills  |  blue: selected rollout  |  "
-            "orange: command change",
+            "skill hues: identity; dashed/dim: blocked or invalid  |  ring: selected endpoint  |  "
+            "orange: collective thrust change only (no torque)",
             color=_MUTED,
             fontsize=8.8 * scale,
             ha="center",
@@ -887,6 +1263,246 @@ def _compose_frame(
     if frame.shape != (config.height, config.width, 3):
         raise RuntimeError("Agg canvas produced unexpected comparison-frame dimensions")
     return frame
+
+
+def _model_caption(trace: ComparisonVideoTrace) -> str:
+    if trace.physical_model_name == trace.drone_model:
+        return f"MuJoCo-rendered Version-A replay · {trace.drone_model}"
+    physical = trace.physical_model_name or "unrecorded physical model"
+    return f"Version-A replay · {trace.drone_model} visual proxy for {physical}"
+
+
+def _demo_status(
+    trace: ComparisonVideoTrace, method: MethodVideoTrace, index: int
+) -> tuple[str, str]:
+    """Keep both body collision and shell breach visible after an encounter has passed."""
+    if _has_recorded_collision(trace, method, index):
+        return "COLLISION RECORDED", "#ff7882"
+    if _has_recorded_margin_violation(trace, method, index):
+        return "SAFETY MARGIN VIOLATED", "#ffc17b"
+    return _demo_execution_status(method, index)
+
+
+def _demo_execution_status(method: MethodVideoTrace, index: int) -> tuple[str, str]:
+    if method.used_midpoint is not None and bool(method.used_midpoint[index]):
+        return "MIDPOINT EMERGENCY · UNCERTIFIED", "#ff7882"
+    if method.used_emergency is not None and bool(method.used_emergency[index]):
+        return "EMERGENCY POLICY · UNCERTIFIED", "#ff7882"
+    if method.degraded is not None and bool(method.degraded[index]):
+        return "UNCERTIFIED COMMAND", "#ff7882"
+    if method.control_mode == "nominal":
+        return "NOMINAL CONTROL", "#ffe085"
+    if method.maximum_library_value is not None and method.maximum_library_value[index] < 0:
+        return "NO COLLISION CERTIFICATE", "#ff7882"
+    if method.used_fallback is not None and bool(method.used_fallback[index]):
+        return "FALLBACK EXECUTING", "#ffc17b"
+    if method.qp_valid is not None and bool(method.qp_valid[index]):
+        return "QP CONTROL", "#94efc4"
+    return "EXECUTION UNRECORDED", _MUTED
+
+
+def _demo_coverage(method: MethodVideoTrace, index: int) -> str:
+    if (
+        method.collision_constraint_active is not None
+        and not method.collision_constraint_active[index]
+    ):
+        return "No active collision constraint"
+    count, total = int(np.count_nonzero(method.fallback_safe[index])), method.fallback_safe.shape[1]
+    return f"{count}/{total} valid collision-clear skills"
+
+
+def _compose_demo_frame(
+    trace: ComparisonVideoTrace,
+    config: ComparisonRenderConfig,
+    index: int,
+    left: np.ndarray,
+    right: np.ndarray,
+    *,
+    probe_pause: bool = False,
+    display_indices: tuple[int, int] | None = None,
+) -> np.ndarray:
+    """Scene-first view: two full-height scenes, a small status badge, and metric path insets."""
+    figure = Figure(
+        figsize=(config.width / 100.0, config.height / 100.0), dpi=100, facecolor=_BACKGROUND
+    )
+    canvas = FigureCanvasAgg(figure)
+    scale = config.width / 1600.0
+    display_indices = display_indices or (index, index)
+    for x, image, method, label, side in zip(
+        (0.006, 0.503),
+        (left, right),
+        (trace.fixed, trace.adaptive),
+        (trace.left_label, trace.right_label),
+        ("left", "right"),
+        strict=True,
+    ):
+        axis = figure.add_axes((x, 0.060, 0.491, 0.885))
+        axis.imshow(image, aspect="auto")
+        axis.set_axis_off()
+        method_index = display_indices[0 if side == "left" else 1]
+        latest = _latest_repertoire_probe(trace, method_index)
+        status, color = _demo_execution_status(method, method_index)
+        axis.text(
+            0.022,
+            0.972,
+            label,
+            color=_TEXT,
+            fontsize=13 * scale,
+            weight="bold",
+            va="top",
+            transform=axis.transAxes,
+            bbox={"facecolor": _PANEL, "edgecolor": "none", "alpha": 0.80, "pad": 5},
+        )
+        axis.text(
+            0.022,
+            0.925,
+            f"{status}  ·  {_demo_coverage(method, method_index)}",
+            color=color,
+            fontsize=9.5 * scale,
+            transform=axis.transAxes,
+            va="top",
+            bbox={"facecolor": _PANEL, "edgecolor": "none", "alpha": 0.80, "pad": 4},
+        )
+        history, history_color = _demo_status(trace, method, method_index)
+        if history != status:
+            axis.text(
+                0.022,
+                0.884,
+                history,
+                color=history_color,
+                fontsize=9.5 * scale,
+                transform=axis.transAxes,
+                va="top",
+                weight="bold",
+                bbox={"facecolor": _PANEL, "edgecolor": "none", "alpha": 0.85, "pad": 4},
+            )
+        if method_index < index:
+            axis.text(
+                0.022,
+                0.843,
+                f"REPLAY FROZEN · recorded t={trace.time_seconds[method_index]:.2f} s",
+                color="#ffbdc1",
+                fontsize=9 * scale,
+                transform=axis.transAxes,
+                va="top",
+                bbox={"facecolor": _PANEL, "edgecolor": "none", "alpha": 0.85, "pad": 4},
+            )
+        if latest is not None:
+            # A compact fixed-scale reference is always visible. The explicit measurement pause
+            # enlarges it for inspection without replacing any recorded scene trajectories.
+            width = 0.126 if probe_pause else 0.065
+            height = width * config.width / config.height
+            base_x = x + 0.013
+            base_y = 0.094
+            for projection, offset in (((0, 1), 0), ((0, 2), 1)):
+                _draw_repertoire_projection(
+                    figure,
+                    (base_x + offset * (width + 0.016), base_y, width, height),
+                    trace,
+                    side,
+                    latest,
+                    projection,
+                    config.repertoire_extent_m,
+                    label_size=(8 if probe_pause else 6.2) * scale,
+                )
+            measured = float(np.asarray(trace.repertoire_probes["time_seconds"])[latest])
+            reference_label = (
+                "Neutral reference"
+                if "neutral" in str(trace.repertoire_probes["source"]).lower()
+                else "Common reference"
+            )
+            figure.text(
+                base_x,
+                base_y + height + 0.021,
+                f"{reference_label} · measured {measured:.2f} s",
+                color=_TEXT,
+                fontsize=(8.8 if probe_pause else 6.8) * scale,
+                bbox={"facecolor": _PANEL, "edgecolor": "none", "alpha": 0.9, "pad": 3},
+            )
+    time = float(trace.time_seconds[index])
+    wind = float(np.linalg.norm(trace.true_wind[index]))
+    time_label = f"t = {time:.2f} s"
+    if probe_pause:
+        time_label = f"PROBE PAUSE · simulation {time_label}"
+    figure.text(
+        0.018, 0.980, trace.title, color=_TEXT, fontsize=13 * scale, weight="bold", va="top"
+    )
+    figure.text(
+        0.985,
+        0.966,
+        time_label,
+        color="#f5e3ab" if probe_pause else _TEXT,
+        fontsize=9.5 * scale,
+        ha="right",
+        va="top",
+    )
+    wind_label = _payload_caption(trace, index) or (
+        f"Uniform prescribed wind {wind:.2f} m/s" if wind > 1e-9 else "Still air"
+    )
+    figure.text(
+        0.5,
+        0.036,
+        "White: executed path · hues: skill ID · dashed/dim: blocked or invalid · ring: selected · "
+        + wind_label,
+        color=_TEXT,
+        fontsize=8.2 * scale,
+        ha="center",
+    )
+    figure.text(
+        0.5,
+        0.014,
+        _model_caption(trace)
+        + f" · body radius {trace.drone_radius:.2f} m · orange shell: required clearance",
+        color=_MUTED,
+        fontsize=7.7 * scale,
+        ha="center",
+    )
+    canvas.draw()
+    return np.asarray(canvas.buffer_rgba(), dtype=np.uint8)[..., :3].copy()
+
+
+def _draw_repertoire_projection(
+    figure: Figure,
+    bounds: tuple[float, float, float, float],
+    trace: ComparisonVideoTrace,
+    side: str,
+    probe_index: int,
+    projection: tuple[int, int],
+    extent_m: float,
+    *,
+    label_size: float,
+) -> None:
+    probes = trace.repertoire_probes
+    if probes is None:
+        return
+    axis = figure.add_axes(bounds, facecolor=_PANEL)
+    reference = np.asarray(probes["reference_position"])[probe_index]
+    paths = np.asarray(probes[f"{side}_rollouts"])[probe_index] - reference
+    safe = np.asarray(probes[f"{side}_safe"])[probe_index]
+    clipped = False
+    for policy, (path, clear) in enumerate(zip(paths, safe, strict=True)):
+        color = _skill_color(policy, bool(clear))
+        xy = path[:, projection]
+        axis.plot(xy[:, 0], xy[:, 1], color=color, linewidth=0.9, linestyle="-" if clear else "--")
+        axis.scatter(*xy[-1], color=color, s=5, zorder=3)
+        clipped |= bool(np.any(np.abs(xy) > extent_m))
+    axis.scatter(0, 0, s=7, color=_TEXT, marker="+", zorder=4)
+    axis.set_xlim(-extent_m, extent_m)
+    axis.set_ylim(-extent_m, extent_m)
+    axis.set_aspect("equal", adjustable="box")
+    plane = "XY" if projection == (0, 1) else "XZ"
+    axis.set_title(
+        f"{plane} · metres" + (" (clipped)" if clipped else ""),
+        color=_TEXT,
+        fontsize=label_size,
+        pad=2,
+    )
+    axis.set_xticks((-extent_m, 0, extent_m))
+    axis.set_yticks((-extent_m, 0, extent_m))
+    axis.tick_params(colors=_MUTED, labelsize=label_size * 0.8, length=2, pad=1)
+    axis.grid(color="#748496", alpha=0.25, linewidth=0.5)
+    for spine in axis.spines.values():
+        spine.set_color("#405564")
 
 
 def _estimated_wind(
@@ -946,6 +1562,10 @@ def _vector_label(vector: np.ndarray) -> str:
 def _execution_status(method: MethodVideoTrace, index: int) -> tuple[str, str]:
     if method.control_mode == "nominal":
         return "EXECUTING NOMINAL", "#ffe085"
+    if method.used_midpoint is not None and bool(method.used_midpoint[index]):
+        return "MIDPOINT EMERGENCY · UNCERTIFIED", "#ff6470"
+    if method.used_emergency is not None and bool(method.used_emergency[index]):
+        return "EMERGENCY POLICY · UNCERTIFIED", "#ff6470"
     if method.degraded is not None and bool(method.degraded[index]):
         return "UNCERTIFIED BEST EFFORT", "#ff6470"
     if (
@@ -966,7 +1586,8 @@ def _qp_rejection_label(method: MethodVideoTrace, index: int) -> str:
     if method.qp_rejection_flags is None or method.control_mode == "nominal":
         return ""
     labels = []
-    for reason, active in zip(QP_REJECTION_REASONS, method.qp_rejection_flags[index], strict=True):
+    flags = method.qp_rejection_flags[index]
+    for reason, active in zip(QP_REJECTION_REASONS[: len(flags)], flags, strict=True):
         if active:
             labels.append(reason.replace("_", " ").removesuffix(" failed"))
     return ", ".join(labels)
@@ -986,6 +1607,35 @@ def _clearances(
 def _has_recorded_collision(
     trace: ComparisonVideoTrace, method: MethodVideoTrace, index: int
 ) -> bool:
+    return _has_recorded_clearance_violation(trace, method, index, shell=False)
+
+
+def _first_recorded_collision_index(
+    trace: ComparisonVideoTrace, method: MethodVideoTrace
+) -> int | None:
+    """End sample of the first colliding recorded segment; no synthetic impact pose is made."""
+    hits = np.zeros(len(trace.time_seconds), dtype=bool)
+    for obstacle in trace.obstacles:
+        relative = method.position - obstacle.centers
+        radius = obstacle.physical_radius + trace.drone_radius
+        hits |= np.linalg.norm(relative, axis=1) < radius
+        start, delta = relative[:-1], np.diff(relative, axis=0)
+        squared = np.sum(delta * delta, axis=1)
+        fraction = np.clip(-np.sum(start * delta, axis=1) / np.maximum(squared, 1e-12), 0.0, 1.0)
+        hits[1:] |= np.linalg.norm(start + fraction[:, None] * delta, axis=1) < radius
+    indices = np.flatnonzero(hits)
+    return int(indices[0]) if len(indices) else None
+
+
+def _has_recorded_margin_violation(
+    trace: ComparisonVideoTrace, method: MethodVideoTrace, index: int
+) -> bool:
+    return _has_recorded_clearance_violation(trace, method, index, shell=True)
+
+
+def _has_recorded_clearance_violation(
+    trace: ComparisonVideoTrace, method: MethodVideoTrace, index: int, *, shell: bool
+) -> bool:
     # Interpolate relative segments just as the recorded position history does. This also keeps
     # a passed-through obstacle visible as a failure after the nominal vehicle exits its body.
     for obstacle in trace.obstacles:
@@ -997,7 +1647,10 @@ def _has_recorded_collision(
                 -np.sum(start * delta, axis=1) / np.maximum(squared, 1e-12), 0.0, 1.0
             )
             relative = np.concatenate((relative, start + fraction[:, None] * delta))
-        if np.any(np.linalg.norm(relative, axis=1) < obstacle.physical_radius + trace.drone_radius):
+        radius = (
+            obstacle.inflated_radius if shell else obstacle.physical_radius + trace.drone_radius
+        )
+        if np.any(np.linalg.norm(relative, axis=1) < radius):
             return True
     return False
 
@@ -1018,7 +1671,17 @@ def _hud(method: MethodVideoTrace, index: int) -> str:
             if method.selected_policy_dual is None
             else f"{float(method.selected_policy_dual[index]):.2e}"
         )
-        certificate = f"selected H {selected} ({policy_name})   |   PL-CBF dual {dual}"
+        if method.executed_policy_dual is None:
+            certificate = (
+                f"selected H {selected} ({policy_name})   |   PL-CBF dual {dual} (proposal)"
+            )
+        else:
+            certificate = (
+                f"selected H {selected} ({policy_name})   |   "
+                f"executed PL-CBF dual {float(method.executed_policy_dual[index]):.2e}"
+            )
+        if method.selected_smooth_value is not None:
+            certificate += f"   |   smooth {_value_label(method.selected_smooth_value, index)}"
     else:
         certificate = "PL-CBF constraint disabled; library values shown for comparison"
     fallbacks = (
@@ -1029,11 +1692,19 @@ def _hud(method: MethodVideoTrace, index: int) -> str:
     degraded = (
         "?" if method.degraded is None else str(np.count_nonzero(method.degraded[: index + 1]))
     )
+    coverage = (
+        "No active collision constraint"
+        if method.collision_constraint_active is not None
+        and not method.collision_constraint_active[index]
+        else f"library H = max {maximum}   |   "
+        f"valid collision-clear skills {safe_count}/{method.fallback_safe.shape[1]}"
+    )
+    if method.eligible_candidate_count is not None:
+        coverage += f"   |   eligible {int(method.eligible_candidate_count[index])}"
     return (
-        f"library H = max {maximum}   |   "
-        f"collision-clear skills {safe_count}/{method.fallback_safe.shape[1]}\n"
+        f"{coverage}\n"
         f"{certificate}\n"
-        f"command change {float(method.intervention_norm[index]):.3f}   |   "
+        f"wrench change norm {float(method.intervention_norm[index]):.3f} (mixed units)   |   "
         f"fallback / degraded steps {fallbacks} / {degraded}"
     )
 
@@ -1098,6 +1769,9 @@ def _draw_value_history(
     ]
     if values:
         joined = np.concatenate(values)
+        joined = joined[np.isfinite(joined)]
+        if joined.size == 0:
+            joined = np.asarray((-0.03, 0.03))
         low, high = min(-0.03, float(joined.min())), max(0.03, float(joined.max()))
         if high - low > 5.0:
             # Distant obstacles can produce H values tens of square metres above zero. A linear

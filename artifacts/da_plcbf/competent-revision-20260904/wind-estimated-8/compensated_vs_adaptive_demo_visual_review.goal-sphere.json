@@ -1,0 +1,60 @@
+{
+  "path_convention": "All paths are relative to repository root.",
+  "video": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo.goal-sphere.mp4",
+  "sha256": "b04606fdc43871c6acb3656651b13da179d7fcb82139b318d60833ad9a59869d",
+  "source_npz": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/competent_comparison.npz",
+  "source_npz_sha256": "d93a09a90bf5cab8cf4f48d5c20527468f1846b6577d181e6a76bbb77a8992c5",
+  "source_json": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/competent_comparison.json",
+  "source_json_sha256": "9f0a50463408455d12d8a85ce773064e6e43aaac6acfaf9deea1a7ab7289c210",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "nb_read_frames": "400"
+      }
+    ],
+    "format": {
+      "duration": "20.000000"
+    }
+  },
+  "mode": "demo",
+  "left_method": "compensated",
+  "right_method": "adaptive",
+  "pause": null,
+  "collision_behavior": "Freeze failed scene and its visible telemetry at first recorded collision segment end sample; source trace is preserved.",
+  "decoded_frames": [
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_frame_1.goal-sphere.png",
+      "playback_seconds": 3.0,
+      "description": "before wind change"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_frame_2.goal-sphere.png",
+      "playback_seconds": 5.2,
+      "description": "adaptive collision replay frozen"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_frame_3.goal-sphere.png",
+      "playback_seconds": 19.0,
+      "description": "retained failure; frozen sample time remains explicit"
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_contact_sheet.goal-sphere.jpg",
+  "visual_review_pending": false,
+  "visual_review": {
+    "frames_inspected": 3,
+    "notes": [
+      "Pre-event matched trajectories and the 16-skill fan are visible.",
+      "At playback 5.20 s the adaptive panel is explicitly frozen at recorded sample 4.96 s with persistent collision status.",
+      "At playback 19.00 s the adaptive image and telemetry remain frozen; the compensated panel has advanced but still reports its earlier safety-margin violation.",
+      "The comparison is retained failure evidence and contains no success claim."
+    ],
+    "limitations": [
+      "Some forward skill endpoints reach the main camera boundary during fast pre-event flight; the fixed-scale neutral-reference insets preserve the complete recorded fan."
+    ]
+  },
+  "superseded_reason": "The opaque goal sphere could obscure the drone on arrival; the final demo uses an open horizontal ring."
+}

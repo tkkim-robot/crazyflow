@@ -1,0 +1,507 @@
+{
+  "audit": "saved physical nodes, execution scope, and recorded service chronology",
+  "sources": {
+    "comparison": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/competent_comparison.json",
+      "sha256": "d3ebe1819753ce55fe62893e63370c46b66a98c7741794bf19cb291519db5eb4"
+    },
+    "dense_states": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/dense_plant_states.npz",
+      "sha256": "e09ac6475190601e5852bdf92bad87cd182e78265215faff126581d6a5d9efec"
+    },
+    "reference": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/feasibility_reference.json",
+      "sha256": "ab7493ee55460a60f0af433e174cbb9d227630bb4c393ed6b822e29e3e8d8fd6"
+    },
+    "trace": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/competent-revision-20260904/crossing-oracle-7/competent_comparison.npz",
+      "sha256": "c11f613a141290da60dfa93d44de56c01393d532d3dfd35b1b62df081aca53d9"
+    }
+  },
+  "physical_limits_source": "saved feasibility_reference scenario and arena-clearance config",
+  "summary_scope": "original safe_goal_success means positive inflated obstacle clearance and final goal distance <0.5 m; renamed collision_clear_goal here; it does not include physical operational limits, zero degraded execution, or timing success",
+  "loss_scope": "finite/low learner losses and repertoire competency are not safety certificates; this audit never uses learning loss as an execution acceptance criterion",
+  "event_time_seconds": 4.0,
+  "methods": {
+    "adaptive": {
+      "physical_node_limits": {
+        "node_count": 1001,
+        "first_time_seconds": 0.0,
+        "last_time_seconds": 20.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.2472419474995888e-07,
+        "maximum_speed_mps": 3.401254026869625,
+        "maximum_angular_rate_rps": 0.38729792740706265,
+        "maximum_tilt_radians": 0.24484330784367445,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.09874597313037503,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.36
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.612702072592937,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 3.64
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.6551566683144676,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 2.84
+          },
+          "arena_center_m": {
+            "minimum_margin": 0.27054588317871087,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 7.66
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "shared_prefix_physical_node_limits": {
+        "node_count": 201,
+        "first_time_seconds": 0.0,
+        "last_time_seconds": 4.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.2472419474995888e-07,
+        "maximum_speed_mps": 3.361977992289381,
+        "maximum_angular_rate_rps": 0.38729792740706265,
+        "maximum_tilt_radians": 0.24484330784367445,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.13802200771061912,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.0
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.612702072592937,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 3.64
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.6551566683144676,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 2.84
+          },
+          "arena_center_m": {
+            "minimum_margin": 1.1699999701976775,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 0.0
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "post_event_physical_node_limits": {
+        "node_count": 801,
+        "first_time_seconds": 4.0,
+        "last_time_seconds": 20.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.1972007318838962e-07,
+        "maximum_speed_mps": 3.401254026869625,
+        "maximum_angular_rate_rps": 0.3531838204508644,
+        "maximum_tilt_radians": 0.19377641464367854,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.09874597313037503,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.36
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.646816179549136,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 6.28
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.7062235615144635,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.16
+          },
+          "arena_center_m": {
+            "minimum_margin": 0.27054588317871087,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 7.66
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "collision": {
+        "collision_constraint_active": true,
+        "minimum_physical_clearance_m": 0.5047535426332403,
+        "minimum_inflated_clearance_m": 0.3547535426332403,
+        "physical_collision": false,
+        "shell_clear": true,
+        "first_colliding_interval_start_seconds": null,
+        "first_shell_violating_interval_start_seconds": null,
+        "scope": "exact relative linear-segment sweep of saved integration nodes"
+      },
+      "final_goal_distance_m": 1.6410152880774616e-05,
+      "collision_clear_goal": true,
+      "original_safe_goal_success_matches_collision_clear_goal": true,
+      "physical_node_limits_and_collision_clear_goal": true,
+      "recorded_initial_analytic_residuals": {
+        "minimum": -0.0498010516166687,
+        "first_negative_boundary_seconds": 6.2,
+        "negative_boundary_count": 2,
+        "scope": "initial-boundary applied-action analytic residuals; not the minimum across all held substeps; a negative derivative residual alone is not a physical state-limit violation"
+      },
+      "execution": {
+        "degraded_count": 5,
+        "first_degraded_boundary_seconds": 3.4,
+        "first_emergency_boundary_seconds": 3.4,
+        "shared_prefix_emergency_count": 2,
+        "post_event_emergency_count": 3,
+        "midpoint_count": 0
+      },
+      "chronology": {
+        "recorded_chronology_consistent": true,
+        "issues": [],
+        "service_count": 400,
+        "publication_count": 369,
+        "recorded_completion_deadline_misses": 0,
+        "maximum_logged_service_seconds": 0.035970953991636634,
+        "median_logged_service_seconds": 0.030165583128109574,
+        "scope": "consistency of saved service/publication timestamps only; cannot certify completion of unlogged asynchronous kernels, latency-free actuation, or hard real-time behavior"
+      }
+    },
+    "compensated": {
+      "physical_node_limits": {
+        "node_count": 1001,
+        "first_time_seconds": 0.0,
+        "last_time_seconds": 20.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.2472419474995888e-07,
+        "maximum_speed_mps": 3.4032616060845573,
+        "maximum_angular_rate_rps": 0.38729792740706265,
+        "maximum_tilt_radians": 0.24484330784367445,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.0967383939154427,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.36
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.612702072592937,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 3.64
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.6551566683144676,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 2.84
+          },
+          "arena_center_m": {
+            "minimum_margin": 0.2695149612426757,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 7.640000000000001
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "shared_prefix_physical_node_limits": {
+        "node_count": 201,
+        "first_time_seconds": 0.0,
+        "last_time_seconds": 4.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.2472419474995888e-07,
+        "maximum_speed_mps": 3.361977992289381,
+        "maximum_angular_rate_rps": 0.38729792740706265,
+        "maximum_tilt_radians": 0.24484330784367445,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.13802200771061912,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.0
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.612702072592937,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 3.64
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.6551566683144676,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 2.84
+          },
+          "arena_center_m": {
+            "minimum_margin": 1.1699999701976775,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 0.0
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "post_event_physical_node_limits": {
+        "node_count": 801,
+        "first_time_seconds": 4.0,
+        "last_time_seconds": 20.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.1889939988130038e-07,
+        "maximum_speed_mps": 3.4032616060845573,
+        "maximum_angular_rate_rps": 0.30321962586507695,
+        "maximum_tilt_radians": 0.19377641464367854,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.0967383939154427,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.36
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.696780374134923,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 6.32
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.7062235615144635,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.16
+          },
+          "arena_center_m": {
+            "minimum_margin": 0.2695149612426757,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 7.640000000000001
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "collision": {
+        "collision_constraint_active": true,
+        "minimum_physical_clearance_m": 0.505168257781083,
+        "minimum_inflated_clearance_m": 0.35516825778108296,
+        "physical_collision": false,
+        "shell_clear": true,
+        "first_colliding_interval_start_seconds": null,
+        "first_shell_violating_interval_start_seconds": null,
+        "scope": "exact relative linear-segment sweep of saved integration nodes"
+      },
+      "final_goal_distance_m": 1.6339265109938773e-05,
+      "collision_clear_goal": true,
+      "original_safe_goal_success_matches_collision_clear_goal": true,
+      "physical_node_limits_and_collision_clear_goal": true,
+      "recorded_initial_analytic_residuals": {
+        "minimum": -0.09116590023040771,
+        "first_negative_boundary_seconds": 6.2,
+        "negative_boundary_count": 3,
+        "scope": "initial-boundary applied-action analytic residuals; not the minimum across all held substeps; a negative derivative residual alone is not a physical state-limit violation"
+      },
+      "execution": {
+        "degraded_count": 5,
+        "first_degraded_boundary_seconds": 3.4,
+        "first_emergency_boundary_seconds": 3.4,
+        "shared_prefix_emergency_count": 2,
+        "post_event_emergency_count": 3,
+        "midpoint_count": 0
+      },
+      "chronology": {
+        "recorded_chronology_consistent": true,
+        "issues": [],
+        "service_count": 400,
+        "publication_count": 0,
+        "recorded_completion_deadline_misses": 0,
+        "maximum_logged_service_seconds": 0.027923503890633583,
+        "median_logged_service_seconds": 0.02112105453852564,
+        "scope": "consistency of saved service/publication timestamps only; cannot certify completion of unlogged asynchronous kernels, latency-free actuation, or hard real-time behavior"
+      }
+    },
+    "fixed": {
+      "physical_node_limits": {
+        "node_count": 1001,
+        "first_time_seconds": 0.0,
+        "last_time_seconds": 20.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.2472419474995888e-07,
+        "maximum_speed_mps": 3.4171620376798653,
+        "maximum_angular_rate_rps": 0.4024726315059313,
+        "maximum_tilt_radians": 0.24484330784367445,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.08283796232013474,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.48
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.597527368494069,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 6.08
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.6551566683144676,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 2.84
+          },
+          "arena_center_m": {
+            "minimum_margin": 0.2627658081054687,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 7.58
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "shared_prefix_physical_node_limits": {
+        "node_count": 201,
+        "first_time_seconds": 0.0,
+        "last_time_seconds": 4.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.2472419474995888e-07,
+        "maximum_speed_mps": 3.361977992289381,
+        "maximum_angular_rate_rps": 0.38729792740706265,
+        "maximum_tilt_radians": 0.24484330784367445,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.13802200771061912,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.0
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.612702072592937,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 3.64
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.6551566683144676,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 2.84
+          },
+          "arena_center_m": {
+            "minimum_margin": 1.1699999701976775,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 0.0
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "post_event_physical_node_limits": {
+        "node_count": 801,
+        "first_time_seconds": 4.0,
+        "last_time_seconds": 20.0,
+        "all_physical_node_margins_nonnegative": true,
+        "first_physical_node_violation_time_seconds": null,
+        "first_violation_margin_values": null,
+        "first_invalid_state_time_seconds": null,
+        "maximum_quaternion_norm_error": 1.1336300187458903e-07,
+        "maximum_speed_mps": 3.4171620376798653,
+        "maximum_angular_rate_rps": 0.4024726315059313,
+        "maximum_tilt_radians": 0.1922892839759526,
+        "limits": {
+          "speed_mps": {
+            "minimum_margin": 0.08283796232013474,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.48
+          },
+          "angular_rate_rps": {
+            "minimum_margin": 11.597527368494069,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 6.08
+          },
+          "tilt_radians": {
+            "minimum_margin": 0.7077106921821895,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 4.32
+          },
+          "arena_center_m": {
+            "minimum_margin": 0.2627658081054687,
+            "negative_node_count": 0,
+            "first_negative_node_time_seconds": null,
+            "worst_node_time_seconds": 7.58
+          }
+        },
+        "scope": "physical states at saved integration nodes, including terminal state; arena margin is center position against bounds with explicit arena clearance; strict negative margins are reported without a retrospective tolerance"
+      },
+      "collision": {
+        "collision_constraint_active": true,
+        "minimum_physical_clearance_m": 0.5103155228632805,
+        "minimum_inflated_clearance_m": 0.3603155228632805,
+        "physical_collision": false,
+        "shell_clear": true,
+        "first_colliding_interval_start_seconds": null,
+        "first_shell_violating_interval_start_seconds": null,
+        "scope": "exact relative linear-segment sweep of saved integration nodes"
+      },
+      "final_goal_distance_m": 1.728673548662376e-05,
+      "collision_clear_goal": true,
+      "original_safe_goal_success_matches_collision_clear_goal": true,
+      "physical_node_limits_and_collision_clear_goal": true,
+      "recorded_initial_analytic_residuals": {
+        "minimum": -0.08189836144447327,
+        "first_negative_boundary_seconds": 6.0,
+        "negative_boundary_count": 4,
+        "scope": "initial-boundary applied-action analytic residuals; not the minimum across all held substeps; a negative derivative residual alone is not a physical state-limit violation"
+      },
+      "execution": {
+        "degraded_count": 7,
+        "first_degraded_boundary_seconds": 3.4,
+        "first_emergency_boundary_seconds": 3.4,
+        "shared_prefix_emergency_count": 2,
+        "post_event_emergency_count": 5,
+        "midpoint_count": 0
+      },
+      "chronology": {
+        "recorded_chronology_consistent": true,
+        "issues": [],
+        "service_count": 400,
+        "publication_count": 0,
+        "recorded_completion_deadline_misses": 0,
+        "maximum_logged_service_seconds": 0.028004263062030077,
+        "median_logged_service_seconds": 0.02153467060998082,
+        "scope": "consistency of saved service/publication timestamps only; cannot certify completion of unlogged asynchronous kernels, latency-free actuation, or hard real-time behavior"
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "path_convention": "All paths are relative to repository root.",
+  "video": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo.mp4",
+  "sha256": "c4b0b5da11a0d5c51aa991e51afdc687d1855bedfb1972224192fd050f97a85f",
+  "source_npz": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/competent_comparison.npz",
+  "source_npz_sha256": "d93a09a90bf5cab8cf4f48d5c20527468f1846b6577d181e6a76bbb77a8992c5",
+  "source_json": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/competent_comparison.json",
+  "source_json_sha256": "9f0a50463408455d12d8a85ce773064e6e43aaac6acfaf9deea1a7ab7289c210",
+  "ffprobe": {
+    "programs": [],
+    "streams": [
+      {
+        "width": 1600,
+        "height": 900,
+        "r_frame_rate": "20/1",
+        "nb_read_frames": "400"
+      }
+    ],
+    "format": {
+      "duration": "20.000000"
+    }
+  },
+  "mode": "demo",
+  "left_method": "compensated",
+  "right_method": "adaptive",
+  "pause": null,
+  "collision_behavior": "Freeze failed scene and its visible telemetry at first recorded collision segment end sample; source trace is preserved.",
+  "decoded_frames": [
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_frame_1.png",
+      "playback_seconds": 3.0,
+      "description": "before wind change"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_frame_2.png",
+      "playback_seconds": 5.2,
+      "description": "adaptive collision replay frozen"
+    },
+    {
+      "path": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_frame_3.png",
+      "playback_seconds": 19.0,
+      "description": "retained failure; frozen sample time remains explicit"
+    }
+  ],
+  "contact_sheet": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_contact_sheet.jpg",
+  "visual_review_pending": false,
+  "goal_marker": {
+    "type": "open horizontal ring",
+    "center": "recorded goal position",
+    "radius_m": 0.14,
+    "tube_radius_m": 0.006
+  },
+  "supersedes": "artifacts/da_plcbf/competent-revision-20260904/wind-estimated-8/compensated_vs_adaptive_demo_visual_review.goal-sphere.json",
+  "visual_review": {
+    "frames_inspected": 3,
+    "notes": [
+      "Pre-event matched trajectories and the 16-skill fan are visible.",
+      "At playback 5.20 s the adaptive panel is explicitly frozen at recorded sample 4.96 s with persistent collision status.",
+      "At playback 19.00 s the adaptive image and telemetry remain frozen; the compensated panel has advanced but still reports its earlier safety-margin violation.",
+      "The comparison is retained failure evidence and contains no success claim.",
+      "Reinspected the final three-frame contact sheet and a native-resolution arrival/probe frame: the open horizontal goal ring leaves the physical drone visible at arrival."
+    ],
+    "limitations": [
+      "Some forward skill endpoints reach the main camera boundary during fast pre-event flight; the fixed-scale neutral-reference insets preserve the complete recorded fan."
+    ]
+  },
+  "renderer_validation": {
+    "passed": 13,
+    "scope": "Focused renderer suite, including both actual MuJoCo modes, payload geometry, collision freeze, and open goal center."
+  }
+}

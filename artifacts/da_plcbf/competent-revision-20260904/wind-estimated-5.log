@@ -1,0 +1,40 @@
+fixed: 0/400
+fixed: 50/400
+fixed: 100/400
+fixed: 150/400
+fixed: 200/400
+fixed: 250/400
+fixed: 300/400
+fixed: 350/400
+{"method": "fixed", "result": {"minimum_physical_clearance_m": 0.07114434847456023, "minimum_inflated_clearance_m": -0.07885565152543976, "physical_collision": false, "final_goal_distance_m": 0.0002938547695521265, "negative_hard_H_intervals": 25, "zero_selectable_intervals": 25, "qp_execution_count": 475, "fallback_execution_count": 12, "emergency_execution_count": 13, "midpoint_execution_count": 0, "degraded_step_count": 25, "positive_dual_on_executed_QP_count": 39, "minimum_motor_margin_N": 0.07286626100540161, "minimum_operational_residual": 1.0, "first_negative_hard_H_time": 4.24, "first_zero_selectable_time": 4.24, "first_emergency_time": 4.72, "first_shell_violation_time": 4.72, "first_physical_collision_time": null, "failure_sequence": "Recorded events are chronology, not proof that every safe control was impossible.", "controller_timing": {"count": 400, "median_seconds": 0.018163908855058253, "p95_seconds": 0.020718311180826277, "maximum_seconds": 1.3317865650169551}, "learner_timing": {"count": 0, "median_seconds": null, "p95_seconds": null, "maximum_seconds": null}, "attempted_updates": 0, "finite_updates": 0, "initial_library_version": 500, "final_library_version": 500, "last_controller_used_library_version": 500, "deadline_misses": 64, "maximum_snapshot_age_seconds": 19.959999084472656, "safe_goal_success": false}}
+compensated: 0/400
+compensated: 50/400
+compensated: 100/400
+compensated: 150/400
+compensated: 200/400
+compensated: 250/400
+compensated: 300/400
+compensated: 350/400
+{"method": "compensated", "result": {"minimum_physical_clearance_m": 0.06993447842418714, "minimum_inflated_clearance_m": -0.08006552157581286, "physical_collision": false, "final_goal_distance_m": 0.000292971235467121, "negative_hard_H_intervals": 26, "zero_selectable_intervals": 28, "qp_execution_count": 472, "fallback_execution_count": 14, "emergency_execution_count": 14, "midpoint_execution_count": 0, "degraded_step_count": 26, "positive_dual_on_executed_QP_count": 38, "minimum_motor_margin_N": 0.07279803603887558, "minimum_operational_residual": 1.0, "first_negative_hard_H_time": 4.24, "first_zero_selectable_time": 4.2, "first_emergency_time": 4.72, "first_shell_violation_time": 4.72, "first_physical_collision_time": null, "failure_sequence": "Recorded events are chronology, not proof that every safe control was impossible.", "controller_timing": {"count": 400, "median_seconds": 0.015411003027111292, "p95_seconds": 0.0181735732126981, "maximum_seconds": 7.7106673759408295}, "learner_timing": {"count": 0, "median_seconds": null, "p95_seconds": null, "maximum_seconds": null}, "attempted_updates": 0, "finite_updates": 0, "initial_library_version": 500, "final_library_version": 500, "last_controller_used_library_version": 500, "deadline_misses": 340, "maximum_snapshot_age_seconds": 19.959999084472656, "safe_goal_success": false}}
+adaptive: 0/400
+adaptive: 50/400
+adaptive: 100/400
+adaptive: 150/400
+adaptive: 200/400
+adaptive: 250/400
+adaptive: 300/400
+adaptive: 350/400
+{"method": "adaptive", "result": {"minimum_physical_clearance_m": 0.0528994781613447, "minimum_inflated_clearance_m": -0.0971005218386553, "physical_collision": false, "final_goal_distance_m": 0.00029362834175117314, "negative_hard_H_intervals": 30, "zero_selectable_intervals": 31, "qp_execution_count": 469, "fallback_execution_count": 13, "emergency_execution_count": 18, "midpoint_execution_count": 0, "degraded_step_count": 30, "positive_dual_on_executed_QP_count": 38, "minimum_motor_margin_N": 0.07523435354232788, "minimum_operational_residual": 1.0, "first_negative_hard_H_time": 4.2, "first_zero_selectable_time": 4.2, "first_emergency_time": 4.68, "first_shell_violation_time": 4.7, "first_physical_collision_time": null, "failure_sequence": "Recorded events are chronology, not proof that every safe control was impossible.", "controller_timing": {"count": 400, "median_seconds": 0.018349401419982314, "p95_seconds": 0.019424804707523415, "maximum_seconds": 0.023569948971271515}, "learner_timing": {"count": 1, "median_seconds": 2.022258674958721, "p95_seconds": 2.022258674958721, "maximum_seconds": 2.022258674958721}, "attempted_updates": 1, "finite_updates": 1, "initial_library_version": 500, "final_library_version": 501, "last_controller_used_library_version": 501, "deadline_misses": 91, "maximum_snapshot_age_seconds": 15.920000076293945, "safe_goal_success": false}}
+{
+  "directory": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/competent-revision-20260904/wind-estimated-5",
+  "checks": {
+    "same_event_checkpoint": true,
+    "nominal_repertoire_competent": true,
+    "hover_remains_feasible": true,
+    "no_midpoint_execution": true,
+    "adaptive_safe_goal": false,
+    "adaptive_zero_degraded": false,
+    "adaptive_updates_finite": true,
+    "adaptive_budget_met": false
+  }
+}
