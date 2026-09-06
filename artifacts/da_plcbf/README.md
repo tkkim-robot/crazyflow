@@ -10,9 +10,9 @@ shown with a separate paced companion in which both controllers collide and no o
 update completes. All 88 declared follow-up episodes and four causal prefix audits are
 reported, including negative execution and native-plant results.
 
-The [review archive](actuator-study-20260906/v1/publication-v1/review-only.tar.xz),
-[detached manifest](actuator-study-20260906/v1/publication-v1/manifest.json), and
-[inclusion scope](actuator-study-20260906/v1/publication-v1/REVIEW_ONLY.md) preserve
+The [review archive](actuator-study-20260906/v1/publication-v2/review-only.tar.xz),
+[detached manifest](actuator-study-20260906/v1/publication-v2/manifest.json), and
+[inclusion scope](actuator-study-20260906/v1/publication-v2/REVIEW_ONLY.md) preserve
 compact evidence and identify every retained local file by size and SHA-256. Verify
 the archive before extracting it at the repository root to resolve included evidence
 links. The five figure sets and selected video posters are also available as loose

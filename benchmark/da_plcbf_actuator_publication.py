@@ -543,7 +543,7 @@ def write_archive(
     with (
         destination.open("xb") as raw,
         lzma.LZMAFile(
-            raw, mode="w", format=lzma.FORMAT_XZ, check=lzma.CHECK_CRC64, preset=6
+            raw, mode="w", format=lzma.FORMAT_XZ, check=lzma.CHECK_CRC64, preset=9
         ) as compressed,
         tarfile.open(fileobj=compressed, mode="w", format=tarfile.PAX_FORMAT) as archive,
     ):
@@ -885,7 +885,7 @@ def collect(args: argparse.Namespace) -> dict[str, Any]:
             },
             "archive_members": members,
             "archive_policy": {
-                "compression": "XZ CRC64 preset6; deterministic sorted POSIX members",
+                "compression": "XZ CRC64 preset9; deterministic sorted POSIX members",
                 "tar_format": "PAX with only necessary path metadata",
                 "mtime": 0,
                 "uid": 0,

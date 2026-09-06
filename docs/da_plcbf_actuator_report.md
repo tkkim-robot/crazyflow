@@ -517,8 +517,8 @@ Included evidence links resolve in the current workspace or after extracting the
 [figure-driver]: ../benchmark/da_plcbf_actuator_figures.py
 [video-driver]: ../benchmark/da_plcbf_actuator_video.py
 
-[publication-manifest]: ../artifacts/da_plcbf/actuator-study-20260906/v1/publication-v1/manifest.json
-[review-archive]: ../artifacts/da_plcbf/actuator-study-20260906/v1/publication-v1/review-only.tar.xz
+[publication-manifest]: ../artifacts/da_plcbf/actuator-study-20260906/v1/publication-v2/manifest.json
+[review-archive]: ../artifacts/da_plcbf/actuator-study-20260906/v1/publication-v2/review-only.tar.xz
 [telemetry-parity]: ../artifacts/da_plcbf/actuator-study-20260906/v1/telemetry-event-boundary-fix-v1/parity.json
 [telemetry-decision]: ../artifacts/da_plcbf/actuator-study-20260906/v1/telemetry-event-boundary-fix-v1/decision.json
 [wind-final]: ../artifacts/da_plcbf/actuator-study-20260906/v1/accepted-wind-final-preservation-v1/audit.json
