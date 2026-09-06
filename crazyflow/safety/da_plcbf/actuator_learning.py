@@ -720,6 +720,7 @@ def actuator_reference_loss(
     contract: ActuatorReferenceContract,
     config: ActuatorSkillConfig,
     anchor_reference_states: jax.Array,
+    matched_reference: bool = False,
 ) -> tuple[jax.Array, ActuatorLossMetrics | ActuatorBalancedLossMetrics]:
     """Multi-resolution same-state motion recovery with separate motor and retention terms."""
     settings = contract.learning_config
@@ -729,12 +730,23 @@ def actuator_reference_loss(
     actual = jax.vmap(
         lambda y: rollout_actuator_skill_library(params, contract.spec, y, model, config)
     )(initial)
-    teacher = rollout_actuator_skill_library(
-        contract.params, contract.spec, initial_state, contract.model, contract.actor_config
-    )
-    references = jax.lax.stop_gradient(
-        jnp.concatenate((teacher.states[None], anchor_reference_states[indices]), axis=0)
-    )
+    if matched_reference:
+        # Both sides use the same state batch and dynamic parameter/model arguments.
+        # The teacher remains the fixed nominal behavior, including at anchor states.
+        teacher_batch = jax.vmap(
+            lambda y: rollout_actuator_skill_library(
+                contract.params, contract.spec, y, contract.model, contract.actor_config
+            )
+        )(initial)
+        teacher = jax.tree.map(lambda x: x[0], teacher_batch)
+        references = jax.lax.stop_gradient(teacher_batch.states)
+    else:
+        teacher = rollout_actuator_skill_library(
+            contract.params, contract.spec, initial_state, contract.model, contract.actor_config
+        )
+        references = jax.lax.stop_gradient(
+            jnp.concatenate((teacher.states[None], anchor_reference_states[indices]), axis=0)
+        )
     if settings.objective_mode in {"balanced_reference", "balanced_reference_braking"}:
         return _balanced_reference_loss(
             params, previous_params, actual, references, model, config, settings
@@ -866,10 +878,15 @@ def _initialize_state(
 
 
 def build_actuator_skill_learner(
-    contract: ActuatorReferenceContract, config: ActuatorSkillConfig | None = None
+    contract: ActuatorReferenceContract,
+    config: ActuatorSkillConfig | None = None,
+    *,
+    reference_numerics: str = "matched",
 ) -> ActuatorLearnerFunctions:
     """One persistent optimizer; all finite proposals publish without any quality gate."""
     _validate_contract(contract)
+    if reference_numerics not in {"matched", "legacy"}:
+        raise ValueError("reference_numerics must be matched or legacy")
     config = contract.actor_config if config is None else config
     config.validate()
     # These define the actual actor/plant observation and execution contract. Learning-rate and
@@ -897,15 +914,19 @@ def build_actuator_skill_learner(
                 f"teacher/current {field} mismatch requires allow_reference_gain_mismatch=True"
             )
     optimizer = _optimizer(config)
-    anchor_reference = jax.jit(
-        jax.vmap(
-            lambda y: (
-                rollout_actuator_skill_library(
-                    contract.params, contract.spec, y, contract.model, contract.actor_config
-                ).states
+    anchor_reference = (
+        jax.jit(
+            jax.vmap(
+                lambda y: (
+                    rollout_actuator_skill_library(
+                        contract.params, contract.spec, y, contract.model, contract.actor_config
+                    ).states
+                )
             )
-        )
-    )(contract.anchors)
+        )(contract.anchors)
+        if reference_numerics == "legacy"
+        else jnp.empty((0,), jnp.float32)
+    )
     jax.block_until_ready(anchor_reference)
 
     def loss(
@@ -914,6 +935,8 @@ def build_actuator_skill_learner(
         model: ActuatorModel,
         previous: SkillActorParams,
         iteration: jax.Array | None = None,
+        teacher_params: SkillActorParams | None = None,
+        teacher_model: ActuatorModel | None = None,
     ) -> tuple[jax.Array, ActuatorLossMetrics]:
         return actuator_reference_loss(
             params,
@@ -921,16 +944,31 @@ def build_actuator_skill_learner(
             model,
             previous,
             jnp.asarray(0, dtype=jnp.int32) if iteration is None else iteration,
-            contract=contract,
+            contract=contract
+            if teacher_params is None
+            else replace(contract, params=teacher_params, model=teacher_model),
             config=config,
             anchor_reference_states=anchor_reference,
+            matched_reference=reference_numerics == "matched",
         )
 
     def step(
-        state: ActuatorLearnerState, initial_state: jax.Array, model: ActuatorModel
+        state: ActuatorLearnerState,
+        initial_state: jax.Array,
+        model: ActuatorModel,
+        teacher_params: SkillActorParams | None = None,
+        teacher_model: ActuatorModel | None = None,
     ) -> tuple[ActuatorLearnerState, ActuatorStepMetrics]:
         (_, metrics), gradients = jax.value_and_grad(
-            lambda p: loss(p, initial_state, model, state.previous_params, state.library_version),
+            lambda p: loss(
+                p,
+                initial_state,
+                model,
+                state.previous_params,
+                state.library_version,
+                teacher_params,
+                teacher_model,
+            ),
             has_aux=True,
         )(state.params)
         updates, proposed_optimizer = optimizer.update(
@@ -983,6 +1021,24 @@ def build_actuator_skill_learner(
             following.library_version,
         )
 
+    compiled_loss, compiled_step = jax.jit(loss), jax.jit(step)
+
+    def matched_loss(
+        params: SkillActorParams,
+        initial_state: jax.Array,
+        model: ActuatorModel,
+        previous: SkillActorParams,
+        iteration: jax.Array | None = None,
+    ) -> tuple[jax.Array, ActuatorLossMetrics]:
+        return compiled_loss(
+            params, initial_state, model, previous, iteration, contract.params, contract.model
+        )
+
+    def matched_step(
+        state: ActuatorLearnerState, initial_state: jax.Array, model: ActuatorModel
+    ) -> tuple[ActuatorLearnerState, ActuatorStepMetrics]:
+        return compiled_step(state, initial_state, model, contract.params, contract.model)
+
     return ActuatorLearnerFunctions(
         lambda params, model: _initialize_state(params, model, contract.spec, config),
         jax.jit(
@@ -990,8 +1046,8 @@ def build_actuator_skill_learner(
                 params, contract.spec, state, model, config
             )
         ),
-        jax.jit(loss),
-        jax.jit(step),
+        matched_loss if reference_numerics == "matched" else compiled_loss,
+        matched_step if reference_numerics == "matched" else compiled_step,
     )
 
 

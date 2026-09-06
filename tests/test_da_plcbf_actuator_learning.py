@@ -587,3 +587,33 @@ def test_braking_priority_changes_only_the_declared_reference_terminal_weight(
             np.testing.assert_allclose(
                 getattr(original, name), getattr(changed, name), rtol=2e-5, atol=1e-6
             )
+
+
+def test_matched_fused_update_is_stationary_but_keeps_real_adam_momentum(
+    contract: ActuatorReferenceContract,
+) -> None:
+    selected = replace(
+        contract,
+        learning_config=replace(
+            contract.learning_config, objective_mode="balanced_reference_braking"
+        ),
+    )
+    learner = build_actuator_skill_learner(selected)
+    state = learner.initialize(selected.params, selected.model)
+    for index in range(8):
+        state, metrics = learner.step(state, selected.anchors[index % 3], selected.model)
+        assert float(metrics.loss.total) == 0.0
+        assert float(metrics.gradient_norm) == 0.0
+        assert float(metrics.parameter_update_norm) == 0.0
+        assert bool(metrics.finite_update_applied)
+        assert_tree_equal(state.params, selected.params)
+    fault = selected.model._replace(effectiveness=selected.model.effectiveness.at[:2].set(0.7))
+    learned, metrics = learner.step(state, selected.anchors[1], fault)
+    assert float(metrics.gradient_norm) > 0
+    assert float(metrics.parameter_update_norm) > 0
+    # Isolate legitimate momentum: restore matching behavior and previous parameters,
+    # but retain the actual optimizer moments from the fault update.
+    momentum_state = learned.replace(params=selected.params, previous_params=selected.params)
+    _, metrics = learner.step(momentum_state, selected.anchors[1], selected.model)
+    assert float(metrics.gradient_norm) == 0.0
+    assert float(metrics.parameter_update_norm) > 0

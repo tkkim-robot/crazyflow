@@ -101,6 +101,7 @@ class ActuatorFilterConfig:
     switch_score_margin: float = 0.02
     prefer_nominal_when_safe: bool = False
     gradient_mode: str = "forward"
+    qp_numerics: str = "inward"
 
     @property
     def command_period(self) -> float:
@@ -140,6 +141,8 @@ class ActuatorFilterConfig:
             raise ValueError("command trust fraction cannot exceed the command range")
         if self.gradient_mode not in {"forward", "reverse", "directional"}:
             raise ValueError("gradient_mode must be forward, reverse, or directional")
+        if self.qp_numerics not in {"legacy", "inward"}:
+            raise ValueError("qp_numerics must be legacy or inward")
 
 
 class ActuatorCertificates(NamedTuple):
@@ -174,6 +177,23 @@ class ActuatorHeldCheck(NamedTuple):
     passed: Array
 
 
+class ActuatorQPNumerics(NamedTuple):
+    """Solver coordinates and executed-precision checks, including rejected proposals."""
+
+    normalized_action: Array
+    executed_command: Array
+    row_scales: Array
+    inward_margins: Array
+    normalized_solver_tolerance: Array
+    solver_feasible: Array
+    fast_path_used: Array
+    solver_primal_residual: Array
+    solver_stationarity_residual: Array
+    solver_complementarity_residual: Array
+    executed_residuals: Array
+    executed_rows_passed: Array
+
+
 class ActuatorFilterStep(NamedTuple):
     action: Array
     nominal_action: Array
@@ -196,6 +216,7 @@ class ActuatorFilterStep(NamedTuple):
     qp_rejection_flags: Array
     sqp_iterations: Array
     intervention_norm: Array
+    qp_numerics: ActuatorQPNumerics
 
 
 ActuatorRolloutFunction = Callable[[Array, ActuatorModel], ActuatorRollouts]
@@ -502,7 +523,7 @@ def predictive_operational_rows(
     return -derivative, residual - derivative @ reference_command
 
 
-def _normalized_qp(
+def _normalized_qp_with_audit(
     nominal: Array,
     row: Array,
     bound: Array,
@@ -511,7 +532,7 @@ def _normalized_qp(
     operational_rows: Array | None = None,
     operational_bounds: Array | None = None,
     reference: Array | None = None,
-) -> PolytopeQPResult:
+) -> tuple[PolytopeQPResult, ActuatorQPNumerics]:
     span = model.command_upper - model.command_lower
     z_nominal = (nominal - model.command_lower) / span
     lower, upper = jnp.zeros(4, nominal.dtype), jnp.ones(4, nominal.dtype)
@@ -529,16 +550,97 @@ def _normalized_qp(
         )
     matrix = jnp.concatenate((matrix, (row * span)[None]), axis=0)
     bounds = jnp.concatenate((bounds, (bound - row @ model.command_lower)[None]))
-    result, _ = _project_with_exact_fast_path(
+    scales = jnp.linalg.norm(matrix, axis=-1)
+    tolerance = jnp.asarray(config.tolerance, nominal.dtype)
+    margins = jnp.zeros_like(bounds)
+    if config.qp_numerics == "inward":
+        # The solver divides row residuals by their norm. Bound its normalized tolerance
+        # so no original affine row receives more than the declared raw-unit tolerance.
+        tolerance = tolerance / jnp.maximum(1.0, jnp.max(scales))
+        # Reserve roundoff room for dot products and conversion back to float32 Newtons.
+        # This tightens the physical halfspaces; it never expands their accepted region.
+        margins = (
+            8 * jnp.finfo(nominal.dtype).eps * (jnp.abs(bounds) + jnp.sum(jnp.abs(matrix), axis=-1))
+        )
+    result, fast_path = _project_with_exact_fast_path(
         z_nominal,
         jnp.ones(4, nominal.dtype),
         matrix,
-        bounds,
-        VersionAFilterConfig(qp_tolerance=config.tolerance, kkt_tolerance=config.kkt_tolerance),
+        bounds - margins,
+        VersionAFilterConfig(qp_tolerance=tolerance, kkt_tolerance=config.kkt_tolerance),
     )
     # QP residuals are audited in normalized command coordinates; multiplier units correspond
     # to the explicitly normalized objective. Only the executable action is mapped back to N.
-    return result._replace(action=model.command_lower + span * result.action)
+    command = model.command_lower + span * result.action
+    # Re-evaluate ALL affine rows using the actual executable representation. Avoid a
+    # normalize/map-back round trip when checking the original policy/operational rows.
+    raw_residuals = jnp.concatenate(
+        (
+            model.command_lower + span * upper - command,
+            command - (model.command_lower + span * lower),
+        )
+    )
+    if operational_rows is not None:
+        raw_residuals = jnp.concatenate(
+            (raw_residuals, operational_bounds - operational_rows @ command)
+        )
+    raw_residuals = jnp.concatenate((raw_residuals, (bound - row @ command)[None]))
+    executed_pass = jnp.all(jnp.isfinite(command)) & jnp.all(raw_residuals >= -config.tolerance)
+    audit = ActuatorQPNumerics(
+        result.action,
+        command,
+        scales,
+        margins,
+        tolerance,
+        result.feasible,
+        fast_path,
+        result.primal_residual,
+        result.stationarity_residual,
+        result.complementarity_residual,
+        raw_residuals,
+        executed_pass,
+    )
+    feasible = (
+        result.feasible & executed_pass if config.qp_numerics == "inward" else result.feasible
+    )
+    if config.qp_numerics == "inward":
+        executed_z = (command - model.command_lower) / span
+        delta = executed_z - z_nominal
+        residuals = matrix @ executed_z - (bounds - margins)
+        result = result._replace(
+            objective=0.5 * jnp.dot(delta, delta),
+            primal_residual=jnp.maximum(0.0, jnp.max(residuals)),
+            stationarity_residual=jnp.max(jnp.abs(delta + matrix.T @ result.multipliers)),
+            complementarity_residual=jnp.max(jnp.abs(result.multipliers * residuals)),
+        )
+    return result._replace(action=command, feasible=feasible), audit
+
+
+def _normalized_qp(
+    nominal: Array,
+    row: Array,
+    bound: Array,
+    model: ActuatorModel,
+    config: ActuatorFilterConfig,
+    operational_rows: Array | None = None,
+    operational_bounds: Array | None = None,
+    reference: Array | None = None,
+) -> PolytopeQPResult:
+    """Compatibility entry point; runtime retains the accompanying numerical audit."""
+    return _normalized_qp_with_audit(
+        nominal, row, bound, model, config, operational_rows, operational_bounds, reference
+    )[0]
+
+
+def _pad_qp_audit(audit: ActuatorQPNumerics) -> ActuatorQPNumerics:
+    def pad(value: Array) -> Array:
+        return jnp.concatenate((value[:8], jnp.zeros(9, value.dtype), value[-1:]))
+
+    return audit._replace(
+        row_scales=pad(audit.row_scales),
+        inward_margins=pad(audit.inward_margins),
+        executed_residuals=pad(audit.executed_residuals),
+    )
 
 
 def _pad_operational_qp(result: PolytopeQPResult) -> PolytopeQPResult:
@@ -591,7 +693,8 @@ def actuator_plcbf_step(
     fallback = cert.rollouts.commands[selected, 0]
     row, bound = cert.rows[selected], cert.bounds[selected]
     has_certificate = cert.eligible[selected]
-    qp = _pad_operational_qp(_normalized_qp(nominal, row, bound, model, config))
+    qp, qp_audit = _normalized_qp_with_audit(nominal, row, bound, model, config)
+    qp, qp_audit = _pad_operational_qp(qp), _pad_qp_audit(qp_audit)
 
     def held(command: Array) -> ActuatorHeldCheck:
         return check_actuator_hold(state, command, model, obstacles, safety, config)
@@ -611,11 +714,11 @@ def actuator_plcbf_step(
     if config.sqp_iterations:
 
         def refine(_: int, carry: tuple) -> tuple:
-            result, check, count = carry
+            result, check, count, audit = carry
             needs_refinement = has_certificate & ~qp_pass(result, check) & ~check.operational_passed
 
             def propose(current: tuple) -> tuple:
-                previous, _, iterations = current
+                previous, _, iterations, _ = current
                 reference = jnp.where(
                     jnp.all(jnp.isfinite(previous.action)), previous.action, fallback
                 )
@@ -623,15 +726,15 @@ def actuator_plcbf_step(
                 op_rows, op_bounds = predictive_operational_rows(
                     state, reference, model, safety, config
                 )
-                proposal = _normalized_qp(
+                proposal, proposal_audit = _normalized_qp_with_audit(
                     nominal, row, bound, model, config, op_rows, op_bounds, reference
                 )
-                return proposal, held(proposal.action), iterations + 1
+                return proposal, held(proposal.action), iterations + 1, proposal_audit
 
             return jax.lax.cond(needs_refinement, propose, lambda x: x, carry)
 
-        qp, qp_check, used_iterations = jax.lax.fori_loop(
-            0, config.sqp_iterations, refine, (qp, qp_check, used_iterations)
+        qp, qp_check, used_iterations, qp_audit = jax.lax.fori_loop(
+            0, config.sqp_iterations, refine, (qp, qp_check, used_iterations, qp_audit)
         )
     qp_valid = qp_pass(qp, qp_check)
     fallback_check = held(fallback)
@@ -699,4 +802,5 @@ def actuator_plcbf_step(
         flags,
         used_iterations,
         jnp.linalg.norm((action - nominal) / (model.command_upper - model.command_lower)),
+        qp_audit,
     )

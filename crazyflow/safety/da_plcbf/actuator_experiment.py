@@ -92,10 +92,13 @@ class ActuatorEpisodeConfig:
     retain_rollouts: bool = False
     save_checkpoints: bool = False
     warmup_calls: int = 3
+    reference_numerics: str = "matched"
 
     def validate(self, scene: ActuatorScene, bundle: ActuatorLearnerCheckpoint) -> None:
         """Reject mismatched clocks and mislabeled method or causal intervention settings."""
         self.filter_config.validate()
+        if self.reference_numerics not in {"matched", "legacy"}:
+            raise ValueError("reference_numerics must be matched or legacy")
         self.observation_config.validate()
         if type(self.cache_observation_inputs) is not bool:
             raise ValueError("cache_observation_inputs must be a boolean")
@@ -181,6 +184,54 @@ class ActuatorEpisodeResult:
 
 def _synchronize(value: Any) -> Any:
     return jax.block_until_ready(value)
+
+
+def audit_applied_hold_timing(
+    applications: list[dict[str, Any]],
+    controls: list[dict[str, Any]],
+    final_time: float,
+    certified_period: float,
+) -> dict[str, Any]:
+    """Distinguish executed holds from service deadlines without inventing certification.
+
+    A delayed application also changes the initial state of the certified hold, even if
+    its duration fits. This audit is necessary timing bookkeeping, not a safety proof.
+    """
+    indexed = {int(row["control_index"]): row for row in controls}
+    rows = []
+    for index, application in enumerate(applications):
+        start = float(application["time"])
+        end = (
+            float(applications[index + 1]["time"]) if index + 1 < len(applications) else final_time
+        )
+        if end <= start + 1e-10:
+            continue
+        control = indexed.get(int(application["control_index"]))
+        sensed = None if control is None else float(control["time"])
+        aligned = sensed is not None and abs(start - sensed) <= 1e-9
+        duration_covered = end - start <= certified_period + 1e-9
+        rows.append(
+            {
+                "control_index": int(application["control_index"]),
+                "application_time": start,
+                "end_time": end,
+                "actual_hold_seconds": end - start,
+                "certified_period_seconds": certified_period,
+                "sensed_time": sensed,
+                "application_aligned_with_check": aligned,
+                "duration_covered": duration_covered,
+                "timing_covered": aligned and duration_covered,
+            }
+        )
+    return {
+        "online_held_check_timing_all_covered": bool(rows)
+        and all(r["timing_covered"] for r in rows),
+        "online_held_check_uncovered_intervals": sum(not r["timing_covered"] for r in rows),
+        "maximum_actual_command_hold_seconds": max(
+            (r["actual_hold_seconds"] for r in rows), default=0.0
+        ),
+        "applied_hold_timing_audit": rows,
+    }
 
 
 def _jsonable(value: Any) -> Any:
@@ -386,6 +437,11 @@ def _filter_record(step: Any, retain_rollouts: bool) -> dict[str, Any]:
         "policy_residual": np.asarray(step.policy_residual),
         "qp_rejection_flags": np.asarray(step.qp_rejection_flags),
         "qp_valid": bool(step.qp_valid),
+        "qp_proposed_command": np.asarray(step.qp.action),
+        **{
+            f"qp_numerics_{name}": np.asarray(value)
+            for name, value in step.qp_numerics._asdict().items()
+        },
         "fallback_valid": bool(step.fallback_valid),
         "emergency_valid": bool(step.emergency_valid),
         "degraded": bool(step.degraded),
@@ -942,7 +998,9 @@ def run_actuator_episode(
             learner = (
                 learner_functions
                 if learner_functions is not None
-                else build_actuator_skill_learner(bundle.contract, bundle.config)
+                else build_actuator_skill_learner(
+                    bundle.contract, bundle.config, reference_numerics=config.reference_numerics
+                )
                 if learns
                 else None
             )
@@ -1649,6 +1707,7 @@ def run_actuator_episode(
         "control_count": len(controls),
         "applied_control_count": sum(bool(row.get("command_applied", False)) for row in controls),
         "actual_command_application_count": len(applications),
+        **audit_applied_hold_timing(applications, controls, float(plant.time), period),
         "actual_node_count": len(dense),
         "initial_library_version": initial_version,
         "final_completed_library_version": int(learner_state.library_version),
