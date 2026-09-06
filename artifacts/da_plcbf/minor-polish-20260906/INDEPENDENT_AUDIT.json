@@ -1,0 +1,137 @@
+{
+  "scope": "Independent presentation-only verification; no controller, learner, physics, or numerical episode was executed or changed.",
+  "created_utc": "2026-09-06T06:35:16.168335+00:00",
+  "auditor": "minor_scope_audit",
+  "source_sha256": {
+    "benchmark/da_plcbf_preflight_video.py": "af48e67d1967f53ea75688d795f9a6bb3228b72dbb7d4864b24958965713cb3f",
+    "DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md": "031da2bffa7d582cc44408bf62e4050cebb7223878ff82a2cd61da8ad58d516f",
+    "DA_PLCBF_PREFLIGHT_VIDEO_REVIEW.md": "0afb1c733d48b73239bdf9245a813a90f09b1a34183b3f5d3fc285c6bceaa474",
+    "HANDOFF_DA_PLCBF.md": "6ec1ae425840c36ee8b609b2cff905cb76ee5302e53b980b6b14f64b0e0d38da",
+    "artifacts/da_plcbf/minor-polish-20260906/comparison-v1/VIDEO_REVIEW.json": "f0eaaad95bf1a304570c0ff1b27c59c516fd77ca00b2d198c9ff0de78b27b586"
+  },
+  "source_videos": {
+    "preflight": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison_demo.mp4",
+      "sha256": "7174f16b1bb4c5ffd0866a89ea318f7bf1d42d0921edcf1000213dd7ba42a3f5"
+    },
+    "case": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/comparison.mp4",
+      "sha256": "fca55c16cc3c8c675a7ee8eeed802d2b291a7f88879ee15e1de0872e6a2d208e"
+    }
+  },
+  "video": {
+    "path": "artifacts/da_plcbf/minor-polish-20260906/comparison-v1/preflight_then_case.mp4",
+    "sha256": "5b9b1f17437796d3eee4291112863202d44adcbbe215358e5e43c6c98b798fb7",
+    "full_decode_with_xerror_passed": true,
+    "decode_command": [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-xerror",
+      "-i",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/preflight_then_case.mp4",
+      "-f",
+      "null",
+      "-"
+    ],
+    "frame_hash_algorithm": "sha256",
+    "frames": 661,
+    "width": 1600,
+    "height": 900,
+    "fps": 20,
+    "duration_seconds": 33.05,
+    "case_start_frame": 380,
+    "case_start_seconds": 19.0,
+    "case_frames_unchanged": 281,
+    "processed_preflight_frames_unchanged": 380,
+    "transition_pause_frames": 0,
+    "all_timestamps_exactly_match_20fps": true,
+    "last_preflight_timestamp_seconds": 18.95,
+    "last_video_timestamp_seconds": 33.0,
+    "final_moving_preflight_caption_frames": 60,
+    "unique_decoded_frames_during_final_caption": 60
+  },
+  "prior_artifact_manifest_checks": [
+    {
+      "manifest": "artifacts/da_plcbf/closed-loop-search-20260905/publication/PUBLICATION_MANIFEST.json",
+      "commit": "95a9225b6cf8e71897f93f57f34e2b9ad9b7357e",
+      "manifest_sha256": "6933bb07b4501af6bbd4d3556b4597361a69f2f3eaed28510e01fcf8c86e27f0",
+      "manifest_identical_to_commit": true,
+      "all_listed_files_including_local_exclusions_verified": 615,
+      "total_verified_bytes": 184444728,
+      "failures": [],
+      "historical_source_file_hashes_verified_against_commit": 0
+    },
+    {
+      "manifest": "artifacts/da_plcbf/preflight-video-20260905/PUBLICATION_MANIFEST.json",
+      "commit": "5c72f06eee735c55cc8abb4a73cef85cbfd4c54c",
+      "manifest_sha256": "3a42816e0bf0052f4b12f75369416a3b92a83a612db91adf8965939a48f6c4cd",
+      "manifest_identical_to_commit": true,
+      "all_listed_files_including_local_exclusions_verified": 29,
+      "total_verified_bytes": 14290058,
+      "failures": [],
+      "historical_source_file_hashes_verified_against_commit": 3
+    }
+  ],
+  "document_metric_audit": {
+    "deterministic": {
+      "source": "artifacts/da_plcbf/closed-loop-search-20260905/confirmation-staggered-0000-v1/uncompensated/original/result.json",
+      "source_sha256": "43c0a4948a9b8b26c76cbe19a2e1c80616e2388294fddcafb369ee1363855986",
+      "xml_collider_lower_clearance_m": 0.172447284617342,
+      "remaining_requested_shell_clearance_m": 0.005625208763886391
+    },
+    "paced_v2": {
+      "source": "artifacts/da_plcbf/closed-loop-search-20260905/paced-staggered-0000-v2/uncompensated/canonical_paced/CASE_EPISODE_SUMMARY.json",
+      "source_sha256": "3244c2b6dbc73f441f9cd89ae8bf070b7d2eadf7f13d1f41b48cdb405f7c2339",
+      "xml_collider_lower_clearance_m": 0.17342708162196005,
+      "remaining_requested_shell_clearance_m": 0.006291828893588175
+    }
+  },
+  "preserved_disclosures": {
+    "matched_without_explicit_wind_feedforward": true,
+    "same_current_model_and_compensated_nominal_emergency_controllers": true,
+    "stronger_compensated_fixed_baseline_survives": true,
+    "preflight_state_and_library_restart_with_no_learning_carryover": true,
+    "deterministic_preflight_distinct_from_paced_case": true,
+    "post_contact_motor_off_mujoco_is_separate_presentation_continuation": true,
+    "measured_runtime_qualification_and_prior_startup_overrun": true,
+    "physical_vs_requested_shell_metrics_distinct": true
+  },
+  "all_checks_passed": true,
+  "preflight_original_telemetry_checksum_audit": {
+    "reference_audit": "artifacts/da_plcbf/preflight-video-20260905/PREFLIGHT_SOURCE_AUDIT.json",
+    "reference_audit_sha256": "0f0b0e3f2905bd49162ae4a371db8d27f15d1b7a5c1a0d3f1d44eb8a851939b1",
+    "all_analysis_inputs_unchanged": true,
+    "verified_count": 7,
+    "verified_inputs": [
+      {
+        "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/dense_plant_states.npz",
+        "sha256": "086e426d45b19e00493e32e734ec75e5b5851e5404e648658ba48bf96eb87162"
+      },
+      {
+        "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison.json",
+        "sha256": "89c196335bb2fe5b89ee71a2407fdc90b36e6f18e0e80d0752c7ef2b80a68fc6"
+      },
+      {
+        "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison.npz",
+        "sha256": "8ba3bf4a594b7314091ec1e61e94467f9fa0fd6cc72551532ab47093b7313707"
+      },
+      {
+        "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/nominal_reference.json",
+        "sha256": "c105b8a9eec836073d55a8a931722fbdc29410a98d7e992375ec8e299972e92f"
+      },
+      {
+        "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/nominal_reference.npz",
+        "sha256": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd"
+      },
+      {
+        "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/raw_diagnostics.npz",
+        "sha256": "b0907c3c3aaf1bcba49614bb542c0f4bcd58668c155dda020bb9cc090be58608"
+      },
+      {
+        "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/same_state_probe_trajectories.npz",
+        "sha256": "e8af1bff338bd356a3ce5cbbe1ead71b7982095fb65e58c96843801e6e04041a"
+      }
+    ]
+  }
+}

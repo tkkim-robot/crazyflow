@@ -1,0 +1,122 @@
+{
+  "scope": "Presentation-only preflight intro; original case and its numerical evidence unchanged",
+  "source_videos": {
+    "preflight": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison_demo.mp4",
+      "sha256": "7174f16b1bb4c5ffd0866a89ea318f7bf1d42d0921edcf1000213dd7ba42a3f5"
+    },
+    "case": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/comparison.mp4",
+      "sha256": "fca55c16cc3c8c675a7ee8eeed802d2b291a7f88879ee15e1de0872e6a2d208e"
+    }
+  },
+  "preflight_source_metadata_sha256": "89c196335bb2fe5b89ee71a2407fdc90b36e6f18e0e80d0752c7ef2b80a68fc6",
+  "timeline": [
+    {
+      "video_seconds": [
+        0,
+        3
+      ],
+      "phase": "calm hover"
+    },
+    {
+      "video_seconds": [
+        3,
+        11
+      ],
+      "phase": "wind on",
+      "wind_velocity_m_s": [
+        1.6,
+        0.8,
+        0
+      ]
+    },
+    {
+      "video_seconds": [
+        11,
+        19
+      ],
+      "phase": "wind removed; persistent learning recovers"
+    },
+    {
+      "video_seconds": [
+        19,
+        33.05
+      ],
+      "phase": "unchanged recorded case; its source clock starts at zero"
+    }
+  ],
+  "preflight_trim": {
+    "source_seconds": [
+      0,
+      19
+    ],
+    "end_exclusive": true,
+    "frames": 380,
+    "no_payload_or_navigation_segment": true
+  },
+  "case_decoded_frames": 281,
+  "case_start_frame": 380,
+  "transition_pause_frames": 0,
+  "restart_disclosure_seconds": [
+    16,
+    19
+  ],
+  "comparison_scope": "Matched fallback policies without explicit wind feedforward.",
+  "all_case_decoded_frames_exact": true,
+  "frame_count": 661,
+  "fps": 20,
+  "duration_seconds": 33.05,
+  "full_decode_passed": true,
+  "video_sha256": "5b9b1f17437796d3eee4291112863202d44adcbbe215358e5e43c6c98b798fb7",
+  "script_sha256": "af48e67d1967f53ea75688d795f9a6bb3228b72dbb7d4864b24958965713cb3f",
+  "commands": [
+    [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-i",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison_demo.mp4",
+      "-vf",
+      "trim=end_frame=380,setpts=PTS-STARTPTS,drawbox=x=0:y=0:w=1450:h=75:color=0x06121a:t=fill,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/captions/title.txt:fontsize=23:fontcolor=white:x=28:y=17,drawbox=x=0:y=816:w=1600:h=28:color=0x06121a:t=fill,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/captions/payload.txt:fontsize=15:fontcolor=0xb4c2cd:x=(w-tw)/2:y=822,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/captions/calm.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,0,59)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/captions/wind.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,60,219)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/captions/off.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,220,279)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/captions/recovery.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,280,319)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/captions/restart.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,320,379)'",
+      "-an",
+      "-c:v",
+      "libx264",
+      "-preset",
+      "medium",
+      "-crf",
+      "17",
+      "-profile:v",
+      "high",
+      "-level:v",
+      "4.0",
+      "-pix_fmt",
+      "yuv420p",
+      "-video_track_timescale",
+      "10240",
+      "-movflags",
+      "+faststart",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/preflight.mp4"
+    ],
+    [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-f",
+      "concat",
+      "-safe",
+      "0",
+      "-i",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/concat.txt",
+      "-map",
+      "0:v:0",
+      "-c",
+      "copy",
+      "-movflags",
+      "+faststart",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/minor-polish-20260906/comparison-v1/preflight_then_case.mp4"
+    ]
+  ],
+  "learning_scope": "Archived preflight is deterministic learning; case retains measured paced execution",
+  "reset_scope": "Preflight updates are not transferred to the original case's state or library"
+}

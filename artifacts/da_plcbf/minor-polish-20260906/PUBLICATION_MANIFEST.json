@@ -1,0 +1,174 @@
+{
+  "scope": "Minor captions/documents and removal of pause; original case evidence untouched",
+  "base_commit": "5c72f06eee735c55cc8abb4a73cef85cbfd4c54c",
+  "modified_existing_files": [
+    "benchmark/da_plcbf_preflight_video.py",
+    "DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md",
+    "DA_PLCBF_PREFLIGHT_VIDEO_REVIEW.md",
+    "HANDOFF_DA_PLCBF.md"
+  ],
+  "source_sha256": {
+    "benchmark/da_plcbf_preflight_video.py": "af48e67d1967f53ea75688d795f9a6bb3228b72dbb7d4864b24958965713cb3f",
+    "DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md": "031da2bffa7d582cc44408bf62e4050cebb7223878ff82a2cd61da8ad58d516f",
+    "DA_PLCBF_PREFLIGHT_VIDEO_REVIEW.md": "0afb1c733d48b73239bdf9245a813a90f09b1a34183b3f5d3fc285c6bceaa474",
+    "HANDOFF_DA_PLCBF.md": "6ec1ae425840c36ee8b609b2cff905cb76ee5302e53b980b6b14f64b0e0d38da"
+  },
+  "files": [
+    {
+      "path": "COMPOSITION_SOURCE.py",
+      "bytes": 10438,
+      "sha256": "af48e67d1967f53ea75688d795f9a6bb3228b72dbb7d4864b24958965713cb3f",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "INDEPENDENT_AUDIT.json",
+      "bytes": 6778,
+      "sha256": "d52bf9a0bae15dd1ca9d2a99b94d47a61c36aff94a381165b75afa3f336ecb4a",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "REVIEW_ONLY.md",
+      "bytes": 1828,
+      "sha256": "3e532c9e5892f94b6106863fc4dccac89f2106f182e33ba97a65d2644237b724",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/STILLS.json",
+      "bytes": 862,
+      "sha256": "e23836e97ee7270750c6f7ce00f6f4c587798af8fa92a121595de6fc88af2233",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/VIDEO_REVIEW.json",
+      "bytes": 5162,
+      "sha256": "f0eaaad95bf1a304570c0ff1b27c59c516fd77ca00b2d198c9ff0de78b27b586",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/before_cut.png",
+      "bytes": 789348,
+      "sha256": "a528b55827f3baa61781313e65c7ee09b9aa250b0f38066a96c7c3597ef23eea",
+      "included": false,
+      "reason": "extra decoded inspection still stays local"
+    },
+    {
+      "path": "comparison-v1/captions/calm.txt",
+      "bytes": 60,
+      "sha256": "835c4402f1c017ec2d3e03cb011aaf019e93707b5d2cd2335c3518bf88d75151",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/captions/off.txt",
+      "bytes": 72,
+      "sha256": "2d88ab987a2e2d94ba7b566ec05c48da3ab83fe2b96266b131e39abd58cf9299",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/captions/payload.txt",
+      "bytes": 54,
+      "sha256": "48254804b58bad40e0c9017c3ba80af414e534b27a2842dcdea34b055f9ac364",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/captions/recovery.txt",
+      "bytes": 72,
+      "sha256": "b5505c6c2c1bedb2933902e0bc5b413ac276f49f8157960c9e0f22cb8ea567f4",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/captions/restart.txt",
+      "bytes": 97,
+      "sha256": "e36684b6cc9133e58f8e399c652edfffaf5c7a333da0f971cd331ea284e64bf2",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/captions/title.txt",
+      "bytes": 40,
+      "sha256": "92eec44663234b8d566a21130ec9465da5f059e3af1ba0a1e90383d7d8e96aaa",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/captions/wind.txt",
+      "bytes": 78,
+      "sha256": "5c607398f8b4e6f2e12f4af855b48c18b6a175e84a96d532d702fae468868675",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/case_collision.png",
+      "bytes": 1016045,
+      "sha256": "e1c55569596c948ee0b805a4e31f745c7de5b07481d8c29c7ff2e880b2f4985c",
+      "included": false,
+      "reason": "extra decoded inspection still stays local"
+    },
+    {
+      "path": "comparison-v1/case_frame_md5.json",
+      "bytes": 10681,
+      "sha256": "ee802de702b4cf24c7cd16fad3f295f2b2b03bd76ffbaa45e16a8f92c4d78a8a",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/case_start.png",
+      "bytes": 653155,
+      "sha256": "3d6955cec33f1cf8dfd9336efe4bff3be7b5e875a3f0e5fd7c0262b93d6d539a",
+      "included": false,
+      "reason": "extra decoded inspection still stays local"
+    },
+    {
+      "path": "comparison-v1/concat.txt",
+      "bytes": 239,
+      "sha256": "fc8172108b7148e56d342037a21a765f97b2afb4c969e1a4a5fef22d857f8815",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    },
+    {
+      "path": "comparison-v1/preflight.mp4",
+      "bytes": 2125551,
+      "sha256": "5752e2c44b326efedb5bae9506cfbd61d3d908b81b2004f4fc477c98f442c0c8",
+      "included": false,
+      "reason": "generated video or intermediate encoded segment stays local"
+    },
+    {
+      "path": "comparison-v1/preflight_then_case.mp4",
+      "bytes": 6366609,
+      "sha256": "5b9b1f17437796d3eee4291112863202d44adcbbe215358e5e43c6c98b798fb7",
+      "included": false,
+      "reason": "generated video or intermediate encoded segment stays local"
+    },
+    {
+      "path": "comparison-v1/restart_caption.png",
+      "bytes": 730211,
+      "sha256": "d44d6f4526ebd19c4e46c5bf354acf020084493aa5892c89a78218eafbaf4ad4",
+      "included": true,
+      "reason": "representative scope/restart caption still"
+    },
+    {
+      "path": "comparison-v1/scope.png",
+      "bytes": 691799,
+      "sha256": "8c2302857fa0f63c4b212bd1882ef30b900cab79c0672d1483dd95eb0093d5c5",
+      "included": true,
+      "reason": "representative scope/restart caption still"
+    },
+    {
+      "path": "composition.log",
+      "bytes": 168,
+      "sha256": "4dd1e238ff36e44171fd190114784e5ee96e65d4303ec2885c4c05255eb2c5d0",
+      "included": true,
+      "reason": "compact presentation source, verification, or explanatory text"
+    }
+  ],
+  "included_files": 17,
+  "included_bytes": 1458639
+}

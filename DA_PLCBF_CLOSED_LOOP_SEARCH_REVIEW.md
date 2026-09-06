@@ -209,8 +209,12 @@ intact; the startup cause is a hypothesis to check against the new measurements.
 
 The final replay (`paced-staggered-0000-v2`) records **zero deadline misses in all four method
 runs**. Uncompensated adaptation completes **250 finite updates**, uses **106 before first
-arrival**, completes at **10.52 s**, and retains **+0.173427 m** physical clearance with no
-degraded commands. Fixed still intersects at **4.615011 s**. The compensated pair both survive;
+arrival**, completes at **10.52 s**, and retains **+0.173427 m** clearance from the actual modeled
+XML collider and **+0.006292 m** remaining clearance beyond the requested safety shell, with no
+degraded commands. The approximately **17.34 cm** collider separation includes the buffer;
+the remaining margin beyond the requested shell is approximately **0.629 cm**. These are the
+saved paced-v2 values; the deterministic values remain separately labeled above.
+Fixed still intersects at **4.615011 s**. The compensated pair both survive;
 adaptation completes 292 updates and retains one degraded command.
 
 The fixed first interval still spends **25.02 ms in host recording**, within a **37.28 ms total
@@ -255,6 +259,10 @@ The final local clips use the actual final paced recordings:
 
 - `videos/paced-collision-v2/comparison.mp4`: fixed modeled contact and adapted completion.
 - `videos/paced-compensated-v2/comparison.mp4`: the stronger compensated comparison, both complete.
+
+**Main collision clip caption:** Matched fallback policies without explicit wind feedforward.
+Both methods retain the same current model and model-compensated nominal/emergency controllers.
+The stronger compensated frozen fallback baseline survives.
 
 Both use the same camera orientation, selected so the actual impact is visible. The previous
 `*-v1` views hid the fixed drone behind the large sphere at impact and are superseded. The
