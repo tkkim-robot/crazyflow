@@ -9,7 +9,8 @@ Example (all paths must name actual retained outputs)::
 
 Secondary-map keys are explicit experimental roles, never inferred from directory
 names: oracle, a1, retention_off, fine_p0, p1, p2, effectiveness_bias, lag_scale,
-parameter_delay, motor_noise, paced, delayed. Values are campaign directories.
+parameter_delay, motor_noise, position_noise, obstacle_bias, paced, delayed.
+Values are campaign directories. The last two observation factors are optional.
 Required missing inputs refuse a figure by default; --missing skip records why it
 was omitted. Corrupt or inconsistent supplied artifacts always raise an error.
 No training, simulation, bootstrap resampling, or synthetic outcomes are performed.
@@ -63,6 +64,8 @@ ROLES = {
     "lag_scale",
     "parameter_delay",
     "motor_noise",
+    "position_noise",
+    "obstacle_bias",
     "paced",
     "delayed",
 }
@@ -559,6 +562,7 @@ def short_cell(cell: str) -> str:
         .replace("navigation", "Nav.")
         .replace("effectiveness", "effect.")
         .replace("/", "\n")
+        .replace("_", "\n")
     )
 
 
@@ -660,10 +664,12 @@ def figure_main(e: Evidence, output: Path) -> dict:
         output,
         "01_main_safety",
         rows,
-        "Main sealed test matrix: balanced episode proportions, with paired A minus F2 crossed "
-        "world/library bootstrap intervals from the retained analysis, whose inputs are "
-        f"authenticated. Intervals use {confidence:.8%} individual coverage after the sealed "
-        "Bonferroni correction (95% family target); no world-any-event Wilson interval is placed "
+        "Main sealed test matrix: four worlds per cell and three reused library seeds, giving "
+        "12 paired episodes per method and cell. Balanced episode proportions are shown with "
+        "paired A minus F2 approximate crossed world/library percentile bootstrap intervals "
+        "from the retained analysis, whose inputs are authenticated. Intervals use nominal "
+        f"{confidence:.8%} individual confidence after the sealed Bonferroni correction "
+        "(95% family target); no world-any-event Wilson interval is placed "
         "on an episode-rate bar. Modeled collider intersection is not measured hardware contact. "
         "Counts and all plotted numbers are in the CSV. Bootstrap samples are not regenerated "
         "by this renderer; a separately supplied analysis digest can additionally authenticate "
@@ -1113,6 +1119,8 @@ def paired_secondary(
             "lag_scale": ("observation_config.lag_scale", 1.0, 1.2),
             "parameter_delay": ("observation_config.parameter_delay_seconds", 0.0, 0.08),
             "motor_noise": ("observation_config.motor_noise_N", 0.0, 0.002),
+            "position_noise": ("observation_config.position_noise_m", 0.0, 0.01),
+            "obstacle_bias": ("observation_config.obstacle_position_bias_m", 0.0, 0.03),
         }
         if role in factor_values:
             field, old, new = factor_values[role]
@@ -1195,6 +1203,8 @@ def normalized_checkpoint(document: dict) -> dict:
     for field in ("config", "reference_actor_config"):
         if value[field].get("rollout_scan_unroll", 1) == 1:
             value[field].pop("rollout_scan_unroll", None)
+        if value[field].get("allow_reference_gain_mismatch", False) is False:
+            value[field].pop("allow_reference_gain_mismatch", None)
     if value["reference_learning_config"].get("reference_braking_huber_delta", 0) == 0:
         value["reference_learning_config"].pop("reference_braking_huber_delta", None)
     return value
@@ -1435,11 +1445,28 @@ def figure_mismatch(e: Evidence, output: Path) -> dict:
         ),
         ("motor_noise", "oracle", {"observation_config.motor_noise_N"}, "Motor noise .002 N"),
     )
+    supplements = (
+        (
+            "position_noise",
+            "oracle",
+            {"observation_config.position_noise_m"},
+            "Position noise σ=.01 m / axis",
+        ),
+        (
+            "obstacle_bias",
+            "oracle",
+            {"observation_config.obstacle_position_bias_m"},
+            "Obstacle bias +.03 m / axis",
+        ),
+    )
+    conditions += tuple(item for item in supplements if item[0] in e.roles)
     rows = []
     for role, baseline, allowed, _ in conditions:
         rows.extend(paired_secondary(e, role, baseline, allowed))
     plt = style()
-    fig, axes = plt.subplots(1, 2, figsize=(11.5, 4.6), layout="constrained")
+    fig, axes = plt.subplots(
+        1, 2, figsize=(11.5, 4.6 + 0.35 * (len(conditions) - 7)), layout="constrained"
+    )
     methods = [m for m in METHODS if m in {r["method"] for r in rows}]
     for ax, metric, title in zip(
         axes,
@@ -1490,7 +1517,18 @@ def figure_mismatch(e: Evidence, output: Path) -> dict:
         "compare with the oracle baseline. Each point is one physical-world pair, with no "
         "crossed interval or population claim. Circles are structured and triangles navigation "
         "worlds. Positive values favor the alternative for both displayed metrics. Pacing and "
-        "command delay are analyzed separately in figure 06 when explicitly supplied.",
+        "command delay are analyzed separately in figure 06 when explicitly supplied. "
+        + (
+            "Position noise is zero-mean Gaussian with .01 m standard deviation per coordinate. "
+            if "position_noise" in e.roles
+            else ""
+        )
+        + (
+            "Obstacle bias adds (.03,.03,.03) m to observed/predicted centers, "
+            "a .05196 m vector norm; physical obstacle paths stay unchanged. "
+            if "obstacle_bias" in e.roles
+            else ""
+        ),
     )
 
 

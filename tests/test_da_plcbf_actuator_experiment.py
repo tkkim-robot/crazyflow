@@ -572,9 +572,25 @@ def test_recorded_model_cache_preserves_exact_fields_across_fault_and_recovery(
     )
     cache = runtime._RecordedActuatorModels(scene, harness.model)
     fields = ("command_lower", "command_upper", "effectiveness", "time_constants")
-    times = [0, 0.04 - 2e-10, 0.04 - 1e-10, 0.04, 0.07, 0.10 - 2e-10, 0.10 - 1e-10, 0.10, 0.14]
+    times = [
+        0,
+        0.04 - 2e-10,
+        0.04 - 1e-10,
+        np.nextafter(0.04, -np.inf),
+        0.04,
+        0.07,
+        0.10 - 2e-10,
+        0.10 - 1e-10,
+        np.nextafter(0.10, -np.inf),
+        0.10,
+        0.14,
+    ]
     for when in times:
-        expected = scene.model_at(when, harness.model)
+        expected = (
+            scene.model_at(scene.event_time, harness.model)
+            if scene.event_time <= when < scene.recovery_time
+            else harness.model
+        )
         for actual, name in zip(cache.at(when), fields, strict=True):
             assert actual.dtype == np.asarray(getattr(expected, name)).dtype
             np.testing.assert_array_equal(actual, np.asarray(getattr(expected, name)))
@@ -587,15 +603,18 @@ def test_cached_recording_preserves_every_dense_field(harness: Any, monkeypatch:
     optimized = harness.run(method="F2", scene_override=scene, name="cached")
 
     class UncachedModels:
-        """Retain the original per-node host conversion for exact parity comparison."""
+        """Independently query the physical event model without telemetry caching."""
 
         def __init__(self, source: Any, nominal: Any) -> None:
             """Bind the original model query inputs."""
             self.source, self.nominal = source, nominal
 
         def at(self, when: float) -> Any:
-            """Return the original conversion on every queried node."""
-            model = self.source.model_at(when, self.nominal)
+            """Apply the exact physical event boundaries before host conversion."""
+            model = self.nominal
+            for event in self.source.events(self.nominal):
+                if event.time <= when:
+                    model = event.model
             return tuple(
                 np.asarray(getattr(model, field))
                 for field in ("command_lower", "command_upper", "effectiveness", "time_constants")

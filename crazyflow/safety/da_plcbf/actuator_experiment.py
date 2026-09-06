@@ -264,11 +264,17 @@ class _RecordedActuatorModels:
         self.cache: dict[bool, tuple[np.ndarray, ...]] = {}
 
     def at(self, when: float) -> tuple[np.ndarray, ...]:
-        changed = when >= self.scene.event_time - 1e-10
-        if self.scene.recovery_time is not None and when >= self.scene.recovery_time - 1e-10:
+        # Physical telemetry retains the exact left/right event limits. Sensing's
+        # boundary tolerance must not relabel a pre-event force sample as post-event.
+        changed = when >= self.scene.event_time
+        if self.scene.recovery_time is not None and when >= self.scene.recovery_time:
             changed = False
         if changed not in self.cache:
-            model = self.scene.model_at(when, self.nominal)
+            model = (
+                self.scene.model_at(self.scene.event_time, self.nominal)
+                if changed
+                else self.nominal
+            )
             values = tuple(
                 np.asarray(getattr(model, name)).copy()
                 for name in ("command_lower", "command_upper", "effectiveness", "time_constants")

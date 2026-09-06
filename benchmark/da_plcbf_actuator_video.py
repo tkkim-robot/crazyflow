@@ -128,6 +128,7 @@ class ReplayEpisode:
     source_sha256: dict[str, str]
     stop_time: float
     contact_time: float | None
+    force_boundary_audit: tuple[dict[str, Any], ...] = ()
 
     @property
     def world(self) -> dict[str, Any]:
@@ -162,6 +163,10 @@ class ReplayEpisode:
             state[3:7] = self.dense["state"][left, 3:7]
         effectiveness = self.dense["actual_effectiveness"][left].copy()
         tau = self.dense["actual_time_constants"][left].copy()
+        for boundary in self.force_boundary_audit:
+            if left == boundary["left_index"] and display < boundary["event_time_seconds"]:
+                effectiveness = self.dense["actual_effectiveness"][left - 1].copy()
+                tau = self.dense["actual_time_constants"][left - 1].copy()
         apply_times = self.applications["time"]
         application = int(
             np.clip(
@@ -202,6 +207,102 @@ class ReplayEpisode:
             when > self.stop_time + 1e-10,
             goal,
         )
+
+
+def _event_state_agrees(left: np.ndarray, right: np.ndarray, dt: float) -> bool:
+    """Permit only quaternion normalization roundoff across a near-zero event step."""
+    indices = np.r_[0:3, 7:17]
+    if not np.array_equal(left[indices], right[indices]):
+        return False
+    quaternions = np.asarray([left[3:7], right[3:7]])
+    precision = (
+        np.float32
+        if np.array_equal(quaternions, quaternions.astype(np.float32).astype(quaternions.dtype))
+        else np.float64
+    )
+    epsilon = np.finfo(precision).eps
+    norms = np.linalg.norm(quaternions, axis=1)
+    if np.max(np.abs(norms - 1)) > 8 * epsilon:
+        return False
+    normalized = quaternions / norms[:, None]
+    difference = min(
+        np.linalg.norm(normalized[0] - normalized[1]), np.linalg.norm(normalized[0] + normalized[1])
+    )
+    # One short integration step may normalize the stored quaternion again. Its
+    # orientation tolerance is tied to the recoverable storage precision, plus
+    # the maximum observed rotation over the actual sub-ulp physical duration.
+    allowance = (
+        8 * epsilon + 0.5 * max(np.linalg.norm(left[10:13]), np.linalg.norm(right[10:13])) * dt
+    )
+    return bool(difference <= allowance)
+
+
+def _validate_force_event_limits(
+    dense: dict[str, np.ndarray], binding: dict[str, Any]
+) -> tuple[dict[str, Any], ...]:
+    """Authenticate the retained legacy left-limit label at a declared event only.
+
+    The sealed runtime used sensing's time tolerance for telemetry labels. A
+    pre-event endpoint a few ulps below an event can therefore carry the next
+    effectiveness label while its force is the physical left limit. Accept this
+    only when the immediately following exact-event row preserves the physical
+    state up to quaternion normalization and supplies the correct right-limit
+    force; never repair a general mismatch.
+    """
+    state, times = dense["state"], dense["time"]
+    eta, forces = dense["actual_effectiveness"], dense["actual_forces"]
+    expected = eta * state[:, 13:]
+    bad = np.flatnonzero(np.any(~np.isclose(forces, expected, rtol=2e-5, atol=2e-7), axis=1))
+    audit = []
+    scene = binding["scene"]
+    events = []
+    if "event_time" in scene and "effectiveness_after" in scene:
+        changed = np.asarray(scene["effectiveness_after"])
+        events.append((float(scene["event_time"]), np.ones(4), changed))
+        if scene.get("recovery_time") is not None:
+            events.append((float(scene["recovery_time"]), changed, np.ones(4)))
+    for index in bad:
+        accepted = False
+        for event, before, after in events:
+            tolerance = 8 * abs(np.spacing(event))
+            if not (
+                0 < index < len(times) - 1
+                and 0 < event - times[index] <= tolerance
+                and times[index + 1] == event
+                and _event_state_agrees(state[index], state[index + 1], event - times[index])
+                and np.array_equal(eta[index], eta[index + 1])
+                and np.allclose(eta[index - 1], before, rtol=0, atol=1e-7)
+                and np.allclose(eta[index], after, rtol=0, atol=1e-7)
+                and np.allclose(
+                    forces[index], eta[index - 1] * state[index, 13:], rtol=2e-5, atol=2e-7
+                )
+                and np.allclose(forces[index + 1], expected[index + 1], rtol=2e-5, atol=2e-7)
+            ):
+                continue
+            audit.append(
+                {
+                    "left_index": int(index),
+                    "right_index": int(index + 1),
+                    "left_time_seconds": float(times[index]),
+                    "event_time_seconds": event,
+                    "recorded_left_force_N": forces[index].tolist(),
+                    "recorded_right_force_N": forces[index + 1].tolist(),
+                    "non_attitude_coordinates_unchanged": True,
+                    "quaternion_handling": (
+                        "equivalent orientation within storage-precision normalization tolerance"
+                    ),
+                    "interpretation": (
+                        "legacy left-limit force with right-limit effectiveness label"
+                    ),
+                }
+            )
+            accepted = True
+            break
+        if not accepted:
+            raise ValueError(
+                f"unexplained recorded force/effectiveness mismatch at dense row {index}"
+            )
+    return tuple(audit)
 
 
 def load_episode(directory: str | Path, *, expected_method: str) -> ReplayEpisode:
@@ -261,9 +362,7 @@ def load_episode(directory: str | Path, *, expected_method: str) -> ReplayEpisod
         np.diff(applications["time"]) < 0
     ):
         raise ValueError("actual command application records are malformed")
-    np.testing.assert_allclose(
-        dense["actual_forces"], dense["actual_effectiveness"] * state[:, 13:], rtol=2e-5, atol=2e-7
-    )
+    force_boundary_audit = _validate_force_event_limits(dense, binding)
     contact = None
     if summary["termination"] == "physical_collision":
         if summary["modeled_collider_collision"] is not True:
@@ -283,6 +382,7 @@ def load_episode(directory: str | Path, *, expected_method: str) -> ReplayEpisod
         {str(path): _sha(path) for path in paths},
         stop_time,
         contact,
+        force_boundary_audit,
     )
 
 
@@ -356,6 +456,42 @@ def _camera(sample: ReplaySample, config: ActuatorVideoConfig) -> dict[str, Any]
     }
 
 
+def _prediction_affects_control(episode: ReplayEpisode, sample: ReplaySample) -> bool:
+    """Highlight only an applied, eligible prediction used by an accepted control branch.
+
+    A QP must be accepted with a positive actually executed policy multiplier;
+    a fallback must be accepted and executed. Emergency, invalid, degraded and
+    zero-policy-dual QP decisions have no highlighted prediction. The
+    ring never means that the complete predicted trajectory was flown.
+    """
+    index, controls = sample.control_index, episode.controls
+    required = {"mode", "qp_valid", "fallback_valid", "executed_policy_dual"}
+    if index is None or not required.issubset(controls):
+        return False
+    selected = int(controls["selected_index"][index])
+    if (
+        not 0 <= selected < controls["candidate_states"].shape[1]
+        or not bool(controls["command_applied"][index])
+        or not bool(controls["candidate_valid"][index, selected])
+        or not bool(controls["eligible"][index, selected])
+        or not np.all(np.isfinite(controls["candidate_states"][index, selected, :, :3]))
+    ):
+        return False
+    mode = str(controls["mode"][index])
+    return (
+        mode == "qp"
+        and bool(controls["qp_valid"][index])
+        and float(controls["executed_policy_dual"][index]) > 0
+    ) or (mode == "fallback" and bool(controls["fallback_valid"][index]))
+
+
+def _thrust_caption(effectiveness: np.ndarray) -> str:
+    """Use one plain percentage for a uniform loss, preserving motor order otherwise."""
+    if np.allclose(effectiveness, effectiveness[0], rtol=0, atol=1e-7):
+        return f"Thrust {effectiveness[0]:.0%}"
+    return "Thrust " + " / ".join(f"{value:.0%}" for value in effectiveness)
+
+
 def _markers(
     sim: Any,
     episode: ReplayEpisode,
@@ -426,7 +562,7 @@ def _markers(
             color[3] = 0.55 if clear else 0.23
             _add_polyline(sim, points, color, radius=0.0045, dashed=not clear)
         selected = int(controls["selected_index"][index])
-        if 0 <= selected < len(candidates) and np.all(np.isfinite(candidates[selected])):
+        if _prediction_affects_control(episode, sample):
             _add_endpoint_ring(
                 sim, candidates[selected, -1], np.asarray((1.0, 1.0, 1.0, 0.95)), radius=0.047
             )
@@ -455,6 +591,17 @@ def _font(size: int, *, bold: bool = False) -> Any:
         else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
     )
     return ImageFont.truetype(str(path), size)
+
+
+def _online_updates_used(episode: ReplayEpisode, sample: ReplaySample) -> int:
+    """Count finite online versions in the last physically applied decision only."""
+    initial = int(episode.summary["initial_library_version"])
+    version = (
+        initial
+        if sample.control_index is None
+        else int(episode.controls["control_library_version"][sample.control_index])
+    )
+    return max(0, version - initial)
 
 
 def _compose(
@@ -534,7 +681,6 @@ def _compose(
             fill="#d9e4eb",
         )
         changed = np.flatnonzero(sample.effectiveness < 0.999)
-        eta_caption = " · ".join(f"η{motor} {sample.effectiveness[motor]:.0%}" for motor in changed)
         lag_ms = sample.time_constants * 1000
         lag_caption = (
             f"Lag {lag_ms.min():.0f}–{lag_ms.max():.0f} ms"
@@ -543,7 +689,7 @@ def _compose(
         )
         draw.text(
             (x + 446 * scale, y0 + 38 * scale),
-            eta_caption or "Nominal effectiveness",
+            _thrust_caption(sample.effectiveness),
             font=tiny_font,
             fill="#ffb573" if len(changed) else "#aabac5",
         )
@@ -556,7 +702,17 @@ def _compose(
             font=tiny_font,
             fill="#aabac5",
         )
-    legend = "Colored paths: predictions    ○ selected prediction    ━ white trail: flown"
+        if side == 1:
+            draw.text(
+                (x + 620 * scale, y0 + 82 * scale),
+                f"Online updates: {_online_updates_used(episode, sample)}",
+                font=tiny_font,
+                fill="#aabac5",
+            )
+    mode = episodes[0].binding["config"]["execution_mode"]
+    legend = (
+        f"Selected {mode} simulation    Colored: predictions    ○ affects control    ━ white: flown"
+    )
     if config.synthetic_fixture:
         legend = "SYNTHETIC FIXTURE · " + legend
     box = draw.textbbox((0, 0), legend, font=tiny_font)
@@ -587,6 +743,8 @@ def _sample_audit(episode: ReplayEpisode, sample: ReplaySample) -> dict[str, Any
         "selected_policy_index": int(episode.controls["selected_index"][index])
         if index is not None
         else None,
+        "selected_prediction_highlighted": _prediction_affects_control(episode, sample),
+        "online_updates_used": _online_updates_used(episode, sample),
         "command_N": sample.command,
         "actual_force_N": sample.actual_forces,
         "effectiveness": sample.effectiveness,
@@ -640,13 +798,23 @@ def render_pair(
         ),
         "command_interpolation": "exact right-continuous application events",
         "force_display": "current recorded effectiveness times interpolated internal effort, in N",
+        "force_boundary_audit": {"F2": left.force_boundary_audit, "A": right.force_boundary_audit},
+        "force_boundary_semantics": (
+            "original arrays are unchanged; any accepted legacy pre-event endpoint must be "
+            "within eight ulps, immediately precede the exact declared event, retain the "
+            "same position/velocity/rates/motor states and equivalent normalized attitude, "
+            "and match both physical force limits; display uses the "
+            "pre-event model strictly before that event and the post-event model at it"
+        ),
         "obstacle_clock": "saved analytic absolute time; each panel freezes with its contact pose",
         "policy_paths": (
             "only retained candidate_states from the last physically applied available decision"
         ),
         "selection_semantics": (
-            "endpoint ring denotes selected policy prediction; "
-            "only white trail denotes flown motion"
+            "endpoint ring only for a physically applied eligible selected prediction: "
+            "accepted QP with positive executed_policy_dual, or accepted executed fallback; "
+            "no ring for emergency/degraded/invalid or a QP with zero executed policy dual; "
+            "the ring never denotes a flown future trajectory; only white trail is flown"
         ),
         "contact_semantics": "first audited geometric intersection; no MuJoCo contact continuation",
         "no_controller_learner_or_plant_execution": True,
@@ -708,11 +876,12 @@ def render_pair(
         )
         sim.mj_model.vis.quality.shadowsize = max(sim.mj_model.vis.quality.shadowsize, 4096)
         _set_two_world_poses(sim, pose_trace, 0)
+        initial_camera = _camera(sample_rows[0][0], config)
         sim.render(
             mode="rgb_array",
             world=0,
             camera=-1,
-            cam_config=_camera(sample_rows[0][0], config),
+            cam_config=initial_camera,
             width=panel_width,
             height=panel_height,
         )
@@ -754,7 +923,9 @@ def render_pair(
                         mode="rgb_array",
                         world=side,
                         camera=-1,
-                        cam_config=camera,
+                        # Sim's persistent renderer keeps its initialization contract;
+                        # the live viewer camera above follows each recorded pose.
+                        cam_config=initial_camera,
                         width=panel_width,
                         height=panel_height,
                     )
