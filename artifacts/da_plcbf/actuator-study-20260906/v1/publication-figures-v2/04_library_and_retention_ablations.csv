@@ -1,0 +1,35 @@
+K,actual_config_differences,baseline_role,baseline_value,cell,changed_k_competence,component,difference,inference,library_seed,maximum_observation_mean_ms,mean_ms,method,metric,minimum_observation_mean_ms,panel,physical_world_id,role,value
+,,,,structured/combined/prescribed,,,,,11,,,A1,safe_task_completion,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,1.0
+,,,,structured/combined/prescribed,,,,,11,,,A1,collider_clearance_lower_m,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,0.17970866701508714
+,,,,structured/combined/prescribed,,,,,11,,,A1,actual_collision,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,0
+,,,,structured/combined/prescribed,,,,,11,,,F2,safe_task_completion,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,0.0
+,,,,structured/combined/prescribed,,,,,11,,,F2,collider_clearance_lower_m,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,0.17295362207970075
+,,,,structured/combined/prescribed,,,,,11,,,F2,actual_collision,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,0
+,,,,structured/combined/prescribed,,,,,11,,,A,safe_task_completion,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,0.0
+,,,,structured/combined/prescribed,,,,,11,,,A,collider_clearance_lower_m,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,0.1755162508399283
+,,,,structured/combined/prescribed,,,,,11,,,A,actual_collision,,A1_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,,0
+,,,,navigation/combined/prescribed,,,,,11,,,A1,safe_task_completion,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0.0
+,,,,navigation/combined/prescribed,,,,,11,,,A1,collider_clearance_lower_m,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0.1594759801730078
+,,,,navigation/combined/prescribed,,,,,11,,,A1,actual_collision,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0
+,,,,navigation/combined/prescribed,,,,,11,,,F2,safe_task_completion,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0.0
+,,,,navigation/combined/prescribed,,,,,11,,,F2,collider_clearance_lower_m,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0.17336526030856134
+,,,,navigation/combined/prescribed,,,,,11,,,F2,actual_collision,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0
+,,,,navigation/combined/prescribed,,,,,11,,,A,safe_task_completion,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0.0
+,,,,navigation/combined/prescribed,,,,,11,,,A,collider_clearance_lower_m,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0.17198413088891082
+,,,,navigation/combined/prescribed,,,,,11,,,A,actual_collision,,A1_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,,0
+,[],oracle,0,structured/combined/prescribed,,,1,descriptive paired physical world; no crossed confidence interval,11,,,A,actual_collision,,retention_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,retention_off,1
+,[],oracle,0.0,structured/combined/prescribed,,,0.0,descriptive paired physical world; no crossed confidence interval,11,,,A,safe_task_completion,,retention_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,retention_off,0.0
+,[],oracle,0.1755162508399283,structured/combined/prescribed,,,-0.17558127848554406,descriptive paired physical world; no crossed confidence interval,11,,,A,collider_clearance_lower_m,,retention_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,retention_off,-6.502764561573783e-05
+,[],oracle,0.0,structured/combined/prescribed,,,0.0,descriptive paired physical world; no crossed confidence interval,11,,,A,controller_deadline_miss_rate,,retention_validation,world-6f64c6864d1713739f0f3a1f55a064f3b2c16683170a99bdf4ff3b204719de04,retention_off,0.0
+,[],oracle,0,navigation/combined/prescribed,,,0,descriptive paired physical world; no crossed confidence interval,11,,,A,actual_collision,,retention_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,retention_off,0
+,[],oracle,0.0,navigation/combined/prescribed,,,0.0,descriptive paired physical world; no crossed confidence interval,11,,,A,safe_task_completion,,retention_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,retention_off,0.0
+,[],oracle,0.17198413088891082,navigation/combined/prescribed,,,0.0006086033696963977,descriptive paired physical world; no crossed confidence interval,11,,,A,collider_clearance_lower_m,,retention_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,retention_off,0.17259273425860722
+,[],oracle,0.0,navigation/combined/prescribed,,,0.0,descriptive paired physical world; no crossed confidence interval,11,,,A,controller_deadline_miss_rate,,retention_validation,world-3fecd66fb4160ea583cde9a9152861cc32fc5991b18f36e90d5795b74148236e,retention_off,0.0
+4,,,,,unavailable,controller,,,,14.916160679422319,14.587199373636395,,,14.291060820687562,K_cost_summary,,,
+8,,,,,unavailable,controller,,,,15.464678616262972,15.116015134844929,,,14.924358122516423,K_cost_summary,,,
+16,,,,,source checkpoint only,controller,,,,14.098120934795588,13.939614375703968,,,13.782626308966428,K_cost_summary,,,
+32,,,,,unavailable,controller,,,,14.779282466042787,14.611893796245568,,,14.480026403907686,K_cost_summary,,,
+4,,,,,unavailable,learner,,,,15.597125596832484,15.432117445743643,,,15.37384984549135,K_cost_summary,,,
+8,,,,,unavailable,learner,,,,15.854892984498292,15.664451170596294,,,15.581308724358678,K_cost_summary,,,
+16,,,,,source checkpoint only,learner,,,,16.24690123135224,16.08492111263331,,,16.016442538239062,K_cost_summary,,,
+32,,,,,unavailable,learner,,,,16.67674408527091,16.600143347750418,,,16.548784158658236,K_cost_summary,,,
