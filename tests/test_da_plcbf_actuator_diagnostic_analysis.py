@@ -83,6 +83,26 @@ def test_optional_repertoire_logging_does_not_change_physical_prefix() -> None:
     assert arrays_digest(prefix_arrays(one, 0.08)) != arrays_digest(prefix_arrays(two, 0.08))
 
 
+def test_future_mode_name_length_does_not_invalidate_an_identical_past_prefix() -> None:
+    one, two = _run(), _run()
+    one.controls["mode"] = np.array(["qp", "qp", "qp"])
+    two.controls["mode"] = np.array(["qp", "qp", "emergency"])
+    assert one.controls["mode"].dtype != two.controls["mode"].dtype
+    assert arrays_digest(prefix_arrays(one, 0.08)) == arrays_digest(prefix_arrays(two, 0.08))
+    two.controls["mode"][0] = "fallback"
+    assert arrays_digest(prefix_arrays(one, 0.08)) != arrays_digest(prefix_arrays(two, 0.08))
+
+
+def test_string_padding_comparison_does_not_cast_numeric_storage_types() -> None:
+    one = {"mode": np.array(["qp"], dtype="U2"), "state": np.array([1.0], dtype=np.float32)}
+    two = {"mode": np.array(["qp"], dtype="U9"), "state": np.array([1.0], dtype=np.float64)}
+    report = compare_prefix_arrays(one, two)
+    assert report["checks"]["mode"]["exact_equal"] is True
+    assert report["checks"]["mode"]["string_padding_canonicalized"] is True
+    assert report["checks"]["state"]["exact_equal"] is False
+    assert report["exact_equal"] is False
+
+
 def test_exact_prefix_comparison_does_not_hide_small_roundoff_or_missing_fields() -> None:
     one = {"state": np.array([1.0], dtype=np.float32)}
     two = {"state": np.nextafter(one["state"], np.float32(2.0))}

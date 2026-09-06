@@ -1,0 +1,5221 @@
+{
+  "proposal": {
+    "budget": {
+      "rationale": "two development geometries, eight fresh validation worlds and one fixed library seed; reuse exact duplicate trials; 148 maximum rather than another 384-episode benchmark",
+      "stage_episode_upper_bounds": {
+        "fresh_validation": 64,
+        "library_comparison": 32,
+        "matched_factorial": 44,
+        "numerical_robustness": 8
+      },
+      "uncollapsed_episode_upper_bound": 148,
+      "unique_episodes": 144
+    },
+    "diagnostics": {
+      "compute": [
+        "controller and learner service p50/p95/max",
+        "published updates before each threat",
+        "deadline misses and snapshot age",
+        "union versus equal-total frozen cost",
+        "paced contention and immutable publication test; reserve unchanged"
+      ],
+      "equal_size_control": "F2_2K uses distinct immutable F2 and DR policies; duplicated frozen rows are not a repertoire expansion",
+      "executed_commands": [
+        "authenticate actual applied motor commands against separate application log",
+        "first exact matched-state command divergence",
+        "selected policy, eligible set, QP row/bound and held-check outcome",
+        "motor state and current-effectiveness actual force",
+        "never substitute a candidate rollout for the executed command"
+      ],
+      "feasibility": "failed hover trim or missing local witness does not prove every flight maneuver impossible",
+      "learner": [
+        "per-component and per-skill gradients",
+        "Adam momentum inherited versus reset diagnostic",
+        "last update versus accumulated updates",
+        "prefix position/velocity error",
+        "terminal braking speed",
+        "auxiliary-gradient conflict and motor effort"
+      ],
+      "obstacle_free": "use competent identical states first under no change and effectiveness-only; development/validation states remain separate",
+      "repertoire": [
+        "all skills at common saved physical state, model and obstacle prediction",
+        "frozen/adapted/union hard and smooth policy values",
+        "early evasive displacement and braking",
+        "coupled allocation and feasible maneuver witnesses"
+      ],
+      "union": "pointwise max over immutable frozen plus adapted skills cannot decrease frozen coverage at identical inputs; no closed-loop guarantee"
+    },
+    "execution_gate": {
+      "phase_order": [
+        "harm/no-change reproduction and obstacle-free diagnosis",
+        "nominal PD validation and fixed development comparison",
+        "compute availability",
+        "matched factorial",
+        "fresh validation",
+        "numerical robustness"
+      ],
+      "runner_must_authenticate_geometry": true,
+      "runtime_binding_required": [
+        "current source file hashes",
+        "complete checkpoint and teacher hashes",
+        "PD nominal competence report",
+        "repair decision fixed before validation",
+        "environment and compilation-cache identity"
+      ],
+      "this_file_runs_gpu_episodes": false
+    },
+    "factorial_cells": [
+      {
+        "cell_id": "eta1_lag1_extra0",
+        "effectiveness_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 2.0,
+        "extra_lead_seconds": 0.0,
+        "lag_multipliers_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": true
+      },
+      {
+        "cell_id": "eta1_lag2_extra0",
+        "effectiveness_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 2.0,
+        "extra_lead_seconds": 0.0,
+        "lag_multipliers_after": [
+          2.0,
+          2.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta1_lag2_extra1.6",
+        "effectiveness_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 0.4,
+        "extra_lead_seconds": 1.6,
+        "lag_multipliers_after": [
+          2.0,
+          2.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta0.85_lag1_extra0",
+        "effectiveness_after": [
+          0.85,
+          0.85,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 2.0,
+        "extra_lead_seconds": 0.0,
+        "lag_multipliers_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta0.85_lag1_extra1.6",
+        "effectiveness_after": [
+          0.85,
+          0.85,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 0.4,
+        "extra_lead_seconds": 1.6,
+        "lag_multipliers_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta0.85_lag2_extra0",
+        "effectiveness_after": [
+          0.85,
+          0.85,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 2.0,
+        "extra_lead_seconds": 0.0,
+        "lag_multipliers_after": [
+          2.0,
+          2.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta0.85_lag2_extra1.6",
+        "effectiveness_after": [
+          0.85,
+          0.85,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 0.4,
+        "extra_lead_seconds": 1.6,
+        "lag_multipliers_after": [
+          2.0,
+          2.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta0.7_lag1_extra0",
+        "effectiveness_after": [
+          0.7,
+          0.7,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 2.0,
+        "extra_lead_seconds": 0.0,
+        "lag_multipliers_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta0.7_lag1_extra1.6",
+        "effectiveness_after": [
+          0.7,
+          0.7,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 0.4,
+        "extra_lead_seconds": 1.6,
+        "lag_multipliers_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta0.7_lag2_extra0",
+        "effectiveness_after": [
+          0.7,
+          0.7,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 2.0,
+        "extra_lead_seconds": 0.0,
+        "lag_multipliers_after": [
+          2.0,
+          2.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      },
+      {
+        "cell_id": "eta0.7_lag2_extra1.6",
+        "effectiveness_after": [
+          0.7,
+          0.7,
+          1.0,
+          1.0
+        ],
+        "event_time_seconds": 0.4,
+        "extra_lead_seconds": 1.6,
+        "lag_multipliers_after": [
+          2.0,
+          2.0,
+          1.0,
+          1.0
+        ],
+        "no_change_control": false
+      }
+    ],
+    "historical_development_anchor": {
+      "episode_config": {
+        "execution_mode": "deterministic",
+        "filter_config": {
+          "arena_clearance": 0.08,
+          "command_hold_steps": 2,
+          "command_trust_fraction": 0.5,
+          "dt": 0.02,
+          "ego_radius": 0.106,
+          "gradient_mode": "forward",
+          "held_substeps": 4,
+          "horizon": 60,
+          "kkt_tolerance": 5e-05,
+          "obstacle_clearance": 0.15,
+          "operational_tolerance": 1e-06,
+          "policy_alpha": 2.0,
+          "prefer_nominal_when_safe": false,
+          "smooth_gap_budget": 0.03,
+          "smooth_temperature": 0.005,
+          "sqp_iterations": 2,
+          "switch_score_margin": 0.02,
+          "tolerance": 2e-06
+        },
+        "plant_level": "P0",
+        "plant_step_seconds": 0.005,
+        "warmup_calls": 3
+      },
+      "historical_harmful_trial_count": 5,
+      "library_seed": 11,
+      "original_checkpoint_files": {
+        "A": {
+          ".json": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/behavior-nominal128-seed11-v1/deployment.json",
+            "sha256": "029f7b4b4154058288ca202cad087326cfc571c8c1e9528d3674de688692e792"
+          },
+          ".npz": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/behavior-nominal128-seed11-v1/deployment.npz",
+            "sha256": "4314bd010cb98f8d0dbe0440178f97bdaac89e17b1639ff5452dc3a86f817b68"
+          }
+        },
+        "DR": {
+          ".json": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/behavior-dr512-seed11-v1/deployment.json",
+            "sha256": "c94ea1b35beb21d7291acf52369200bbb244f97c44035b49492db5cacaecc858"
+          },
+          ".npz": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/behavior-dr512-seed11-v1/deployment.npz",
+            "sha256": "06f1c2003c4297792aa253c39fd68131ee80983ce8d4423c8cd0773b358ecf5d"
+          }
+        },
+        "F2": {
+          ".json": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/behavior-nominal128-seed11-v1/deployment.json",
+            "sha256": "029f7b4b4154058288ca202cad087326cfc571c8c1e9528d3674de688692e792"
+          },
+          ".npz": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/behavior-nominal128-seed11-v1/deployment.npz",
+            "sha256": "4314bd010cb98f8d0dbe0440178f97bdaac89e17b1639ff5452dc3a86f817b68"
+          }
+        }
+      },
+      "outcomes": {
+        "A": {
+          "collision": true,
+          "collision_time_seconds": 4.533659371127938,
+          "task_completion_time_seconds": null,
+          "waypoints_completed": 0
+        },
+        "F2": {
+          "collision": false,
+          "collision_time_seconds": null,
+          "task_completion_time_seconds": 11.36,
+          "waypoints_completed": 2
+        }
+      },
+      "physical_world_id": "world-78f6e17f374a70da63a28bf0d4e050fb3a1fbba85ccb2ee0bb9f4b4966b0eef1",
+      "read_only_artifact_files": {
+        "A": {
+          "applications": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-A/attempt-00/applications.npz",
+            "sha256": "84de251bfd92553a8b46b61a960d843e55532cd0ae55c3c139c87042fc0dd688"
+          },
+          "binding": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-A/attempt-00/binding.json",
+            "sha256": "3ff5441d12a79a4e4e57759332d740efc8c8a91d2a92912a503f3ae78eef23bb"
+          },
+          "controls": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-A/attempt-00/controls.npz",
+            "sha256": "28a7b95dfbd1859e201991304b3e2ac403e9498dea40030a995f24561afa2121"
+          },
+          "dense": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-A/attempt-00/dense.npz",
+            "sha256": "ab62be6c8e1eaff558546beb3b4d3788e4ae20ebc4140f75a152ec49fb79476e"
+          },
+          "summary": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-A/attempt-00/summary.json",
+            "sha256": "f865cb91e5dd3aa706b53acb49ada13d2bcfaf6e369d8d94814ee04e810379d1"
+          },
+          "updates": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-A/attempt-00/updates.json",
+            "sha256": "07afa5daacc462b7a8165d5361d6509dd9371fa62a73a084a7129ee3aa7460ef"
+          }
+        },
+        "F2": {
+          "applications": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-F2/attempt-00/applications.npz",
+            "sha256": "faf7886d626f1435ea777d76f9e1a4035ad98c89073a4702a9ac9e17255db6e8"
+          },
+          "binding": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-F2/attempt-00/binding.json",
+            "sha256": "0fbbaf5c3aabf5eadb54cbea6d18d9f6616fd6d891581d3dd4b6770ba453b9b5"
+          },
+          "controls": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-F2/attempt-00/controls.npz",
+            "sha256": "7bc757dc5fa71cad312fa8334844f6d0a8d70e6cbafbc16e062eb73cb438126e"
+          },
+          "dense": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-F2/attempt-00/dense.npz",
+            "sha256": "f9e6f036cf88042cf1a861117a06fdbac605281633d1ecdbed914ccdb6419435"
+          },
+          "summary": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-F2/attempt-00/summary.json",
+            "sha256": "c60ca9a5c88b15082e84f7b31ab6b81e1f19c429b7f54b42d938a62948ab26e7"
+          },
+          "updates": {
+            "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/world-0004-seed-11-F2/attempt-00/updates.json",
+            "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+          }
+        }
+      },
+      "role": "development diagnosis only; not a held-out confirmation",
+      "scene": {
+        "dynamics_cell": "effectiveness",
+        "effectiveness_after": [
+          0.7,
+          0.7,
+          1.0,
+          1.0
+        ],
+        "event_time": 2.0,
+        "family": "structured",
+        "lag_multipliers_after": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "navigation_start": 6.96,
+        "physical_spec": {
+          "actuator_events": [
+            {
+              "effectiveness": [
+                0.7,
+                0.7,
+                1.0,
+                1.0
+              ],
+              "lag_multipliers": [
+                1.0,
+                1.0,
+                1.0,
+                1.0
+              ],
+              "recovery_time_seconds": null,
+              "time_seconds": 2.0
+            }
+          ],
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 14.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            0.0,
+            0.0,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            -0.16844021519804828,
+            0.05309731517117372,
+            -0.03534242467164833,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 6.96,
+          "obstacle_amplitudes": [
+            [
+              -18.370021854965056,
+              7.357324424369585,
+              -2.900357626686901
+            ],
+            [
+              -7.398760700262791,
+              -18.473481380444905,
+              1.9972044929356645
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.062348882035775786,
+            0.12413448245041503,
+            0.0,
+            0.0
+          ],
+          "obstacle_mean_centers": [
+            [
+              -0.1077456755360914,
+              -0.08175533733063992,
+              1.4474952845795275
+            ],
+            [
+              0.05691472813496057,
+              -0.05498079101296516,
+              1.580710090295538
+            ],
+            [
+              -0.3944480047331568,
+              -0.9848714083607002,
+              1.5064763896546334
+            ],
+            [
+              0.3944480047331568,
+              0.9848714083607002,
+              1.2935236103453664
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -0.3055377771340554,
+            -0.7148631418644456,
+            0.0,
+            0.0
+          ],
+          "obstacle_radii": [
+            0.6684663660717105,
+            0.3916784185295745,
+            0.32958737462424054,
+            0.32648395177241024
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              -1.5,
+              0.9,
+              1.7999999999999998
+            ],
+            [
+              -2.0,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "physical_world_id": "world-78f6e17f374a70da63a28bf0d4e050fb3a1fbba85ccb2ee0bb9f4b4966b0eef1",
+        "recovery_time": null,
+        "scene_seed": 30101,
+        "world": {
+          "case_study_config": {
+            "additional_incoming": [
+              {
+                "amplitude_m": 20.0,
+                "arrival_time_seconds": 5.758779734309478,
+                "crossing_offset": [
+                  0.05691472813496057,
+                  -0.05498079101296516,
+                  0.1807100902955382
+                ],
+                "direction": [
+                  -0.37179646890531515,
+                  -0.9283142709823754,
+                  0.10036188602895837
+                ],
+                "radius_m": 0.3916784185295745,
+                "speed_m_s": 2.4826896490083006
+              }
+            ],
+            "arena_lower": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "control_interval_steps": 2,
+            "dt": 0.02,
+            "duration_seconds": 14.0,
+            "ego_radius": 0.106,
+            "guards": [
+              {
+                "offset": [
+                  -0.3944480047331568,
+                  -0.9848714083607002,
+                  0.10647638965463337
+                ],
+                "radius_m": 0.32958737462424054
+              },
+              {
+                "offset": [
+                  0.3944480047331568,
+                  0.9848714083607002,
+                  -0.10647638965463337
+                ],
+                "radius_m": 0.32648395177241024
+              }
+            ],
+            "hover_position": [
+              0.0,
+              0.0,
+              1.4
+            ],
+            "incoming": {
+              "amplitude_m": 20.0,
+              "arrival_time_seconds": 4.900453178274116,
+              "crossing_offset": [
+                -0.1077456755360914,
+                -0.08175533733063992,
+                0.04749528457952758
+              ],
+              "direction": [
+                -0.9283142709823754,
+                0.37179646890531515,
+                -0.14656723857289852
+              ],
+              "radius_m": 0.6684663660717105,
+              "speed_m_s": 1.2469776407155158
+            },
+            "initial_velocity": [
+              -0.16844021519804828,
+              0.05309731517117372,
+              -0.03534242467164833
+            ],
+            "navigation_start_seconds": 6.96,
+            "obstacle_clearance": 0.15,
+            "reach_radius": 0.4,
+            "seed": 30101,
+            "waypoint_offsets": [
+              [
+                -1.5,
+                0.9,
+                0.4
+              ],
+              [
+                -2.0,
+                -0.8,
+                0.0
+              ]
+            ],
+            "wind_onset_seconds": 2.0,
+            "wind_velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          "case_study_time_convention": "all obstacle and dynamics queries use absolute time",
+          "config": {
+            "angular_rate_max": 12.0,
+            "arena_lower": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "control_interval_steps": 2,
+            "dt": 0.02,
+            "duration_seconds": 14.0,
+            "ego_radius": 0.106,
+            "moving_obstacles": true,
+            "obstacle_clearance": 0.15,
+            "obstacle_count": 4,
+            "payload_events": [],
+            "reach_radius": 0.4,
+            "seed": 30101,
+            "speed_max": 3.5,
+            "tilt_max_radians": 0.9,
+            "waypoint_count": 2,
+            "wind_events": [
+              {
+                "time_seconds": 2.0,
+                "velocity": [
+                  0.0,
+                  0.0,
+                  0.0
+                ]
+              }
+            ]
+          },
+          "ego_enclosure": {
+            "cf21b_asset_collider_body_offset_m": [
+              0.0,
+              0.0,
+              0.02
+            ],
+            "cf21b_asset_collider_radius_m": 0.086,
+            "encloses_asset_collider": true,
+            "radius_m": 0.106,
+            "scope": "body-origin spherical safety envelope; envelope intersection is distinct from a measured MuJoCo collider contact"
+          },
+          "event_semantics": "right-continuous prescribed changes at command boundaries",
+          "incoming_motion_scope": "globally bounded analytic passage; obstacle may originate outside ego arena",
+          "initial_state": [
+            0.0,
+            0.0,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            -0.16844021519804828,
+            0.05309731517117372,
+            -0.03534242467164833,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "initial_state_time_seconds": 0.0,
+          "obstacle_amplitudes": [
+            [
+              -18.370021854965056,
+              7.357324424369585,
+              -2.900357626686901
+            ],
+            [
+              -7.398760700262791,
+              -18.473481380444905,
+              1.9972044929356645
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.062348882035775786,
+            0.12413448245041503,
+            0.0,
+            0.0
+          ],
+          "obstacle_masks": "all obstacles active at all prediction nodes; no teleports",
+          "obstacle_mean_centers": [
+            [
+              -0.1077456755360914,
+              -0.08175533733063992,
+              1.4474952845795275
+            ],
+            [
+              0.05691472813496057,
+              -0.05498079101296516,
+              1.580710090295538
+            ],
+            [
+              -0.3944480047331568,
+              -0.9848714083607002,
+              1.5064763896546334
+            ],
+            [
+              0.3944480047331568,
+              0.9848714083607002,
+              1.2935236103453664
+            ]
+          ],
+          "obstacle_phases": [
+            -0.3055377771340554,
+            -0.7148631418644456,
+            0.0,
+            0.0
+          ],
+          "obstacle_radii": [
+            0.6684663660717105,
+            0.3916784185295745,
+            0.32958737462424054,
+            0.32648395177241024
+          ],
+          "schema": "exogenous_navigation_world_v1",
+          "trajectory": "center(t) = mean + amplitude * sin(omega*t + phase)",
+          "waypoint_positions": [
+            [
+              -1.5,
+              0.9,
+              1.7999999999999998
+            ],
+            [
+              -2.0,
+              -0.8,
+              1.4
+            ]
+          ]
+        }
+      },
+      "scene_seed": 30101,
+      "selection_rule": "minimum (old world_index, library_seed) among A-collision/F2-clear structured-effectiveness trials",
+      "selection_uses_old_outcomes": true,
+      "source_files": {
+        "campaign": {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-campaign-sealed-v1.json",
+          "sha256": "3daf1216a02d95774973e4a3f2e2abf2339725d28bac5b5bd6f1fbd33c106070"
+        },
+        "episodes": {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-analysis-v1/episodes.csv",
+          "sha256": "108dcdac5aa2d905fee1d90934e61e24c5742448f711563910c2ab9d35e313d4"
+        },
+        "results": {
+          "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/main384-sealed-results-v1/campaign_result.json",
+          "sha256": "c826b3fdc8e97456331c68792994894eb4dbe2161832faaf87a65d3685258501"
+        }
+      },
+      "world_index": 4
+    },
+    "lead_time_definition": {
+      "also_record": "first prescribed incoming-obstacle zero-crossing time minus fault onset; pre-threat published-update count",
+      "command_period_seconds": 0.04,
+      "extra_lead_seconds": [
+        0.0,
+        1.6
+      ],
+      "fault_times_seconds": [
+        2.0,
+        0.4
+      ],
+      "qualification": "physical pre-fault histories differ across lead cells; exact common history is required only within each freeze/continue pair",
+      "rule": "advance only the fault onset; preserve absolute obstacle paths, initial conditions, task, nominal controller and physical bounds"
+    },
+    "matched_history_contract": {
+      "all_finite_updates_published": true,
+      "comparison_cut": "immediately before the first control/learning operation at fault time; event and observation ordering identical",
+      "freeze_rule": "same adaptive runtime method and full startup checkpoint in both arms; freeze_learning_at equals fault time only in frozen arm",
+      "no_update_rejection_or_rollback": true,
+      "prefix_reexecution": "allowed only if every saved numerical prefix array and complete fault checkpoint match; otherwise pair is inadmissible",
+      "required_prefix_sha256_fields": [
+        "physical_state_and_motor_state_sha256",
+        "actor_params_sha256",
+        "optimizer_moments_and_step_sha256",
+        "teacher_retention_contract_sha256",
+        "observations_and_current_model_sha256",
+        "nominal_controller_and_filter_memory_sha256",
+        "scheduler_rng_and_publication_history_sha256",
+        "controls_dense_and_update_prefix_sha256"
+      ]
+    },
+    "methods": {
+      "A": {
+        "adapter": "F2",
+        "current_model_information": "same exact current point model",
+        "initial_library": "offline learned",
+        "policy_count": 16,
+        "update_rule": "legacy persistent objective"
+      },
+      "A_BAL": {
+        "adapter": "F2",
+        "current_model_information": "same exact current point model",
+        "initial_library": "offline learned",
+        "policy_count": 16,
+        "update_rule": "balanced persistent objective"
+      },
+      "DR": {
+        "adapter": "F2",
+        "current_model_information": "same exact current point model",
+        "initial_library": "domain randomized learned",
+        "policy_count": 16,
+        "update_rule": "startup frozen"
+      },
+      "F2": {
+        "adapter": "F2",
+        "current_model_information": "same exact current point model",
+        "initial_library": "offline learned",
+        "policy_count": 16,
+        "update_rule": "startup frozen"
+      },
+      "F2_2K": {
+        "adapter": "F2",
+        "current_model_information": "same exact current point model",
+        "initial_library": "immutable F2 plus immutable DR",
+        "policy_count": 32,
+        "update_rule": "two distinct frozen libraries"
+      },
+      "PD_A": {
+        "adapter": "F2",
+        "current_model_information": "same exact current point model",
+        "initial_library": "handcrafted PD",
+        "policy_count": 16,
+        "update_rule": "bounded maneuver parameter adaptation"
+      },
+      "PD_F": {
+        "adapter": "F2",
+        "current_model_information": "same exact current point model",
+        "initial_library": "handcrafted PD",
+        "policy_count": 16,
+        "update_rule": "startup frozen"
+      },
+      "UNION": {
+        "adapter": "F2",
+        "current_model_information": "same exact current point model",
+        "initial_library": "immutable F2 plus balanced adaptive",
+        "policy_count": 32,
+        "update_rule": "publish every finite update"
+      }
+    },
+    "numerical_robustness": {
+      "promoted_result": "must additionally pass the same fixed subprotocol on its validation world; this requires an explicit bounded amendment if not already the anchor",
+      "realizations": {
+        "fresh_build_1": {
+          "compilation_cache": "new empty directory in a fresh process",
+          "initial_position_x_delta_m": 0.0,
+          "initial_velocity_x_delta_mps": 0.0
+        },
+        "fresh_build_2": {
+          "compilation_cache": "another new empty directory in a fresh process",
+          "initial_position_x_delta_m": 0.0,
+          "initial_velocity_x_delta_mps": 0.0
+        },
+        "perturb_minus": {
+          "compilation_cache": "fresh_build_1",
+          "initial_position_x_delta_m": -1e-05,
+          "initial_velocity_x_delta_mps": -1e-05
+        },
+        "perturb_plus": {
+          "compilation_cache": "fresh_build_1",
+          "initial_position_x_delta_m": 1e-05,
+          "initial_velocity_x_delta_mps": 1e-05
+        }
+      },
+      "report": "retain every physical outcome, command divergence and margin; any category change flags numerical fragility",
+      "selection": "fixed historical harmful geometry; no best-case or cache selection"
+    },
+    "outcome_definition": {
+      "categories": [
+        "both_succeed",
+        "adaptation_alone_succeeds",
+        "frozen_alone_succeeds",
+        "both_fail"
+      ],
+      "missing": "unresolved, error, interrupted, unmatched prefix, or missing command evidence stays incomplete; never count as success or failure",
+      "separate_metrics": [
+        "actual collision",
+        "operational violation",
+        "timeout",
+        "clearance over executed prefix",
+        "actual published updates"
+      ],
+      "success": "safe_task_completion: all waypoints, no collider contact, no physical operational violation, full common-duration exposure"
+    },
+    "planner_files": {
+      "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_actuator_diagnostic_protocol.py": "cdc7c5a3a1eced1910d044cdbc76dac236bfe717b63515f9b4ad9c287d76f3eb",
+      "/home/tk/Desktop/mycode/crazyflow/tests/test_da_plcbf_actuator_diagnostic_protocol.py": "e6354fd7acc1e05b666ac41d19c8b7c23dd39eaf995a04b37105036d0a2ae68f"
+    },
+    "primary_comparisons": [
+      {
+        "adaptive": "A_BAL",
+        "frozen": "A_BAL_FREEZE_AT_FAULT"
+      },
+      {
+        "adaptive": "PD_A",
+        "frozen": "PD_A_FREEZE_AT_FAULT"
+      }
+    ],
+    "prior_study_policy": "read only; retain its splits, outcomes, archive, report and conclusions unchanged",
+    "protocol_id": "quadrotor-harm-diagnosis-matched-v1",
+    "schema": "actuator_matched_diagnostic_proposal_v1",
+    "selection": {
+      "development": [
+        [
+          "structured",
+          30101
+        ],
+        [
+          "structured",
+          61001
+        ]
+      ],
+      "inference": "two prespecified within-world contrasts, one library seed; descriptive world-level evidence, not broad population superiority",
+      "library_seeds": [
+        11
+      ],
+      "new_outcomes_consulted": false,
+      "validation": [
+        [
+          "structured",
+          62001
+        ],
+        [
+          "structured",
+          62002
+        ],
+        [
+          "structured",
+          62003
+        ],
+        [
+          "structured",
+          62004
+        ],
+        [
+          "navigation",
+          62101
+        ],
+        [
+          "navigation",
+          62102
+        ],
+        [
+          "navigation",
+          62103
+        ],
+        [
+          "navigation",
+          62104
+        ]
+      ],
+      "validation_changes": "retain all attempts; an amendment needs a new envelope and a genuinely new validation set",
+      "validation_opening": "after nominal PD validation and repair choice/source/checkpoints are bound; no tuning after validation outcomes"
+    },
+    "shared_control": {
+      "execution_mode": "deterministic",
+      "filter_config": {
+        "arena_clearance": 0.08,
+        "command_hold_steps": 2,
+        "command_trust_fraction": 0.5,
+        "dt": 0.02,
+        "ego_radius": 0.106,
+        "gradient_mode": "forward",
+        "held_substeps": 4,
+        "horizon": 60,
+        "kkt_tolerance": 5e-05,
+        "obstacle_clearance": 0.15,
+        "operational_tolerance": 1e-06,
+        "policy_alpha": 2.0,
+        "prefer_nominal_when_safe": false,
+        "smooth_gap_budget": 0.03,
+        "smooth_temperature": 0.005,
+        "sqp_iterations": 2,
+        "switch_score_margin": 0.02,
+        "tolerance": 2e-06
+      },
+      "plant_level": "P0",
+      "plant_step_seconds": 0.005,
+      "warmup_calls": 3
+    },
+    "stage_trial_ids": {
+      "fresh_validation": [
+        "41cf3925d0a830e01c34a154bbe4ad01d59444bfbdbb280af553349e52b22422",
+        "6de94edeaefa14341d647d9dda30b2a92335de31877317d6a996ec9d681ac364",
+        "f003558245615a25ae5e327ca80bafbb6bc38f11edcfb18427c65cfd99831b1e",
+        "071aad029f75592691f4432cbc1c01f9c18fdefb29cf209d3aa2555f1333bc37",
+        "bdfab0da34a3182c2bd27373d5629331439f7e3daa2640b622063bfefaec5953",
+        "638c0bed4cfccabf7d50c1c2e0f0e0b20a4b20965edd7f856489a3c43881860a",
+        "2311da360d636c92bec2781b6b21213360eed88cf42089956f833b3064ad5821",
+        "78842008cbebdfa50c8c1ab7efeeab892258c73908b491bc8e658c7b3f3cadc2",
+        "5742804e08e99b8d9ab223240de4e1078cab9c11039d9ecb15b07741aa427904",
+        "92882bc01ba22f02d61a57ea4e2095a6e780af8d90bf628a7c2f7789acd2a8cc",
+        "b5b84e7b7a1b399d1be174fc802cd1d855156951072fd78dc7fdccad23c6ad5f",
+        "c8b0e8ac1bf1f0a81601d008b3e9b333aced5e591c630556c2cca8769c45f63e",
+        "093471fa5255ca17774977911e39138ffb2e51658b9cc1c6aa0288ad33f2a55b",
+        "ee8fd2a419f5ba1d09dec6c38d97c08d997a4be08ee470883ee2de9a89d588c6",
+        "731b40be9f23c91becfccf38c450943baab9afea308909dc9740f9dcd820c49b",
+        "4d3aa4786240a836437f7b52125a69c3fd6a97e8f8cf3cc511e5127240ab98a4",
+        "e4a888bd599888612b91772ef04fcf71ca6829c685b3829aeaeab10d777b0bf3",
+        "b79354f2858b4a00366330832818b4e2060fd390768d8e3f1673c6d6bf0a2a24",
+        "859a0a0f836022999e97d71ba1242afea15d2bd2f820776368189c99846c1d63",
+        "2fa266c5e365b229cd264d034ea960c3550dae228f7870163c044111447d94c4",
+        "36c951ac8ae4ca64187f7255243d1b5ad3166b742bac509b74cb9488313687f8",
+        "9d640c9f7cc92de23768be90cfbc46c41977f5eb194930e56b2e1959d5fdb049",
+        "7fc99c3bb96e4787be5514573bc6516f57c67ee1e55047ef9ed0c588935559b5",
+        "e514456b27ea940ebf2d940dcb81291dc6c02a845e0c0e06922327bee5eedfcc",
+        "e83562e3f9e4782b862a33c1d8fa8a9f2eda3b5479c568113a57ae18b53faa8a",
+        "5ac7afd92b205d8aac20fe6f41a1b5826bf4405bfbec059a91d3681b33c70d3f",
+        "a2f4e1278cb8a9aa7cd17d46871d5a2a2b5112cfd76aa7a631d9e60d72a63f00",
+        "0a45d4ddb884a40265f716d33454a2bcd2a913bb35b7ba52cc0d35cc579743ed",
+        "5c9bbce13cf75e19441a93c96de4585a0b2e2e02dabfe67e7021460ec20b4a4b",
+        "3f8f349e91e53eeafd364e23eddd547840ca9e22f424208b74dd066d78886ee1",
+        "36f57af93f6f05a9ed1a3f387c62f7f135f9e1ab740fdb0feae068600260ce48",
+        "bc61b2dc6074b822da96b8e7269eb37a4b61e73bac61dbf4e82cc38813fdc824",
+        "037381a5131dde8f35b4fa8e9949e89677f46392639adede057c785f4b24927b",
+        "a6e706af40e37b26294f3fbb990044175c1710eab4c4fb99ed590da57620cfe5",
+        "7675f79cee508fdd94b772f68838cf30293a7650ae0dcb8585e05ca63a725b95",
+        "1b5b7e76c2510a3b88e944e60a99d6863c10c7b188fb4a688f52e8dec95915fb",
+        "bad47c027ef40cbcf842bea85b7e881e432b824edce8abd6a064293b51801bd3",
+        "9aec727b5e3868ddd629e909d86d364fa3c869515fb5be12fe957bffa880dcc5",
+        "83d3a0f2602272e39a873ff4a8a8c592464e6f4110f2ef67ad28ebbb9f366613",
+        "91e22012c4cae479c88d8eef8b4ea913750967cca3ed1b905676d7e5ab52a917",
+        "bb23adc8a8ed540259ee1da2b1d57494e910167c089bab8579326635dc111d74",
+        "f5fa12adc93630f75ef1bdbfd87de2e6ec4dcc082e038e92b9571bc151259d36",
+        "263ae8fda23740380526275c65c886d9d10bcaea6fe3613ee82d9d15cc5c7c0f",
+        "21a79d1bb35ad5ee4b264264ab8ac70350be4ac4979c8b501846f6f65e53f1ac",
+        "e9a3e9fc65cb5e20ab7599969cecba419409f9dedd0ba59254c6e2280961f5bf",
+        "04f33be168fc2c562de639f05fae0589bd5e11758bada01fe6f1461c7ce1288d",
+        "a9336dd2531a4467b8044d209f22e188553fb9f854fd4345dd8362f37723e41e",
+        "850794972cf12940e3140f52f8a08123c57978187c97d63494ece2f80c11f246",
+        "62ae70d69d587266009b699eb1b0b4dc9ad80c35b05f3050bd0e5e6564a88cf7",
+        "04a631c71c3ad8ea206008340538c66dc05bcadaf33ebb747e2ebb071d46c9e3",
+        "3410b99ba46ca462d0fcba15c0d6a324466dd71be346e1d35ef2837975c1707f",
+        "b6bc51f016e12751beb6a69efcc22cd8abcaf3dca4c27ca52f28b441bacd0b7a",
+        "9d8ea0ae31be83c45fbf3fa5ab8b7a4057d2ba3d9a73f5ffcfabc907d37fc412",
+        "c8452cd9e83c1668bc0c26a5bddf07589c0172368954503d96b30d61d6361cf3",
+        "4ee54a3d6729a2e79f172c102967e912cb5275e03e1fb8fa4ebdbadc90a1d0aa",
+        "0d64e058f33f02679e40106655fa6cc140ce2913ad643edb58b3535c0a3f4d5b",
+        "c87115827f4e49b93701639b8afa61ddc7012e5fd3430b0c87cfce7605e0319c",
+        "3ebcd5d6904e421b167016cd55614c68bd348b897b10a5201b194369ce4e50a7",
+        "101ec040d39fe930acf5c181465ee5d33a9ef68d5f4b8e37c9eddb769974691c",
+        "7158c904d8ffabf2f8c0662e3ed58fd3b79f1d065348c8f08b9a287cc40b4e00",
+        "d0b57e9c7b2f5317f44bb575b2c25e6230d9c0b6b7ed0b386d6d629688593ddb",
+        "0c4e4c50c392bd12c35344861689837c7a200b62bee2fc92442000fe256ba2e6",
+        "19bd61103a1949247855a04ecd4ab46d5f1ff5f124bb1798038b9fab92fcbc6c",
+        "8c3ed9c3c7d9bd816c1ed9a9c0f3447661e0926a9862412699ecb882d1d57086"
+      ],
+      "library_comparison": [
+        "4b18dfdb33f8be476b31c28273f1a461ccadae3652073334e8f14bf55e4fa658",
+        "3623eb69180bdda58ae325d3f2e56ed8779a880dcc7502a4ce51db4650128ea7",
+        "dfea73a1389e60b7e6adebd1e0e25a69f3e21f40ac50afeffeb56ace7b8d16b1",
+        "2b768b3e2ae0e5b0691922a2f2fbd424fa04ed2bb419a9e44fa04a1f3bd67a63",
+        "af1a0a928b4902baa97c28e92158fac0c2b811ce7e57d3f320f8a3b23ab403c1",
+        "7f58c6153dfab0be0587fb6218a5cf9c51ec5de4546c0689ccf52de666e9622c",
+        "71a1f6bd4dcf4c5ec371cd8fc8b75242109b17109099e864ffc1152d825c79d2",
+        "0aa3edc8fe188944533c45614ac336142579071edb53cd9d63fe28a94130355f",
+        "d81d72d8efbcb42fc4bce9ffd512594e239ade5b3fe07604552efadec2377c17",
+        "80dbc1f343e39bd8904fa6a3d24f2cb8604bf98346719c3c5f15b6af06935ee1",
+        "8156b0c402449c557f1bcf63f53fe6fc29b6ac2d3c5f3f26879f075ddd5a8576",
+        "d12260becfd55327f979957ce6574a5d638677bd5476f39787fafed4973ec25a",
+        "f32256dc1ac6629e9c871681cc552c46387b02c2924d2666c5ef20e38804e6ee",
+        "5dea855dd965dfd7ab048ea3d74bf7196cdca056ec807080aa0aeea89db1a879",
+        "0c37ef603c917db46e440c3e38f4df2c567987764f07d58faa3f33458b961757",
+        "6d4485f84e8cfa30932ff2348a9665e83375abfb7956676bb8d075a13ea9e9e3",
+        "7421995eea6e985dbbe94fc09a7a7591a94565c17a950d3150b73c50fcf8025f",
+        "642707644269513bab70bbb96865b99fab06779cba003b01477aa3443bfea82d",
+        "87933da09850a3ceaa6964891ca9a70fbb7e2fbc2ec5c93ac43046673322baf2",
+        "7837cbb0feec4dc62a0cbd22d8e0d0602822b0584da5d65784fa351aa250503b",
+        "e3f11a26bac0d7693a847b44deb71f24026998c6cf2fc5c1bd24bde1d5bf7261",
+        "61c7c421a1c9a0276344dd36fe615a4b8a07dee0d764437f94cfdc01303e6451",
+        "03795b17b4c4f426ffdf650ebb2bfd638e60f80bc4ee4a7979538b87a857c926",
+        "39ef8199c1bb6ea879f30dfce87ee5ba12bbec4137ceddb0a22d96a4a69e8ca4",
+        "d200f4c39cca3295bc91647aabfb3b2f1b45d154ad5421313020b2e85b4eda1b",
+        "fafe82d1b27dad4d161996ed6f521205df6c343d48ceca35da5d5f2b611f9157",
+        "67754286bad304dc1775799a8234fa0c05e83a2c0d9c7328f2164c6bb6254551",
+        "5db9575fd2ad2f995b99c0abc8f3eb5df40522eb953b818e461931ecc239415b",
+        "5ded7bb116969e98626b9320d1235ddf71824d52abd8252d754fe16804253d27",
+        "01cc7f25c55117bb8f2971aa423206f64b362807ec4a4d54b088f199def2d31a",
+        "c664e6ef70257cc6f0eb49bfcf89b7ce45f92e90e7f4fcf011951b70326934d1",
+        "670eeacfef25cb7fbecf8d5eed5a71ec571c8e64e85b4efdd9432a76681916c3"
+      ],
+      "matched_factorial": [
+        "913df37123916379da65a7e4cd37578106c60855007397e6f6af3347c83ea0e1",
+        "dfea73a1389e60b7e6adebd1e0e25a69f3e21f40ac50afeffeb56ace7b8d16b1",
+        "82802f6dacb73062a84a373fcebe7ff596603df82e235869810090206f47a6dc",
+        "e31d4574342d9885fc33ac3e4e2dcf760ef6421e294d403a3b86bf12dfe5e425",
+        "dc7b6d6032b14167ad5c6372709e7de12f6a27bbf79567475c43b3de4f8508c0",
+        "80f701747003a6abf6545d143c82d07ce7853b03abe8e26066f9148e43669f48",
+        "05501821ccd1c230a27adfb2c5afb842076a3efa21b1b7f8f0c1332d431f92e9",
+        "0093ed8f7f4e050a79bae3ca75f92dda122d28351d5ab4a8dfc992e333fa3526",
+        "d6356369c1cf34b2c0de44e1708ff9b824ee9af1e4e0f6079a9a87b024ace184",
+        "1bb08de8470d874393e676d60128f52f4d5d6651f0f1c4aa74d98e72a8c9b447",
+        "acbf91cfeddc9538c849e0258f4cde350c29c82059200a5801bf3783352b1755",
+        "68283b32f057b073a4587f68f80d6d6c1235ecb91c32c36ee067a8ecb4a41b00",
+        "a0d4aa31b2cd8304b0219da696e75768405cac48423082740f21a97dc774014f",
+        "c96537b0d6e9bcb8dff0c97db0def64a44e723f3c343974c12ac0a816c818aaa",
+        "232cb95e046a63c53ffd0b248452456f05a2f7ec7b3cdd4d06546b420e3d2331",
+        "8156b0c402449c557f1bcf63f53fe6fc29b6ac2d3c5f3f26879f075ddd5a8576",
+        "1cd68fb69b39eb66ed930e35a58a4a5261abd5340d4a05a9e026eb56eb93deb6",
+        "8ec769c2a2f626393ef7d62ffcd6cc8a9c6030608f7bcbd8cb39b3b653ba4591",
+        "4ce798d7c0ae406ca0b1be6370f295eb6790f8b688360fac177984b033f1fe53",
+        "376a9961e16bf446c3ffe8b512c24e1520af5bb6d6987628361cd3a02ced6009",
+        "81a7411d060a7499290c94d51e618374dee2d5d885ae1790d55903e64e5fc0f8",
+        "deb9f55ae9119c1cd4c942c1a945d5533459c53c0252d7b5ec308c8d72cba02c",
+        "842b4b30102611c8251f86b73bbc23f231af471a49032acf043f90ecf2d1c335",
+        "87933da09850a3ceaa6964891ca9a70fbb7e2fbc2ec5c93ac43046673322baf2",
+        "fea428d1d449ea147e4da570d7b62d76e330d51af965bbb800989064d52cbfce",
+        "e3fb3ac29f3c3a2535a20240599562451c2ded200eb068abfdb59b474b021cd0",
+        "9d7c9ae52ad22e33a48480bc8cbf35ca39425f5812836bbe088f0f7a9f17f941",
+        "b7433536d778dc720122215a6d1a81a8d2ee1ea05f76f46f38cea4a20f5da2c8",
+        "fe56f1de13a06fb326fa5789f6233cf1d52ff2178e165a8da187b48269d28a5e",
+        "33de1720c5c9a5277e009255c68ff5bffb662e78894eabccf20be3783cf52cf0",
+        "13dbb1b1de3fe520e51381d1dd092e4a6f7731d35d430afb9e3b3bc0a91ce619",
+        "a4a374d680f0d555d19653d9915aeda0cf8aef8a2a20e9f3c7bf9be600b117d3",
+        "0f63cd90f1b7321af3bb781521d59dea7803d7fd916de60fb55953628bad4be6",
+        "1e0e38b677c37042653b3c2204bfd46dae7741ac63b5feba280560acb7bd99ae",
+        "86d31ae7b13c24391985b4d07a53e65d0fbe07f34233a9f89a6f77368da2c7bf",
+        "d3de796f6a04ce16598b15c54a0d8f5d86d7e625e424d880a2a4a2f6080c4565",
+        "b2183f2c84f326f23b8752a2bd5802dfdd8996b848fc1e5fb896076d07f7b4d6",
+        "67754286bad304dc1775799a8234fa0c05e83a2c0d9c7328f2164c6bb6254551",
+        "e747265afb41e102ebc194a182ddb1f46305b9ad10d5a93c7e20a746f22c09a0",
+        "bf9a7235f8682f4e4aa6940e45c81edf8c5f7bd41e4bb314660b61a9a61a8c09",
+        "15d266986b8e359516334f919c22ec9bd5203e38bd8651c35cdb92d65f3ece75",
+        "1aa23a479d3b5b4d323ecf6490588bf6c632d8e60e06081490bb9d4cf2f4894a",
+        "6a689ea926bdb0ee4dafed92e070e1dae9082bc34058cc88985265ddba21c6d6",
+        "b728a77ed724d36162da7a0ea4a5e2b73c94aa7194d772da26d8bdfa79d75749"
+      ],
+      "numerical_robustness": [
+        "2a7d7ff372911ae1ea12810eba8c5399d6625532adce20d5aa48a43d1783c218",
+        "984465e9127520968c2f048c6304f2b53151ec7337b847e1f31a5c9a8eba13fd",
+        "83036096a97d4c6f9e2e9ffe32830053fc54094639c2fca10a8cebc080d492c4",
+        "2e37c680a7318e0d27a81b6a21ca8a462d513dea739057e9f93e1809f96eeaa1",
+        "58ef5b0739305e201647414a3c2b43c39c4105d0b91f75a9313ef07f163418dc",
+        "20771256c506610d9e5a51c051f72f6eea20770bbc62aa29dc2fdaf7edb5f925",
+        "bf5b3c2abe2b389399bcca341b472872e306c3588636f428878d9724e341fe41",
+        "61d9d6a431fd2f53a2d6227ae714631e7108fc21824a0161d186a0a4f9ce8c2c"
+      ]
+    },
+    "status": "sealed_design_only_no_new_outcomes",
+    "trials": [
+      {
+        "arm": {
+          "arm": "F2",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "F2"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "4b18dfdb33f8be476b31c28273f1a461ccadae3652073334e8f14bf55e4fa658",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "3623eb69180bdda58ae325d3f2e56ed8779a880dcc7502a4ce51db4650128ea7",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "dfea73a1389e60b7e6adebd1e0e25a69f3e21f40ac50afeffeb56ace7b8d16b1",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "PD_F",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_F"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "2b768b3e2ae0e5b0691922a2f2fbd424fa04ed2bb419a9e44fa04a1f3bd67a63",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "af1a0a928b4902baa97c28e92158fac0c2b811ce7e57d3f320f8a3b23ab403c1",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "DR",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "DR"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "7f58c6153dfab0be0587fb6218a5cf9c51ec5de4546c0689ccf52de666e9622c",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "UNION",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "UNION"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "71a1f6bd4dcf4c5ec371cd8fc8b75242109b17109099e864ffc1152d825c79d2",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "F2_2K",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "F2_2K"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "0aa3edc8fe188944533c45614ac336142579071edb53cd9d63fe28a94130355f",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "F2",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "F2"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "d81d72d8efbcb42fc4bce9ffd512594e239ade5b3fe07604552efadec2377c17",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "80dbc1f343e39bd8904fa6a3d24f2cb8604bf98346719c3c5f15b6af06935ee1",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "8156b0c402449c557f1bcf63f53fe6fc29b6ac2d3c5f3f26879f075ddd5a8576",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "PD_F",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_F"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "d12260becfd55327f979957ce6574a5d638677bd5476f39787fafed4973ec25a",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "f32256dc1ac6629e9c871681cc552c46387b02c2924d2666c5ef20e38804e6ee",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "DR",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "DR"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "5dea855dd965dfd7ab048ea3d74bf7196cdca056ec807080aa0aeea89db1a879",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "UNION",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "UNION"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "0c37ef603c917db46e440c3e38f4df2c567987764f07d58faa3f33458b961757",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "F2_2K",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "F2_2K"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "6d4485f84e8cfa30932ff2348a9665e83375abfb7956676bb8d075a13ea9e9e3",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "9b2f097f5dd005a79cda51182e7d94012e5f4c8dc125241dbf1adf6a8133f253",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "913df37123916379da65a7e4cd37578106c60855007397e6f6af3347c83ea0e1",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag2_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "fdd7f07befbafbd7f5c88a12dfcc459c47250412106fb53652db64b4e6bdb1e8",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "82802f6dacb73062a84a373fcebe7ff596603df82e235869810090206f47a6dc",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag2_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "fdd7f07befbafbd7f5c88a12dfcc459c47250412106fb53652db64b4e6bdb1e8",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "e31d4574342d9885fc33ac3e4e2dcf760ef6421e294d403a3b86bf12dfe5e425",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag2_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "2df2c1f0d74ae4e0fdd67303d4d1b98c3d82a622a8c443e783a2e107fb0abe65",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "dc7b6d6032b14167ad5c6372709e7de12f6a27bbf79567475c43b3de4f8508c0",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag2_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "2df2c1f0d74ae4e0fdd67303d4d1b98c3d82a622a8c443e783a2e107fb0abe65",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "80f701747003a6abf6545d143c82d07ce7853b03abe8e26066f9148e43669f48",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "978b2c85dbef4d1364b7ff0afa7986048e32bae33b8f37c1312e6e225d7f7b53",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "05501821ccd1c230a27adfb2c5afb842076a3efa21b1b7f8f0c1332d431f92e9",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "978b2c85dbef4d1364b7ff0afa7986048e32bae33b8f37c1312e6e225d7f7b53",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "0093ed8f7f4e050a79bae3ca75f92dda122d28351d5ab4a8dfc992e333fa3526",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag1_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "21634537d588e22b6f266d077da3c84245a95e51827e018115f0285cc51d1b7d",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "d6356369c1cf34b2c0de44e1708ff9b824ee9af1e4e0f6079a9a87b024ace184",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag1_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "21634537d588e22b6f266d077da3c84245a95e51827e018115f0285cc51d1b7d",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "1bb08de8470d874393e676d60128f52f4d5d6651f0f1c4aa74d98e72a8c9b447",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag2_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "08db66abea55541e54891cbe96e4e2a9eb1aaa74268d01755f27e6375faa625e",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "acbf91cfeddc9538c849e0258f4cde350c29c82059200a5801bf3783352b1755",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag2_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "08db66abea55541e54891cbe96e4e2a9eb1aaa74268d01755f27e6375faa625e",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "68283b32f057b073a4587f68f80d6d6c1235ecb91c32c36ee067a8ecb4a41b00",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag2_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "0ff5b61e0b10bc02e1490a1c97bbe7c4914446d3d01fb4d27ca807bf3ec8030e",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "a0d4aa31b2cd8304b0219da696e75768405cac48423082740f21a97dc774014f",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag2_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "0ff5b61e0b10bc02e1490a1c97bbe7c4914446d3d01fb4d27ca807bf3ec8030e",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "c96537b0d6e9bcb8dff0c97db0def64a44e723f3c343974c12ac0a816c818aaa",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "232cb95e046a63c53ffd0b248452456f05a2f7ec7b3cdd4d06546b420e3d2331",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "27769e7d949f165ee83d1ff2687fc358a4aa9f5d57a5e0e8af39ef8ecf3eea9a",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "1cd68fb69b39eb66ed930e35a58a4a5261abd5340d4a05a9e026eb56eb93deb6",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "27769e7d949f165ee83d1ff2687fc358a4aa9f5d57a5e0e8af39ef8ecf3eea9a",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "8ec769c2a2f626393ef7d62ffcd6cc8a9c6030608f7bcbd8cb39b3b653ba4591",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag2_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "756e897ac142f84e337591d29dbaa4c01dcdc4c69235f4962f036d979c880cfe",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "4ce798d7c0ae406ca0b1be6370f295eb6790f8b688360fac177984b033f1fe53",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag2_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "756e897ac142f84e337591d29dbaa4c01dcdc4c69235f4962f036d979c880cfe",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "376a9961e16bf446c3ffe8b512c24e1520af5bb6d6987628361cd3a02ced6009",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag2_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "d80fa6834f1af0205f3b77459aa32fa8af0b147c90ce30659132073589ae6749",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "81a7411d060a7499290c94d51e618374dee2d5d885ae1790d55903e64e5fc0f8",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag2_extra1.6",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "d80fa6834f1af0205f3b77459aa32fa8af0b147c90ce30659132073589ae6749",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "deb9f55ae9119c1cd4c942c1a945d5533459c53c0252d7b5ec308c8d72cba02c",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "F2",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "F2"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "7421995eea6e985dbbe94fc09a7a7591a94565c17a950d3150b73c50fcf8025f",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "642707644269513bab70bbb96865b99fab06779cba003b01477aa3443bfea82d",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "87933da09850a3ceaa6964891ca9a70fbb7e2fbc2ec5c93ac43046673322baf2",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "PD_F",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_F"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "7837cbb0feec4dc62a0cbd22d8e0d0602822b0584da5d65784fa351aa250503b",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "e3f11a26bac0d7693a847b44deb71f24026998c6cf2fc5c1bd24bde1d5bf7261",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "DR",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "DR"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "61c7c421a1c9a0276344dd36fe615a4b8a07dee0d764437f94cfdc01303e6451",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "UNION",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "UNION"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "03795b17b4c4f426ffdf650ebb2bfd638e60f80bc4ee4a7979538b87a857c926",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "F2_2K",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "F2_2K"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "39ef8199c1bb6ea879f30dfce87ee5ba12bbec4137ceddb0a22d96a4a69e8ca4",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "F2",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "F2"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "d200f4c39cca3295bc91647aabfb3b2f1b45d154ad5421313020b2e85b4eda1b",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "fafe82d1b27dad4d161996ed6f521205df6c343d48ceca35da5d5f2b611f9157",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "67754286bad304dc1775799a8234fa0c05e83a2c0d9c7328f2164c6bb6254551",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "PD_F",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_F"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "5db9575fd2ad2f995b99c0abc8f3eb5df40522eb953b818e461931ecc239415b",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "5ded7bb116969e98626b9320d1235ddf71824d52abd8252d754fe16804253d27",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "DR",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "DR"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "01cc7f25c55117bb8f2971aa423206f64b362807ec4a4d54b088f199def2d31a",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "UNION",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "UNION"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "c664e6ef70257cc6f0eb49bfcf89b7ce45f92e90e7f4fcf011951b70326934d1",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "F2_2K",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "F2_2K"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "670eeacfef25cb7fbecf8d5eed5a71ec571c8e64e85b4efdd9432a76681916c3",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e369ad661aedce6309e67f6216565bb879787dc05e8b9f3ff411a2898e996f45",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "842b4b30102611c8251f86b73bbc23f231af471a49032acf043f90ecf2d1c335",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag2_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6c6858edbd67a73cc6c4a03f499c4d2cf9458a3565bb4b3fcfb37915b844225c",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "fea428d1d449ea147e4da570d7b62d76e330d51af965bbb800989064d52cbfce",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag2_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6c6858edbd67a73cc6c4a03f499c4d2cf9458a3565bb4b3fcfb37915b844225c",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "e3fb3ac29f3c3a2535a20240599562451c2ded200eb068abfdb59b474b021cd0",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag2_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e303095fd7bda407b0560e969867035977f680e3e88a1c44febc096ef1708c07",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "9d7c9ae52ad22e33a48480bc8cbf35ca39425f5812836bbe088f0f7a9f17f941",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag2_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e303095fd7bda407b0560e969867035977f680e3e88a1c44febc096ef1708c07",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "b7433536d778dc720122215a6d1a81a8d2ee1ea05f76f46f38cea4a20f5da2c8",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "7495ec87d35952f4d548d595e8825edb1f4e08f8ce0a5d4e3b22812c5adb4ca0",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "fe56f1de13a06fb326fa5789f6233cf1d52ff2178e165a8da187b48269d28a5e",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "7495ec87d35952f4d548d595e8825edb1f4e08f8ce0a5d4e3b22812c5adb4ca0",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "33de1720c5c9a5277e009255c68ff5bffb662e78894eabccf20be3783cf52cf0",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag1_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "f35b70e5cb6d03fa48dcf80592778a469261a9b71546fcbd5a4fccbcb866e4ce",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "13dbb1b1de3fe520e51381d1dd092e4a6f7731d35d430afb9e3b3bc0a91ce619",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag1_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "f35b70e5cb6d03fa48dcf80592778a469261a9b71546fcbd5a4fccbcb866e4ce",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "a4a374d680f0d555d19653d9915aeda0cf8aef8a2a20e9f3c7bf9be600b117d3",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag2_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "cbfc61d290fb5f95a15a42ed56ea771ef93c8d608f723d848ef51da168d6f060",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "0f63cd90f1b7321af3bb781521d59dea7803d7fd916de60fb55953628bad4be6",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag2_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "cbfc61d290fb5f95a15a42ed56ea771ef93c8d608f723d848ef51da168d6f060",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "1e0e38b677c37042653b3c2204bfd46dae7741ac63b5feba280560acb7bd99ae",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag2_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "66abf3071fe85b0142ca31eeccdf38ceaf335f37ba1835167e7cc9434e439844",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "86d31ae7b13c24391985b4d07a53e65d0fbe07f34233a9f89a6f77368da2c7bf",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.85_lag2_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "66abf3071fe85b0142ca31eeccdf38ceaf335f37ba1835167e7cc9434e439844",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "d3de796f6a04ce16598b15c54a0d8f5d86d7e625e424d880a2a4a2f6080c4565",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e0e4fa1da93950e03fbfa4dd5eb4df17aa0826871da4575c954dce1a58448065",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "b2183f2c84f326f23b8752a2bd5802dfdd8996b848fc1e5fb896076d07f7b4d6",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "8803fc842e6327f5b0b24cd0999585c16317645d230d6a5cd1a26410c5d31ca9",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "e747265afb41e102ebc194a182ddb1f46305b9ad10d5a93c7e20a746f22c09a0",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "8803fc842e6327f5b0b24cd0999585c16317645d230d6a5cd1a26410c5d31ca9",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "bf9a7235f8682f4e4aa6940e45c81edf8c5f7bd41e4bb314660b61a9a61a8c09",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag2_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "4539091505e8d9cd078340d9462440db25f04f1566db3f8070ddf3c6e2c64b95",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "15d266986b8e359516334f919c22ec9bd5203e38bd8651c35cdb92d65f3ece75",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag2_extra0",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "4539091505e8d9cd078340d9462440db25f04f1566db3f8070ddf3c6e2c64b95",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "1aa23a479d3b5b4d323ecf6490588bf6c632d8e60e06081490bb9d4cf2f4894a",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 0.4,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag2_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "67f94504f542258f4234f3e3b208cdcf74ac526fa8aa5aab131dbff8acd8576c",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "6a689ea926bdb0ee4dafed92e070e1dae9082bc34058cc88985265ddba21c6d6",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag2_extra1.6",
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "67f94504f542258f4234f3e3b208cdcf74ac526fa8aa5aab131dbff8acd8576c",
+        "realization": "primary",
+        "split": "development",
+        "trial_id": "b728a77ed724d36162da7a0ea4a5e2b73c94aa7194d772da26d8bdfa79d75749",
+        "world_key": "structured_61001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "552b55dced947c4e2509654461055569f17a471d63dcf0334344437c18b8af8e",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "41cf3925d0a830e01c34a154bbe4ad01d59444bfbdbb280af553349e52b22422",
+        "world_key": "structured_62001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "552b55dced947c4e2509654461055569f17a471d63dcf0334344437c18b8af8e",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "6de94edeaefa14341d647d9dda30b2a92335de31877317d6a996ec9d681ac364",
+        "world_key": "structured_62001"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "552b55dced947c4e2509654461055569f17a471d63dcf0334344437c18b8af8e",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "f003558245615a25ae5e327ca80bafbb6bc38f11edcfb18427c65cfd99831b1e",
+        "world_key": "structured_62001"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "552b55dced947c4e2509654461055569f17a471d63dcf0334344437c18b8af8e",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "071aad029f75592691f4432cbc1c01f9c18fdefb29cf209d3aa2555f1333bc37",
+        "world_key": "structured_62001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b65517a1b8bca688ea5cca29092d91ec501aaec360d3e0c3255fe5b14cdfe213",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "bdfab0da34a3182c2bd27373d5629331439f7e3daa2640b622063bfefaec5953",
+        "world_key": "structured_62001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b65517a1b8bca688ea5cca29092d91ec501aaec360d3e0c3255fe5b14cdfe213",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "638c0bed4cfccabf7d50c1c2e0f0e0b20a4b20965edd7f856489a3c43881860a",
+        "world_key": "structured_62001"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b65517a1b8bca688ea5cca29092d91ec501aaec360d3e0c3255fe5b14cdfe213",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "2311da360d636c92bec2781b6b21213360eed88cf42089956f833b3064ad5821",
+        "world_key": "structured_62001"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b65517a1b8bca688ea5cca29092d91ec501aaec360d3e0c3255fe5b14cdfe213",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "78842008cbebdfa50c8c1ab7efeeab892258c73908b491bc8e658c7b3f3cadc2",
+        "world_key": "structured_62001"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6aecf5f23c5f31212361283b1377466c3a6b6649483b6b167dae125423bba66a",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "5742804e08e99b8d9ab223240de4e1078cab9c11039d9ecb15b07741aa427904",
+        "world_key": "structured_62002"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6aecf5f23c5f31212361283b1377466c3a6b6649483b6b167dae125423bba66a",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "92882bc01ba22f02d61a57ea4e2095a6e780af8d90bf628a7c2f7789acd2a8cc",
+        "world_key": "structured_62002"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6aecf5f23c5f31212361283b1377466c3a6b6649483b6b167dae125423bba66a",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "b5b84e7b7a1b399d1be174fc802cd1d855156951072fd78dc7fdccad23c6ad5f",
+        "world_key": "structured_62002"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6aecf5f23c5f31212361283b1377466c3a6b6649483b6b167dae125423bba66a",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "c8b0e8ac1bf1f0a81601d008b3e9b333aced5e591c630556c2cca8769c45f63e",
+        "world_key": "structured_62002"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "f011190bea87ad54114c38b3eb9a40b3e5b5ac1a8c7b60b07a904e147377133a",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "093471fa5255ca17774977911e39138ffb2e51658b9cc1c6aa0288ad33f2a55b",
+        "world_key": "structured_62002"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "f011190bea87ad54114c38b3eb9a40b3e5b5ac1a8c7b60b07a904e147377133a",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "ee8fd2a419f5ba1d09dec6c38d97c08d997a4be08ee470883ee2de9a89d588c6",
+        "world_key": "structured_62002"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "f011190bea87ad54114c38b3eb9a40b3e5b5ac1a8c7b60b07a904e147377133a",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "731b40be9f23c91becfccf38c450943baab9afea308909dc9740f9dcd820c49b",
+        "world_key": "structured_62002"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "f011190bea87ad54114c38b3eb9a40b3e5b5ac1a8c7b60b07a904e147377133a",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "4d3aa4786240a836437f7b52125a69c3fd6a97e8f8cf3cc511e5127240ab98a4",
+        "world_key": "structured_62002"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "769ed13cf44009d10140c5b63ec2fad5bda6ad24b9c92ea1a878a256743669e2",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "e4a888bd599888612b91772ef04fcf71ca6829c685b3829aeaeab10d777b0bf3",
+        "world_key": "structured_62003"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "769ed13cf44009d10140c5b63ec2fad5bda6ad24b9c92ea1a878a256743669e2",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "b79354f2858b4a00366330832818b4e2060fd390768d8e3f1673c6d6bf0a2a24",
+        "world_key": "structured_62003"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "769ed13cf44009d10140c5b63ec2fad5bda6ad24b9c92ea1a878a256743669e2",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "859a0a0f836022999e97d71ba1242afea15d2bd2f820776368189c99846c1d63",
+        "world_key": "structured_62003"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "769ed13cf44009d10140c5b63ec2fad5bda6ad24b9c92ea1a878a256743669e2",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "2fa266c5e365b229cd264d034ea960c3550dae228f7870163c044111447d94c4",
+        "world_key": "structured_62003"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "24b9038719140fd8c5b3a7670c24f6594b8f7bc64450f9f8edf2a9fd2e60aba8",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "36c951ac8ae4ca64187f7255243d1b5ad3166b742bac509b74cb9488313687f8",
+        "world_key": "structured_62003"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "24b9038719140fd8c5b3a7670c24f6594b8f7bc64450f9f8edf2a9fd2e60aba8",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "9d640c9f7cc92de23768be90cfbc46c41977f5eb194930e56b2e1959d5fdb049",
+        "world_key": "structured_62003"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "24b9038719140fd8c5b3a7670c24f6594b8f7bc64450f9f8edf2a9fd2e60aba8",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "7fc99c3bb96e4787be5514573bc6516f57c67ee1e55047ef9ed0c588935559b5",
+        "world_key": "structured_62003"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "24b9038719140fd8c5b3a7670c24f6594b8f7bc64450f9f8edf2a9fd2e60aba8",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "e514456b27ea940ebf2d940dcb81291dc6c02a845e0c0e06922327bee5eedfcc",
+        "world_key": "structured_62003"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "84a6d05a1c45e45e469c91c4f2b7493249a60ad9532bbb68db4ed1518d1cc418",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "e83562e3f9e4782b862a33c1d8fa8a9f2eda3b5479c568113a57ae18b53faa8a",
+        "world_key": "structured_62004"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "84a6d05a1c45e45e469c91c4f2b7493249a60ad9532bbb68db4ed1518d1cc418",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "5ac7afd92b205d8aac20fe6f41a1b5826bf4405bfbec059a91d3681b33c70d3f",
+        "world_key": "structured_62004"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "84a6d05a1c45e45e469c91c4f2b7493249a60ad9532bbb68db4ed1518d1cc418",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "a2f4e1278cb8a9aa7cd17d46871d5a2a2b5112cfd76aa7a631d9e60d72a63f00",
+        "world_key": "structured_62004"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "84a6d05a1c45e45e469c91c4f2b7493249a60ad9532bbb68db4ed1518d1cc418",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "0a45d4ddb884a40265f716d33454a2bcd2a913bb35b7ba52cc0d35cc579743ed",
+        "world_key": "structured_62004"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "02eeab07bbbea969b33f48a1be7c6ff5bc6e3d2a3eaa4f37e97974c60aaf1811",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "5c9bbce13cf75e19441a93c96de4585a0b2e2e02dabfe67e7021460ec20b4a4b",
+        "world_key": "structured_62004"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "02eeab07bbbea969b33f48a1be7c6ff5bc6e3d2a3eaa4f37e97974c60aaf1811",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "3f8f349e91e53eeafd364e23eddd547840ca9e22f424208b74dd066d78886ee1",
+        "world_key": "structured_62004"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "02eeab07bbbea969b33f48a1be7c6ff5bc6e3d2a3eaa4f37e97974c60aaf1811",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "36f57af93f6f05a9ed1a3f387c62f7f135f9e1ab740fdb0feae068600260ce48",
+        "world_key": "structured_62004"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "02eeab07bbbea969b33f48a1be7c6ff5bc6e3d2a3eaa4f37e97974c60aaf1811",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "bc61b2dc6074b822da96b8e7269eb37a4b61e73bac61dbf4e82cc38813fdc824",
+        "world_key": "structured_62004"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b69d83a61af452011785aca4eb55e754a8bb42ffe1adefa08ebe6b7feedf4de5",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "037381a5131dde8f35b4fa8e9949e89677f46392639adede057c785f4b24927b",
+        "world_key": "navigation_62101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b69d83a61af452011785aca4eb55e754a8bb42ffe1adefa08ebe6b7feedf4de5",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "a6e706af40e37b26294f3fbb990044175c1710eab4c4fb99ed590da57620cfe5",
+        "world_key": "navigation_62101"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b69d83a61af452011785aca4eb55e754a8bb42ffe1adefa08ebe6b7feedf4de5",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "7675f79cee508fdd94b772f68838cf30293a7650ae0dcb8585e05ca63a725b95",
+        "world_key": "navigation_62101"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b69d83a61af452011785aca4eb55e754a8bb42ffe1adefa08ebe6b7feedf4de5",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "1b5b7e76c2510a3b88e944e60a99d6863c10c7b188fb4a688f52e8dec95915fb",
+        "world_key": "navigation_62101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "51cc52225e05ad2e5880b13688063a515aa79117fb10a275090bdafc5b08ef5f",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "bad47c027ef40cbcf842bea85b7e881e432b824edce8abd6a064293b51801bd3",
+        "world_key": "navigation_62101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "51cc52225e05ad2e5880b13688063a515aa79117fb10a275090bdafc5b08ef5f",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "9aec727b5e3868ddd629e909d86d364fa3c869515fb5be12fe957bffa880dcc5",
+        "world_key": "navigation_62101"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "51cc52225e05ad2e5880b13688063a515aa79117fb10a275090bdafc5b08ef5f",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "83d3a0f2602272e39a873ff4a8a8c592464e6f4110f2ef67ad28ebbb9f366613",
+        "world_key": "navigation_62101"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "51cc52225e05ad2e5880b13688063a515aa79117fb10a275090bdafc5b08ef5f",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "91e22012c4cae479c88d8eef8b4ea913750967cca3ed1b905676d7e5ab52a917",
+        "world_key": "navigation_62101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "1dbc5213fa304a1e51d7d0348708336fda5c1a48eb3232a8963b03c72eceb8d8",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "bb23adc8a8ed540259ee1da2b1d57494e910167c089bab8579326635dc111d74",
+        "world_key": "navigation_62102"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "1dbc5213fa304a1e51d7d0348708336fda5c1a48eb3232a8963b03c72eceb8d8",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "f5fa12adc93630f75ef1bdbfd87de2e6ec4dcc082e038e92b9571bc151259d36",
+        "world_key": "navigation_62102"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "1dbc5213fa304a1e51d7d0348708336fda5c1a48eb3232a8963b03c72eceb8d8",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "263ae8fda23740380526275c65c886d9d10bcaea6fe3613ee82d9d15cc5c7c0f",
+        "world_key": "navigation_62102"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "1dbc5213fa304a1e51d7d0348708336fda5c1a48eb3232a8963b03c72eceb8d8",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "21a79d1bb35ad5ee4b264264ab8ac70350be4ac4979c8b501846f6f65e53f1ac",
+        "world_key": "navigation_62102"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e2f7ec803be3aeaf43b021f44d543ba47fd95ebbb9c0028645992c377a26a4c7",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "e9a3e9fc65cb5e20ab7599969cecba419409f9dedd0ba59254c6e2280961f5bf",
+        "world_key": "navigation_62102"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e2f7ec803be3aeaf43b021f44d543ba47fd95ebbb9c0028645992c377a26a4c7",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "04f33be168fc2c562de639f05fae0589bd5e11758bada01fe6f1461c7ce1288d",
+        "world_key": "navigation_62102"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e2f7ec803be3aeaf43b021f44d543ba47fd95ebbb9c0028645992c377a26a4c7",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "a9336dd2531a4467b8044d209f22e188553fb9f854fd4345dd8362f37723e41e",
+        "world_key": "navigation_62102"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "e2f7ec803be3aeaf43b021f44d543ba47fd95ebbb9c0028645992c377a26a4c7",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "850794972cf12940e3140f52f8a08123c57978187c97d63494ece2f80c11f246",
+        "world_key": "navigation_62102"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6ec783bcacd45439441593cbbbec9eb6030908dd49f3301d0e9102990d6dd4c3",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "62ae70d69d587266009b699eb1b0b4dc9ad80c35b05f3050bd0e5e6564a88cf7",
+        "world_key": "navigation_62103"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6ec783bcacd45439441593cbbbec9eb6030908dd49f3301d0e9102990d6dd4c3",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "04a631c71c3ad8ea206008340538c66dc05bcadaf33ebb747e2ebb071d46c9e3",
+        "world_key": "navigation_62103"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6ec783bcacd45439441593cbbbec9eb6030908dd49f3301d0e9102990d6dd4c3",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "3410b99ba46ca462d0fcba15c0d6a324466dd71be346e1d35ef2837975c1707f",
+        "world_key": "navigation_62103"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "6ec783bcacd45439441593cbbbec9eb6030908dd49f3301d0e9102990d6dd4c3",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "b6bc51f016e12751beb6a69efcc22cd8abcaf3dca4c27ca52f28b441bacd0b7a",
+        "world_key": "navigation_62103"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b522b21d78bb8c890ff9c33e388616572974c9eff0b9c28f118b72161ff79162",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "9d8ea0ae31be83c45fbf3fa5ab8b7a4057d2ba3d9a73f5ffcfabc907d37fc412",
+        "world_key": "navigation_62103"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b522b21d78bb8c890ff9c33e388616572974c9eff0b9c28f118b72161ff79162",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "c8452cd9e83c1668bc0c26a5bddf07589c0172368954503d96b30d61d6361cf3",
+        "world_key": "navigation_62103"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b522b21d78bb8c890ff9c33e388616572974c9eff0b9c28f118b72161ff79162",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "4ee54a3d6729a2e79f172c102967e912cb5275e03e1fb8fa4ebdbadc90a1d0aa",
+        "world_key": "navigation_62103"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b522b21d78bb8c890ff9c33e388616572974c9eff0b9c28f118b72161ff79162",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "0d64e058f33f02679e40106655fa6cc140ce2913ad643edb58b3535c0a3f4d5b",
+        "world_key": "navigation_62103"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38ccc0d8b69170e2477c26750221d8ec52c36fe806fd5ec67cc49f540104535f",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "c87115827f4e49b93701639b8afa61ddc7012e5fd3430b0c87cfce7605e0319c",
+        "world_key": "navigation_62104"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38ccc0d8b69170e2477c26750221d8ec52c36fe806fd5ec67cc49f540104535f",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "3ebcd5d6904e421b167016cd55614c68bd348b897b10a5201b194369ce4e50a7",
+        "world_key": "navigation_62104"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38ccc0d8b69170e2477c26750221d8ec52c36fe806fd5ec67cc49f540104535f",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "101ec040d39fe930acf5c181465ee5d33a9ef68d5f4b8e37c9eddb769974691c",
+        "world_key": "navigation_62104"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta1_lag1_extra0",
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38ccc0d8b69170e2477c26750221d8ec52c36fe806fd5ec67cc49f540104535f",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "7158c904d8ffabf2f8c0662e3ed58fd3b79f1d065348c8f08b9a287cc40b4e00",
+        "world_key": "navigation_62104"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b383cb1f177082c5344a859b233270218273c426952e667dfe33cbcfe8b85db1",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "d0b57e9c7b2f5317f44bb575b2c25e6230d9c0b6b7ed0b386d6d629688593ddb",
+        "world_key": "navigation_62104"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b383cb1f177082c5344a859b233270218273c426952e667dfe33cbcfe8b85db1",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "0c4e4c50c392bd12c35344861689837c7a200b62bee2fc92442000fe256ba2e6",
+        "world_key": "navigation_62104"
+      },
+      {
+        "arm": {
+          "arm": "PD_A_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b383cb1f177082c5344a859b233270218273c426952e667dfe33cbcfe8b85db1",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "19bd61103a1949247855a04ecd4ab46d5f1ff5f124bb1798038b9fab92fcbc6c",
+        "world_key": "navigation_62104"
+      },
+      {
+        "arm": {
+          "arm": "PD_A",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "PD_A"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "b383cb1f177082c5344a859b233270218273c426952e667dfe33cbcfe8b85db1",
+        "realization": "primary",
+        "split": "validation",
+        "trial_id": "8c3ed9c3c7d9bd816c1ed9a9c0f3447661e0926a9862412699ecb882d1d57086",
+        "world_key": "navigation_62104"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "fresh_build_1",
+        "split": "development",
+        "trial_id": "2a7d7ff372911ae1ea12810eba8c5399d6625532adce20d5aa48a43d1783c218",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "fresh_build_1",
+        "split": "development",
+        "trial_id": "984465e9127520968c2f048c6304f2b53151ec7337b847e1f31a5c9a8eba13fd",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "fresh_build_2",
+        "split": "development",
+        "trial_id": "83036096a97d4c6f9e2e9ffe32830053fc54094639c2fca10a8cebc080d492c4",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 0.0,
+        "initial_velocity_x_delta_mps": 0.0,
+        "library_seed": 11,
+        "physical_spec_sha256": "38d63120d330e9b1a931958fd3e565fb591b79e086096169c63e5ef7593e9efd",
+        "realization": "fresh_build_2",
+        "split": "development",
+        "trial_id": "2e37c680a7318e0d27a81b6a21ca8a462d513dea739057e9f93e1809f96eeaa1",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 1e-05,
+        "initial_velocity_x_delta_mps": 1e-05,
+        "library_seed": 11,
+        "physical_spec_sha256": "caacdcefe2b8398b549341a49732ab90790b9ba59626510a424f4657fe205091",
+        "realization": "perturb_plus",
+        "split": "development",
+        "trial_id": "58ef5b0739305e201647414a3c2b43c39c4105d0b91f75a9313ef07f163418dc",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": 1e-05,
+        "initial_velocity_x_delta_mps": 1e-05,
+        "library_seed": 11,
+        "physical_spec_sha256": "caacdcefe2b8398b549341a49732ab90790b9ba59626510a424f4657fe205091",
+        "realization": "perturb_plus",
+        "split": "development",
+        "trial_id": "20771256c506610d9e5a51c051f72f6eea20770bbc62aa29dc2fdaf7edb5f925",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL_FREEZE_AT_FAULT",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": 2.0,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": -1e-05,
+        "initial_velocity_x_delta_mps": -1e-05,
+        "library_seed": 11,
+        "physical_spec_sha256": "dc7572b8ae058b9384c5e35e7bc0fedd3bffec563bd19961bd0015a02a444dc1",
+        "realization": "perturb_minus",
+        "split": "development",
+        "trial_id": "bf5b3c2abe2b389399bcca341b472872e306c3588636f428878d9724e341fe41",
+        "world_key": "structured_30101"
+      },
+      {
+        "arm": {
+          "arm": "A_BAL",
+          "checkpoint_phase": "identical startup; complete common pre-fault history",
+          "freeze_learning_at": null,
+          "runtime_method": "A_BAL"
+        },
+        "cell_id": "eta0.7_lag1_extra0",
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "initial_position_x_delta_m": -1e-05,
+        "initial_velocity_x_delta_mps": -1e-05,
+        "library_seed": 11,
+        "physical_spec_sha256": "dc7572b8ae058b9384c5e35e7bc0fedd3bffec563bd19961bd0015a02a444dc1",
+        "realization": "perturb_minus",
+        "split": "development",
+        "trial_id": "61d9d6a431fd2f53a2d6227ae714631e7108fc21824a0161d186a0a4f9ce8c2c",
+        "world_key": "structured_30101"
+      }
+    ],
+    "worlds": {
+      "navigation_62101": {
+        "family": "navigation",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 24.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            -2.5,
+            -0.7,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.15689217009989148,
+            0.029510441264797294,
+            -0.24277942574910427,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 0.0,
+          "obstacle_amplitudes": [
+            [
+              0.0,
+              2.8,
+              0.25
+            ],
+            [
+              2.2,
+              0.0,
+              0.35
+            ],
+            [
+              0.0,
+              2.6,
+              0.35
+            ],
+            [
+              2.5,
+              0.0,
+              0.25
+            ],
+            [
+              0.0,
+              2.8,
+              0.45
+            ],
+            [
+              2.3,
+              0.0,
+              0.4
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.8254869568498397,
+            0.9740506179015905,
+            0.709075653254601,
+            0.7967585872026486,
+            0.8254509078741229,
+            0.76435804313171
+          ],
+          "obstacle_mean_centers": [
+            [
+              -0.5804827519841558,
+              -0.8448709697088285,
+              1.5269742702034552
+            ],
+            [
+              1.992427278081828,
+              0.32806648343954803,
+              1.95243980822368
+            ],
+            [
+              0.5827899292980386,
+              1.1898163470837242,
+              2.472296109715571
+            ],
+            [
+              -1.6363402489750163,
+              0.1498747613730943,
+              1.899703458283788
+            ],
+            [
+              0.09060623042008453,
+              -0.481952573330492,
+              2.0652499570539447
+            ],
+            [
+              -1.5156912157425526,
+              0.8316308252978589,
+              1.877048853503336
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -2.7690683476115288,
+            -5.88243091456658,
+            -6.681685480921824,
+            -11.500165428137686,
+            -15.40776149934777,
+            -15.761655470510789
+          ],
+          "obstacle_radii": [
+            0.4418875291188843,
+            0.38122139831742274,
+            0.4109355723620932,
+            0.3152067562239418,
+            0.3366457029661472,
+            0.3870344584888698
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              1.8,
+              -0.8,
+              1.6
+            ],
+            [
+              2.0,
+              1.3,
+              2.2
+            ],
+            [
+              -1.6,
+              1.3,
+              2.7
+            ],
+            [
+              -2.1,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "8aae99f36397b7f9c3fa7ef6d6f10f0ec7a6e4a5f437ef736ab1fdcec37fcdf5",
+        "scene_seed": 62101,
+        "selection": "fixed seed before any new outcome",
+        "split": "validation",
+        "world_key": "navigation_62101"
+      },
+      "navigation_62102": {
+        "family": "navigation",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 24.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            -2.5,
+            -0.7,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.19043715799473326,
+            0.044281217833413655,
+            -0.18218157035053506,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 0.0,
+          "obstacle_amplitudes": [
+            [
+              0.0,
+              2.8,
+              0.25
+            ],
+            [
+              2.2,
+              0.0,
+              0.35
+            ],
+            [
+              0.0,
+              2.6,
+              0.35
+            ],
+            [
+              2.5,
+              0.0,
+              0.25
+            ],
+            [
+              0.0,
+              2.8,
+              0.45
+            ],
+            [
+              2.3,
+              0.0,
+              0.4
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.9797104588210431,
+            0.9054325220598363,
+            0.7398030794457063,
+            0.6840284295645309,
+            0.706908857599939,
+            0.6990741597981245
+          ],
+          "obstacle_mean_centers": [
+            [
+              -0.5815895356479126,
+              -0.841482346534211,
+              1.4819185982605296
+            ],
+            [
+              1.9163454412044603,
+              0.32338162524234093,
+              1.7892587558906077
+            ],
+            [
+              0.5616176073488637,
+              1.337402148613452,
+              2.3996803794876436
+            ],
+            [
+              -1.7203296650216657,
+              0.1200644732866314,
+              1.9663851997913322
+            ],
+            [
+              0.11992564520265495,
+              -0.4715629689698536,
+              2.071046055968276
+            ],
+            [
+              -1.3983294401607016,
+              0.8959128734138596,
+              1.8427548264082825
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -2.9186497827341666,
+            -5.806840139924572,
+            -7.373599615484308,
+            -10.086955266261766,
+            -13.155353844377062,
+            -14.600267685013224
+          ],
+          "obstacle_radii": [
+            0.4868863597463905,
+            0.3032172071072149,
+            0.3663369578461216,
+            0.4065685012688659,
+            0.4564782342062658,
+            0.4839956171494159
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              1.8,
+              -0.8,
+              1.6
+            ],
+            [
+              2.0,
+              1.3,
+              2.2
+            ],
+            [
+              -1.6,
+              1.3,
+              2.7
+            ],
+            [
+              -2.1,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "4c7a52f2876674386b514698a08a498846bd45313909f21d2e774414d88baf5a",
+        "scene_seed": 62102,
+        "selection": "fixed seed before any new outcome",
+        "split": "validation",
+        "world_key": "navigation_62102"
+      },
+      "navigation_62103": {
+        "family": "navigation",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 24.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            -2.5,
+            -0.7,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            -0.20265115028225134,
+            -0.1217798158197807,
+            0.07589377135332803,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 0.0,
+          "obstacle_amplitudes": [
+            [
+              0.0,
+              2.8,
+              0.25
+            ],
+            [
+              2.2,
+              0.0,
+              0.35
+            ],
+            [
+              0.0,
+              2.6,
+              0.35
+            ],
+            [
+              2.5,
+              0.0,
+              0.25
+            ],
+            [
+              0.0,
+              2.8,
+              0.45
+            ],
+            [
+              2.3,
+              0.0,
+              0.4
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.9937630628539058,
+            1.010921753330693,
+            0.9845500542910672,
+            0.8330677041589885,
+            0.770694990514873,
+            0.6900409663189397
+          ],
+          "obstacle_mean_centers": [
+            [
+              -0.505994410615184,
+              -0.7490440672124524,
+              1.590140938845785
+            ],
+            [
+              1.880315517468664,
+              0.2663469793268265,
+              1.9419501570971722
+            ],
+            [
+              0.6020051240971797,
+              1.3899373874923362,
+              2.479204924906143
+            ],
+            [
+              -1.7287487688983458,
+              0.2370882031527734,
+              2.0011569357016237
+            ],
+            [
+              -0.059253552781247346,
+              -0.5716447019032513,
+              2.173144439581191
+            ],
+            [
+              -1.3864069273400728,
+              0.8443455267271599,
+              1.7316491077063412
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -2.8859120765611985,
+            -5.551696169850708,
+            -9.529817676863049,
+            -12.06565641539058,
+            -14.392196937311905,
+            -14.09994620619629
+          ],
+          "obstacle_radii": [
+            0.35291071719542877,
+            0.43451284794199624,
+            0.48914732763212343,
+            0.4652121853078754,
+            0.3804465329531121,
+            0.4601656473425348
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              1.8,
+              -0.8,
+              1.6
+            ],
+            [
+              2.0,
+              1.3,
+              2.2
+            ],
+            [
+              -1.6,
+              1.3,
+              2.7
+            ],
+            [
+              -2.1,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "3712eed27e7e5f027349852251dfed0c4bfb1f43fde0096461132b74f3f034c3",
+        "scene_seed": 62103,
+        "selection": "fixed seed before any new outcome",
+        "split": "validation",
+        "world_key": "navigation_62103"
+      },
+      "navigation_62104": {
+        "family": "navigation",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 24.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            -2.5,
+            -0.7,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.16942114245575224,
+            -0.14501019570799906,
+            -0.08810567930153529,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 0.0,
+          "obstacle_amplitudes": [
+            [
+              0.0,
+              2.8,
+              0.25
+            ],
+            [
+              2.2,
+              0.0,
+              0.35
+            ],
+            [
+              0.0,
+              2.6,
+              0.35
+            ],
+            [
+              2.5,
+              0.0,
+              0.25
+            ],
+            [
+              0.0,
+              2.8,
+              0.45
+            ],
+            [
+              2.3,
+              0.0,
+              0.4
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.656157214754036,
+            0.9682473193052066,
+            0.9410695248469583,
+            1.0206758534437015,
+            0.8505931325145334,
+            0.8066327719721215
+          ],
+          "obstacle_mean_centers": [
+            [
+              -0.612875555206394,
+              -0.9193954464157381,
+              1.5206793769927531
+            ],
+            [
+              1.9251099097350937,
+              0.33486435487886135,
+              1.7875757053499788
+            ],
+            [
+              0.44668799280827015,
+              1.2041563536525877,
+              2.3400645472041504
+            ],
+            [
+              -1.698744071597064,
+              0.21558457027368078,
+              2.045612297207617
+            ],
+            [
+              0.11544884852541151,
+              -0.4811132331479776,
+              2.1116648362358252
+            ],
+            [
+              -1.394101702474944,
+              0.9870051373446713,
+              1.8894739948378216
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -1.7288219927759418,
+            -5.3622496614479385,
+            -9.071679664075798,
+            -15.848847649558708,
+            -16.343794979737673,
+            -17.117648697674742
+          ],
+          "obstacle_radii": [
+            0.3318025314235376,
+            0.466844785388656,
+            0.4258024257250495,
+            0.3520707516289386,
+            0.31173401506756687,
+            0.3964806933954615
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              1.8,
+              -0.8,
+              1.6
+            ],
+            [
+              2.0,
+              1.3,
+              2.2
+            ],
+            [
+              -1.6,
+              1.3,
+              2.7
+            ],
+            [
+              -2.1,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "f60b07bcd30f3667246132180520d914c156498ab0fb944eae7c0f4969950ae8",
+        "scene_seed": 62104,
+        "selection": "fixed seed before any new outcome",
+        "split": "validation",
+        "world_key": "navigation_62104"
+      },
+      "structured_30101": {
+        "family": "structured",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 14.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            0.0,
+            0.0,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            -0.16844021519804828,
+            0.05309731517117372,
+            -0.03534242467164833,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 6.96,
+          "obstacle_amplitudes": [
+            [
+              -18.370021854965056,
+              7.357324424369585,
+              -2.900357626686901
+            ],
+            [
+              -7.398760700262791,
+              -18.473481380444905,
+              1.9972044929356645
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.062348882035775786,
+            0.12413448245041503,
+            0.0,
+            0.0
+          ],
+          "obstacle_mean_centers": [
+            [
+              -0.1077456755360914,
+              -0.08175533733063992,
+              1.4474952845795275
+            ],
+            [
+              0.05691472813496057,
+              -0.05498079101296516,
+              1.580710090295538
+            ],
+            [
+              -0.3944480047331568,
+              -0.9848714083607002,
+              1.5064763896546334
+            ],
+            [
+              0.3944480047331568,
+              0.9848714083607002,
+              1.2935236103453664
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -0.3055377771340554,
+            -0.7148631418644456,
+            0.0,
+            0.0
+          ],
+          "obstacle_radii": [
+            0.6684663660717105,
+            0.3916784185295745,
+            0.32958737462424054,
+            0.32648395177241024
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              -1.5,
+              0.9,
+              1.7999999999999998
+            ],
+            [
+              -2.0,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "6c0927ac91af3f26b8e3e96f7428b6b0311ae0f55f5c03238948bf1ea917d84b",
+        "scene_seed": 30101,
+        "selection": "historical harmful development anchor",
+        "split": "development",
+        "world_key": "structured_30101"
+      },
+      "structured_61001": {
+        "family": "structured",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 14.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            0.0,
+            0.0,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.04445049479801494,
+            0.05418926989277617,
+            0.12199478872917568,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 7.04,
+          "obstacle_amplitudes": [
+            [
+              9.492649958042882,
+              17.5943520037271,
+              0.5730395649626895
+            ],
+            [
+              -17.59413438101027,
+              9.492532544439168,
+              0.5816023346889817
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.12425460046438341,
+            0.07489405237148264,
+            0.0,
+            0.0
+          ],
+          "obstacle_mean_centers": [
+            [
+              0.043973308292239416,
+              0.059477465799304075,
+              1.3798774119025623
+            ],
+            [
+              0.08161762622027774,
+              -0.16184661142601642,
+              1.375396208206597
+            ],
+            [
+              -1.0467450527876079,
+              0.5647485272160637,
+              1.4346018368020703
+            ],
+            [
+              1.0467450527876079,
+              -0.5647485272160637,
+              1.3653981631979295
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -0.5717168897669167,
+            -0.4363134436314035,
+            0.0,
+            0.0
+          ],
+          "obstacle_radii": [
+            0.39650863847671713,
+            0.4595851762136112,
+            0.2653080161272543,
+            0.24514576010371
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              -1.5,
+              0.9,
+              1.7999999999999998
+            ],
+            [
+              -2.0,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "5dd0b92dea0993d6c6a7f3822c7bbe19a2792006f621b652fa7838fe6a5b499c",
+        "scene_seed": 61001,
+        "selection": "fixed seed before any new outcome",
+        "split": "development",
+        "world_key": "structured_61001"
+      },
+      "structured_62001": {
+        "family": "structured",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 14.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            0.0,
+            0.0,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.07836963515732803,
+            -0.26274951602429764,
+            -0.07274075197174629,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 6.44,
+          "obstacle_amplitudes": [
+            [
+              19.42592869797484,
+              4.4815986824239005,
+              1.596423336992362
+            ],
+            [
+              -4.476453465203949,
+              19.403626249689513,
+              1.8602829720834162
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.09202236116541197,
+            0.10773962520563338,
+            0.0,
+            0.0
+          ],
+          "obstacle_mean_centers": [
+            [
+              0.032668161983107014,
+              -0.03366233946775864,
+              1.448824730276842
+            ],
+            [
+              0.1471527946792267,
+              0.007452764824910224,
+              1.3576275430995017
+            ],
+            [
+              -0.32932999533728674,
+              1.427513140035638,
+              1.536859901992604
+            ],
+            [
+              0.32932999533728674,
+              -1.427513140035638,
+              1.263140098007396
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -0.35777635423207116,
+            -0.5631182035309471,
+            0.0,
+            0.0
+          ],
+          "obstacle_radii": [
+            0.5183456372785324,
+            0.5790741056984454,
+            0.2692388003782437,
+            0.26068275873352476
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              -1.5,
+              0.9,
+              1.7999999999999998
+            ],
+            [
+              -2.0,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "5955c44a03cf0100cc9963470f8e03f4c8451539fc03aa1693db99894db78965",
+        "scene_seed": 62001,
+        "selection": "fixed seed before any new outcome",
+        "split": "validation",
+        "world_key": "structured_62001"
+      },
+      "structured_62002": {
+        "family": "structured",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 14.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            0.0,
+            0.0,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            -0.3420405727375633,
+            -0.032719900560029436,
+            0.3208574818480361,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 7.68,
+          "obstacle_amplitudes": [
+            [
+              16.048799122976288,
+              -11.886016716376595,
+              -1.076407603267336
+            ],
+            [
+              11.860783302568258,
+              16.014728332141964,
+              -1.6882819365281978
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.1285292316609956,
+            0.09571349789379169,
+            0.0,
+            0.0
+          ],
+          "obstacle_mean_centers": [
+            [
+              0.10298707845721686,
+              -0.11014001473608556,
+              1.3858172851518524
+            ],
+            [
+              0.0633804316336446,
+              0.17777153416238228,
+              1.552663803853485
+            ],
+            [
+              0.7569416055639089,
+              1.0220416196101054,
+              1.2922557804927197
+            ],
+            [
+              -0.7569416055639089,
+              -1.0220416196101054,
+              1.50774421950728
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -0.677787075740277,
+            -0.6165371171426549,
+            0.0,
+            0.0
+          ],
+          "obstacle_radii": [
+            0.5423860495642305,
+            0.34310698246126176,
+            0.2543838780031461,
+            0.22899045880549454
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              -1.5,
+              0.9,
+              1.7999999999999998
+            ],
+            [
+              -2.0,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "f055517c19fd937e273aeb254452b399262901be697d82d2c5c8123a41c3537a",
+        "scene_seed": 62002,
+        "selection": "fixed seed before any new outcome",
+        "split": "validation",
+        "world_key": "structured_62002"
+      },
+      "structured_62003": {
+        "family": "structured",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 14.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            0.0,
+            0.0,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.09503931865732396,
+            -0.053683731730353346,
+            -0.17305907757792788,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 8.52,
+          "obstacle_amplitudes": [
+            [
+              4.919036291442631,
+              19.28094466991218,
+              -2.012027484716705
+            ],
+            [
+              -19.323756674045814,
+              4.929958671318103,
+              -1.512592311683918
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.11066184020972054,
+            0.0606843364638698,
+            0.0,
+            0.0
+          ],
+          "obstacle_mean_centers": [
+            [
+              -0.01053271268728749,
+              0.1192770739251866,
+              1.3487854204299394
+            ],
+            [
+              -0.02916546995717617,
+              -0.05898851979850339,
+              1.5109859251141657
+            ],
+            [
+              -1.2315094728317422,
+              0.31418791422434567,
+              1.3036019863118469
+            ],
+            [
+              1.2315094728317422,
+              -0.31418791422434567,
+              1.496398013688153
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -0.6562109530407377,
+            -0.44404773120334734,
+            0.0,
+            0.0
+          ],
+          "obstacle_radii": [
+            0.6573694233712458,
+            0.33110899962713786,
+            0.31423116633212067,
+            0.23227959823112823
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              -1.5,
+              0.9,
+              1.7999999999999998
+            ],
+            [
+              -2.0,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "4a376c2a3e0898f56c2d65282c42a585e4e74ce291e4294dccf8e0579be91b3d",
+        "scene_seed": 62003,
+        "selection": "fixed seed before any new outcome",
+        "split": "validation",
+        "world_key": "structured_62003"
+      },
+      "structured_62004": {
+        "family": "structured",
+        "geometry": {
+          "collider_offset_body_m": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "collider_radius_m": 0.086,
+          "duration_seconds": 14.0,
+          "ground_height_m": 0.0,
+          "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+          "initial_state": [
+            0.0,
+            0.0,
+            1.4,
+            0.0,
+            0.0,
+            0.0,
+            1.0,
+            0.2868933259179266,
+            -0.2699395837129862,
+            -0.010122055508073213,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "navigation_start_seconds": 7.5200000000000005,
+          "obstacle_amplitudes": [
+            [
+              -15.659915363872017,
+              12.376932547962811,
+              -1.2564201126788843
+            ],
+            [
+              -12.398733826524841,
+              -15.68749943414004,
+              -0.41684649793962686
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "obstacle_angular_frequencies": [
+            0.10863415219195534,
+            0.1360631924213878,
+            0.0,
+            0.0
+          ],
+          "obstacle_mean_centers": [
+            [
+              -0.007968729620335083,
+              0.020430444715673457,
+              1.423776198690259
+            ],
+            [
+              0.1265583054956521,
+              0.08387321693288174,
+              1.3369750933831868
+            ],
+            [
+              -0.6967638045490371,
+              -0.8815804857596425,
+              1.3765747409468532
+            ],
+            [
+              0.6967638045490371,
+              0.8815804857596425,
+              1.4234252590531467
+            ]
+          ],
+          "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+          "obstacle_phases": [
+            -0.5550698169948275,
+            -0.8562604075649257,
+            0.0,
+            0.0
+          ],
+          "obstacle_radii": [
+            0.4897328487069735,
+            0.5065962669549862,
+            0.3276194569668733,
+            0.2862312733871725
+          ],
+          "operational_limits": {
+            "angular_rate_max_rps": 12.0,
+            "arena_lower_m": [
+              -5.0,
+              -4.0,
+              0.15
+            ],
+            "arena_upper_m": [
+              5.0,
+              4.0,
+              4.0
+            ],
+            "speed_max_mps": 3.5,
+            "tilt_max_rad": 0.9
+          },
+          "reach_radius_m": 0.4,
+          "robot_model": "cf21B_500_actuator_contract_v1",
+          "waypoint_positions": [
+            [
+              -1.5,
+              0.9,
+              1.7999999999999998
+            ],
+            [
+              -2.0,
+              -0.8,
+              1.4
+            ]
+          ]
+        },
+        "geometry_sha256": "41dca9a3d7c4c53cec819be962b8fc19dc96e802b6a5d6dce78f5e01007873bb",
+        "scene_seed": 62004,
+        "selection": "fixed seed before any new outcome",
+        "split": "validation",
+        "world_key": "structured_62004"
+      }
+    }
+  },
+  "schema": "actuator_matched_diagnostic_proposal_v1",
+  "sha256": "919617e783b1aaecbacdf476433af2216e973abac84dc7c38581588449936426"
+}

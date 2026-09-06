@@ -118,6 +118,13 @@ def arrays_digest(values: dict[str, np.ndarray]) -> str:
     )
 
 
+def _canonical_prefix_array(value: np.ndarray) -> np.ndarray:
+    """Remove only future-dependent string padding; preserve every numeric dtype/bit."""
+    if value.dtype.kind in "US":
+        return np.asarray(value.tolist(), dtype=value.dtype.kind).reshape(value.shape)
+    return value
+
+
 def _history_without_service(value: Any) -> Any:
     if isinstance(value, dict):
         return {
@@ -205,7 +212,7 @@ def prefix_arrays(run: SavedActuatorRun, when: float) -> dict[str, np.ndarray]:
         result[f"dense.{name}"] = values[mask]
     for name, values in run.applications.items():
         result[f"applications.{name}"] = values[run.applications["time"] < when - 1e-9]
-    return result
+    return {name: _canonical_prefix_array(value) for name, value in result.items()}
 
 
 def _snapshot(run: SavedActuatorRun, when: float) -> Path:
@@ -294,6 +301,15 @@ def extract_prefix(
         "boundary_authentication": authenticated.report,
         "checkpoint_groups": checkpoint,
         "numerical_array_names": sorted(numerical),
+        "source_control_string_storage_dtypes": {
+            name: str(value.dtype)
+            for name, value in run.controls.items()
+            if value.dtype.kind in "US"
+        },
+        "prefix_string_rule": (
+            "compare exact logical string values; canonicalize only Unicode/byte string "
+            "padding determined by later episode records; preserve numeric dtypes exactly"
+        ),
         "excluded_noncausal_control_fields": sorted(NONCAUSAL_CONTROL_FIELDS),
         "excluded_service_history_fields": sorted(NONCAUSAL_HISTORY_FIELDS),
         "optional_repertoire_logging_fields": sorted(OPTIONAL_REPERTOIRE_LOGGING_FIELDS),
@@ -314,7 +330,8 @@ def compare_prefix_arrays(left: dict[str, np.ndarray], right: dict[str, np.ndarr
         if name not in left or name not in right:
             checks[name] = {"exact_equal": False, "reason": "field missing in one arm"}
             continue
-        a, b = left[name], right[name]
+        stored_a, stored_b = left[name], right[name]
+        a, b = _canonical_prefix_array(stored_a), _canonical_prefix_array(stored_b)
         same = a.shape == b.shape and a.dtype == b.dtype
         equal = same and (
             np.array_equal(a, b, equal_nan=True) if a.dtype.kind in "fc" else np.array_equal(a, b)
@@ -329,6 +346,10 @@ def compare_prefix_arrays(left: dict[str, np.ndarray], right: dict[str, np.ndarr
         checks[name] = {
             "exact_equal": bool(equal),
             "maximum_finite_absolute_difference": difference,
+            "left_storage_dtype": str(stored_a.dtype),
+            "right_storage_dtype": str(stored_b.dtype),
+            "string_padding_canonicalized": stored_a.dtype.kind in "US"
+            or stored_b.dtype.kind in "US",
         }
     return {"exact_equal": all(row["exact_equal"] for row in checks.values()), "checks": checks}
 

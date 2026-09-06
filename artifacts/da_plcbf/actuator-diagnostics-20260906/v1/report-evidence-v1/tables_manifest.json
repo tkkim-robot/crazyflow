@@ -1,0 +1,132 @@
+{
+  "generator_sha256": "35b7bbe7a854e66d039ba4137c423f482396fea69a97bd35096bd2679169e168",
+  "runtime_completed_attempts": 8,
+  "schema": "da_plcbf_actuator_diagnostic_evidence_v1",
+  "scope": "source-derived descriptive tables; repeated worlds are not independent samples",
+  "secondary_union_refresh": {
+    "analysis": {
+      "common_state_rows": 120,
+      "retained_pairs": 20,
+      "stages": {
+        "fresh_validation": {
+          "authenticated_matched_pair_count": 16,
+          "collision_free_outcomes": {
+            "adaptation_alone_succeeds": 0,
+            "both_fail": 2,
+            "both_succeed": 10,
+            "frozen_alone_succeeds": 4
+          },
+          "completed_common_state_pair_count": 16,
+          "pair_status_counts": {
+            "completed": 16
+          },
+          "planned_pair_count": 16,
+          "task_outcomes": {
+            "adaptation_alone_succeeds": 0,
+            "both_fail": 3,
+            "both_succeed": 9,
+            "frozen_alone_succeeds": 4
+          },
+          "unresolved_or_inadmissible_pair_count": 0
+        },
+        "numerical_robustness": {
+          "authenticated_matched_pair_count": 4,
+          "collision_free_outcomes": {
+            "adaptation_alone_succeeds": 0,
+            "both_fail": 0,
+            "both_succeed": 4,
+            "frozen_alone_succeeds": 0
+          },
+          "completed_common_state_pair_count": 4,
+          "pair_status_counts": {
+            "completed": 4
+          },
+          "planned_pair_count": 4,
+          "task_outcomes": {
+            "adaptation_alone_succeeds": 0,
+            "both_fail": 0,
+            "both_succeed": 4,
+            "frozen_alone_succeeds": 0
+          },
+          "unresolved_or_inadmissible_pair_count": 0
+        }
+      }
+    },
+    "completed": 40,
+    "planned": 40,
+    "retained": 40
+  },
+  "sources": {
+    "artifacts/da_plcbf/actuator-diagnostic-20260906/v1/protocol-sealed-v1.json": "6169dd6bf9acdd0a622611bd04967029e47a15e60c30915ec9988b5ca1090e1a",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/controller-cost-measured-v1/report.json": "6bfe416911ebc411542bee351e4cb00cdb27f2307aafb37cbacd958130fa2f2d",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/first-command-boundaries-v1/boundaries.csv": "8c8549b2219168a1541995f65c41738c1f78a57f97ce44749b36af146f85e24d",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/fresh-validation-common-states-v1/report.json": "0b76f844b01cbde4052122901a5f0e7ab95cabc53359cf947b959800a0c98b11",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/fresh-validation-v1/campaign_result.json": "bd9d44c4acc05e610ff5caa0302fb61ca82ec583eefd34dfc15cf63a48825533",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/library-comparison-v1/campaign_result.json": "dbc37bd996987febfd474dd708cc4f952f795d006e1360a3624ed63b329b1c6b",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/loss-diagnosis-summary-v1/fixed_bank_source.csv": "4f2442c2d05023a3eb39b4bbe1cad1b1bc323a0a91b7bb2801f59006925e00f1",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/loss-diagnosis-summary-v1/gradient_source.csv": "2e93a482b9431729bce03262c5e986e01d5b626cfca365c92fa6e425f464ddec",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/matched-factorial-common-states-v1/report.json": "8a9e543d4412664e7238ba101c5916b9f9e5c1e04f6b3202d160df162d947f8b",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/matched-factorial-v1/campaign_result.json": "e8c9c081b1658eb0aff082861a7f1ef319f9f4671de5179d8b8b06cb3fc85950",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/numerical-robustness-common-states-v1/report.json": "b0ff283d4ca086d32c4003d411f169a06c444df06c394b832636d9ad4895d55a",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/numerical-robustness-v1/fresh_build_1/campaign_result.json": "1cd6cb00b0be9e03e9ee22fabd0863cdfae776aef5ab4f27f572d8d7a239cef5",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/numerical-robustness-v1/fresh_build_2/campaign_result.json": "e43a4361ff4582ba7004131e0b4009e2d0384daa6acb85caa6d630be65451e46",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/numerical-robustness-v1/perturb_minus/campaign_result.json": "8966722b53e58ccbb6c57ebdf4526a37315c18dc9727d2dbeff3dfdc8171052d",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/numerical-robustness-v1/perturb_plus/campaign_result.json": "45556799bf68ccca6325f923b4ad7a44bb17bc21864200f1ead08a46a5d29526",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/runtime-measured-v2-audit-v1/report.json": "86d4b375f4fe65b670984fa9138ef1a82e8d8f1724923d108310b3e759eee50d",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/33bf3bc593df1c6b44a2072d5597775ce567ee893071e4da943e17ecea757333/common_state_report.json": "6e9ed09712a31924fe7faa6e61f5a364f522e42bde66bd6756fd720416349e5e",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/36dac22953c93a92ceb7d534e7c551256812a7266955382dbb05eb9d86da1c95/common_state_report.json": "9c71145b7daf4e9f11b062f162d0e389e2e0eeb3882a7815904d21643cd9cc1f",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/3d38c69d583bb842ef534c53f8a20718ead61f1eb372d53321527d6c050271b3/common_state_report.json": "aaecdd941651c691b217638aed9c797fa9f59ab8d918ec3ea91442fd2c90f3d2",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/3fccde503b5e27facdd85e85f992196b7bb5d6640deed1adc203ca1f1e06236a/common_state_report.json": "11a8b727bcbb1ab1700dc19ca97e91a209b6b1d8aa1719369a8fbefa99fc07cd",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/4204c0b680a36a3190b4d5287f189b33096b1a71e5446e114bb0d5ec48970e87/common_state_report.json": "1d8633721c6561fdec7b15fd10d5c7c5e7e2e242c1db722911db723a0f14cb28",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/4bd415c30a4bf49f095d00f4a47429eaded3f8e9898df76593a2a8dbcdb037f1/common_state_report.json": "4d9ca2ee47397c81b033014476508a800d3dce8040a9fda711eaaf4ea59468bf",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/740af8f7326856798dcf57c495059698c915f69d77bd3336cb663b25e41e806f/common_state_report.json": "2a529a38de4134df594238de82530fcdb176ed5ecd6a8bcd617a1f79c2450af4",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/8b6044bfaddc62023c71fd2625963ccd9aa29036a486e7b42701d1591b9cfb0f/common_state_report.json": "6b4a210259e093cd43f8bc47764989b2d2ba12540dfab771b858734b4b28df9a",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/9330aee988a2f25ddcbc1ef31d00e3696ba5ad2d67994ff31faded5c53206689/common_state_report.json": "15c588c9cc3f37cfe05aa17ec050337e082b6d6ebc1dc3bb46d67e919a09625b",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/95fd42ebfee29b3dd016f225772fe01396b09753f2f687939a8e2b1e8476e107/common_state_report.json": "9a82145c674fd1a22140d4685a2d704dd6426a7134a42ffb53b112d8c1747c07",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/ac52a4d4de6e4a629d73a1e1af147d8d8b090e632d743f433d35be7767f0e8e5/common_state_report.json": "d9d01236ed052170ee38d555d84a498a97d9fc6d4576f775fe6e6ccb79392274",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/b8aeb02527a160df34c7bc5d7b90977b5104beb9bd685377f67572ee62f5fa4b/common_state_report.json": "88bd05f74e5391d508ba047d55391ee6eddd6398d52f2d52d4528620b45918e5",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/bb94998f34effd70d711aa7ea8908688fae7e49bfe7f5e3dc51e611a26e2c0fa/common_state_report.json": "38114741194ac68baa9f33965fef2b0d8ef890baab3c957fe6ad0a013ea0db59",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/c79222c0c730c9ca352410c82913e62026ee00a21ca8c8786d13c947b806f73d/common_state_report.json": "e4145b058e5036f90d35dcf50caf79962b4dbe8eb54d4a916e688c82d04cf86f",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/dd949063d75a80ef05383b8717a29ec5cb7fe36bc2cc47bffc6aca42f7ceee56/common_state_report.json": "fa32df66727e118be170c7d8ca5dacfe6ec00d446c8399ddc5cbe263bbc4edb3",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/e83d21811bd9a53dd1ef2a9495e7c332a6395a081a43985ab5039ff129ca9e9a/common_state_report.json": "927d30799203df90c865c566892a8eb6bcab00a048b2e170eb6a0acd97ce4011",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/fresh_validation/report.json": "e748a5ab57e2f233aa09c3c1969eb51c0ba0fddf05e45f047f0023146104815e",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/numerical_robustness/2b37f4dc7e83c6131224cacfb4f06f538b52910ecc7f8e3d64e2cd23b7f73623/common_state_report.json": "4949dc623bb19ae0bd58a2b95de0b76d9d262581097095d95da3a44efe43ddd0",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/numerical_robustness/40d12ca56e8b9c846cab0fd746fe7534c7336a626231426eb3e306a36f154fae/common_state_report.json": "dba5f10c614a0f9a541d8331282cb8dd00ffda313c72b7817152fe5fa2be42b8",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/numerical_robustness/80a563b8ff4c940287eda729531d8c913d9ab48ea4551ecfb1d61e7db3a543c7/common_state_report.json": "e7ab25f5c8f8770946147f23962a2fc9b9b7b0fc0bbe3e00eaf429db22afb654",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/numerical_robustness/f4438fbf2d5136a5549adde3ebe0922b32009470365c79b4cad3d6f099914e17/common_state_report.json": "71beae8a64d753a53089c9e2fd3b6d0e2f1e2fa3be16706819add7881f7ab782",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/numerical_robustness/report.json": "fed3ce123c90e78fd2e59465bed15bfa632f0ab97217cda6484b0fe4dd1303b4",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/analysis-v1/report.json": "20a8e3c2f1278def922da707381eeb0ab736876713d4f35aa81759ad03949394",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/protocol-sealed-v1.json": "03510f7aa2e5be0196516284b2287358a58931d5bbdb2454320ba98c35a2a2b3",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/results-v1/fresh_validation/results.json": "df41c973d0a05296b86f6a928d3dbbbdde714923940bcfebd9a24e7fc8ef6658",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/results-v1/numerical_robustness/fresh_build_1/results.json": "f72b7e6054643a93e6ebab99cf23b7b93e34db5d07362ae910d08403c34b486b",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/results-v1/numerical_robustness/fresh_build_2/results.json": "baf359d555e8c4b28aea0e9252fc2a1852fa30df9ad81d9577f86c1bc317a39c",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/results-v1/numerical_robustness/perturb_minus/results.json": "349007d0809aeeab85fef25ce9665ba1daa6071ae00d071e18b19c4e4cfba6f7",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/results-v1/numerical_robustness/perturb_plus/results.json": "c9894288af276a668ab0c8b443e250ea47f076e53c8dbf605e0dbbd69890ec78",
+    "artifacts/da_plcbf/actuator-diagnostics-20260906/v1/secondary-refresh-validation-v1/results-v1/results.json": "d0782c485820e761fcce5f7ba1a9cffb1c947f686aae5f7dafea1276983a4984"
+  },
+  "stages": {
+    "fresh_validation": {
+      "available_memberships": 64,
+      "completed_memberships": 64,
+      "planned_memberships": 64
+    },
+    "library_comparison": {
+      "available_memberships": 32,
+      "completed_memberships": 32,
+      "planned_memberships": 32
+    },
+    "matched_factorial": {
+      "available_memberships": 44,
+      "completed_memberships": 44,
+      "planned_memberships": 44
+    },
+    "numerical_robustness": {
+      "available_memberships": 8,
+      "completed_memberships": 8,
+      "planned_memberships": 8
+    }
+  },
+  "unique_original_trials_available": 144,
+  "unique_original_trials_completed": 144,
+  "unique_original_trials_planned": 144
+}
