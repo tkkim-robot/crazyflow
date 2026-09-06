@@ -108,8 +108,42 @@ class ActuatorReferenceConfig:
     # C1 positive-part width in squared-speed units (m/s)^2; zero preserves the original ReLU.
     reference_braking_huber_delta: float = 0.0
     trajectory_fractions: tuple[float, ...] = (0.10, 0.25, 0.5, 0.75, 1.0)
+    # The legacy branch and its checkpoint fingerprint remain unchanged by default.
+    objective_mode: str = "legacy"
+    recovery_prefix_fraction: float = 0.25
+    recovery_prefix_weight: float = 1.0
+    recovery_balance_temperature: float = 0.25
+    recovery_position_scale_m: float = 0.3
+    recovery_velocity_scale_mps: float = 0.6
+    recovery_braking_scale_mps: float = 0.8
+    recovery_numerical_tolerance: float = 1e-6
+    # A separate, explicitly labeled development-gradient-calibrated ablation.
+    recovery_braking_priority: float = 10.0
 
     def validate(self) -> None:
+        if self.objective_mode not in {
+            "legacy",
+            "balanced_reference",
+            "balanced_reference_braking",
+        }:
+            raise ValueError("unknown reference objective_mode")
+        if not 0 < self.recovery_prefix_fraction <= 1:
+            raise ValueError("recovery_prefix_fraction must be within (0,1]")
+        if not all(
+            not isinstance(value, bool) and math.isfinite(value) and value > 0
+            for value in (
+                self.recovery_balance_temperature,
+                self.recovery_position_scale_m,
+                self.recovery_velocity_scale_mps,
+                self.recovery_braking_scale_mps,
+                self.recovery_braking_priority,
+            )
+        ):
+            raise ValueError("recovery balance temperature and scales must be positive finite")
+        for name in ("recovery_prefix_weight", "recovery_numerical_tolerance"):
+            value = getattr(self, name)
+            if isinstance(value, bool) or not math.isfinite(value) or value < 0:
+                raise ValueError(f"{name} must be nonnegative finite")
         if not isinstance(self.reference_braking_excess, bool):
             raise TypeError("reference_braking_excess must be boolean")
         if (
@@ -207,8 +241,25 @@ class ActuatorLossMetrics(NamedTuple):
     rollout_valid_fraction: jax.Array
 
 
+class ActuatorBalancedLossMetrics(NamedTuple):
+    """Additive reference-restoring terms; absolute auxiliary costs are absent."""
+
+    total: jax.Array
+    trajectory_tracking: jax.Array
+    velocity_tracking: jax.Array
+    prefix_tracking: jax.Array
+    terminal_braking: jax.Array
+    reference_retention: jax.Array
+    trust: jax.Array
+    per_skill_position_error: jax.Array
+    per_skill_velocity_error: jax.Array
+    per_skill_prefix_error: jax.Array
+    per_skill_braking_error: jax.Array
+    rollout_valid_fraction: jax.Array
+
+
 class ActuatorStepMetrics(NamedTuple):
-    loss: ActuatorLossMetrics
+    loss: ActuatorLossMetrics | ActuatorBalancedLossMetrics
     gradient_norm: jax.Array
     parameter_update_norm: jax.Array
     finite_update_applied: jax.Array
@@ -547,6 +598,118 @@ def _braking_positive_part(excess: jax.Array, delta: float) -> jax.Array:
     return jnp.where(excess < delta, jax.nn.relu(excess) ** 2 / (2 * delta), excess - delta / 2)
 
 
+def _smooth_worst_skill(values: jax.Array, temperature: float) -> jax.Array:
+    """Log-mean-exp over skills, exactly zero at zero without a norm singularity."""
+    maximum = jnp.max(values, axis=-1)
+    return maximum + temperature * jnp.log(
+        jnp.mean(jnp.exp((values - maximum[..., None]) / temperature), axis=-1)
+    )
+
+
+def balanced_reference_terms(
+    states: jax.Array,
+    references: jax.Array,
+    config: ActuatorSkillConfig,
+    settings: ActuatorReferenceConfig,
+) -> tuple[jax.Array, jax.Array, jax.Array, jax.Array]:
+    """Per-state/per-skill motion errors in declared physical units; no scene inputs.
+
+    Prefix loss covers every node through the first quarter of the maneuver. Braking
+    restores the terminal velocity vector and penalizes squared excess speed-squared.
+    Both derivatives vanish at identical teacher motion, including exact speed equality.
+    Motor matching and absolute effort/attitude/rate/saturation/diversity are disabled in
+    this objective: a changed effectiveness may require more motor effort for the same force.
+    """
+    nodes = jnp.asarray(
+        sorted({max(1, round(config.horizon * f)) for f in settings.trajectory_fractions})
+    )
+    prefix_end = max(1, round(config.horizon * settings.recovery_prefix_fraction))
+
+    def resolved_error(error: jax.Array) -> jax.Array:
+        # Teacher anchor/current rollouts use separate float32 executables. A microscopic
+        # declared dead zone prevents Adam from amplifying their roundoff disagreement.
+        return jax.nn.relu(jnp.abs(error) - settings.recovery_numerical_tolerance)
+
+    position = resolved_error(
+        (states[..., :3] - references[..., :3]) / settings.recovery_position_scale_m
+    )
+    velocity = resolved_error(
+        (states[..., 7:10] - references[..., 7:10]) / settings.recovery_velocity_scale_mps
+    )
+    trajectory = jnp.mean(position[..., nodes, :] ** 2, axis=(-1, -2))
+    tracking = jnp.mean(velocity[..., nodes, :] ** 2, axis=(-1, -2))
+    prefix = jnp.mean(position[..., 1 : prefix_end + 1, :] ** 2, axis=(-1, -2)) + jnp.mean(
+        velocity[..., 1 : prefix_end + 1, :] ** 2, axis=(-1, -2)
+    )
+    terminal = states[..., -1, 7:10]
+    reference_terminal = references[..., -1, 7:10]
+    braking = (
+        jnp.mean(
+            resolved_error((terminal - reference_terminal) / settings.recovery_braking_scale_mps)
+            ** 2,
+            axis=-1,
+        )
+        + (
+            jax.nn.relu(
+                jnp.sum(terminal**2 - reference_terminal**2, axis=-1)
+                / settings.recovery_braking_scale_mps**2
+                - settings.recovery_numerical_tolerance
+            )
+        )
+        ** 2
+    )
+    return trajectory, tracking, prefix, braking
+
+
+def _balanced_reference_loss(
+    params: SkillActorParams,
+    previous_params: SkillActorParams,
+    actual: ActuatorSkillRollout,
+    references: jax.Array,
+    model: ActuatorModel,
+    config: ActuatorSkillConfig,
+    settings: ActuatorReferenceConfig,
+) -> tuple[jax.Array, ActuatorBalancedLossMetrics]:
+    terms = balanced_reference_terms(actual.states, references, config, settings)
+    reduced = tuple(
+        _smooth_worst_skill(term, settings.recovery_balance_temperature) for term in terms
+    )
+    trajectory, velocity, prefix, braking = (value[0] for value in reduced)
+    braking_weight = config.terminal_braking_weight * (
+        settings.recovery_braking_priority
+        if settings.objective_mode == "balanced_reference_braking"
+        else 1.0
+    )
+    per_state_total = (
+        settings.trajectory_weight * reduced[0]
+        + settings.velocity_weight * reduced[1]
+        + settings.recovery_prefix_weight * reduced[2]
+        + braking_weight * reduced[3]
+    )
+    retention = (
+        jnp.mean(per_state_total[1:])
+        if settings.anchor_batch_size
+        else jnp.zeros((), dtype=actual.states.dtype)
+    )
+    trust = _parameter_distance(params, previous_params)
+    total = per_state_total[0] + settings.retention_weight * retention + config.trust_weight * trust
+    finite = tree_all_finite((params, previous_params, model, actual.states, references)) & jnp.all(
+        actual.policy_valid
+    )
+    total = jnp.where(finite & jnp.isfinite(total), total, jnp.inf)
+    return total, ActuatorBalancedLossMetrics(
+        total,
+        trajectory,
+        velocity,
+        prefix,
+        braking,
+        retention,
+        trust,
+        *(term[0] for term in terms),
+        jnp.mean(actual.policy_valid),
+    )
+
+
 def actuator_reference_loss(
     params: SkillActorParams,
     initial_state: jax.Array,
@@ -557,7 +720,7 @@ def actuator_reference_loss(
     contract: ActuatorReferenceContract,
     config: ActuatorSkillConfig,
     anchor_reference_states: jax.Array,
-) -> tuple[jax.Array, ActuatorLossMetrics]:
+) -> tuple[jax.Array, ActuatorLossMetrics | ActuatorBalancedLossMetrics]:
     """Multi-resolution same-state motion recovery with separate motor and retention terms."""
     settings = contract.learning_config
     count = settings.anchor_batch_size
@@ -572,6 +735,10 @@ def actuator_reference_loss(
     references = jax.lax.stop_gradient(
         jnp.concatenate((teacher.states[None], anchor_reference_states[indices]), axis=0)
     )
+    if settings.objective_mode in {"balanced_reference", "balanced_reference_braking"}:
+        return _balanced_reference_loss(
+            params, previous_params, actual, references, model, config, settings
+        )
     nodes = jnp.asarray(
         sorted({max(1, round(config.horizon * f)) for f in settings.trajectory_fractions})
     )
@@ -889,6 +1056,21 @@ def actuator_reference_fingerprint(contract: ActuatorReferenceContract) -> str:
         del learning_options["reference_braking_excess"]
     if learning_options["reference_braking_huber_delta"] == 0.0:
         del learning_options["reference_braking_huber_delta"]
+    # New opt-in recovery settings must not invalidate historical legacy checkpoints.
+    defaults = asdict(ActuatorReferenceConfig())
+    for name in (
+        "objective_mode",
+        "recovery_prefix_fraction",
+        "recovery_prefix_weight",
+        "recovery_balance_temperature",
+        "recovery_position_scale_m",
+        "recovery_velocity_scale_mps",
+        "recovery_braking_scale_mps",
+        "recovery_numerical_tolerance",
+        "recovery_braking_priority",
+    ):
+        if learning_options[name] == defaults[name]:
+            del learning_options[name]
     actor_options = asdict(contract.actor_config)
     if not actor_options["allow_reference_gain_mismatch"]:
         del actor_options["allow_reference_gain_mismatch"]
@@ -1244,7 +1426,14 @@ def actuator_loss_gradient_contributions(
     model: ActuatorModel,
 ) -> dict[str, Any]:
     """Raw per-term gradient norms and alignment; diagnostic only, never an acceptance gate."""
-    names = ActuatorLossMetrics._fields[1:15]
+    sample = learner.loss(
+        state.params, initial_state, model, state.previous_params, state.library_version
+    )[1]
+    names = tuple(
+        name
+        for name in sample._fields
+        if name not in {"total", "rollout_valid_fraction"} and getattr(sample, name).ndim == 0
+    )
 
     def components(params: SkillActorParams) -> jax.Array:
         _, metrics = learner.loss(

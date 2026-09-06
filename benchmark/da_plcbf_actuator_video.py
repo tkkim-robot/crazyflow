@@ -79,11 +79,21 @@ class ActuatorVideoConfig:
     trail_seconds: float = 5.0
     synthetic_fixture: bool = False
     save_frame_every_seconds: float = 5.0
+    left_method: str = "F2"
+    right_method: str = "A"
+    left_label: str = "Frozen · lag-aware"
+    right_label: str = "Adaptive · lag-aware"
+    allow_different_learning_contract: bool = False
 
     def validate(self) -> None:
         """Require an ordinary fixed-rate video without a title or pause interval."""
         if type(self.fps) is not int or self.fps < 1:
             raise ValueError("fps must be a positive integer")
+        for name in ("left_method", "right_method", "left_label", "right_label"):
+            if not isinstance(getattr(self, name), str) or not getattr(self, name).strip():
+                raise ValueError(f"{name} must be a nonempty string")
+        if type(self.allow_different_learning_contract) is not bool:
+            raise ValueError("allow_different_learning_contract must be boolean")
         if self.width < 960 or self.height < 540 or self.width % 2 or self.height % 2:
             raise ValueError("video dimensions must be even and at least 960 by 540")
         for name in ("camera_distance", "trail_seconds", "save_frame_every_seconds"):
@@ -386,14 +396,16 @@ def load_episode(directory: str | Path, *, expected_method: str) -> ReplayEpisod
     )
 
 
-def validate_pair(left: ReplayEpisode, right: ReplayEpisode) -> None:
+def validate_pair(
+    left: ReplayEpisode, right: ReplayEpisode, *, allow_different_learning_contract: bool = False
+) -> None:
     """Bind the movie to one shared physical world, initial library and timing contract."""
     if left.summary["physical_world_id"] != right.summary["physical_world_id"]:
         raise ValueError("the panels must share the same complete physical world")
     if (
         left.binding["checkpoint"]["checkpoint_sha256"]
         != right.binding["checkpoint"]["checkpoint_sha256"]
-    ):
+    ) and not allow_different_learning_contract:
         raise ValueError("F2 and A must start from the same nominal checkpoint")
     for key in ("initial_state_sha256", "initial_learner_sha256"):
         if left.binding[key] != right.binding[key]:
@@ -624,7 +636,7 @@ def _compose(
     tiny_font = _font(round(13 * scale))
     draw.line([(panel_width, 0), (panel_width, config.height)], fill="#33434c", width=1)
     for side, (image, sample, episode, label) in enumerate(
-        zip(images, samples, episodes, ("Frozen · lag-aware", "Adaptive · lag-aware"), strict=True)
+        zip(images, samples, episodes, (config.left_label, config.right_label), strict=True)
     ):
         x = side * panel_width
         frame.paste(Image.fromarray(image), (x, header))
@@ -702,7 +714,7 @@ def _compose(
             font=tiny_font,
             fill="#aabac5",
         )
-        if side == 1:
+        if side == 1 or _online_updates_used(episode, sample) > 0:
             draw.text(
                 (x + 620 * scale, y0 + 82 * scale),
                 f"Online updates: {_online_updates_used(episode, sample)}",
@@ -762,9 +774,11 @@ def render_pair(
 ) -> Path:
     """Encode an exclusive MP4 and full source/frame audit, retaining render failures."""
     config.validate()
-    left = load_episode(left_directory, expected_method="F2")
-    right = load_episode(right_directory, expected_method="A")
-    validate_pair(left, right)
+    left = load_episode(left_directory, expected_method=config.left_method)
+    right = load_episode(right_directory, expected_method=config.right_method)
+    validate_pair(
+        left, right, allow_different_learning_contract=config.allow_different_learning_contract
+    )
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=False)
     # Read-only validation above needs neither a GL context nor a JAX device.
@@ -791,6 +805,15 @@ def render_pair(
         "config": asdict(config),
         "source_sha256": sources,
         "physical_world_id": left.summary["physical_world_id"],
+        "panel_methods": {"left": config.left_method, "right": config.right_method},
+        "same_complete_initial_learner_state": (
+            left.binding["initial_learner_sha256"] == right.binding["initial_learner_sha256"]
+        ),
+        "same_checkpoint_bytes": (
+            left.binding["checkpoint"]["checkpoint_sha256"]
+            == right.binding["checkpoint"]["checkpoint_sha256"]
+        ),
+        "learning_contract_comparison": config.allow_different_learning_contract,
         "motor_indices": list(range(4)),
         "motor_site_positions_body_m": sites,
         "pose_interpolation": (
@@ -1014,11 +1037,18 @@ def main() -> None:
     parser.add_argument("--camera-azimuth", type=float, default=135.0)
     parser.add_argument("--camera-elevation", type=float, default=-24.0)
     parser.add_argument("--synthetic-fixture", action="store_true")
+    parser.add_argument("--left-method", default="F2")
+    parser.add_argument("--right-method", default="A")
+    parser.add_argument("--left-label", default="Frozen · lag-aware")
+    parser.add_argument("--right-label", default="Adaptive · lag-aware")
+    parser.add_argument("--allow-different-learning-contract", action="store_true")
     args = parser.parse_args()
     if args.validate_only:
-        left = load_episode(args.frozen, expected_method="F2")
-        right = load_episode(args.adaptive, expected_method="A")
-        validate_pair(left, right)
+        left = load_episode(args.frozen, expected_method=args.left_method)
+        right = load_episode(args.adaptive, expected_method=args.right_method)
+        validate_pair(
+            left, right, allow_different_learning_contract=args.allow_different_learning_contract
+        )
         print(
             json.dumps(
                 {
@@ -1043,6 +1073,11 @@ def main() -> None:
             camera_azimuth=args.camera_azimuth,
             camera_elevation=args.camera_elevation,
             synthetic_fixture=args.synthetic_fixture,
+            left_method=args.left_method,
+            right_method=args.right_method,
+            left_label=args.left_label,
+            right_label=args.right_label,
+            allow_different_learning_contract=args.allow_different_learning_contract,
         ),
     )
     print(result)

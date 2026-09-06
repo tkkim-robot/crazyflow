@@ -20,10 +20,12 @@ from crazyflow.safety.da_plcbf.actuator_learning import (
     ActuatorReferenceContract,
     ActuatorSkillConfig,
     _braking_positive_part,
+    _smooth_worst_skill,
     acceleration_to_actuator_command,
     actuator_proprioceptive_state_bank,
     actuator_reference_fingerprint,
     actuator_skill_actions,
+    balanced_reference_terms,
     build_actuator_skill_learner,
     build_single_recovery_spec,
     initialize_actuator_skill_actor,
@@ -455,3 +457,133 @@ def test_float64_physical_snapshot_round_trips_without_enabling_jax_x64(
     np.testing.assert_array_equal(restored.physical_state, physical)
     assert not restored.physical_state.flags.writeable
     assert_tree_equal(restored.state, state)
+
+
+@pytest.mark.parametrize("mode", ["balanced_reference", "balanced_reference_braking"])
+def test_balanced_reference_teacher_is_stationary_with_absolute_auxiliaries_present(
+    contract: ActuatorReferenceContract, mode: str
+) -> None:
+    revised = replace(
+        contract, learning_config=replace(contract.learning_config, objective_mode=mode)
+    )
+    learner = build_actuator_skill_learner(revised)
+    initial = contract.anchors[-1]
+    value, gradient = jax.value_and_grad(
+        lambda params: learner.loss(params, initial, contract.model, contract.params)[0]
+    )(contract.params)
+    assert float(value) == pytest.approx(0.0, abs=1e-10)
+    for leaf in jax.tree.leaves(gradient):
+        np.testing.assert_allclose(leaf, 0, atol=1e-9)
+    # Absolute motor/attitude costs are deliberately still configured in the shared actor.
+    assert contract.actor_config.action_weight > 0
+    assert contract.actor_config.attitude_weight > 0
+    assert (
+        "motor_effort"
+        not in learner.loss(contract.params, initial, contract.model, contract.params)[1]._fields
+    )
+    following, metrics = learner.step(
+        learner.initialize(contract.params, contract.model), initial, contract.model
+    )
+    assert bool(metrics.finite_update_applied)
+    assert int(following.library_version) == 1
+    assert_tree_equal(following.params, contract.params)
+
+
+def test_balanced_recovery_prioritizes_worse_skill_and_has_stationary_braking_joins(
+    contract: ActuatorReferenceContract,
+) -> None:
+    # Equal averaging gives every skill identical weight; smooth worst-skill does not.
+    weights = jax.grad(lambda values: _smooth_worst_skill(values, 0.25))(
+        jnp.asarray([0.01, 0.9, 0.01])
+    )
+    assert float(weights[1]) > 20 * float(weights[0])
+    assert float(jnp.sum(weights)) == pytest.approx(1.0)
+    settings = replace(contract.learning_config, objective_mode="balanced_reference")
+    shape = (1, 3, contract.actor_config.horizon + 1, 17)
+    reference = jnp.broadcast_to(contract.anchors[0], shape)
+    reference = reference.at[..., 7].set(0.5)
+
+    def terminal(delta: jax.Array) -> jax.Array:
+        states = reference.at[..., -1, 7].add(delta)
+        return jnp.sum(
+            balanced_reference_terms(states, reference, contract.actor_config, settings)[3]
+        )
+
+    assert float(terminal(jnp.asarray(0.0))) == 0
+    assert float(jax.grad(terminal)(jnp.asarray(0.0))) == 0
+    assert float(terminal(jnp.asarray(0.1))) > float(terminal(jnp.asarray(-0.1))) > 0
+    later = reference.at[..., -1, 0].add(0.2)
+    early = reference.at[..., 1, 0].add(0.2)
+    assert np.all(
+        np.asarray(balanced_reference_terms(later, reference, contract.actor_config, settings)[2])
+        == 0
+    )
+    assert np.all(
+        np.asarray(balanced_reference_terms(early, reference, contract.actor_config, settings)[2])
+        > 0
+    )
+
+
+def test_balanced_config_is_fingerprinted_and_round_trips_without_altering_teacher(
+    contract: ActuatorReferenceContract, learner: ActuatorLearnerFunctions, tmp_path: Path
+) -> None:
+    repaired = replace(
+        contract,
+        learning_config=replace(contract.learning_config, objective_mode="balanced_reference"),
+    )
+    assert actuator_reference_fingerprint(repaired) != actuator_reference_fingerprint(contract)
+    assert_tree_equal(repaired.params, contract.params)
+    state = learner.initialize(contract.params, contract.model)
+    save_actuator_learner_checkpoint(state, repaired, contract.anchors[0], tmp_path / "balanced")
+    restored = load_actuator_learner_checkpoint(tmp_path / "balanced")
+    assert restored.contract.learning_config.objective_mode == "balanced_reference"
+    assert actuator_reference_fingerprint(restored.contract) == actuator_reference_fingerprint(
+        repaired
+    )
+    assert_tree_equal(restored.state, state)
+    for kwargs in (
+        {"objective_mode": "unknown"},
+        {"recovery_balance_temperature": 0},
+        {"recovery_prefix_weight": -1},
+        {"recovery_prefix_fraction": float("nan")},
+    ):
+        with pytest.raises(ValueError):
+            replace(contract.learning_config, **kwargs).validate()
+
+
+def test_braking_priority_changes_only_the_declared_reference_terminal_weight(
+    contract: ActuatorReferenceContract,
+) -> None:
+    base = replace(
+        contract,
+        learning_config=replace(
+            contract.learning_config, objective_mode="balanced_reference", anchor_batch_size=0
+        ),
+    )
+    revised = replace(
+        base,
+        learning_config=replace(
+            base.learning_config,
+            objective_mode="balanced_reference_braking",
+            recovery_braking_priority=10.0,
+        ),
+    )
+    initial = contract.anchors[1]
+    model = contract.model._replace(effectiveness=jnp.asarray([0.7, 1.0, 1.0, 1.0]))
+    original = build_actuator_skill_learner(base).loss(
+        contract.params, initial, model, contract.params
+    )[1]
+    changed = build_actuator_skill_learner(revised).loss(
+        contract.params, initial, model, contract.params
+    )[1]
+    assert float(original.terminal_braking) > 0
+    assert float(changed.total - original.total) == pytest.approx(
+        9 * contract.actor_config.terminal_braking_weight * float(original.terminal_braking),
+        rel=2e-5,
+        abs=1e-6,
+    )
+    for name in original._fields:
+        if name != "total":
+            np.testing.assert_allclose(
+                getattr(original, name), getattr(changed, name), rtol=2e-5, atol=1e-6
+            )

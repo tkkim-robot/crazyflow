@@ -210,6 +210,16 @@ def test_pair_requires_same_world_initial_checkpoint_and_full_candidate_evidence
         load_episode(path.parent, expected_method="F2")
 
 
+def test_loss_contract_comparison_still_requires_identical_complete_initial_state(tmp_path: Any):
+    left = load_episode(synthetic_episode(tmp_path / "A", "A"), expected_method="A")
+    right = load_episode(synthetic_episode(tmp_path / "A_BAL", "A_BAL"), expected_method="A_BAL")
+    right.binding["checkpoint"]["checkpoint_sha256"] = "different-loss-contract"
+    validate_pair(left, right, allow_different_learning_contract=True)
+    right.binding["initial_learner_sha256"] = "different-Adam-history"
+    with pytest.raises(ValueError, match="initial_learner_sha256"):
+        validate_pair(left, right, allow_different_learning_contract=True)
+
+
 def test_motor_annotation_mapping_and_synthetic_composition(tmp_path: Any) -> None:
     sites = motor_site_positions()
     np.testing.assert_array_equal(np.sign(sites[:, :2]), [[1, -1], [-1, -1], [-1, 1], [1, 1]])

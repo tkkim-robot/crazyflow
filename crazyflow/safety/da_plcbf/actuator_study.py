@@ -64,6 +64,10 @@ if TYPE_CHECKING:
 DYNAMICS_CELLS = ("nominal", "effectiveness", "lag", "combined")
 PRIMARY_METHODS = ("F2", "DR", "A", "OPT")
 ALL_METHODS = ("F0", "F1", "F2", "DR", "A", "A1", "OPT")
+# Explicitly named diagnostics supplement the immutable original-study registry.
+DIAGNOSTIC_METHODS = ("PD_F", "PD_A", "A_BAL", "UNION", "F2_2K", "PD_UNION")
+ALL_METHODS += DIAGNOSTIC_METHODS
+ADAPTIVE_METHODS = ("A", "A1", "PD_A", "A_BAL", "UNION", "PD_UNION")
 
 
 def nominal_actuator_model(*, dtype: Any = jnp.float32) -> ActuatorModel:
@@ -428,6 +432,7 @@ def build_actuator_controller(
     filter_config: ActuatorFilterConfig = ActuatorFilterConfig(),
     *,
     nominal_acceleration_limit: float = 1.2,
+    frozen_library: tuple[SkillActorParams, SkillLibrarySpec, ActuatorSkillConfig] | None = None,
 ) -> ActuatorControllerFunctions:
     """Build once and pass model/parameters/state/obstacle clock as explicit immutable inputs."""
     actor_config.validate()
@@ -441,6 +446,12 @@ def build_actuator_controller(
     # F0/F1 alter only the diagnostic fallback mapping. Nominal and emergency use the
     # same strongest causal adapter in every method, as in the accepted wind comparison.
     common_config = replace(actor_config, adapter_mode="F2", model_compensation=True)
+    if frozen_library is not None:
+        _, _, frozen_config = frozen_library
+        frozen_config.validate()
+        for name in ("dt", "horizon", "control_interval_steps", "plant_substeps", "adapter_mode"):
+            if getattr(frozen_config, name) != getattr(actor_config, name):
+                raise ValueError(f"frozen and current library must share {name}")
 
     def nominal(y: jax.Array, goal: jax.Array, model: ActuatorModel) -> ActuatorRollouts:
         return nominal_actuator_rollout(
@@ -452,6 +463,16 @@ def build_actuator_controller(
     ) -> ActuatorRollouts:
         mission = nominal(y, goal, model)
         library = rollout_actuator_skill_library(params, spec, y, model, actor_config)
+        if frozen_library is not None:
+            frozen_params, frozen_spec, frozen_config = frozen_library
+            core = rollout_actuator_skill_library(
+                frozen_params, frozen_spec, y, model, frozen_config
+            )
+            return ActuatorRollouts(
+                jnp.concatenate((mission.states, core.states, library.states)),
+                jnp.concatenate((mission.commands, core.commands, library.commands)),
+                jnp.concatenate((mission.valid, core.valid, library.valid)),
+            )
         return ActuatorRollouts(
             jnp.concatenate((mission.states, library.states)),
             jnp.concatenate((mission.commands, library.commands)),

@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import threading
+import time
 from dataclasses import replace
 from types import SimpleNamespace
 from typing import Any
@@ -178,6 +180,144 @@ def assert_complete(result: Any) -> None:
     assert result.summary["error"] is None, result.summary["error"]
     assert result.summary["termination"] == "duration_complete"
     assert result.summary["full_episode_completed"]
+
+
+def test_async_real_worker_continues_control_and_publishes_stale_model_only_at_boundary(
+    harness: Any, monkeypatch: Any
+) -> None:
+    """A gated real job spans a fault and several controls without serial learner blocking."""
+    monkeypatch.setattr(runtime, "time", time)
+    # Isolate scheduler causality from uncontrolled fault dynamics in this CPU test.
+    monkeypatch.setattr(NumpyEffortPlant, "_step", lambda plant, command, dt: None)
+    started, release = threading.Event(), threading.Event()
+    control_calls, learner_calls = [], []
+    scene = replace(
+        harness.scene,
+        world=replace(
+            harness.scene.world, config=replace(harness.scene.world.config, duration_seconds=0.8)
+        ),
+        effectiveness_after=(0.8, 1.0, 1.0, 1.0),
+        event_time=0.04,
+    )
+
+    def controller(y: Any, params: Any, *args: Any) -> Any:
+        control_calls.append(np.asarray(params).copy())
+        # Two warmups then four real control calls are allowed while the first
+        # live learner is blocked. Its result becomes visible after that cutoff.
+        if len(control_calls) == 6:
+            assert started.is_set()
+            release.set()
+        time.sleep(0.006)
+        return SimpleNamespace(
+            action=harness.initial[13:].copy(),
+            selected_index=0,
+            certificates=SimpleNamespace(
+                rollouts=SimpleNamespace(states=np.broadcast_to(np.asarray(y), (2, 5, 17)))
+            ),
+        )
+
+    def step(state: Any, observed: Any, model: Any) -> Any:
+        learner_calls.append((state, np.asarray(observed).copy(), model))
+        if len(learner_calls) == 3:
+            started.set()
+            if not release.wait(2):
+                raise TimeoutError("control did not continue while the real learner was blocked")
+        following = state.replace(
+            params=state.params + 1,
+            previous_params=state.params,
+            optimizer_state=state.optimizer_state + 7,
+            cumulative_gradient_steps=state.cumulative_gradient_steps + 1,
+            library_version=state.library_version + 1,
+            latest_dynamics_estimate=model,
+        )
+        return following, SimpleNamespace(
+            finite_update_applied=True,
+            gradient_norm=2.0,
+            parameter_update_norm=1.0,
+            loss={"total": 0.0},
+        )
+
+    config = runtime.ActuatorEpisodeConfig(
+        method="A",
+        execution_mode="asynchronous",
+        plant_level="P1",
+        filter_config=ActuatorFilterConfig(horizon=4),
+        warmup_calls=2,
+        controller_reserve_seconds=1.0,
+        freeze_learning_at=0.12,
+    )
+    result = runtime.run_actuator_episode(
+        scene,
+        harness.bundle,
+        config,
+        harness.tmp_path / "real-async",
+        controllerfunctions=SimpleNamespace(controller=controller),
+        learner_functions=SimpleNamespace(step=step),
+    )
+    assert_complete(result)
+    controls = result.control_traces
+    updates = json.loads(result.artifacts["updates"].read_text())
+    assert len(updates) == 1
+    update = updates[0]
+    assert update["completion_credited"]
+    assert update["service_seconds"] > config.filter_config.command_period
+    assert update["controller_host_overlap_seconds"] > 0
+    assert update["parent_version"] == 128
+    np.testing.assert_array_equal(controls["library_version"][:4], [128] * 4)
+    assert 129 in controls["library_version"][4:]
+    publications = result.summary["snapshot_publications"]
+    assert len(publications) == 1
+    assert publications[0]["published_wall_time"] >= update["completed_wall_time"]
+    assert publications[0]["published_simulation_time"] > controls["time"][3]
+    # The first job's immutable model remains nominal across the physical fault;
+    # it still publishes, with mismatch and age measured rather than filtered away.
+    np.testing.assert_array_equal(learner_calls[2][2].effectiveness, np.ones(4))
+    assert np.any(~controls["training_model_matches_controller_model"])
+    np.testing.assert_array_equal(learner_calls[2][0].optimizer_state, [987.0])
+    np.testing.assert_array_equal(result.final_learner_state.optimizer_state, [994.0])
+    assert np.all(controls["command_applied_at"] >= controls["time"])
+    assert result.summary["execution_wall_seconds"] >= 0.8
+    assert result.summary["asynchronous_learner"]["serial_reserve_gate_applied"] is False
+    assert config.controller_reserve_seconds == 1.0
+
+
+@pytest.mark.parametrize("worker_fails", [False, True])
+def test_async_terminal_job_is_drained_without_extra_flight_or_late_update_credit(
+    harness: Any, monkeypatch: Any, worker_fails: bool
+) -> None:
+    """A real background completion after the terminal clock cannot train the flight."""
+    monkeypatch.setattr(runtime, "time", time)
+    monkeypatch.setattr(NumpyEffortPlant, "_step", lambda plant, command, dt: None)
+    calls = 0
+
+    def learner_service() -> float:
+        nonlocal calls
+        calls += 1
+        if calls > 2:
+            time.sleep(0.3)
+            if worker_fails:
+                raise RuntimeError("deliberate background failure")
+        return 0.0
+
+    harness.settings.learner_service = learner_service
+    result = harness.run(execution_mode="asynchronous", controller_reserve_seconds=1.0)
+    if worker_fails:
+        assert result.summary["status"] == "incomplete"
+        assert result.summary["termination"] == "incomplete_error"
+        assert "deliberate background failure" in result.summary["error"]["message"]
+    else:
+        assert_complete(result)
+        assert result.summary["finite_uncredited_updates"] == 1
+    assert result.summary["physical_time_seconds"] == pytest.approx(0.16)
+    assert result.summary["final_completed_library_version"] == 128
+    assert result.summary["final_published_library_version"] == 128
+    assert result.summary["snapshot_publications"] == []
+    assert result.summary["finite_credited_updates"] == 0
+    assert result.summary["asynchronous_learner"]["shutdown_seconds_excluded_from_flight"] > 0
+    updates = json.loads(result.artifacts["updates"].read_text())
+    assert len(updates) == 1
+    assert not updates[0]["completion_credited"]
+    assert updates[0]["completed_simulation_time"] > 0.16
 
 
 def test_full_state_and_adam_warmup_are_preserved_and_updates_publish_next_boundary(

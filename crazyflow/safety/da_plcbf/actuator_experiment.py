@@ -7,6 +7,14 @@ Delayed execution advances the old physical command during measured controller
 service, then the new command during learner service and the remaining command
 period. Simulator and collision-audit overhead is recorded separately and is
 never added a second time as sensing-to-actuation latency.
+
+Asynchronous execution uses a real background learner and wall-paced sensing.
+Its physical clock follows elapsed monotonic wall time; controller commands take
+effect at measured availability, after the old command has evolved to that time.
+Simulator/audit overhead consumes this mode's wall budget and is reported separately,
+without being added to the elapsed-time mapping a second time. Completed jobs publish
+at actual sensing boundaries; an outstanding terminal job receives no post-episode
+flight credit. Host service overlap does not imply concurrent GPU kernel execution.
 """
 
 from __future__ import annotations
@@ -25,13 +33,16 @@ import jax.numpy as jnp
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+from crazyflow.safety.da_plcbf.actuator_async import AsyncLearnerWorker
 from crazyflow.safety.da_plcbf.actuator_inputs import CausalObservationInputCache
 from crazyflow.safety.da_plcbf.actuator_learning import (
+    actuator_reference_fingerprint,
     build_actuator_skill_learner,
     save_actuator_learner_checkpoint,
 )
 from crazyflow.safety.da_plcbf.actuator_plcbf import ActuatorFilterConfig
 from crazyflow.safety.da_plcbf.actuator_study import (
+    ADAPTIVE_METHODS,
     ALL_METHODS,
     ActuatorObservationConfig,
     build_actuator_controller,
@@ -91,8 +102,10 @@ class ActuatorEpisodeConfig:
         bundle.config.validate()
         if self.method not in ALL_METHODS:
             raise ValueError("unknown actuator study method")
-        if self.execution_mode not in {"deterministic", "paced", "delayed"}:
-            raise ValueError("execution_mode must be deterministic, paced, or delayed")
+        if self.execution_mode not in {"deterministic", "paced", "delayed", "asynchronous"}:
+            raise ValueError(
+                "execution_mode must be deterministic, paced, delayed, or asynchronous"
+            )
         if self.plant_level not in {"P0", "P1", "P2"}:
             raise ValueError("plant_level must be P0, P1, or P2")
         for name in ("plant_step_seconds", "update_safety_factor"):
@@ -424,7 +437,7 @@ def _checkpoint_provenance(bundle: Any, method: str) -> dict[str, Any]:
                 "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
                 "report": json.loads(path.read_text()),
             }
-    return {
+    provenance = {
         "checkpoint_npz": str(Path(bundle.npz_path).resolve()),
         "checkpoint_json": str(Path(bundle.json_path).resolve()),
         "checkpoint_sha256": bundle.sha256,
@@ -433,6 +446,16 @@ def _checkpoint_provenance(bundle: Any, method: str) -> dict[str, Any]:
         "competence_checked_by_runtime": False,
         "runtime_finite_update_quality_gate": False,
     }
+    if hasattr(bundle.contract, "learning_config"):
+        # Diagnostic variants may replace the objective contract in memory while
+        # deliberately retaining the identical original parameter/Adam checkpoint.
+        provenance.update(
+            runtime_reference_sha256=actuator_reference_fingerprint(bundle.contract),
+            runtime_learning_config=asdict(bundle.contract.learning_config),
+            runtime_actor_config=asdict(bundle.config),
+            runtime_reference_source="actual in-memory contract supplied to this episode",
+        )
+    return provenance
 
 
 def run_actuator_episode(
@@ -474,7 +497,8 @@ def run_actuator_episode(
     period = config.filter_config.command_period
     duration = float(scene.world.config.duration_seconds)
     world = scene.world
-    learns = config.method in {"A", "A1"}
+    learns = config.method in ADAPTIVE_METHODS
+    asynchronous = config.execution_mode == "asynchronous"
     nominal = nominal_actuator_model()
     input_cache = (
         CausalObservationInputCache(scene, nominal, config.observation_config, config.filter_config)
@@ -488,6 +512,10 @@ def run_actuator_episode(
     initial_params = bundle.state.params
     initial_version = int(bundle.state.library_version)
     scheduler: BoundarySnapshotScheduler | None = None
+    async_worker: AsyncLearnerWorker | None = None
+    async_snapshot_metadata: dict[int, dict[str, Any]] = {}
+    async_shutdown_seconds = 0.0
+    execution_stopped_wall: float | None = None
     plant = None
     termination: str | None = None
     collision: dict[str, Any] | None = None
@@ -509,6 +537,98 @@ def run_actuator_episode(
             + "\n"
         )
         events_stream.flush()
+
+    def consume_async_result(
+        through_wall: float, physical_boundary: float, *, credit_through_wall: float | None = None
+    ) -> None:
+        """Collect one actually complete job; publication remains a boundary operation."""
+        nonlocal learner_state
+        if async_worker is None:
+            return
+        completed = async_worker.take_completed(through_wall)
+        if completed is None:
+            return
+        job = completed.job
+        source_control = controls[job.control_index]
+        credit_cutoff = through_wall if credit_through_wall is None else credit_through_wall
+        update_record = {
+            "asynchronous_job_id": job.job_id,
+            "control_index": job.control_index,
+            "training_simulation_time": job.training_simulation_time,
+            "model_observation_simulation_time": job.model_observation_simulation_time,
+            "sensed_state_sha256": job.sensed_state_sha256,
+            "estimated_model_sha256": job.estimated_model_sha256,
+            "parent_version": job.parent_version,
+            "submitted_wall_time": job.submitted_wall_time,
+            "started_wall_time": completed.started_wall_time,
+            "completed_wall_time": completed.completed_wall_time,
+            "completed_simulation_time": completed.completed_wall_time - epoch,
+            "completion_observed_at_physical_time": physical_boundary,
+            "service_seconds": completed.service_seconds,
+            "queue_wait_seconds": completed.started_wall_time - job.submitted_wall_time,
+            "submission_to_completion_seconds": completed.completed_wall_time
+            - job.submitted_wall_time,
+            "source_state_age_at_completion_seconds": completed.completed_wall_time
+            - epoch
+            - job.training_simulation_time,
+            "model_age_at_completion_seconds": completed.completed_wall_time
+            - epoch
+            - job.model_observation_simulation_time,
+            "finite_update_applied": False,
+            "completion_credited": False,
+            "computed_version": job.parent_version,
+        }
+        source_control["learner_seconds"] = completed.service_seconds
+        if completed.error is not None:
+            update_record["worker_error"] = completed.error
+            updates.append(update_record)
+            event("asynchronous_learner_failed", **update_record)
+            raise RuntimeError(
+                f"asynchronous learner failed: {completed.error['type']}: "
+                f"{completed.error['message']}"
+            )
+        finite = bool(completed.metrics.finite_update_applied)
+        credited = completed.completed_wall_time <= credit_cutoff
+        update_record.update(
+            finite_update_applied=finite,
+            computed_version=int(completed.state.library_version),
+            gradient_norm=float(completed.metrics.gradient_norm),
+            parameter_update_norm=float(completed.metrics.parameter_update_norm),
+            loss=_jsonable(completed.metrics.loss),
+            completion_credited=credited,
+        )
+        source_control["learner_finite_update_applied"] = finite
+        source_control["learner_completion_credited"] = credited
+        source_control["asynchronous_completion_before_next_grid"] = (
+            completed.completed_wall_time <= epoch + (source_control["sensing_tick"] + 1) * period
+        )
+        if credited:
+            learner_state = completed.state
+            if finite:
+                scheduler.complete(
+                    CompletedSnapshot(
+                        completed.state,
+                        int(completed.state.library_version),
+                        job.training_simulation_time,
+                        completed.started_wall_time,
+                        completed.completed_wall_time,
+                        float(completed.metrics.gradient_norm),
+                        float(completed.metrics.parameter_update_norm),
+                    )
+                )
+                async_snapshot_metadata[int(completed.state.library_version)] = {
+                    "asynchronous_job_id": job.job_id,
+                    "training_model_sha256": job.estimated_model_sha256,
+                    "training_model_observation_time": job.model_observation_simulation_time,
+                    "training_state_sha256": job.sensed_state_sha256,
+                    "completed_wall_time": completed.completed_wall_time,
+                }
+            else:
+                scheduler.durations.append(completed.service_seconds)
+        else:
+            update_record["discard_reason"] = "episode_ended_before_learner_completion"
+        updates.append(update_record)
+        event("asynchronous_learner_resolved", **update_record)
 
     def credit_waypoint(when: float, actual: np.ndarray) -> None:
         """Credit the current goal only after the preceding physical interval was audited."""
@@ -895,16 +1015,65 @@ def run_actuator_episode(
                 reserve_seconds=config.controller_reserve_seconds,
                 safety_factor=config.update_safety_factor,
             )
+            if asynchronous:
+                async_snapshot_metadata[initial_version] = {
+                    "asynchronous_job_id": -1,
+                    "training_model_sha256": _hash_tree(bundle.state.latest_dynamics_estimate),
+                    "training_model_observation_time": 0.0,
+                    "training_state_sha256": "",
+                    "completed_wall_time": float("nan"),
+                }
+                if learns:
+                    async_worker = AsyncLearnerWorker(
+                        learner_state, learner.step, synchronize=_synchronize
+                    )
             event("warmup", **warmup, initial_version_preserved=int(learner_state.library_version))
             epoch = time.perf_counter()
             tick = 0
             while plant.time < duration - 1e-10 and collision is None:
                 when = float(plant.time)
-                if config.execution_mode == "paced":
+                if config.execution_mode == "paced" or asynchronous:
                     remaining = epoch + tick * period - time.perf_counter()
                     if remaining > 0:
                         time.sleep(remaining)
                 boundary_wall = time.perf_counter()
+                boundary_simulator_before = simulator_seconds
+                if asynchronous:
+                    # Real elapsed time is the only clock advancing this flight.
+                    # Propagation/audit cost consumes the following wall budget;
+                    # it is never added again as a fabricated service duration.
+                    advance_until(boundary_wall - epoch, "asynchronous_wall_clock_hold")
+                    if collision is not None or plant.time >= duration - 1e-10:
+                        # The terminal endpoint is not itself a sensing tick, but
+                        # ticks strictly before it can be lost to callback/audit
+                        # work following the last applied command.
+                        skipped = max(0, math.ceil((plant.time - 1e-10) / period) - tick)
+                        if controls:
+                            controls[-1]["skipped_sensing_ticks"] += skipped
+                            controls[-1]["simulator_and_audit_seconds"] += (
+                                simulator_seconds - boundary_simulator_before
+                            )
+                            controls[-1]["resolved_physical_time"] = float(plant.time)
+                        event(
+                            "asynchronous_terminal_hold",
+                            time=float(plant.time),
+                            skipped_sensing_ticks=skipped,
+                        )
+                        break
+                    when = float(plant.time)
+                    actual_tick = max(tick, int(math.floor((when + 1e-10) / period)))
+                    if controls and actual_tick > tick:
+                        controls[-1]["skipped_sensing_ticks"] += actual_tick - tick
+                        event(
+                            "asynchronous_sensing_ticks_skipped",
+                            time=when,
+                            skipped_sensing_ticks=actual_tick - tick,
+                            control_index=controls[-1]["control_index"],
+                        )
+                    tick = actual_tick
+                    # A result becoming visible during propagation waits until
+                    # another sensing boundary; the cutoff was already captured.
+                    consume_async_result(boundary_wall, when)
                 published = scheduler.publish(boundary_wall, when)
                 if (
                     config.freeze_learning_at is not None
@@ -916,6 +1085,7 @@ def run_actuator_episode(
                             "freeze_learning",
                             requested_time=config.freeze_learning_at,
                             actual_boundary=when,
+                            semantics="stop_new_job_launches" if asynchronous else "freeze_updates",
                         )
                 if (
                     config.revert_control_params_at is not None
@@ -1025,12 +1195,27 @@ def run_actuator_episode(
                     snapshot_training_time=published.training_simulation_time,
                     snapshot_age_seconds=when - published.training_simulation_time,
                     boundary_lateness_seconds=max(0.0, boundary_wall - epoch - tick * period)
-                    if config.execution_mode == "paced"
+                    if config.execution_mode == "paced" or asynchronous
                     else 0.0,
                     **_model_record(plant.model_snapshot(), "actual"),
                     **_model_record(model, "estimated"),
                     **{f"nominal_{key}": value for key, value in encounter.items()},
                 )
+                if asynchronous:
+                    snapshot_metadata = async_snapshot_metadata[control_version]
+                    record.update(
+                        **snapshot_metadata,
+                        training_model_age_seconds=when
+                        - snapshot_metadata["training_model_observation_time"],
+                        training_model_matches_controller_model=(
+                            snapshot_metadata["training_model_sha256"]
+                            == record["estimated_model_sha256"]
+                        ),
+                        boundary_wall_time=boundary_wall,
+                        controller_started_wall_time=service_started,
+                        controller_compute_started_wall_time=transfer_done,
+                        controller_compute_completed_wall_time=solve_done,
+                    )
                 controls.append(record)
                 event("control_ready", **record)
                 ready_wall = time.perf_counter()
@@ -1041,7 +1226,9 @@ def run_actuator_episode(
                     controller_compute_seconds=solve_done - transfer_done,
                     mandatory_host_seconds=ready_wall - solve_done,
                     controller_seconds=controller_seconds,
-                    controller_available_at=when + controller_seconds,
+                    controller_available_at=ready_wall - epoch
+                    if asynchronous
+                    else when + controller_seconds,
                     controller_deadline_met=controller_seconds <= period,
                     learner_started=False,
                     learner_seconds=0.0,
@@ -1054,9 +1241,20 @@ def run_actuator_episode(
                     resolved_physical_time=when,
                     skipped_sensing_ticks=0,
                 )
-                simulator_before = simulator_seconds
+                if asynchronous:
+                    record.update(
+                        controller_ready_wall_time=ready_wall,
+                        controller_grid_deadline_met=ready_wall <= epoch + (tick + 1) * period,
+                        controller_sensed_to_available_seconds=ready_wall - epoch - when,
+                        learner_submission_seconds=0.0,
+                        asynchronous_job_id_submitted=-1,
+                        asynchronous_completion_before_next_grid=False,
+                    )
+                simulator_before = boundary_simulator_before if asynchronous else simulator_seconds
                 if config.execution_mode == "delayed":
                     advance_until(when + controller_seconds, "controller_service_old_command")
+                elif asynchronous:
+                    advance_until(ready_wall - epoch, "asynchronous_controller_service_old_command")
                 if collision is not None or plant.time >= duration - 1e-10:
                     event(
                         "control_discarded",
@@ -1097,7 +1295,7 @@ def run_actuator_episode(
                 else:
                     previous_index = int(step.selected_index)
                 next_tick, next_boundary = _next_grid(float(plant.time), period, tick + 1)
-                if config.execution_mode != "delayed":
+                if config.execution_mode not in {"delayed", "asynchronous"}:
                     advance_until(next_boundary, "command_hold")
                 eligible_update = (
                     learns
@@ -1117,13 +1315,50 @@ def run_actuator_episode(
                     if config.execution_mode == "delayed"
                     else epoch + next_tick * period
                 )
-                can_start = eligible_update and (
-                    config.execution_mode == "deterministic"
-                    or scheduler.can_start(learner_now, learner_deadline)
-                )
+                if asynchronous:
+                    can_start = eligible_update and (
+                        async_worker is not None
+                        and not async_worker.busy
+                        and scheduler.pending is None
+                        and learner_now < epoch + duration
+                    )
+                else:
+                    can_start = eligible_update and (
+                        config.execution_mode == "deterministic"
+                        or scheduler.can_start(learner_now, learner_deadline)
+                    )
                 record["learner_estimated_seconds"] = scheduler.estimated_service_seconds
                 record["learner_budget_seconds"] = max(0.0, learner_deadline - learner_now)
-                if can_start:
+                if asynchronous and can_start:
+                    submission_started = time.perf_counter()
+                    job = async_worker.submit(
+                        device_observed,
+                        model,
+                        training_simulation_time=when,
+                        model_observation_simulation_time=max(
+                            0.0, when - config.observation_config.parameter_delay_seconds
+                        ),
+                        sensed_state_sha256=record["controller_input_state_sha256"],
+                        estimated_model_sha256=record["estimated_model_sha256"],
+                        control_index=record["control_index"],
+                    )
+                    record.update(
+                        learner_started=True,
+                        learner_submission_seconds=time.perf_counter() - submission_started,
+                        asynchronous_job_id_submitted=job.job_id,
+                    )
+                    event(
+                        "asynchronous_learner_submitted",
+                        job_id=job.job_id,
+                        control_index=job.control_index,
+                        parent_version=job.parent_version,
+                        submitted_wall_time=job.submitted_wall_time,
+                        training_simulation_time=job.training_simulation_time,
+                        model_observation_simulation_time=job.model_observation_simulation_time,
+                        sensed_state_sha256=job.sensed_state_sha256,
+                        estimated_model_sha256=job.estimated_model_sha256,
+                    )
+                elif can_start:
                     record["learner_started"] = True
                     update_started = time.perf_counter()
                     following, metrics = _synchronize(
@@ -1221,12 +1456,63 @@ def run_actuator_episode(
             interrupt = exc
         event("error", **error)
     finally:
+        execution_stopped_wall = time.perf_counter()
+        if async_worker is not None:
+            shutdown_started = time.perf_counter()
+            async_worker.shutdown()
+            async_shutdown_seconds = time.perf_counter() - shutdown_started
+            try:
+                # Finishing cleanup grants no extra physical flight or late credit.
+                terminal_time = float(plant.time) if plant is not None else 0.0
+                consume_async_result(
+                    float("inf"), terminal_time, credit_through_wall=epoch + terminal_time
+                )
+            except Exception as exc:
+                error = error or {
+                    "type": type(exc).__name__,
+                    "message": str(exc),
+                    "traceback": traceback.format_exc(),
+                    "stage": "asynchronous_learner_shutdown",
+                }
+                termination = "incomplete_error"
+                event("error", **error)
         events_stream.close()
 
-    execution_wall_seconds = time.perf_counter() - epoch
+    execution_wall_seconds = execution_stopped_wall - epoch
     if plant is not None:
         final_state = np.asarray(plant.observe()).copy()
     physical_time = float(plant.time) if plant is not None else 0.0
+    if asynchronous:
+        for record in controls:
+            if "controller_ready_wall_time" not in record:
+                continue
+            start, end = (
+                record["controller_started_wall_time"],
+                record["controller_ready_wall_time"],
+            )
+            overlap = sum(
+                max(
+                    0.0, min(end, row["completed_wall_time"]) - max(start, row["started_wall_time"])
+                )
+                for row in updates
+            )
+            record.update(
+                learner_controller_host_overlap_seconds=overlap,
+                asynchronous_worker_active_at_controller_start=any(
+                    row["started_wall_time"] <= start < row["completed_wall_time"]
+                    for row in updates
+                ),
+            )
+        for row in updates:
+            row["controller_host_overlap_seconds"] = sum(
+                max(
+                    0.0,
+                    min(record["controller_ready_wall_time"], row["completed_wall_time"])
+                    - max(record["controller_started_wall_time"], row["started_wall_time"]),
+                )
+                for record in controls
+                if "controller_ready_wall_time" in record
+            )
     control_arrays = _rows_to_arrays(controls)
     dense_arrays = _rows_to_arrays(dense)
     application_arrays = _rows_to_arrays(applications)
@@ -1426,6 +1712,14 @@ def run_actuator_episode(
                 "learner service; missed sensing ticks skipped; simulator and audit cost "
                 "excluded from physical latency mapping"
             ),
+            "asynchronous": (
+                "real wall-paced physical clock; delayed commands hold the preceding command "
+                "until measured controller availability; one persistent background learner "
+                "with immutable state/model inputs and at most one running or completed job; "
+                "only synchronized results visible before a sensing boundary publish there; "
+                "simulator, audit and host work consume wall budget without double counting; "
+                "no serial learner deadline or assumed concurrent GPU kernels"
+            ),
         }[config.execution_mode],
         "qp_feasibility_scope": (
             "only the selected policy QP is solved; eligible-policy count is not "
@@ -1449,6 +1743,72 @@ def run_actuator_episode(
         "error": error,
         "artifacts": artifacts,
     }
+    if asynchronous:
+
+        def async_statistics(values: list[float]) -> dict[str, float | int | None]:
+            return {
+                "count": len(values),
+                "mean": float(np.mean(values)) if values else None,
+                "p95": float(np.percentile(values, 95)) if values else None,
+                "maximum": float(np.max(values)) if values else None,
+            }
+
+        summary.update(
+            asynchronous_learner={
+                "worker_count": int(learns),
+                "maximum_submitted_or_unconsumed_jobs": 1 if learns else 0,
+                "submitted_jobs": sum(row.get("learner_started", False) for row in controls),
+                "completed_jobs": len(updates),
+                "service_seconds": async_statistics([row["service_seconds"] for row in updates]),
+                "submission_to_completion_seconds": async_statistics(
+                    [row["submission_to_completion_seconds"] for row in updates]
+                ),
+                "source_state_age_at_completion_seconds": async_statistics(
+                    [row["source_state_age_at_completion_seconds"] for row in updates]
+                ),
+                "model_age_at_completion_seconds": async_statistics(
+                    [row["model_age_at_completion_seconds"] for row in updates]
+                ),
+                "services_longer_than_control_period": sum(
+                    row["service_seconds"] > period for row in updates
+                ),
+                "controller_host_overlap_seconds": sum(
+                    row["controller_host_overlap_seconds"] for row in updates
+                ),
+                "controls_with_host_overlap": sum(
+                    row.get("learner_controller_host_overlap_seconds", 0.0) > 0 for row in controls
+                ),
+                "controller_service_with_host_overlap_seconds": async_statistics(
+                    [
+                        row["controller_seconds"]
+                        for row in controls
+                        if row.get("learner_controller_host_overlap_seconds", 0.0) > 0
+                    ]
+                ),
+                "controller_service_without_host_overlap_seconds": async_statistics(
+                    [
+                        row["controller_seconds"]
+                        for row in controls
+                        if row.get("learner_controller_host_overlap_seconds", 0.0) == 0
+                    ]
+                ),
+                "host_overlap_interpretation": (
+                    "measured host service intervals overlap; no claim of simultaneous GPU "
+                    "kernels or speedup; controller service includes any device contention"
+                ),
+                "serial_reserve_gate_applied": False,
+                "learner_deadline_imposed": False,
+                "shutdown_seconds_excluded_from_flight": async_shutdown_seconds,
+                "late_completion_policy": "record without flight credit or publication",
+                "freeze_learning_semantics": "stop new launches; outstanding jobs may publish",
+            },
+            controller_grid_deadline_misses=sum(
+                not row.get("controller_grid_deadline_met", False) for row in controls
+            ),
+            learner_submission_seconds=statistics("learner_submission_seconds"),
+            training_model_age_seconds=statistics("training_model_age_seconds"),
+            learner_seconds=async_statistics([row["service_seconds"] for row in updates]),
+        )
     artifacts["summary"] = directory / "summary.json"
     _write_json(artifacts["summary"], summary)
     result = ActuatorEpisodeResult(
