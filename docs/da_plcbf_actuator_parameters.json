@@ -1,0 +1,2034 @@
+{
+  "schema": "da_plcbf_actuator_parameters_v1",
+  "fit": {
+    "schema": "da_plcbf_native_local_pole_fit_v1",
+    "drone": "cf21B_500",
+    "source": "crazyflow/drones/params.toml",
+    "source_sha256": "c3f4d2991925ee0ab0354107a2cfcc6be890dfbd985795e9d5d5055b55b851de",
+    "method": "RPM pole a+2*b*rpm; thrust-coordinate invariant; mean directional pole",
+    "qualification": "Repository model reduction with TODOs; not hardware validation",
+    "rpm2thrust": [
+      0.0,
+      -3.133427287299859e-07,
+      4.407354891648379e-10
+    ],
+    "rotor_dyn_coef": [
+      13.996001897562685,
+      0.00011093207920685363,
+      5.933168530682111,
+      0.00031951312393561264
+    ],
+    "nominal_tau": 0.05949877121673513,
+    "operating_points": [
+      {
+        "effort_N": 0.02136263065537499,
+        "rpm": 7326.615849488047,
+        "pole_up_per_s": 15.62151535702988,
+        "pole_down_per_s": 10.615068366574308,
+        "tau_up_s": 0.06401427628146121,
+        "tau_down_s": 0.09420570508513076,
+        "symmetric_tau_s": 0.07622943676926451,
+        "thrust_roundtrip_residual_N": 0.0
+      },
+      {
+        "effort_N": 0.10638945000000001,
+        "rpm": 15896.296489245326,
+        "pole_up_per_s": 17.522820340043868,
+        "pole_down_per_s": 16.09131923125308,
+        "tau_up_s": 0.05706843878977398,
+        "tau_down_s": 0.062145308636831195,
+        "symmetric_tau_s": 0.05949877121673513,
+        "thrust_roundtrip_residual_N": 1.3877787807814457e-17
+      },
+      {
+        "effort_N": 0.2,
+        "rpm": 21660.71783311243,
+        "pole_up_per_s": 18.801738830242954,
+        "pole_down_per_s": 19.774935773773286,
+        "tau_up_s": 0.053186570084224394,
+        "tau_down_s": 0.05056906436713996,
+        "symmetric_tau_s": 0.051844800531142175,
+        "thrust_roundtrip_residual_N": 2.7755575615628914e-17
+      }
+    ]
+  },
+  "authority_atlas": [
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.10638945380814668,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.08502682315774557,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        0.0,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.012024493905070691,
+          0.012024493905070687
+        ],
+        [
+          0.012024493905070687,
+          0.012024493905070691
+        ],
+        [
+          0.0020198748190395936,
+          0.002019874819039594
+        ]
+      ],
+      "effectiveness": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "identity",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.10638945380814668,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.08502682315774557,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        0.0,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.012024493905070691,
+          0.012024493905070687
+        ],
+        [
+          0.012024493905070687,
+          0.012024493905070691
+        ],
+        [
+          0.0020198748190395936,
+          0.002019874819039594
+        ]
+      ],
+      "effectiveness": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "identity",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.10638945380814668,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.08502682315774557,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        0.0,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.012024493905070691,
+          0.012024493905070687
+        ],
+        [
+          0.012024493905070687,
+          0.012024493905070691
+        ],
+        [
+          0.0020198748190395936,
+          0.002019874819039594
+        ]
+      ],
+      "effectiveness": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "identity",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.10638945380814668,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.08502682315774557,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        0.0,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.012024493905070691,
+          0.012024493905070687
+        ],
+        [
+          0.012024493905070687,
+          0.012024493905070691
+        ],
+        [
+          0.0020198748190395936,
+          0.002019874819039594
+        ]
+      ],
+      "effectiveness": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "identity",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.12516405979294465,
+        0.12516405979294465,
+        0.12516405979294465
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.07483594318728759,
+        0.07483594318728759,
+        0.07483594318728759
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.008995804904539146,
+          0.008995804904539152
+        ],
+        [
+          0.008995804904539152,
+          0.00899580490453915
+        ],
+        [
+          0.0015111155568891847,
+          0.0015111155568891847
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "uniform_0.85",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.12516405979294465,
+        0.12516405979294465,
+        0.12516405979294465
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.07483594318728759,
+        0.07483594318728759,
+        0.07483594318728759
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.008995804904539146,
+          0.008995804904539152
+        ],
+        [
+          0.008995804904539152,
+          0.00899580490453915
+        ],
+        [
+          0.0015111155568891847,
+          0.0015111155568891847
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "uniform_0.85",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.12516405979294465,
+        0.12516405979294465,
+        0.12516405979294465
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.07483594318728759,
+        0.07483594318728759,
+        0.07483594318728759
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.008995804904539146,
+          0.008995804904539152
+        ],
+        [
+          0.008995804904539152,
+          0.00899580490453915
+        ],
+        [
+          0.0015111155568891847,
+          0.0015111155568891847
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "uniform_0.85",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.12516405979294465,
+        0.12516405979294465,
+        0.12516405979294465
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.07483594318728759,
+        0.07483594318728759,
+        0.07483594318728759
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.008995804904539146,
+          0.008995804904539152
+        ],
+        [
+          0.008995804904539152,
+          0.00899580490453915
+        ],
+        [
+          0.0015111155568891847,
+          0.0015111155568891847
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579,
+        0.8500000238418579
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "uniform_0.85",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.012024493905070687
+        ],
+        [
+          0.00899580490453915,
+          0.012024493905070691
+        ],
+        [
+          0.0015111155568891849,
+          0.002019874819039595
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "single_0_0.85",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.012024493905070687
+        ],
+        [
+          0.00899580490453915,
+          0.012024493905070691
+        ],
+        [
+          0.0015111155568891849,
+          0.002019874819039595
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "single_0_0.85",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.012024493905070687
+        ],
+        [
+          0.00899580490453915,
+          0.012024493905070691
+        ],
+        [
+          0.0015111155568891849,
+          0.002019874819039595
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "single_0_0.85",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.012024493905070687
+        ],
+        [
+          0.00899580490453915,
+          0.012024493905070691
+        ],
+        [
+          0.0015111155568891849,
+          0.002019874819039595
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "single_0_0.85",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.12516405979294462,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.07483594318728762,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        8.673617379884035e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.012477659338665048
+        ],
+        [
+          0.00899580490453915,
+          0.008995804904539155
+        ],
+        [
+          0.0015111155568891849,
+          0.0015111155568891853
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        0.8500000238418579,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "adjacent_01_0.85",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.12516405979294462,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.07483594318728762,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        8.673617379884035e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.012477659338665048
+        ],
+        [
+          0.00899580490453915,
+          0.008995804904539155
+        ],
+        [
+          0.0015111155568891849,
+          0.0015111155568891853
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        0.8500000238418579,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "adjacent_01_0.85",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.12516405979294462,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.07483594318728762,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        8.673617379884035e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.012477659338665048
+        ],
+        [
+          0.00899580490453915,
+          0.008995804904539155
+        ],
+        [
+          0.0015111155568891849,
+          0.0015111155568891853
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        0.8500000238418579,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "adjacent_01_0.85",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.12516405979294462,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.07483594318728762,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        8.673617379884035e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.012477659338665048
+        ],
+        [
+          0.00899580490453915,
+          0.008995804904539155
+        ],
+        [
+          0.0015111155568891849,
+          0.0015111155568891853
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        0.8500000238418579,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "adjacent_01_0.85",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.10638945380814668,
+        0.12516405979294465,
+        0.10638945380814666
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.08502682315774557,
+        0.07483594318728759,
+        0.08502682315774554
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        -1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.008995804904539152
+        ],
+        [
+          0.00899580490453915,
+          0.008995804904539152
+        ],
+        [
+          0.0015111155568891849,
+          0.002095997561119442
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        1.0,
+        0.8500000238418579,
+        1.0
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "opposite_02_0.85",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.10638945380814668,
+        0.12516405979294465,
+        0.10638945380814666
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.08502682315774557,
+        0.07483594318728759,
+        0.08502682315774554
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        -1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.008995804904539152
+        ],
+        [
+          0.00899580490453915,
+          0.008995804904539152
+        ],
+        [
+          0.0015111155568891849,
+          0.002095997561119442
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        1.0,
+        0.8500000238418579,
+        1.0
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "opposite_02_0.85",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.10638945380814668,
+        0.12516405979294465,
+        0.10638945380814666
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.08502682315774557,
+        0.07483594318728759,
+        0.08502682315774554
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        -1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.008995804904539152
+        ],
+        [
+          0.00899580490453915,
+          0.008995804904539152
+        ],
+        [
+          0.0015111155568891849,
+          0.002095997561119442
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        1.0,
+        0.8500000238418579,
+        1.0
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "opposite_02_0.85",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.12516405979294465,
+        0.10638945380814668,
+        0.12516405979294465,
+        0.10638945380814666
+      ],
+      "headroom_N": [
+        0.07483594318728759,
+        0.08502682315774557,
+        0.07483594318728759,
+        0.08502682315774554
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        -1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.00899580490453915,
+          0.008995804904539152
+        ],
+        [
+          0.00899580490453915,
+          0.008995804904539152
+        ],
+        [
+          0.0015111155568891849,
+          0.002095997561119442
+        ]
+      ],
+      "effectiveness": [
+        0.8500000238418579,
+        1.0,
+        0.8500000238418579,
+        1.0
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "opposite_02_0.85",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.15198493659992615,
+        0.15198493659992615,
+        0.15198493659992615
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.04801506638030609,
+        0.04801506638030609,
+        0.04801506638030609
+      ],
+      "trim_wrench_residual": [
+        -5.551115123125783e-17,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0007984432768841789,
+          0.0007984432768841788
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "uniform_0.7",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.15198493659992615,
+        0.15198493659992615,
+        0.15198493659992615
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.04801506638030609,
+        0.04801506638030609,
+        0.04801506638030609
+      ],
+      "trim_wrench_residual": [
+        -5.551115123125783e-17,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0007984432768841789,
+          0.0007984432768841788
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "uniform_0.7",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.15198493659992615,
+        0.15198493659992615,
+        0.15198493659992615
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.04801506638030609,
+        0.04801506638030609,
+        0.04801506638030609
+      ],
+      "trim_wrench_residual": [
+        -5.551115123125783e-17,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0007984432768841789,
+          0.0007984432768841788
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "uniform_0.7",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.15198493659992615,
+        0.15198493659992615,
+        0.15198493659992615
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.04801506638030609,
+        0.04801506638030609,
+        0.04801506638030609
+      ],
+      "trim_wrench_residual": [
+        -5.551115123125783e-17,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0007984432768841789,
+          0.0007984432768841788
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "uniform_0.7",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        -5.551115123125783e-17,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.012024493905070687
+        ],
+        [
+          0.0047532036272443295,
+          0.012024493905070691
+        ],
+        [
+          0.0007984432768841791,
+          0.002019874819039595
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "single_0_0.7",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        -5.551115123125783e-17,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.012024493905070687
+        ],
+        [
+          0.0047532036272443295,
+          0.012024493905070691
+        ],
+        [
+          0.0007984432768841791,
+          0.002019874819039595
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "single_0_0.7",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        -5.551115123125783e-17,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.012024493905070687
+        ],
+        [
+          0.0047532036272443295,
+          0.012024493905070691
+        ],
+        [
+          0.0007984432768841791,
+          0.002019874819039595
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "single_0_0.7",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        -5.551115123125783e-17,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.012024493905070687
+        ],
+        [
+          0.0047532036272443295,
+          0.012024493905070691
+        ],
+        [
+          0.0007984432768841791,
+          0.002019874819039595
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "single_0_0.7",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.15198493659992615,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.04801506638030609,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.012930824952331202
+        ],
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0007984432768841789,
+          0.0007984432768841789
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        0.699999988079071,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "adjacent_01_0.7",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.15198493659992615,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.04801506638030609,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.012930824952331202
+        ],
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0007984432768841789,
+          0.0007984432768841789
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        0.699999988079071,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "adjacent_01_0.7",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.15198493659992615,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.04801506638030609,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.012930824952331202
+        ],
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0007984432768841789,
+          0.0007984432768841789
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        0.699999988079071,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "adjacent_01_0.7",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992615,
+        0.15198493659992615,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030609,
+        0.04801506638030609,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        -2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.0047532036272443295,
+          0.012930824952331202
+        ],
+        [
+          0.0047532036272443295,
+          0.0047532036272443295
+        ],
+        [
+          0.0007984432768841789,
+          0.0007984432768841789
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        0.699999988079071,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "adjacent_01_0.7",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992618,
+        0.10638945380814664,
+        0.1519849365999262,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030606,
+        0.08502682315774553,
+        0.04801506638030603,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        -8.673617379884035e-19,
+        -6.505213034913027e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.004753203627244327,
+          0.0047532036272443234
+        ],
+        [
+          0.004753203627244327,
+          0.0047532036272443234
+        ],
+        [
+          0.000798443276884178,
+          0.002172120333447756
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        1.0,
+        0.699999988079071,
+        1.0
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "opposite_02_0.7",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992618,
+        0.10638945380814664,
+        0.1519849365999262,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030606,
+        0.08502682315774553,
+        0.04801506638030603,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        -8.673617379884035e-19,
+        -6.505213034913027e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.004753203627244327,
+          0.0047532036272443234
+        ],
+        [
+          0.004753203627244327,
+          0.0047532036272443234
+        ],
+        [
+          0.000798443276884178,
+          0.002172120333447756
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        1.0,
+        0.699999988079071,
+        1.0
+      ],
+      "time_constants_s": [
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625,
+        0.0892481580376625
+      ],
+      "pattern": "opposite_02_0.7",
+      "lag_scale": 1.5
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992618,
+        0.10638945380814664,
+        0.1519849365999262,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030606,
+        0.08502682315774553,
+        0.04801506638030603,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        -8.673617379884035e-19,
+        -6.505213034913027e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.004753203627244327,
+          0.0047532036272443234
+        ],
+        [
+          0.004753203627244327,
+          0.0047532036272443234
+        ],
+        [
+          0.000798443276884178,
+          0.002172120333447756
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        1.0,
+        0.699999988079071,
+        1.0
+      ],
+      "time_constants_s": [
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667,
+        0.11899754405021667
+      ],
+      "pattern": "opposite_02_0.7",
+      "lag_scale": 2
+    },
+    {
+      "trim_feasible": true,
+      "trim_classification": "trim_feasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.15198493659992618,
+        0.10638945380814664,
+        0.1519849365999262,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        0.04801506638030606,
+        0.08502682315774553,
+        0.04801506638030603,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.734723475976807e-18,
+        -8.673617379884035e-19,
+        -6.505213034913027e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          0.004753203627244327,
+          0.0047532036272443234
+        ],
+        [
+          0.004753203627244327,
+          0.0047532036272443234
+        ],
+        [
+          0.000798443276884178,
+          0.002172120333447756
+        ]
+      ],
+      "effectiveness": [
+        0.699999988079071,
+        1.0,
+        0.699999988079071,
+        1.0
+      ],
+      "time_constants_s": [
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325,
+        0.178496316075325
+      ],
+      "pattern": "opposite_02_0.7",
+      "lag_scale": 3
+    },
+    {
+      "trim_feasible": false,
+      "trim_classification": "proven_infeasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.26597363055705076,
+        0.10638945380814666,
+        0.10638945380814671,
+        0.10638945380814667
+      ],
+      "headroom_N": [
+        -0.06597362757681852,
+        0.08502682315774554,
+        0.0850268231577456,
+        0.08502682315774555
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        2.168404344971009e-18,
+        4.336808689942018e-19,
+        -4.336808689942018e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ]
+      ],
+      "effectiveness": [
+        0.4000000059604645,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "single_0_deep_0.4",
+      "lag_scale": 1
+    },
+    {
+      "trim_feasible": false,
+      "trim_classification": "proven_infeasible",
+      "infeasibility_scope": "specified level zero-rate hover; not all flight",
+      "maneuver_classification": "witness_not_found",
+      "required_command_N": [
+        0.2659736305570507,
+        0.26597363055705076,
+        0.2659736305570508,
+        0.26597363055705076
+      ],
+      "headroom_N": [
+        -0.06597362757681846,
+        -0.06597362757681852,
+        -0.06597362757681857,
+        -0.06597362757681852
+      ],
+      "trim_wrench_residual": [
+        0.0,
+        1.3010426069826053e-18,
+        1.3010426069826053e-18,
+        2.168404344971009e-19
+      ],
+      "torque_limits_negative_positive_Nm": [
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ],
+        [
+          null,
+          null
+        ]
+      ],
+      "effectiveness": [
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645,
+        0.4000000059604645
+      ],
+      "time_constants_s": [
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834,
+        0.05949877202510834
+      ],
+      "pattern": "uniform_deep_0.4",
+      "lag_scale": 1
+    }
+  ],
+  "authority_scope": "Level zero-rate hover, all four wrench equations; maneuver witnesses not evaluated here. No comparative controller outcomes used to select these cases."
+}

@@ -336,6 +336,7 @@ def runtime_policy_values(
     *,
     obstacle_clearance: float,
     ego_radius: float = 0.0,
+    envelope_derivative: bool = False,
 ) -> RuntimePolicyValues:
     """Return exact hard spherical values using relative swept motion.
 
@@ -343,6 +344,11 @@ def runtime_policy_values(
     both interval endpoints.  The closest point of that relative segment gives the exact swept
     distance under piecewise-linear interpolation.  This is runtime-only geometry: no obstacle
     quantity is passed to either candidate policy.
+
+    ``envelope_derivative=True`` holds the exact closest-segment fraction fixed during
+    differentiation. The envelope theorem gives the same derivative away from ties, while
+    avoiding quotient-rule overflow on almost stationary segments. The forward values are
+    unchanged. The default preserves the accepted direct-wrench differentiation path.
     """
     if rollout_states.ndim != 3 or rollout_states.shape[-1] != 13:
         raise ValueError("rollout_states must have shape (policies, horizon + 1, 13)")
@@ -386,6 +392,8 @@ def runtime_policy_values(
     safe_denominator = jnp.where(moving, denominator, 1.0)
     fraction = jnp.clip(-jnp.sum(start * delta, axis=-1) / safe_denominator, 0.0, 1.0)
     fraction = jnp.where(moving, fraction, 0.0)
+    if envelope_derivative:
+        fraction = jax.lax.stop_gradient(fraction)
     closest = start + fraction[..., None] * delta
     segment_values = jnp.sum(closest * closest, axis=-1) - inflated_radius_squared[None, None, :]
     segment_mask = mask[:-1] & mask[1:]
