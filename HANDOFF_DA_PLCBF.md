@@ -1,6 +1,13 @@
 # DA-PLCBF current handoff — 2026-09-05
 
 Start with [DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md](DA_PLCBF_CLOSED_LOOP_SEARCH_REVIEW.md).
+
+The latest presentation adds the original wind-on/off preflight before the unchanged case video:
+[DA_PLCBF_PREFLIGHT_VIDEO_REVIEW.md](DA_PLCBF_PREFLIGHT_VIDEO_REVIEW.md). Its local clip is
+`artifacts/da_plcbf/preflight-video-20260905/comparison-v1/preflight_then_case.mp4`.
+The preflight lasts 19 s, followed by a 3 s explicit restart transition. All 281 original case
+frames remain identical, and no case-study numerical result changes. Videos stay local.
+
 This revision follows `main` commit `0bcd4a17b03d0fc99f4bdcc024b866090072fa43`.
 
 The full continuous frozen controller now reaches a definite modeled XML-sphere intersection

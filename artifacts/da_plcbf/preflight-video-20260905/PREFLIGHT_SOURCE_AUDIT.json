@@ -1,0 +1,295 @@
+{
+  "scope": "Independent read-only audit of archived preflight and unchanged current case, plus newly composed video. No numerical or old artifact edits.",
+  "audit_method": "Separate FFmpeg framehash SHA256 full decode; does not import the composer or use its MD5 helper. All original case files compared to the publication manifest obtained directly from Git commit 95a9225.",
+  "composer_script_sha256": "db13e9f05b413212c81413c439036cecb9f599343ecbf6005a3c59faa08c2f2d",
+  "composer_script_matches_render_provenance": true,
+  "composite_sha256": "7752b11894a29cc041ece358cf95ebdc88afcb43f4ef61f90ecbf9a47bbe193c",
+  "source_videos": {
+    "preflight": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison_demo.mp4",
+      "sha256": "7174f16b1bb4c5ffd0866a89ea318f7bf1d42d0921edcf1000213dd7ba42a3f5",
+      "matches_composition_provenance": true
+    },
+    "case": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/comparison.mp4",
+      "sha256": "fca55c16cc3c8c675a7ee8eeed802d2b291a7f88879ee15e1de0872e6a2d208e",
+      "matches_composition_provenance": true
+    }
+  },
+  "video_checks": {
+    "frame_count": 721,
+    "duration_seconds": 36.05,
+    "fps": 20,
+    "preflight_source_interval_seconds": [
+      0,
+      19
+    ],
+    "end_exclusive": true,
+    "preflight_frames": 380,
+    "transition_frames": 60,
+    "case_frames": 281,
+    "case_start_frame": 440,
+    "case_start_video_seconds": 22,
+    "all_original_case_decoded_pixels_exact": true,
+    "all_generated_prefix_and_transition_pixels_exact_in_composite": true,
+    "full_decode_passed": true,
+    "independent_commands": [
+      [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-threads",
+        "1",
+        "-i",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/comparison.mp4",
+        "-map",
+        "0:v:0",
+        "-f",
+        "framehash",
+        "-hash",
+        "sha256",
+        "-"
+      ],
+      [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-threads",
+        "1",
+        "-i",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/preflight_then_case.mp4",
+        "-map",
+        "0:v:0",
+        "-f",
+        "framehash",
+        "-hash",
+        "sha256",
+        "-"
+      ],
+      [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-threads",
+        "1",
+        "-i",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/preflight.mp4",
+        "-map",
+        "0:v:0",
+        "-f",
+        "framehash",
+        "-hash",
+        "sha256",
+        "-"
+      ],
+      [
+        "ffmpeg",
+        "-v",
+        "error",
+        "-threads",
+        "1",
+        "-i",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/transition.mp4",
+        "-map",
+        "0:v:0",
+        "-f",
+        "framehash",
+        "-hash",
+        "sha256",
+        "-"
+      ]
+    ]
+  },
+  "source_learning": {
+    "execution_mode": "deterministic",
+    "claims_measured_realtime_preflight": false,
+    "same_fixed_adaptive_physical_states_all_475_controls": true,
+    "wind_change_times_seconds": [
+      3.0,
+      11.0
+    ],
+    "wind_velocity_m_s": [
+      1.6,
+      0.8,
+      0
+    ],
+    "finite_updates_before19s": 475,
+    "calm_wind_recovery_update_counts": [
+      75,
+      200,
+      200
+    ],
+    "version_at_start": 660,
+    "last_control_input_version_before19s": 1134,
+    "event_resets": false,
+    "payload_in_prefix": false,
+    "navigation_in_prefix": false
+  },
+  "same_uncompensated_initial_checkpoint": {
+    "path": "artifacts/da_plcbf/hover-explanation-20260905/learning/hover-probe-1/restoration_uncompensated_gated/initial_checkpoint",
+    "sha256": "8f70370b8c9b3603838e71f32fbc9fec2d0e57436068843395a882b68f583dc6",
+    "version": 660,
+    "both_current_case_and_preflight": true
+  },
+  "reference_binding": [
+    {
+      "name": "nominal_reference.json",
+      "sha256": "c105b8a9eec836073d55a8a931722fbdc29410a98d7e992375ec8e299972e92f",
+      "preflight_and_current_case_exact": true
+    },
+    {
+      "name": "nominal_reference.npz",
+      "sha256": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd",
+      "preflight_and_current_case_exact": true
+    }
+  ],
+  "analysis_inputs": [
+    {
+      "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/dense_plant_states.npz",
+      "sha256": "086e426d45b19e00493e32e734ec75e5b5851e5404e648658ba48bf96eb87162",
+      "matches_original_analysis": true
+    },
+    {
+      "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison.json",
+      "sha256": "89c196335bb2fe5b89ee71a2407fdc90b36e6f18e0e80d0752c7ef2b80a68fc6",
+      "matches_original_analysis": true
+    },
+    {
+      "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison.npz",
+      "sha256": "8ba3bf4a594b7314091ec1e61e94467f9fa0fd6cc72551532ab47093b7313707",
+      "matches_original_analysis": true
+    },
+    {
+      "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/nominal_reference.json",
+      "sha256": "c105b8a9eec836073d55a8a931722fbdc29410a98d7e992375ec8e299972e92f",
+      "matches_original_analysis": true
+    },
+    {
+      "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/nominal_reference.npz",
+      "sha256": "14ff71789c1995c5b8e9723c0813924e91bb80320611d95f1cb05319f39a50fd",
+      "matches_original_analysis": true
+    },
+    {
+      "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/raw_diagnostics.npz",
+      "sha256": "b0907c3c3aaf1bcba49614bb542c0f4bcd58668c155dda020bb9cc090be58608",
+      "matches_original_analysis": true
+    },
+    {
+      "path": "artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/same_state_probe_trajectories.npz",
+      "sha256": "e8af1bff338bd356a3ce5cbbe1ead71b7982095fb65e58c96843801e6e04041a",
+      "matches_original_analysis": true
+    }
+  ],
+  "same_state_recovery_metrics": [
+    {
+      "time_seconds": 3.0,
+      "same_recorded_state_anchor": "adaptive",
+      "methods": {
+        "adaptive": {
+          "tracking_position_rmse_m": 0.09123972803354263,
+          "occupied_direction_count": 6,
+          "endpoint_centroid_error_m": 0.29866403341293335,
+          "centered_shape_rmse_m": 0.006301308050751686
+        },
+        "fixed": {
+          "tracking_position_rmse_m": 0.09123372286558151,
+          "occupied_direction_count": 6,
+          "endpoint_centroid_error_m": 0.2986411452293396,
+          "centered_shape_rmse_m": 0.006303729955106974
+        }
+      }
+    },
+    {
+      "time_seconds": 10.0,
+      "same_recorded_state_anchor": "adaptive",
+      "methods": {
+        "adaptive": {
+          "tracking_position_rmse_m": 0.020327184349298477,
+          "occupied_direction_count": 15,
+          "endpoint_centroid_error_m": 0.020307039842009544,
+          "centered_shape_rmse_m": 0.015063579194247723
+        },
+        "fixed": {
+          "tracking_position_rmse_m": 0.09065309911966324,
+          "occupied_direction_count": 7,
+          "endpoint_centroid_error_m": 0.2953829765319824,
+          "centered_shape_rmse_m": 0.007329558953642845
+        }
+      }
+    },
+    {
+      "time_seconds": 11.0,
+      "same_recorded_state_anchor": "adaptive",
+      "methods": {
+        "adaptive": {
+          "tracking_position_rmse_m": 0.11301925778388977,
+          "occupied_direction_count": 5,
+          "endpoint_centroid_error_m": 0.3759196996688843,
+          "centered_shape_rmse_m": 0.01221566554158926
+        },
+        "fixed": {
+          "tracking_position_rmse_m": 1.3267193935462274e-05,
+          "occupied_direction_count": 15,
+          "endpoint_centroid_error_m": 4.462544893613085e-06,
+          "centered_shape_rmse_m": 1.3206891708250623e-05
+        }
+      }
+    },
+    {
+      "time_seconds": 18.0,
+      "same_recorded_state_anchor": "adaptive",
+      "methods": {
+        "adaptive": {
+          "tracking_position_rmse_m": 0.006560572423040867,
+          "occupied_direction_count": 15,
+          "endpoint_centroid_error_m": 0.008682593703269958,
+          "centered_shape_rmse_m": 0.005811248905956745
+        },
+        "fixed": {
+          "tracking_position_rmse_m": 1.4147199181024916e-05,
+          "occupied_direction_count": 16,
+          "endpoint_centroid_error_m": 1.5870982679189183e-05,
+          "centered_shape_rmse_m": 1.3278458027343731e-05
+        }
+      }
+    },
+    {
+      "time_seconds": 18.8,
+      "same_recorded_state_anchor": "adaptive",
+      "methods": {
+        "adaptive": {
+          "tracking_position_rmse_m": 0.005939778871834278,
+          "occupied_direction_count": 15,
+          "endpoint_centroid_error_m": 0.00883104931563139,
+          "centered_shape_rmse_m": 0.0051279026083648205
+        },
+        "fixed": {
+          "tracking_position_rmse_m": 1.4530046428262722e-05,
+          "occupied_direction_count": 16,
+          "endpoint_centroid_error_m": 2.1476022084243596e-05,
+          "centered_shape_rmse_m": 1.2760964636981953e-05
+        }
+      }
+    }
+  ],
+  "interpretation": "Persistent adaptation partially restores fallback behavior, chiefly by correcting wind drift. Identical wind-aware nominal controllers produce both physical hover histories. Wind removal causes a real transient. At 18.8 s adaptive path RMSE is 0.0059397789 m with 15/16 direction bins; an exact parameter or fan return is not claimed. The transition explicitly restarts the state, clock, and original version-660 checkpoint for the unchanged paced case. Preflight updates are not transferred.",
+  "caption_audit": {
+    "wind_on_frame60_seconds3": true,
+    "wind_off_frame220_seconds11": true,
+    "recovery_label_frame280_seconds14": true,
+    "old_payload_promise_covered_y816_to844": true,
+    "new_label_no_payload_change_true": true,
+    "transition_explicit_state_checkpoint_clock_restart": true,
+    "note": "Visual layout inspected separately by root; timing/content independently checked against source metadata, numerical arrays and captured FFmpeg filter arguments."
+  },
+  "original_case_integrity": {
+    "baseline_commit": "95a9225b6cf8e71897f93f57f34e2b9ad9b7357e",
+    "committed_manifest_sha256": "6933bb07b4501af6bbd4d3556b4597361a69f2f3eaed28510e01fcf8c86e27f0",
+    "files_checked": 615,
+    "tracked_and_local_only_files_all_match": true,
+    "modified_case_source_or_tracked_artifact_paths": [],
+    "failed_paths": [],
+    "manifest_path": "artifacts/da_plcbf/closed-loop-search-20260905/publication/PUBLICATION_MANIFEST.json"
+  },
+  "compensated_archive_caution": "The unused compensated-control-v1 preflight starts at version 460 with different regularizer weights. It is not substituted for the current version-660 compensated case."
+}

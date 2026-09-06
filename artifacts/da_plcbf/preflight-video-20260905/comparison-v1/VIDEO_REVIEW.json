@@ -1,0 +1,153 @@
+{
+  "scope": "Presentation-only preflight intro; original case and its numerical evidence unchanged",
+  "source_videos": {
+    "preflight": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison_demo.mp4",
+      "sha256": "7174f16b1bb4c5ffd0866a89ea318f7bf1d42d0921edcf1000213dd7ba42a3f5"
+    },
+    "case": {
+      "path": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/closed-loop-search-20260905/videos/paced-collision-v2/comparison.mp4",
+      "sha256": "fca55c16cc3c8c675a7ee8eeed802d2b291a7f88879ee15e1de0872e6a2d208e"
+    }
+  },
+  "preflight_source_metadata_sha256": "89c196335bb2fe5b89ee71a2407fdc90b36e6f18e0e80d0752c7ef2b80a68fc6",
+  "timeline": [
+    {
+      "video_seconds": [
+        0,
+        3
+      ],
+      "phase": "calm hover"
+    },
+    {
+      "video_seconds": [
+        3,
+        11
+      ],
+      "phase": "wind on",
+      "wind_velocity_m_s": [
+        1.6,
+        0.8,
+        0
+      ]
+    },
+    {
+      "video_seconds": [
+        11,
+        19
+      ],
+      "phase": "wind removed; persistent learning recovers"
+    },
+    {
+      "video_seconds": [
+        19,
+        22
+      ],
+      "phase": "explicit separate-experiment transition"
+    },
+    {
+      "video_seconds": [
+        22,
+        36.05
+      ],
+      "phase": "unchanged recorded case; its source clock starts at zero"
+    }
+  ],
+  "preflight_trim": {
+    "source_seconds": [
+      0,
+      19
+    ],
+    "end_exclusive": true,
+    "frames": 380,
+    "no_payload_or_navigation_segment": true
+  },
+  "case_decoded_frames": 281,
+  "all_case_decoded_frames_exact": true,
+  "frame_count": 721,
+  "fps": 20,
+  "duration_seconds": 36.05,
+  "full_decode_passed": true,
+  "video_sha256": "7752b11894a29cc041ece358cf95ebdc88afcb43f4ef61f90ecbf9a47bbe193c",
+  "script_sha256": "db13e9f05b413212c81413c439036cecb9f599343ecbf6005a3c59faa08c2f2d",
+  "commands": [
+    [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-i",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-explanation-20260905/hover-wind-payload-navigation/navigation_comparison_demo.mp4",
+      "-vf",
+      "trim=end_frame=380,setpts=PTS-STARTPTS,drawbox=x=0:y=0:w=1450:h=75:color=0x06121a:t=fill,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/title.txt:fontsize=23:fontcolor=white:x=28:y=17,drawbox=x=0:y=816:w=1600:h=28:color=0x06121a:t=fill,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/payload.txt:fontsize=15:fontcolor=0xb4c2cd:x=(w-tw)/2:y=822,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/calm.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,0,59)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/wind.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,60,219)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/off.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,220,279)',drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/recovery.txt:fontsize=17:fontcolor=white:x=28:y=44:enable='between(n,280,379)'",
+      "-an",
+      "-c:v",
+      "libx264",
+      "-preset",
+      "medium",
+      "-crf",
+      "17",
+      "-profile:v",
+      "high",
+      "-level:v",
+      "4.0",
+      "-pix_fmt",
+      "yuv420p",
+      "-video_track_timescale",
+      "10240",
+      "-movflags",
+      "+faststart",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/preflight.mp4"
+    ],
+    [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-f",
+      "lavfi",
+      "-i",
+      "color=c=0x06121a:s=1600x900:r=20",
+      "-frames:v",
+      "60",
+      "-vf",
+      "drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/transition_title.txt:fontsize=44:fontcolor=white:x=(w-tw)/2:y=285,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/transition_case.txt:fontsize=29:fontcolor=0x66d3d5:x=(w-tw)/2:y=372,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/transition_reset.txt:fontsize=21:fontcolor=white:x=(w-tw)/2:y=438,drawtext=fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf:textfile=/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/captions/transition_scope.txt:fontsize=18:fontcolor=0xb4c2cd:x=(w-tw)/2:y=534",
+      "-an",
+      "-c:v",
+      "libx264",
+      "-preset",
+      "medium",
+      "-crf",
+      "17",
+      "-profile:v",
+      "high",
+      "-level:v",
+      "4.0",
+      "-pix_fmt",
+      "yuv420p",
+      "-video_track_timescale",
+      "10240",
+      "-movflags",
+      "+faststart",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/transition.mp4"
+    ],
+    [
+      "ffmpeg",
+      "-v",
+      "error",
+      "-f",
+      "concat",
+      "-safe",
+      "0",
+      "-i",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/concat.txt",
+      "-map",
+      "0:v:0",
+      "-c",
+      "copy",
+      "-movflags",
+      "+faststart",
+      "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/preflight-video-20260905/comparison-v1/preflight_then_case.mp4"
+    ]
+  ],
+  "learning_scope": "Archived preflight is deterministic learning; case retains measured paced execution",
+  "reset_scope": "Preflight updates are not transferred to the original case's state or library"
+}
