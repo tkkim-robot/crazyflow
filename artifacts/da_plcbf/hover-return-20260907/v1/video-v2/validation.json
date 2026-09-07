@@ -1,0 +1,39 @@
+{
+  "video_sha256": "a24141d04d0c992ba2d9c4e8b4d347cf387e61a864667bf8244bc82cd3c213af",
+  "ffprobe": {
+    "width": 2400,
+    "height": 900,
+    "avg_frame_rate": "20/1",
+    "duration": "32.050000",
+    "nb_read_frames": "641"
+  },
+  "panels": [
+    {
+      "method": "PD_F",
+      "frames_verified": 641,
+      "recorded_flight_frames_verified": 112,
+      "contact_frames_verified": 529,
+      "preview_hashes_verified": 17,
+      "final_online_updates_used": 0
+    },
+    {
+      "method": "F2",
+      "frames_verified": 641,
+      "recorded_flight_frames_verified": 113,
+      "contact_frames_verified": 528,
+      "preview_hashes_verified": 17,
+      "final_online_updates_used": 0
+    },
+    {
+      "method": "A_BAL",
+      "frames_verified": 641,
+      "recorded_flight_frames_verified": 641,
+      "contact_frames_verified": 0,
+      "preview_hashes_verified": 17,
+      "final_online_updates_used": 799
+    }
+  ],
+  "full_decode_passed": true,
+  "recorded_prefix_states_commands_predictions_binding_verified": true,
+  "contact_states_equal_separate_simulation": true
+}

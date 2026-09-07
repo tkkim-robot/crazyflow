@@ -1,0 +1,23 @@
+{
+  "source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-video-v1/libraries/comparison.mp4": "075a1467896ec3c2ea8736d0d866b2efe1d9ecce04e1882cbeb56a669ca48ff9",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-video-v1/adaptation/comparison.mp4": "0eb372b5b72b0b4684323209d555db2fa5bddede97ad80a505db24bd6fe2d96b",
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_three_panel_video.py": "823d01b935803ec81f73eb3716457f6689aa5b504732c745a2b7e3d114e4773d",
+    "benchmark/da_plcbf_actuator_video.py": "ae5315a8a34530cee0f4330669d642baada480b0cba9d48af105dcb82abfde19",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/three-panel-wind-20260907/v1/contact-v1/contact_replay.npz": "a6e3b4b756f74a8118098f6eec57546b8fc11b70ed79cf5772e77bda1949167a",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/three-panel-wind-20260907/v1/contact-v1/contact_replay.json": "90a5e91eae8a0ad1483bcfc19b7a457cc55d22fde26ba4c000a52c0b2152ca24"
+  },
+  "panel_order": [
+    "Handcrafted frozen",
+    "Learned frozen",
+    "Learned adaptive"
+  ],
+  "width": 2400,
+  "height": 900,
+  "fps": 20,
+  "force_scale_N": 0.25,
+  "contact_handoff_seconds": 21.765753458385685,
+  "contact_policy": "At physical contact, switch to zero rotor thrust and MuJoCo rigid-body contact dynamics. This is a separately simulated crash presentation, not the controller's recorded suffix.",
+  "learned_viewports": "Decoded original videos; no flight or learning rerun",
+  "handcrafted_prefix": "Decoded original video until the contact handoff"
+}

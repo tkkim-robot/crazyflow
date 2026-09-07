@@ -1,0 +1,36 @@
+{
+  "videos": [
+    {
+      "pair": "libraries",
+      "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-video-v1/libraries/comparison.mp4",
+      "sha256": "075a1467896ec3c2ea8736d0d866b2efe1d9ecce04e1882cbeb56a669ca48ff9",
+      "ffprobe": {
+        "width": 1600,
+        "height": 900,
+        "avg_frame_rate": "20/1",
+        "duration": "43.050000",
+        "nb_read_frames": "861"
+      },
+      "replayed_frames_verified": 861,
+      "preview_hashes_verified": 10,
+      "wind_and_stage_boundaries_verified": true,
+      "full_decode_passed": true
+    },
+    {
+      "pair": "adaptation",
+      "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-video-v1/adaptation/comparison.mp4",
+      "sha256": "0eb372b5b72b0b4684323209d555db2fa5bddede97ad80a505db24bd6fe2d96b",
+      "ffprobe": {
+        "width": 1600,
+        "height": 900,
+        "avg_frame_rate": "20/1",
+        "duration": "43.050000",
+        "nb_read_frames": "861"
+      },
+      "replayed_frames_verified": 861,
+      "preview_hashes_verified": 10,
+      "wind_and_stage_boundaries_verified": true,
+      "full_decode_passed": true
+    }
+  ]
+}

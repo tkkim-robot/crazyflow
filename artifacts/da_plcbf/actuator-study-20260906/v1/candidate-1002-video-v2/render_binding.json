@@ -1,0 +1,118 @@
+{
+  "command_interpolation": "exact right-continuous application events",
+  "config": {
+    "camera_azimuth": 180.0,
+    "camera_distance": 3.0,
+    "camera_elevation": -24.0,
+    "fps": 30,
+    "height": 1080,
+    "save_frame_every_seconds": 5.0,
+    "synthetic_fixture": false,
+    "trail_seconds": 5.0,
+    "width": 1920
+  },
+  "contact_semantics": "first audited geometric intersection; no MuJoCo contact continuation",
+  "force_boundary_audit": {
+    "A": [
+      {
+        "event_time_seconds": 2.0,
+        "interpretation": "legacy left-limit force with right-limit effectiveness label",
+        "left_index": 424,
+        "left_time_seconds": 1.9999999999999991,
+        "non_attitude_coordinates_unchanged": true,
+        "quaternion_handling": "equivalent orientation within storage-precision normalization tolerance",
+        "recorded_left_force_N": [
+          0.10639207065105438,
+          0.10636879503726959,
+          0.10636033862829208,
+          0.10637686401605606
+        ],
+        "recorded_right_force_N": [
+          0.09043326258998086,
+          0.09041347831770885,
+          0.09040629036987635,
+          0.09042033694986973
+        ],
+        "right_index": 425
+      }
+    ],
+    "F2": [
+      {
+        "event_time_seconds": 2.0,
+        "interpretation": "legacy left-limit force with right-limit effectiveness label",
+        "left_index": 424,
+        "left_time_seconds": 1.9999999999999991,
+        "non_attitude_coordinates_unchanged": true,
+        "quaternion_handling": "equivalent orientation within storage-precision normalization tolerance",
+        "recorded_left_force_N": [
+          0.10639207065105438,
+          0.10636879503726959,
+          0.10636033862829208,
+          0.10637686401605606
+        ],
+        "recorded_right_force_N": [
+          0.09043326258998086,
+          0.09041347831770885,
+          0.09040629036987635,
+          0.09042033694986973
+        ],
+        "right_index": 425
+      }
+    ]
+  },
+  "force_boundary_semantics": "original arrays are unchanged; any accepted legacy pre-event endpoint must be within eight ulps, immediately precede the exact declared event, retain the same position/velocity/rates/motor states and equivalent normalized attitude, and match both physical force limits; display uses the pre-event model strictly before that event and the post-event model at it",
+  "force_display": "current recorded effectiveness times interpolated internal effort, in N",
+  "motor_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "motor_site_positions_body_m": [
+    [
+      0.03536,
+      -0.03536,
+      0.0
+    ],
+    [
+      -0.03536,
+      -0.03536,
+      0.0
+    ],
+    [
+      -0.03536,
+      0.03536,
+      0.0
+    ],
+    [
+      0.03536,
+      0.03536,
+      0.0
+    ]
+  ],
+  "no_controller_learner_or_plant_execution": true,
+  "no_experimental_splicing": true,
+  "no_vehicle_scaling_or_attitude_edits": true,
+  "obstacle_clock": "saved analytic absolute time; each panel freezes with its contact pose",
+  "physical_world_id": "world-9b57a5b32746ca74e29a3e71eece39b968e9241e342dde72ca2a519b8f2f7d38",
+  "policy_paths": "only retained candidate_states from the last physically applied available decision",
+  "pose_interpolation": "recorded position/effort linear; recorded quaternion shortest-arc SLERP",
+  "selection_semantics": "endpoint ring only for a physically applied eligible selected prediction: accepted QP with positive executed_policy_dual, or accepted executed fallback; no ring for emergency/degraded/invalid or a QP with zero executed policy dual; the ring never denotes a flown future trajectory; only white trail is flown",
+  "source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-A/attempt-00/applications.npz": "9557d8aa10b353f8b7f6bc959d6d4fc5ddb2afa8589dbec2f954ad6808f2f0c3",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-A/attempt-00/binding.json": "ff2c138f0d0e52db73230e95712c4598072aec4bb09ac053785b0130056aefb3",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-A/attempt-00/controls.npz": "b7bcd81488b486f5f722240adac87d5b03b97fd037ba9715312ff13e1ac5efb2",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-A/attempt-00/dense.npz": "0e2b6ea8452b43e7eb8488417ffacdf15c5faadbe22f3c532cd7207bf6388d8f",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-A/attempt-00/summary.json": "2eb9c6d74a9d9463ccb2e7e02f0d537f625959514aae29d96ddadba7285d892e",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-F2/attempt-00/applications.npz": "337f01d390b5a3cdf755039ce300111a06d329d3c03344634bfd32baf60940d4",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-F2/attempt-00/binding.json": "49d5b1a404138f424cc95b63880af4ac63987d875826ac92358fd6901bcb6674",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-F2/attempt-00/controls.npz": "31e88b44ef140541348c817a2fa158c071811ba5245cc193e8468c70709d766a",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-F2/attempt-00/dense.npz": "fa6772890e192a4008413a0705b48f5e6e84ee16eedb8848a5ed2e848b02fe7e",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/actuator-study-20260906/v1/candidate-1002-original-v1/world-0000-seed-11-F2/attempt-00/summary.json": "39123517c25632bfb19ff0f0c6508ce7f261da0b8ba8db1a4f8a9181badcec5c",
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_actuator_video.py": "a26f12282b189e850407f10fc6a07ad151798ec3aaa4f8364b2611ba8bff6d00",
+    "/home/tk/Desktop/mycode/crazyflow/crazyflow/drones/cf21B_500.xml": "91dd1870fb07bb7f407034a8f7d53e97ff52253103528a256447fb57109703d5",
+    "/home/tk/Desktop/mycode/crazyflow/crazyflow/safety/da_plcbf/mujoco_comparison_video.py": "c2cd2284efa2efb716bc3eb97c6f8c4f1ef6ab8e6b1cf805d1396fe3bd969dd5"
+  },
+  "status": "rendering",
+  "synthetic_fixture": false
+}

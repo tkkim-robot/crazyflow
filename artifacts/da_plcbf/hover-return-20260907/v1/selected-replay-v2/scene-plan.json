@@ -1,0 +1,422 @@
+{
+  "trial": {
+    "index": 3,
+    "second_wind_angle": 2.356194490192345,
+    "second_wind_speed": 1.6
+  },
+  "source_scene_plan": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/dense-search-v1/case-005/scene-plan.json",
+  "scene": {
+    "world": {
+      "schema": "exogenous_navigation_world_v1",
+      "config": {
+        "seed": 71505,
+        "obstacle_count": 6,
+        "dt": 0.02,
+        "control_interval_steps": 2,
+        "duration_seconds": 32.0,
+        "waypoint_count": 2,
+        "reach_radius": 0.4,
+        "moving_obstacles": true,
+        "obstacle_time_offset_seconds": 0.0,
+        "wind_events": [
+          {
+            "time_seconds": 2.0,
+            "velocity": [
+              1.7888543820005527,
+              0.8944271909984739,
+              0.0
+            ]
+          },
+          {
+            "time_seconds": 9.0,
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "time_seconds": 16.0,
+            "velocity": [
+              -1.131370849898476,
+              1.1313708498984762,
+              0.0
+            ]
+          },
+          {
+            "time_seconds": 25.2,
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "payload_events": [],
+        "ego_radius": 0.106,
+        "obstacle_clearance": 0.15,
+        "arena_lower": [
+          -5.0,
+          -4.0,
+          0.15
+        ],
+        "arena_upper": [
+          5.0,
+          4.0,
+          4.0
+        ],
+        "speed_max": 3.5,
+        "angular_rate_max": 12.0,
+        "tilt_max_radians": 0.9
+      },
+      "trajectory": "center(t) = mean + amplitude * sin(omega*t + phase)",
+      "event_semantics": "right-continuous prescribed changes at command boundaries",
+      "obstacle_masks": "all obstacles active at all prediction nodes; no teleports",
+      "ego_enclosure": {
+        "radius_m": 0.106,
+        "cf21b_asset_collider_radius_m": 0.086,
+        "cf21b_asset_collider_body_offset_m": [
+          0.0,
+          0.0,
+          0.02
+        ],
+        "encloses_asset_collider": true,
+        "scope": "body-origin spherical safety envelope; envelope intersection is distinct from a measured MuJoCo collider contact"
+      },
+      "initial_state": [
+        0.0,
+        0.0,
+        1.7,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "waypoint_positions": [
+        [
+          0.0,
+          0.0,
+          1.7
+        ],
+        [
+          0.0,
+          0.0,
+          1.7
+        ]
+      ],
+      "obstacle_mean_centers": [
+        [
+          0.14526273631086387,
+          0.13747267888377107,
+          1.7
+        ],
+        [
+          -0.04642346408421431,
+          0.19453755931033387,
+          2.1
+        ],
+        [
+          -0.19168620039507825,
+          0.05706488042656275,
+          1.7
+        ],
+        [
+          -0.1452627363108639,
+          -0.13747267888377104,
+          1.2999999999999998
+        ],
+        [
+          0.04642346408421428,
+          -0.1945375593103339,
+          1.7
+        ],
+        [
+          0.19168620039507825,
+          -0.05706488042656277,
+          1.2999999999999998
+        ]
+      ],
+      "obstacle_amplitudes": [
+        [
+          -3.5007130215099176,
+          3.699085204948566,
+          0.0
+        ],
+        [
+          -4.953858269003584,
+          -1.182163805512284,
+          0.0
+        ],
+        [
+          -1.453145247493665,
+          -4.881249010460852,
+          0.0
+        ],
+        [
+          3.500713021509917,
+          -3.6990852049485667,
+          0.0
+        ],
+        [
+          4.953858269003584,
+          1.1821638055122834,
+          0.0
+        ],
+        [
+          1.4531452474936657,
+          4.881249010460852,
+          0.0
+        ]
+      ],
+      "obstacle_angular_frequencies": [
+        0.19634954084936207,
+        0.19634954084936207,
+        0.19634954084936207,
+        0.19634954084936207,
+        0.19634954084936207,
+        0.19634954084936207
+      ],
+      "obstacle_phases": [
+        -1.1780972450961724,
+        -1.2566370614359172,
+        -1.335176877775662,
+        -1.413716694115407,
+        -1.4922565104551517,
+        -1.5707963267948966
+      ],
+      "obstacle_radii": [
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6
+      ]
+    },
+    "family": "hover_return_3d",
+    "scene_seed": 71505,
+    "dynamics_cell": "wind_only",
+    "event_time": 2.0,
+    "effectiveness_after": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "lag_multipliers_after": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "navigation_start": 0.0,
+    "recovery_time": null,
+    "physical_spec": {
+      "robot_model": "cf21B_500_actuator_contract_v1",
+      "duration_seconds": 32.0,
+      "navigation_start_seconds": 0.0,
+      "reach_radius_m": 0.4,
+      "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+      "obstacle_motion": "mean+amplitude*sin(frequency*t+phase)",
+      "collider_radius_m": 0.086,
+      "collider_offset_body_m": [
+        0.0,
+        0.0,
+        0.02
+      ],
+      "ground_height_m": 0.0,
+      "operational_limits": {
+        "arena_lower_m": [
+          -5.0,
+          -4.0,
+          0.15
+        ],
+        "arena_upper_m": [
+          5.0,
+          4.0,
+          4.0
+        ],
+        "speed_max_mps": 3.5,
+        "angular_rate_max_rps": 12.0,
+        "tilt_max_rad": 0.9
+      },
+      "initial_state": [
+        0.0,
+        0.0,
+        1.7,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "waypoint_positions": [
+        [
+          0.0,
+          0.0,
+          1.7
+        ],
+        [
+          0.0,
+          0.0,
+          1.7
+        ]
+      ],
+      "obstacle_mean_centers": [
+        [
+          0.14526273631086387,
+          0.13747267888377107,
+          1.7
+        ],
+        [
+          -0.04642346408421431,
+          0.19453755931033387,
+          2.1
+        ],
+        [
+          -0.19168620039507825,
+          0.05706488042656275,
+          1.7
+        ],
+        [
+          -0.1452627363108639,
+          -0.13747267888377104,
+          1.2999999999999998
+        ],
+        [
+          0.04642346408421428,
+          -0.1945375593103339,
+          1.7
+        ],
+        [
+          0.19168620039507825,
+          -0.05706488042656277,
+          1.2999999999999998
+        ]
+      ],
+      "obstacle_amplitudes": [
+        [
+          -3.5007130215099176,
+          3.699085204948566,
+          0.0
+        ],
+        [
+          -4.953858269003584,
+          -1.182163805512284,
+          0.0
+        ],
+        [
+          -1.453145247493665,
+          -4.881249010460852,
+          0.0
+        ],
+        [
+          3.500713021509917,
+          -3.6990852049485667,
+          0.0
+        ],
+        [
+          4.953858269003584,
+          1.1821638055122834,
+          0.0
+        ],
+        [
+          1.4531452474936657,
+          4.881249010460852,
+          0.0
+        ]
+      ],
+      "obstacle_angular_frequencies": [
+        0.19634954084936207,
+        0.19634954084936207,
+        0.19634954084936207,
+        0.19634954084936207,
+        0.19634954084936207,
+        0.19634954084936207
+      ],
+      "obstacle_phases": [
+        -1.1780972450961724,
+        -1.2566370614359172,
+        -1.335176877775662,
+        -1.413716694115407,
+        -1.4922565104551517,
+        -1.5707963267948966
+      ],
+      "obstacle_radii": [
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6
+      ],
+      "actuator_events": [],
+      "wind_events": [
+        {
+          "time_seconds": 2.0,
+          "velocity": [
+            1.7888543820005527,
+            0.8944271909984739,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 9.0,
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 16.0,
+          "velocity": [
+            -1.131370849898476,
+            1.1313708498984762,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 25.2,
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    "physical_world_id": "world-2105845455cd23f5ff5878169dc03debebf7bc1603cac9c3c5cadad642824a45"
+  },
+  "task": {
+    "position_tolerance_m": 0.7,
+    "speed_tolerance_mps": 0.35,
+    "return_dwell_seconds": 0.8,
+    "final_dwell_seconds": 1.0,
+    "final_position_tolerance_m": 0.15,
+    "final_speed_tolerance_mps": 0.15,
+    "return_windows": [
+      [
+        10.0,
+        15.6
+      ],
+      [
+        26.0,
+        32.0
+      ]
+    ]
+  },
+  "source_case": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/direction-refinement-v1/case-003",
+  "followup_mode": "replay"
+}

@@ -1,0 +1,19 @@
+{
+  "rows": [
+    {
+      "window": [
+        10.0,
+        15.6
+      ],
+      "whole_home_tolerance_ball_safety_shell_clearance_lower_bound_m": 0.4431411713622859
+    },
+    {
+      "window": [
+        26.0,
+        32.0
+      ],
+      "whole_home_tolerance_ball_safety_shell_clearance_lower_bound_m": 0.44314117136228726
+    }
+  ],
+  "semantics": "Minimum center separation minus mover radius, drone enclosure, requested safety clearance, and full home tolerance radius; 1 ms sampling with global mover-speed Lipschitz remainder."
+}

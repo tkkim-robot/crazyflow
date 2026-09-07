@@ -1,0 +1,181 @@
+{
+  "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/video-v1/comparison.mp4",
+  "sha256": "f32567c183f806b5a21877ed39c8423c423e49645074d3141ba24f2642f02bd4",
+  "frame_count": 861,
+  "width": 2400,
+  "height": 900,
+  "fps": 20,
+  "full_decode_passed": true,
+  "panel_order": [
+    "PD_F",
+    "F2",
+    "A_BAL"
+  ],
+  "panels": [
+    {
+      "source_sha256": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/binding.json": "1122b2caf374eca186e30687ec69ccbb4151565be94320df7362377f0a117f2d",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/summary.json": "f1af6affc3a57cebcfbb7e8d26538d7e9f826f9bba30de3f0517c5d7b8979b17",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/dense.npz": "236c61fe058f36bc7e92693ea65ee3bb1b6b7b524d5c5f941abb3b8f8a43f757",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/controls.npz": "2f546a504bc40981798c993dc24abd7e4e810cf58135af475b13b3d2610fb8f1",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/applications.npz": "67dde0cc5e3cb204baffc6ae5ac15e8afce1b3e5ec40f94218b25d378a5e201f",
+        "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_wind_learning_video.py": "4a9ae857bab6df7f0f9b8273ffa53d73d8683f3de905ecfb1fe3b6763bce0aec",
+        "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_actuator_video.py": "ae5315a8a34530cee0f4330669d642baada480b0cba9d48af105dcb82abfde19",
+        "/home/tk/Desktop/mycode/crazyflow/crazyflow/safety/da_plcbf/contact_replay.py": "d049cbc535fcf74410e92fedfcf581f571a3e8d6a4c603f6327e3d83933b50eb"
+      },
+      "video_sha256": "77563a3ba643afc64077258ca19dfa42fa59b031005c1636301cc0c75a52471d",
+      "frame_audit_sha256": "4614727a0085dc5137d1bb3f7f160332562cac0bdce380dbb94f6add012ac9bb",
+      "method": "PD_F",
+      "frame_count": 861,
+      "contact_replay": {
+        "schema": "crazyflow.mujoco_contact_replay.v1",
+        "scope": "Separate motor-off crash/abort presentation; no original controller commands execute after handoff and no controller safety guarantee is transferred.",
+        "trigger": {
+          "time_seconds": 21.765401988317137,
+          "kind": "swept_collider_contact",
+          "source_interval": 4668,
+          "obstacle_index": 0,
+          "source_swept_event_time_seconds": 21.76640198831714,
+          "handoff_backoff_seconds": 0.0010000000000012221,
+          "shell_ego_radius_m": null,
+          "shell_clearance_m": 0.0
+        },
+        "config": {
+          "duration_seconds": 21.234598011682863,
+          "timestep": 0.001,
+          "ground_height": 0.0,
+          "collision_radius": 0.086,
+          "collision_offset_body": [
+            0.0,
+            0.0,
+            0.02
+          ],
+          "friction": [
+            0.7,
+            0.01,
+            0.001
+          ],
+          "contact_time_constant": 0.006,
+          "obstacle_drive_mass_kg": 1000.0
+        },
+        "body": {
+          "mass_kg": 0.043379999697208405,
+          "inertia_kg_m2": [
+            [
+              2.499999936844688e-05,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              2.8000000384054147e-05,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              4.8999998398358e-05
+            ]
+          ],
+          "inertial_origin_body_m": [
+            0,
+            0,
+            0
+          ],
+          "gravity_m_s2": [
+            0.0,
+            0.0,
+            -9.81
+          ],
+          "drag_matrix_body": [
+            [
+              -0.02149163,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              -0.02149163,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              -0.02359736
+            ]
+          ]
+        },
+        "model_semantics": "Recorded mass/inertia and aerodynamic parameters are frozen at handoff; prescribed wind and obstacle positions may vary. Obstacle free-joint poses AND world velocities are imposed from the absolute-time trajectory at every step. A large finite drive mass approximates an externally driven environment; the solver sees moving surfaces, but obstacle impact response is reset each step. This external trajectory drive can supply work and is not a closed isolated system.",
+        "obstacle_drive": {
+          "mass_kg_per_obstacle": 1000.0,
+          "drone_to_obstacle_mass_ratio": 4.33799996972084e-05,
+          "velocity_rule": "piecewise-linear center derivative; right derivative at knots",
+          "maximum_step_position_correction_m": 1.052179340605019e-06,
+          "maximum_step_velocity_correction_m_s": 0.002617437611366663
+        },
+        "collider_semantics": "cf21B XML sphere geometry by default; separate from any older centered point-model ego envelope.",
+        "state_semantics": "position/world velocity; xyzw body-to-world quaternion; body-frame angular velocity",
+        "integration": "MuJoCo implicitfast, explicit 1-step mj_step calls; drone qpos/qvel assigned only once at handoff",
+        "mujoco_version": "3.12.0",
+        "obstacle_contact_steps": 18,
+        "ground_contact_steps": 19945,
+        "maximum_contact_force_norm_N": 69.8778540451724,
+        "minimum_contact_distance_m": -0.009124424194128913,
+        "warning_counts": {},
+        "official_references": [
+          "https://mujoco.readthedocs.io/en/latest/overview.html#floating-objects",
+          "https://mujoco.readthedocs.io/en/latest/XMLreference.html#body-mocap"
+        ],
+        "source_episode": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00",
+        "source_files_sha256": {
+          "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/binding.json": "1122b2caf374eca186e30687ec69ccbb4151565be94320df7362377f0a117f2d",
+          "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/summary.json": "f1af6affc3a57cebcfbb7e8d26538d7e9f826f9bba30de3f0517c5d7b8979b17",
+          "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/dense.npz": "236c61fe058f36bc7e92693ea65ee3bb1b6b7b524d5c5f941abb3b8f8a43f757",
+          "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/controls.npz": "2f546a504bc40981798c993dc24abd7e4e810cf58135af475b13b3d2610fb8f1",
+          "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/applications.npz": "67dde0cc5e3cb204baffc6ae5ac15e8afce1b3e5ec40f94218b25d378a5e201f"
+        },
+        "source_contact_time": 21.766401841625246,
+        "driver_sha256": "4a9ae857bab6df7f0f9b8273ffa53d73d8683f3de905ecfb1fe3b6763bce0aec",
+        "presentation_policy": "At physical contact, switch to zero rotor thrust and MuJoCo rigid-body contact dynamics. This is a separately simulated crash presentation, not the controller's recorded suffix. Predictions stop at the handoff."
+      },
+      "direct_wind_feedforward": false
+    },
+    {
+      "source_sha256": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/binding.json": "b3ea94f5fdeb246e63f43fc9e1cf8cf51ed2a0edbe8a6a498232ce50e26f62bd",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/summary.json": "1aa1f0b156536af92925b5ba4ea61d961bfcb36b071e2f85f3e4d4beb2b58a61",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/dense.npz": "82084d11ef5cc014ca6c816176dc3227609fe81edbc444933f9d49ade121c351",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/controls.npz": "ef5d22384cf504ffde91165c1c39e3881e0cf9f40e83161ac7afd74c38eaab23",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/applications.npz": "331e8dae6cb66cb5879fcd986459114257310fdf7cdbb589e295bec4dd0eda7c",
+        "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_wind_learning_video.py": "4a9ae857bab6df7f0f9b8273ffa53d73d8683f3de905ecfb1fe3b6763bce0aec",
+        "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_actuator_video.py": "ae5315a8a34530cee0f4330669d642baada480b0cba9d48af105dcb82abfde19",
+        "/home/tk/Desktop/mycode/crazyflow/crazyflow/safety/da_plcbf/contact_replay.py": "d049cbc535fcf74410e92fedfcf581f571a3e8d6a4c603f6327e3d83933b50eb"
+      },
+      "video_sha256": "48c185e8ec918d49467fd9d00329e24d07c193a6c0a5180ceee2369990b75bb4",
+      "frame_audit_sha256": "7e9bf5bbf39f271cae770cd03b3ac02732c4b7877190fa24b06f71f3d14feb64",
+      "method": "F2",
+      "frame_count": 861,
+      "contact_replay": null,
+      "direct_wind_feedforward": false
+    },
+    {
+      "source_sha256": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/binding.json": "efb2cfc7ae07e1b69f7fa4323715b1df5e54c41e750ef883c0d4b8fabc9938ba",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/summary.json": "3ae419b3ffe62fe27224e679ddaaaa8fe9146bedaf31b64f940586a4c59fd56a",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/dense.npz": "7570405ab78773117904b22dc1b296c6bc018b8a8bf5a8c353172fe15fcf92c2",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/controls.npz": "0879b44f605597d1a008fcd85df5c6ce4476b1c86a9f577ddd2782832151cb5d",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/applications.npz": "c2cf53d4d8198a1ce55efe87a699f8df73485272a1d1d614b7afd1554077e846",
+        "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_wind_learning_video.py": "4a9ae857bab6df7f0f9b8273ffa53d73d8683f3de905ecfb1fe3b6763bce0aec",
+        "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_actuator_video.py": "ae5315a8a34530cee0f4330669d642baada480b0cba9d48af105dcb82abfde19",
+        "/home/tk/Desktop/mycode/crazyflow/crazyflow/safety/da_plcbf/contact_replay.py": "d049cbc535fcf74410e92fedfcf581f571a3e8d6a4c603f6327e3d83933b50eb"
+      },
+      "video_sha256": "39c9e83ad15dbcc710df7782042e72bd24262ae24845034346caa912977f7155",
+      "frame_audit_sha256": "49413be5c9f51dd4ddfbe08338fd3b525e1360a011f17c08bc09390a6d214314",
+      "method": "A_BAL",
+      "frame_count": 861,
+      "contact_replay": null,
+      "direct_wind_feedforward": false
+    }
+  ],
+  "scope": "New recorded controller prefixes; labeled motor-off contact suffixes only."
+}

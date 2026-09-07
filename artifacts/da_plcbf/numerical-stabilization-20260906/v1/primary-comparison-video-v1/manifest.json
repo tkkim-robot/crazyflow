@@ -1,0 +1,51 @@
+{
+  "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/numerical-stabilization-20260906/v1/primary-comparison-video-v1/handcrafted-learned-adaptive.mp4",
+  "sha256": "a6a373aee9713ddd526a89cc911e6005b30fb3ad1a91305d87e417c9a6b9a3be",
+  "segments": [
+    {
+      "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/numerical-stabilization-20260906/v1/primary-comparison-video-v1/initial_libraries/comparison.mp4",
+      "sha256": "42e0ca2cae5e04034de074926f26166b92b1d121c57212e03f0ee43ceafa0bfe",
+      "config": {
+        "fps": 20,
+        "width": 1600,
+        "height": 900,
+        "camera_azimuth": 0.0,
+        "camera_elevation": -24.0,
+        "camera_distance": 3.4,
+        "trail_seconds": 5.0,
+        "synthetic_fixture": false,
+        "save_frame_every_seconds": 5.0,
+        "left_method": "PD_F",
+        "right_method": "F2",
+        "left_label": "Handcrafted \u00b7 frozen",
+        "right_label": "Learned \u00b7 frozen",
+        "allow_different_learning_contract": true,
+        "allow_different_libraries": true
+      }
+    },
+    {
+      "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/numerical-stabilization-20260906/v1/primary-comparison-video-v1/neural_adaptation/comparison.mp4",
+      "sha256": "fabf3fb49a50353ef8e3362e72d393c69e27408865fac64d26b7bd89050a6c5d",
+      "config": {
+        "fps": 20,
+        "width": 1600,
+        "height": 900,
+        "camera_azimuth": 0.0,
+        "camera_elevation": -24.0,
+        "camera_distance": 3.4,
+        "trail_seconds": 5.0,
+        "synthetic_fixture": false,
+        "save_frame_every_seconds": 5.0,
+        "left_method": "F2",
+        "right_method": "A_BAL",
+        "left_label": "Learned \u00b7 frozen",
+        "right_label": "Learned \u00b7 adaptive",
+        "allow_different_learning_contract": true,
+        "allow_different_libraries": false
+      }
+    }
+  ],
+  "full_decode_passed": true,
+  "source_sha256": "1c9a7725d2de59cebccf6ccf8943f730b0cb81a3aaf919163caeabc0a5ab7608",
+  "scope": "Fixed historical harmful development scene; corrected learner and QP; no outcome selection."
+}

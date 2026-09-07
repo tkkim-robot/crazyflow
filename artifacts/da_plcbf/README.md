@@ -1,4 +1,27 @@
+> **Main-branch storage policy:** Generated videos, evidence archives and run artifacts of 5 MB or larger stay local. Keep code, compact reports and figures in Git. Do not force-add large generated products. See [the local artifact inventory](../../docs/local-generated-artifacts.md); historical archive links below may refer to local-only files.
+
 # DA-PLCBF artifact policy
+
+## Actuator study review — 2026-09-06
+
+The actuator feature and research packet are on `codex/actuator-study`. Start with the
+[research report](../../docs/da_plcbf_actuator_report.md). The sealed main comparison
+contains 384 completed method episodes; none of the adjusted A-versus-F2 or A-versus-DR
+intervals establishes a nonzero effect. A selected deterministic safety contrast is
+shown with a separate paced companion in which both controllers collide and no online
+update completes. All 88 declared follow-up episodes and four causal prefix audits are
+reported, including negative execution and native-plant results.
+
+The [review archive](actuator-study-20260906/v1/publication-v2/review-only.tar.xz),
+[detached manifest](actuator-study-20260906/v1/publication-v2/manifest.json), and
+[inclusion scope](actuator-study-20260906/v1/publication-v2/REVIEW_ONLY.md) preserve
+compact evidence and identify every retained local file by size and SHA-256. Verify
+the archive before extracting it at the repository root to resolve included evidence
+links. The five figure sets and selected video posters are also available as loose
+review files. MP4 files, most rollout arrays, and compilation caches remain local.
+This review packet is incomplete for full replay and adds no historical scientific
+campaign entry to `INDEX.md`. The accepted wind-study files and their claim scope
+remain unchanged.
 
 ## Published engineering review — 2026-09-05
 

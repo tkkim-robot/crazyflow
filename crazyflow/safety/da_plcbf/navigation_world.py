@@ -50,6 +50,7 @@ class NavigationWorldConfig:
     waypoint_count: int = 8
     reach_radius: float = 0.4
     moving_obstacles: bool = True
+    obstacle_time_offset_seconds: float = 0.0
     wind_events: tuple[WindEvent, ...] = ()
     payload_events: tuple[PayloadEvent, ...] = ()
     ego_radius: float = CF21B_BODY_ORIGIN_ENCLOSURE_M
@@ -100,6 +101,7 @@ class NavigationWorldConfig:
         if not math.isfinite(self.obstacle_clearance) or self.obstacle_clearance < 0:
             raise ValueError("obstacle_clearance must be nonnegative finite")
         _control_boundary(self.duration_seconds, self.control_period)
+        _control_boundary(self.obstacle_time_offset_seconds, self.control_period)
         for events in (self.wind_events, self.payload_events):
             previous = -math.inf
             for event in events:
@@ -149,13 +151,17 @@ class NavigationWorld:
         times = np.asarray(times, dtype=float)
         if not np.all(np.isfinite(times)):
             raise ValueError("obstacle query times must be finite")
-        angle = (times[..., None] * self.obstacle_angular_frequencies + self.obstacle_phases)[
-            ..., None
-        ]
+        offset = getattr(self.config, "obstacle_time_offset_seconds", 0.0)
+        motion_times = np.maximum(times - offset, 0.0) if offset else times
+        angle = (
+            motion_times[..., None] * self.obstacle_angular_frequencies + self.obstacle_phases
+        )[..., None]
         centers = self.obstacle_mean_centers + self.obstacle_amplitudes * np.sin(angle)
         velocities = (
             self.obstacle_amplitudes * self.obstacle_angular_frequencies[:, None] * np.cos(angle)
         )
+        if offset:
+            velocities = np.where((times >= offset)[..., None, None], velocities, 0.0)
         return centers, velocities
 
     def obstacle_prediction(

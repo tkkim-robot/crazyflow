@@ -44,3 +44,11 @@ Thumbs.db
 *.avi
 *.mkv
 *.m4v
+
+# Generated evidence bundles are local-only, including outside the DA-PLCBF tree.
+/artifacts/**/*.tar.gz
+/artifacts/**/*.tar.xz
+/artifacts/**/*.tar.zst
+/artifacts/**/*.tgz
+/artifacts/**/*.zip
+/artifacts/**/*.7z

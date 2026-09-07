@@ -1,0 +1,605 @@
+{
+  "schema": "da_plcbf_actuator_opt_service_microbenchmark_v1",
+  "created_at_utc": "2026-09-06T07:29:43.425497+00:00",
+  "command": [
+    "benchmark/da_plcbf_actuator_opt_pilot.py",
+    "--output",
+    "artifacts/da_plcbf_actuator/opt_cpu_development_v1/final_shared_geometry"
+  ],
+  "source_head": "8c0320617a6fae56d8fa7179349ed4c07311a04c",
+  "source_sha256": {
+    "benchmark/da_plcbf_actuator_opt_pilot.py": "4dd4b8ccbb0a2a8e31c133d3d2caddd112b2c0cac0fecbaad405be97c4fbd31e",
+    "crazyflow/safety/da_plcbf/actuator_opt.py": "6a83167a640c2dac07a8a073938465bbba828a3ca44ed4b92ca1af80e8a02e01",
+    "crazyflow/safety/da_plcbf/actuator_dynamics.py": "dac28676a896e7368009cf9277468d3a1e47919ccde2c45f10e2803c88c09277",
+    "crazyflow/safety/da_plcbf/actuator_learning.py": "45eaac943066a27bf42a74f7f3925159be8e3913a27bf87fdcd2192a6dbee6dc",
+    "crazyflow/safety/da_plcbf/actuator_plcbf.py": "f61cd49406c502c54145223ddc6693073c95bedbccd8c43c93b80a983608157e",
+    "crazyflow/safety/da_plcbf/continuous_version_a.py": "53fbedc9f1448740709b2221bd77050dd6dc43e4f786351b84b266aa91ae7ab7",
+    "crazyflow/drones/params.toml": "c3f4d2991925ee0ab0354107a2cfcc6be890dfbd985795e9d5d5055b55b851de"
+  },
+  "environment": {
+    "python": "3.14.7",
+    "jax": "0.11.1",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0",
+    "backend": "cpu",
+    "devices": [
+      "cpu:0"
+    ]
+  },
+  "scope": "One-decision numerical microbenchmark; not physical-collider episodes",
+  "timing_scope": "Every operation inside solve; input generation and trace serialization are outside service timing",
+  "filter_config": {
+    "dt": 0.02,
+    "horizon": 60,
+    "command_hold_steps": 2,
+    "held_substeps": 2,
+    "obstacle_clearance": 0,
+    "arena_clearance": 0.08,
+    "ego_radius": 0.025,
+    "smooth_temperature": 0.005,
+    "smooth_gap_budget": 0.03,
+    "policy_alpha": 2.0,
+    "tolerance": 2e-06,
+    "operational_tolerance": 1e-06,
+    "kkt_tolerance": 5e-05,
+    "sqp_iterations": 2,
+    "command_trust_fraction": 0.5,
+    "switch_score_margin": 0.02,
+    "prefer_nominal_when_safe": false
+  },
+  "actor_config": {
+    "dt": 0.02,
+    "horizon": 60,
+    "hidden_width": 32,
+    "policy_gain": 1.8,
+    "acceleration_limit": 4.0,
+    "residual_scale": 1.0,
+    "duration_transition": 0.1,
+    "position_scale": 1.0,
+    "velocity_scale": 1.5,
+    "angular_velocity_scale": 8.0,
+    "descriptor_scales": [
+      1.5,
+      1.5,
+      1.0,
+      1.5,
+      1.5,
+      1.0,
+      1.5,
+      1.5,
+      1.0
+    ],
+    "target_weight": 1.0,
+    "diversity_weight": 0.01,
+    "pairwise_weight": 0.05,
+    "action_weight": 0.001,
+    "action_rate_weight": 0.001,
+    "saturation_weight": 0.001,
+    "trust_weight": 0.0001,
+    "terminal_braking_weight": 1.0,
+    "attitude_weight": 0.02,
+    "angular_rate_weight": 0.01,
+    "covariance_epsilon": 0.001,
+    "pairwise_sigma": 1.0,
+    "saturation_temperature": 0.05,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "max_gradient_norm": 10.0,
+    "model_compensation": true,
+    "smooth_motor_bounds": false,
+    "initial_residual_scale": 0.01,
+    "initial_skill_scale": 1.0,
+    "control_interval_steps": 2,
+    "velocity_offset_limit": null,
+    "learn_durations": true,
+    "trainable_parameters": "all",
+    "max_parameter_update_norm": null,
+    "gate_residual_with_skill_duration": true,
+    "motor_state_scale": 0.1,
+    "plant_substeps": 1,
+    "adapter_mode": "F2",
+    "attitude_gain": 0.0008,
+    "angular_rate_gain": 0.0002
+  },
+  "model": {
+    "body": {
+      "mass": 0.043379999697208405,
+      "gravity_vec": [
+        0.0,
+        0.0,
+        -9.8100004196167
+      ],
+      "inertia": [
+        [
+          2.499999936844688e-05,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          2.8000000384054147e-05,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          4.8999998398358e-05
+        ]
+      ],
+      "inertia_inv": [
+        [
+          40000.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          35714.28515625,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          20408.1640625
+        ]
+      ],
+      "drag_matrix": [
+        [
+          -0.021491630002856255,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          -0.021491630002856255,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.023597359657287598
+        ]
+      ],
+      "wind_velocity": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_force": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "external_torque": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "effectiveness": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "time_constants": [
+      0.05949877202510834,
+      0.05949877202510834,
+      0.05949877202510834,
+      0.05949877202510834
+    ],
+    "command_lower": [
+      0.021362630650401115,
+      0.021362630650401115,
+      0.021362630650401115,
+      0.021362630650401115
+    ],
+    "command_upper": [
+      0.20000000298023224,
+      0.20000000298023224,
+      0.20000000298023224,
+      0.20000000298023224
+    ],
+    "force_to_wrench": [
+      [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      [
+        -0.03535500168800354,
+        -0.03535500168800354,
+        0.03535500168800354,
+        0.03535500168800354
+      ],
+      [
+        -0.03535500168800354,
+        0.03535500168800354,
+        0.03535500168800354,
+        -0.03535500168800354
+      ],
+      [
+        -0.005938934162259102,
+        0.005938934162259102,
+        -0.005938934162259102,
+        0.005938934162259102
+      ]
+    ]
+  },
+  "safety": {
+    "obstacle_centers": [
+      [
+        0.0,
+        0.0,
+        3.0
+      ]
+    ],
+    "obstacle_radii": [
+      0.014999999664723873
+    ],
+    "obstacle_mask": [
+      false
+    ],
+    "arena_lower": [
+      -3.0,
+      -3.0,
+      0.10000000149011612
+    ],
+    "arena_upper": [
+      3.0,
+      3.0,
+      3.0
+    ],
+    "speed_max": 4.0,
+    "angular_rate_max": 12.0,
+    "tilt_max_radians": 1.0
+  },
+  "initial_state": [
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.10638945549726486,
+    0.10638945549726486,
+    0.10638945549726486,
+    0.10638945549726486
+  ],
+  "runs": [
+    {
+      "case": "clear_hover",
+      "opt_config": {
+        "control_knots": 6,
+        "wall_time_budget": 0.04,
+        "finalization_reserve_fraction": 0.1,
+        "max_iterations": 80,
+        "function_tolerance": 1e-07,
+        "command_change_weight": 0.005,
+        "effort_weight": 0.0001,
+        "evasion_acceleration": 2.0,
+        "brake_gain": 2.0,
+        "initializations": [
+          "nominal",
+          "brake",
+          "left",
+          "right",
+          "up"
+        ]
+      },
+      "startup_seconds": 1.9368145749904215,
+      "service_seconds": 0.001678303349763155,
+      "deadline_met": true,
+      "available_at": 0.001678303349763155,
+      "available_action": [
+        0.10638945549726486,
+        0.10638945549726486,
+        0.10638945549726486,
+        0.10638945549726486
+      ],
+      "action": [
+        0.10638945549726486,
+        0.10638945549726486,
+        0.10638945549726486,
+        0.10638945549726486
+      ],
+      "mode": "nominal",
+      "plan_feasible": true,
+      "compilation_in_solve": false,
+      "input_valid": true,
+      "budget_exhausted": false,
+      "evaluations": 1,
+      "attempts": [],
+      "held_collision_margin": 3.9983999729156494,
+      "held_operational_minimum": 0.28275859355926514,
+      "held_command_motor_margin": 0.0850268229842186,
+      "held_passed": true,
+      "trace_file": "budget_00_clear_hover.npz",
+      "plan_objective": 2.2655161956208758e-05,
+      "plan_collision_margin": 3.9983999729156494
+    },
+    {
+      "case": "future_vertical_collision",
+      "opt_config": {
+        "control_knots": 6,
+        "wall_time_budget": 0.04,
+        "finalization_reserve_fraction": 0.1,
+        "max_iterations": 80,
+        "function_tolerance": 1e-07,
+        "command_change_weight": 0.005,
+        "effort_weight": 0.0001,
+        "evasion_acceleration": 2.0,
+        "brake_gain": 2.0,
+        "initializations": [
+          "nominal",
+          "brake",
+          "left",
+          "right",
+          "up"
+        ]
+      },
+      "startup_seconds": 1.9368145749904215,
+      "service_seconds": 0.038363037165254354,
+      "deadline_met": true,
+      "available_at": 0.038363037165254354,
+      "available_action": [
+        0.10461913794279099,
+        0.11060784757137299,
+        0.11572808027267456,
+        0.10845740139484406
+      ],
+      "action": [
+        0.10461913794279099,
+        0.11060784757137299,
+        0.11572808027267456,
+        0.10845740139484406
+      ],
+      "mode": "optimized",
+      "plan_feasible": true,
+      "compilation_in_solve": false,
+      "input_valid": true,
+      "budget_exhausted": true,
+      "evaluations": 14,
+      "attempts": [
+        {
+          "initialization": "nominal",
+          "initial_feasible": false,
+          "initial_objective": 5.185488043935038e-05,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_failed",
+          "service_seconds": 0.0004698392003774643
+        },
+        {
+          "initialization": "brake",
+          "initial_feasible": true,
+          "initial_objective": 0.05963151901960373,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_passed",
+          "service_seconds": 0.0008889110758900642
+        },
+        {
+          "initialization": "left",
+          "initial_feasible": false,
+          "initial_objective": 0.06124827265739441,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_failed",
+          "service_seconds": 0.0006353240460157394
+        },
+        {
+          "initialization": "right",
+          "initial_feasible": false,
+          "initial_objective": 0.061248283833265305,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_failed",
+          "service_seconds": 0.0006203977391123772
+        },
+        {
+          "initialization": "up",
+          "initial_feasible": false,
+          "initial_objective": 0.06643769890069962,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_failed",
+          "service_seconds": 0.0006045056506991386
+        },
+        {
+          "initialization": "brake",
+          "initial_feasible": true,
+          "initial_objective": 0.05963151901960373,
+          "iterations": 5,
+          "evaluations": 8,
+          "success": false,
+          "status": "wall-clock solve allowance exhausted; finalization reserved",
+          "service_seconds": 0.033605421893298626
+        }
+      ],
+      "held_collision_margin": 0.003293217159807682,
+      "held_operational_minimum": 0.28275859355926514,
+      "held_command_motor_margin": 0.08325650542974472,
+      "held_passed": true,
+      "trace_file": "budget_00_future_vertical_collision.npz",
+      "plan_objective": 0.013607214204967022,
+      "plan_collision_margin": 0.002828848548233509
+    },
+    {
+      "case": "clear_hover",
+      "opt_config": {
+        "control_knots": 6,
+        "wall_time_budget": 0.2,
+        "finalization_reserve_fraction": 0.1,
+        "max_iterations": 80,
+        "function_tolerance": 1e-07,
+        "command_change_weight": 0.005,
+        "effort_weight": 0.0001,
+        "evasion_acceleration": 2.0,
+        "brake_gain": 2.0,
+        "initializations": [
+          "nominal",
+          "brake",
+          "left",
+          "right",
+          "up"
+        ]
+      },
+      "startup_seconds": 1.6799972238950431,
+      "service_seconds": 0.0014213561080396175,
+      "deadline_met": true,
+      "available_at": 0.0014213561080396175,
+      "available_action": [
+        0.10638945549726486,
+        0.10638945549726486,
+        0.10638945549726486,
+        0.10638945549726486
+      ],
+      "action": [
+        0.10638945549726486,
+        0.10638945549726486,
+        0.10638945549726486,
+        0.10638945549726486
+      ],
+      "mode": "nominal",
+      "plan_feasible": true,
+      "compilation_in_solve": false,
+      "input_valid": true,
+      "budget_exhausted": false,
+      "evaluations": 1,
+      "attempts": [],
+      "held_collision_margin": 3.9983999729156494,
+      "held_operational_minimum": 0.28275859355926514,
+      "held_command_motor_margin": 0.0850268229842186,
+      "held_passed": true,
+      "trace_file": "budget_01_clear_hover.npz",
+      "plan_objective": 2.2655161956208758e-05,
+      "plan_collision_margin": 3.9983999729156494
+    },
+    {
+      "case": "future_vertical_collision",
+      "opt_config": {
+        "control_knots": 6,
+        "wall_time_budget": 0.2,
+        "finalization_reserve_fraction": 0.1,
+        "max_iterations": 80,
+        "function_tolerance": 1e-07,
+        "command_change_weight": 0.005,
+        "effort_weight": 0.0001,
+        "evasion_acceleration": 2.0,
+        "brake_gain": 2.0,
+        "initializations": [
+          "nominal",
+          "brake",
+          "left",
+          "right",
+          "up"
+        ]
+      },
+      "startup_seconds": 1.6799972238950431,
+      "service_seconds": 0.1802175808697939,
+      "deadline_met": true,
+      "available_at": 0.1802175808697939,
+      "available_action": [
+        0.12411560118198395,
+        0.1293526142835617,
+        0.13994264602661133,
+        0.13427923619747162
+      ],
+      "action": [
+        0.12411560118198395,
+        0.1293526142835617,
+        0.13994264602661133,
+        0.13427923619747162
+      ],
+      "mode": "optimized",
+      "plan_feasible": true,
+      "compilation_in_solve": false,
+      "input_valid": true,
+      "budget_exhausted": true,
+      "evaluations": 59,
+      "attempts": [
+        {
+          "initialization": "nominal",
+          "initial_feasible": false,
+          "initial_objective": 5.185488043935038e-05,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_failed",
+          "service_seconds": 0.0006856741383671761
+        },
+        {
+          "initialization": "brake",
+          "initial_feasible": true,
+          "initial_objective": 0.05963151901960373,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_passed",
+          "service_seconds": 0.0009401082061231136
+        },
+        {
+          "initialization": "left",
+          "initial_feasible": false,
+          "initial_objective": 0.06124827265739441,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_failed",
+          "service_seconds": 0.00042711617425084114
+        },
+        {
+          "initialization": "right",
+          "initial_feasible": false,
+          "initial_objective": 0.061248283833265305,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_failed",
+          "service_seconds": 0.0003674570471048355
+        },
+        {
+          "initialization": "up",
+          "initial_feasible": false,
+          "initial_objective": 0.06643769890069962,
+          "iterations": 0,
+          "evaluations": 1,
+          "success": false,
+          "status": "initialization_postcheck_failed",
+          "service_seconds": 0.0005616531707346439
+        },
+        {
+          "initialization": "brake",
+          "initial_feasible": true,
+          "initial_objective": 0.05963151901960373,
+          "iterations": 33,
+          "evaluations": 53,
+          "success": false,
+          "status": "wall-clock solve allowance exhausted; finalization reserved",
+          "service_seconds": 0.17574922600761056
+        }
+      ],
+      "held_collision_margin": 0.003250050824135542,
+      "held_operational_minimum": 0.28275859355926514,
+      "held_command_motor_margin": 0.06005735695362091,
+      "held_passed": true,
+      "trace_file": "budget_01_future_vertical_collision.npz",
+      "plan_objective": 0.002363386796787381,
+      "plan_collision_margin": -1.8529826775193214e-06
+    }
+  ]
+}

@@ -44,8 +44,8 @@ class ContactReplayConfig:
             raise ValueError(
                 "duration, timestep, collider radius and drive mass must be positive finite"
             )
-        if self.timestep > 0.002 or self.duration_seconds > 20:
-            raise ValueError("contact replay supports at most 2 ms steps and 20 s continuations")
+        if self.timestep > 0.002 or self.duration_seconds > 60:
+            raise ValueError("contact replay supports at most 2 ms steps and 60 s continuations")
         if not math.isfinite(self.ground_height):
             raise ValueError("ground height must be finite")
         if (

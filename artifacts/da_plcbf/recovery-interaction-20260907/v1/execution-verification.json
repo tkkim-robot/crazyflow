@@ -1,0 +1,20 @@
+{
+  "completed_governor_and_wind_flights": 27,
+  "current_source_matches_wind_execution": true,
+  "scope": "Each version's sources are authenticated against its own execution.",
+  "stages": {
+    "causal-guard-v2": {
+      "retained_sources_verified": 157
+    },
+    "guard-fixed-v1": {
+      "retained_sources_verified": 157
+    },
+    "guard-fixed-v2": {
+      "retained_sources_verified": 157
+    },
+    "wind-demo-v1": {
+      "retained_sources_verified": 157
+    }
+  },
+  "wind_vectors_authenticated": true
+}

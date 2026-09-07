@@ -1,0 +1,151 @@
+{
+  "flights": [
+    {
+      "method": "PD_F",
+      "termination": "physical_collision",
+      "end_time_seconds": 21.77,
+      "waypoints_completed": 0,
+      "waypoint_arrival_times_seconds": [],
+      "successful_full_episode": false,
+      "actual_operational_all_nodes_pass": true,
+      "finite_credited_updates": 0,
+      "preflight_online_versions_used": 0,
+      "final_online_versions_used": 0,
+      "unchecked_controls": 4,
+      "executed_backup_controls": 30,
+      "held_timing_covered": true,
+      "same_scene_as_previous_video": true,
+      "actual_and_estimated_wind_match_recorded_schedule": true,
+      "wind_feedforward": false,
+      "source_sha256": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/binding.json": "1122b2caf374eca186e30687ec69ccbb4151565be94320df7362377f0a117f2d",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/summary.json": "f1af6affc3a57cebcfbb7e8d26538d7e9f826f9bba30de3f0517c5d7b8979b17",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/dense.npz": "236c61fe058f36bc7e92693ea65ee3bb1b6b7b524d5c5f941abb3b8f8a43f757",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/controls.npz": "2f546a504bc40981798c993dc24abd7e4e810cf58135af475b13b3d2610fb8f1",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/PD_F/attempt-00/applications.npz": "67dde0cc5e3cb204baffc6ae5ac15e8afce1b3e5ec40f94218b25d378a5e201f"
+      }
+    },
+    {
+      "method": "F2",
+      "termination": "duration_complete",
+      "end_time_seconds": 43.0,
+      "waypoints_completed": 3,
+      "waypoint_arrival_times_seconds": [
+        22.400000000000002,
+        29.96,
+        38.76
+      ],
+      "successful_full_episode": false,
+      "actual_operational_all_nodes_pass": true,
+      "finite_credited_updates": 0,
+      "preflight_online_versions_used": 0,
+      "final_online_versions_used": 0,
+      "unchecked_controls": 0,
+      "executed_backup_controls": 11,
+      "held_timing_covered": true,
+      "same_scene_as_previous_video": true,
+      "actual_and_estimated_wind_match_recorded_schedule": true,
+      "wind_feedforward": false,
+      "source_sha256": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/binding.json": "b3ea94f5fdeb246e63f43fc9e1cf8cf51ed2a0edbe8a6a498232ce50e26f62bd",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/summary.json": "1aa1f0b156536af92925b5ba4ea61d961bfcb36b071e2f85f3e4d4beb2b58a61",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/dense.npz": "82084d11ef5cc014ca6c816176dc3227609fe81edbc444933f9d49ade121c351",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/controls.npz": "ef5d22384cf504ffde91165c1c39e3881e0cf9f40e83161ac7afd74c38eaab23",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/F2/attempt-00/applications.npz": "331e8dae6cb66cb5879fcd986459114257310fdf7cdbb589e295bec4dd0eda7c"
+      }
+    },
+    {
+      "method": "A_BAL",
+      "termination": "duration_complete",
+      "end_time_seconds": 43.0,
+      "waypoints_completed": 3,
+      "waypoint_arrival_times_seconds": [
+        22.400000000000002,
+        30.0,
+        38.68
+      ],
+      "successful_full_episode": false,
+      "actual_operational_all_nodes_pass": true,
+      "finite_credited_updates": 1074,
+      "preflight_online_versions_used": 474,
+      "final_online_versions_used": 1074,
+      "unchecked_controls": 0,
+      "executed_backup_controls": 40,
+      "held_timing_covered": true,
+      "same_scene_as_previous_video": true,
+      "actual_and_estimated_wind_match_recorded_schedule": true,
+      "wind_feedforward": false,
+      "source_sha256": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/binding.json": "efb2cfc7ae07e1b69f7fa4323715b1df5e54c41e750ef883c0d4b8fabc9938ba",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/summary.json": "3ae419b3ffe62fe27224e679ddaaaa8fe9146bedaf31b64f940586a4c59fd56a",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/dense.npz": "7570405ab78773117904b22dc1b296c6bc018b8a8bf5a8c353172fe15fcf92c2",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/controls.npz": "0879b44f605597d1a008fcd85df5c6ce4476b1c86a9f577ddd2782832151cb5d",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/wind-learning-comparison-20260907/v1/flights/A_BAL/attempt-00/applications.npz": "c2cf53d4d8198a1ce55efe87a699f8df73485272a1d1d614b7afd1554077e846"
+      }
+    }
+  ],
+  "actual_video_relative_fan_comparison": [
+    {
+      "time_seconds": 2.96,
+      "relative_fan_rms_difference_m": 0.001096374006010592,
+      "relative_endpoint_rms_difference_m": 0.002038208767771721,
+      "adaptive_online_versions_used": 74
+    },
+    {
+      "time_seconds": 3.0,
+      "relative_fan_rms_difference_m": 0.0009812539210543036,
+      "relative_endpoint_rms_difference_m": 0.0018986128270626068,
+      "adaptive_online_versions_used": 75
+    },
+    {
+      "time_seconds": 3.04,
+      "relative_fan_rms_difference_m": 0.0028807995840907097,
+      "relative_endpoint_rms_difference_m": 0.006040927022695541,
+      "adaptive_online_versions_used": 76
+    },
+    {
+      "time_seconds": 4.0,
+      "relative_fan_rms_difference_m": 0.17290636897087097,
+      "relative_endpoint_rms_difference_m": 0.36261987686157227,
+      "adaptive_online_versions_used": 100
+    },
+    {
+      "time_seconds": 7.0,
+      "relative_fan_rms_difference_m": 0.20197275280952454,
+      "relative_endpoint_rms_difference_m": 0.42734554409980774,
+      "adaptive_online_versions_used": 175
+    },
+    {
+      "time_seconds": 10.96,
+      "relative_fan_rms_difference_m": 0.2150360643863678,
+      "relative_endpoint_rms_difference_m": 0.4566226899623871,
+      "adaptive_online_versions_used": 274
+    },
+    {
+      "time_seconds": 11.0,
+      "relative_fan_rms_difference_m": 0.21766462922096252,
+      "relative_endpoint_rms_difference_m": 0.46352383494377136,
+      "adaptive_online_versions_used": 275
+    },
+    {
+      "time_seconds": 18.96,
+      "relative_fan_rms_difference_m": 0.023556824773550034,
+      "relative_endpoint_rms_difference_m": 0.0440998338162899,
+      "adaptive_online_versions_used": 474
+    },
+    {
+      "time_seconds": 21.0,
+      "relative_fan_rms_difference_m": 0.01919005997478962,
+      "relative_endpoint_rms_difference_m": 0.033164627850055695,
+      "adaptive_online_versions_used": 525
+    },
+    {
+      "time_seconds": 25.0,
+      "relative_fan_rms_difference_m": 0.1485753208398819,
+      "relative_endpoint_rms_difference_m": 0.31302592158317566,
+      "adaptive_online_versions_used": 625
+    }
+  ],
+  "qualification": "Fixed development demonstration, not fresh validation. Fan differences compare recorded predictions at each flight's own state; they do not isolate parameter effects. Same initial learned parameters and optimizer; only A_BAL updates online.",
+  "driver_sha256": "0cf5c4749aaf5ad4dbde7b2b3232c31f46b4d36ee5616022843d17a26716c2b7"
+}

@@ -1,0 +1,107 @@
+{
+  "schema": "da_plcbf_actuator_opt_diagnosis_history_v1",
+  "scope": "Development one-decision CPU microbenchmarks, H60, dt0.02, two-node40ms command holds, six control knots, cf21B_500, ego radius0.025m; not full physical episodes.",
+  "provenance": "These intermediate results were captured from tool output. Intermediate source files and full numerical traces were not archived; no exact replay or committed provenance is claimed for the intermediate versions. The final_shared_geometry run contains fresh source hashes and complete plan/hold traces.",
+  "diagnostic_repairs": [
+    {
+      "stage": "initial_tests",
+      "finding": "SciPy native SLSQP rejects float32 optimizer workspaces; five failures and four passing tests.",
+      "repair": "Cast SLSQP vectors and derivative handoff to NumPy float64 while the matched JAX dynamics retain float32."
+    },
+    {
+      "stage": "first_h60_pilot",
+      "finding": "A weakly typed emergency command in warmup recompiled the held-check kernel during first solve. Starting SLSQP on nominal consumed the budget before evaluating brake/evasion initializations.",
+      "repair": "Explicitly normalize runtime/warmup command dtype. Evaluate all bounded knot initializations and nonlinear postchecks first; rank feasible starts by objective, then infeasible starts by violation."
+    },
+    {
+      "stage": "second_h60_pilot",
+      "finding": "Near-stationary swept segments produced a nonfinite AD Jacobian through the tiny closest-point quotient.",
+      "repair": "Use the exact envelope derivative holding minimizing fraction fixed, with unchanged hard values. The final implementation uses shared runtime_policy_values(envelope_derivative=True). Reserve10percent of total service budget for finalization; nonpreemptible overruns remain reported."
+    },
+    {
+      "stage": "shared_geometry_validation",
+      "finding": "One optimizer test rejected a returned full-plan collision margin -2.009794116e-6 against common -2e-6 tolerance; ten other tests passed.",
+      "repair": "Remove extra1e-8 feasibility allowance on rows which already include the common physical tolerance. Accept normalized constraint minimum only when >=0."
+    }
+  ],
+  "captured_intermediate_pilots": [
+    {
+      "stage": "before_dtype_seed_repairs",
+      "budget_s": 0.04,
+      "warmup_s": 2.3122966499067843,
+      "clear_service_s": 0.40923224994912744,
+      "blocked_service_s": 0.04261058382689953,
+      "deadline_met": false,
+      "plan_feasible": false,
+      "mode": "emergency",
+      "optimizer_iterations": 1,
+      "evaluations": 3
+    },
+    {
+      "stage": "before_dtype_seed_repairs",
+      "budget_s": 0.2,
+      "warmup_s": 1.7672636951319873,
+      "clear_service_s": 0.32709215907379985,
+      "blocked_service_s": 0.2170305298641324,
+      "deadline_met": false,
+      "plan_feasible": false,
+      "mode": "emergency",
+      "optimizer_iterations": 6,
+      "evaluations": 29
+    },
+    {
+      "stage": "dtype_seed_repaired_before_envelope",
+      "budget_s": 0.04,
+      "warmup_s": 2.2341889240778983,
+      "clear_service_s": 0.0014182948507368565,
+      "blocked_service_s": 0.06514765275642276,
+      "deadline_met": false,
+      "plan_feasible": true,
+      "mode": "initialization",
+      "finding": "brake initialization passed; its AD Jacobian was nonfinite; another initialization consumed remaining budget",
+      "evaluations": 9
+    },
+    {
+      "stage": "dtype_seed_repaired_before_envelope",
+      "budget_s": 0.2,
+      "warmup_s": 1.945839251857251,
+      "clear_service_s": 0.0010358779691159725,
+      "blocked_service_s": 0.21772207086905837,
+      "deadline_met": false,
+      "plan_feasible": true,
+      "mode": "initialization",
+      "finding": "brake initialization passed; its AD Jacobian was nonfinite; another initialization consumed remaining budget",
+      "evaluations": 24
+    },
+    {
+      "stage": "local_envelope_repaired",
+      "budget_s": 0.04,
+      "warmup_s": 1.9890535292215645,
+      "clear_service_s": 0.0016038273461163044,
+      "blocked_service_s": 0.03717271704226732,
+      "deadline_met": true,
+      "plan_feasible": true,
+      "mode": "optimized",
+      "optimizer_iterations": 4,
+      "evaluations": 13
+    },
+    {
+      "stage": "local_envelope_repaired",
+      "budget_s": 0.2,
+      "warmup_s": 1.6988021740689874,
+      "clear_service_s": 0.0014829030260443687,
+      "blocked_service_s": 0.1801808588206768,
+      "deadline_met": true,
+      "plan_feasible": true,
+      "mode": "optimized",
+      "optimizer_iterations": 35,
+      "finding": "brake converged after34iterations; up performed1 before budgetstop",
+      "evaluations": 63
+    }
+  ],
+  "limitations": [
+    "Intermediate aggregate logs are partial evidence, not complete trial records.",
+    "Concurrent machine workloads were not isolated; these CPU service measurements are development smoke tests.",
+    "No result here establishes physical infeasibility, safety/task superiority, or deployment timing guarantees."
+  ]
+}

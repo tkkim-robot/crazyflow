@@ -1,0 +1,81 @@
+cell,confidence_level,estimate,lower,method,metric,n_episodes,n_library_seeds,n_pairs,n_resamples,n_worlds,panel,per_seed_effects,qualification,resampling_seed,upper,world_only_lower,world_only_upper
+navigation_combined,,0.08333333333333333,,F2,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_effectiveness,,0.16666666666666666,,F2,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_lag,,0.08333333333333333,,F2,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_nominal,,0.16666666666666666,,F2,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_combined,,0.5,,F2,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_effectiveness,,0.0,,F2,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_lag,,0.0,,F2,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_nominal,,0.25,,F2,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_combined,,0.16666666666666666,,DR,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_effectiveness,,0.16666666666666666,,DR,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_lag,,0.16666666666666666,,DR,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_nominal,,0.16666666666666666,,DR,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_combined,,0.16666666666666666,,DR,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_effectiveness,,0.25,,DR,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_lag,,0.08333333333333333,,DR,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_nominal,,0.16666666666666666,,DR,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_combined,,0.25,,A,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_effectiveness,,0.16666666666666666,,A,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_lag,,0.16666666666666666,,A,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_nominal,,0.08333333333333333,,A,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_combined,,0.08333333333333333,,A,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_effectiveness,,0.4166666666666667,,A,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_lag,,0.0,,A,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_nominal,,0.25,,A,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_combined,,0.16666666666666666,,OPT,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_effectiveness,,0.25,,OPT,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_lag,,0.16666666666666666,,OPT,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_nominal,,0.0,,OPT,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_combined,,0.4166666666666667,,OPT,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_effectiveness,,0.75,,OPT,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_lag,,1.0,,OPT,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+structured_nominal,,0.25,,OPT,actual_collision,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_combined,0.9995833333333334,0.16666666666666666,0.0,A minus F2,actual_collision,,3,12,20000,4,sealed_paired_contrast,"[0.25, 0.25, 0.0]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.9583854166667152,0.0,0.3333333333333333
+navigation_effectiveness,0.9995833333333334,0.0,-0.75,A minus F2,actual_collision,,3,12,20000,4,sealed_paired_contrast,"[-0.25, 0.0, 0.25]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.75,-0.3333333333333333,0.3333333333333333
+navigation_lag,0.9995833333333334,0.08333333333333333,-0.75,A minus F2,actual_collision,,3,12,20000,4,sealed_paired_contrast,"[0.0, 0.5, -0.25]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,1.0,-0.3333333333333333,0.3333333333333333
+navigation_nominal,0.9995833333333334,-0.08333333333333333,-1.0,A minus F2,actual_collision,,3,12,20000,4,sealed_paired_contrast,"[-0.25, -0.25, 0.25]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.75,-0.3333333333333333,0.0
+structured_combined,0.9995833333333334,-0.4166666666666667,-1.0,A minus F2,actual_collision,,3,12,20000,4,sealed_paired_contrast,"[-0.5, -0.25, -0.5]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.0,-1.0,0.0
+structured_effectiveness,0.9995833333333334,0.4166666666666667,0.0,A minus F2,actual_collision,,3,12,20000,4,sealed_paired_contrast,"[0.25, 0.5, 0.5]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,1.0,0.0,1.0
+structured_lag,0.9995833333333334,0.0,0.0,A minus F2,actual_collision,,3,12,20000,4,sealed_paired_contrast,"[0.0, 0.0, 0.0]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.0,0.0,0.0
+structured_nominal,0.9995833333333334,0.0,0.0,A minus F2,actual_collision,,3,12,20000,4,sealed_paired_contrast,"[0.0, 0.0, 0.0]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.0,0.0,0.0
+navigation_combined,,0.9166666666666666,,F2,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_effectiveness,,0.75,,F2,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_lag,,0.9166666666666666,,F2,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_nominal,,0.8333333333333334,,F2,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_combined,,0.5,,F2,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_effectiveness,,1.0,,F2,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_lag,,0.75,,F2,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_nominal,,0.75,,F2,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_combined,,0.8333333333333334,,DR,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_effectiveness,,0.8333333333333334,,DR,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_lag,,0.8333333333333334,,DR,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_nominal,,0.75,,DR,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_combined,,0.8333333333333334,,DR,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_effectiveness,,0.75,,DR,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_lag,,0.6666666666666666,,DR,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_nominal,,0.5833333333333334,,DR,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_combined,,0.75,,A,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_effectiveness,,0.6666666666666666,,A,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_lag,,0.8333333333333334,,A,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_nominal,,0.9166666666666666,,A,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_combined,,0.9166666666666666,,A,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_effectiveness,,0.5,,A,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_lag,,0.75,,A,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_nominal,,0.4166666666666667,,A,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_combined,,0.8333333333333334,,OPT,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_effectiveness,,0.75,,OPT,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_lag,,0.8333333333333334,,OPT,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_nominal,,1.0,,OPT,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_combined,,0.5833333333333334,,OPT,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_effectiveness,,0.25,,OPT,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_lag,,0.0,,OPT,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+structured_nominal,,0.6666666666666666,,OPT,safe_task_completion,12,3,,,4,balanced_episode_rate,,,,,,
+navigation_combined,0.9995833333333334,-0.16666666666666666,-0.9583854166667813,A minus F2,safe_task_completion,,3,12,20000,4,sealed_paired_contrast,"[-0.25, -0.25, 0.0]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.0,-0.3333333333333333,0.0
+navigation_effectiveness,0.9995833333333334,-0.08333333333333333,-1.0,A minus F2,safe_task_completion,,3,12,20000,4,sealed_paired_contrast,"[0.0, 0.0, -0.25]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.75,-0.3333333333333333,0.0
+navigation_lag,0.9995833333333334,-0.08333333333333333,-1.0,A minus F2,safe_task_completion,,3,12,20000,4,sealed_paired_contrast,"[0.0, -0.5, 0.25]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.75,-0.3333333333333333,0.3333333333333333
+navigation_nominal,0.9995833333333334,0.08333333333333333,-0.75,A minus F2,safe_task_completion,,3,12,20000,4,sealed_paired_contrast,"[0.25, 0.25, -0.25]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,1.0,0.0,0.3333333333333333
+structured_combined,0.9995833333333334,0.4166666666666667,0.0,A minus F2,safe_task_completion,,3,12,20000,4,sealed_paired_contrast,"[0.5, 0.25, 0.5]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,1.0,0.0,1.0
+structured_effectiveness,0.9995833333333334,-0.5,-1.0,A minus F2,safe_task_completion,,3,12,20000,4,sealed_paired_contrast,"[-0.5, -0.5, -0.5]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.0,-1.0,0.0
+structured_lag,0.9995833333333334,0.0,0.0,A minus F2,safe_task_completion,,3,12,20000,4,sealed_paired_contrast,"[0.0, 0.0, 0.0]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.0,0.0,0.0
+structured_nominal,0.9995833333333334,-0.3333333333333333,-1.0,A minus F2,safe_task_completion,,3,12,20000,4,sealed_paired_contrast,"[-0.25, -0.5, -0.25]",Approximate crossed-cluster percentile interval; not a zero-risk guarantee. Few library seeds: report per-seed effects; seed-population coverage is weak.,20260906,0.0,-1.0,0.0

@@ -1,0 +1,24 @@
+{
+  "video": "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-video-v1/adaptation/comparison.mp4",
+  "sha256": "0eb372b5b72b0b4684323209d555db2fa5bddede97ad80a505db24bd6fe2d96b",
+  "config": {
+    "fps": 20,
+    "width": 1600,
+    "height": 900,
+    "camera_azimuth": 0.0,
+    "camera_elevation": -24.0,
+    "camera_distance": 3.4,
+    "trail_seconds": 5.0,
+    "synthetic_fixture": false,
+    "save_frame_every_seconds": 5.0,
+    "left_method": "F2",
+    "right_method": "A_BAL",
+    "left_label": "Learned \u00b7 frozen",
+    "right_label": "Learned \u00b7 adaptive",
+    "allow_different_learning_contract": true,
+    "allow_different_libraries": false
+  },
+  "full_decode_passed": true,
+  "driver_sha256": "5642e7e81baaeb4ddf94f74869102bc75cc949102998238c4a44bcd868abfa4c",
+  "scope": "Fixed development demonstration with preflight and navigation wind."
+}

@@ -1,0 +1,103 @@
+{
+  "records": [
+    {
+      "method": "PD_F",
+      "termination": "physical_collision",
+      "collision_time_seconds": 5.249999999999981,
+      "actual_old_command_service_nodes_verified": 670,
+      "exact_application_commands_verified": true,
+      "measured_application_delay_verified": true,
+      "actual_updates_used": 0,
+      "control_count": 62,
+      "controller_seconds": {
+        "count": 62,
+        "maximum": 0.9479501820169389,
+        "mean": 0.05733945775747059,
+        "p95": 0.05567508672829716
+      },
+      "controller_deadline_misses": 49,
+      "skipped_sensing_ticks": 48,
+      "uncovered_hold_intervals": 62,
+      "all_hold_intervals_covered": false,
+      "maximum_hold_seconds": 0.9284572599269261,
+      "actual_operational_all_nodes_pass": false,
+      "sources": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/PD_F/attempt-00/controls.npz": "e23ed899038ad1a8c6535c62c38e0aa97c34ef5c7c5176480c98ee732357de78",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/PD_F/attempt-00/dense.npz": "3328003681984fe1a36888eaebf60c1d1faab8803ab6ddb4c568c4b749e79fd8",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/PD_F/attempt-00/applications.npz": "2174c34be7371d1819bcc403ab625e3cdf68984d9372038802cd8bde209106af",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/PD_F/attempt-00/summary.json": "63bb944cbaa26e42a52b5555c1f9b1c3c6f2f9018dbb28ea6132824d2883c8d1"
+      }
+    },
+    {
+      "method": "F2",
+      "termination": "physical_collision",
+      "collision_time_seconds": 5.029999999999996,
+      "actual_old_command_service_nodes_verified": 650,
+      "exact_application_commands_verified": true,
+      "measured_application_delay_verified": true,
+      "actual_updates_used": 0,
+      "control_count": 73,
+      "controller_seconds": {
+        "count": 73,
+        "maximum": 0.5700001120567322,
+        "mean": 0.049561555733368415,
+        "p95": 0.04855273133143782
+      },
+      "controller_deadline_misses": 37,
+      "skipped_sensing_ticks": 49,
+      "uncovered_hold_intervals": 73,
+      "all_hold_intervals_covered": false,
+      "maximum_hold_seconds": 0.609527917969972,
+      "actual_operational_all_nodes_pass": false,
+      "sources": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/F2/attempt-00/controls.npz": "3d24496145cc195bb362cef5682e32da6d0baf89f3f08d67f54c04e8f92635e9",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/F2/attempt-00/dense.npz": "005f1dda0e27f19c661ff4cf55e2c26b8c244497e424a9d32b1d036296163e48",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/F2/attempt-00/applications.npz": "3bce68c09c503abc1c12680b2be1808bb25da1928eb89d739d44e485f723e2bf",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/F2/attempt-00/summary.json": "49953b34401bf14e6d6df23712ff0456764b6053d86aea0cab53c960a3a52579"
+      }
+    },
+    {
+      "method": "A_BAL",
+      "termination": "physical_collision",
+      "collision_time_seconds": 4.759999999999988,
+      "actual_old_command_service_nodes_verified": 611,
+      "exact_application_commands_verified": true,
+      "measured_application_delay_verified": true,
+      "actual_updates_used": 0,
+      "control_count": 71,
+      "controller_seconds": {
+        "count": 71,
+        "maximum": 0.8281795089133084,
+        "mean": 0.049212929405744225,
+        "p95": 0.048417281126603484
+      },
+      "controller_deadline_misses": 36,
+      "skipped_sensing_ticks": 35,
+      "uncovered_hold_intervals": 71,
+      "all_hold_intervals_covered": false,
+      "maximum_hold_seconds": 0.5983266456611336,
+      "actual_operational_all_nodes_pass": false,
+      "sources": {
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/A_BAL/attempt-00/controls.npz": "c13fccc2e8ab5ca658b939a29a22a77da3be85af2e62a89d863c7a7ab87dfe1d",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/A_BAL/attempt-00/dense.npz": "4c19b3747a841ae71852473cf9655e5acc60b2f363f7656e022b0d42214cfb6a",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/A_BAL/attempt-00/applications.npz": "65c0d7a7dc7923a802bba60b981151abee3a706e36228a70aa9cd27106334a1b",
+        "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/hover-return-20260907/v1/selected-delayed-v1/A_BAL/attempt-00/summary.json": "1402f61381e92a75d66a91790684985776db3af031d1d9e71dc1d47b5ecc42c7"
+      }
+    }
+  ],
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "driver": "555.42.06",
+    "gpu_memory_MiB": 24564,
+    "own_search_and_render_jobs_complete_before_start": true,
+    "exclusive_gpu": false,
+    "other_compute_process_observed": {
+      "pid": 2235197,
+      "memory_MiB": 794,
+      "sampled_sm_percent": 62
+    },
+    "own_process_sampled_sm_percent": 14,
+    "scope": "A separate project started a GPU job just before this timing run. These measured delays include the observed concurrent load and are not an exclusive-device benchmark. No unrelated process was interrupted. Full prediction fans are not retained during timed runs; normal control records and safety audits remain active."
+  },
+  "scope": "Measured delayed execution under observed concurrent GPU load. Old commands actually act during controller service; no unavailable updates are credited. This failed reproduction does not establish exclusive-device limits, warm worst-case execution time, asynchronous safety or deployment feasibility."
+}
