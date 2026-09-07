@@ -1,6 +1,7 @@
 """Executed-precision feasibility for the recorded large policy row."""
 
 from dataclasses import replace
+from pathlib import Path
 
 import jax
 import jax.numpy as jnp
@@ -102,3 +103,23 @@ def test_hold_timing_does_not_confuse_service_deadline_with_certified_interval()
     assert result["online_held_check_uncovered_intervals"] == 2
     assert result["maximum_actual_command_hold_seconds"] == pytest.approx(0.055)
     assert not result["online_held_check_timing_all_covered"]
+
+
+def test_result_writer_retains_array_valued_episode_summary(tmp_path: Path) -> None:
+    import json
+
+    from benchmark.da_plcbf_numerical_stabilization import write
+
+    path = tmp_path / "record.json"
+    write(
+        path,
+        {
+            "summary": {
+                "actual_operational_minimum_by_constraint": np.array([0.1, 0.2]),
+                "completed": np.bool_(True),
+            }
+        },
+    )
+    assert json.loads(path.read_text()) == {
+        "summary": {"actual_operational_minimum_by_constraint": [0.1, 0.2], "completed": True}
+    }

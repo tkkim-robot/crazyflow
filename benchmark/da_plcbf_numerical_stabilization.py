@@ -13,12 +13,12 @@ import os
 import shutil
 import time
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import jax
 import jax.numpy as jnp
 import numpy as np
-from crazyflow.safety.da_plcbf.actuator_observation import ActuatorObservationConfig
 
 from benchmark.da_plcbf_actuator_diagnostics import (
     DiagnosticResources,
@@ -28,10 +28,12 @@ from benchmark.da_plcbf_actuator_diagnostics import (
 from benchmark.da_plcbf_actuator_pd_loss_origin import EPISODE, _saved_case
 from crazyflow.safety.da_plcbf.actuator_experiment import (
     ActuatorEpisodeConfig,
+    _jsonable,
     run_actuator_episode,
 )
 from crazyflow.safety.da_plcbf.actuator_learning import build_actuator_skill_learner
 from crazyflow.safety.da_plcbf.actuator_plcbf import ActuatorFilterConfig, _normalized_qp_with_audit
+from crazyflow.safety.da_plcbf.actuator_study import ActuatorObservationConfig
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / "artifacts/da_plcbf/numerical-stabilization-20260906/v1"
@@ -48,7 +50,7 @@ def sha(path: Path) -> str:
 
 
 def write(path: Path, value: Any) -> None:
-    path.write_text(json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n")
+    path.write_text(json.dumps(_jsonable(value), indent=2, sort_keys=True, allow_nan=False) + "\n")
 
 
 def sources() -> dict[str, str]:
@@ -246,14 +248,22 @@ def probe(protocol: Path, output: Path) -> None:
     )
 
 
-def flights(protocol: Path, output: Path) -> None:
+def flights(protocol: Path, output: Path, *, resume_from: Path | None = None) -> None:
     plan = load(protocol)
-    output.mkdir(parents=True, exist_ok=False)
+    if resume_from is not None:
+        parent = json.loads(resume_from.read_text())
+        driver = str(Path(__file__).relative_to(ROOT))
+        assert plan["trials"] == parent["trials"]
+        assert plan["file_sha256"] == parent["file_sha256"]
+        assert {k: v for k, v in plan["source_sha256"].items() if k != driver} == {
+            k: v for k, v in parent["source_sha256"].items() if k != driver
+        }, "resume amendment changed numerical implementation"
+    output.mkdir(parents=True, exist_ok=resume_from is not None)
     resources = DiagnosticResources()
     learners = {}
     records = []
     write(
-        output / "environment.json",
+        output / ("environment.json" if resume_from is None else "environment-resumed.json"),
         {
             "devices": [str(d) for d in jax.devices()],
             "pid": os.getpid(),
@@ -264,8 +274,12 @@ def flights(protocol: Path, output: Path) -> None:
     for trial in plan["trials"]:
         load(protocol)
         directory = output / trial["id"]
-        directory.mkdir(exist_ok=False)
-        write(directory / "claim.json", trial)
+        existed = directory.exists()
+        directory.mkdir(exist_ok=resume_from is not None)
+        if existed:
+            assert json.loads((directory / "claim.json").read_text()) == trial
+        else:
+            write(directory / "claim.json", trial)
         configuration = dict(plan["old_proposal"]["shared_control"])
         filters = ActuatorFilterConfig(
             **{**configuration.pop("filter_config"), "qp_numerics": trial["qp_numerics"]}
@@ -298,21 +312,32 @@ def flights(protocol: Path, output: Path) -> None:
                 )
             learner = learners[key]
         print(json.dumps({"starting": trial["id"], "completed": len(records)}), flush=True)
-        result = run_actuator_episode(
-            scene,
-            bundle,
-            config,
-            directory / "attempt-00",
-            controllerfunctions=controller,
-            learner_functions=learner,
-        )
         episode = directory / "attempt-00"
+        if existed:
+            binding = json.loads((episode / "binding.json").read_text())
+            summary = json.loads((episode / "summary.json").read_text())
+            assert summary["status"] == "completed", "incomplete attempt must not be rerun"
+            assert binding["config"] == _jsonable(config)
+            assert binding["scene"]["physical_spec"] == _jsonable(scene.physical_spec())
+            assert binding["checkpoint"]["checkpoint_sha256"] == bundle.sha256
+            result = SimpleNamespace(summary=summary)
+        else:
+            result = run_actuator_episode(
+                scene,
+                bundle,
+                config,
+                episode,
+                controllerfunctions=controller,
+                learner_functions=learner,
+            )
         record = {
             "trial": trial,
             "summary": result.summary,
             "method_metadata": method_metadata,
             "episode_directory": str(episode),
             "protocol_sha256": sha(protocol),
+            "completed_attempt_reused_without_flight": existed,
+            "resume_parent_protocol_sha256": sha(resume_from) if resume_from else None,
             "evidence_sha256": {str(p): sha(p) for p in episode.rglob("*") if p.is_file()},
         }
         write(directory / "record.json", record)
@@ -336,13 +361,17 @@ def main() -> None:
     parser.add_argument("command", choices=("seal", "probe", "flights"))
     parser.add_argument("--protocol", type=Path, default=BASE / "protocol.json")
     parser.add_argument("--output", type=Path)
+    parser.add_argument("--resume-from", type=Path)
     args = parser.parse_args()
     if args.command == "seal":
         seal(args.protocol)
     else:
         if args.output is None:
             parser.error("--output is required")
-        (probe if args.command == "probe" else flights)(args.protocol, args.output)
+        if args.command == "probe":
+            probe(args.protocol, args.output)
+        else:
+            flights(args.protocol, args.output, resume_from=args.resume_from)
 
 
 if __name__ == "__main__":

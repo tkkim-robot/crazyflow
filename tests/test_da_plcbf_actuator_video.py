@@ -332,3 +332,14 @@ def test_prediction_ring_requires_an_actually_used_policy_branch(tmp_path: Any) 
     eligible[1, 2] = False
     episode.controls["eligible"] = eligible
     assert not _prediction_affects_control(episode, fallback_sample)
+
+
+def test_primary_library_comparison_preserves_physical_matching(tmp_path: Any) -> None:
+    left = load_episode(synthetic_episode(tmp_path / "PD_F", "PD_F"), expected_method="PD_F")
+    right = load_episode(synthetic_episode(tmp_path / "F2", "F2"), expected_method="F2")
+    right.binding["checkpoint"]["checkpoint_sha256"] = "learned-initialization"
+    right.binding["initial_learner_sha256"] = "different-parameters-and-optimizer"
+    validate_pair(left, right, allow_different_libraries=True)
+    right.binding["initial_state_sha256"] = "different-physical-state"
+    with pytest.raises(ValueError, match="initial_state_sha256"):
+        validate_pair(left, right, allow_different_libraries=True)

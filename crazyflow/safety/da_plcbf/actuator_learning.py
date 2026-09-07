@@ -727,17 +727,60 @@ def actuator_reference_loss(
     count = settings.anchor_batch_size
     indices = (iteration * max(count, 1) + jnp.arange(count)) % len(contract.anchors)
     initial = jnp.concatenate((initial_state[None], contract.anchors[indices]), axis=0)
-    actual = jax.vmap(
-        lambda y: rollout_actuator_skill_library(params, contract.spec, y, model, config)
-    )(initial)
-    if matched_reference:
-        # Both sides use the same state batch and dynamic parameter/model arguments.
-        # The teacher remains the fixed nominal behavior, including at anchor states.
-        teacher_batch = jax.vmap(
-            lambda y: rollout_actuator_skill_library(
-                contract.params, contract.spec, y, contract.model, contract.actor_config
-            )
+    behavior_fields = (
+        "dt",
+        "horizon",
+        "control_interval_steps",
+        "plant_substeps",
+        "rollout_scan_unroll",
+        "position_scale",
+        "velocity_scale",
+        "angular_velocity_scale",
+        "motor_state_scale",
+        "residual_scale",
+        "duration_transition",
+        "velocity_offset_limit",
+        "policy_gain",
+        "gate_residual_with_skill_duration",
+        "acceleration_limit",
+        "model_compensation",
+        "attitude_gain",
+        "angular_rate_gain",
+        "adapter_mode",
+    )
+    same_behavior_config = all(
+        getattr(config, name) == getattr(contract.actor_config, name) for name in behavior_fields
+    )
+    if matched_reference and same_behavior_config:
+        # A single compiled loop body evaluates both parameter/model pairs. Separate
+        # nominally identical graphs can disagree after fused reverse-mode compilation.
+        # This is shared arithmetic, not an equality test or a conditional zero loss.
+        paired_params, paired_models = jax.tree.map(
+            lambda a, b: jnp.stack((a, b)), (params, model), (contract.params, contract.model)
+        )
+
+        def evaluate(pair: tuple) -> ActuatorSkillRollout:
+            p, dynamics = pair
+            return jax.vmap(
+                lambda y: rollout_actuator_skill_library(p, contract.spec, y, dynamics, config)
+            )(initial)
+
+        paired = jax.lax.map(evaluate, (paired_params, paired_models))
+        actual = jax.tree.map(lambda value: value[0], paired)
+        teacher_batch = jax.tree.map(lambda value: value[1], paired)
+    else:
+        actual = jax.vmap(
+            lambda y: rollout_actuator_skill_library(params, contract.spec, y, model, config)
         )(initial)
+        if matched_reference:
+            # Explicitly opted-in unequal feedback gains describe different behaviors;
+            # preserve the fixed teacher rather than silently adopting the student gains.
+            teacher_batch = jax.vmap(
+                lambda y: rollout_actuator_skill_library(
+                    contract.params, contract.spec, y, contract.model, contract.actor_config
+                )
+            )(initial)
+    if matched_reference:
         teacher = jax.tree.map(lambda x: x[0], teacher_batch)
         references = jax.lax.stop_gradient(teacher_batch.states)
     else:
@@ -891,8 +934,8 @@ def build_actuator_skill_learner(
     config.validate()
     # These define the actual actor/plant observation and execution contract. Learning-rate and
     # regularization tuning may differ; phase, motors and low-level behavior cannot change silently.
-    # rollout_scan_unroll is a recorded compile-only option and may differ from the teacher;
-    # it preserves all integration steps and command boundaries. Teacher compilation stays fixed.
+    # rollout_scan_unroll is compile-only. The matched path uses the same unroll on
+    # both sides while preserving the immutable teacher's physical behavior settings.
     for field in (
         "dt",
         "horizon",
@@ -946,7 +989,14 @@ def build_actuator_skill_learner(
             jnp.asarray(0, dtype=jnp.int32) if iteration is None else iteration,
             contract=contract
             if teacher_params is None
-            else replace(contract, params=teacher_params, model=teacher_model),
+            else replace(
+                contract,
+                params=teacher_params,
+                model=teacher_model,
+                actor_config=replace(
+                    contract.actor_config, rollout_scan_unroll=config.rollout_scan_unroll
+                ),
+            ),
             config=config,
             anchor_reference_states=anchor_reference,
             matched_reference=reference_numerics == "matched",

@@ -84,6 +84,7 @@ class ActuatorVideoConfig:
     left_label: str = "Frozen · lag-aware"
     right_label: str = "Adaptive · lag-aware"
     allow_different_learning_contract: bool = False
+    allow_different_libraries: bool = False
 
     def validate(self) -> None:
         """Require an ordinary fixed-rate video without a title or pause interval."""
@@ -94,6 +95,8 @@ class ActuatorVideoConfig:
                 raise ValueError(f"{name} must be a nonempty string")
         if type(self.allow_different_learning_contract) is not bool:
             raise ValueError("allow_different_learning_contract must be boolean")
+        if type(self.allow_different_libraries) is not bool:
+            raise ValueError("allow_different_libraries must be boolean")
         if self.width < 960 or self.height < 540 or self.width % 2 or self.height % 2:
             raise ValueError("video dimensions must be even and at least 960 by 540")
         for name in ("camera_distance", "trail_seconds", "save_frame_every_seconds"):
@@ -397,7 +400,11 @@ def load_episode(directory: str | Path, *, expected_method: str) -> ReplayEpisod
 
 
 def validate_pair(
-    left: ReplayEpisode, right: ReplayEpisode, *, allow_different_learning_contract: bool = False
+    left: ReplayEpisode,
+    right: ReplayEpisode,
+    *,
+    allow_different_learning_contract: bool = False,
+    allow_different_libraries: bool = False,
 ) -> None:
     """Bind the movie to one shared physical world, initial library and timing contract."""
     if left.summary["physical_world_id"] != right.summary["physical_world_id"]:
@@ -405,9 +412,11 @@ def validate_pair(
     if (
         left.binding["checkpoint"]["checkpoint_sha256"]
         != right.binding["checkpoint"]["checkpoint_sha256"]
-    ) and not allow_different_learning_contract:
+    ) and not (allow_different_learning_contract or allow_different_libraries):
         raise ValueError("F2 and A must start from the same nominal checkpoint")
     for key in ("initial_state_sha256", "initial_learner_sha256"):
+        if key == "initial_learner_sha256" and allow_different_libraries:
+            continue
         if left.binding[key] != right.binding[key]:
             raise ValueError(f"paired {key} differs")
     for key in (
@@ -777,7 +786,10 @@ def render_pair(
     left = load_episode(left_directory, expected_method=config.left_method)
     right = load_episode(right_directory, expected_method=config.right_method)
     validate_pair(
-        left, right, allow_different_learning_contract=config.allow_different_learning_contract
+        left,
+        right,
+        allow_different_learning_contract=config.allow_different_learning_contract,
+        allow_different_libraries=config.allow_different_libraries,
     )
     output = Path(output).resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -814,6 +826,7 @@ def render_pair(
             == right.binding["checkpoint"]["checkpoint_sha256"]
         ),
         "learning_contract_comparison": config.allow_different_learning_contract,
+        "different_initial_libraries_comparison": config.allow_different_libraries,
         "motor_indices": list(range(4)),
         "motor_site_positions_body_m": sites,
         "pose_interpolation": (
