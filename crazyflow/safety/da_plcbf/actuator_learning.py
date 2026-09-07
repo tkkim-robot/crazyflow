@@ -57,6 +57,7 @@ class ActuatorSkillConfig(PersistentSkillConfig):
     """Accepted actor settings plus fixed observation scaling and shared actuator control."""
 
     model_compensation: bool = True
+    wind_feedforward: bool = True
     smooth_motor_bounds: bool = False
     motor_state_scale: float = 0.10
     plant_substeps: int = 1
@@ -68,6 +69,8 @@ class ActuatorSkillConfig(PersistentSkillConfig):
 
     def validate(self) -> None:
         PersistentSkillConfig.validate(self)
+        if type(self.wind_feedforward) is not bool:
+            raise TypeError("wind_feedforward must be boolean")
         if not isinstance(self.allow_reference_gain_mismatch, bool):
             raise TypeError("allow_reference_gain_mismatch must be boolean")
         if (
@@ -422,7 +425,16 @@ def acceleration_to_actuator_command(
         raise ValueError("states and acceleration must have shapes (...,17) and (...,3)")
     acceleration = desired_acceleration
     if config.model_compensation:
-        acceleration = acceleration + model_compensation_acceleration(states[..., :13], model.body)
+        compensation_model = model.body
+        if not config.wind_feedforward:
+            # Remove only direct wind cancellation. The physical/prediction model
+            # retains its actual wind; calm-air drag compensation is unchanged.
+            compensation_model = compensation_model._replace(
+                wind_velocity=jnp.zeros_like(compensation_model.wind_velocity)
+            )
+        acceleration = acceleration + model_compensation_acceleration(
+            states[..., :13], compensation_model
+        )
     force = jnp.reshape(model.body.mass, ()) * (acceleration - model.body.gravity_vec)
     force_norm = jnp.linalg.norm(force, axis=-1, keepdims=True)
     body_z = force / jnp.where(force_norm > 1e-6, force_norm, 1.0)
@@ -744,6 +756,7 @@ def actuator_reference_loss(
         "gate_residual_with_skill_duration",
         "acceleration_limit",
         "model_compensation",
+        "wind_feedforward",
         "attitude_gain",
         "angular_rate_gain",
         "adapter_mode",
@@ -944,6 +957,7 @@ def build_actuator_skill_learner(
         "motor_state_scale",
         "adapter_mode",
         "model_compensation",
+        "wind_feedforward",
         "gate_residual_with_skill_duration",
     ):
         if getattr(config, field) != getattr(contract.actor_config, field):
@@ -1178,6 +1192,10 @@ def actuator_reference_fingerprint(contract: ActuatorReferenceContract) -> str:
         if learning_options[name] == defaults[name]:
             del learning_options[name]
     actor_options = asdict(contract.actor_config)
+    # Existing checkpoints imply enabled wind feedforward. Bind the opt-out
+    # without changing their established nominal-reference fingerprints.
+    if actor_options["wind_feedforward"]:
+        del actor_options["wind_feedforward"]
     if not actor_options["allow_reference_gain_mismatch"]:
         del actor_options["allow_reference_gain_mismatch"]
     # v1 checkpoints predate this compile-only option and implied scan unroll=1.

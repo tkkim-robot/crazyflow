@@ -1,0 +1,460 @@
+{
+  "scene": {
+    "world": {
+      "schema": "exogenous_navigation_world_v1",
+      "config": {
+        "seed": 62104,
+        "obstacle_count": 6,
+        "dt": 0.02,
+        "control_interval_steps": 2,
+        "duration_seconds": 43.0,
+        "waypoint_count": 4,
+        "reach_radius": 0.4,
+        "moving_obstacles": true,
+        "obstacle_time_offset_seconds": 19.0,
+        "wind_events": [
+          {
+            "time_seconds": 3.0,
+            "velocity": [
+              1.6,
+              0.8,
+              0.0
+            ]
+          },
+          {
+            "time_seconds": 11.0,
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "time_seconds": 23.0,
+            "velocity": [
+              1.2,
+              -0.6,
+              0.0
+            ]
+          },
+          {
+            "time_seconds": 29.0,
+            "velocity": [
+              -1.0,
+              0.8,
+              0.0
+            ]
+          },
+          {
+            "time_seconds": 37.0,
+            "velocity": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        ],
+        "payload_events": [],
+        "ego_radius": 0.106,
+        "obstacle_clearance": 0.15,
+        "arena_lower": [
+          -5.0,
+          -4.0,
+          0.15
+        ],
+        "arena_upper": [
+          5.0,
+          4.0,
+          4.0
+        ],
+        "speed_max": 3.5,
+        "angular_rate_max": 12.0,
+        "tilt_max_radians": 0.9
+      },
+      "trajectory": "center(t) = mean + amplitude * sin(omega*t + phase)",
+      "event_semantics": "right-continuous prescribed changes at command boundaries",
+      "obstacle_masks": "all obstacles active at all prediction nodes; no teleports",
+      "ego_enclosure": {
+        "radius_m": 0.106,
+        "cf21b_asset_collider_radius_m": 0.086,
+        "cf21b_asset_collider_body_offset_m": [
+          0.0,
+          0.0,
+          0.02
+        ],
+        "encloses_asset_collider": true,
+        "scope": "body-origin spherical safety envelope; envelope intersection is distinct from a measured MuJoCo collider contact"
+      },
+      "initial_state": [
+        -2.5,
+        -0.7,
+        1.4,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.16942114245575224,
+        -0.14501019570799906,
+        -0.08810567930153529,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "waypoint_positions": [
+        [
+          1.8,
+          -0.8,
+          1.6
+        ],
+        [
+          2.0,
+          1.3,
+          2.2
+        ],
+        [
+          -1.6,
+          1.3,
+          2.7
+        ],
+        [
+          -2.1,
+          -0.8,
+          1.4
+        ]
+      ],
+      "obstacle_mean_centers": [
+        [
+          -0.612875555206394,
+          -0.9193954464157381,
+          1.5206793769927531
+        ],
+        [
+          1.9251099097350937,
+          0.33486435487886135,
+          1.7875757053499788
+        ],
+        [
+          0.44668799280827015,
+          1.2041563536525877,
+          2.3400645472041504
+        ],
+        [
+          -1.698744071597064,
+          0.21558457027368078,
+          2.045612297207617
+        ],
+        [
+          0.11544884852541151,
+          -0.4811132331479776,
+          2.1116648362358252
+        ],
+        [
+          -1.394101702474944,
+          0.9870051373446713,
+          1.8894739948378216
+        ]
+      ],
+      "obstacle_amplitudes": [
+        [
+          0.0,
+          2.8,
+          0.25
+        ],
+        [
+          2.2,
+          0.0,
+          0.35
+        ],
+        [
+          0.0,
+          2.6,
+          0.35
+        ],
+        [
+          2.5,
+          0.0,
+          0.25
+        ],
+        [
+          0.0,
+          2.8,
+          0.45
+        ],
+        [
+          2.3,
+          0.0,
+          0.4
+        ]
+      ],
+      "obstacle_angular_frequencies": [
+        0.656157214754036,
+        0.9682473193052066,
+        0.9410695248469583,
+        1.0206758534437015,
+        0.8505931325145334,
+        0.8066327719721215
+      ],
+      "obstacle_phases": [
+        -1.7288219927759418,
+        -5.3622496614479385,
+        -9.071679664075798,
+        -15.848847649558708,
+        -16.343794979737673,
+        -17.117648697674742
+      ],
+      "obstacle_radii": [
+        0.3318025314235376,
+        0.466844785388656,
+        0.4258024257250495,
+        0.3520707516289386,
+        0.31173401506756687,
+        0.3964806933954615
+      ]
+    },
+    "family": "navigation",
+    "scene_seed": 62104,
+    "dynamics_cell": "effectiveness",
+    "event_time": 21.0,
+    "effectiveness_after": [
+      0.7,
+      1.0,
+      0.7,
+      1.0
+    ],
+    "lag_multipliers_after": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "navigation_start": 19.0,
+    "recovery_time": null,
+    "physical_spec": {
+      "robot_model": "cf21B_500_actuator_contract_v1",
+      "duration_seconds": 43.0,
+      "navigation_start_seconds": 19.0,
+      "reach_radius_m": 0.4,
+      "initial_motor_rule": "nominal level-hover effort, retained at every fault",
+      "obstacle_motion": "mean+amplitude*sin(frequency*max(t-offset,0)+phase)",
+      "collider_radius_m": 0.086,
+      "collider_offset_body_m": [
+        0.0,
+        0.0,
+        0.02
+      ],
+      "ground_height_m": 0.0,
+      "operational_limits": {
+        "arena_lower_m": [
+          -5.0,
+          -4.0,
+          0.15
+        ],
+        "arena_upper_m": [
+          5.0,
+          4.0,
+          4.0
+        ],
+        "speed_max_mps": 3.5,
+        "angular_rate_max_rps": 12.0,
+        "tilt_max_rad": 0.9
+      },
+      "initial_state": [
+        -2.5,
+        -0.7,
+        1.4,
+        0.0,
+        0.0,
+        0.0,
+        1.0,
+        0.16942114245575224,
+        -0.14501019570799906,
+        -0.08810567930153529,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "waypoint_positions": [
+        [
+          1.8,
+          -0.8,
+          1.6
+        ],
+        [
+          2.0,
+          1.3,
+          2.2
+        ],
+        [
+          -1.6,
+          1.3,
+          2.7
+        ],
+        [
+          -2.1,
+          -0.8,
+          1.4
+        ]
+      ],
+      "obstacle_mean_centers": [
+        [
+          -0.612875555206394,
+          -0.9193954464157381,
+          1.5206793769927531
+        ],
+        [
+          1.9251099097350937,
+          0.33486435487886135,
+          1.7875757053499788
+        ],
+        [
+          0.44668799280827015,
+          1.2041563536525877,
+          2.3400645472041504
+        ],
+        [
+          -1.698744071597064,
+          0.21558457027368078,
+          2.045612297207617
+        ],
+        [
+          0.11544884852541151,
+          -0.4811132331479776,
+          2.1116648362358252
+        ],
+        [
+          -1.394101702474944,
+          0.9870051373446713,
+          1.8894739948378216
+        ]
+      ],
+      "obstacle_amplitudes": [
+        [
+          0.0,
+          2.8,
+          0.25
+        ],
+        [
+          2.2,
+          0.0,
+          0.35
+        ],
+        [
+          0.0,
+          2.6,
+          0.35
+        ],
+        [
+          2.5,
+          0.0,
+          0.25
+        ],
+        [
+          0.0,
+          2.8,
+          0.45
+        ],
+        [
+          2.3,
+          0.0,
+          0.4
+        ]
+      ],
+      "obstacle_angular_frequencies": [
+        0.656157214754036,
+        0.9682473193052066,
+        0.9410695248469583,
+        1.0206758534437015,
+        0.8505931325145334,
+        0.8066327719721215
+      ],
+      "obstacle_phases": [
+        -1.7288219927759418,
+        -5.3622496614479385,
+        -9.071679664075798,
+        -15.848847649558708,
+        -16.343794979737673,
+        -17.117648697674742
+      ],
+      "obstacle_radii": [
+        0.3318025314235376,
+        0.466844785388656,
+        0.4258024257250495,
+        0.3520707516289386,
+        0.31173401506756687,
+        0.3964806933954615
+      ],
+      "actuator_events": [
+        {
+          "time_seconds": 21.0,
+          "effectiveness": [
+            0.7,
+            1.0,
+            0.7,
+            1.0
+          ],
+          "lag_multipliers": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "recovery_time_seconds": null
+        }
+      ],
+      "obstacle_time_offset_seconds": 19.0,
+      "wind_events": [
+        {
+          "time_seconds": 3.0,
+          "velocity": [
+            1.6,
+            0.8,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 11.0,
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 23.0,
+          "velocity": [
+            1.2,
+            -0.6,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 29.0,
+          "velocity": [
+            -1.0,
+            0.8,
+            0.0
+          ]
+        },
+        {
+          "time_seconds": 37.0,
+          "velocity": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        }
+      ]
+    },
+    "physical_world_id": "world-c9c2c57cae9698a4b3c6ef186155e81aed077d6c16f12081ca8aca3029f405cf"
+  },
+  "methods": [
+    "PD_F",
+    "F2",
+    "A_BAL"
+  ],
+  "wind_feedforward": false,
+  "retained_shared_behavior": "Ordinary feedback, calm-air drag compensation and lag-aware allocation",
+  "wind_information": "Actual wind retained in physics, safety prediction and learner model; excluded only from direct motor feedforward",
+  "same_complete_learned_initial_state": true,
+  "source_scene": "Identical 43-second scene to previous compensated three-panel video"
+}

@@ -7,6 +7,10 @@ import numpy as np
 
 from benchmark.da_plcbf_recovery_wind import demonstration_scene
 from crazyflow.safety.da_plcbf.actuator_inputs import CausalObservationInputCache
+from crazyflow.safety.da_plcbf.actuator_learning import (
+    ActuatorSkillConfig,
+    acceleration_to_actuator_command,
+)
 from crazyflow.safety.da_plcbf.actuator_plcbf import ActuatorFilterConfig
 from crazyflow.safety.da_plcbf.actuator_study import (
     ActuatorObservationConfig,
@@ -82,3 +86,34 @@ def test_recorded_wind_visual_matches_physics_and_changes_acceleration():
     calm = augmented_dynamics(state, state[13:], nominal)
     windy = augmented_dynamics(state, state[13:], scene.model_at(3, nominal))
     assert np.linalg.norm(np.asarray(windy[7:10] - calm[7:10])) > 0.01
+
+
+def test_disabling_wind_feedforward_preserves_calm_control_and_physical_wind():
+    import jax.numpy as jnp
+
+    from crazyflow.safety.da_plcbf.actuator_dynamics import augmented_dynamics
+    from crazyflow.safety.da_plcbf.actuator_study import initial_augmented_state
+
+    scene = demonstration_scene()
+    calm = nominal_actuator_model()
+    wind = scene.model_at(3, calm)
+    state = jnp.asarray(initial_augmented_state(scene.world.initial_state, calm))
+    desired = jnp.asarray([0.1, 0.2, 0.0])
+    on = ActuatorSkillConfig()
+    off = replace(on, wind_feedforward=False)
+    calm_on = acceleration_to_actuator_command(desired, state, calm, on).command
+    calm_off = acceleration_to_actuator_command(desired, state, calm, off).command
+    wind_off = acceleration_to_actuator_command(desired, state, wind, off).command
+    wind_on = acceleration_to_actuator_command(desired, state, wind, on).command
+    np.testing.assert_array_equal(calm_on, calm_off)
+    np.testing.assert_array_equal(calm_off, wind_off)
+    assert np.max(abs(np.asarray(wind_on - wind_off))) > 1e-4
+    assert (
+        np.linalg.norm(
+            np.asarray(
+                augmented_dynamics(state, wind_off, wind)[7:10]
+                - augmented_dynamics(state, wind_off, calm)[7:10]
+            )
+        )
+        > 0.01
+    )
