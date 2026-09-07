@@ -201,6 +201,27 @@ class CommittedBackupController:
             lambda *args: evaluate(*args[:-1], successor=False, prefix_steps=args[-1])
         )
 
+    def memory_state(self) -> dict[str, Any]:
+        """Expose the complete retained maneuver for common-history diagnostics.
+
+        This observes immutable parameter arrays and never resets or modifies the
+        backup. Elapsed phase is determined by the query clock minus started_at.
+        """
+        backup = self.backup
+        return {
+            "generation": self.generation,
+            "backup": None
+            if backup is None
+            else {
+                "params": backup.params,
+                "anchor": backup.anchor,
+                "started_at": backup.started_at,
+                "skill_index": backup.skill_index,
+                "generation": backup.generation,
+                "certified_until": backup.certified_until,
+            },
+        }
+
     def controller_at(
         self,
         state: Any,

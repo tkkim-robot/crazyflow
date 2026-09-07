@@ -34,6 +34,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 from crazyflow.safety.da_plcbf.actuator_async import AsyncLearnerWorker
+from crazyflow.safety.da_plcbf.actuator_hover import HoverReturnTask, evaluate_hover_return
 from crazyflow.safety.da_plcbf.actuator_inputs import CausalObservationInputCache
 from crazyflow.safety.da_plcbf.actuator_learning import (
     actuator_reference_fingerprint,
@@ -95,10 +96,13 @@ class ActuatorEpisodeConfig:
     reference_numerics: str = "matched"
     command_governor: str = "none"
     allow_wind: bool = False
+    hover_task: HoverReturnTask | None = None
 
     def validate(self, scene: ActuatorScene, bundle: ActuatorLearnerCheckpoint) -> None:
         """Reject mismatched clocks and mislabeled method or causal intervention settings."""
         self.filter_config.validate()
+        if self.hover_task is not None:
+            self.hover_task.validate(scene.world.config.duration_seconds)
         if self.reference_numerics not in {"matched", "legacy"}:
             raise ValueError("reference_numerics must be matched or legacy")
         if self.command_governor not in {"none", "committed_backup"}:
@@ -701,6 +705,7 @@ def run_actuator_episode(
         """Credit the current goal only after the preceding physical interval was audited."""
         if (
             collision is None
+            and config.hover_task is None
             and when >= scene.navigation_start - 1e-10
             and len(arrivals) < len(world.waypoint_positions)
         ):
@@ -719,7 +724,15 @@ def run_actuator_episode(
     def capture_context() -> tuple[Any, dict[str, Any]]:
         published = bundle.state if scheduler is None else scheduler.published.state
         selected_params = initial_params if revert_boundary is not None else published.params
+        controller_memory = {
+            "previous_selected_index": previous_index,
+            "governor": controllerfunctions.memory_state()
+            if hasattr(controllerfunctions, "memory_state")
+            else None,
+        }
         return published, {
+            "controller_memory_sha256": _hash_tree(controller_memory),
+            "controller_memory": _jsonable(controller_memory),
             "published_version": int(published.library_version),
             "snapshot_training_time_seconds": scheduler.published.training_simulation_time
             if scheduler is not None
@@ -1052,7 +1065,7 @@ def run_actuator_episode(
             warm_prediction, warm_safety = prediction_inputs(0.0)
             warm_goal = jnp.asarray(
                 world.initial_state[:3]
-                if scene.navigation_start > 0
+                if config.hover_task is not None or scene.navigation_start > 0
                 else world.waypoint_positions[0]
             )
             if config.method == "OPT" and config.warmup_calls:
@@ -1210,7 +1223,7 @@ def run_actuator_episode(
                 credit_waypoint(when, actual)
                 goal = np.asarray(
                     world.initial_state[:3]
-                    if when < scene.navigation_start - 1e-10
+                    if config.hover_task is not None or when < scene.navigation_start - 1e-10
                     else world.waypoint_positions[
                         min(len(arrivals), len(world.waypoint_positions) - 1)
                     ]
@@ -1708,6 +1721,29 @@ def run_actuator_episode(
     command_margins = dense_arrays.get("command_margins", np.empty((0, 8)))
     valid_outcome = termination in {"duration_complete", "physical_collision"} and error is None
     reached_duration = physical_time >= duration - 1e-9
+    hover_metrics = (
+        evaluate_hover_return(
+            dense_arrays["time"],
+            dense_arrays["state"],
+            world.initial_state[:3],
+            duration,
+            config.hover_task,
+        )
+        if config.hover_task is not None and len(dense_arrays.get("time", []))
+        else None
+    )
+    task_completed = (
+        bool(hover_metrics and hover_metrics["task_completed"])
+        if config.hover_task is not None
+        else len(arrivals) == len(world.waypoint_positions)
+    )
+    task_completed_at = (
+        hover_metrics["task_completion_time_seconds"]
+        if hover_metrics is not None
+        else arrivals[-1]
+        if task_completed
+        else None
+    )
     summary = {
         "status": "completed" if valid_outcome else "incomplete",
         "termination": termination,
@@ -1728,16 +1764,15 @@ def run_actuator_episode(
         if collision
         else None,
         "waypoints_completed": len(arrivals),
-        "waypoints_total": len(world.waypoint_positions),
+        "waypoints_total": 0 if config.hover_task is not None else len(world.waypoint_positions),
         "waypoint_arrival_times_seconds": arrivals,
-        "task_completed": len(arrivals) == len(world.waypoint_positions),
-        "task_completion_time_seconds": arrivals[-1]
-        if len(arrivals) == len(world.waypoint_positions)
-        else None,
+        "task_completed": task_completed,
+        "task_completion_time_seconds": task_completed_at,
+        "hover_return": hover_metrics,
         "held_final_goal_after_completion": True,
         "successful_full_episode": valid_outcome
         and reached_duration
-        and len(arrivals) == len(world.waypoint_positions)
+        and task_completed
         and collision_observation["modeled_collider_collision"] is False
         and bool(len(operational))
         and bool(np.all(operational >= -1e-7)),

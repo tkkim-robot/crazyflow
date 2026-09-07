@@ -1,0 +1,14 @@
+{
+  "gpu": "NVIDIA GeForce RTX 4090",
+  "driver": "555.42.06",
+  "gpu_memory_MiB": 24564,
+  "own_search_and_render_jobs_complete_before_start": true,
+  "exclusive_gpu": false,
+  "other_compute_process_observed": {
+    "pid": 2235197,
+    "memory_MiB": 794,
+    "sampled_sm_percent": 62
+  },
+  "own_process_sampled_sm_percent": 14,
+  "scope": "A separate project started a GPU job just before this timing run. These measured delays include the observed concurrent load and are not an exclusive-device benchmark. No unrelated process was interrupted. Full prediction fans are not retained during timed runs; normal control records and safety audits remain active."
+}

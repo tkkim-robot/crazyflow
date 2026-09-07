@@ -182,3 +182,37 @@ def test_stored_tail_is_not_discarded_for_an_unchecked_horizon_extension(
     assert not bool(full[0][1])
     assert bool(tail[0][1])
     assert not bool(expired[0][1])
+
+
+def test_memory_snapshot_covers_retained_parameters_phase_deadline_and_generation(
+    inputs: tuple[Any, ...],
+) -> None:
+    from dataclasses import replace
+
+    from crazyflow.safety.da_plcbf.actuator_backup import BackupSnapshot
+    from crazyflow.safety.da_plcbf.actuator_experiment import _hash_tree
+
+    state, params, spec, _, actor, config, *_ = inputs
+    governor = CommittedBackupController(
+        build_actuator_controller(spec, actor, config), spec, actor, config
+    )
+    governor.generation = 9
+    governor.backup = BackupSnapshot(params, state[:3], 1.2, 1, 7, 2.4)
+    original = governor.backup
+    memory = governor.memory_state()
+    assert governor.backup is original
+    assert memory["generation"] == 9
+    assert memory["backup"]["params"] is params
+    assert memory["backup"]["started_at"] == 1.2
+    assert memory["backup"]["certified_until"] == 2.4
+    baseline = _hash_tree(memory)
+    for field, value in (
+        ("params", params.replace(velocity_offsets=params.velocity_offsets + 0.1)),
+        ("anchor", state[:3] + 0.1),
+        ("started_at", 1.24),
+        ("skill_index", 2),
+        ("generation", 8),
+        ("certified_until", 2.44),
+    ):
+        governor.backup = replace(original, **{field: value})
+        assert _hash_tree(governor.memory_state()) != baseline

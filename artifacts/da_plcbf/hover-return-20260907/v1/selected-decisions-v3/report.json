@@ -1,0 +1,2089 @@
+{
+  "records": [
+    {
+      "time_seconds": 1.96,
+      "state_sha256": "8a7fb0b179828213c828c1a4e2403baa5b33ad3170e80a759a2584be56e74ebc",
+      "model_sha256": "b5dfbda21603c6dae97ac85562426cc54725baeab3d3e842f590bd2ef8e05b33",
+      "incoming_memory_sha256": "d92028785496b5ef6f6e2c558535798ae5301bafca8e91c9e63a9ebf9d2c410f",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "5cd07ddbca3b66f962df7f3767f09ff85e43f98a02646361b852fd7acb55da17",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 0,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 6.570755481719971,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 1,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0,
+              0.0,
+              1.7000000476837158
+            ],
+            "backup_started_at": 0.04,
+            "backup_certified_until": 3.16,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 0,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 6.570755481719971,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 1,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0,
+              0.0,
+              1.7000000476837158
+            ],
+            "backup_started_at": 0.04,
+            "backup_certified_until": 3.16,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "5cd07ddbca3b66f962df7f3767f09ff85e43f98a02646361b852fd7acb55da17",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 0,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 9.359659194946289,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 9,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0,
+              0.0,
+              1.7000000476837158
+            ],
+            "backup_started_at": 2.0,
+            "backup_certified_until": 3.16,
+            "backup_params_sha256": "5cd07ddbca3b66f962df7f3767f09ff85e43f98a02646361b852fd7acb55da17"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 0,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 9.37535285949707,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 9,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0,
+              0.0,
+              1.7000000476837158
+            ],
+            "backup_started_at": 2.0,
+            "backup_certified_until": 3.16,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 2.0,
+      "state_sha256": "8a7fb0b179828213c828c1a4e2403baa5b33ad3170e80a759a2584be56e74ebc",
+      "model_sha256": "1241ec0451d058387cab6b83d4c247eeb9cc68128386410d5b6c23dae7924bbd",
+      "incoming_memory_sha256": "6aa272c6dc354751840c24ec949001bd697122f3bb8bf3769d803a8135658ddd",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "be33c384d94aa47121524b12e58c5f0e2b494adcbbd873a858f5f0c44ee1e9ce",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 5.708909511566162,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 1,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0,
+              0.0,
+              1.7000000476837158
+            ],
+            "backup_started_at": 0.04,
+            "backup_certified_until": 3.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 5.708909511566162,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 1,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0,
+              0.0,
+              1.7000000476837158
+            ],
+            "backup_started_at": 0.04,
+            "backup_certified_until": 3.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "be33c384d94aa47121524b12e58c5f0e2b494adcbbd873a858f5f0c44ee1e9ce",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 7.864528179168701,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 9,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0007043373771011829,
+              0.00035216868855059147,
+              1.7000000476837158
+            ],
+            "backup_started_at": 2.04,
+            "backup_certified_until": 3.2,
+            "backup_params_sha256": "be33c384d94aa47121524b12e58c5f0e2b494adcbbd873a858f5f0c44ee1e9ce"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486,
+            0.10638945549726486
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 7.879948139190674,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 9,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0007043373771011829,
+              0.00035216868855059147,
+              1.7000000476837158
+            ],
+            "backup_started_at": 2.04,
+            "backup_certified_until": 3.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 3.0,
+      "state_sha256": "e61a8e3bdff4c91a0f66a15b903c04299e99077ef7e3fcfce75b75f5c1bbea2e",
+      "model_sha256": "1241ec0451d058387cab6b83d4c247eeb9cc68128386410d5b6c23dae7924bbd",
+      "incoming_memory_sha256": "05db5016807701bec5aaadb862b3e37a85ca5d3765e6f3881c26475ef20380fe",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "ad914e7e32a65c3226986db1af14167e641a9d86660b64295d4a4322c9ff2531",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.1069740504026413,
+            0.10702084749937057,
+            0.10698991268873215,
+            0.10700789093971252
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 1.3387718200683594,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 1,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0,
+              0.0,
+              1.7000000476837158
+            ],
+            "backup_started_at": 0.04,
+            "backup_certified_until": 4.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.1069740504026413,
+            0.10702084749937057,
+            0.10698991268873215,
+            0.10700789093971252
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 1.3387718200683594,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 1,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.0,
+              0.0,
+              1.7000000476837158
+            ],
+            "backup_started_at": 0.04,
+            "backup_certified_until": 4.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "ad914e7e32a65c3226986db1af14167e641a9d86660b64295d4a4322c9ff2531",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.1069740504026413,
+            0.10702084749937057,
+            0.10698991268873215,
+            0.10700789093971252
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 3.1584184169769287,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 9,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.27004003524780273,
+              0.13399851322174072,
+              1.7007709741592407
+            ],
+            "backup_started_at": 3.04,
+            "backup_certified_until": 4.2,
+            "backup_params_sha256": "ad914e7e32a65c3226986db1af14167e641a9d86660b64295d4a4322c9ff2531"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.1069740504026413,
+            0.10702084749937057,
+            0.10698991268873215,
+            0.10700789093971252
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 2.6983673572540283,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 9,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.27004003524780273,
+              0.13399851322174072,
+              1.7007709741592407
+            ],
+            "backup_started_at": 3.04,
+            "backup_certified_until": 4.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 4.0,
+      "state_sha256": "1b8bd67075fea40fc26c80a8f67de6b1dcd98d6a3355e0d9d7334e400b2ae827",
+      "model_sha256": "1241ec0451d058387cab6b83d4c247eeb9cc68128386410d5b6c23dae7924bbd",
+      "incoming_memory_sha256": "0aa3921fa1b5f2951517190364d83c150c6bbc10e92c38bb8c53d770cd1d4198",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "062b1a6806b37f604c7e7f09d94aecffa0337289f68648a3d2a1c80346cb71aa",
+          "eligible_indices": [
+            2,
+            5,
+            10,
+            15
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.00016303712618537247,
+          "executed_policy_dual": 0.00016303712618537247,
+          "mode": 0,
+          "action": [
+            0.10709945857524872,
+            0.10707682371139526,
+            0.10722025483846664,
+            0.10711631923913956
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 0.6021833419799805,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 9,
+            "backup_generation": 3,
+            "backup_anchor": [
+              0.45608749985694885,
+              0.23641391098499298,
+              1.6973081827163696
+            ],
+            "backup_started_at": 4.04,
+            "backup_certified_until": 5.2,
+            "backup_params_sha256": "062b1a6806b37f604c7e7f09d94aecffa0337289f68648a3d2a1c80346cb71aa"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            5,
+            10,
+            12,
+            14,
+            16
+          ],
+          "selected_index": 12,
+          "selected_policy_dual": 0.0002547218173276633,
+          "executed_policy_dual": 0.0002547218173276633,
+          "mode": 0,
+          "action": [
+            0.10665170848369598,
+            0.1070246547460556,
+            0.1075633317232132,
+            0.10713420063257217
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 0.12562847137451172,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 4,
+            "backup_generation": 3,
+            "backup_anchor": [
+              0.4560876786708832,
+              0.23641377687454224,
+              1.6973077058792114
+            ],
+            "backup_started_at": 4.04,
+            "backup_certified_until": 5.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "062b1a6806b37f604c7e7f09d94aecffa0337289f68648a3d2a1c80346cb71aa",
+          "eligible_indices": [
+            2,
+            5,
+            10,
+            15
+          ],
+          "selected_index": 10,
+          "selected_policy_dual": 0.00016303712618537247,
+          "executed_policy_dual": 0.00016303712618537247,
+          "mode": 0,
+          "action": [
+            0.10709945857524872,
+            0.10707682371139526,
+            0.10722025483846664,
+            0.10711631923913956
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 0.6021833419799805,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 9,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.45608749985694885,
+              0.23641391098499298,
+              1.6973081827163696
+            ],
+            "backup_started_at": 4.04,
+            "backup_certified_until": 5.2,
+            "backup_params_sha256": "062b1a6806b37f604c7e7f09d94aecffa0337289f68648a3d2a1c80346cb71aa"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            5,
+            10,
+            12,
+            14,
+            16
+          ],
+          "selected_index": 12,
+          "selected_policy_dual": 0.0002547218173276633,
+          "executed_policy_dual": 0.0002547218173276633,
+          "mode": 0,
+          "action": [
+            0.10665170848369598,
+            0.1070246547460556,
+            0.1075633317232132,
+            0.10713420063257217
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 0.12562847137451172,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 4,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.4560876786708832,
+              0.23641377687454224,
+              1.6973077058792114
+            ],
+            "backup_started_at": 4.04,
+            "backup_certified_until": 5.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 5.4,
+      "state_sha256": "03fa34a67d725f5b343f7141471d882d41cb7ad888e58db67f8bc709817c4ba5",
+      "model_sha256": "1241ec0451d058387cab6b83d4c247eeb9cc68128386410d5b6c23dae7924bbd",
+      "incoming_memory_sha256": "4f7cdbc07593f7f2e5ea061ed61453a0ee3a5cf3879a8131e34ffbbe3a7e8678",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "6b89d78b32c1c2c7581a4dd2101d6d243cdd38735fc138cc4c67d71a2bc876a8",
+          "eligible_indices": [],
+          "selected_index": 5,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.11462487280368805,
+            0.11443241685628891,
+            0.11465245485305786,
+            0.11521147936582565
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": -0.2592703700065613,
+            "executed_backup": true,
+            "used_stored_tail": true,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.0,
+            "checked_trajectory_nodes": 51,
+            "backup_skill_index": 1,
+            "backup_generation": 8,
+            "backup_anchor": [
+              0.011494218371808529,
+              0.44014081358909607,
+              1.7358689308166504
+            ],
+            "backup_started_at": 5.2,
+            "backup_certified_until": 6.4,
+            "backup_params_sha256": "cc3f711b54af3d957113e5d555321d4c37cb650e7aa1477d4587a9a72178a67f"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [],
+          "selected_index": 5,
+          "selected_policy_dual": 0.0008544711163267493,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.11462487280368805,
+            0.11443241685628891,
+            0.11465245485305786,
+            0.11521147936582565
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": -0.2592703700065613,
+            "executed_backup": true,
+            "used_stored_tail": true,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.0,
+            "checked_trajectory_nodes": 51,
+            "backup_skill_index": 1,
+            "backup_generation": 8,
+            "backup_anchor": [
+              0.011494218371808529,
+              0.44014081358909607,
+              1.7358689308166504
+            ],
+            "backup_started_at": 5.2,
+            "backup_certified_until": 6.4,
+            "backup_params_sha256": "cc3f711b54af3d957113e5d555321d4c37cb650e7aa1477d4587a9a72178a67f"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "6b89d78b32c1c2c7581a4dd2101d6d243cdd38735fc138cc4c67d71a2bc876a8",
+          "eligible_indices": [],
+          "selected_index": 5,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 3,
+          "action": [
+            0.07933884859085083,
+            0.08304780721664429,
+            0.08363381028175354,
+            0.07838607579469681
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": null,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": false,
+            "remaining_checked_seconds": 0.0,
+            "checked_trajectory_nodes": 0,
+            "backup_skill_index": -1,
+            "backup_generation": -1,
+            "backup_anchor": [
+              null,
+              null,
+              null
+            ],
+            "backup_started_at": null,
+            "backup_certified_until": null,
+            "backup_params_sha256": ""
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [],
+          "selected_index": 5,
+          "selected_policy_dual": 0.0008544711163267493,
+          "executed_policy_dual": 0.0,
+          "mode": 3,
+          "action": [
+            0.07933884859085083,
+            0.08304780721664429,
+            0.08363381028175354,
+            0.07838607579469681
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": null,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": false,
+            "remaining_checked_seconds": 0.0,
+            "checked_trajectory_nodes": 0,
+            "backup_skill_index": -1,
+            "backup_generation": -1,
+            "backup_anchor": [
+              null,
+              null,
+              null
+            ],
+            "backup_started_at": null,
+            "backup_certified_until": null,
+            "backup_params_sha256": ""
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 5.6,
+      "state_sha256": "448a432ffb47e6dccb1d2b2aaf4f870f5919f87e6845592a308c0ceea84b848d",
+      "model_sha256": "1241ec0451d058387cab6b83d4c247eeb9cc68128386410d5b6c23dae7924bbd",
+      "incoming_memory_sha256": "4f7cdbc07593f7f2e5ea061ed61453a0ee3a5cf3879a8131e34ffbbe3a7e8678",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "1ea30cafdecd6a4985857f030bdca9af40b795a5d466bacf8d6a580a08e2ebef",
+          "eligible_indices": [],
+          "selected_index": 5,
+          "selected_policy_dual": 0.003506169654428959,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.11405747383832932,
+            0.11326443403959274,
+            0.11395140737295151,
+            0.11401887238025665
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": -0.4010918140411377,
+            "executed_backup": true,
+            "used_stored_tail": true,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 0.8000000000000007,
+            "checked_trajectory_nodes": 41,
+            "backup_skill_index": 1,
+            "backup_generation": 8,
+            "backup_anchor": [
+              0.011494218371808529,
+              0.44014081358909607,
+              1.7358689308166504
+            ],
+            "backup_started_at": 5.2,
+            "backup_certified_until": 6.4,
+            "backup_params_sha256": "cc3f711b54af3d957113e5d555321d4c37cb650e7aa1477d4587a9a72178a67f"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [],
+          "selected_index": 5,
+          "selected_policy_dual": 0.0008019607048481703,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.11405747383832932,
+            0.11326443403959274,
+            0.11395140737295151,
+            0.11401887238025665
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": -0.4010918140411377,
+            "executed_backup": true,
+            "used_stored_tail": true,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 0.8000000000000007,
+            "checked_trajectory_nodes": 41,
+            "backup_skill_index": 1,
+            "backup_generation": 8,
+            "backup_anchor": [
+              0.011494218371808529,
+              0.44014081358909607,
+              1.7358689308166504
+            ],
+            "backup_started_at": 5.2,
+            "backup_certified_until": 6.4,
+            "backup_params_sha256": "cc3f711b54af3d957113e5d555321d4c37cb650e7aa1477d4587a9a72178a67f"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "1ea30cafdecd6a4985857f030bdca9af40b795a5d466bacf8d6a580a08e2ebef",
+          "eligible_indices": [],
+          "selected_index": 5,
+          "selected_policy_dual": 0.003506169654428959,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.11255762726068497,
+            0.10809402167797089,
+            0.11208068579435349,
+            0.11305742710828781
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": null,
+            "executed_backup": true,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 4,
+            "backup_generation": 1,
+            "backup_anchor": [
+              -0.3529062867164612,
+              0.39963144063949585,
+              1.8610790967941284
+            ],
+            "backup_started_at": 5.6,
+            "backup_certified_until": 6.8,
+            "backup_params_sha256": "1ea30cafdecd6a4985857f030bdca9af40b795a5d466bacf8d6a580a08e2ebef"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [],
+          "selected_index": 5,
+          "selected_policy_dual": 0.0008019607048481703,
+          "executed_policy_dual": 0.0,
+          "mode": 3,
+          "action": [
+            0.08040086925029755,
+            0.08431047946214676,
+            0.08465033024549484,
+            0.07955701649188995
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": null,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": false,
+            "remaining_checked_seconds": 0.0,
+            "checked_trajectory_nodes": 0,
+            "backup_skill_index": -1,
+            "backup_generation": -1,
+            "backup_anchor": [
+              null,
+              null,
+              null
+            ],
+            "backup_started_at": null,
+            "backup_certified_until": null,
+            "backup_params_sha256": ""
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 6.0,
+      "state_sha256": "df3f2b900373d4b4e7bfb7e4fadce87b111a70d52743082d0124979190d8f71e",
+      "model_sha256": "1241ec0451d058387cab6b83d4c247eeb9cc68128386410d5b6c23dae7924bbd",
+      "incoming_memory_sha256": "72e1daccd7abed9532c6d67775d979d12a9225bdd464d5272294dab478d5abb8",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "0bdb4603a591d799c24c301216cbac2d3a84a034f101396652eb686c9ef1a1e8",
+          "eligible_indices": [],
+          "selected_index": 2,
+          "selected_policy_dual": 0.792762041091919,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.1128556951880455,
+            0.11255217343568802,
+            0.11287358403205872,
+            0.11257115006446838
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": -0.07405036687850952,
+            "executed_backup": true,
+            "used_stored_tail": true,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.08,
+            "checked_trajectory_nodes": 55,
+            "backup_skill_index": 1,
+            "backup_generation": 9,
+            "backup_anchor": [
+              -0.5174154043197632,
+              0.3869503140449524,
+              1.9503172636032104
+            ],
+            "backup_started_at": 5.8,
+            "backup_certified_until": 7.08,
+            "backup_params_sha256": "5b408ee10c5c5f350967831297937b1f11aa5391967a273a79ac2b95ec4dcec6"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [],
+          "selected_index": 2,
+          "selected_policy_dual": 0.0006451538065448403,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.1128556951880455,
+            0.11255217343568802,
+            0.11287358403205872,
+            0.11257115006446838
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": -0.07405036687850952,
+            "executed_backup": true,
+            "used_stored_tail": true,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.08,
+            "checked_trajectory_nodes": 55,
+            "backup_skill_index": 1,
+            "backup_generation": 9,
+            "backup_anchor": [
+              -0.5174154043197632,
+              0.3869503140449524,
+              1.9503172636032104
+            ],
+            "backup_started_at": 5.8,
+            "backup_certified_until": 7.08,
+            "backup_params_sha256": "5b408ee10c5c5f350967831297937b1f11aa5391967a273a79ac2b95ec4dcec6"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "0bdb4603a591d799c24c301216cbac2d3a84a034f101396652eb686c9ef1a1e8",
+          "eligible_indices": [],
+          "selected_index": 2,
+          "selected_policy_dual": 0.792762041091919,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.111930251121521,
+            0.11160487681627274,
+            0.11193691194057465,
+            0.11164725571870804
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": null,
+            "executed_backup": true,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.2000000000000002,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 1,
+            "backup_generation": 1,
+            "backup_anchor": [
+              -0.6578003764152527,
+              0.3916443884372711,
+              2.046729564666748
+            ],
+            "backup_started_at": 6.0,
+            "backup_certified_until": 7.2,
+            "backup_params_sha256": "0bdb4603a591d799c24c301216cbac2d3a84a034f101396652eb686c9ef1a1e8"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [],
+          "selected_index": 2,
+          "selected_policy_dual": 0.0006451538065448403,
+          "executed_policy_dual": 0.0,
+          "mode": 3,
+          "action": [
+            0.07869382202625275,
+            0.08355231583118439,
+            0.08314866572618484,
+            0.07835468649864197
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": null,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": false,
+            "remaining_checked_seconds": 0.0,
+            "checked_trajectory_nodes": 0,
+            "backup_skill_index": -1,
+            "backup_generation": -1,
+            "backup_anchor": [
+              null,
+              null,
+              null
+            ],
+            "backup_started_at": null,
+            "backup_certified_until": null,
+            "backup_params_sha256": ""
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 16.0,
+      "state_sha256": "cd4e64b349adf1e91253d75e0b53ed3bdacfc66c9ed7526e5e4d0cf40195bd00",
+      "model_sha256": "e371e121a279641c4bb2afcc6b666e2c59205cbf2725ad9d00cab530eaf41d4d",
+      "incoming_memory_sha256": "fdcb7002796f9d480105a469255eec9f7995c0bf83c6542160756e2de1ac859c",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "8e56d73b5c76ff20bda35ea546f73b2c8ae7eb764cc9b0b2affefd8788d0f9f3",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638409852981567,
+            0.10638405382633209,
+            0.1063840240240097,
+            0.1063840389251709
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 13.386150360107422,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 4,
+            "backup_generation": 14,
+            "backup_anchor": [
+              -1.9764260053634644,
+              1.3130204677581787,
+              1.8181343078613281
+            ],
+            "backup_started_at": 7.8,
+            "backup_certified_until": 17.2,
+            "backup_params_sha256": "948dedc93f085295a35397faaef8c6903a8e0254623834d746782f46cd40da83"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638409852981567,
+            0.10638405382633209,
+            0.1063840240240097,
+            0.1063840389251709
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 13.386150360107422,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 4,
+            "backup_generation": 14,
+            "backup_anchor": [
+              -1.9764260053634644,
+              1.3130204677581787,
+              1.8181343078613281
+            ],
+            "backup_started_at": 7.8,
+            "backup_certified_until": 17.2,
+            "backup_params_sha256": "948dedc93f085295a35397faaef8c6903a8e0254623834d746782f46cd40da83"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "8e56d73b5c76ff20bda35ea546f73b2c8ae7eb764cc9b0b2affefd8788d0f9f3",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638409852981567,
+            0.10638405382633209,
+            0.1063840240240097,
+            0.1063840389251709
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 16.29273796081543,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 10,
+            "backup_generation": 1,
+            "backup_anchor": [
+              -0.0026079504750669003,
+              0.002212873427197337,
+              1.6994245052337646
+            ],
+            "backup_started_at": 16.04,
+            "backup_certified_until": 17.2,
+            "backup_params_sha256": "8e56d73b5c76ff20bda35ea546f73b2c8ae7eb764cc9b0b2affefd8788d0f9f3"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10638409852981567,
+            0.10638405382633209,
+            0.1063840240240097,
+            0.1063840389251709
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 16.322433471679688,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 10,
+            "backup_generation": 1,
+            "backup_anchor": [
+              -0.0026079504750669003,
+              0.002212873427197337,
+              1.6994245052337646
+            ],
+            "backup_started_at": 16.04,
+            "backup_certified_until": 17.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 18.0,
+      "state_sha256": "a510b8448703fbed3762c1dbda246a7c6e84dd366102fd03f8294e0779495875",
+      "model_sha256": "e371e121a279641c4bb2afcc6b666e2c59205cbf2725ad9d00cab530eaf41d4d",
+      "incoming_memory_sha256": "4af47ebe10f9a12121b8526bdeaf1de0335c81cc175dad6dd86cf39baf50ea3b",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "8baf49fb6a9999af84638a82345b47fb2436b9af15dad34fa0ab4614ab589f3f",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10683067888021469,
+            0.10686074197292328,
+            0.10684945434331894,
+            0.1068580150604248
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 3.4808168411254883,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 4,
+            "backup_generation": 14,
+            "backup_anchor": [
+              -1.9764260053634644,
+              1.3130204677581787,
+              1.8181343078613281
+            ],
+            "backup_started_at": 7.8,
+            "backup_certified_until": 19.2,
+            "backup_params_sha256": "948dedc93f085295a35397faaef8c6903a8e0254623834d746782f46cd40da83"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10683067888021469,
+            0.10686074197292328,
+            0.10684945434331894,
+            0.1068580150604248
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 3.4808168411254883,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 4,
+            "backup_generation": 14,
+            "backup_anchor": [
+              -1.9764260053634644,
+              1.3130204677581787,
+              1.8181343078613281
+            ],
+            "backup_started_at": 7.8,
+            "backup_certified_until": 19.2,
+            "backup_params_sha256": "948dedc93f085295a35397faaef8c6903a8e0254623834d746782f46cd40da83"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "8baf49fb6a9999af84638a82345b47fb2436b9af15dad34fa0ab4614ab589f3f",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10683067888021469,
+            0.10686074197292328,
+            0.10684945434331894,
+            0.1068580150604248
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 6.973327159881592,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 10,
+            "backup_generation": 1,
+            "backup_anchor": [
+              -0.24061040580272675,
+              0.24173560738563538,
+              1.6976224184036255
+            ],
+            "backup_started_at": 18.04,
+            "backup_certified_until": 19.2,
+            "backup_params_sha256": "8baf49fb6a9999af84638a82345b47fb2436b9af15dad34fa0ab4614ab589f3f"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0,
+          "executed_policy_dual": 0.0,
+          "mode": 0,
+          "action": [
+            0.10683067888021469,
+            0.10686074197292328,
+            0.10684945434331894,
+            0.1068580150604248
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 5.237377643585205,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 2,
+            "backup_generation": 1,
+            "backup_anchor": [
+              -0.24061040580272675,
+              0.24173560738563538,
+              1.6976224184036255
+            ],
+            "backup_started_at": 18.04,
+            "backup_certified_until": 19.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 20.0,
+      "state_sha256": "34108e2cfa2d4723139cb999b5a0508da9c7b908cbaf094f156d3dbe76dc5b84",
+      "model_sha256": "e371e121a279641c4bb2afcc6b666e2c59205cbf2725ad9d00cab530eaf41d4d",
+      "incoming_memory_sha256": "91a2a3bb3a30c1801916bab7afe688f3965b9e8a87131298d7d20073d3e992d1",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "d2b90e8f6fb76617fc6c7134834e797844f1a270015c38be9c9a4abe179ae323",
+          "eligible_indices": [
+            3,
+            6,
+            8,
+            11,
+            14,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0002520577982068062,
+          "executed_policy_dual": 0.0002520577982068062,
+          "mode": 0,
+          "action": [
+            0.10669972747564316,
+            0.10657557100057602,
+            0.10651646554470062,
+            0.1065736711025238
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 0.14737170934677124,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 2,
+            "backup_generation": 16,
+            "backup_anchor": [
+              -0.27368026971817017,
+              0.27369916439056396,
+              1.696574330329895
+            ],
+            "backup_started_at": 19.84,
+            "backup_certified_until": 21.2,
+            "backup_params_sha256": "e9da98a4988651b5f9a2b2908765520cc55066c67c762c2ab113372e3cd2cdf4"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            3
+          ],
+          "selected_index": 3,
+          "selected_policy_dual": 0.0005311864078976214,
+          "executed_policy_dual": 0.0005311864078976214,
+          "mode": 0,
+          "action": [
+            0.10608832538127899,
+            0.10463734716176987,
+            0.10725264996290207,
+            0.10869334638118744
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "retained",
+            "successor_collision_margin": 0.1920262575149536,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 2,
+            "backup_generation": 16,
+            "backup_anchor": [
+              -0.27368026971817017,
+              0.27369916439056396,
+              1.696574330329895
+            ],
+            "backup_started_at": 19.84,
+            "backup_certified_until": 21.2,
+            "backup_params_sha256": "e9da98a4988651b5f9a2b2908765520cc55066c67c762c2ab113372e3cd2cdf4"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "d2b90e8f6fb76617fc6c7134834e797844f1a270015c38be9c9a4abe179ae323",
+          "eligible_indices": [
+            3,
+            6,
+            8,
+            11,
+            14,
+            16
+          ],
+          "selected_index": 14,
+          "selected_policy_dual": 0.0002520577982068062,
+          "executed_policy_dual": 0.0002520577982068062,
+          "mode": 0,
+          "action": [
+            0.10669972747564316,
+            0.10657557100057602,
+            0.10651646554470062,
+            0.1065736711025238
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 0.566392183303833,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 2,
+            "backup_generation": 1,
+            "backup_anchor": [
+              -0.26705697178840637,
+              0.2668819725513458,
+              1.6952930688858032
+            ],
+            "backup_started_at": 20.04,
+            "backup_certified_until": 21.2,
+            "backup_params_sha256": "d2b90e8f6fb76617fc6c7134834e797844f1a270015c38be9c9a4abe179ae323"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [
+            3
+          ],
+          "selected_index": 3,
+          "selected_policy_dual": 0.0005311864078976214,
+          "executed_policy_dual": 0.0005311864078976214,
+          "mode": 0,
+          "action": [
+            0.10608832538127899,
+            0.10463734716176987,
+            0.10725264996290207,
+            0.10869334638118744
+          ],
+          "qp_valid": true,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": true,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 0.07486969232559204,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 2,
+            "backup_generation": 1,
+            "backup_anchor": [
+              -0.2670573592185974,
+              0.26688095927238464,
+              1.6952940225601196
+            ],
+            "backup_started_at": 20.04,
+            "backup_certified_until": 21.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        }
+      }
+    },
+    {
+      "time_seconds": 22.0,
+      "state_sha256": "5fe41b0dddd4eff1b4d0811be29b720dea8378d3f9863030a99251678e2faa02",
+      "model_sha256": "e371e121a279641c4bb2afcc6b666e2c59205cbf2725ad9d00cab530eaf41d4d",
+      "incoming_memory_sha256": "910f4902b58261cb94a34b2bbb2fc612d3bfbe00898c0b547fbcfc6cb65aba42",
+      "contexts": {
+        "adaptive_actual_memory": {
+          "params_sha256": "3cb6dae91d61592259c2c722e0848c6c3ef163c26d3295851f46352c960c58f1",
+          "eligible_indices": [],
+          "selected_index": 14,
+          "selected_policy_dual": 0.01152683887630701,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.09875449538230896,
+            0.09993487596511841,
+            0.0995459109544754,
+            0.09898193925619125
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": -0.0009760856628417969,
+            "executed_backup": true,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 13,
+            "backup_generation": 23,
+            "backup_anchor": [
+              0.42272940278053284,
+              -0.12547968327999115,
+              1.264926552772522
+            ],
+            "backup_started_at": 21.64,
+            "backup_certified_until": 23.2,
+            "backup_params_sha256": "4af7b7da768926fb48280beae84d177b4303666c878e1b2369e8d2d63cfa1ec1"
+          },
+          "exact_recorded_decision_reproduced": true
+        },
+        "frozen_actual_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [],
+          "selected_index": 12,
+          "selected_policy_dual": 0.02709268406033516,
+          "executed_policy_dual": 0.0,
+          "mode": 2,
+          "action": [
+            0.13453559577465057,
+            0.12896664440631866,
+            0.1269751638174057,
+            0.1307302713394165
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 0.0018287301063537598,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 15,
+            "backup_generation": 24,
+            "backup_anchor": [
+              0.6897135972976685,
+              -0.12186328321695328,
+              1.0506800413131714
+            ],
+            "backup_started_at": 22.04,
+            "backup_certified_until": 23.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        },
+        "adaptive_empty_memory": {
+          "params_sha256": "3cb6dae91d61592259c2c722e0848c6c3ef163c26d3295851f46352c960c58f1",
+          "eligible_indices": [],
+          "selected_index": 14,
+          "selected_policy_dual": 0.01152683887630701,
+          "executed_policy_dual": 0.0,
+          "mode": 5,
+          "action": [
+            0.09870938211679459,
+            0.09988931566476822,
+            0.09949944168329239,
+            0.09893538802862167
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": false,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "none",
+            "successor_collision_margin": null,
+            "executed_backup": true,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 13,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.6668305993080139,
+              -0.12599942088127136,
+              1.070904016494751
+            ],
+            "backup_started_at": 22.0,
+            "backup_certified_until": 23.2,
+            "backup_params_sha256": "3cb6dae91d61592259c2c722e0848c6c3ef163c26d3295851f46352c960c58f1"
+          }
+        },
+        "frozen_empty_memory": {
+          "params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584",
+          "eligible_indices": [],
+          "selected_index": 12,
+          "selected_policy_dual": 0.02709268406033516,
+          "executed_policy_dual": 0.0,
+          "mode": 2,
+          "action": [
+            0.13453559577465057,
+            0.12896664440631866,
+            0.1269751638174057,
+            0.1307302713394165
+          ],
+          "qp_valid": false,
+          "backup": {
+            "proposal_accepted": true,
+            "proposal_original_qp_valid": false,
+            "successor_backup_kind": "fresh",
+            "successor_collision_margin": 0.0018287301063537598,
+            "executed_backup": false,
+            "used_stored_tail": false,
+            "has_checked_plan": true,
+            "remaining_checked_seconds": 1.1999999999999993,
+            "checked_trajectory_nodes": 61,
+            "backup_skill_index": 15,
+            "backup_generation": 1,
+            "backup_anchor": [
+              0.6897135972976685,
+              -0.12186328321695328,
+              1.0506800413131714
+            ],
+            "backup_started_at": 22.04,
+            "backup_certified_until": 23.2,
+            "backup_params_sha256": "8d77f4f97928201464928b0e53089dac1198bd2916e4a7bae98840b978494584"
+          }
+        }
+      }
+    }
+  ],
+  "complete": true,
+  "scope": "All probes fix the complete 17-state, current model, obstacle clock, goal and selector. Actual-memory probes also preserve incoming stored backup parameters, anchor, phase and deadline. Empty-memory probes isolate fresh-bank availability and are diagnostic resets, not flight ablations. Adaptive actual-memory action and stored-parameter hashes must reproduce exactly."
+}
