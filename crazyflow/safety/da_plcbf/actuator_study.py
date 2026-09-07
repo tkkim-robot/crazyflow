@@ -110,6 +110,14 @@ class ActuatorScene:
 
     def model_at(self, when: float, nominal: ActuatorModel) -> ActuatorModel:
         """Return parameters active at one queried time; prediction receives only this result."""
+        if any(np.any(np.asarray(event.velocity) != 0) for event in self.world.config.wind_events):
+            nominal = nominal._replace(
+                body=nominal.body._replace(
+                    wind_velocity=jnp.asarray(
+                        self.world.wind_at(when), dtype=nominal.body.wind_velocity.dtype
+                    )
+                )
+            )
         changed = when >= self.event_time - 1e-10
         if self.recovery_time is not None and when >= self.recovery_time - 1e-10:
             changed = False
@@ -123,10 +131,11 @@ class ActuatorScene:
 
     def events(self, nominal: ActuatorModel) -> tuple[ActuatorEvent, ...]:
         """Private plant schedule; never passed into controller or learner calls."""
-        events = [ActuatorEvent(self.event_time, self.model_at(self.event_time, nominal))]
+        times = {self.event_time}
         if self.recovery_time is not None:
-            events.append(ActuatorEvent(self.recovery_time, nominal))
-        return tuple(events)
+            times.add(self.recovery_time)
+        times.update(event.time_seconds for event in self.world.config.wind_events)
+        return tuple(ActuatorEvent(t, self.model_at(t, nominal)) for t in sorted(times))
 
     def metadata(self) -> dict[str, Any]:
         """Complete physical scene, with an identity independent of method/library seed."""
@@ -197,6 +206,15 @@ class ActuatorScene:
             if changed
             else []
         )
+        offset = getattr(world.config, "obstacle_time_offset_seconds", 0.0)
+        if offset:
+            physical["obstacle_time_offset_seconds"] = offset
+            physical["obstacle_motion"] = "mean+amplitude*sin(frequency*max(t-offset,0)+phase)"
+        if any(np.any(np.asarray(event.velocity) != 0) for event in world.config.wind_events):
+            physical["wind_events"] = [
+                {"time_seconds": event.time_seconds, "velocity": event.velocity}
+                for event in world.config.wind_events
+            ]
         return physical
 
 

@@ -80,7 +80,7 @@ class CausalObservationInputCache:
         config.validate()
         self.scene, self.nominal = scene, nominal
         self.observation, self.config = observation, config
-        self._models: dict[bool, Any] = {}
+        self._models: dict[tuple[bool, tuple[float, ...]], Any] = {}
         self._templates: tuple[Any, Any] | None = None
         # This is the same original NumPy multiplication, including rounding.
         self._offsets = config.dt * np.arange(config.horizon + 1)
@@ -94,9 +94,11 @@ class CausalObservationInputCache:
         active = observed_when >= self.scene.event_time - 1e-10
         if self.scene.recovery_time is not None:
             active = active and observed_when < self.scene.recovery_time - 1e-10
-        if active not in self._models:
+        wind = tuple(float(x) for x in self.scene.world.wind_at(observed_when))
+        key = (active, wind)
+        if key not in self._models:
             # Crucially, construction never evaluates the other/future phase.
-            self._models[active] = observed_actuator_model(
+            self._models[key] = observed_actuator_model(
                 self.scene, when, self.nominal, self.observation
             )
             self.model_materializations.append(
@@ -106,7 +108,7 @@ class CausalObservationInputCache:
                     "active_fault_phase": active,
                 }
             )
-        return self._models[active]
+        return self._models[key]
 
     def prediction_inputs(self, when: float) -> tuple[Any, Any]:
         """Preserve NumPy motion/cast/add order while batching three dynamic transfers."""

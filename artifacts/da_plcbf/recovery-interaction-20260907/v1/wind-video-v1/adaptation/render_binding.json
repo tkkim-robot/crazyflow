@@ -1,0 +1,88 @@
+{
+  "command_interpolation": "exact right-continuous application events",
+  "config": {
+    "allow_different_learning_contract": true,
+    "allow_different_libraries": false,
+    "camera_azimuth": 0.0,
+    "camera_distance": 3.4,
+    "camera_elevation": -24.0,
+    "fps": 20,
+    "height": 900,
+    "left_label": "Learned \u00b7 frozen",
+    "left_method": "F2",
+    "right_label": "Learned \u00b7 adaptive",
+    "right_method": "A_BAL",
+    "save_frame_every_seconds": 5.0,
+    "synthetic_fixture": false,
+    "trail_seconds": 5.0,
+    "width": 1600
+  },
+  "contact_semantics": "first audited geometric intersection; no MuJoCo contact continuation",
+  "different_initial_libraries_comparison": false,
+  "force_boundary_audit": {
+    "A": [],
+    "F2": []
+  },
+  "force_boundary_semantics": "original arrays are unchanged; any accepted legacy pre-event endpoint must be within eight ulps, immediately precede the exact declared event, retain the same position/velocity/rates/motor states and equivalent normalized attitude, and match both physical force limits; display uses the pre-event model strictly before that event and the post-event model at it",
+  "force_display": "current recorded effectiveness times interpolated internal effort, in N",
+  "learning_contract_comparison": true,
+  "motor_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "motor_site_positions_body_m": [
+    [
+      0.03536,
+      -0.03536,
+      0.0
+    ],
+    [
+      -0.03536,
+      -0.03536,
+      0.0
+    ],
+    [
+      -0.03536,
+      0.03536,
+      0.0
+    ],
+    [
+      0.03536,
+      0.03536,
+      0.0
+    ]
+  ],
+  "no_controller_learner_or_plant_execution": true,
+  "no_experimental_splicing": true,
+  "no_vehicle_scaling_or_attitude_edits": true,
+  "obstacle_clock": "saved analytic absolute time; each panel freezes with its contact pose",
+  "panel_methods": {
+    "left": "F2",
+    "right": "A_BAL"
+  },
+  "physical_world_id": "world-c9c2c57cae9698a4b3c6ef186155e81aed077d6c16f12081ca8aca3029f405cf",
+  "policy_paths": "only retained candidate_states from the last physically applied available decision",
+  "pose_interpolation": "recorded position/effort linear; recorded quaternion shortest-arc SLERP",
+  "same_checkpoint_bytes": true,
+  "same_complete_initial_learner_state": true,
+  "selection_semantics": "endpoint ring only for a physically applied eligible selected prediction: accepted QP with positive executed_policy_dual, or accepted executed fallback; no ring for emergency/degraded/invalid or a QP with zero executed policy dual; the ring never denotes a flown future trajectory; only white trail is flown",
+  "source_sha256": {
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/A_BAL/attempt-00/applications.npz": "ea6b0afdac057f92f441baf13aea7ad339e6a015fb8664a458f38f8083c47e4e",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/A_BAL/attempt-00/binding.json": "6a0fa6081031f9ef9765802d54c61ab20a31fc247839e9e11ea7ec86b1895393",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/A_BAL/attempt-00/controls.npz": "6478167b2a7a2cd9bcf55338caabb14c4fd10cf0d637434b556b4397537ceea0",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/A_BAL/attempt-00/dense.npz": "9fd9e275178fa7173b1524848ef3f39da1536fdfb01bcdae74039ac66931c9ac",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/A_BAL/attempt-00/summary.json": "43d448779dcaa63bbeb5568f3aa2cfafc7660a2738af274aed0dc744c18f4e22",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/F2/attempt-00/applications.npz": "057bac169c03b674d29cbe33011c511378f1c0f6437b0031af67c76a6263c979",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/F2/attempt-00/binding.json": "52fb3648147b23ac847541564d3f43e54cdbf94a0a1c7f581d2915b9b9eedc0c",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/F2/attempt-00/controls.npz": "84a1e82b0bbfd21d4306b8c73f27765b3d7c2f909aa0f5b1c80b64c8a6cdc1bb",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/F2/attempt-00/dense.npz": "8caee9a50686ff0858e1b4655976fc4f6ad4bea825201d760480b9e28c45a7a5",
+    "/home/tk/Desktop/mycode/crazyflow/artifacts/da_plcbf/recovery-interaction-20260907/v1/wind-demo-v1/F2/attempt-00/summary.json": "234318b44691a4efa9d5c0fad7717e229c265625527d3c1cddfb6b9a494e465b",
+    "/home/tk/Desktop/mycode/crazyflow/benchmark/da_plcbf_actuator_video.py": "ae5315a8a34530cee0f4330669d642baada480b0cba9d48af105dcb82abfde19",
+    "/home/tk/Desktop/mycode/crazyflow/crazyflow/drones/cf21B_500.xml": "91dd1870fb07bb7f407034a8f7d53e97ff52253103528a256447fb57109703d5",
+    "/home/tk/Desktop/mycode/crazyflow/crazyflow/safety/da_plcbf/mujoco_comparison_video.py": "c2cd2284efa2efb716bc3eb97c6f8c4f1ef6ab8e6b1cf805d1396fe3bd969dd5"
+  },
+  "status": "rendering",
+  "synthetic_fixture": false
+}

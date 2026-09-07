@@ -93,12 +93,18 @@ class ActuatorEpisodeConfig:
     save_checkpoints: bool = False
     warmup_calls: int = 3
     reference_numerics: str = "matched"
+    command_governor: str = "none"
+    allow_wind: bool = False
 
     def validate(self, scene: ActuatorScene, bundle: ActuatorLearnerCheckpoint) -> None:
         """Reject mismatched clocks and mislabeled method or causal intervention settings."""
         self.filter_config.validate()
         if self.reference_numerics not in {"matched", "legacy"}:
             raise ValueError("reference_numerics must be matched or legacy")
+        if self.command_governor not in {"none", "committed_backup"}:
+            raise ValueError("unknown command governor")
+        if self.command_governor != "none" and self.method == "OPT":
+            raise ValueError("the committed backup governor wraps the PL-CBF controller")
         self.observation_config.validate()
         if type(self.cache_observation_inputs) is not bool:
             raise ValueError("cache_observation_inputs must be a boolean")
@@ -162,12 +168,14 @@ class ActuatorEpisodeConfig:
             raise ValueError("capture_times must lie in the physical episode")
         if tuple(sorted(set(self.capture_times))) != tuple(self.capture_times):
             raise ValueError("capture_times must increase strictly")
-        if scene.world.config.payload_events or scene.world.config.wind_events:
-            # HoverEncounterWorld historically stores an explicitly zero wind event.
-            if scene.world.config.payload_events or any(
-                np.any(np.asarray(event.velocity) != 0) for event in scene.world.config.wind_events
-            ):
-                raise ValueError("initial actuator study requires unchanged body and zero wind")
+        if type(self.allow_wind) is not bool:
+            raise ValueError("allow_wind must be boolean")
+        if scene.world.config.payload_events:
+            raise ValueError("actuator study requires unchanged body")
+        if not self.allow_wind and any(
+            np.any(np.asarray(event.velocity) != 0) for event in scene.world.config.wind_events
+        ):
+            raise ValueError("nonzero wind requires explicit allow_wind")
 
 
 @dataclass(frozen=True, slots=True)
@@ -412,7 +420,7 @@ def _filter_record(step: Any, retain_rollouts: bool) -> dict[str, Any]:
     cert = step.certificates
     selected = int(step.selected_index)
     safe_index = max(0, selected)
-    modes = ("qp", "fallback", "emergency", "degraded", "invalid_input")
+    modes = ("qp", "fallback", "emergency", "degraded", "invalid_input", "committed_backup")
     record = {
         "mode": modes[int(step.execution_mode)],
         "input_valid": bool(cert.input_valid),
@@ -457,6 +465,8 @@ def _filter_record(step: Any, retain_rollouts: bool) -> dict[str, Any]:
     if retain_rollouts:
         record["candidate_states"] = np.asarray(cert.rollouts.states)
         record["candidate_commands"] = np.asarray(cert.rollouts.commands)
+    if hasattr(step, "backup_audit"):
+        record.update({f"backup_{name}": value for name, value in step.backup_audit.items()})
     return record
 
 
@@ -466,6 +476,7 @@ def _model_record(model: Any, prefix: str) -> dict[str, Any]:
         f"{prefix}_time_constants": np.asarray(model.time_constants),
         f"{prefix}_mass": np.asarray(model.body.mass),
         f"{prefix}_inertia": np.asarray(model.body.inertia),
+        f"{prefix}_wind_velocity": np.asarray(model.body.wind_velocity),
         f"{prefix}_model_sha256": _hash_tree(model),
     }
 
@@ -787,6 +798,7 @@ def run_actuator_episode(
             "conversion_residual": float(residual),
             "actual_effectiveness": effectiveness,
             "actual_time_constants": time_constants,
+            "actual_wind_velocity": np.asarray(world.wind_at(when)),
             "operational_margins": _operational_margins(
                 world, np.asarray(state), config.filter_config.arena_clearance
             ),
@@ -894,11 +906,30 @@ def run_actuator_episode(
     ) -> tuple[Any, Any]:
         nonlocal nominal_command_for_control
         if config.method != "OPT":
-            step = _synchronize(
-                controllerfunctions.controller(
-                    observed, params, model, prediction, safety, jnp.asarray(previous_index), goal
+            if hasattr(controllerfunctions, "controller_at"):
+                step = controllerfunctions.controller_at(
+                    observed,
+                    params,
+                    model,
+                    prediction,
+                    safety,
+                    jnp.asarray(previous_index),
+                    goal,
+                    when=when,
+                    commit=scheduler is not None,
                 )
-            )
+            else:
+                step = _synchronize(
+                    controllerfunctions.controller(
+                        observed,
+                        params,
+                        model,
+                        prediction,
+                        safety,
+                        jnp.asarray(previous_index),
+                        goal,
+                    )
+                )
             return step, step.certificates.rollouts.states[0, :, :3]
         mission, emergency = _synchronize(
             (
@@ -985,6 +1016,12 @@ def run_actuator_episode(
             if controllerfunctions is None:
                 controllerfunctions = build_actuator_controller(
                     bundle.contract.spec, actor_config, config.filter_config
+                )
+            if config.command_governor == "committed_backup":
+                from crazyflow.safety.da_plcbf.actuator_backup import CommittedBackupController
+
+                controllerfunctions = CommittedBackupController(
+                    controllerfunctions, bundle.contract.spec, actor_config, config.filter_config
                 )
             if config.method == "OPT" and opt_controller is None:
                 from crazyflow.safety.da_plcbf.actuator_opt import (

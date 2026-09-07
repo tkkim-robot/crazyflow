@@ -155,7 +155,28 @@ class ReplayEpisode:
         amplitude = np.asarray(world["obstacle_amplitudes"], dtype=float).reshape(-1, 3)
         frequency = np.asarray(world["obstacle_angular_frequencies"], dtype=float)
         phase = np.asarray(world["obstacle_phases"], dtype=float)
+        when = max(0.0, when - world.get("config", {}).get("obstacle_time_offset_seconds", 0.0))
         return mean + amplitude * np.sin(frequency * when + phase)[:, None]
+
+    def wind_at(self, when: float) -> np.ndarray:
+        """Read the recorded uniform wind schedule; never invent a visual disturbance."""
+        wind = np.zeros(3)
+        for event in self.world.get("config", {}).get("wind_events", []):
+            if event["time_seconds"] <= when + 1e-10:
+                wind = np.asarray(event["velocity"], dtype=float)
+        return wind
+
+    def wind_displacement(self, when: float) -> np.ndarray:
+        """Integrate the recorded piecewise-constant field for visual tracer advection."""
+        displacement, wind, previous = np.zeros(3), np.zeros(3), 0.0
+        for event in self.world.get("config", {}).get("wind_events", []):
+            boundary = min(when, event["time_seconds"])
+            displacement += max(0.0, boundary - previous) * wind
+            previous = boundary
+            if event["time_seconds"] > when:
+                break
+            wind = np.asarray(event["velocity"], dtype=float)
+        return displacement + max(0.0, when - previous) * wind
 
     def sample(self, when: float) -> ReplaySample:
         """Interpolate recorded position/motors and SLERP attitude, never extrapolating."""
@@ -523,12 +544,38 @@ def _markers(
     import mujoco
 
     from crazyflow.safety.da_plcbf.mujoco_comparison_video import (
+        _add_arrow,
         _add_endpoint_ring,
         _add_polyline,
         _skill_color,
     )
 
     viewer = sim.viewer.viewer
+    wind = episode.wind_at(sample.display_time)
+    if np.linalg.norm(wind) > 1e-9:
+        displacement = episode.wind_displacement(sample.display_time)
+        spacing = 0.8
+        cell = np.floor((sample.state[:3] - displacement) / spacing).astype(int)
+        for ix in range(cell[0] - 3, cell[0] + 4):
+            for iy in range(cell[1] - 3, cell[1] + 4):
+                for iz in range(cell[2] - 1, cell[2] + 2):
+                    if (ix + 2 * iy + iz) % 3:
+                        continue
+                    start = np.asarray([ix, iy, iz]) * spacing + displacement + [0, 0, 0.45]
+                    if start[2] > 0.15:
+                        _add_polyline(
+                            sim,
+                            np.asarray([start, start + 0.18 * wind]),
+                            np.asarray((0.28, 0.85, 1.0, 0.34)),
+                            radius=0.003,
+                        )
+        _add_arrow(
+            sim,
+            sample.state[:3] + [0, 0, 0.42],
+            0.22 * wind,
+            np.asarray((0.25, 0.85, 1.0, 0.9)),
+            radius=0.009,
+        )
     centers = episode.obstacle_centers(sample.display_time)
     radii = np.asarray(episode.world["obstacle_radii"])
     clearance = episode.binding["config"]["filter_config"]["obstacle_clearance"]
@@ -587,6 +634,14 @@ def _markers(
             _add_endpoint_ring(
                 sim, candidates[selected, -1], np.asarray((1.0, 1.0, 1.0, 0.95)), radius=0.047
             )
+        if "backup_executed_backup" in controls and controls["backup_executed_backup"][index]:
+            nodes = int(controls["backup_checked_trajectory_nodes"][index])
+            points = controls["backup_checked_trajectory"][index, :nodes, :3]
+            if len(points) > 1 and np.all(np.isfinite(points)):
+                _add_polyline(sim, points, np.asarray((1.0, 0.71, 0.12, 0.95)), radius=0.009)
+                _add_endpoint_ring(
+                    sim, points[-1], np.asarray((1.0, 0.71, 0.12, 0.95)), radius=0.047
+                )
     rotation = Rotation.from_quat(sample.state[3:7])
     # These small annotations follow actual motor sites; vehicle geometry/attitude never changes.
     for site, eta in zip(sites, sample.effectiveness, strict=True):
@@ -662,6 +717,27 @@ def _compose(
                 fill="#591b18",
             )
             draw.text((x + 32 * scale, header + 27 * scale), text, font=small_font, fill="#ffe2d7")
+        if any(
+            np.any(event["velocity"])
+            for event in episode.world.get("config", {}).get("wind_events", [])
+        ):
+            wind = episode.wind_at(sample.display_time)
+            stage = (
+                "Preflight"
+                if sample.display_time < episode.binding["scene"]["navigation_start"]
+                else "Navigation"
+            )
+            wind_text = (
+                "calm"
+                if np.linalg.norm(wind) < 1e-9
+                else f"wind ({wind[0]:+.1f}, {wind[1]:+.1f}, {wind[2]:+.1f}) m/s"
+            )
+            caption = f"{stage} · {wind_text}"
+            by = header + (64 if sample.contact_stopped else 16) * scale
+            draw.rounded_rectangle(
+                (x + 20 * scale, by, x + 495 * scale, by + 34 * scale), radius=5, fill="#102936"
+            )
+            draw.text((x + 30 * scale, by + 8 * scale), caption, font=small_font, fill="#9fe8fa")
         y0 = config.height - footer
         draw.text(
             (x + 24 * scale, y0 + 8 * scale),
@@ -734,6 +810,14 @@ def _compose(
     legend = (
         f"Selected {mode} simulation    Colored: predictions    ○ affects control    ━ white: flown"
     )
+    if any(
+        np.any(event["velocity"])
+        for event in episodes[0].world.get("config", {}).get("wind_events", [])
+    ):
+        legend = (
+            "Colored: current predictions    Cyan: wind    White: flown    "
+            "Gold: executing checked backup"
+        )
     if config.synthetic_fixture:
         legend = "SYNTHETIC FIXTURE · " + legend
     box = draw.textbbox((0, 0), legend, font=tiny_font)
@@ -772,6 +856,11 @@ def _sample_audit(episode: ReplayEpisode, sample: ReplaySample) -> dict[str, Any
         "time_constants_seconds": sample.time_constants,
         "contact_stopped": sample.contact_stopped,
         "terminal_stopped": sample.terminal_stopped,
+        "wind_velocity_mps": episode.wind_at(sample.display_time),
+        "preflight": sample.display_time < episode.binding["scene"]["navigation_start"],
+        "executing_committed_backup": bool(episode.controls["backup_executed_backup"][index])
+        if index is not None and "backup_executed_backup" in episode.controls
+        else False,
     }
 
 
