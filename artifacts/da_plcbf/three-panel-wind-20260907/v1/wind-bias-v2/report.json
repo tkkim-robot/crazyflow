@@ -1,0 +1,96 @@
+{
+  "old_preflight_config": {
+    "allow_legacy_point_enclosure": false,
+    "controller_reserve_seconds": 0.003,
+    "enable_learning": true,
+    "estimator_response_rate": 2.4,
+    "execution_mode": "deterministic",
+    "fallback_mapping": "matched_uncompensated",
+    "learner_kind": "reference",
+    "learning_start_seconds": 0.0,
+    "model_information": "oracle",
+    "navigation_start_seconds": 23.0,
+    "nominal_acceleration_limit": 1.2,
+    "probe_every_controls": 5,
+    "save_periodic_snapshots_controls": 100,
+    "update_every_controls": 1,
+    "update_safety_factor": 1.25
+  },
+  "old_preflight_source_sha256": "89c196335bb2fe5b89ee71a2407fdc90b36e6f18e0e80d0752c7ef2b80a68fc6",
+  "current_actor_config_model_compensation": true,
+  "same_state_time": 2.96,
+  "same_parameters_sha256": "9443e89a52515547efd0b24e0891066b94bc43f8b85cc4a7df0cf4c74ef48bdb",
+  "wind_mps": [
+    1.6,
+    0.8,
+    0
+  ],
+  "same_state_compensation_ablation": [
+    {
+      "model_compensation": true,
+      "mean_endpoint_shift_along_wind_m": 0.11582126468420029,
+      "endpoint_rms_shift_m": 0.11686652898788452,
+      "whole_path_rms_shift_m": 0.08162097632884979
+    },
+    {
+      "model_compensation": false,
+      "mean_endpoint_shift_along_wind_m": 0.37563711404800415,
+      "endpoint_rms_shift_m": 0.37572458386421204,
+      "whole_path_rms_shift_m": 0.19332455098628998
+    }
+  ],
+  "actual_video_relative_fan_comparison": [
+    {
+      "time": 2.96,
+      "relative_fan_rms_difference_m": 0.0011002849787473679,
+      "adaptive_online_versions": 74
+    },
+    {
+      "time": 3.0,
+      "relative_fan_rms_difference_m": 0.0009617764153517783,
+      "adaptive_online_versions": 75
+    },
+    {
+      "time": 3.04,
+      "relative_fan_rms_difference_m": 0.0030139717273414135,
+      "adaptive_online_versions": 76
+    },
+    {
+      "time": 4.0,
+      "relative_fan_rms_difference_m": 0.043844908475875854,
+      "adaptive_online_versions": 100
+    },
+    {
+      "time": 7.0,
+      "relative_fan_rms_difference_m": 0.06386825442314148,
+      "adaptive_online_versions": 175
+    },
+    {
+      "time": 10.96,
+      "relative_fan_rms_difference_m": 0.06095598638057709,
+      "adaptive_online_versions": 274
+    },
+    {
+      "time": 11.0,
+      "relative_fan_rms_difference_m": 0.06336743384599686,
+      "adaptive_online_versions": 275
+    },
+    {
+      "time": 18.96,
+      "relative_fan_rms_difference_m": 0.005335399881005287,
+      "adaptive_online_versions": 474
+    },
+    {
+      "time": 21.0,
+      "relative_fan_rms_difference_m": 0.00849724467843771,
+      "adaptive_online_versions": 525
+    },
+    {
+      "time": 25.0,
+      "relative_fan_rms_difference_m": 0.6308274865150452,
+      "adaptive_online_versions": 625
+    }
+  ],
+  "qualification": "Compensation ablation holds state, learned parameters, wind, motor model and horizon fixed. It is a rollout diagnostic, not a new flight or retrained comparison. Actual video fan comparison uses each flight's own recorded state.",
+  "driver_sha256": "05e60a40d76e83d1005b8b163b3c84574b0ee3d313221c057521c55a7e3dc96c"
+}
